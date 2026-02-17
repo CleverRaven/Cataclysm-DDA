@@ -474,6 +474,52 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_complete",
     "type": "talk_topic",
     "dynamic_line": {
+      "//~": "Aye?",
+      "str": "Aye?"
+    },
+    "responses": [
+      {
+        "text": "Yes, I found it intact.",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_stole_warehouse != 1" ] },
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_success"
+      },
+      {
+        "text": "Yes, but you should know that it was empty when I got there.  Someone must have beat us to it.",
+        "condition": { "math": [ "hub01_stole_warehouse == 1" ] },
+        "trial": { "type": "LIE", "difficulty": 20 },
+        "success": {
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success",
+        },
+        "failure": {
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
+        }
+      },
+      {
+        "text": "Yes, but you should know that the people from that bunker may be poking around.  I think they caught on that I was looking for it while I asking around for information.  Sorry, Rubik.",
+        "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
+        "trial": { "type": "LIE", "difficulty": 5 },
+        "success": {
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success",
+        },
+        "failure": {
+          "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure"
+        }
+      },
+      {
+        "text": "Yes, but you should know that I sold its location to someone else.",
+        "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_truth"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_success",
+    "type": "talk_topic",
+    "dynamic_line": {
       "math": [ "u_rebooted_locator == 1" ],
       "yes": "An' a fine farthing ye did, on that.  Thankee sai.  We've a crib on the walkway already.",
       "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
@@ -490,6 +536,90 @@
         "condition": { "math": [ "u_rebooted_locator != 1" ] },
         "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 4 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "Ah, shame, that.  But not ye doin' and a fine farthing ye did, on that.  Thankee sai.",
+      "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"Ah, shame, that.  But not ye doin' and a fine farthing ye did, on that.  But did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "Bad luck I suppose, but I still found the warehouse.  So, let's talk payment.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 4 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "Ah, shame on ye!  Ye kennin these'n's could be a right thorn.  But, a fine farthing ye did, on that.  Thankee sai.",
+      "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"Ah, shame on ye!  Ye kennin these'n's could be a right thorn.  But did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "I'm sorry Rubik, I'll be more careful in the future.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": 1 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and allack.",
+      "no": "*gives you a long look and then addresses you in a skeptical tone.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "Let's talk payment.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": -3 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": -4 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_truth",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Aye?",
+      "str": "*looks ypu up and down, sizing you up fully before speaking in a matter-of-fact tone.  \"Alas and alack.  A pop-an-work you'n be, a pop-an-work you'n do.  Now, ye remember this… the Exodii remembers, aye?\""
+    },
+    "responses": [
+      {
+        "text": "Right.  Guess I'll see you around.",
+        "effect": { "math": [ "exodii_knows_u_double_crossed = 1" ] },
+        "topic": "TALK_DONE"
       }
     ]
   },
