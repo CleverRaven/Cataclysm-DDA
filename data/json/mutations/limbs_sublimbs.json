@@ -72,6 +72,42 @@
     "name": "chin"
   },
   {
+    "id": "beak_nares",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "beak_bird",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nares"
+  },
+  {
+    "id": "beak_top",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "beak_bird",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak top"
+  },
+  {
+    "id": "beak_tip",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "beak_bird",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak tip"
+  },
+  {
+    "id": "beak_bottom",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "beak_bird",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak bottom"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",

@@ -4828,7 +4828,7 @@
     "type": "mutation",
     "id": "BEAK",
     "name": { "str": "Beak" },
-    "description": "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
+    "description": "You have a beak for a mouth.  You can use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
     "category": [ "BIRD", "CEPHALOPOD" ],
     "types": [ "TEETH" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
@@ -4840,14 +4840,8 @@
     "ugliness": 4,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You peck %s!",
-      "attack_text_npc": "%1$s pecks %2$s!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    },
-    "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
+    "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_bird" } ] } ]
   },
   {
     "type": "mutation",
