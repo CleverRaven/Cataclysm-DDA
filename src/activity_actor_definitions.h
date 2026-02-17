@@ -4044,7 +4044,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Source tiles where routing failed or cart blocked pickup this cycle.
         // Cleared when player position or grab state changes (per stage_think).
         // Destination reachability is probed fresh per-source in stage_do.
-        std::unordered_set<tripoint_abs_ms> unreachable_sources;
+        std::unordered_set<tripoint_abs_ms> unreachable_sources; // NOLINT(cata-serialize)
 
         // State for position-based clearing of unreachable_sources.
         // When position or grab orientation changes, sources are re-probed.

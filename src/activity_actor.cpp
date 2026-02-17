@@ -12768,6 +12768,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                 return false;
             }
             if( !zone_sorting::route_to_destination( you, act, src_bub, stage ) ) {
+                unreachable_sources.emplace( src );
                 continue;
             }
             return false;
@@ -13250,75 +13251,49 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         bool match = false;
         tripoint_abs_ms destination;
 
+        // Non-destructive capacity check. The old probe-and-undo approach
+        // (place items then remove them) destroyed count_by_charges items at
+        // the destination via merge_charges. This volume check is conservative
+        // but safe; the actual dropoff loop handles edge cases if we're wrong.
+        auto dest_free_volume = [&here]( const tripoint_bub_ms & dest_bub ) -> units::volume {
+            units::volume avail = 0_ml;
+            if( const std::optional<vpart_reference> vp_dest = here.veh_at( dest_bub ).cargo() )
+            {
+                avail += vp_dest->items().free_volume();
+            }
+            avail += here.free_volume( dest_bub );
+            return avail;
+        };
+
         // Find a dropoff location that can take all the items picked up.
-        for( tripoint_abs_ms &dest : dropoff_coords ) {
-            std::vector<item_location> placed_items;
-
-            match = true;
-
-            for( item_location &item : picked_up_stuff ) {
-                std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
-                        item_drop_reason::deliberate, { *item }, here.get_bub( dest ) );
-
-                if( placed_item.empty() ) {
-                    match = false;
-                    break;
-
-                } else {
-                    placed_items.emplace_back( placed_item.front() );
-                }
+        units::volume batch_volume = 0_ml;
+        for( const item_location &loc : picked_up_stuff ) {
+            if( loc.get_item() ) {
+                batch_volume += loc->volume();
             }
-
-            // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
-            // count_by_charges items may merge during placement, so multiple item_locations
-            // can point to the same stack. Guard against removing an already-removed item.
-            for( item_location &item : placed_items ) {
-                if( item.get_item() ) {
-                    item.remove_item();
-                }
-            }
-
-            if( match ) {
+        }
+        for( const tripoint_abs_ms &dest : dropoff_coords ) {
+            if( batch_volume <= dest_free_volume( here.get_bub( dest ) ) ) {
+                match = true;
                 destination = dest;
                 break;
             }
         }
 
         if( !match ) {
-            // Couldn't find any destination that would take all items. Fallback to one that can accept
-            // the first one that has a usable destination.
-            // Note that we always have to be able to handle the situation where a destination is full
-            // when we get there due to things happening in the mean time (like other characters sorting
-            // stuff into that location as we move there), so we leave the handling of unsortable items
-            // in the inventory to that handling for now.
-            for( tripoint_abs_ms &dest : dropoff_coords ) {
-                std::vector<item_location> placed_items;
-
-                match = true;
-
-                for( item_location &item : picked_up_stuff ) {
-                    std::vector<item_location> placed_item = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { *item }, here.get_bub( dest ) );
-
-                    if( placed_item.empty() ) {
-                        match = false;
-                        break;
-
-                    } else {
-                        placed_items.emplace_back( placed_item.front() );
-                        match = true;
-                        break;
-                    }
+            // No single destination can hold everything. Fallback: find one
+            // that can accept at least the first item. The dropoff loop handles
+            // partial delivery and tries remaining destinations for leftovers.
+            units::volume first_vol = 0_ml;
+            for( const item_location &loc : picked_up_stuff ) {
+                if( loc.get_item() ) {
+                    first_vol = loc->volume();
+                    break;
                 }
-
-                // Get rid of the placed items, as we really only wanted to know if they COULD be placed.
-                for( item_location &item : placed_items ) {
-                    if( item.get_item() ) {
-                        item.remove_item();
-                    }
-                }
-
-                if( match ) {
+            }
+            for( const tripoint_abs_ms &dest : dropoff_coords ) {
+                if( first_vol <= dest_free_volume( here.get_bub( dest ) ) ) {
+                    match = true;
                     destination = dest;
                     break;
                 }
@@ -13378,7 +13353,6 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
     jsout.member( "virtual_pickup_active", virtual_pickup_active );
-    jsout.member( "unreachable_sources", unreachable_sources );
 
     jsout.end_object();
 }
@@ -13403,11 +13377,6 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     }
     if( data.has_member( "virtual_pickup_active" ) ) {
         data.read( "virtual_pickup_active", actor.virtual_pickup_active );
-    }
-    if( data.has_member( "unreachable_sources" ) ) {
-        data.read( "unreachable_sources", actor.unreachable_sources );
-    } else if( data.has_member( "unreachable_dests" ) ) {
-        data.read( "unreachable_dests", actor.unreachable_sources );
     }
     return actor.clone();
 }
