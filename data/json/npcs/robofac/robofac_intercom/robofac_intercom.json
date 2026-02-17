@@ -1255,7 +1255,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
       },
       {
-        "text": "I want 10 HCG.",
+        "text": "I want 10 HGCs.",
         "trial": { "type": "PERSUADE", "difficulty": 20 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
@@ -1268,7 +1268,7 @@
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
       },
       {
-        "text": "I want 5 HCG and information on the tech you find.",
+        "text": "I want 5 HGCs and information on the tech you find.",
         "trial": { "type": "PERSUADE", "difficulty": 20 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
@@ -1282,7 +1282,7 @@
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
       },
       {
-        "text": "I want 10 HCG and information on the tech you find.",
+        "text": "I want 10 HGCs and information on the tech you find.",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
         "success": {
           "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
@@ -1300,7 +1300,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b",
     "type": "talk_topic",
-    "dynamic_line": "We can only offer you 5 HCGs.  Alternatively, we could give you information on the tech once it's recovered, if that is more interesting to you.",
+    "dynamic_line": "We can only offer you 5 HGCs.  Alternatively, we could give you information on the tech once it's recovered, if that is more interesting to you.",
     "responses": [
       {
         "text": "Deal!  5 HGCs in exchange for the coordinates.",

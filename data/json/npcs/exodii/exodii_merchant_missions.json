@@ -575,7 +575,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "u_rebooted_locator == 1" ],
-      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and allack.\"",
+      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and alack.\"",
       "no": "*gives you a long look and then addresses you in a skeptical tone.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
     },
     "responses": [
