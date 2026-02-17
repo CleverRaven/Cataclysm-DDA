@@ -111,25 +111,25 @@
     "id": "beak_bird_nares",
     "copy-from": "beak_nares",
     "type": "sub_body_part",
-    "similar_bodyparts": "beak_nares"
+    "similar_bodypart": "beak_nares"
   },
   {
     "id": "beak_bird_top",
     "copy-from": "beak_top",
     "type": "sub_body_part",
-    "similar_bodyparts": "beak_top"
+    "similar_bodypart": "beak_top"
   },
   {
     "id": "beak_bird_tip",
     "copy-from": "beak_tip",
     "type": "sub_body_part",
-    "similar_bodyparts": "beak_tip"
+    "similar_bodypart": "beak_tip"
   },
   {
     "id": "beak_bird_bottom",
     "copy-from": "beak_bottom",
     "type": "sub_body_part",
-    "similar_bodyparts": "beak_bottom"
+    "similar_bodypart": "beak_bottom"
   },
   {
     "id": "crustacean_pincer_wrist_r",
