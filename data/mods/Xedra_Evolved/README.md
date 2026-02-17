@@ -21,7 +21,7 @@ The third chapter has brought with it Vampires both as monsters and as a disease
 ### Shipping manifest
 Dozens of new monsters including unique cryptid monsters with special abilities and trophies.
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
-Dhampir racial profession and Bloodvine Druid Vampire Hunter profession.
+Dhampir racial background and Bloodthorne Druid Vampire Hunter .
 Lilin racial profession that is a demon of disease and illness.
 Werewolf racial profession that gains abilities from hunting and killing nether beings.
 Gracken, shadow beings that restructure their bodies with evolutions ripped from them foes.
