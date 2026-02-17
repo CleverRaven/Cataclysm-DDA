@@ -161,7 +161,10 @@
   {
     "id": "mon_LS_fixbot",
     "type": "MONSTER",
-    "name": { "str": "rouge fixbot", "//~": "'rouge' as in red, not 'rogue': a pun based on the common misspelling.  If not possible to translate the pun, 'rogue fixbot' is probably a better name to translate." },
+    "name": {
+      "str": "rouge fixbot",
+      "//~": "'rouge' as in red, not 'rogue': a pun based on the common misspelling.  If not possible to translate the pun, 'rogue fixbot' is probably a better name to translate."
+    },
     "default_faction": "defense_bot",
     "description": "This little robot has a round, scarlet body and a swiveling flashlight 'eye' with emotive, articulated arms above it.  It currently has a determined look as it trundles about on three bulbous limbs.",
     "species": [ "ROBOT" ],
@@ -201,13 +204,7 @@
     "flags": [ "IMMOBILE", "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "STUN_IMMUNE", "PACIFIST" ],
     "diff": 1,
     "speed": 80,
-    "color": "red",
-    "special_attacks": [ 
-      {
-        "type": "spell",
-        "spell_data": { "id": "LS_sparkgenerator_summon" },
-        "cooldown": 100
-      }
-    ]
+    "color": "blue",
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "LS_sparkgenerator_summon" }, "cooldown": 100 } ]
   }
 ]

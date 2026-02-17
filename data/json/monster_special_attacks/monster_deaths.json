@@ -492,7 +492,10 @@
     "id": "death_LS_sparkgenerator_1",
     "type": "SPELL",
     "name": { "str": "Spark generator first phase transform", "//~": "NO_I18N" },
-    "description": { "str": "Spark generator first phase transform.  Filler.  Should actually change type and also run an EOC to change all other spark generator types.", "//~": "NO_I18N" },
+    "description": {
+      "str": "Spark generator first phase transform.  Filler.  Should actually change type and also run an EOC to change all other spark generator types.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
