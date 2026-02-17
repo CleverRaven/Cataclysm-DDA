@@ -489,6 +489,21 @@
     "shape": "blast"
   },
   {
+    "id": "death_LS_sparkgenerator_1",
+    "type": "SPELL",
+    "name": { "str": "Spark generator first phase transform", "//~": "NO_I18N" },
+    "description": { "str": "Spark generator first phase transform.  Filler.  Should actually change type and also run an EOC to change all other spark generator types.", "//~": "NO_I18N" },
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_LS_sparkgenerator",
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
     "id": "death_thing",
     "type": "SPELL",
     "name": { "str": "Thing Death", "//~": "NO_I18N" },
