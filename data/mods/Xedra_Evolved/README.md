@@ -22,6 +22,7 @@ The third chapter has brought with it Vampires both as monsters and as a disease
 Dozens of new monsters including unique cryptid monsters with special abilities and trophies.
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
 Dhampir racial profession and Bloodvine Druid Vampire Hunter profession.
+Lilin racial profession that is a demon of disease and illness.
 A dozen plus missions and mission unique rewards
 16 professions
 6 Elemental Race Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
