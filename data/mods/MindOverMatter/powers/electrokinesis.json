@@ -48,7 +48,7 @@
     "spell_class": "ELECTROKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "LOUD", "NO_PROJECTILE", "TOUCH_REQUIRED", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -65,8 +65,8 @@
         "( (u_spell_level('electrokinetic_shock_touch') * 1.5) + 7) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "min_range": 1,
-    "max_range": 1,
+    "min_range": 10,
+    "max_range": 10,
     "min_duration": 100,
     "max_duration": 300,
     "field_id": "fd_electricity",

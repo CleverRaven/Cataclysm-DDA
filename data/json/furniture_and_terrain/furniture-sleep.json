@@ -12,6 +12,7 @@
     "floor_bedding_warmth": 1000,
     "fall_damage_reduction": 35,
     "required_str": 12,
+    "mass": "60 kg",
     "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
@@ -181,6 +182,7 @@
     "move_cost_mod": 4,
     "coverage": 40,
     "required_str": 5,
+    "mass": "30 kg",
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "bash": {
@@ -210,6 +212,7 @@
     "floor_bedding_warmth": 800,
     "fall_damage_reduction": 15,
     "required_str": 7,
+    "mass": "30 kg",
     "deployed_item": "mattress",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT" ],
@@ -229,6 +232,7 @@
     "floor_bedding_warmth": 800,
     "fall_damage_reduction": 10,
     "required_str": 7,
+    "mass": "30 kg",
     "deployed_item": "down_mattress",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
@@ -279,6 +283,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
+    "mass": "25 kg",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },

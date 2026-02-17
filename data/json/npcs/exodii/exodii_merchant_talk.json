@@ -452,6 +452,17 @@
         "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found = 1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
+      {
+        "text": "I found the missing Exodii.  I'm sorry to say that they're dead, but I recovered their head.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "exodii_chop_shop_head", "count": 1 } }, { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } ]
+        },
+        "effect": [
+          { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
+          { "finish_mission": "EXODII_MISSION_CHOP_SHOP", "success": true }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_mission_3_complete"
+      },
       { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Actually, I changed my mind.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
@@ -1153,6 +1164,19 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
+      },
+      {
+        "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_exodii_mission_chop_shop" } ] } },
+            { "u_has_trait": "CBM_Interface" },
+            { "math": [ "warehouse_was_found == 1" ] },
+            { "math": [ "exodii_knows_hub01 == 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_mission_3_intro"
       },
       { "text": "I'm not interested in anything right now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]

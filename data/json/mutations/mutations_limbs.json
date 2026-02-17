@@ -922,7 +922,11 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_l" }, { "gain": "animal_paw_r" } ]
+      }
     ],
     "triggers": [
       [

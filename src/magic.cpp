@@ -173,6 +173,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::TARGET_TELEPORT: return "TARGET_TELEPORT";
         case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
+        case spell_flag::TOUCH_REQUIRED: return "TOUCH_REQUIRED";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
@@ -545,6 +546,10 @@ void spell_type::check_consistency()
                               targeted_monster.str() );
                 }
             }
+        }
+
+        if( sp_t.spell_tags[spell_flag::TOUCH_REQUIRED] && sp_t.spell_tags[spell_flag::NO_HANDS] ) {
+            debugmsg( "ERROR: %s has both TOUCH_REQUIRED and NO_HANDS flags!", sp_t.id.c_str() );
         }
 
         if( !sp_t.targeted_species_ids.empty() ) {
@@ -2889,6 +2894,9 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
         spell_data.emplace_back( _( "impeded by gloves" ) );
     } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
+    }
+    if( has_flag( spell_flag::TOUCH_REQUIRED ) ) {
+        spell_data.emplace_back( _( "must touch target" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );

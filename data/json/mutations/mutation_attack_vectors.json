@@ -29,6 +29,13 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_rabbit_bite",
+    "limbs": [ "muzzle_rabbit" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
@@ -37,13 +44,22 @@
     "type": "attack_vector",
     "id": "vector_hoof_kick",
     "limbs": [ "hoof_l", "hoof_r" ],
-    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ]
+    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
   },
   {
     "type": "attack_vector",
     "id": "vector_avian_talons",
     "limbs": [ "avian_talon_l", "avian_talon_r" ],
-    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ]
+    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_digitigrade_paws",
+    "limbs": [ "animal_paw_l", "animal_paw_r" ],
+    "contact_area": [ "digitigrade_foot_toes_l", "digitigrade_foot_toes_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
   },
   {
     "type": "attack_vector",
