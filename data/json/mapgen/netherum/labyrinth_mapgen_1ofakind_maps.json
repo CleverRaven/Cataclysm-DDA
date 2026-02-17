@@ -60,20 +60,20 @@
         "vvv....|......vvvvvvvvvv..........|||vvvv......|",
         "vvv....|.....vvvvvvvvvvv..........|||vvv..vvvv.|",
         "vvv....|....vvvvvvvvvvvv.||||||......vv..vvvvv.|",
-        "vvv....|....vvvvvvvvvvvv.|A...||........vvvvvv.|",
+        "vvv....|....vvvvvvvvvvvv.|AƤ(L||........vvvvvv.|",
         "vvv....|...vvvvvvvvvvvvv.|1....||....vvvvvvvvv.|",
-        "vvv....|...vvvvvvvvvvvvv.|......||.............|",
-        "vvv....|...vvvvvvvvvvvvv.|.......|.............|",
-        "vvv....|...vvvvvvvvvvvvv.||......+..|||vvvvvvv.|",
-        "vvv....|..vvvvvvvvvvvvvv..||.....+..|||vvvvvvv.|",
-        "vvv....|..vvvvvvvvvvvvvv...||....|..|||vvvvvvv.|",
+        "vvv....|...vvvvvvvvvvvvv.|Ṫß....||.............|",
+        "vvv....|...vvvvvvvvvvvvv.|Ṫß.....|.............|",
+        "vvv....|...vvvvvvvvvvvvv.||(.....+..|||vvvvvvv.|",
+        "vvv....|..vvvvvvvvvvvvvv..||Lßßß.+..|||vvvvvvv.|",
+        "vvv....|..vvvvvvvvvvvvvv...||MƤṪP|..|||vvvvvvv.|",
         "vvv....|..vvvvvvvvvvvvvv....||||||....vvvvvvvv.|",
         "vvv....|||vvvvvvvvvvvvvv..............vvvvvvvv.|",
         "vvv....|||vvvvvvvvvvvvvv..............vvvvvvvvvv",
-        "vvv....|..vvvvvvvvvvvvvv....||||||..vvvvvvvvvvvv",
-        "vvv....|..vvvvvvvvvvvvvv...||....|..vvvvvvvvvvvv",
-        "vvv....|..vvvvvvvvvvvvvv..||.....|..vvvvvvvvvvvv",
-        "vvv....|...vvvvvvvvvvvvv.||......|..vvvvvvvvvvvv",
+        "vvv....|..vvvvvvvvvvvvvv..(A||||||..vvvvvvvvvvvv",
+        "vvv....|..vvvvvvvvvvvvvv..1||....|..vvvvvvvvvvvv",
+        "vvv....|..vvvvvvvvvvvvvv..||.....F..vvvvvvvvvvvv",
+        "vvv....|...vvvvvvvvvvvvv.||L.....F..vvvvvvvvvvvv",
         "vvv....|...vvvvvvvvvvvvv.|.......|..vvvvvvvvvvvv",
         "vvv....|...vvvvvvvvvvvvv.|......||..vvvvvvvvvvvv",
         "vvv....|...vvvvvvvvvvvvv.|.....||..vvvvvvvvvvvvv",
@@ -95,7 +95,10 @@
         "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "monster": { "1": { "monster": "mon_LS_sparkgenerator" }, "2": { "monster": "mon_LS_fixbot" } }
+      "monster": { "1": { "monster": "mon_LS_sparkgenerator" }, "2": { "monster": "mon_LS_fixbot" } },
+      "items": {
+        "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
+      }
     }
   }
 ]
