@@ -284,7 +284,6 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "restricts_gear": [ "torso" ],
     "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
