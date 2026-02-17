@@ -1,3 +1,4 @@
+#include <initializer_list>
 #include <list>
 #include <optional>
 #include <set>
@@ -114,8 +115,15 @@ enum class container_location : int {
 
 enum class scenario : int {
     begin,
+    // a single-pocket container holding a liquid
     contained_liquid = begin,
+    // a multi-pocket container holding a liquid, inside a single-pocket container
     nested_contained_liquid,
+    /*
+    a multi-pocket container with:
+      - another multi-pocket container holding a liquid
+      - a solid item
+    */
     recursive_multi_pocket,
     end,
 };
@@ -175,17 +183,17 @@ void unseal_items_containing( contents_change_handler &handler, item_location &r
     }
 }
 
-struct initialization {
+struct item_initialization {
     itype_id id;
     bool fill_parent;
     bool seal;
-    std::vector<initialization> contents;
+    std::vector<item_initialization> contents;
 };
 
-item initialize( const initialization &init )
+item initialize( const item_initialization &init )
 {
     item it( init.id );
-    for( const initialization &content_init : init.contents ) {
+    for( const item_initialization &content_init : init.contents ) {
         item content = initialize( content_init );
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
@@ -201,16 +209,20 @@ item initialize( const initialization &init )
     return it;
 }
 
-struct final_result {
+struct item_result {
     itype_id id;
     bool sealed;
     bool parent_pocket_sealed;
-    std::vector<final_result> contents;
+    std::vector<item_result> contents;
 
-    explicit final_result( const itype_id id, const bool sealed, const bool parent_pocket_sealed,
-                           std::vector<final_result> contents ) :
+    explicit item_result( const itype_id id, const bool sealed, const bool parent_pocket_sealed,
+                          std::vector<item_result> contents ) :
         id( id ), sealed( sealed ), parent_pocket_sealed( parent_pocket_sealed ),
         contents( std::move( contents ) ) {}
+    explicit item_result( const itype_id id ) :
+        id( id ), sealed( false ), parent_pocket_sealed( false ),
+        contents( {} ) {
+    }
 };
 
 item *item_pointer( item *const it )
@@ -240,11 +252,11 @@ item_location container_from_parent( const item_location &loc )
     return loc;
 }
 
-void match( item_location loc, const final_result &result );
+void match( item_location loc, const item_result &result );
 
 template<typename Parent, typename Container>
 void match( Parent &&parent, Container &&contents,
-            std::vector<final_result> content_results )
+            std::vector<item_result> content_results )
 {
     CHECK( content_results.size() == contents.size() );
     for( auto &content_maybe_pointer : contents ) {
@@ -254,7 +266,7 @@ void match( Parent &&parent, Container &&contents,
             item_location content_loc( parent, content );
             bool found = false;
             for( auto it = content_results.begin(); it != content_results.end(); ++it ) {
-                const final_result &content_result = *it;
+                const item_result &content_result = *it;
                 // Assuming all items with the same id are exactly the same for now.
                 // Maybe use notes as unique ids instead?
                 if( content->typeId() == content_result.id ) {
@@ -277,7 +289,7 @@ void match( Parent &&parent, Container &&contents,
         }
     }
     std::string unfound = "expected result not found: ";
-    for( const final_result &content_result : content_results ) {
+    for( const item_result &content_result : content_results ) {
         unfound += content_result.id.str() + ", ";
     }
     INFO( unfound );
@@ -285,7 +297,7 @@ void match( Parent &&parent, Container &&contents,
     CHECK( content_results.empty() );
 }
 
-void match( item_location loc, const final_result &result )
+void match( item_location loc, const item_result &result )
 {
     INFO( "match: id = " << result.id.str() );
     REQUIRE( loc->typeId() == result.id );
@@ -293,32 +305,19 @@ void match( item_location loc, const final_result &result )
     match( loc, loc->all_items_top( pocket_type::CONTAINER ), result.contents );
 }
 
-void test_scenario::run()
+std::pair<item_initialization, std::string> scenario_initial_state( scenario cur_scenario )
 {
-    clear_avatar();
-    clear_map_without_vision();
-
-    const container_location cur_container_loc = value.get<container_location>();
-    const scenario cur_scenario = value.get<scenario>();
-    const player_action cur_player_action = value.get<player_action>();
-
-    initialization init;
+    item_initialization init;
     std::string init_str;
+
     switch( cur_scenario ) {
         case scenario::contained_liquid: {
             init_str = "scenario::contained_liquid";
             init = {
-                initialization {
-                    itype_test_watertight_open_sealed_container_250ml,
-                    false,
-                    true,
+                item_initialization {
+                    itype_test_watertight_open_sealed_container_250ml, false, true,
                     {
-                        initialization {
-                            itype_test_liquid_1ml,
-                            true,
-                            false,
-                            {}
-                        }
+                        item_initialization { itype_test_liquid_1ml, true, false, {} }
                     }
                 }
             };
@@ -327,22 +326,14 @@ void test_scenario::run()
         case scenario::nested_contained_liquid: {
             init_str = "scenario::nested_contained_liquid";
             init = {
-                initialization {
-                    itype_test_watertight_open_sealed_container_1L,
-                    false,
-                    true,
+                item_initialization {
+                    itype_test_watertight_open_sealed_container_1L, false, true,
                     {
-                        initialization {
+                        item_initialization {
                             itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                            false,
-                            true,
+                            false, true,
                             {
-                                initialization {
-                                    itype_test_liquid_1ml,
-                                    true,
-                                    false,
-                                    {}
-                                }
+                                item_initialization { itype_test_liquid_1ml, true, false, {} }
                             }
                         }
                     }
@@ -353,30 +344,16 @@ void test_scenario::run()
         case scenario::recursive_multi_pocket: {
             init_str = "scenario::recursive_multi_pocket";
             init = {
-                initialization {
+                item_initialization {
                     itype_test_watertight_open_sealed_multipocket_container_2x1L,
-                    false,
-                    true,
+                    false, true,
                     {
-                        initialization {
+                        item_initialization {
                             itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                            false,
-                            true,
-                            {
-                                initialization {
-                                    itype_test_liquid_1ml,
-                                    true,
-                                    false,
-                                    {}
-                                }
-                            }
+                            false, true,
+                            { item_initialization { itype_test_liquid_1ml, true, false, {} } }
                         },
-                        initialization {
-                            itype_test_solid_1ml,
-                            true,
-                            false,
-                            {}
-                        }
+                        item_initialization { itype_test_solid_1ml, true, false, {} }
                     }
                 }
             };
@@ -384,38 +361,32 @@ void test_scenario::run()
         }
         default:
             FAIL( "unknown scenario" );
-            return;
     }
-    // INFO() is scoped, so the message won't be shown if we put in in the switch block.
-    INFO( init_str );
-    item it = initialize( init );
+    return { init, init_str };
+}
 
-    map &here = get_map();
-    avatar &guy = get_avatar();
-    item_location it_loc;
-    std::string container_loc_str;
+std::string container_location_to_string( container_location cur_container_loc )
+{
     switch( cur_container_loc ) {
         case container_location::inventory:
-            container_loc_str = "container_location::inventory";
-            break;
+            return "container_location::inventory";
         case container_location::worn:
-            container_loc_str = "container_location::worn";
-            break;
+            return "container_location::worn";
         case container_location::wielded:
-            container_loc_str = "container_location::wielded";
-            break;
+            return "container_location::wielded";
         case container_location::vehicle:
-            container_loc_str = "container_location::vehicle";
-            break;
+            return "container_location::vehicle";
         case container_location::ground:
-            container_loc_str = "container_location::ground";
-            break;
+            return "container_location::ground";
         default:
             FAIL( "unknown container_location" );
-            return;
+            return "";
     }
-    // INFO() is scoped, so the message won't be shown if we put in in the switch block.
-    INFO( container_loc_str );
+}
+
+item_location prepare_item( avatar &guy, map &here, item &it,
+                            container_location cur_container_loc )
+{
     switch( cur_container_loc ) {
         case container_location::inventory: {
             std::optional<std::list<item>::iterator> worn = guy.wear_item( item(
@@ -425,19 +396,16 @@ void test_scenario::run()
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );
-            it_loc = item_location( worn_loc, &worn_loc->only_item() );
-            break;
+            return item_location( worn_loc, &worn_loc->only_item() );
         }
         case container_location::worn: {
             std::optional<std::list<item>::iterator> worn = guy.wear_item( it, false );
             REQUIRE( worn.has_value() );
-            it_loc = item_location( guy, & **worn );
-            break;
+            return item_location( guy, & **worn );
         }
         case container_location::wielded: {
             REQUIRE( guy.wield( it ) );
-            it_loc = guy.get_wielded_item();
-            break;
+            return guy.get_wielded_item();
         }
         case container_location::vehicle: {
             vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos_bub(),
@@ -449,19 +417,169 @@ void test_scenario::run()
             REQUIRE( vp.has_value() );
             std::optional<vehicle_stack::iterator> added = veh->add_item( here, vp->part(), it );
             REQUIRE( added.has_value() );
-            it_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **added );
-            break;
+            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **added );
         }
         case container_location::ground: {
             item &added = here.add_item( guy.pos_bub(), it );
-            it_loc = item_location( map_cursor( guy.pos_abs() ), &added );
-            break;
+            return item_location( map_cursor( guy.pos_abs() ), &added );
         }
         default: {
             FAIL( "unknown container_location" );
-            return;
+            return item_location::nowhere;
         }
     }
+}
+
+std::pair<std::optional<item_result>, std::vector<item_result>> scenario_final_state(
+            scenario cur_scenario, bool will_spill_outer, bool do_spill )
+{
+    std::optional<item_result> original_location;
+    std::vector<item_result> ground;
+    switch( cur_scenario ) {
+        case scenario::contained_liquid:
+            if( !will_spill_outer ) {
+                // no change
+                original_location = item_result{
+                    itype_test_watertight_open_sealed_container_250ml, false, false,
+                    {
+                        item_result { itype_test_liquid_1ml }
+                    }
+                };
+            } else if( do_spill ) {
+                // container remains in place, liquid spilled on ground
+                original_location = item_result{ itype_test_watertight_open_sealed_container_250ml };
+                ground = { item_result { itype_test_liquid_1ml } };
+            }
+            // (will_spill_outer && !do_spill)
+            else {
+                // container item_location invalidated and put on ground, liquid not spilled
+                original_location = std::nullopt;
+                ground = {
+                    item_result {
+                        itype_test_watertight_open_sealed_container_250ml, false, false,
+                        {
+                            item_result { itype_test_liquid_1ml }
+                        }
+                    }
+                };
+            }
+            break;
+        case scenario::nested_contained_liquid:
+            if( !will_spill_outer && do_spill ) {
+                original_location = item_result{
+                    itype_test_watertight_open_sealed_container_1L, false, false,
+                    {
+                        item_result { itype_test_watertight_open_sealed_multipocket_container_2x250ml }
+                    }
+                };
+                ground = { item_result { itype_test_liquid_1ml } };
+            } else if( !do_spill ) {
+                original_location = item_result{ itype_test_watertight_open_sealed_container_1L };
+                ground = {
+                    item_result {
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false, false,
+                        {
+                            item_result { itype_test_liquid_1ml },
+                            item_result { itype_test_liquid_1ml }
+                        }
+                    }
+                };
+            } else {
+                original_location = item_result{ itype_test_watertight_open_sealed_container_1L };
+                ground = {
+                    item_result { itype_test_liquid_1ml },
+                    item_result { itype_test_watertight_open_sealed_multipocket_container_2x250ml }
+                };
+            }
+            break;
+        case scenario::recursive_multi_pocket:
+            if( !will_spill_outer && do_spill ) {
+                original_location = item_result{
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
+                    false, false,
+                    {
+                        item_result { itype_test_watertight_open_sealed_multipocket_container_2x250ml },
+                        item_result { itype_test_solid_1ml },
+                        item_result { itype_test_solid_1ml }
+                    }
+                };
+                ground = {
+                    item_result { itype_test_liquid_1ml }
+                };
+            } else if( !will_spill_outer && !do_spill ) {
+                original_location = item_result{
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
+                    false, false,
+                    {
+                        item_result { itype_test_solid_1ml },
+                        item_result { itype_test_solid_1ml }
+                    }
+                };
+                ground = {
+                    item_result {
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false, false,
+                        {
+                            item_result { itype_test_liquid_1ml },
+                            item_result { itype_test_liquid_1ml }
+                        }
+                    },
+                };
+            } else if( do_spill ) {
+                original_location = item_result{
+                    itype_test_watertight_open_sealed_multipocket_container_2x1L
+                };
+                ground = {
+                    item_result { itype_test_liquid_1ml },
+                    item_result { itype_test_watertight_open_sealed_multipocket_container_2x250ml },
+                    item_result { itype_test_solid_1ml }
+                };
+            } else {
+                original_location = item_result{ itype_test_watertight_open_sealed_multipocket_container_2x1L };
+                ground = {
+                    item_result {
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false, false,
+                        {
+                            item_result { itype_test_liquid_1ml },
+                            item_result { itype_test_liquid_1ml }
+                        }
+                    },
+                    item_result { itype_test_solid_1ml }
+                };
+            }
+            break;
+        default: {
+            FAIL( "unknown scenario" );
+        }
+    }
+    return { original_location, ground };
+}
+
+void test_scenario::run()
+{
+    clear_avatar();
+    clear_map_without_vision();
+
+    const container_location cur_container_loc = value.get<container_location>();
+    const scenario cur_scenario = value.get<scenario>();
+    const player_action cur_player_action = value.get<player_action>();
+
+    std::pair<item_initialization, std::string> scenario_init = scenario_initial_state( cur_scenario );
+
+    // INFO() is scoped, so the message won't be shown if we put in in the switch block.
+    INFO( scenario_init.second );
+    item it = initialize( scenario_init.first );
+
+    map &here = get_map();
+    avatar &guy = get_avatar();
+    std::string container_loc_str = container_location_to_string( cur_container_loc );
+
+    // INFO() is scoped, so the message won't be shown if we put in in the switch block.
+    INFO( container_loc_str );
+    item_location it_loc = prepare_item( guy, here, it, cur_container_loc );
+
     if( !guy.get_wielded_item() ) {
         // so the guy does not wield spilled solid items
         item rag( itype_test_rag );
@@ -471,6 +589,8 @@ void test_scenario::run()
     std::string player_action_str;
     restore_on_out_of_scope restore_test_mode_spilling(
         test_mode_spilling_action );
+
+    // liquid handling requires player input, so auto-select with player_action instead
     switch( cur_player_action ) {
         case player_action::spill_all: {
             player_action_str = "player_action::spill_all";
@@ -529,279 +649,14 @@ void test_scenario::run()
         }
     }
 
-    std::optional<final_result> original_location;
-    std::vector<final_result> ground;
-    std::vector<final_result> vehicle_results;
-    std::vector<final_result> worn_results;
-    std::optional<final_result> wielded_results;
-    switch( cur_scenario ) {
-        case scenario::contained_liquid:
-            if( !will_spill_outer ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_container_250ml,
-                    false,
-                    false,
-                    {
-                        final_result {
-                            itype_test_liquid_1ml,
-                            false,
-                            false,
-                            {}
-                        }
-                    }
-                };
-            } else if( do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_container_250ml,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        itype_test_liquid_1ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            } else {
-                original_location = std::nullopt;
-                ground = {
-                    final_result {
-                        itype_test_watertight_open_sealed_container_250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
-                    }
-                };
-            }
-            break;
-        case scenario::nested_contained_liquid:
-            if( !will_spill_outer && do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_container_1L,
-                    false,
-                    false,
-                    {
-                        final_result {
-                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                            false,
-                            false,
-                            {}
-                        }
-                    }
-                };
-                ground = {
-                    final_result {
-                        itype_test_liquid_1ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            } else if( !do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_container_1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            },
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
-                    }
-                };
-            } else {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_container_1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        itype_test_liquid_1ml,
-                        false,
-                        false,
-                        {}
-                    },
-                    final_result {
-                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            }
-            break;
-        case scenario::recursive_multi_pocket:
-            if( !will_spill_outer && do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
-                    false,
-                    false,
-                    {
-                        final_result {
-                            itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                            false,
-                            false,
-                            {}
-                        },
-                        final_result {
-                            itype_test_solid_1ml,
-                            false,
-                            false,
-                            {}
-                        },
-                        final_result {
-                            itype_test_solid_1ml,
-                            false,
-                            false,
-                            {}
-                        }
-                    }
-                };
-                ground = {
-                    final_result {
-                        itype_test_liquid_1ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            } else if( !will_spill_outer && !do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
-                    false,
-                    false,
-                    {
-                        final_result {
-                            itype_test_solid_1ml,
-                            false,
-                            false,
-                            {}
-                        },
-                        final_result {
-                            itype_test_solid_1ml,
-                            false,
-                            false,
-                            {}
-                        }
-                    }
-                };
-                ground = {
-                    final_result {
-                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            },
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
-                    },
-                };
-            } else if( do_spill ) {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        itype_test_liquid_1ml,
-                        false,
-                        false,
-                        {}
-                    },
-                    final_result {
-                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {}
-                    },
-                    final_result {
-                        itype_test_solid_1ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            } else {
-                original_location = final_result {
-                    itype_test_watertight_open_sealed_multipocket_container_2x1L,
-                    false,
-                    false,
-                    {}
-                };
-                ground = {
-                    final_result {
-                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
-                        false,
-                        false,
-                        {
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            },
-                            final_result {
-                                itype_test_liquid_1ml,
-                                false,
-                                false,
-                                {}
-                            }
-                        }
-                    },
-                    final_result {
-                        itype_test_solid_1ml,
-                        false,
-                        false,
-                        {}
-                    }
-                };
-            }
-            break;
-        default: {
-            FAIL( "unknown scenario" );
-            return;
-        }
-    }
+    std::vector<item_result> vehicle_results;
+    std::vector<item_result> worn_results;
+    std::optional<item_result> wielded_results;
+    std::pair<std::optional<item_result>, std::vector<item_result>> intended_result =
+                scenario_final_state( cur_scenario, will_spill_outer, do_spill );
+    const std::optional<item_result> &original_location = intended_result.first;
+    std::vector<item_result> &ground = intended_result.second;
+
     switch( cur_container_loc ) {
         case container_location::ground:
             if( original_location ) {
@@ -811,18 +666,11 @@ void test_scenario::run()
         case container_location::inventory:
             if( original_location ) {
                 worn_results.emplace_back(
-                    itype_test_restricted_container_holder,
-                    false,
-                    false,
-                    std::vector<final_result> { *original_location }
+                    itype_test_restricted_container_holder, false, false,
+                    std::vector<item_result> { *original_location }
                 );
             } else {
-                worn_results.emplace_back(
-                    itype_test_restricted_container_holder,
-                    false,
-                    false,
-                    std::vector<final_result> {}
-                );
+                worn_results.emplace_back( itype_test_restricted_container_holder );
             }
             break;
         case container_location::worn:
@@ -846,12 +694,7 @@ void test_scenario::run()
     }
     if( cur_container_loc != container_location::wielded ) {
         REQUIRE( !wielded_results.has_value() );
-        wielded_results = final_result {
-            itype_test_rag,
-            false,
-            false,
-            {}
-        };
+        wielded_results = item_result { itype_test_rag };
     }
 
     INFO( "checking original item" );
