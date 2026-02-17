@@ -866,7 +866,14 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_l" }, { "gain": "animal_paw_rabbit_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
