@@ -373,6 +373,34 @@
     ]
   },
   {
+    "id": "gender_potion",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "MED",
+    "name": { "str": "gender change potion" },
+    "description": "This is a potion of change.  It will turn you into the opposite gender.  Turn into your true self, or otherwise experience what lies within the opposite gender.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": "150 cent",
+    "price_postapoc": "5 USD",
+    "material": [ "water" ],
+    "symbol": "!",
+    "color": "light_cyan",
+    "container": "flask_glass",
+    "quench": 2,
+    "healthy": 3,
+    "fun": -1,
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "consumption_effect_on_conditions": [ "change_gender" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "change_gender",
+    "condition": { "and": [ "u_is_character", { "math": [ "u_gender() == 1" ] } ] },
+    "effect": [ { "math": [ "u_gender() = 0" ] } ],
+    "false_effect": [ { "math": [ "u_gender() = 1" ] } ]
+  },
+  {
     "id": "potion_dex",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
