@@ -23,6 +23,8 @@ Dozens of new monsters including unique cryptid monsters with special abilities 
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
 Dhampir racial profession and Bloodvine Druid Vampire Hunter profession.
 Lilin racial profession that is a demon of disease and illness.
+Werewolf racial profession that gains abilities from hunting and killing nether beings.
+Gracken, shadow beings that restructure their bodies with evolutions ripped from them foes.
 A dozen plus missions and mission unique rewards
 16 professions
 6 Elemental Race Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
