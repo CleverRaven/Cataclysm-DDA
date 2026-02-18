@@ -159,11 +159,7 @@
     "vision_day": 50,
     "revert_to_itype": "bot_robofac_hound",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ 
-      [ "SHRIEK_ALERT", 10 ],
-      [ "SHRIEK_STUN", 3 ],
-      [ "TAZER", 1 ]
-    ],
+    "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 3 ], [ "TAZER", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ],

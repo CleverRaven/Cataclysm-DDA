@@ -136,12 +136,7 @@
       },
       {
         "text": "I've returned with a disabled Exodii worker.  [Hand over the broken Exodii worker]",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" },
-            { "u_has_item": "broken_exodii_worker" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "broken_exodii_worker" } ] },
         "effect": [
           { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true }
@@ -150,12 +145,7 @@
       },
       {
         "text": "About that Exodii worker you wanted.  Will this work instead?  [Hand over the broken robot head]",
-        "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" },
-            { "u_has_item": "exodii_chop_shop_head" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "exodii_chop_shop_head" } ] },
         "effect": [
           { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true }
@@ -319,7 +309,9 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
-                { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
                 { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
                 { "math": [ "hub01_stole_warehouse == 1" ] }
               ]
@@ -327,7 +319,9 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
-                { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
                 { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
                 { "math": [ "ancilla_fortress_placed == 1" ] }
               ]
@@ -343,7 +337,9 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
-                { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
                 { "math": [ "hub01_stole_warehouse == 1" ] },
                 { "math": [ "hub01_told_u_about_warehouse == 1" ] }
               ]
@@ -351,7 +347,9 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
-                { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
                 { "math": [ "ancilla_fortress_placed == 1" ] }
               ]
             }
