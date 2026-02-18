@@ -46,16 +46,20 @@
   {
     "id": [ "TALK_ROBOFAC_MERC_PAT" ],
     "type": "talk_topic",
-    "dynamic_line": [
-      "Hi.",
-      "How's it goin'?",
-      "Yo.",
-      "Whatsup?",
-      "They nod their head in greeting.",
-      "They tilt their head up in greeting.",
-      "Hey, howahyah.",
-      "What's doin'?"
-    ],
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&You boot up your radio unit and chirp Pat on the normal frequency.  After a short moment, Pat chirps back.  \"Pat heah, ovah.\"",
+      "no": [
+        "Hi.",
+        "How's it goin'?",
+        "Yo.",
+        "Whatsup?",
+        "They nod their head in greeting.",
+        "They tilt their head up in greeting.",
+        "Hey, howahyah.",
+        "What's doin'?"
+      ]
+    },
     "responses": [
       {
         "text": "Hi.  I'm <u_name>.",
@@ -96,7 +100,8 @@
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
             { "u_has_items": { "item": "eink_tablet_pc", "count": 2 } },
             { "u_has_items": { "item": "ar_glasses_advanced", "count": 1 } },
-            { "u_has_items": { "item": "two_way_radio", "count": 2 } }
+            { "u_has_items": { "item": "two_way_radio", "count": 2 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         },
         "effect": [
@@ -108,14 +113,15 @@
         ]
       },
       {
-        "text": "I found those electronics you asked for - here, use this badass military MVAS unit instead.",
+        "text": "I found those electronics you asked for - here, use this badass military MVAS unit.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
             { "u_has_items": { "item": "eink_tablet_pc", "count": 1 } },
             { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } },
-            { "u_has_items": { "item": "two_way_radio", "count": 1 } }
+            { "u_has_items": { "item": "two_way_radio", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         },
         "effect": [
@@ -131,14 +137,15 @@
         ]
       },
       {
-        "text": "I found those electronics you asked for - here, use this badass Hub 01 headset instead.",
+        "text": "I found those electronics you asked for - here, use this badass Hub 01 headset.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1_MVAS_HVAH",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ROBOFAC_PAT_2" },
             { "u_has_items": { "item": "eink_tablet_pc", "count": 1 } },
             { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } },
-            { "u_has_items": { "item": "two_way_radio", "count": 1 } }
+            { "u_has_items": { "item": "two_way_radio", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         },
         "effect": [
@@ -161,7 +168,8 @@
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "compare_string": [ "yes", { "u_val": "robofac_waiting_on_pat" } ] },
-            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('2 d')" ] }
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('2 d')" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         },
         "effect": [
@@ -199,7 +207,8 @@
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } }
+            { "u_has_items": { "item": "military_vis_aug_system", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         }
       },
@@ -210,7 +219,8 @@
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } }
+            { "u_has_items": { "item": "robofac_head_rig_ar", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         }
       },
@@ -221,7 +231,8 @@
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] } },
-            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
           ]
         },
         "effect": [
@@ -247,7 +258,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] }
       },
       {
-        "text": "The Hub will keep paying for HEW reports.  Can you start gathering intel on potential targets?",
+        "text": "So I've learned that the Hub will keep paying for HEW reports.  Guess that means we need anomalies to scan.  Can you start gathering intel on potential targets?",
         "topic": "TALK_PAT_RECON_DIRECTIONS_INTRO",
         "condition": {
           "and": [
@@ -258,7 +269,7 @@
         }
       },
       {
-        "text": "It hasn't been long, but any intel on HEW targets?",
+        "text": "It hasn't been very long, but any new intel on HEW targets?",
         "topic": "TALK_PAT_RECON_DIRECTIONS_NO",
         "condition": {
           "and": [
@@ -270,7 +281,7 @@
         }
       },
       {
-        "text": "It's been a few days, any new intel on HEW targets?",
+        "text": "It's been a few days.  Any new intel on HEW targets?",
         "topic": "TALK_PAT_RECON_DIRECTIONS_YES",
         "condition": {
           "and": [
@@ -283,7 +294,7 @@
         "effect": [ { "math": [ "robofac_pat_recon_random_loc = rand(12)" ] }, { "math": [ "robofac_timer_pat_recon = time('now')" ] } ]
       },
       {
-        "text": "Any ideas on places we've seen worth scanning with the HEW system?",
+        "text": "Any ideas on places we've seen before that might be worth scanning with the HEW system?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
         "condition": {
           "and": [
@@ -295,9 +306,33 @@
       {
         "text": "Just came by to chat.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
-        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        }
       },
-      { "text": "I'll see you around.", "topic": "TALK_DONE" }
+      {
+        "text": "Just calling you up to to chat.  Anything new?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_friends" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+          ]
+        }
+      },
+      {
+        "text": "I'll see you around.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+      },
+      {
+        "text": "Later, Pat.  Over and out.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+      }
     ]
   },
   {
@@ -893,11 +928,21 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "talk_topic",
-    "dynamic_line": "I saw that gun they gave ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on working with electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Swing by heah and ask me about this again.  Got somethin' for ya'.",
+      "no": "I saw that gun they gave ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on working with electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted."
+    },
     "responses": [
+      {
+        "text": "Sure, I'll swing by sometime.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+      },
       {
         "text": "Thanks a lot.",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
         "effect": [
           { "u_spawn_item": "manual_electronics" },
           { "u_spawn_item": "mag_electronics" },
@@ -1070,11 +1115,21 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_1",
-    "dynamic_line": "The Feds.  If they're payin', let's do it.  If they're all laid up in a cabin, I think your best bet may be explosives.  Heah.  Take this grenade.  Don't ask.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Heh, alright, the Feds.  Tell ya' what I got somethin' special for yah'.  Swing by heah and see me.",
+      "no": "The Feds.  If they're payin', let's do it.  If they're all laid up in a cabin, I think your best bet may be explosives.  Heah.  Take this grenade.  Don't ask."
+    },
     "responses": [
+      {
+        "text": "Sure, I'll swing by.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+      },
       {
         "text": "[take the grenade] Thanks, Pat.  I'll put it to good use?",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
         "effect": [ { "u_add_var": "robofac_pat_gave_grenade", "value": "yes" }, { "u_spawn_item": "grenade" } ]
       }
     ]
@@ -1243,85 +1298,89 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
     "type": "talk_topic",
-    "dynamic_line": "I've flagged a bunch of places you've been, eh?  Take a look.\"  Pat starts to scroll through photos and spreadsheets on his personal device, inviting you over to look with him.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&Your HUD flicks on and a low-resolution version of Pat's computer desktop becomes visible.  \"I've flagged a bunch of places you've been, eh?  Take a look.\"",
+      "no": "&Pat starts to scroll through photos and spreadsheets on their personal device, inviting you over to look with them.  \"I've flagged a bunch of places you've been, eh?  Take a look.\""
+    },
     "responses": [
       {
-        "text": "[Point to the photos of the LIXA facility] What about that place?",
+        "text": "[Photos of the LIXA facility] What about that place?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_LIXA",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] }
       },
       {
-        "text": "[Point to the photos of the strange temple] No doubt that place has some weird shit in it, right?",
+        "text": "[Photos of the strange temple] No doubt that place has some strange shit in it, right?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRANGE_TEMPLE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] }
       },
       {
-        "text": "[Point to the photos of the castle] What about that castle?",
+        "text": "[Photos of the castle] What about that castle?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_EXODII",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_exodii" } ] }
       },
       {
-        "text": "[Point to the photos of the farmstead] That farm was odd, to say the least.  Maybe there?",
+        "text": "[Photos of the farmstead] That farm was odd, to say the least.  Maybe there?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VITRIFIED",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_vitrified" } ] }
       },
       {
-        "text": "[Point to the photos of the mine entrance] Looks like you flagged that mine.",
+        "text": "[Photos of the mine entrance] Looks like you flagged that mine.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_AMIGARA",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_amigara" } ] }
       },
       {
-        "text": "[Point to the photos of the alien highlands] Well, that's a no brainer.",
+        "text": "[Photos of the alien highlands] Well, that's a no brainer.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_HIGHLANDS",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_highlands" } ] }
       },
       {
-        "text": "[Point to the photos of the physics laboratory] That freaky lab?",
+        "text": "[Photos of the physics laboratory] That freaky lab?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PHYSICS_LAB",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] }
       },
       {
-        "text": "[Point to the photos of dead monster corpse] I guess if anything is gonna work, it'd be that dead creature?",
+        "text": "[Photos of dead monster corpse] I guess if anything is gonna work, it'd be that dead creature?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MONSTER_CORPSE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_monster_corpse" } ] }
       },
       {
-        "text": "[Point to the photos of the glowing church] That place was full of something unreal.  What do you think?",
+        "text": "[Photos of the glowing church] That place was full of something unreal.  What do you think?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RURAL_CHURCH",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_rural_church" } ] }
       },
       {
-        "text": "[Point to the photos of the fenced-off forest] What was that place called again?",
+        "text": "[Photos of the fenced-off forest] What was that place called again?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_MORGANTOWN",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] }
       },
       {
-        "text": "[Point to the distorted photos of the boarded up cabin] Ah, that place.  What do you think?",
+        "text": "[Distorted images of the boarded up cabin] Ah, that place.  What do you think?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_CABIN_REVERB_HINT",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb_hint" } ] }
       },
       {
-        "text": "[Point to the audio recording] Ah, that place near the radio tower.  What do you think?",
+        "text": "[An audio recording] Ah, that place near the radio tower.  What do you think?",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIO_TOWER_REVERBERATION_MP3",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] }
       },
       {
-        "text": "[Point to the photos of the repeating alien cabins] That's a no brainer.",
+        "text": "[Photos of the repeating alien cabins] That's a no brainer.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_CABIN_REVERB",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb" } ] }
       },
       {
-        "text": "[Point to the photos of the repeating alien radio towers] That's gotta be a no brainer.",
+        "text": "[Photos of the repeating alien radio towers] That's gotta be a no brainer.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_RADIOSPHERE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radiosphere" } ] }
       },
       {
-        "text": "[Point to the photos of the glowing strings] That place was odd, to say the least.",
+        "text": "[Photos of the glowing strings] That place was odd, to say the least.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_STRING_DIMENSION",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_string_dimension" } ] }
       },
       {
-        "text": "[Point to the photos of the spiral rock formations] How about that 'mine?'",
+        "text": "[Photos of the spiral rock formations] How about that 'mine?'",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SPIRAL_MINE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] }
       },
@@ -1622,10 +1681,14 @@
   {
     "id": "TALK_PAT_RECON_DIRECTIONS_YES",
     "type": "talk_topic",
-    "dynamic_line": "&Pat boots up their laptop and pulls out a stack of maps, photos, and documents.  \"Let's see what we have heah, yeah?\"",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  \"Heah's what we got for the moment, yeah?\"",
+      "no": "&Pat boots up their laptop and pulls out a stack of maps, photos, and documents.  \"Let's see what we have heah, yeah?\""
+    },
     "responses": [
       {
-        "text": "[Grab the portfolio with a photo of a farmstead] What's this?",
+        "text": "[Photo of a farmstead] What's this?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_1",
         "condition": {
           "and": [
@@ -1638,7 +1701,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_1" }
       },
       {
-        "text": "[Grab the portfolio with a photo of large gate] What's this?",
+        "text": "[Photo of large gate] What's this?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_2",
         "condition": {
           "and": [
@@ -1655,7 +1718,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_2" }
       },
       {
-        "text": "[Grab the map with red marks on it] What's this?",
+        "text": "[Map with red marks on it] What's this?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_3",
         "condition": {
           "and": [
@@ -1668,7 +1731,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_3" }
       },
       {
-        "text": "[Grab a pile of photos] This looks new.  What is it?",
+        "text": "[Series of photos] This looks new.  What is it?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_4",
         "condition": {
           "and": [
@@ -1681,7 +1744,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_4" }
       },
       {
-        "text": "[Point to the image of a castle?] What is that?",
+        "text": "[Image of a strange castle] What is that?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_5",
         "condition": {
           "and": [
@@ -1695,7 +1758,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_5" }
       },
       {
-        "text": "[Grab a stack of documents marked CLASSIFIED] Ooh?",
+        "text": "[Documents marked CLASSIFIED] Ooh?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_6",
         "condition": {
           "and": [
@@ -1706,7 +1769,7 @@
         }
       },
       {
-        "text": "[Grab test tube with a hunk of meat in it] What's this?",
+        "text": "[Image of a test tube with a hunk of meat in it] What's this?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_7",
         "condition": {
           "and": [
@@ -1719,7 +1782,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_7" }
       },
       {
-        "text": "[Point at an image of a glowing smear] What's that?",
+        "text": "[Image of a glowing smear] What's that?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_8",
         "condition": {
           "and": [
@@ -1732,7 +1795,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_8" }
       },
       {
-        "text": "[Point to a pin on Pat's digital map] What's that?",
+        "text": "[A pin on Pat's digital map] What's that?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_9",
         "condition": {
           "and": [
@@ -1745,7 +1808,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_9" }
       },
       {
-        "text": "[Point to a pin on Pat's digital map] What's that?",
+        "text": "[A pin on Pat's digital map] What's that?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_10",
         "condition": {
           "and": [
@@ -1758,7 +1821,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_10" }
       },
       {
-        "text": "[Tap an old cassette player on the desk] Haven't seen one of those in a while.",
+        "text": "[An old cassette player and an audio file] Haven't seen one of those in a while.",
         "topic": "MISSION_ROBOFAC_PAT_RECON_11",
         "condition": {
           "and": [
@@ -1770,7 +1833,7 @@
         "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_11" }
       },
       {
-        "text": "[Motion to a sheet of paper with several spirals drawn on it] What's that?",
+        "text": "[A scanned sheet of paper with several spirals drawn on it] What's that?",
         "topic": "MISSION_ROBOFAC_PAT_RECON_12",
         "condition": {
           "and": [
@@ -1835,7 +1898,11 @@
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_9",
     "type": "talk_topic",
-    "dynamic_line": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat pulls out a blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it. \"Figures you can't see much, but this place is where the merc saw it.  Maybe worth a look.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat uploads a scanned, blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it.  Pat then drops a digital pin in your HUDs map application.  \"Figure you can't see much, but this place is where the merc saw it.  Maybe worth a look.",
+      "no": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat pulls out a blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it. \"Figure you can't see much, but this place is where the merc saw it.  Maybe worth a look."
+    },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
@@ -1847,13 +1914,21 @@
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_11",
     "type": "talk_topic",
-    "dynamic_line": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Check this out.\"  Pat double clicks an audio file and an old version of Winamp opens up.  The sound starts immediately, but nothing but static fills your earpiece.  Pat stops it after a moment.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+      "no": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?"
+    },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_12",
     "type": "talk_topic",
-    "dynamic_line": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat uploads a scan of a sketched map to your headset HUD.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
+      "no": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out."
+    },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
@@ -1882,7 +1957,7 @@
     "id": "MISSION_ROBOFAC_PAT_2",
     "type": "mission_definition",
     "name": { "str": "Find gear for Pat" },
-    "description": "Pat and I seem to be getting along well, and they want to set us up as partners.  Find <color_yellow>2 advanced AR glasses</color>, <color_yellow>2 two-way radios</color>, and <color_yellow>2 e-ink tablet PCs</color> for Pat.",
+    "description": "Pat and I seem to be getting along well, and they want to start working together as partners.  I should find <color_yellow>1 pair of advanced AR glasses</color>, <color_yellow>2 two-way radios</color>, and <color_yellow>2 e-ink tablet PCs</color> for Pat, and they'll make a pair of glasses so they can assist me in the field.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
