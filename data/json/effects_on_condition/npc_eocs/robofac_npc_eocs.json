@@ -8,12 +8,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO",
-    "condition": {
-      "and": [
-        { "not": { "math": [ "robofac_pat_is_dead == 1" ] } },
-        { "current_dimension": "" }
-      ]
-    },
+    "condition": { "and": [ { "not": { "math": [ "robofac_pat_is_dead == 1" ] } }, { "current_dimension": "" } ] },
     "effect": [
       { "u_add_var": "robofac_pat_chatting_on_radio", "value": "yes" },
       { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT" } },
