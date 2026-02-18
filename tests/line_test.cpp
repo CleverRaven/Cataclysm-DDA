@@ -463,3 +463,52 @@ TEST_CASE( "coord_point_line_to_consistency", "[point][coords][line]" )
         CHECK( raw_line[i] == coord_line[i].raw() );
     }
 }
+
+TEST_CASE( "octile_dist_exact_tripoints" )
+{
+    constexpr int one_axis = 1;
+    constexpr float two_axis = M_SQRT2;
+    constexpr float three_axis = 1.73205f;
+    constexpr float eps = 0.05f;
+
+    // Check that unit distances are all correct.
+    CHECK( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 0, 0, 0 } ) == 0 );
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 0, 0, 1 } ),
+                Catch::Matchers::WithinRel( one_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 0, 1, 0 } ),
+                Catch::Matchers::WithinRel( one_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 1, 0, 0 } ),
+                Catch::Matchers::WithinRel( one_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 10, 30, 20 }, tripoint{ 11, 30, 20 } ),
+                Catch::Matchers::WithinRel( 1, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 10, 30, 20 }, tripoint{ 10, 31, 20 } ),
+                Catch::Matchers::WithinRel( 1, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 10, 30, 21 }, tripoint{ 10, 30, 21 } ),
+                Catch::Matchers::WithinRel( 1, eps ) );
+
+    // Check that 2d unit distances are correct.
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 0, 1, 1 } ),
+                Catch::Matchers::WithinRel( two_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 1, 0, 1 } ),
+                Catch::Matchers::WithinRel( two_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 1, 1, 0 } ),
+                Catch::Matchers::WithinRel( two_axis, eps ) );
+
+    // Check that 3d unit distances are correct.
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 1, 1, 1 } ),
+                Catch::Matchers::WithinRel( three_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 2, 4, 6 }, tripoint{ 3, 5, 7 } ),
+                Catch::Matchers::WithinRel( three_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 26, 32, 75 }, tripoint{ 27, 33, 76 } ),
+                Catch::Matchers::WithinRel( three_axis, eps ) );
+
+    // Check a few non-unit distances.
+    CHECK_THAT( octile_dist_exact( tripoint{ 0, 0, 0 }, tripoint{ 2, 2, 0 } ),
+                Catch::Matchers::WithinRel( 2 * two_axis, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 1, 2, 3 }, tripoint{ 4, 1, 2 } ),
+                Catch::Matchers::WithinRel( 3.316f, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ 6, 9, 4 }, tripoint{ 8, 1, 1 } ),
+                Catch::Matchers::WithinRel( 8.775f, eps ) );
+    CHECK_THAT( octile_dist_exact( tripoint{ -3, -6, -2 }, tripoint{ -10, -8, 4 } ),
+                Catch::Matchers::WithinRel( 9.434f, eps ) );
+}
