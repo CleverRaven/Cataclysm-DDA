@@ -22,5 +22,47 @@
     "color": "green",
     "material": [ "veggy" ],
     "price": "8 kUSD"
-  }
+  },
+  {
+    "//": "Dreamforged parts are supposed to be really freaking quick to work on.",
+    "type": "vehicle_part",
+    "id": "frame_dreamforged",
+    "copy-from": "frame",
+    "name": "dreamforged frame",
+    "requirements": {
+      "install":{"time": "31m", "skills": [["deduction", 1]], "qualities": [{ "id": "DREAM_HAMMER", "level": 1}]},
+      "repair": {"time": "10m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}], "using": [["dreamdross_lump", 2]]},
+      "removal": {"time": "5m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}]}
+    },
+    "item": "frame_dreamforged"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plate_dreamforged",
+    "name": "dreamforged armor plating",
+    "color": "magenta",
+    "durability": 1000,
+    "item": "plate_dreamforged",
+    "location": "armor",
+    "requirements": {
+      "install":{"time": "10m", "skills": [["deduction", 1]], "qualities": [{ "id": "DREAM_HAMMER", "level": 1}]},
+      "repair": {"time": "10m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}], "using": [["dreamdross_lump", 10]]},
+      "removal": {"time": "5m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}]}
+    },
+    "flags": ["ARMOR"],
+    "damage_reduction": {"all": 80}
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ram_dreamforged",
+    "color": "magenta",
+    "copy-from": "ram_blaze",
+    "requirements": {
+      "install":{"time": "10m", "skills": [["deduction", 1]], "qualities": [{ "id": "DREAM_HAMMER", "level": 1}]},
+      "repair": {"time": "10m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}], "using": [["dreamdross_lump", 5]]},
+      "removal": {"time": "5m", "skills": [["deduction", 1]], "qualities": [{"id": "DREAM_HAMMER", "level": 1}]}
+  },
+  "item":"plate_dreamforged",
+  "damage_reduction": {"all": 60}
+}
 ]

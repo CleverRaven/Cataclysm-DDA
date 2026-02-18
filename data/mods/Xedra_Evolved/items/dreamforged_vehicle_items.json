@@ -1,0 +1,25 @@
+[
+    {
+        "type": "GENERIC",
+        "id": "plate_dreamforged",
+        "name": {"str_sp": "dreamforged plating"},
+        "copy_from": "steel_plate",
+        "weight": "3220 g",
+        "description": "A piece of vehicle armor plating made of forged dreamstuff.",
+        "color": "light_pink",
+        "material": "forged_dreamstuff",
+        "price": "20 USD",
+        "price_postapoc": "50 USD"
+    },
+    {
+        "type": "GENERIC",
+        "id": "frame_dreamforged",
+        "copy-from": "frame",
+        "description": "A large frame made of forged dreamstuff. Useful for vehicle construction.",
+        "weight": "5000 g",
+        "color": "light_pink",
+        "material": "forged_dreamstuff",
+        "price": "20 USD",
+        "price_postapoc": "50 USD"
+    }
+]
