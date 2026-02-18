@@ -864,9 +864,15 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_l" }, { "gain": "animal_paw_rabbit_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -922,7 +928,11 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_l" }, { "gain": "animal_paw_r" } ]
+      }
     ],
     "triggers": [
       [

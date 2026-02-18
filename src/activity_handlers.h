@@ -187,7 +187,6 @@ bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void find_mount_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 

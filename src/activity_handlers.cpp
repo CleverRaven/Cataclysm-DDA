@@ -34,10 +34,8 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "mapdata.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "npc.h"
 #include "overmap_ui.h"
 #include "pathfinding.h"
 #include "player_activity.h"
@@ -56,13 +54,10 @@
 #include "weather.h"
 
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const ammotype ammo_battery( "battery" );
-
-static const efftype_id effect_controlled( "controlled" );
 
 static const flag_id json_flag_IRREMOVABLE( "IRREMOVABLE" );
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
@@ -83,8 +78,7 @@ const std::map< activity_id, std::function<void( player_activity *, Character * 
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIND_MOUNT, find_mount_do_turn }
+    { ACT_TRAVELLING, travel_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -732,51 +726,6 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
     } else {
         you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
-    }
-}
-
-void activity_handlers::find_mount_do_turn( player_activity *act, Character *you )
-{
-    //npc only activity
-    if( you->is_avatar() ) {
-        act->set_to_null();
-        return;
-    }
-    npc &guy = dynamic_cast<npc &>( *you );
-    auto strong_monster = guy.chosen_mount.lock();
-    monster *mon = strong_monster.get();
-    if( !mon ) {
-        act->set_to_null();
-        guy.revert_after_activity();
-        return;
-    }
-    if( rl_dist( guy.pos_bub(), mon->pos_bub() ) <= 1 ) {
-        if( mon->has_effect( effect_controlled ) ) {
-            mon->remove_effect( effect_controlled );
-        }
-        if( you->can_mount( *mon ) ) {
-            act->set_to_null();
-            guy.revert_after_activity();
-            guy.chosen_mount = weak_ptr_fast<monster>();
-            you->mount_creature( *mon );
-        } else {
-            act->set_to_null();
-            guy.revert_after_activity();
-            return;
-        }
-    } else {
-        const std::vector<tripoint_bub_ms> route =
-            route_adjacent( *you, guy.chosen_mount.lock()->pos_bub() );
-        if( route.empty() ) {
-            act->set_to_null();
-            guy.revert_after_activity();
-            mon->remove_effect( effect_controlled );
-            return;
-        } else {
-            you->activity = player_activity();
-            mon->add_effect( effect_controlled, 40_turns );
-            you->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
-        }
     }
 }
 

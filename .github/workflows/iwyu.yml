@@ -7,19 +7,43 @@ on:
     branches:
     - master
     types: [opened, reopened, synchronize, ready_for_review]
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'tools/iwyu/**'
-      - '**/CMakeLists.txt'
-      - '.github/workflows/iwyu.yml'
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
   group: iwyu-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ github.event_name == 'push' || steps.changed-files.outputs.result == 'true' }}
+    steps:
+    - name: check for relevant file changes
+      id: changed-files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+      with:
+        script: |
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const dominated_by = [
+            /^src\//,
+            /^tests\//,
+            /^tools\/iwyu\//,
+            /CMakeLists\.txt$/,
+            /^\.github\/workflows\/iwyu\.yml$/,
+          ];
+          const dominated = response.some(f => dominated_by.some(r => r.test(f.filename)));
+          return dominated;
+
   iwyu:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.should_run == 'true' }}
     runs-on: ubuntu-24.04
     env:
         COMPILER: clang++-19
@@ -101,3 +125,18 @@ jobs:
       run: |
         PATH="${PATH}:${IWYU_BIN_DIR}:${IWYU_SRC_DIR}"
         python build-scripts/ci-iwyu-run.py
+
+  iwyu-result:
+    if: ${{ always() }}
+    needs: [iwyu]
+    runs-on: ubuntu-latest
+    steps:
+    - name: require successful IWYU
+      run: |
+        result="${{ needs.iwyu.result }}"
+        if [ "$result" = "success" ] || [ "$result" = "skipped" ]; then
+          echo "IWYU result: $result"
+          exit 0
+        fi
+        echo "IWYU failed with result: $result"
+        exit 1

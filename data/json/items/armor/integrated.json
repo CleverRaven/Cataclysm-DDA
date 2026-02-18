@@ -22,7 +22,23 @@
           { "type": "veggy", "covered_by_mat": 100, "thickness": 2 },
           { "type": "wood", "covered_by_mat": 100, "thickness": 0.5 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 1,
         "breathability": "GOOD"
@@ -93,7 +109,22 @@
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -150,7 +181,7 @@
       },
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "wood", "covered_by_mat": 40, "thickness": 4 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 100,
         "encumbrance": 6
       }
@@ -179,7 +210,22 @@
           { "type": "wood", "covered_by_mat": 100, "thickness": 9.5 },
           { "type": "wood", "covered_by_mat": 60, "thickness": 7 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 16
       },
@@ -214,7 +260,22 @@
     "armor": [
       {
         "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 0
       }
@@ -240,7 +301,23 @@
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "tail" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 0
       },
@@ -278,7 +355,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
         "coverage": 100,
         "encumbrance": 1
       },
@@ -316,7 +393,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 9 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
         "coverage": 100,
         "encumbrance": 6
       },
@@ -354,7 +431,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
         "coverage": 100,
         "encumbrance": 4
       },
@@ -430,7 +507,7 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
         "coverage": 100,
         "encumbrance": 1
       },
@@ -462,7 +539,23 @@
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "tail" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 0
       },
@@ -528,7 +621,23 @@
           { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
           { "type": "hflesh", "covered_by_mat": 100, "thickness": 2 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "tail" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 3
       }
@@ -572,7 +681,23 @@
           { "type": "wool", "covered_by_mat": 35, "thickness": 3 },
           { "type": "flesh", "covered_by_mat": 100, "thickness": 2.5 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "tail" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -617,7 +742,23 @@
           { "type": "wool", "covered_by_mat": 41, "thickness": 3 },
           { "type": "flesh", "covered_by_mat": 100, "thickness": 3 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "tail" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
         "coverage": 100,
         "encumbrance": 9
       }
@@ -699,6 +840,10 @@
           "crustacean_pincer_r",
           "foot_l",
           "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
           "leg_l",
           "leg_r",
           "arm_l",
@@ -795,7 +940,7 @@
       },
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 3
       }
@@ -876,7 +1021,7 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.1 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 2
       }
@@ -951,7 +1096,7 @@
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.6 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 8
       }
@@ -1017,7 +1162,7 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.8 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 6
       }
@@ -1127,7 +1272,7 @@
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.1 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 9
       }
@@ -1193,7 +1338,7 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "foot_l", "foot_r" ],
+        "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 6
       }
@@ -1341,7 +1486,7 @@
           { "type": "hflesh", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "mut_scales", "covered_by_mat": 45, "thickness": 0.5 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 100,
         "encumbrance": 0,
         "breathability": "GOOD"
@@ -1391,7 +1536,7 @@
           { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "mut_scales", "covered_by_mat": 85, "thickness": 1.0 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 100,
         "encumbrance": 1,
         "breathability": "POOR"
@@ -1537,7 +1682,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mut_scales", "covered_by_mat": 85, "thickness": 4.0 }
         ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 100,
         "encumbrance": 6
       },
@@ -1551,33 +1696,6 @@
         "encumbrance": 0
       }
     ]
-  },
-  {
-    "id": "integrated_rabbit_feet",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str_sp": "rabbit feet" },
-    "description": "You have a set of rabbit feet.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
-    "symbol": "b",
-    "color": "light_gray",
-    "warmth": 5,
-    "//": "No special techniques, they're just feet.  You're kicking.",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "ZERO_WEIGHT", "PERSONAL", "PADDED", "NO_SALVAGE" ],
-    "armor": [
-      {
-        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
-        "covers": [ "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 0
-      }
-    ],
-    "melee_damage": { "bash": 2 }
   },
   {
     "id": "armor_bio_eyes",

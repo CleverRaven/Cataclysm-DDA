@@ -528,6 +528,7 @@
         "#####",
         "#####"
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit" }
     }
   },
@@ -544,6 +545,7 @@
         " ##  ",
         " ##  "
       ],
+      "terrain": { "#": "t_flat_roof", "?": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit_v2", "?": [ [ "f_solar_unit_v2", 1 ], [ "f_null", 1 ] ] }
     }
   },
@@ -569,6 +571,7 @@
         "######",
         "      "
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit" }
     }
   },
@@ -586,6 +589,7 @@
         "###   ",
         "      "
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit_v2" }
     }
   },
@@ -611,6 +615,7 @@
         "######",
         "######"
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit" }
     }
   },
@@ -628,6 +633,7 @@
         "###   ",
         "###   "
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit_v2" }
     }
   },

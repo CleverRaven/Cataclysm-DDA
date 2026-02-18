@@ -298,6 +298,56 @@
   },
   {
     "type": "technique",
+    "id": "TECH_RABBIT_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": { "u_has_trait": "INCISORS" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_RABBIT_BITE_GRABBED",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INCISORS" },
+        {
+          "or": [
+            { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+            { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+          ]
+        }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",
@@ -306,6 +356,17 @@
     "messages": [ "You snip %s with your pincer", "<npcname> snips %s with their pincer" ],
     "description": "A basic crustacean punch",
     "attack_vectors": [ "vector_crab_pincer" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_ANIMAL_FOOT_KICK",
+    "//": "This is just a kick for animal feet with no special characteristics",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "description": "A basic kick",
+    "attack_vectors": [ "vector_digitigrade_paws", "vector_knee", "vector_shin" ]
   },
   {
     "type": "technique",

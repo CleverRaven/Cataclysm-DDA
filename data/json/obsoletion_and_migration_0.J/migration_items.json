@@ -301,7 +301,7 @@
   },
   {
     "type": "MIGRATION",
-    "id": "integrated_hooves",
+    "id": [ "integrated_hooves", "integrated_rabbit_feet" ],
     "replace": "wristwatch"
   },
   {
@@ -472,5 +472,10 @@
     "type": "MIGRATION",
     "id": "xs_pants_survivor",
     "replace": "xs_gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "washboard",
+    "replace": "wash_kit"
   }
 ]

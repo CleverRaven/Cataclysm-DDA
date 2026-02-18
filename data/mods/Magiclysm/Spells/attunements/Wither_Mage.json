@@ -33,7 +33,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "CONVEYANCE_SPELL", "RANDOM_DAMAGE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONVEYANCE_SPELL", "RANDOM_DAMAGE", "MUST_HAVE_CLASS_TO_LEARN", "TOUCH_REQUIRED" ],
     "min_damage": { "math": [ "(u_spell_level('assassin_strike') * 4.6) + 14" ] },
     "max_damage": { "math": [ "(u_spell_level('assassin_strike') * 10.4) + 21" ] },
     "min_range": 1,

@@ -444,7 +444,7 @@ ifeq ($(RELEASE), 1)
     ifeq ($(CXXMACHINE), x86_64-w64-mingw32.static)
       OPTLEVEL = -O3
     else
-      OPTLEVEL = -Os
+      OPTLEVEL = -O2
     endif
   endif
 

@@ -3198,7 +3198,7 @@ class fire_start_activity_actor : public activity_actor
         fire_start_activity_actor( const tripoint_abs_ms &fire_placement, const item_location &fire_starter,
                                    int potential_skill_gain, int initial_moves ) :
             fire_placement( fire_placement ), fire_starter( fire_starter ),
-            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ) {
+            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ), used_tinder( false ) {
         };
         const activity_id &get_type() const override {
             static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -3221,6 +3221,7 @@ class fire_start_activity_actor : public activity_actor
         item_location fire_starter;
         int potential_skill_gain;
         int initial_moves; // NOLINT(cata-serialize)
+        bool used_tinder;
 };
 
 class wear_activity_actor : public activity_actor
@@ -3874,6 +3875,34 @@ class butchery_activity_actor : public activity_actor
 };
 
 /**
+* NPC-only activity to find and mount the nearest mountable creature
+* TODO: serialize ID of monster found; this activity does not serialize
+* TODO: fails often because routing destination is equal to mounting destination,
+* and the mounted monster can move in-between the start and end of the route
+*/
+class find_mount_activity_actor : public activity_actor
+{
+    public:
+        find_mount_activity_actor() = default;
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+            return ACT_FIND_MOUNT;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<find_mount_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+/**
 * Wait (do nothing) for a given duration (indefinitely by default)
 */
 class wait_activity_actor : public activity_actor
@@ -4038,6 +4067,26 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
         bool pickup_failure_reported = false;
+        // Tracks whether current batch used virtual pickup (items left on cart).
+        // Batch-scoped: captured and cleared in pre-loop section of stage_do.
+        bool virtual_pickup_active = false;
+        // Source tiles where routing failed or cart blocked pickup this cycle.
+        // Cleared when player position or grab state changes (per stage_think).
+        // Destination reachability is probed fresh per-source in stage_do.
+        std::unordered_set<tripoint_abs_ms> unreachable_sources; // NOLINT(cata-serialize)
+
+        // State for position-based clearing of unreachable_sources.
+        // When position or grab orientation changes, sources are re-probed.
+        tripoint_abs_ms last_think_position; // NOLINT(cata-serialize)
+        object_type last_think_grab_type = object_type::NONE; // NOLINT(cata-serialize)
+        tripoint_rel_ms last_think_grab_point; // NOLINT(cata-serialize)
+        // Forces a clear on first stage_think call (fresh construction or deserialization).
+        // Avoids edge case where default-initialized values match real game state.
+        bool force_clear_unreachable = true; // NOLINT(cata-serialize)
+
+        // Returns all picked up items to the source tile and clears sorting state.
+        // Used when routing to a destination fails.
+        void return_items_to_source( Character &you, const tripoint_bub_ms &src_bub );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

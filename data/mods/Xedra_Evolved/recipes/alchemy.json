@@ -390,6 +390,32 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "gender_potion",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 4 ],
+    "difficulty": 5,
+    "time": "24 m",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "estrogen", 10 ], [ "birth_control", 30 ] ],
+      [ [ "protein_powder", 30 ] ],
+      [ [ "royal_jelly", 2 ] ],
+      [ [ "water", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "xe_alchemy_powder_of_revelation",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",

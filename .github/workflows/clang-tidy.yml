@@ -73,7 +73,7 @@ jobs:
 
 
   run-clang-tidy:
-    needs: build-clang-tidy
+    needs: [skip-duplicates, build-clang-tidy]
     strategy:
       fail-fast: false
       matrix:
@@ -139,3 +139,18 @@ jobs:
         else
           echo "clang-tidy-trace folder not found."
         fi
+
+  clang-tidy-result:
+    if: ${{ always() }}
+    needs: [run-clang-tidy]
+    runs-on: ubuntu-latest
+    steps:
+    - name: require successful clang-tidy
+      run: |
+        result="${{ needs.run-clang-tidy.result }}"
+        if [ "$result" = "success" ] || [ "$result" = "skipped" ]; then
+          echo "clang-tidy result: $result"
+          exit 0
+        fi
+        echo "clang-tidy failed with result: $result"
+        exit 1

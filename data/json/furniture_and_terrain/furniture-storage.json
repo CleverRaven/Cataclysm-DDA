@@ -9,6 +9,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 9,
+    "mass": "40 kg",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
     "rotates_to": "INDOORFLOOR",
     "deconstruct": {
@@ -41,6 +42,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 10,
+    "mass": "20 kg",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "SMALL_HIDE" ],
     "rotates_to": "INDOORFLOOR",
     "deconstruct": {
@@ -73,6 +75,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 14,
+    "mass": "100 kg",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -126,6 +129,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 12,
+    "mass": "100 kg",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
       "items": [
@@ -163,6 +167,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
+    "mass": "50 kg",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -201,6 +206,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 10,
+    "mass": "50 kg",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 10 ] } ]
@@ -225,6 +231,7 @@
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
+    "mass": "2 kg",
     "item": "box_large",
     "max_volume": "324 L",
     "deployed_item": "box_large",
@@ -245,6 +252,7 @@
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "required_str": 3,
+    "mass": "3 kg",
     "item": "box_large_reinforced",
     "max_volume": "324 L",
     "deployed_item": "box_large_reinforced",
@@ -262,6 +270,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -288,6 +297,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 8,
+    "mass": "13 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -326,6 +336,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "close": "f_gunsafe_c",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
@@ -351,6 +362,7 @@
     "looks_like": "f_gunsafe_ml",
     "move_cost_mod": -1,
     "coverage": 30,
+    "mass": "272 kg",
     "required_str": 14,
     "max_volume": "250 L",
     "open": "f_gunsafe_o",
@@ -377,6 +389,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "PICKABLE" ],
     "lockpick_result": "f_gunsafe_o",
@@ -406,6 +419,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
@@ -432,6 +446,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
@@ -458,6 +473,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 9,
+    "mass": "30 kg",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "rotates_to": "INDOORFLOOR",
     "deconstruct": {
@@ -525,6 +541,7 @@
     "move_cost_mod": -1,
     "coverage": 10,
     "required_str": 8,
+    "mass": "8 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -558,6 +575,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "mass": "60 kg",
     "hacksaw": {
       "duration": "2 minutes",
       "message": "You finish cutting the metal.",
@@ -598,6 +616,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
+    "mass": "60 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE" ],
     "rotates_to": "INDOORFLOOR",
     "lockpick_result": "f_rack",
@@ -634,6 +653,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 7,
+    "mass": "20 kg",
     "looks_like": "f_bookcase",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "TRANSPARENT" ],
     "rotates_to": "INDOORFLOOR",
@@ -665,6 +685,7 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 6,
+    "mass": "15 kg",
     "looks_like": "f_rack_wood",
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "TRANSPARENT" ],
     "rotates_to": "INDOORFLOOR",
@@ -694,6 +715,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 4,
+    "mass": "1 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": {
       "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 1 }, { "item": "stick_long", "count": 1 } ]
@@ -719,6 +741,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 5,
+    "mass": "30 kg",
     "max_volume": "200 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "bash": {
@@ -740,6 +763,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "open": "f_safe_o",
@@ -767,6 +791,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
     "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
@@ -794,6 +819,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 14,
+    "mass": "272 kg",
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "close": "f_safe_c",
@@ -818,6 +844,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
+    "mass": "1 kg",
     "max_volume": "40 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE", "EASY_DECONSTRUCT" ],
     "bash": { "str_min": 1, "str_max": 1, "sound": "smash!", "sound_fail": "whump." },
@@ -834,6 +861,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
+    "mass": "1 kg",
     "max_volume": "20 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {
@@ -866,6 +894,7 @@
     "move_cost_mod": -1,
     "coverage": 85,
     "required_str": 9,
+    "mass": "20 kg",
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
@@ -897,6 +926,7 @@
     "move_cost_mod": -1,
     "coverage": 85,
     "required_str": 9,
+    "mass": "20 kg",
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
@@ -929,6 +959,7 @@
     "move_cost_mod": 2,
     "coverage": 70,
     "required_str": 7,
+    "mass": "64 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
@@ -957,6 +988,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 6,
+    "mass": "10 kg",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
@@ -990,6 +1022,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": 10,
+    "mass": "400 kg",
     "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
@@ -1063,6 +1096,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
+    "mass": "24 kg",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
     "rotates_to": "INDOORFLOOR",
     "lockpick_result": "f_displaycase_o",
@@ -1090,6 +1124,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
+    "mass": "24 kg",
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -1114,6 +1149,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
+    "mass": "24 kg",
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -1571,6 +1607,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
+    "mass": "50 kg",
     "looks_like": "f_crate_c",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
@@ -1594,6 +1631,7 @@
     "move_cost_mod": 1,
     "coverage": 20,
     "required_str": 10,
+    "mass": "25 kg",
     "looks_like": "f_crate_c",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "deployed_item": "foot_locker",
@@ -1612,6 +1650,7 @@
     "move_cost_mod": 1,
     "coverage": 20,
     "required_str": 10,
+    "mass": "25 kg",
     "looks_like": "f_foot_locker",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "deployed_item": "foot_locker_aluminum",
@@ -1647,6 +1686,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 40,
+    "mass": "1500 kg",
     "max_volume": "1000 L",
     "flags": [
       "TRANSPARENT",
@@ -1683,6 +1723,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 40,
+    "mass": "1500 kg",
     "max_volume": "1000 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
     "deconstruct": {

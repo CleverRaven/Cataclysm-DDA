@@ -4042,5 +4042,19 @@
     "weight": "230 g",
     "volume": "100 ml",
     "longest_side": "5 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "exodii_chop_shop_head",
+    "name": { "str_sp": "broken robot head" },
+    "weight": "1400 g",
+    "volume": "1400 ml",
+    "color": "red",
+    "symbol": "@",
+    "description": "The metal head and partial neck of some sort of robot.  Its rectangular orifices are stained by what appears to be a mix of old blood and oil.  A frayed metal spinal cord of wires and tubes hangs from the neck.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel", "aluminum", "copper" ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
