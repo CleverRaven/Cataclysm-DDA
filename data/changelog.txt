@@ -577,11 +577,6 @@ Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
 Add missing components to view priority from crafting menu
 Add deprioritize components of a recipe to the crafting menu
-Monsters get hit sprite drawn over them when they're hit
-Mention how much food is skipped when camp distribution fails
-Improve the sundial to show illumination, weather, and moon phase
-Make 'Turn off the engine' option pink
-consistent multi-activity zone names/descriptions
 
 
 ## Mods:
