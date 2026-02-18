@@ -11389,7 +11389,7 @@ void fire_start_activity_actor::finish( player_activity &act, Character &who )
 
     who.practice( skill_survival, potential_skill_gain, 5 );
 
-    const furn_id &f_id = here.furn( here.get_bub( act.placement ) );
+    const furn_id &f_id = here.furn( here.get_bub( fire_placement ) );
     const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
                                  f_id == furn_f_smoking_rack;
     const bool is_kiln = f_id == furn_f_kiln_empty ||
