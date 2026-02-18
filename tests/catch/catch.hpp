@@ -5255,6 +5255,8 @@ namespace Catch {
 #include <vector>
 #include <string>
 
+#include "rng.h"
+
 #ifndef CATCH_CONFIG_CONSOLE_WIDTH
 #define CATCH_CONFIG_CONSOLE_WIDTH 80
 #endif
@@ -5278,7 +5280,7 @@ namespace Catch {
         bool libIdentify = false;
 
         int abortAfter = -1;
-        unsigned int rngSeed = 0;
+        unsigned int rngSeed = rng_get_first_seed();
 
         bool benchmarkNoAnalysis = false;
         unsigned int benchmarkSamples = 100;
