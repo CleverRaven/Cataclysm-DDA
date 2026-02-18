@@ -80,6 +80,7 @@
     "type": "proficiency",
     "id": "prof_lucid_dreaming",
     "name": "Lucid Dreaming",
-    "description": "The ability to control your dreams during sleep."
+    "description": "The ability to control your dreams during sleep.",
+    "can_learn": false
   }
 ]
