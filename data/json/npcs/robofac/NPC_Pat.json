@@ -1300,7 +1300,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
-      "yes": "&Your HUD flicks on and Pat's computer desktop becomes visible, with a grainy, low-resolution video of Pat in the corner.  \"I've flagged a bunch of places you've been, eh?  Take a look.\"",
+      "yes": "&Your HUD flicks on and a low-resolution version of Pat's computer desktop becomes visible.  \"I've flagged a bunch of places you've been, eh?  Take a look.\"",
       "no": "&Pat starts to scroll through photos and spreadsheets on their personal device, inviting you over to look with them.  \"I've flagged a bunch of places you've been, eh?  Take a look.\""
     },
     "responses": [
@@ -1683,7 +1683,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
-      "yes": "&Your HUD flicks on and Pat's computer desktop becomes visible, with a grainy, low-resolution video of Pat in the corner.  \"Heah's what we got for the moment, yeah?\"",
+      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  \"Heah's what we got for the moment, yeah?\"",
       "no": "&Pat boots up their laptop and pulls out a stack of maps, photos, and documents.  \"Let's see what we have heah, yeah?\""
     },
     "responses": [
