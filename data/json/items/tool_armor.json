@@ -1242,7 +1242,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "clothing",
     "name": { "str_sp": "modified advanced AR glasses" },
-    "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.  These have been modified by your friend Pat to function on long-distance radio waves (LoRa).  A battery pack, the internal parts of a tablet PC, and a two-way radio have been combined onto a hip-strapped unit.  Activate it to start recording and transmitting with Pat's system.",
+    "description": "An expensive model of augmented reality glasses, with adaptive light correction and some gadgets, designed to be compatible with corrective glasses.  An augmented reality overlay allows the user to zoom their view, and it displays handy information about local topology.  These have been modified by your friend Pat to function on long-distance radio waves (LoRa).  A battery pack, the internal parts of a tablet PC, and a two-way radio have been combined onto a hip-strapped unit.  Activate it to utilize software, start recording and transmitting with Pat's system, or hail Pat on the radio.",
     "weight": "400 g",
     "volume": "750 ml",
     "price": "3 kUSD",
@@ -1260,11 +1260,16 @@
       "EBOOKSAVE",
       "E_FILE_DEVICE",
       {
-        "menu_text": "Switch on the transmitter/receiver",
+        "menu_text": "Connect to Pat's system and start transmitting data",
         "type": "transform",
         "msg": "You turn the %s on and put in your earbud.",
         "target": "ar_glasses_advanced_pat_on",
         "ammo_scale": 0
+      },
+      {
+        "type": "effect_on_conditions",
+        "description": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
     "pocket_data": [
@@ -1344,11 +1349,16 @@
       "EBOOKSAVE",
       "E_FILE_DEVICE",
       {
-        "menu_text": "Switch off the transmitter/receiver",
+        "menu_text": "Disconnect from Pat's system and stop transmitting data",
         "type": "transform",
         "msg": "You turn the %s off and remove your earbud.",
         "target": "ar_glasses_advanced_pat",
         "ammo_scale": 0
+      },
+      {
+        "type": "effect_on_conditions",
+        "description": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
     "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_AR_activate" ] }
