@@ -11312,12 +11312,8 @@ void fire_start_activity_actor::do_turn( player_activity &act, Character &who )
 
     item &firestarter = *fire_starter;
 
-    const furn_id f_id = here.furn( here.get_bub( fire_placement ) );
-    const bool is_smoker = f_id == furn_f_smoking_rack ||
-                           f_id == furn_f_metal_smoking_rack;
-
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
-        if( !here.tinder_at( where ) ) {
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+        if( !used_tinder ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
             } );
@@ -11334,16 +11330,14 @@ void fire_start_activity_actor::do_turn( player_activity &act, Character &who )
                 return;
             }
 
-            item copy = *tinder;
             bool count_by_charges = tinder->count_by_charges();
             if( count_by_charges ) {
                 tinder->charges--;
-                copy.charges = 1;
             }
-            here.add_item_or_charges( where, copy );
             if( !count_by_charges || tinder->charges <= 0 ) {
                 tinder.remove_item();
             }
+            used_tinder = true;
         }
     }
 
@@ -11417,6 +11411,7 @@ void fire_start_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "fire_placement", fire_placement );
     jsout.member( "fire_starter", fire_starter );
     jsout.member( "potential_skill_gain", potential_skill_gain );
+    jsout.member( "used_tinder", used_tinder );
     jsout.end_object();
 }
 
@@ -11427,6 +11422,7 @@ std::unique_ptr<activity_actor> fire_start_activity_actor::deserialize( JsonValu
     data.read( "fire_placement", actor.fire_placement );
     data.read( "fire_starter", actor.fire_starter );
     data.read( "potential_skill_gain", actor.potential_skill_gain );
+    data.read( "used_tinder", actor.used_tinder );
     return actor.clone();
 }
 
