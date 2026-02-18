@@ -1366,7 +1366,11 @@
       {
         "text": "Glad to hear it.",
         "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
-        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
+          { "u_lose_var": "timer_hub_waiting_on_warehouse" },
+          { "math": [ "hub01_told_u_about_warehouse = 1" ] }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -1384,7 +1388,11 @@
       {
         "text": "Great.  I'll check in later about helping out, if I can.",
         "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
-        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
+          { "u_lose_var": "timer_hub_waiting_on_warehouse" },
+          { "math": [ "hub01_told_u_about_warehouse = 1" ] }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }

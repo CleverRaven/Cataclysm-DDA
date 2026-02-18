@@ -136,5 +136,37 @@
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
+  },
+  {
+    "id": "mon_robofac_hound",
+    "type": "MONSTER",
+    "name": { "str": "Hub 01 HOUND" },
+    "description": "A vaguely canine-shaped Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If reprogrammed and reloaded successfully, this dog-sized robot will track you and use integrated tools to distract and disorient enemies.",
+    "species": [ "ROBOT" ],
+    "default_faction": "robofac_spy",
+    "diff": 2,
+    "volume": "108500 ml",
+    "weight": "32700 g",
+    "hp": 40,
+    "speed": 130,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "bleed_rate": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "vision_day": 50,
+    "revert_to_itype": "bot_robofac_hound",
+    "path_settings": { "max_dist": 5 },
+    "special_attacks": [ 
+      [ "SHRIEK_ALERT", 10 ],
+      [ "SHRIEK_STUN", 3 ],
+      [ "TAZER", 1 ]
+    ],
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
+    "death_function": { "corpse_type": "BROKEN" },
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
   }
 ]

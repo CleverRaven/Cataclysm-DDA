@@ -1205,6 +1205,30 @@
     ]
   },
   {
+    "result": "broken_robofac_hound",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "tazer", 2 ] ],
+      [ [ "noise_emitter_super", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_turret",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

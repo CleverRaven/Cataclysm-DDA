@@ -1453,6 +1453,21 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_robofac_hound",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken Hub 01 HOUND" },
+    "category": "other",
+    "description": "A broken Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
     "id": "broken_science_bot",
     "symbol": ",",
     "color": "green",
