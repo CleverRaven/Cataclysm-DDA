@@ -1,0 +1,25 @@
+[
+  {
+    "id": "eoc_dreamcatcher",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "run_for_npcs": false,
+    "effect": {
+      "if": {
+        "or": [
+          { "u_has_effect": "stim" },
+          { "u_has_effect": "opiate_eff" },
+          { "u_has_effect": "drunk" },
+          { "u_has_effect": "meth" }
+        ]
+      },
+      "then": {
+        "u_add_effect": "effect_dreamcatcher",
+        "intensity": { "math": [ "u_effect_intensity('effect_dreamcatcher') + 1" ] },
+        "duration": "PERMANENT"
+      },
+      "else": "u_die"
+    }
+  }
+]
