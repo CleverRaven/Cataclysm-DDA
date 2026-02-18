@@ -448,6 +448,7 @@
     "description": "If you want to get home with your stuff, you'll need to reach one of these nearby exit points.  They're only things that can bring you back to your sanctuary island in one piece.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_nested": [ { "chunks": [ "mx_exitroom" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
@@ -461,6 +462,7 @@
     "description": "A very small cluster of warp energy has left shards behind at this location.  All you need to do is find and retrieve them.  There may be threats nearby, but unlike most tasks, no special guards are on-site.  A minimal reward, but little risk.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_nested": [ { "chunks": [ "mx_treasuregoal" ], "x": [ 0, 13 ], "y": [ 0, 13 ] } ] }
@@ -486,6 +488,7 @@
     "description": "A handful of zombies are congregating at a location where warp resonance is high.  Clear them out for a minimal reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -515,6 +518,7 @@
     "description": "A horde of low level zombies are congregating at a location where warp resonance is high.  Clear them out for a small reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -544,6 +548,7 @@
     "description": "A swarm of evolved zombies are congregating at a location where warp resonance is high.  Clear them out for a medium reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -581,6 +586,7 @@
     "description": "A huge horde of evolved zombies are congregating at a location where warp resonance is high.  Clear them out for a large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -618,6 +624,7 @@
     "description": "A swarm of rather powerful zombies are congregating at a location where warp resonance is high.  Clear them out for a large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -663,6 +670,7 @@
     "description": "A swarm of extremely dangerous zombies are congregating at a location where warp resonance is high.  Clear them out for a very large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -708,6 +716,7 @@
     "description": "A single supremely powerful zombie has been found at a location where warp resonance is high.  Destroy it for a very large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -735,6 +744,7 @@
     "description": "A team of supremely powerful zombies has been found at a location where warp resonance is high.  Destroy it for a very large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -764,6 +774,7 @@
     "description": "A supremely powerful zombie has been found at a location where warp resonance is high.  Be warned that it will be accompanied by an elite swarm!  Destroy them all for a huge reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -801,6 +812,7 @@
     "description": "A supremely powerful zombie has been found at a location where warp resonance is high.  Be warned that it will be accompanied by an massive horde of weaker zombies!  Destroy them all for a huge reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -838,6 +850,7 @@
     "description": "A group of lethal mi-gos are draining a location where warp resonance is high.  Destroy them all for a very large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -865,6 +878,7 @@
     "description": "A group of lethal mi-gos are draining a location where warp resonance is high.  Destroy them all for a very large reward of warp shards.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -895,6 +909,7 @@
     "description": "The warp has marked a single human being for death.  They will likely carry a ranged weapon.  They will be alone.  Their sins are not your concern.  All you need to know is that it must be done.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
@@ -920,6 +935,7 @@
     "description": "The warp has marked a single human being for death.  They will likely carry a melee weapon.  They will be alone.  Their sins are not your concern.  All you need to know is that it must be done.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": { "place_npcs": [ { "class": "thug", "x": [ 1, 22 ], "y": [ 1, 22 ], "target": true } ] }
@@ -945,6 +961,7 @@
     "description": "The warp has marked human beings for death.  They may be accompanied.  Their sins are not your concern.  All you need to know is that it must be done.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": {
       "assign_mission_target": { "var": { "global_val": "OM_missionspot" } },
       "update_mapgen": {
@@ -978,6 +995,7 @@
     "monster_kill_goal": 10,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
@@ -990,6 +1008,7 @@
     "monster_kill_goal": 50,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
@@ -1002,6 +1021,7 @@
     "monster_kill_goal": 100,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 5 } ] }
   },
   {
@@ -1014,6 +1034,7 @@
     "monster_kill_goal": 1,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 3 } ] }
   },
   {
@@ -1026,6 +1047,7 @@
     "monster_kill_goal": 3,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 4 } ] }
   },
   {
@@ -1038,6 +1060,7 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
@@ -1050,6 +1073,7 @@
     "monster_kill_goal": 5,
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "end": { "effect": [ { "math": [ "slaughterswon++" ] }, { "u_spawn_item": "warptoken", "count": 1 } ] }
   },
   {
