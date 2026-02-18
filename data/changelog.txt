@@ -1053,11 +1053,6 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Bombastic Perks] Change the way you get playstyle perks
 [Bombastic Perks] Add more prerequisites for perks
 [Xedra Evolved] Make Nether Sorcery learnable
-[XE] Rework unholy devastation so it isn't limited by stat caps.
-[Xedra Evolved] Give Undine inherent liquid-containing qualities
-[Magiclysm] Slower imbue with lightning
-Add the Smashing for Wimps perk.
-[Xedra Evolved] Add missing morale types for dreams and nightmares
 
 
 
