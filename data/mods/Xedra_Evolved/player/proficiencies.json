@@ -77,7 +77,7 @@
     "time_to_learn": "8 h"
   },
   {
-    "type": "proficiency_category",
+    "type": "proficiency",
     "id": "prof_lucid_dreaming",
     "name": "Lucid Dreaming",
     "description": "The ability to control your dreams during sleep."
