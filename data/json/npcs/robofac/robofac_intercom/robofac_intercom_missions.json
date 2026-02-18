@@ -1556,7 +1556,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "&The tray under the intercome slides open, revealing an inactive robot and a pair of earplugs.  \"Happy hunting.\""
+    "dynamic_line": "&The intercom's tray slides open, revealing an inactive robot and a pair of earplugs.  \"Happy hunting.\""
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE",
