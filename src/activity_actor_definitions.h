@@ -3874,6 +3874,34 @@ class butchery_activity_actor : public activity_actor
 };
 
 /**
+* NPC-only activity to find and mount the nearest mountable creature
+* TODO: serialize ID of monster found; this activity does not serialize
+* TODO: fails often because routing destination is equal to mounting destination,
+* and the mounted monster can move in-between the start and end of the route
+*/
+class find_mount_activity_actor : public activity_actor
+{
+    public:
+        find_mount_activity_actor() = default;
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+            return ACT_FIND_MOUNT;
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<find_mount_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+/**
 * Wait (do nothing) for a given duration (indefinitely by default)
 */
 class wait_activity_actor : public activity_actor

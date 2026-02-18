@@ -63,8 +63,6 @@
 #include "uilist.h"
 #include "viewer.h"
 
-static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
-
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
 static const efftype_id effect_asked_personal_info( "asked_personal_info" );
@@ -280,7 +278,7 @@ void talk_function::find_mount( npc &p )
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
             // keep the horse still for some time, so that NPC can catch up to it and mount it.
-            p.assign_activity( ACT_FIND_MOUNT );
+            p.assign_activity( find_mount_activity_actor() );
             p.chosen_mount = g->shared_from( critter );
             // we found one, that's all we need.
             return;
