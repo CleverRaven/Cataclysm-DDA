@@ -404,13 +404,19 @@
     "time": "4 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "black_dragons_historical", 7 ] ],
-    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "potion_starter_superior", 1 ] ] ],
+    "qualities": [
+      { "id": "CHEM", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
+    ],
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "potion_starter_superior", 1 ] ], [ [ "dragon_black_scale", 10 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
     "type": "recipe",
     "result": "iv_black_dragon",
+    "id_suffix": "from black dragon mutagen",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -420,8 +426,36 @@
     "time": "8 h",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "black_dragons_historical", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
+    ],
     "components": [ [ [ "dragon_essence", 5 ] ], [ [ "mutagen_black_dragon", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_black_dragon",
+    "id_suffix": "from yonug black dragon's heart",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "chemistry",
+    "skills_required": [ "spellcraft", 8 ],
+    "difficulty": 6,
+    "time": "8 h",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons_historical", 8 ] ],
+    "qualities": [
+      { "id": "CHEM", "level": 1 },
+      { "id": "CONCENTRATE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "MAGIC_MUTAGEN", "level": 2 }
+    ],
+    "result_mult": 2,
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "young_dragon_heart_black", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
