@@ -84,7 +84,7 @@
     "condition": {
       "and": [
         "u_is_outside",
-        { "one_in_chance": 10 },
+        { "one_in_chance": 6 },
         { "not": { "u_has_flag": "TELEPORT_LOCK" } },
         { "not": { "u_has_flag": "TELESTOP" } },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }
