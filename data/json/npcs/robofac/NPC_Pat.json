@@ -858,19 +858,37 @@
             { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic" },
             { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_60_chem_muriatic_acid" },
             { "u_has_mission": "MISSION_CABIN_CHEMIST_GET_500_GAS" },
-            { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" },
-            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_2" },
-            { "u_has_mission": "MISSION_ISHERWOOD_CLAIRE_3" },
-            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_1" },
-            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_2" },
-            { "u_has_mission": "MISSION_ISHERWOOD_EDDIE_3" },
-            { "u_has_mission": "MISSION_ISHERWOOD_JACK_1" },
-            { "u_has_mission": "MISSION_ISHERWOOD_JACK_2" },
-            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_1" },
-            { "u_has_mission": "MISSION_ISHERWOOD_JESSE_2" },
-            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_1" },
-            { "u_has_mission": "MISSION_ISHERWOOD_LUKE_2" },
-            { "u_has_mission": "MISSION_ISHERWOOD_BARRY_1" }
+            { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
+          ]
+        }
+      },
+      {
+        "text": "Rubik has asked me to rescue an Exodii from some lab, but I think it might be run by our employer…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_EXODII_CHOP_SHOP",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } }
+          ]
+        }
+      },
+      {
+        "text": "So our employers wants us to \"shut down\" a lab doing human experiments…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ROBOFAC_CHOP_SHOP",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+            { "not": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } }
+          ]
+        }
+      },
+      {
+        "text": "This is a doozy… [take a deep breath] Rubik wants us to rescue a captured Exodii from a lab that our employer wants us to shut down, because the lab is allegedly performing unethical experiments on humans… any thoughts on that?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BOTH_CHOP_SHOP",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+            { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" }
           ]
         }
       },
@@ -1291,9 +1309,43 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CABIN_CHEMIST",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHEMIST",
     "dynamic_line": "Yeah, that ain't how a good story starts, but see this through.  Might make a good tradin' pahrtnah.",
     "responses": [ { "text": "Yeah, alright.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_EXODII_CHOP_SHOP",
+    "dynamic_line": "Those robots give me the heebies, and I think it's in our bests interests if ya' don't go fuckin' around with something run by our employah, yeah?  Don' bite the hand that feeds.",
+    "responses": [ { "text": "Yeah, you're probably right.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ROBOFAC_CHOP_SHOP",
+    "dynamic_line": "Tell ya' what it's gonna be a real pissah.  I'm not sayin' someone has been blabbin', but I do know there's a group'a ex cops doing some kinda' secretive work for the intercom.  If it's them protectin' the place, they're geahed-up to the teeth.  'Hit Squad' wasn't on my bingo-list of post-apocalyptic dreams, but heah we are.",
+    "responses": [
+      { "text": "Here are the coordinates.  Can you give me any intel from your old maps?", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL" },
+      { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BOTH_CHOP_SHOP",
+    "dynamic_line": "Tell ya' what it's gonna be a real pissah.  I'm not sayin' someone has been blabbin', but I do know there's a group'a ex cops doing some kinda' secretive work for the intercom.  If it's them protectin' the place, they're geahed-up to the teeth.  'Hit Squad' wasn't on my bingo-list of post-apocalyptic dreams, but heah we are.  In any case, those robots give me the heebies, and I don't think it's in our best interests to cross our employahs.  But, if they say you can loot the place, loot the place.  Maybe you find their little robot friend and take them back, get a fat payday.  I'd keep a log for the bosses though, yeah?",
+    "responses": [
+      { "text": "Here are the coordinates.  Can you give me any intel from your old maps?", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL" },
+      { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  They start to scan old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fuckin' hoppah - the head - the fuckin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\"",
+      "no": "&Pat flips open their laptop and wiggles the cable attached to a makeshift battery.  It boots up after a moment and they clack away, looking at old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fuckin' hoppah - the head - the fuckin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\""
+    },
+    "responses": [ { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4",
