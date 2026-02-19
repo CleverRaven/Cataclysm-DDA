@@ -1042,6 +1042,7 @@ bool overmap::generate_sub( const int z )
 {
     cata_assert( z < 0 );
 
+    //TODO: This forces every sub level to generate, otherwise this function doesn't get called for anything below -2 currently.
     bool requires_sub = true;
     std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
