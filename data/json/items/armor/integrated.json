@@ -387,7 +387,7 @@
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 14 } ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso", "tail" ],
         "coverage": 100,
         "encumbrance": 5
       },
@@ -425,7 +425,7 @@
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 10 } ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso", "tail" ],
         "coverage": 100,
         "encumbrance": 3
       },
