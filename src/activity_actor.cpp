@@ -13113,29 +13113,45 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             continue;
         }
 
-        // Direct delivery: if grabbed cart IS a destination, place items
-        // directly into cart cargo without the full pickup-route-dropoff cycle.
-        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-            const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
-            const tripoint_abs_ms cart_abs = here.get_abs( cart_position );
-            if( cart_position != src_bub && dest_set.count( cart_abs ) ) {
-                if( std::optional<vpart_reference> ovp = here.veh_at( cart_position ).cargo() ) {
-                    item copy_thisitem( thisitem );
-                    if( ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
-                        you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
-                        if( vp ) {
-                            vp->vehicle().remove_item( vp->part(), &thisitem );
-                        } else {
-                            here.i_rem( src_bub, &thisitem );
-                        }
-                        num_processed--;
-                        if( you.get_moves() <= 0 || *move_and_reset ) {
-                            return;
-                        }
-                        continue;
-                    }
-                    // Cart full: fall through to normal pickup
+        // Adjacent delivery: if any destination is adjacent to the player,
+        // place items directly without the full pickup-route-dropoff cycle.
+        {
+            bool delivered = false;
+            for( const tripoint_abs_ms &dest : dest_set ) {
+                if( dest == src ) {
+                    continue;
                 }
+                if( square_dist( abspos, dest ) > 1 ) {
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( dest );
+                if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
+                    continue;
+                }
+                item copy_thisitem( thisitem );
+                // Try vehicle cargo at destination first, fall back to ground
+                if( std::optional<vpart_reference> ovp = here.veh_at( dest_bub ).cargo() ) {
+                    if( !ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
+                        here.add_item_or_charges( dest_bub, copy_thisitem );
+                    }
+                } else {
+                    here.add_item_or_charges( dest_bub, copy_thisitem );
+                }
+                you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
+                if( vp ) {
+                    vp->vehicle().remove_item( vp->part(), &thisitem );
+                } else {
+                    here.i_rem( src_bub, &thisitem );
+                }
+                num_processed--;
+                delivered = true;
+                break;
+            }
+            if( delivered ) {
+                if( you.get_moves() <= 0 || *move_and_reset ) {
+                    return;
+                }
+                continue;
             }
         }
 
