@@ -100,6 +100,12 @@
     "color": "light_blue",
     "aggression": 100,
     "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 2 }, { "id": "grab", "cooldown": 4 } ],
     "bleed_rate": 30,
     "vision_day": 30,
     "vision_night": 8,
@@ -109,7 +115,7 @@
     "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
-    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
     "armor": { "bash": 15, "electric": 1 }
   },
   {

@@ -731,10 +731,10 @@
     "value": 0,
     "start": {
       "effect": [ "follow_only", { "npc_add_var": "general_robofac_merc_1_temporal_follower", "value": "yes" } ],
-      "assign_mission_target": { "om_terrain": "radio_tower_1", "om_special": "hub_01", "reveal_radius": 1 },
+      "assign_mission_target": { "om_terrain": "radio_tower_top", "om_special": "hub_01", "reveal_radius": 1 },
       "update_mapgen": [
-        { "place_monster": [ { "monster": "mon_leech_radio", "x": 12, "y": 10, "target": true } ] },
-        { "place_nested": [ { "chunks": [ "robofac_radio_leech" ], "x": 0, "y": 0 } ] }
+        { "place_monster": [ { "monster": "mon_leech_radio", "x": 11, "y": 4, "target": true } ] },
+        { "place_nested": [ { "chunks": [ "robofac_radio_leech" ], "x": 0, "y": 0, "z": -6 } ] }
       ]
     },
     "end": { "effect": [ { "add_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" } ] },
