@@ -13039,16 +13039,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 // Defensive: route_length populated dropoff_coords earlier, but
                 // route_to_destination failed from the player's current position.
                 // Both use the same A* in a single turn, so this can't fire normally.
-                if( virtual_pickup_active ) {
-                    // Items are still on the cart - just clear batch state.
-                    add_msg_debug( debugmode::DF_ACTIVITY,
-                                   "zone_sort DO: virtual items kept on cart, source marked unreachable" );
-                    picked_up_stuff.clear();
-                    dropoff_coords.clear();
-                    unreachable_sources.emplace( src );
-                } else {
-                    return_items_to_source( you, src_bub );
-                }
+                return_items_to_source( you, src_bub );
+                unreachable_sources.emplace( src );
                 stage = THINK;
             }
             return;
@@ -13415,12 +13407,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         if( !match ) {
             add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
-            if( virtual_pickup_active ) {
-                picked_up_stuff.clear();
-                dropoff_coords.clear();
-            } else {
-                return_items_to_source( you, src_bub );
-            }
+            return_items_to_source( you, src_bub );
             unreachable_sources.emplace( src );
             stage = THINK;
             return;
@@ -13438,29 +13425,16 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             // Defensive: route_length passed (destination was in dropoff_coords)
             // but route_to_destination failed. Both use the same A* in a single
             // turn, so this shouldn't happen normally.
-            if( virtual_pickup_active ) {
-                add_msg_debug( debugmode::DF_ACTIVITY,
-                               "zone_sort DO: virtual items kept on cart, source marked unreachable" );
-                picked_up_stuff.clear();
-                dropoff_coords.clear();
-                unreachable_sources.emplace( src );
-            } else {
-                add_msg_debug( debugmode::DF_ACTIVITY,
-                               "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
-                return_items_to_source( you, src_bub );
-            }
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
+            return_items_to_source( you, src_bub );
             stage = THINK;
         }
 
     } else if( !you.has_destination() ) {
         // This can happen legitimately when all destination zones are full
         // (e.g. vehicle-only dest with full cargo). Return items and move on.
-        if( virtual_pickup_active ) {
-            picked_up_stuff.clear();
-            dropoff_coords.clear();
-        } else {
-            return_items_to_source( you, src_bub );
-        }
+        return_items_to_source( you, src_bub );
         unreachable_sources.emplace( src );
         stage = THINK;
     }

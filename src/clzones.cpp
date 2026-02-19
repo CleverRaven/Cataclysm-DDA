@@ -1260,42 +1260,8 @@ std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                                    const zone_type_id &ztype, const faction_id &fac ) const
-{
-    std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
-    if( zones.empty() || !it ) {
-        return false;
-    }
-    item const *const check_it = it->this_or_single_content();
-    for( zone_data const *zone : zones ) {
-        if( !zone->get_enabled() ) {
-            continue;
-        }
-
-        loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
-        std::string const filter_string = options.get_mark();
-        bool has = false;
-        if( ztype == zone_type_LOOT_CUSTOM ) {
-            auto const z = item_filter_from_string( filter_string );
-            has = z( *check_it ) || ( check_it != it && z( *it ) );
-        } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ),
-                                                   check_it->typeId() ) ||
-                  ( check_it != it &&
-                    item_group::group_contains_item( item_group_id( filter_string ),
-                            it->typeId() ) );
-        }
-        if( has ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
                                     const zone_type_id &ztype, const faction_id &fac,
-                                    bool from_vehicle ) const
+                                    std::optional<bool> from_vehicle ) const
 {
     std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
     if( zones.empty() || !it ) {
@@ -1306,7 +1272,7 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         if( !zone->get_enabled() ) {
             continue;
         }
-        if( zone->get_is_vehicle() != from_vehicle ) {
+        if( from_vehicle && zone->get_is_vehicle() != *from_vehicle ) {
             continue;
         }
 
