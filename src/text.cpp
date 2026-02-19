@@ -357,8 +357,9 @@ static std::string trim_substring( std::string_view text, float width )
         trimmed_str += ellipsis;
         float trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
 
-        // number of characters we can still draw or drew too much estimated by ellipsis width
-        float free_chars = ( width - trimmed_width ) / ellipsis_width;
+        // number of characters we can still draw or drew too much
+        // estimated by average character width of trimmed string
+        float free_chars = ( width - trimmed_width ) / ( trimmed_width / utf8_width( trimmed_str ) );
 
         if( free_chars >= 1.f && last_free != free_chars ) {
             visible_chars += std::floor( free_chars );
