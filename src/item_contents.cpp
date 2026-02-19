@@ -1821,6 +1821,18 @@ std::list<const item *> item_contents::all_known_contents() const
     } );
 }
 
+std::list<item *> item_contents::all_holstered_items() {
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) && pocket.is_holster();
+    } );
+}
+
+std::list<const item *> item_contents::all_holstered_items() const {
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) && pocket.is_holster();
+    } );
+}
+
 std::list<item *> item_contents::all_ablative_armor()
 {
     return all_items_top( []( const item_pocket & pocket ) {
