@@ -760,6 +760,8 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
+    //Needs to be explicitly cleared so a previously loaded world state doesn't leak into the new game
+    dimension_prefix.clear();
 
     background_pane background;
     static_popup popup;
