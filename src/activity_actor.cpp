@@ -13113,29 +13113,45 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             continue;
         }
 
-        // Direct delivery: if grabbed cart IS a destination, place items
-        // directly into cart cargo without the full pickup-route-dropoff cycle.
-        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-            const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
-            const tripoint_abs_ms cart_abs = here.get_abs( cart_position );
-            if( cart_position != src_bub && dest_set.count( cart_abs ) ) {
-                if( std::optional<vpart_reference> ovp = here.veh_at( cart_position ).cargo() ) {
-                    item copy_thisitem( thisitem );
-                    if( ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
-                        you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
-                        if( vp ) {
-                            vp->vehicle().remove_item( vp->part(), &thisitem );
-                        } else {
-                            here.i_rem( src_bub, &thisitem );
-                        }
-                        num_processed--;
-                        if( you.get_moves() <= 0 || *move_and_reset ) {
-                            return;
-                        }
-                        continue;
-                    }
-                    // Cart full: fall through to normal pickup
+        // Adjacent delivery: if any destination is adjacent to the player,
+        // place items directly without the full pickup-route-dropoff cycle.
+        {
+            bool delivered = false;
+            for( const tripoint_abs_ms &dest : dest_set ) {
+                if( dest == src ) {
+                    continue;
                 }
+                if( square_dist( abspos, dest ) > 1 ) {
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( dest );
+                if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
+                    continue;
+                }
+                item copy_thisitem( thisitem );
+                // Try vehicle cargo at destination first, fall back to ground
+                if( std::optional<vpart_reference> ovp = here.veh_at( dest_bub ).cargo() ) {
+                    if( !ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
+                        here.add_item_or_charges( dest_bub, copy_thisitem );
+                    }
+                } else {
+                    here.add_item_or_charges( dest_bub, copy_thisitem );
+                }
+                you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
+                if( vp ) {
+                    vp->vehicle().remove_item( vp->part(), &thisitem );
+                } else {
+                    here.i_rem( src_bub, &thisitem );
+                }
+                num_processed--;
+                delivered = true;
+                break;
+            }
+            if( delivered ) {
+                if( you.get_moves() <= 0 || *move_and_reset ) {
+                    return;
+                }
+                continue;
             }
         }
 
@@ -13160,14 +13176,30 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         // For first item: build dropoff_coords with route probing before pickup.
         // Always rebuild - previous item may have failed pickup and left stale coords.
+        // Sort by Chebyshev distance first so nearby destinations are probed
+        // first (populates route cache for later route_to_destination calls).
         if( picked_up_stuff.empty() ) {
             dropoff_coords.clear();
+            std::vector<std::pair<int, tripoint_abs_ms>> dest_candidates;
+            dest_candidates.reserve( dest_set.size() );
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
                     continue;
                 }
-                // Probe actual routeability - same A* as route_to_destination.
+                dest_candidates.emplace_back( square_dist( abspos, possible_dest ), possible_dest );
+            }
+            std::sort( dest_candidates.begin(), dest_candidates.end(),
+            []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+            for( const auto &[cheb, possible_dest] : dest_candidates ) {
+                if( cheb <= 1 ) {
+                    // Adjacent - always reachable, skip A* probe
+                    dropoff_coords.emplace_back( possible_dest );
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 const int dist = zone_sorting::route_length( you, dest_bub );
                 if( dist == INT_MAX ) {
                     continue;
@@ -13230,11 +13262,25 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         if( dropoff_coords.empty() ) {
             // Defensive fallback - 4a normally handles this. Probe fresh.
+            // Sort by Chebyshev so nearby destinations are probed first.
+            std::vector<std::pair<int, tripoint_abs_ms>> fallback_dests;
             for( const tripoint_abs_ms &possible_dest : dest_set ) {
                 const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 if( !here.inbounds( dest_bub ) || here.is_open_air( dest_bub ) ) {
                     continue;
                 }
+                fallback_dests.emplace_back( square_dist( abspos, possible_dest ), possible_dest );
+            }
+            std::sort( fallback_dests.begin(), fallback_dests.end(),
+            []( const std::pair<int, tripoint_abs_ms> &a, const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+            for( const auto &[cheb, possible_dest] : fallback_dests ) {
+                if( cheb <= 1 ) {
+                    dropoff_coords.emplace_back( possible_dest );
+                    continue;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( possible_dest );
                 const int dist = zone_sorting::route_length( you, dest_bub );
                 if( dist == INT_MAX ) {
                     continue;

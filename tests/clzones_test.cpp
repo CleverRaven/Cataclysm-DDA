@@ -1,3 +1,4 @@
+#include <functional>
 #include <initializer_list>
 #include <optional>
 #include <set>
@@ -973,5 +974,51 @@ TEST_CASE( "zone_sorting_virtual_pickup_unreachable_dest",
 
     // Items stay in cart, activity terminates cleanly
     CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 1 );
+    CHECK( !dummy.activity );
+}
+
+// Adjacent delivery works for plain ground tiles without any vehicle.
+TEST_CASE( "zone_sorting_adjacent_ground_delivery",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source tile south with UNSORTED zone
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Adjacent destination east with LOOT_FOOD zone
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Place food on ground at source
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item delivered directly to adjacent destination, not in inventory
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( !dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_test_apple;
+    } ) );
     CHECK( !dummy.activity );
 }
