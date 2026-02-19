@@ -1042,7 +1042,7 @@ bool overmap::generate_sub( const int z )
 {
     cata_assert( z < 0 );
 
-    bool requires_sub = false;
+    bool requires_sub = true;
     std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
 
