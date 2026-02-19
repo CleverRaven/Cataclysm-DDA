@@ -27,6 +27,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_allocator.h"
 #include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -297,6 +298,7 @@ CATCH_REGISTER_REPORTER( "cata-ci-reporter", CataCIReporter )
 
 int main( int argc, const char *argv[] )
 {
+    cata::init_allocator();
 #if defined(_MSC_VER)
     bool supports_color = _isatty( _fileno( stdout ) );
 #else
