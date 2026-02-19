@@ -73,6 +73,8 @@ enum class event_type : int {
     crosses_mutation_threshold,
     crosses_mycus_threshold,
     cuts_tree,
+    dermatik_eggs_hatch,
+    dermatik_eggs_injected,
     destroys_triffid_grove,
     dies_from_asthma_attack,
     dies_from_drug_overdose,
@@ -191,7 +193,11 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 105,
+
+// NOTE: Events are saved to the character file for later memorializing them. It's currently unsafe to ever remove any of these.
+// Removal will cause any save file with one of the saved events to be unable to load.
+// FIXME.
+static_assert( static_cast<int>( event_type::num_event_types ) == 107,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -566,6 +572,12 @@ struct event_spec<event_type::crosses_mycus_threshold> : event_spec_character {}
 
 template<>
 struct event_spec<event_type::cuts_tree> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dermatik_eggs_hatch> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dermatik_eggs_injected> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::destroys_triffid_grove> : event_spec_empty {};
