@@ -84,7 +84,7 @@
     "condition": {
       "and": [
         "u_is_outside",
-        { "one_in_chance": 25 },
+        { "one_in_chance": 10 },
         { "not": { "u_has_flag": "TELEPORT_LOCK" } },
         { "not": { "u_has_flag": "TELESTOP" } },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }
@@ -99,12 +99,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TEMPORARY_TEARS_IN_REALITY",
-    "condition": { "and": [ "u_is_outside", { "one_in_chance": 10 } ] },
+    "condition": { "one_in_chance": 10 },
     "effect": [
       {
         "u_location_variable": { "context_val": "loc" },
         "min_radius": 2,
-        "max_radius": 8,
+        "max_radius": 12,
         "outdoor_only": true,
         "true_eocs": [
           {
