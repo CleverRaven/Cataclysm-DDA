@@ -358,7 +358,11 @@
     "id": "EOC_HOMULLUS_DEATH_DOOR_REBIRTH",
     "eoc_type": "PREVENT_DEATH",
     "condition": {
-      "and": [ { "u_has_trait": "DEATH_IS_BUT_A_DOOR" }, { "not": { "u_has_effect": "effect_homullus_prevented_death" } } ]
+      "and": [
+        { "u_has_trait": "DEATH_IS_BUT_A_DOOR" },
+        { "not": { "u_has_effect": "effect_homullus_prevented_death" } },
+        { "not": { "u_has_effect": "effect_xe_onryō_snp_prevented_death" } }
+      ]
     },
     "effect": [
       {
