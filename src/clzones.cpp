@@ -1146,12 +1146,24 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_vzone_set( const zone_type
     return type_iter->second;
 }
 
+bool zone_manager::has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
+                                const faction_id &fac ) const
+{
+    const auto &it = area_cache.find( zone_data::make_type_hash( type, fac ) );
+    return it != area_cache.end() && it->second.count( where ) > 0;
+}
+
+bool zone_manager::has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
+                                const faction_id &fac ) const
+{
+    const auto &it = vzone_cache.find( zone_data::make_type_hash( type, fac ) );
+    return it != vzone_cache.end() && it->second.count( where ) > 0;
+}
+
 bool zone_manager::has( const zone_type_id &type, const tripoint_abs_ms &where,
                         const faction_id &fac ) const
 {
-    const auto &point_set = get_point_set( type, fac );
-    const auto &vzone_set = get_vzone_set( type, fac );
-    return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
+    return has_terrain( type, where, fac ) || has_vehicle( type, where, fac );
 }
 
 bool zone_manager::has_near( const zone_type_id &type, const tripoint_abs_ms &where, int range,
@@ -1257,6 +1269,44 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
         if( !zone->get_enabled() ) {
+            continue;
+        }
+
+        loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
+        std::string const filter_string = options.get_mark();
+        bool has = false;
+        if( ztype == zone_type_LOOT_CUSTOM ) {
+            auto const z = item_filter_from_string( filter_string );
+            has = z( *check_it ) || ( check_it != it && z( *it ) );
+        } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
+            has = item_group::group_contains_item( item_group_id( filter_string ),
+                                                   check_it->typeId() ) ||
+                  ( check_it != it &&
+                    item_group::group_contains_item( item_group_id( filter_string ),
+                            it->typeId() ) );
+        }
+        if( has ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
+                                    const zone_type_id &ztype, const faction_id &fac,
+                                    bool from_vehicle ) const
+{
+    std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
+    if( zones.empty() || !it ) {
+        return false;
+    }
+    item const *const check_it = it->this_or_single_content();
+    for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+        if( zone->get_is_vehicle() != from_vehicle ) {
             continue;
         }
 

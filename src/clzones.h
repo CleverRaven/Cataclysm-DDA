@@ -666,11 +666,18 @@ class zone_manager
         void cache_vzones( map *pmap = nullptr );
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;
+        bool has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
+        bool has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
                               const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+        bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
+                              const zone_type_id &ztype, const faction_id &fac,
+                              bool from_vehicle ) const;
         std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
                 const tripoint_abs_ms &where, int range,
                 const faction_id &fac = your_fac ) const;

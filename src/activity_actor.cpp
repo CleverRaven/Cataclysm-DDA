@@ -10312,6 +10312,8 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
 
+    const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
+
     //Skip items that have already been processed
     for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
 
@@ -10329,11 +10331,11 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
             continue;
         }
 
-        const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
         const std::unordered_set<tripoint_abs_ms> dest_set;
 
         zone_sorting::unload_item( you, src,
-                                   zone_unload_options, vp, it->first, dest_set, num_processed );
+                                   zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set,
+                                   num_processed );
 
         if( you.get_moves() <= 0 ) {
             return;
@@ -13080,6 +13082,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
 
+    // Which UNSORTED zone types exist at src? Items only participate in
+    // sorting if the source zone matches their binding (vehicle vs terrain).
+    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
 
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
     // Track whether any sortable item failed pickup due to carry/cart capacity.
@@ -13090,8 +13096,16 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         ++num_processed;
         item &thisitem = *it->first;
 
+        // Skip items that don't match the source zone binding
+        if( it->second && !src_has_vehicle_unsorted ) {
+            continue;
+        }
+        if( !it->second && !src_has_terrain_unsorted ) {
+            continue;
+        }
+
         if( zone_sorting::sort_skip_item( you, it->first, other_activity_items,
-                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ), src ) ) {
+                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ), src, it->second ) ) {
             continue;
         }
 
@@ -13102,7 +13116,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
 
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
-                                             zone_unload_options, vp, it->first, dest_set, num_processed );
+                                             zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set, num_processed );
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
@@ -13138,7 +13152,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     here.add_item_or_charges( dest_bub, copy_thisitem );
                 }
                 you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
-                if( vp ) {
+                if( it->second ) {
                     vp->vehicle().remove_item( vp->part(), &thisitem );
                 } else {
                     here.i_rem( src_bub, &thisitem );
@@ -13221,7 +13235,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             cart_at_source = ( cart_position == src_bub );
         }
 
-        if( cart_at_source && vp ) {
+        if( cart_at_source && it->second ) {
             // Virtual pickup: cart IS the transport. Leave item in cart cargo,
             // just create an item_location pointing at the original.
             thisitem_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ),
@@ -13252,7 +13266,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
             you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
             // Remove the item we just copy-teleported
-            if( vp ) {
+            if( it->second ) {
                 vp->vehicle().remove_item( vp->part(), &thisitem );
             } else {
                 here.i_rem( src_bub, &thisitem );
@@ -13401,7 +13415,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
         if( !match ) {
             add_msg( m_bad, _( "None of the items picked up can be sorted because they won't fit anywhere." ) );
-            stage = LAST;
+            if( virtual_pickup_active ) {
+                picked_up_stuff.clear();
+                dropoff_coords.clear();
+            } else {
+                return_items_to_source( you, src_bub );
+            }
+            unreachable_sources.emplace( src );
+            stage = THINK;
             return;
         }
 
@@ -13432,9 +13453,16 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         }
 
     } else if( !you.has_destination() ) {
-        debugmsg( "Sort activity has items to sort but no valid destination, this is a bug" );
-        // Completely kick us out of this activity, something's gone wrong and we don't know what's going on.
-        stage = LAST;
+        // This can happen legitimately when all destination zones are full
+        // (e.g. vehicle-only dest with full cargo). Return items and move on.
+        if( virtual_pickup_active ) {
+            picked_up_stuff.clear();
+            dropoff_coords.clear();
+        } else {
+            return_items_to_source( you, src_bub );
+        }
+        unreachable_sources.emplace( src );
+        stage = THINK;
     }
 }
 
@@ -13448,7 +13476,26 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "coord_set", coord_set );
     jsout.member( "placement", placement );
     jsout.member( "other_activity_items", other_activity_items );
-    jsout.member( "picked_up_stuff", picked_up_stuff );
+    // Purge stale item_locations before serializing - items on vehicles that
+    // are no longer on the map would trigger debugmsg during serialization.
+    std::vector<item_location> valid_picked;
+    const VehicleList &vehicles = get_map().get_vehicles();
+    for( const item_location &loc : picked_up_stuff ) {
+        if( !loc.get_item() ) {
+            continue;
+        }
+        if( const vehicle_cursor *vc = loc.veh_cursor() ) {
+            bool on_map = std::any_of( vehicles.begin(), vehicles.end(),
+            [vc]( const wrapped_vehicle & wv ) {
+                return wv.v == &vc->veh;
+            } );
+            if( !on_map ) {
+                continue;
+            }
+        }
+        valid_picked.push_back( loc );
+    }
+    jsout.member( "picked_up_stuff", valid_picked );
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
     jsout.member( "virtual_pickup_active", virtual_pickup_active );

@@ -71,11 +71,13 @@ bool sorter_out_of_bounds( Character &you, const T &act )
 bool route_to_destination( Character &you, player_activity &act,
                            const tripoint_bub_ms &dest, zone_activity_stage &stage );
 /**
-* Returns true if the given item should be skipped while sorting
+* Returns true if the given item should be skipped while sorting.
+* from_vehicle indicates whether the item is from vehicle cargo (true) or ground (false).
 */
 bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
-                     bool ignore_favorite, const tripoint_abs_ms &src );
+                     bool ignore_favorite, const tripoint_abs_ms &src,
+                     bool from_vehicle );
 
 /**
 * Sets sorting options given nearby UNLOAD_ALL zones
