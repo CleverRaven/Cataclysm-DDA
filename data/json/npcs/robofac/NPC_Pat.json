@@ -886,10 +886,7 @@
         "text": "This is a doozy… [take a deep breath] Rubik wants us to rescue a captured Exodii from a lab that our employer wants us to shut down, because the lab is allegedly performing unethical experiments on humans… any thoughts on that?",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BOTH_CHOP_SHOP",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
-            { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" }, { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" } ]
         }
       },
       { "text": "That's all.  See you around.", "topic": "TALK_DONE" }
@@ -1324,7 +1321,10 @@
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ROBOFAC_CHOP_SHOP",
     "dynamic_line": "Tell ya' what it's gonna be a real pissah.  I'm not sayin' someone has been blabbin', but I do know there's a group'a ex cops doing some kinda' secretive work for the intercom.  If it's them protectin' the place, they're geahed-up to the teeth.  'Hit Squad' wasn't on my bingo-list of post-apocalyptic dreams, but heah we are.",
     "responses": [
-      { "text": "Here are the coordinates.  Can you give me any intel from your old maps?", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL" },
+      {
+        "text": "Here are the coordinates.  Can you give me any intel from your old maps?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL"
+      },
       { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
     ]
   },
@@ -1333,7 +1333,10 @@
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BOTH_CHOP_SHOP",
     "dynamic_line": "Tell ya' what it's gonna be a real pissah.  I'm not sayin' someone has been blabbin', but I do know there's a group'a ex cops doing some kinda' secretive work for the intercom.  If it's them protectin' the place, they're geahed-up to the teeth.  'Hit Squad' wasn't on my bingo-list of post-apocalyptic dreams, but heah we are.  In any case, those robots give me the heebies, and I don't think it's in our best interests to cross our employahs.  But, if they say you can loot the place, loot the place.  Maybe you find their little robot friend and take them back, get a fat payday.  I'd keep a log for the bosses though, yeah?",
     "responses": [
-      { "text": "Here are the coordinates.  Can you give me any intel from your old maps?", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL" },
+      {
+        "text": "Here are the coordinates.  Can you give me any intel from your old maps?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL"
+      },
       { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
     ]
   },
