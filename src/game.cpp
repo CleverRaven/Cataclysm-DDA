@@ -760,7 +760,6 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
-    dimension_prefix.clear();
 
     background_pane background;
     static_popup popup;
