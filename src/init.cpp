@@ -502,6 +502,7 @@ void DynamicDataLoader::initialize()
     add( "damage_type", &damage_type::load_damage_types );
     add( "damage_info_order", &damage_info_order::load_damage_info_orders );
     add( "wound", &wound_type::load_wounds );
+    add( "wound_fix", &wound_fix::load_wound_fixes );
     add( "mod_migration", &mod_migrations::load );
     add( "faction_mission", &faction_mission::load_faction_missions );
 #if defined(TILES)
@@ -777,6 +778,8 @@ void DynamicDataLoader::unload_data()
     vpart_category::reset();
     vpart_location::reset();
     vpart_migration::reset();
+    wound_type::reset();
+    wound_fix::reset();
     weakpoints::reset();
     weather_generator::reset();
     weather_types::reset();
@@ -918,6 +921,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Weakpoint Families" ), &weakpoints::finalize_all },
             { _( "Weapon Categories" ), &weapon_category::finalize_all },
             { _( "Wounds" ), &wound_type::finalize_all },
+            { _( "Wound Fixes" ), &wound_fix::finalize_all },
             { _( "Zone Types" ), &zone_type::finalize_all },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -1030,6 +1034,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Factions" ), &faction_template::check_consistency },
             { _( "Damage types" ), &damage_type::check },
             { _( "Wounds" ), &wound_type::check_consistency },
+            { _( "Wound fixes" ), &wound_fix::check_consistency },
             { _( "Faction missions" ), &faction_mission::check_consistency },
             { _( "Relic Procedural Generations" ), &relic_procgen_data::check_consistency }
         }

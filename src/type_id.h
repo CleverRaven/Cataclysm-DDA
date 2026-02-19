@@ -415,6 +415,9 @@ using weakpoints_id = string_id<weakpoints>;
 class wound_type;
 using wound_type_id = string_id<wound_type>;
 
+class wound_fix;
+using wound_fix_id = string_id<wound_fix>;
+
 struct connect_group;
 using connect_group_id = string_id<connect_group>;
 

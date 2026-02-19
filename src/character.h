@@ -1945,7 +1945,9 @@ class Character : public Creature, public visitable
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Opens the medical window */
-        void disp_medical();
+        bool disp_medical();
+        // return true if wound fix was successfully picked
+        bool pick_wound_fix( int pos );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 

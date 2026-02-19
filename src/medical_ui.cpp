@@ -4,10 +4,12 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "addiction.h"
 #include "avatar_action.h"
 #include "bodypart.h"
@@ -22,18 +24,26 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "enums.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "messages.h"
 #include "output.h"
 #include "point.h"
+#include "proficiency.h"
+#include "requirements.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "units.h"
 #include "weather.h"
 #include "weighted_list.h"
@@ -46,8 +56,10 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -513,7 +525,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
         for( const wound &wd : bp->get_wounds() ) {
             detail_str += "Current wounds:\n";
             detail_str +=
-                string_format( "wound: %s - %s(healing time %s, healing percentage %.3f%%, gives pain: %s)\n",
+                string_format( "wound: %s - %s(healing time %s, healing percentage %.3f%%, gives pain: %d)\n",
                                colorize( wd.type->get_name(), c_cyan ), wd.type->get_description(),
                                to_string( wd.get_healing_time() ), wd.healing_percentage(), wd.get_pain() );
         }
@@ -737,7 +749,7 @@ static medical_column draw_stats_summary( const int column_count, Character &you
     return stats_column;
 }
 
-void Character::disp_medical()
+bool Character::disp_medical()
 {
     // Windows
     catacurses::window w_title; // Title Bar - Tabs, Pain Indicator & Blood Indicator
@@ -968,6 +980,7 @@ void Character::disp_medical()
     ctxt.register_action( "LEFT" );
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "APPLY" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll down" ) );
@@ -1040,8 +1053,191 @@ void Character::disp_medical()
             } else {
                 info_scroll_position = 0;
             }
+        } else if( action == "CONFIRM" ) {
+            if( cursor.x == 0 && pick_wound_fix( cursor.y ) ) {
+                return true;
+            }
         } else if( action == "QUIT" ) {
             break;
         }
     }
+    return false;
+}
+
+struct healing_option {
+    wound_type_id wd;
+    wound_fix_id fix;
+    bool doable;
+    time_duration time_to_apply;
+};
+
+bool Character::pick_wound_fix( int pos )
+{
+    std::vector<healing_option> healing_options;
+    const inventory &inv = crafting_inventory();
+
+    const std::vector<bodypart_id> all_bp = get_all_body_parts( get_body_part_flags::sorted );
+    const bodypart_id bp_id = all_bp[pos];
+    bodypart *bp = get_part( bp_id );
+    const std::vector<wound> wounds = bp->get_wounds();
+
+    if( debug_mode || has_trait( trait_DEBUG_HS ) ) {
+        if( query_yn( "Open debug insertion and removing wounds?" ) ) {
+            uilist menu;
+            do {
+                menu.reset();
+                menu.text = "Toggle which wound?";
+                std::vector<std::pair<wound_type_id, bool>> opts;
+                for( const auto& [wound, weight] : bp_id->potential_wounds ) {
+                    opts.emplace_back( wound.id, bp->has_wound( wound.id ) );
+                    menu.addentry( -1, true, -1, string_format( opts.back().second ? "Treat: %s" : "Set: %s",
+                                   wound.id.str() ) );
+                }
+                if( opts.empty() ) {
+                    popup( string_format( "The %s doesn't have any wounds to toggle.", bp_id->name ) );
+                    return false;
+                }
+                menu.query();
+                if( menu.ret >= 0 ) {
+                    if( opts[menu.ret].second ) {
+                        bp->remove_wound( opts[menu.ret].first );
+                    } else {
+                        bp->add_wound( opts[menu.ret].first );
+                    }
+                }
+            } while( menu.ret >= 0 );
+            return false;
+        }
+    }
+
+    for( const wound &wd : wounds ) {
+        for( const wound_fix_id &fix_id : wd.type->fixes ) {
+            healing_option opt{wd.type, fix_id, true, fix_id->time};
+
+            for( const auto &[skill_id, level] : fix_id->skills ) {
+                if( get_greater_skill_or_knowledge_level( skill_id ) < level ) {
+                    opt.doable = false;
+                    break;
+                }
+            }
+
+            for( const wound_proficiency &w_prof : fix_id->proficiencies ) {
+
+                const bool has_prof = has_proficiency( w_prof.prof );
+
+                if( w_prof.is_mandatory && !has_prof ) {
+                    opt.doable = false;
+                }
+
+                if( has_prof ) {
+                    opt.time_to_apply *= w_prof.time_save;
+                }
+            }
+
+            opt.doable &= fix_id->get_requirements().can_make_with_inventory( inv, is_crafting_component );
+
+            healing_options.emplace_back( opt );
+        }
+    }
+
+    if( healing_options.empty() ) {
+        if( bp->get_wounds().empty() ) {
+            if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
+                popup( string_format( _( "The %s doesn't have any damage to repair." ), bp_id->name ) );
+                return false;
+            } else {
+                popup( string_format( _( "The %s doesn't have any wounds to treat." ), bp_id->name ) );
+                return false;
+            }
+        } else {
+            if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
+                popup( string_format( _( "The %s damage cannot be repaired." ), bp_id->name ) );
+                return false;
+            } else {
+                popup( string_format( _( "The %s wounds cannot be treated." ), bp_id->name ) );
+                return false;
+            }
+        }
+    }
+
+    uilist menu;
+    menu.title = _( "Treat which wound?" );
+    menu.desc_enabled = true;
+
+    constexpr int fold_width = 80;
+
+    for( healing_option &opt : healing_options ) {
+
+        const wound_fix &fix = *opt.fix;
+        const requirement_data &reqs = fix.get_requirements();
+        const nc_color col = opt.doable ? c_white : c_light_gray;
+
+        const std::vector<std::string> tools = reqs.get_folded_tools_list( fold_width, col, inv );
+        const std::vector<std::string> comps = reqs.get_folded_components_list( fold_width, col, inv,
+                                               is_crafting_component );
+
+        std::string descr = word_rewrap( fix.get_description(), 80 ) + "\n\n";
+
+        descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
+                                to_string_approx( opt.time_to_apply ) );
+
+        if( !fix.skills.empty() ) {
+            descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
+            fix.skills.begin(), fix.skills.end(), [&]( const std::pair<skill_id, int> &sk ) {
+                if( get_greater_skill_or_knowledge_level( sk.first ) >= sk.second ) {
+                    return string_format( pgettext( "skill requirement",
+                                                    //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                    "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
+                                          sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
+                } else {
+                    return string_format( pgettext( "skill requirement",
+                                                    //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                    "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
+                                          sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
+                }
+            } ) );
+        }
+
+
+        if( !fix.proficiencies.empty() ) {
+            descr += string_format( _( "Proficiencies: %s\n" ), enumerate_as_string(
+            fix.proficiencies.begin(), fix.proficiencies.end(), [&]( const wound_proficiency & w_prof ) {
+                nc_color col;
+                if( has_proficiency( w_prof.prof ) ) {
+                    col = c_green;
+                } else if( w_prof.is_mandatory ) {
+                    col = c_red;
+                } else {
+                    col = c_light_gray;
+                }
+                return string_format( colorize( "%1$s", col ), w_prof.prof->name() );
+            } ) );
+        }
+
+        for( const std::string &line : tools ) {
+            descr += line + "\n";
+        }
+        for( const std::string &line : comps ) {
+            descr += line + "\n";
+        }
+        menu.addentry_desc( -1, true, -1, fix.get_name(), colorize( descr, col ) );
+
+    }
+
+    menu.query();
+
+    if( menu.ret < 0 ) {
+        return false;
+    }
+
+    const healing_option &opt = healing_options[menu.ret];
+    if( !opt.doable ) {
+        add_msg( m_info, _( "You are currently unable to treat the %s this way." ),
+                 opt.wd->get_name() );
+        return false;
+    }
+
+    assign_activity( fix_wound_activity_actor( opt.time_to_apply, bp_id, opt.wd, opt.fix ) );
+
+    return true;
 }

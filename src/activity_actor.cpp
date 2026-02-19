@@ -93,14 +93,14 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctalk.h"
 #include "npc_opinion.h"
+#include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "overmap_ui.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -125,8 +125,6 @@
 #include "uilist.h"
 #include "uistate.h"
 #include "units.h"
-#include "weather.h"
-#include "weather_type.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
@@ -136,6 +134,9 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_type.h"
+#include "wound.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -9820,6 +9821,92 @@ std::unique_ptr<activity_actor> mend_item_activity_actor::deserialize( JsonValue
 
     data.read( "mended_item", actor.mended_item );
     data.read( "mended_fault", actor.mended_fault );
+    data.read( "mending_method", actor.mending_method );
+
+    return actor.clone();
+}
+
+void fix_wound_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void fix_wound_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    bodypart *bp = who.get_part( healed_bp );
+
+    if( !bp->has_wound( mended_wound ) ) {
+        // wound naturally disappeared while we tried to treat it
+        return;
+    }
+    if( mending_method.is_empty() ) {
+        debugmsg( "missing wound fix for ACT_TREAT_WOUND." );
+        return;
+    }
+    if( !mending_method.is_valid() ) {
+        debugmsg( "invalid wound fix '%s' for ACT_TREAT_WOUND.", mending_method.str() );
+        return;
+    }
+    const wound_fix &fix = *mending_method;
+    const requirement_data &reqs = fix.get_requirements();
+    const inventory &inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+        add_msg( m_info, _( "You are currently unable to heal the %s." ), healed_bp->name.translated() );
+        return;
+    }
+    for( const auto &e : reqs.get_components() ) {
+        who.consume_items( e );
+    }
+    for( const auto &e : reqs.get_tools() ) {
+        who.consume_tools( e );
+    }
+    who.invalidate_crafting_inventory();
+
+    for( const wound_type_id &id : fix.wounds_removed ) {
+        bp->remove_wound( id );
+    }
+
+    for( const wound_type_id &id : fix.wounds_added ) {
+        bp->add_wound( id );
+    }
+
+    if( fix.mod_hp ) {
+        bp->mod_hp_cur( fix.mod_hp );
+    }
+
+    for( const auto& [skill_id, level] : fix.skills ) {
+        who.practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+    }
+
+    for( const wound_proficiency &wound_prof : fix.proficiencies ) {
+        who.practice_proficiency( wound_prof.prof, fix.time );
+    }
+
+    add_msg( m_good, fix.success_msg.translated() );
+}
+
+void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "healed_bp", healed_bp );
+    jsout.member( "mended_wound", mended_wound );
+    jsout.member( "mending_method", mending_method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fix_wound_activity_actor::deserialize( JsonValue &jsin )
+{
+    fix_wound_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "healed_bp", actor.healed_bp );
+    data.read( "mended_wound", actor.mended_wound );
     data.read( "mending_method", actor.mending_method );
 
     return actor.clone();
