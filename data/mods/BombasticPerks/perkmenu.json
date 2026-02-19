@@ -607,30 +607,6 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
-        "text": "Gain [<trait_name:perk_bloody_mess>]",
-        "effect": [
-          { "set_string_var": "<trait_name:perk_bloody_mess>", "target_var": { "context_val": "trait_name" } },
-          {
-            "set_string_var": "<trait_description:perk_bloody_mess>",
-            "target_var": { "context_val": "trait_description" }
-          },
-          { "set_string_var": "perk_bloody_mess", "target_var": { "context_val": "trait_id" } },
-          {
-            "set_string_var": "Must not have <trait_name:perk_surgical_strikes>",
-            "target_var": { "context_val": "trait_requirement_description" },
-            "i18n": true
-          },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } } },
-          {
-            "set_string_var": "Taking this means you can't take <trait_name:perk_surgical_strikes>",
-            "target_var": { "context_val": "trait_additional_details" },
-            "i18n": true
-          }
-        ],
-        "topic": "TALK_PERK_MENU_SELECT"
-      },
-      {
         "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } },
         "text": "Gain [<trait_name:perk_surgical_strikes>]",
         "effect": [
@@ -2121,6 +2097,30 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_any_trait": [ "ADDICTIVE", "STIMBOOST" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
+        "text": "Gain [<trait_name:perk_bloody_mess>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_bloody_mess>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_bloody_mess>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_bloody_mess", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } } },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_additional_details" },
+            "i18n": true
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
