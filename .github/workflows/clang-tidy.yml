@@ -90,6 +90,10 @@ jobs:
         COMPILER: clang++-18
         CATA_CLANG_TIDY: clang-tidy-18
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
+        CATA_CLANG_TIDY_PROFILE: ${{ github.event_name == 'push' && '1' || '' }}
+        CTCACHE_DIR: ${{ github.workspace }}/.ctcache
+        CTCACHE_LOCAL: 1
+        CTCACHE_SAVE_OUTPUT: 1
         TILES: 1
         SOUND: 1
         LOCALIZE: 1
@@ -100,6 +104,7 @@ jobs:
           sudo apt-get update
           sudo apt install clang-18 clang-tidy-18 cmake ccache jq
           sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext
+          pip install git+https://github.com/matus-chochlik/ctcache.git
     - name: checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
@@ -128,6 +133,14 @@ jobs:
           }
           fs.writeFileSync("files_changed", files.join('\n') + '\n');
     - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - name: restore ctcache
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: .ctcache
+        key: ctcache-${{ matrix.subset }}-${{ hashFiles('tools/clang-tidy-plugin/**', '.clang-tidy') }}-${{ github.ref }}
+        restore-keys: |
+          ctcache-${{ matrix.subset }}-${{ hashFiles('tools/clang-tidy-plugin/**', '.clang-tidy') }}-refs/heads/master
+          ctcache-${{ matrix.subset }}-${{ hashFiles('tools/clang-tidy-plugin/**', '.clang-tidy') }}-
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy-run.sh
     - name: show most time consuming checks

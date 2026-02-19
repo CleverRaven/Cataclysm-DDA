@@ -87,7 +87,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             return;
         }
         if( StringRef( SrcMgr.getPresumedLoc( SrcMgr.getSpellingLoc(
-                loc ) ).getFilename() ).equals( "<scratch space>" ) ) {
+                loc ) ).getFilename() ).equals_insensitive( "<scratch space>" ) ) {
             return;
         }
     }

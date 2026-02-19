@@ -88,30 +88,132 @@ jobs:
         run: |
           echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo false || echo true)" >> $GITHUB_OUTPUT
           echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" -o "$GITHUB_REPOSITORY_OWNER" != "CleverRaven" ] && echo 20 || echo 3)" >> $GITHUB_OUTPUT
+
+  basic_build:
+    needs: [ skip-duplicates-data, matrix-variables ]
+    name: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
+    runs-on: ubuntu-22.04
+    env:
+        ZSTD_CLEVEL: 17
+        CMAKE: 0
+        COMPILER: clang++-13
+        OS: ubuntu-22.04
+        TILES: 0
+        SOUND: 0
+        LOCALIZE: 1
+        MODS: --mods=magiclysm
+        TEST_STAGE: 1
+        EXTRA_TEST_OPTS: --error-format=github-action
+        NATIVE: linux64
+        PCH: 1
+        RELEASE: 1
+        ARCHIVE_SUCCESS: basic-build
+        CCACHE_LIMIT: 4.5G
+        CCACHE_FILECLONE: true
+        CCACHE_HARDLINK: true
+        CCACHE_NOCOMPRESS: true
+        SKIP: ${{ needs.skip-duplicates-data.outputs.should_skip_data == 'true' }}
+        SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) }}
+    steps:
+    - name: Maximize build space
+      uses: AdityaGarg8/remove-unwanted-software@8831c82abf29b34eb2caac48d5f999ecfc0d8eef # v4.1
+      with:
+        remove-android: true
+    - name: checkout repository
+      if: ${{ env.SKIP == 'false' }}
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
+    - name: install dependencies
+      if: ${{ env.SKIP == 'false' }}
+      run: |
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo locale-gen en_US.UTF-8 de_DE.UTF-8
+    - name: install recent ccache
+      if: ${{ env.SKIP == 'false' }}
+      run: |
+          ccache --version
+          sudo apt-get remove --purge -y ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
+          ccache --version
+    - name: prepare
+      if: ${{ env.SKIP == 'false' }}
+      run: bash ./build-scripts/requirements.sh
+    - name: Get ccache vars
+      id: get-vars
+      if: ${{ env.SKIP == 'false' }}
+      run: |
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "datetime-seconds=$(/bin/date +%s)" >> $GITHUB_OUTPUT
+        echo "ccache-path=$HOME/.cache/ccache" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: ccache cache files
+      if: ${{ env.SKIP == 'false' }}
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        key: ccache-${{ github.ref_name }}-linux-llvm-13--${{ steps.get-vars.outputs.datetime }}
+        restore-keys: |
+          ccache-master-linux-llvm-13--
+    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - name: Build CDDA
+      if: ${{ env.SKIP == 'false' }}
+      run: bash ./build-scripts/gha_compile_only.sh
+    - name: post-build ccache manipulation
+      if: ${{ env.SKIP == 'false' && !failure() }}
+      run: |
+        ccache --show-stats --verbose
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        ccache --evict-older-than ${DELTA}s
+        ccache --show-stats --verbose
+        ccache -M ${{ env.CCACHE_LIMIT }}
+        ccache -c
+        ccache --show-stats --verbose
+    - name: clear ccache on PRs
+      if: ${{ github.ref_name != 'master' && env.SKIP == 'false' && !failure() }}
+      run: |
+        ccache -C
+    - name: run tests
+      if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
+      run: bash ./build-scripts/gha_test_only.sh
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "true" > basic-build
+      if: ${{ success() }}
+    - run: |
+        echo ${{ github.event.number }} > pull_request_id
+        echo "false" > basic-build
+      if: ${{ failure() }}
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      if: ${{ always() }}
+      with:
+        name: pull_request_id
+        path: pull_request_id
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      if: ${{ always() }}
+      with:
+        name: basic-build
+        path: basic-build
+    - name: upload artifacts if failed
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      if: failure()
+      with:
+        name: cata_test
+        path: tests/cata_test*
+        if-no-files-found: ignore
+        retention-days: 9
+
   varied_builds:
-    needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    needs: [ basic_build, skip-duplicates-code, skip-duplicates-data, matrix-variables ]
+    if: ${{ github.event.pull_request.draft != true }}
     strategy:
       fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-13
-            os: ubuntu-22.04
-            tiles: 0
-            sound: 0
-            cmake: 0
-            localize: 1
-            test-stage: 1
-            native: linux64
-            pch: 1
-            archive-success: basic-build
-            dont_skip_data_only_changes: 1
-            mods: --mods=magiclysm
-            title: Basic Build and Test (Clang oldest supported, Ubuntu, Curses)
-            ccache_limit: 4.5G
-            ccache_key: linux-llvm-13
-
           - compiler: clang++
             os: macos-15
             cmake: 0
@@ -211,16 +313,14 @@ jobs:
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
         RELEASE: 1
-        ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
         SKIP: >-
           ${{
-          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang oldest supported, Ubuntu, Curses)' ) ||
-          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
-          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
+          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates-code.outputs.should_skip_code == 'true' ) ||
+          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-data.outputs.should_skip_data == 'true' )
           }}
         SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
@@ -324,24 +424,6 @@ jobs:
     - name: run tests
       if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
       run: bash ./build-scripts/gha_test_only.sh
-    - run: |
-        echo ${{ github.event.number }} > pull_request_id
-        echo "true" > ${{ env.ARCHIVE_SUCCESS }}
-      if: ${{ env.ARCHIVE_SUCCESS && success() }}
-    - run: |
-        echo ${{ github.event.number }} > pull_request_id
-        echo "false" > ${{ env.ARCHIVE_SUCCESS }}
-      if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-      if: ${{ always() && env.ARCHIVE_SUCCESS }}
-      with:
-        name: pull_request_id
-        path: pull_request_id
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-      if: ${{ always() && env.ARCHIVE_SUCCESS }}
-      with:
-        name: ${{ env.ARCHIVE_SUCCESS }}
-        path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       if: failure()
