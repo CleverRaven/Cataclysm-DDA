@@ -26,6 +26,22 @@
     "damage_type": "cold"
   },
   {
+    "id": "bishop_homullus_mend",
+    "type": "SPELL",
+    "name": "Mend the Dollkin",
+    "description": "A spell for the chessmen bishop to heal nearby Dollkin monsters.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self", "ally" ],
+    "targeted_monster_species": [ "HOMULLUS" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": -5,
+    "max_damage": -25,
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
     "type": "SPELL",
     "id": "mon_salamander_glob",
     "name": { "str": "Salamander Glob", "//~": "NO_I18N" },
