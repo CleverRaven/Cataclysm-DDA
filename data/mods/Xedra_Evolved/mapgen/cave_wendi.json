@@ -105,10 +105,7 @@
       "items": {
         "_": { "item": "xe_midden_heap", "chance": 40, "repeat": [ 1, 2 ] },
         " ": { "item": "xe_midden_heap", "chance": 2 },
-        "X": [
-          { "item": "corpses", "chance": 5, "repeat": 1 },
-          { "item": "default_zombie_death_drops", "chance": 15 }
-        ],
+        "X": [ { "item": "corpses", "chance": 5, "repeat": 1 }, { "item": "default_zombie_death_drops", "chance": 15 } ],
         "Y": [
           { "item": "corpses", "chance": 100, "repeat": [ 1, 2 ] },
           { "item": "default_zombie_death_drops", "chance": 100, "repeat": [ 1, 3 ] }
