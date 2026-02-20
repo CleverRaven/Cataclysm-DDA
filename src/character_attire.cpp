@@ -57,6 +57,8 @@ static const efftype_id effect_onfire( "onfire" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
+static const flag_id flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
+
 
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
@@ -512,6 +514,11 @@ ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res
         return ret_val<void>::make_failure( !is_npc() ?
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
+    }
+    if( it.has_flag( flag_SHAPESHIFTED_ARMOR ) ) {
+        return ret_val<void>::make_failure( !is_npc() ?
+                                            _( "That item is currently shapeshifted into your form." ) :
+                                            _( "That item is currently shapeshifted into <npcname>;s form." ) );
     }
     return ret_val<void>::make_success();
 }
