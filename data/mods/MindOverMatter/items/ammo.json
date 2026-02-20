@@ -69,7 +69,7 @@
     "subtypes": [ "MAGAZINE" ],
     "category": "tool_magazine",
     "name": { "str": "Onšut power pack" },
-    "description": "A power pack for the Onšut ↊A.  After a catastrophic failure the Exodii stopped attempting to modify their Onšut ↊As to accept a more standardized power source and worked on adapting their charging stations to recharge the existing power packs, which they eventually managed.",
+    "description": "A power pack for the Onšut §A.  After a catastrophic failure the Exodii stopped attempting to modify their Onšut §As to accept a more standardized power source and worked on adapting their charging stations to recharge the existing power packs, which they eventually managed.",
     "weight": "50 g",
     "volume": "17 ml",
     "longest_side": "20 mm",
