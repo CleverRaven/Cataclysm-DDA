@@ -459,8 +459,9 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_reward",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "You'll win my endless happiness?  Of course not.  I can find you something special from the CBM vaults.  Maybe I can give you a choice?  Three different ones.  Think on it and decide when it's done.",
-      "str": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last."
+      "u_has_trait": "CBM_Interface",
+      "yes": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.",
+      "no": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special from the ol' vaults, or, us'n can fix ye with some goods like ol' Rubik's, aye - stuck in the flesh and to the bone, wired into the brain."
     },
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
@@ -496,8 +497,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
     "type": "talk_topic",
-    "dynamic_line": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.  Which'll it be?  We can slip an' crank 'em in as y'like.",
-    "//": "This dialogue should change if you're not exodized, allowing them to offer you exodization along with the new CBM.",
+    "dynamic_line": {
+      "u_has_trait": "CBM_Interface",
+      "yes": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.    We can slip an' crank 'em in as y'like.",
+      "no": "Aye, which'll ye like?"
+    },
     "responses": [
       {
         "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
