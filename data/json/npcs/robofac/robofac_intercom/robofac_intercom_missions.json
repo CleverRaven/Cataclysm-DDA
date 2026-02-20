@@ -278,7 +278,12 @@
             {
               "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
             },
-            { "math": [ "u_portal_storm_recordings_sold > 2" ] }
+            {
+              "or": [
+                { "math": [ "u_portal_storm_recordings_sold > 2" ] },
+                { "math": [ "HEW_lixa_data_sold > 0" ] }
+              ]
+            }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
@@ -1440,7 +1445,8 @@
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE",
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
-      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW"
     ],
     "type": "talk_topic",
     "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.\"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
@@ -1463,6 +1469,11 @@
         "text": "If I lose the ID card or the memory stick, what should I do?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
       },
+      {
+        "text": "You told me that the HEW system picked up \"spacetime anomalies\".  What does that mean?",
+        "condition": { "math": [ "HEW_lixa_data_sold > 0" ] },
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW"
+      },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -1481,6 +1492,11 @@
     "type": "talk_topic",
     "//": "I feel like this could be phrased better.",
     "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"But that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW",
+    "type": "talk_topic",
+    "dynamic_line": "&You hear a click as the microphone shuts off.  After several seconds it clicks back on, someone taps the microphone twice to test it - thud thud - and then speaks: \"All I can tell you is that you may encounter extradimensional anomalies, but we cannot be certain which.  I strongly recommend you take an NRE recorder.\""
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
