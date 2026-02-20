@@ -5,7 +5,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 9,
-    "widgets": [ "mood_desc_label", "focus_num", "speed_num", "sound_num" ]
+    "widgets": [ "mood_desc_label", "speed_num", "sound_num" ]
   },
   {
     "id": "zenfs_weariness_trans_malus",

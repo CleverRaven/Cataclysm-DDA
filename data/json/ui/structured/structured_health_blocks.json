@@ -280,7 +280,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "structured_focus", "mood_desc_no_label" ]
+    "widgets": [ "mood_desc_no_label" ]
   },
   {
     "id": "structured_focus",
