@@ -578,7 +578,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "inactive Hub 01 HOUND" },
-    "description": "An vaguely canine-shaped Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If reprogrammed and reloaded successfully, this dog-sized robot will track you and use a taser and noise-generator to distract and disorient enemies.",
+    "description": "A Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If reprogrammed and reloaded successfully, this quadrapedal robot will closely track you, using a taser and noise-generator to distract, disorient, and ultimately neutralizenearby enemies.",
     "weight": "32700 g",
     "volume": "105 L",
     "price": "800 USD",
@@ -589,11 +589,12 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_robofac_hound",
-      "friendly_msg": "The HOUND gives a quick bow and scurries away.",
+      "friendly_msg": "The HOUND gives a quick bow and falls in at your side.",
       "hostile_msg": "The HOUND darts around you and menacingly clicks its tasers.  RUN!",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
   },

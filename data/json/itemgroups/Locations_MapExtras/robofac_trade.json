@@ -78,6 +78,12 @@
   },
   {
     "type": "item_group",
+    "id": "robofac_advanced_robots",
+    "subtype": "distribution",
+    "items": [ [ "bot_robofac_hound" ] ]
+  },
+  {
+    "type": "item_group",
     "id": "robofac_armor_pieces",
     "subtype": "distribution",
     "items": [

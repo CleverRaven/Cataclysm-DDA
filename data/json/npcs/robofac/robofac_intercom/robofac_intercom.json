@@ -53,6 +53,12 @@
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_portal_sm_1" } ] }
       },
       {
+        "group": "robofac_advanced_robots",
+        "rigid": true,
+        "strict": true,
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+      },
+      {
         "group": "robofac_gun_mags",
         "rigid": true,
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_has_researched_gun" } ] },
