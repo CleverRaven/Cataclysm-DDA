@@ -175,6 +175,16 @@
         { "not": { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] } }
       ]
     },
-    "effect": { "u_add_var": "u_found_string_dimension_exodii", "value": "yes" }
+    "effect": [
+      { "u_add_var": "u_found_string_dimension_exodii", "value": "yes" },
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+        "then": {
+          "u_message": "This scrap-metal dome reminds you of Rubik and the Exodii castle.  Maybe you should ask them about it?",
+          "type": "neutral",
+          "popup": false
+        }
+      }
+    ]
   }
 ]

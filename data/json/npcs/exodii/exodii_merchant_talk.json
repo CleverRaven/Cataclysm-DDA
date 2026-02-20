@@ -79,7 +79,7 @@
             { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
             { "not": { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" } },
-            { "not": { "compare_string": [ "yes", { "npc_val": "mission_completed_u_returned_string_dimension_data" } ] } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_returned_string_dimension_data" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
