@@ -467,9 +467,12 @@
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
       { "math": [ "u_val('pkill') = 0" ] },
+      { "math": [ "u_oxygen() = u_oxygen_max()" ] },
+      { "math": [ "u_val('stamina') = u_val('stamina_max')" ] },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
       {
         "u_lose_effect": [
+          "irradiated",
           "corroding",
           "onfire",
           "dazed",
