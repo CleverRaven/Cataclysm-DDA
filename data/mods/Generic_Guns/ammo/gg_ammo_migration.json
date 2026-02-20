@@ -534,7 +534,7 @@
     "replace": "shot_fowl"
   },
   {
-    "id": [ "shot_slug", "shot_paper_slug", "410shot_slug", "20x66_slug" ],
+    "id": [ "shot_slug", "wax_slug", "shot_paper_slug", "410shot_slug", "20x66_slug" ],
     "type": "MIGRATION",
     "replace": "shot_foster"
   },

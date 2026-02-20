@@ -114,10 +114,10 @@
     "magazine": 100,
     "items": [
       [ "afs_7.50mm_caseless", 40 ],
-      [ "shot_00", 40 ],
-      [ "shot_slug", 25 ],
-      [ "shot_beanbag", 10 ],
-      [ "shot_flechette", 5 ],
+      [ "afs_shot_00", 40 ],
+      [ "afs_shot_slug", 25 ],
+      [ "afs_shot_beanbag", 10 ],
+      [ "afs_shot_flechette", 5 ],
       [ "afs_shot_he", 5 ]
     ]
   },
@@ -165,7 +165,13 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_7.50mm_caseless", 10 ], [ "afs_7.50mm_rp", 40 ], [ "shot_00", 5 ], [ "shot_slug", 5 ], [ "shot_beanbag", 5 ] ]
+    "items": [
+      [ "afs_7.50mm_caseless", 10 ],
+      [ "afs_7.50mm_rp", 40 ],
+      [ "afs_shot_00", 5 ],
+      [ "afs_shot_slug", 5 ],
+      [ "afs_shot_beanbag", 5 ]
+    ]
   },
   {
     "id": "afs_civilian_ballistic_h_ammo",
