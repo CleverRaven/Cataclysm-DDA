@@ -399,7 +399,9 @@
               "not": {
                 "or": [
                   { "u_has_mission": "RUBIK_ANUS_FETICK" },
-                  { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+                  { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
+                  { "not": { "u_has_trait": "CBM_Interface" } },
+                  { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
                 ]
               }
             }
@@ -434,6 +436,17 @@
     },
     "responses": [
       { "text": "Do the Exodii have any work I could do?", "topic": "TALK_EXODII_MERCHANT_Jobs" },
+      {
+        "text": "Are there any materials the Exodii need?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_mission": "RUBIK_ANUS_FETICK" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] } }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_ANUS_FETICK_ALT"
+      },
       {
         "text": "I've brought the anesthetic for you.  Can you help me out?",
         "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
