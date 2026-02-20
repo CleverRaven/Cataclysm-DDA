@@ -9662,6 +9662,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
     game::mon_info_update();
+    get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
     return true;
 }
 
