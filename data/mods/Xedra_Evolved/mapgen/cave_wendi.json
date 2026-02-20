@@ -1,7 +1,66 @@
 [
   {
+    "id": "mx_hunger_track",
+    "type": "map_extra",
+    "name": { "str": "Half-eaten corpses" },
+    "description": "Piles of gore surround a trail of bloody footsteps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_hunger_track" },
+    "sym": "l",
+    "min_max_zlevel": [ 0, 0 ],
+    "color": "magenta_yellow",
+    "autonote": true
+  },
+  {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "update_mapgen_id": "mx_hunger_track",
+    "object": {
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "-----------1----------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "-": { "chunks": [ [ "corpse_blood_gibs_college_3x3", 1 ], [ "null", 250 ] ] },
+        "1": { "chunks": [ "hunger_track" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "hunger_track",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "x": "f_hunger_track" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cave_greed_and_hunger" ],
     "weight": 300,
     "object": {
       "fill_ter": "t_dirt_underground",
