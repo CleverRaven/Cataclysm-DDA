@@ -2036,6 +2036,8 @@ fishlike
 Fisk
 Fitchburg
 Fitzgerald
+fixbot
+fixbots
 flagration
 flamberge
 flamberges
