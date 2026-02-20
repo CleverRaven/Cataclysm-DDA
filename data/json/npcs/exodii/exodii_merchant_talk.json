@@ -1145,11 +1145,11 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Ah, you found another node - another community of Exodii. Tell me what you saw?",
-      "str": "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol’ Rubik:  what'd ye escolt there?"
+      "str": "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol' Rubik:  what'd ye escolt there?  Exodii alive?  Trade?  Stompers?  Manufactory?"
     },
     "responses": [
       {
-        "text": "It was a large domed structure, with some towers around it.  The entire thing looked like it was made of metal - a lot like your castle.  If there was anyone alive, I didn't find them.",
+        "text": "It was a large domed structure, with some towers around it.  The entire thing looked like it was made of metal - a lot like your castle.  Looked like it was a ruin, or abandoned.  If there was anyone alive, I didn't find them.",
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
