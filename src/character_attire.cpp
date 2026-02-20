@@ -57,7 +57,7 @@ static const efftype_id effect_onfire( "onfire" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
-static const flag_id flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
+static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
 
 static const material_id material_acidchitin( "acidchitin" );
