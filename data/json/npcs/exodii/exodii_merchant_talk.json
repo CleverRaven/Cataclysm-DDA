@@ -79,7 +79,9 @@
             { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
             { "not": { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_returned_string_dimension_data" } ] } }
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_returned_string_dimension_data" } ] }
+            }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
@@ -478,7 +480,10 @@
       {
         "text": "I managed to find a computer in that other-Exodii place we talked about.  Here's the data.",
         "condition": {
-          "and": [ { "u_has_items": { "item": "exodii_usb_stick_full", "count": 1 } }, { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" } ]
+          "and": [
+            { "u_has_items": { "item": "exodii_usb_stick_full", "count": 1 } },
+            { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" }
+          ]
         },
         "effect": [
           { "u_consume_item": "exodii_usb_stick_full", "count": 1, "popup": true },

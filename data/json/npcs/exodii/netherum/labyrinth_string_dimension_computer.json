@@ -43,10 +43,7 @@
     "responses": [
       {
         "text": "[Take the Exodii electronic storage device]",
-        "effect": [
-          { "u_consume_item": "exodii_usb_stick", "count": 1 },
-          { "u_spawn_item": "exodii_usb_stick_full", "count": 1 }
-        ],
+        "effect": [ { "u_consume_item": "exodii_usb_stick", "count": 1 }, { "u_spawn_item": "exodii_usb_stick_full", "count": 1 } ],
         "topic": "TALK_DONE"
       }
     ]
