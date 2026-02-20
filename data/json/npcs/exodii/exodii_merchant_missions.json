@@ -667,10 +667,7 @@
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_DONE"
       },
-      {
-        "text": "What other work do you have?",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "What other work do you have?", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
