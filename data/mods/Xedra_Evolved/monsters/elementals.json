@@ -530,6 +530,7 @@
     "vision_day": 40,
     "vision_night": 10,
     "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "bleed_rate": 33,
     "special_attacks": [
       { "id": "impale", "cooldown": 4, "range": 2 },
       { "id": "stag_smash", "cooldown": 15 },
@@ -554,6 +555,7 @@
       "STUN_IMMUNE",
       "HAS_MIND",
       "MAGIC_USER",
+      "PLANT_BLOOD",
       "BASHES",
       "DESTROYS",
       "PUSH_MON",
