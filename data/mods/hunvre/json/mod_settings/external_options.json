@@ -1,20 +1,6 @@
 [
   {
     "type": "EXTERNAL_OPTION",
-    "name": "DISPERSION_PER_GUN_DAMAGE",
-    "//": "Value that adds to weapon dispersion per weapon damage value.",
-    "stype": "int",
-    "value": 30
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "GUN_DISPERSION_DIVIDER",
-    "//": "Value that divides total weapon dispersion.  15 means that weapons became 15 times more accurate than default.",
-    "stype": "float",
-    "value": 18
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "PLAYER_MAX_STAMINA_BASE",
     "//": "Sets the base max stamina value of the player, before cardio modifiers.",
     "stype": "int",
@@ -220,13 +206,6 @@
     "type": "EXTERNAL_OPTION",
     "name": "PORTAL_STORM_IGNORE_NPC",
     "//": "Portal storm enemies will ignore NPCs no matter what.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "CRAZY",
-    "//": "A boolean specifically for Crazy Cataclysm.",
     "stype": "bool",
     "value": false
   },
@@ -499,26 +478,5 @@
     "stub": true,
     "stype": "string_input",
     "value": "normal"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "HIGHWAY_GRID_ROW_SEPARATION",
-    "//": "The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1.",
-    "stype": "int",
-    "value": 8
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "HIGHWAY_GRID_COLUMN_SEPARATION",
-    "//": "The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1.",
-    "stype": "int",
-    "value": 10
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "HIGHWAY_GRID_VARIANCE",
-    "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
-    "stype": "int",
-    "value": 2
   }
 ]

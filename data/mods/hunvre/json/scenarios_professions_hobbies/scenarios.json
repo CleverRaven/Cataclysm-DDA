@@ -6,8 +6,8 @@
     "points": 0,
     "description": "You wake up alone.",
     "start_name": "Lonely Dawn",
-    "allowed_locs": [ "sloc_road_lighthouse" ],
-    "reveal_locale": false,
+    "allowed_locs": [ "sloc_road_lighthouse", "sloc_space_hunvre" ],
+    "reveal_locale": true,
     "distance_initial_visibility": 0,
     "flags": [ "LONE_START" ]
   }

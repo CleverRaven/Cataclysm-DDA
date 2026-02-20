@@ -7,6 +7,32 @@
   {
     "type": "profession_blacklist",
     "subtype": "whitelist",
-    "professions": [ "helminth", "recycler" ]
+    "professions": [
+      "helminth",
+      "rebel",
+      "homeless",
+      "computer_literate",
+      "social_skills",
+      "heroin_addict",
+      "smoker",
+      "crackhead",
+      "benzos_addict",
+      "tweaker",
+      "pillhead",
+      "alcoholic",
+      "sleepingpillhead",
+      "caffiend",
+      "caffeine_junkie",
+      "loves_books",
+      "chem_cooking",
+      "swimming_beginner",
+      "swimming",
+      "swimming_expert",
+      "wrestling_beginner",
+      "wrestling",
+      "wrestling_expert",
+      "vid_games",
+      "amateur_electronics"
+    ]
   }
 ]

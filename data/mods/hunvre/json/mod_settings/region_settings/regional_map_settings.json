@@ -14,6 +14,7 @@
     "highways": null,
     "cities": "hunvre_city",
     "urbanity_increase": [ 0, 0, 0, 0 ],
+    "weather": "default_hunvre",
     "default_oter": [
       "deep_rock",
       "deep_rock",
@@ -58,5 +59,24 @@
     ],
     "parks": [ [ "park_unit_building", 1 ] ],
     "shops": [ [ "shop_unit_building", 1 ] ]
+  },
+  {
+    "type": "weather_generator",
+    "id": "default_hunvre",
+    "base_temperature": 20,
+    "base_humidity": 0,
+    "base_pressure": 1015.0,
+    "base_wind": 0,
+    "base_wind_distrib_peaks": 0,
+    "base_wind_season_variation": 0,
+    "spring_temp_manual_mod": 0,
+    "summer_temp_manual_mod": 0,
+    "autumn_temp_manual_mod": 0,
+    "winter_temp_manual_mod": 0,
+    "spring_humidity_manual_mod": 0,
+    "summer_humidity_manual_mod": 0,
+    "autumn_humidity_manual_mod": 0,
+    "winter_humidity_manual_mod": 0,
+    "weather_white_list": [ "hunvre_weather_base" ]
   }
 ]
