@@ -282,7 +282,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Onšut ↊A" },
-    "description": "The world where this crowd-control weapon came from made great use of psionic technology, but it wasn't enough to save them from their own Cataclysm.  The Exodii left most devices they found in the ruins, assuming that they would be too difficult to maintain, but took some of the simpler weapons with them.  The Onšut ↊A overloads the target's mind, trapping them in a hallucinatory waking dream.  This renders them almost completely harmless while in affect with the unfortunate disadvantage of not affecting zombies.",
+    "description": "The world where this crowd-control weapon came from made great use of psionic technology, but it wasn't enough to save them from their own Cataclysm.  The Exodii left most devices they found in the ruins, assuming that they would be too difficult to maintain, but took some of the simpler weapons with them.  The Onšut ↊A overloads the target's mind, trapping them in a hallucinatory waking dream.  This renders them almost completely harmless while in effect, with the unfortunate disadvantage of not affecting zombies.",
     "melee_damage": { "bash": 5 },
     "reload_noise_volume": 5,
     "weight": "566 g",
