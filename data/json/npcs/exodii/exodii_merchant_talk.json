@@ -1149,7 +1149,7 @@
     },
     "responses": [
       {
-        "text": "It was a large domed structure, with some towers surround it.  The entire thing looked limke it was made of metal, a lot like your castle.  If there was anyone alive, I didn't find them.",
+        "text": "It was a large domed structure, with some towers around it.  The entire thing looked like it was made of metal - a lot like your castle.  If there was anyone alive, I didn't find them.",
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
