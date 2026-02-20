@@ -1,5 +1,14 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "uicasta_mags",
+    "entries": [
+      { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 },
+      { "item": "afs_UICASTA30", "ammo-item": "afs_7.50mm", "charges": 30 }
+    ]
+  },
+  {
     "type": "profession",
     "id": "afs_han",
     "name": "Smuggler",
@@ -89,8 +98,15 @@
     "starting_cash": 1120000,
     "flags": [ "SCEN_ONLY" ],
     "copy-from": "specops",
-    "traits": [ "CBM_Interface" ],
-    "CBMs": [ "bio_targeting", "bio_purifier", "bio_geiger", "bio_adrenaline", "bio_ethanol", "bio_power_storage_mkII" ],
+    "CBMs": [
+      "bio_targeting",
+      "bio_purifier",
+      "bio_geiger",
+      "bio_adrenaline",
+      "bio_ethanol",
+      "bio_power_storage_mkII",
+      "afs_bio_beavy_batteries"
+    ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "smg" },
@@ -702,6 +718,76 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "afs_ex_merc",
+    "name": "Exiled Merc",
+    "description": "You were a rising star in the mercenary world, living a life of relative luxury and your pick of the contracts.  After your last op failed, you were fired, blacklisted, and given a one-way ticket to Salus IV to do your best impression of an icicle, all within the span of a day.  You suppose your connections are what stopped you from being thrown into the endless void.",
+    "points": 8,
+    "starting_cash": 1120000,
+    "skills": [
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "smg" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "rifle" },
+      { "level": 3, "name": "smartgun" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "traps" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "swimming" },
+      { "level": 3, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "gloves_tactical" },
+          { "item": "afs_combat_cryo", "charges": 1000 },
+          { "item": "merc_cat_ears" },
+          { "item": "afs_lx_armypants", "variant": "arctic" },
+          { "item": "socks" },
+          { "item": "afs_merc_boot" },
+          { "item": "afs_mirror_shades" },
+          { "item": "canteen" },
+          {
+            "item": "afs_gibrifle",
+            "variant": "unique",
+            "ammo-item": "afs_7.50mm_caseless",
+            "charges": 30,
+            "contents-item": [ "acog_scope", "laser_sight", "robofac_stock", "cheek_pad", "suppressor", "afs_bars", "match_trigger" ]
+          },
+          { "group": "uicasta_mags" },
+          { "item": "afs_ilbe", "contents": "afs_ammo_satchel" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "boxer_shorts" },
+          { "item": "afs_cyberpunk_bomber", "variant": "merc" },
+          { "item": "afs_lx_shirt", "variant": "arctic" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "sports_bra" },
+          { "item": "panties" },
+          { "item": "afs_lx_comcropped", "variant": "arctic" },
+          { "item": "afs_bolero", "variant": "lynx" }
+        ]
+      }
+    },
+    "CBMs": [
+      "bio_targeting",
+      "bio_purifier",
+      "bio_radio",
+      "bio_adrenaline",
+      "bio_torsionratchet",
+      "bio_sunglasses",
+      "bio_power_storage_mkII",
+      "afs_bio_beavy_batteries",
+      "bio_mp3"
+    ]
   },
   {
     "type": "profession",
