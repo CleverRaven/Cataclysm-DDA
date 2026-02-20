@@ -250,7 +250,16 @@
     "condition": "has_beta",
     "effect": [
       {
-        "if": { "or": [ "npc_is_character", { "npc_has_flag": "HUMAN" }, { "npc_has_flag": "HAS_MIND" } ] },
+        "if": {
+          "and": [
+            { "or": [ "npc_is_character", { "npc_has_flag": "HUMAN" }, { "npc_has_flag": "HAS_MIND" } ] },
+            {
+              "not": {
+                "or": [ { "npc_has_trait": "NPC_TELEPATHY_IMMUNE" }, { "npc_has_flag": "TEEPSHIELD" }, { "npc_has_flag": "TEEP_IMMUNE" } ]
+              }
+            }
+          ]
+        },
         "then": [ { "npc_add_effect": "psi_stunned", "duration": { "math": [ "rng(15,60)" ] } } ]
       }
     ]
