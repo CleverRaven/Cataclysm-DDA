@@ -246,6 +246,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_EXODII_NEURAL_STUNGUN",
+    "condition": "has_beta",
+    "effect": [
+      {
+        "if": { "or": [ "npc_is_character", { "npc_has_flag": "HUMAN" }, { "npc_has_flag": "HAS_MIND" } ] },
+        "then": [ { "npc_add_effect": "psi_stunned", "duration": { "math": [ "rng(15,60)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_MOM_ABJURATION_STONE_EFFECTS",
     "effect": { "u_cast_spell": { "id": "mom_abjuration_stone_effects" } }
   },
