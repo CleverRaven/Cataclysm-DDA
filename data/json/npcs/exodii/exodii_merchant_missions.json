@@ -706,7 +706,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_trait": "CBM_Interface",
-      "yes": "&Rubik takes the device and nods.  \"Aye, that ye did.  A spell t'tease this out, no doubt.  Mayhap more than these lands see us'n.  But yer work be prized.  VERY prized.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.\"",
+      "yes": "&Rubik takes the device and nods.  \"Aye, that ye did.  A spell t'tease this out, no doubt.  Mayhap more than these lands see us'n.  But yer work be prized.  VERY prized.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list to find three items, which they click slowly through.  'teleporter CBM', 'time dilation CBM', and 'probability travel CBM'.\n\n\"Think on it, decide on a last.\"",
       "no": "&Rubik takes the device and nods.  \"Aye, that ye did.  A spell t'tease this out, no doubt.  Mayhap more than these lands see us'n.  But yer work be prized.  VERY prized.  What say ye for reward?\""
     },
     "responses": [
@@ -723,19 +723,19 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[Install Fingerpick CBM] Being able to pick a lock wouldn've saved a lot of trouble.  Let's go with that.",
+        "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
         "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
-          { "u_add_bionic": "bio_lockpick" }
+          { "u_add_bionic": "bio_time_freeze" }
         ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
       },
       {
-        "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do that.",
+        "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
         "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
