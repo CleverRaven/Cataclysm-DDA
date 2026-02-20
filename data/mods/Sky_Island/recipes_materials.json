@@ -443,6 +443,24 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "steel_chunk",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ],
+    "result_mult": 3,
+    "//": "375 g steel per token"
+  },
+  {
     "result": "budget_steel_chunk",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -547,6 +565,24 @@
     "components": [ [ [ "warptoken_material", 2 ] ] ],
     "flags": [ "BLIND_EASY" ],
     "//": "Treating qt_steel as 5x as valuable as mc_steel: 25 cents steel per token"
+  },
+  {
+    "result": "steel_lump",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_MATERIALS",
+    "id_suffix": "from_tokens",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_infinityore", -1 ] ] ],
+    "components": [ [ [ "warptoken_material", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ],
+    "result_mult": 3,
+    "//": "375 g steel per token"
   },
   {
     "result": "budget_steel_lump",
