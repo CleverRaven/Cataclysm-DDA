@@ -474,7 +474,7 @@
     "id": "bio_ears",
     "type": "bionic",
     "name": { "str": "Enhanced Hearing" },
-    "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear over three times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing even if the bionic is unpowered.",
+    "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear over three times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED" ],
