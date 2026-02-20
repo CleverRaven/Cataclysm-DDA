@@ -284,6 +284,8 @@ enum action_id : int {
     ACTION_KEYBINDINGS,
     /** Display options window */
     ACTION_OPTIONS,
+    /** Display font options window */
+    ACTION_FONT_OPTIONS,
     /** Open autopickup manager */
     ACTION_AUTOPICKUP,
     /** Open autonotes manager */

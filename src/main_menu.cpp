@@ -62,6 +62,10 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+#ifdef TILES
+#include "font_picker.h"
+#endif
+
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
@@ -76,6 +80,19 @@ enum class main_menu_opts : int {
     CREDITS,
     QUIT,
     NUM_MENU_OPTS,
+};
+
+enum settings_menu_opts {
+    OPTIONS = 0,
+#ifndef IMTUI
+    FONTS,
+#endif
+    KEYBINDINGS,
+    AUTOPICKUP,
+    SAFEMODE,
+    COLORS,
+    THEME_PICKER,
+    IMGUIDEMO,
 };
 
 std::string main_menu::queued_world_to_load;
@@ -515,6 +532,9 @@ void main_menu::init_strings()
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+#ifndef IMTUI
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Fon<t|T> Options" ) );
+#endif // IMTUI
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Ke<y|Y>bindings" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
@@ -871,25 +891,41 @@ bool main_menu::opening_screen()
                     }
                     break;
                 case main_menu_opts::SETTINGS:
-                    if( sel2 == 0 ) {        /// Options
-                        get_options().show( false );
-                        // The language may have changed- gracefully handle this.
-                        init_strings();
-                    } else if( sel2 == 1 ) { /// Keybindings
-                        input_context ctxt_default = get_default_mode_input_context();
-                        ctxt_default.display_menu();
-                    } else if( sel2 == 2 ) { /// Autopickup
-                        get_auto_pickup().show();
-                    } else if( sel2 == 3 ) { /// Safemode
-                        get_safemode().show();
-                    } else if( sel2 == 4 ) { /// Colors
-                        all_colors.show_gui();
-                    } else if( sel2 == 5 ) {
-                        style_picker picker;
-                        picker.show();
-                    } else if( sel2 == 6 ) { /// ImGui demo
-                        imgui_demo_ui demo;
-                        demo.run();
+                    switch( static_cast<settings_menu_opts>( sel2 ) ) {
+                        case settings_menu_opts::OPTIONS:
+                            get_options().show( false );
+                            // The language may have changed- gracefully handle this.
+                            init_strings();
+                            break;
+#ifndef IMTUI
+                        case settings_menu_opts::FONTS:
+                            FontPicker::ShowFontsOptionsWindow();
+                            break;
+#endif // IMTUI
+                        case settings_menu_opts::KEYBINDINGS: {
+                            input_context ctxt_default = get_default_mode_input_context();
+                            ctxt_default.display_menu();
+                        }
+                        break;
+                        case settings_menu_opts::AUTOPICKUP:
+                            get_auto_pickup().show();
+                            break;
+                        case settings_menu_opts::SAFEMODE:
+                            get_safemode().show();
+                            break;
+                        case settings_menu_opts::COLORS:
+                            all_colors.show_gui();
+                            break;
+                        case settings_menu_opts::THEME_PICKER: {
+                            style_picker picker;
+                            picker.show();
+                        }
+                        break;
+                        case settings_menu_opts::IMGUIDEMO: {
+                            imgui_demo_ui demo;
+                            demo.run();
+                        }
+                        break;
                     }
                     break;
                 case main_menu_opts::WORLD:

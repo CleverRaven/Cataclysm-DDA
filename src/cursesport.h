@@ -84,6 +84,9 @@ void clear_window_area( const catacurses::window &win );
 int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
+int get_maximum_font_width();
+int get_maximum_font_height();
+bool handle_font_size_change();
 void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
 #endif // TUI

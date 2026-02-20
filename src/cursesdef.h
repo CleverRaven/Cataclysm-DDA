@@ -40,6 +40,7 @@ namespace catacurses
 /// @throws std::exception upon any errors. The caller should display / log it
 /// and abort the program. Only continue the program when this returned normally.
 void init_interface();
+void init_fonts();
 
 /**
  * A wrapper over a pointer to a curses window.
