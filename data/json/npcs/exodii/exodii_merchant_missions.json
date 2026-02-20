@@ -501,6 +501,7 @@
     "responses": [
       {
         "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -512,6 +513,7 @@
       },
       {
         "text": "[Install Blood Analysis CBM] I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -523,6 +525,7 @@
       },
       {
         "text": "[Install Radiation Scrubber CBM] I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -531,6 +534,13 @@
         ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "Could I become a cyborg, like yourself?",
+        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
         "text": "How about store credit instead?  [adds $1500 in store credit].",
