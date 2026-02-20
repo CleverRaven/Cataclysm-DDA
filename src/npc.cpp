@@ -684,7 +684,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     catchup_skills();
     set_body();
     recalc_hp();
-    int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    int days_since_cata = to_days<int>( calendar::time_since_cataclysm() );
     double time_influence = days_since_cata >= 180 ? 3.0 : 6.0 - 3.0 * days_since_cata / 180.0;
     double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
                             0.2, 5.0 );
@@ -751,7 +751,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
 void npc::catchup_skills()
 {
-    const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int cataclysm_days = to_days<int>( calendar::time_since_cataclysm() );
     const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
     const SkillLevelMap &skills_map = get_all_skills();
     // Exp actually multiplied by 100 in Character::practice
@@ -1031,7 +1031,7 @@ void npc::starting_inv_passtime()
         starting_coverage.emplace( part, worn.get_coverage( part ) );
     }
 
-    int days_since_cata = std::min( to_days<int>( calendar::turn - calendar::start_of_cataclysm ),
+    int days_since_cata = std::min( to_days<int>( calendar::time_since_cataclysm() ),
                                     max_time );
     //give storage item if too little volume
     if( worn.volume_capacity() < 10000_ml ) {

@@ -651,7 +651,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p, bool is_a
     std::list<tripoint_bub_ms> all_points_in_map;
 
 
-    int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    int days_since_cataclysm = to_days<int>( calendar::time_since_cataclysm() );
 
     // Placeholder / FIXME
     // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
@@ -7459,7 +7459,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
     // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
     // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
     if( lootable &&
-        !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
+        !one_in( std::max( to_days<int>( calendar::time_since_cataclysm() ), 0 ) + 4 ) ) {
         bash( p, 9999 );
         for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {

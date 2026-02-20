@@ -5521,7 +5521,8 @@ units::power vehicle::total_solar_epower( map &here ) const
     // sample it once.
     weather_type_id wtype = current_weather( pos_abs() );
     const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
-    return epower * intensity;
+
+    return epower * intensity * solar_panel_deterioration_factor();
 }
 
 units::power vehicle::total_wind_epower( map &here ) const
