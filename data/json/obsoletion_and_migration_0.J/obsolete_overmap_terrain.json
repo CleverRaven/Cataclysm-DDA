@@ -353,7 +353,6 @@
     "oter_ids": {
       "lodge_basement_laboratory_entrance": "omt_obsolete",
       "lab": "empty_rock",
-      "lab_subway": "empty_rock",
       "lab_stairs": "empty_rock",
       "lab_core": "empty_rock",
       "lab_finale": "empty_rock",
@@ -401,7 +400,6 @@
       "central_lab_shaft": "empty_rock",
       "central_lab_entrance": "forest",
       "lab_north": "empty_rock",
-      "lab_subway_north": "empty_rock",
       "lab_stairs_north": "empty_rock",
       "lab_core_north": "empty_rock",
       "lab_finale_north": "empty_rock",
@@ -449,7 +447,6 @@
       "central_lab_shaft_north": "empty_rock",
       "central_lab_entrance_north": "forest",
       "lab_south": "empty_rock",
-      "lab_subway_south": "empty_rock",
       "lab_stairs_south": "empty_rock",
       "lab_core_south": "empty_rock",
       "lab_finale_south": "empty_rock",
@@ -497,7 +494,6 @@
       "central_lab_shaft_south": "empty_rock",
       "central_lab_entrance_south": "forest",
       "lab_east": "empty_rock",
-      "lab_subway_east": "empty_rock",
       "lab_stairs_east": "empty_rock",
       "lab_core_east": "empty_rock",
       "lab_finale_east": "empty_rock",
@@ -545,7 +541,6 @@
       "central_lab_shaft_east": "empty_rock",
       "central_lab_entrance_east": "forest",
       "lab_west": "empty_rock",
-      "lab_subway_west": "empty_rock",
       "lab_stairs_west": "empty_rock",
       "lab_core_west": "empty_rock",
       "lab_finale_west": "empty_rock",
@@ -591,18 +586,7 @@
       "central_lab_finale_west": "empty_rock",
       "central_lab_train_depot_west": "empty_rock",
       "central_lab_shaft_west": "empty_rock",
-      "central_lab_entrance_west": "forest",
-      "lab_subway_ne": "empty_rock",
-      "lab_subway_wn": "empty_rock",
-      "lab_subway_ns": "empty_rock",
-      "lab_subway_ew": "empty_rock",
-      "lab_subway_es": "empty_rock",
-      "lab_subway_sw": "empty_rock",
-      "lab_subway_new": "empty_rock",
-      "lab_subway_nes": "empty_rock",
-      "lab_subway_nsw": "empty_rock",
-      "lab_subway_esw": "empty_rock",
-      "lab_subway_nesw": "empty_rock"
+      "central_lab_entrance_west": "forest"
     }
   }
 ]
