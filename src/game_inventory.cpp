@@ -1744,7 +1744,8 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
         }
         return returned_device;
     } else {
-        inventory_multiselector inv_s( who, preset, string_format( _( "Select devices to %s" ), action_name ) );
+        inventory_multiselector inv_s( who, preset, string_format( _( "Select devices to %s" ),
+                                       action_name ) );
         inv_s.add_character_items( who );
         inv_s.add_nearby_items( PICKUP_RANGE );
         inv_title += _( " which devices" ) + used_device_name;
