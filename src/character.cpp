@@ -4883,7 +4883,9 @@ void Character::update_cached_mutations()
                     if( are_opposite_traits( it, iter.first ) || b_is_lower_trait_of_a( it, iter.first )
                         || are_same_type_traits( it, iter.first ) ) {
                         ++iter.second.corrupted;
-                        ++my_mutations[it].corrupted;
+                        if( my_mutations.count( it ) ) {
+                            ++my_mutations[it].corrupted;
+                        }
                     }
                 }
             }
@@ -4897,7 +4899,7 @@ void Character::update_cached_mutations()
         }
         for( const trait_id &it : new_muts ) {
             auto exists = find( old_muts.begin(), old_muts.end(), it );
-            if( exists == old_muts.end() ) {
+            if( exists == old_muts.end() && !cached_mutations.count( it ) ) {
                 mutations_to_add.insert( it );
             }
         }
