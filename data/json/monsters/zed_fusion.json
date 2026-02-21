@@ -284,8 +284,8 @@
   {
     "id": "mon_devourer_hekatonkheire",
     "type": "MONSTER",
-    "name": { "str": "hekatonkheire" },
-    "description": "This creature is made from a mass of human and animal parts assembled by a katamari god or other thoughtless creator being.  When paused it seems as though small versions of this gigantic monstrous abomination strain to birth themselves from its bulk, while other limbs push the straining masses back inside.",
+    "name": { "str": "hundred-handed devourer" },
+    "description": "This creature is made from a mass of human and animal parts assembled in chaotic fashion as if formed by some insane deity.  When paused it seems as though small versions of this gigantic monstrous abomination strain to birth themselves from its bulk, while other limbs push the straining masses back inside.",
     "default_faction": "zombie",
     "copy-from": "mon_devourer",
     "bodytype": "giant",
@@ -339,8 +339,8 @@
   {
     "id": "mon_devourer_daitya",
     "type": "MONSTER",
-    "name": { "str": "daitya" },
-    "description": "Human bodies fused together into a colossus, with heads and limbs sticking out of its bloated body.  The nature of the thing makes it difficult to estimate how close it is to dying, and its capabilities might change if it manages to assimilate more zombies into itself.",
+    "name": { "str": "spawning-bed devourer" },
+    "description": "Human bodies fused together into a colossus, with heads and limbs sticking out of its bloated body ready to break free.  The nature of the thing makes it difficult to estimate how close it is to dying, and its capabilities might change if it manages to assimilate more zombies into itself.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE" ],
@@ -461,8 +461,8 @@
   {
     "id": "CLONE_DAMAGE",
     "type": "SPELL",
-    "name": { "str": "Daitya Clone Damage", "//~": "NO_I18N" },
-    "description": { "str": "Damages daitya when clone is created.", "//~": "NO_I18N" },
+    "name": { "str": "Devourer Clone Damage", "//~": "NO_I18N" },
+    "description": { "str": "Damages spawning-bed devourer when clone is created.", "//~": "NO_I18N" },
     "message": "Stale golden light floods the world, and reality stands still.",
     "valid_targets": [ "self" ],
     "effect": "attack",
@@ -476,8 +476,8 @@
   {
     "id": "mon_devourer_daitya_clone",
     "type": "MONSTER",
-    "name": { "str": "daitya clone" },
-    "description": "A smaller version of the Daitya without clones straining to burst free from it's orifices.  Instead every opening on its body is filled with teeth.",
+    "name": { "str": "devourer spawn" },
+    "description": "A mass of hateful flesh formed by a greater whole.  Luckily, this nightmarish nesting doll ends with its first generation, but this malformed abomination is no less frightful for that.  Every opening on its body is filled with teeth.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE" ],
