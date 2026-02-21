@@ -195,22 +195,21 @@
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
       {
-        "text": "[Install Power Storage CBM] I guess since I'm already a cyborg, I could use some more power.",
+        "text": "[Install Power Storage Mk. II CBM] I guess since I'm already a cyborg, I could use some more power.",
         "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_faction_trust": 2 },
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
-          { "u_add_bionic": "bio_power_storage" }
+          { "u_add_bionic": "bio_power_storage_mkII" }
         ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "text": "How about store credit instead?  [adds $400 in store credit].",
         "condition": { "u_has_trait": "CBM_Interface" },
-        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
-        "opinion": { "trust": 4, "value": 3 },
+        "effect": [ { "u_spend_cash": -40000 }, { "u_add_faction_trust": 2 }, "start_trade" ],
         "topic": "TALK_DONE"
       },
       {
