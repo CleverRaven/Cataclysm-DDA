@@ -55,7 +55,7 @@
     "armor": { "bash": 15, "cut": 5, "stab": 30, "bullet": 40, "heat": -30 },
     "vision_day": 35,
     "vision_night": 5,
-    "material": [ "wood" ],
+    "material": [ "veggy" ],
     "special_attacks": [ { "id": "scratch", "cooldown": 8 } ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "flags": [
@@ -140,7 +140,7 @@
     "vision_day": 30,
     "vision_night": 6,
     "grab_strength": 80,
-    "material": [ "wood" ],
+    "material": [ "veggy" ],
     "//": "3 grabs due to dozens of roots useable as grabbing appendages.",
     "special_attacks": [
       { "id": "smash", "move_cost": 100, "attack_upper": true, "throw_strength": 50, "cooldown": 15 },
