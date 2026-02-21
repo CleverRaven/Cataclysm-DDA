@@ -45,8 +45,6 @@ enum class direction : unsigned int;
 enum class lit_level : int;
 enum class visibility_type : int;
 
-extern void set_displaybuffer_rendertarget();
-
 /** Structures */
 struct tile_type {
     // fg and bg are both a weighted list of lists of sprite IDs
