@@ -5044,6 +5044,12 @@ void avatar::character_to_template( const std::string &name )
 
 void Character::add_default_background()
 {
+    // Check if profession or scenario has the SKIP_DEFAULT_BACKGROUND flag
+    if( get_profession()->has_flag( "SKIP_DEFAULT_BACKGROUND" ) ||
+        get_scenario()->has_flag( "SKIP_DEFAULT_BACKGROUND" ) ) {
+        return; // Skip adding default background hobbies
+    }
+
     for( const profession_group &prof_grp : profession_group::get_all() ) {
         if( prof_grp.get_id() == profession_group_adult_basic_background ) {
             for( const profession_id &hobb : prof_grp.get_professions() ) {
