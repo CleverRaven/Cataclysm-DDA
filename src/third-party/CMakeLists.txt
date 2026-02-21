@@ -223,6 +223,25 @@ if (CURSES)
         endif()
 endif ()
 
+# We use snmalloc in header only mode
+file(GLOB SNMALLOC_HEADERS snmalloc/**/*)
+
+add_library(
+        snmalloc
+        INTERFACE)
+
+target_include_directories(
+        snmalloc
+        SYSTEM
+        INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        snmalloc
+        )
+
 # Zstandard
 file(GLOB ZSTD_HEADERS zstd/**/*.h)
 file(GLOB ZSTD_SOURCES zstd/common/*.c zstd/compress/*.c zstd/decompress/*.c)
