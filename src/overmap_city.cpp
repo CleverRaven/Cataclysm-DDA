@@ -134,6 +134,34 @@ void overmap::place_cities()
 
     const size_t num_cities_on_this_overmap_count = num_cities_on_this_overmap;
 
+    if( get_option<bool>( "MEGACITY" ) ) {
+        // Clang pls. These are separate variables for legibility.
+        // NOLINTNEXTLINE(cata-combine-locals-into-point)
+        const int quarter_OMAPX = OMAPX / 4;
+        const int quarter_OMAPY = OMAPY / 4;
+        // This places 4 equidistant "individual cities" on every overmap, guaranteed. We're essentially building a smaller square within the square overmap.
+        // For space-filling reasons there is now a fifth in the exact center.
+        std::vector<tripoint_om_omt> megacity_quad_points = {
+            {quarter_OMAPX, quarter_OMAPY, 0},
+            {quarter_OMAPX, quarter_OMAPY * 3, 0},
+            {quarter_OMAPX * 2, quarter_OMAPY * 2, 0},
+            {quarter_OMAPX * 3, quarter_OMAPY, 0},
+            {quarter_OMAPX * 3, quarter_OMAPY * 3, 0}
+        };
+        for( tripoint_om_omt selected_point : megacity_quad_points ) {
+            city tmp( SNIPPET.expand( settings->get_settings_city().name_snippet ) );
+            tmp.pos_om = pos();
+            ter_set( selected_point, oter_road_nesw ); // every city starts with an intersection
+            city_tiles.insert( selected_point.xy() );
+            tmp.pos = selected_point.xy();
+            // Note: The higher we bump this, the more gets filled in. However, performance becomes worse and worse as it apparently tries to place parts of cities overtop each other.
+            // For the moment, this is the value I've gone with so it's playable in some state.
+            tmp.size = 40;
+            cities.push_back( tmp );
+        }
+        return;
+    }
+
     // place a seed for num_cities_on_this_overmap cities, and maybe one more
     while( cities.size() < num_cities_on_this_overmap_count && !city_candidates.empty() ) {
 
