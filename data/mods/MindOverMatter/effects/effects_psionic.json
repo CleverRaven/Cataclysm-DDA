@@ -1047,6 +1047,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 58,
+    "flags": [ "ACTIVE_PRECOG" ],
     "enchantments": [
       {
         "values": [

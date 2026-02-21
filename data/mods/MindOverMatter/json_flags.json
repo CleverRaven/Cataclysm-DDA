@@ -116,5 +116,10 @@
   {
     "id": "FIFTH_SUN_TECHNOLOGY",
     "type": "json_flag"
+  },
+  {
+    "id": "ACTIVE_PRECOG",
+    "type": "json_flag",
+    "//": "Used to show the PC has pre-cog abilities turned on"
   }
 ]
