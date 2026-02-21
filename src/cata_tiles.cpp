@@ -2446,7 +2446,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                 return std::nullopt;
             }
             const itype *new_it = item::find_type( itype_id( id ) );
-            return find_tile_looks_like( new_it->looks_like.str(), category, "",
+            return find_tile_looks_like( new_it->looks_like.str(), category, variant,
                                          looks_like_jumps_limit - 1 );
         }
 
