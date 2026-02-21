@@ -1,0 +1,8 @@
+[
+  {
+    "type": "attack_vector",
+    "id": "vector_wing_slap",
+    "limbs": [ "wing_ravenfolk_l", "wing_ravenfolk_r" ],
+    "contact_area": [ "wing_ravenfolk_lower_r", "wing_ravenfolk_lower_l" ]
+  }
+]
