@@ -1433,7 +1433,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.disp_medical();
+        if( you.disp_medical() ) {
+            done = true;
+        }
     } else if( action == "SELECT_STATS_TAB" ) {
         invalidate_tab( curtab );
         curtab = player_display_tab::stats;

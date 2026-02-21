@@ -653,6 +653,16 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_TREAT_WOUND",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "treating wounds",
+    "rooted": true,
+    "based_on": "speed",
+    "refuel_fires": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_GUNMOD_ADD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
