@@ -675,7 +675,6 @@ Can also be used as `pre_flags` for `construction`.
 - ```GROWTH_SEED``` This plant was just planted, not grown yet. Generic json flag, not all plants may use this!
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
-- ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy.
 - ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```LIQUID``` Terrain is liquid (e.g. water, lava, etc.), blocking movement without being a wall.

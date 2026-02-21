@@ -44,7 +44,6 @@ static const skill_id skill_melee( "melee" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const ter_str_id ter_t_fungus( "t_fungus" );
-static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
 static const ter_str_id ter_t_fungus_floor_out( "t_fungus_floor_out" );
 static const ter_str_id ter_t_fungus_floor_sup( "t_fungus_floor_sup" );
 static const ter_str_id ter_t_fungus_mound( "t_fungus_mound" );
@@ -155,13 +154,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint_bub_ms &p, const int
             converted = true;
         }
     } else if( here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, p ) ) {
-            if( x_in_y( growth * 10, 500 ) ) {
-                here.ter_set( p, ter_t_fungus_floor_in );
-                converted = true;
-            }
-        } else if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
-            if( x_in_y( growth * 10, 1000 ) ) {
+        if( !here.is_outside( p ) || here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
+            if( x_in_y( growth * 10, 750 ) ) {
                 here.ter_set( p, ter_t_fungus_floor_sup );
                 converted = true;
             }

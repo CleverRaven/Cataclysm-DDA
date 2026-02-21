@@ -209,7 +209,6 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_COLLAPSES: return "COLLAPSES";
         case ter_furn_flag::TFLAG_FLAMMABLE_ASH: return "FLAMMABLE_ASH";
         case ter_furn_flag::TFLAG_DESTROY_ITEM: return "DESTROY_ITEM";
-        case ter_furn_flag::TFLAG_INDOORS: return "INDOORS";
         case ter_furn_flag::TFLAG_LIQUIDCONT: return "LIQUIDCONT";
         case ter_furn_flag::TFLAG_FIRE_CONTAINER: return "FIRE_CONTAINER";
         case ter_furn_flag::TFLAG_FLAMMABLE_HARD: return "FLAMMABLE_HARD";
