@@ -1,0 +1,67 @@
+[
+  {
+    "id": [ "AG_UNDERGROUND_BOUNTY" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "afs_underworld_check(1) >= 100" ],
+      "yes": "A scarred pirate officer distributes slates to equally seedy associates, they laugh and jeer among themselves in an unfamiliar language.  You orbit the group for moment, then the officer signals you over.  \"Well, well,  didnt figure you for a bounty hunter.  Still have some death marks unclaimed here for you to choose from.",
+      "no": "Some sort of pirate crew is assembled around a table.  Its probably better if you dont even notice them."
+    },
+    "responses": [
+      {
+        "text": "Check the regular bounties.",
+        "condition": { "math": [ "afs_underworld_check(1) >= 100" ] },
+        "topic": "AG_UNDERGROUND_BOUNTY_SMALL",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Lets just ignore that part of the bar for now.",
+        "condition": { "math": [ "afs_underworld_check(1) < 100" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "AG_UNDERGROUND_BOUNTYnaive" ],
+    "type": "talk_topic",
+    "dynamic_line": "",
+    "responses": [ { "text": "Laugh awkwardly and leave", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "AG_UNDERGROUND_BOUNTY_SMALL" ],
+    "type": "talk_topic",
+    "dynamic_line": "The pirate officer slides a slate across the table to you, it lists a number of bounties on local criminals and enforcers.  \"Take your pick, they are all scum.\"",
+    "responses": [ { "text": "Maybe some other time.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<underground_bounty_reason>",
+    "text": [
+      "It just reads \"ASSHOLE\"",
+      "Sells knockoff genetech.",
+      "Who apparently sells bootleg cyberware.",
+      "Vengance for some personal slight, details are sketchy.",
+      "Killed a friend of the issuer in a bar fight.",
+      "Seems to be a personal grudge.",
+      "A cargo inspector who was too thorough.",
+      "A political dissident, wanted for speaking out against UICA.",
+      "UICA informant.",
+      "They just owe too much money now.",
+      "Refused to pay protection money to a local gang.",
+      "Sold fake access codes.",
+      "Tried to sell intel two the same gang twice.",
+      "A bounty hunter.  Tried to double-cross the issuer.",
+      "Has an eminently punchable face.",
+      "Lead his previous crew into an ambush.",
+      "Who is just some petty criminal.",
+      "Retired hitman who is trying to write a book about their exploits.",
+      "Stole something important.",
+      "Slaver",
+      "Sold a fake shipment of weapons.",
+      "Who is a slaver, although thats not why they are wanted.",
+      "Local corpo-sec.",
+      "Didnt take a bribe.",
+      "Repeatedly insulted the issuer's holovid show."
+    ]
+  }
+]

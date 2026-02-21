@@ -1,0 +1,33 @@
+[
+  {
+    "type": "npc",
+    "id": "AG_shuttle",
+    "//": "These are all random people you met in a bar once, the fact that they don't have names is meant to emphasize the transient nature of the conversations you have with them",
+    "name_unique": "the survey technician",
+    "class": "NC_BEM_GUNRUNNER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_GUNRUNNER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "AG_shuttle",
+    "name_unique": "the captain angry at a group of salvors",
+    "class": "NC_BEM_GUNRUNNER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_GUNRUNNER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "AG_hireable",
+    "name_suffix": "salvor",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_HIREABLE_1",
+    "faction": "robofac_auxiliaries"
+  }
+]

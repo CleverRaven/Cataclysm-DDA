@@ -1,6 +1,28 @@
 [
   {
     "type": "item_group",
+    "id": "afs_any_scrapgroup",
+    "items": [
+      { "group": "afs_common_biomaterial_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 30 },
+      { "group": "afs_common_circuitry_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_circuitry_scrapgroup", "prob": 30 },
+      { "group": "afs_common_energy_storage_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_energy_storage_scrapgroup", "prob": 30 },
+      { "group": "afs_common_heat_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_heat_scrapgroup", "prob": 30 },
+      { "group": "afs_common_magnet_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_magnet_scrapgroup", "prob": 30 },
+      { "group": "afs_basic_material_scrapgroup", "prob": 30 },
+      { "group": "afs_common_material_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_material_scrapgroup", "prob": 30 },
+      { "group": "afs_common_neural_io_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_neural_io_scrapgroup", "prob": 30 },
+      { "group": "afs_advanced_optics_scrapgroup", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_machinery_maintenance_scrapgroup",
     "items": [
       { "group": "afs_basic_material_scrapgroup", "prob": 30 },

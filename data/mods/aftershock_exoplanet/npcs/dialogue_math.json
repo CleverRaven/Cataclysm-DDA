@@ -1,0 +1,21 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "underworld",
+    "num_args": 1,
+    "//": "The maximum value this func"
+    "return": "(u_skill('survival') + (u_skill('melee') + u_skill('gun'))/2 + u_underworld_exp) * (u_skill('speech')/2 *(_0))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "afs_hack_skill",
+    "num_args": 1,
+    "return": "(u_skill('computer') + u_val('intelligence')/3 + u_hack_bonus) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "afs_hack_skill",
+    "num_args": 1,
+    "return": "(u_skill('computer') + u_val('intelligence')/3 + u_hack_bonus) * (_0)"
+  }
+]
