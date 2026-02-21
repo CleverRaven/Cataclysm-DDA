@@ -35,6 +35,38 @@
     "targeted_monster_species": [ "FERAL" ]
   },
   {
+    "id": "homullus_spell_rebuild_mind",
+    "type": "SPELL",
+    "name": "Rebuild the Shattered Mind",
+    "description": "By completing this complicated ritual you recreate the minds of nearby ferals from the shattered pieces.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_REBUILD_MIND_HANDLING",
+    "shape": "blast",
+    "min_damage": { "math": [ "( (u_spell_level('homullus_spell_rebuild_mind') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('homullus_spell_rebuild_mind') * 8) + 45) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('homullus_spell_rebuild_mind') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) )), 70)"
+      ]
+    },
+    "max_range": 70,
+    "magic_type": "xe_fey_magick",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -5,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -8,
+    "targeted_monster_species": [ "FERAL" ]
+  },
+  {
     "id": "homullus_summon_feral_spell",
     "type": "SPELL",
     "name": "Calling the Lost and the Damned",
