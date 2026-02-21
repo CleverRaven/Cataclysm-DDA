@@ -227,6 +227,6 @@
     "id": "crack_bag_zipper_4",
     "subtype": "collection",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "crack", "container-item": "null", "count": 4 } ]
+    "entries": [ { "item": "crack", "container-item": "null", "count": 50 } ]
   }
 ]
