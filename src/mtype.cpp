@@ -52,6 +52,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_ALWAYS_SEES_YOU,
             mon_flag_ALWAYS_VISIBLE,
             mon_flag_ANIMAL,
+            mon_flag_APPEARS_NEUTRAL,
             mon_flag_AQUATIC,
             mon_flag_ARTHROPOD_BLOOD,
             mon_flag_ATTACKMON,
@@ -189,6 +190,7 @@ void set_mon_flag_ids()
     mon_flag_ALWAYS_SEES_YOU = mon_flag_id( "ALWAYS_SEES_YOU" );
     mon_flag_ALWAYS_VISIBLE = mon_flag_id( "ALWAYS_VISIBLE" );
     mon_flag_ANIMAL = mon_flag_id( "ANIMAL" );
+    mon_flag_APPEARS_NEUTRAL = mon_flag_id( "APPEARS_NEUTRAL" );
     mon_flag_AQUATIC = mon_flag_id( "AQUATIC" );
     mon_flag_ARTHROPOD_BLOOD = mon_flag_id( "ARTHROPOD_BLOOD" );
     mon_flag_ATTACKMON = mon_flag_id( "ATTACKMON" );

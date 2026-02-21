@@ -236,6 +236,38 @@
   },
   {
     "type": "item_group",
+    "id": "fae_meat_and_bones",
+    "//": "a large pile of trash, made for monster lairs.",
+    "subtype": "collection",
+    "items": [
+      { "item": "fae_organs", "prob": 10 },
+      { "item": "fae_fur", "prob": 10 },
+      { "item": "fae_meat", "prob": 10 },
+      { "item": "fae_meat_scrap", "prob": 40 },
+      { "item": "fae_blood", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "dead_fae_gear",
+    "//": "a large pile of trash, made for monster lairs.",
+    "subtype": "collection",
+    "items": [
+      { "group": "fae_furs", "prob": 20 },
+      { "group": "bannerman_armor", "prob": 15 },
+      { "group": "bannerman_weapons", "prob": 20 },
+      { "group": "redcap_armor", "prob": 5 },
+      { "group": "redcap_weapons", "prob": 5 },
+      { "group": "pooka_armor", "prob": 5 },
+      { "group": "pooka_weapons", "prob": 5 },
+      { "group": "gossamer_upper_body", "prob": 10 },
+      { "group": "gossamer_lower_body", "prob": 10 },
+      { "group": "gossamer_outerwear", "prob": 10 },
+      { "group": "gossamer_socks", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "fae_furs",
     "items": [
       [ "hat_fur", 30 ],
@@ -277,7 +309,7 @@
     "id": "bannerman_weapons",
     "subtype": "distribution",
     "entries": [
-      { "item": "mirror_march_estoc", "prob": 20 },
+      { "item": "mirror_march_estoc", "prob": 5 },
       { "item": "moons_tears_mace", "prob": 20 },
       { "item": "moons_tears_scimitar", "prob": 20 },
       { "item": "moons_tears_broadsword", "prob": 20 },
@@ -632,6 +664,21 @@
       { "item": "corpse_yugg_jade_fragments", "prob": 15, "count": [ 1, 3 ] },
       { "item": "blank_blood", "prob": 15, "container-item": "bottle_plastic" },
       { "item": "kreck_loot_star_stone", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xe_midden_heap",
+    "//": "a large pile of trash, made for monster lairs.",
+    "subtype": "collection",
+    "items": [
+      { "group": "SUS_trash_floor", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade", "prob": 95 },
+      { "group": "remains_human_generic", "prob": 80 },
+      { "group": "SUS_trash_forest_manmade", "prob": 70 },
+      { "group": "remains_soldier", "prob": 50 },
+      { "group": "remains_pilot", "prob": 5 },
+      { "group": "dead_fae_gear", "prob": 10 }
     ]
   }
 ]
