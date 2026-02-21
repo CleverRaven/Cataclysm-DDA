@@ -5518,10 +5518,12 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 
     const tripoint_bub_ms player_pos = u.pos_bub();
 
+    // Normally examining terrain or furniture is a "minor" offense, but some might be flagged differently.
+    const bool extra_alarming_action = here.has_flag( "FACTION_SECURITY", examp );
     if( here.has_furn( examp ) ) {
         if( !u.cant_do_mounted() ) {
             if( !here.has_flag( "FREE_TO_EXAMINE", examp ) &&
-                !warn_player_maybe_anger_local_faction( false, true ) ) {
+                !warn_player_maybe_anger_local_faction( extra_alarming_action, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
             xfurn_t.examine( u, examp );
@@ -5529,7 +5531,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
     } else {
         if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
             if( !here.has_flag( "FREE_TO_EXAMINE", examp ) &&
-                !warn_player_maybe_anger_local_faction( false, true ) ) {
+                !warn_player_maybe_anger_local_faction( extra_alarming_action, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
             xter_t.examine( u, examp );
@@ -5606,8 +5608,7 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
     }
 
     // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
-    // TODO: Make this magic number into a constant
-    if( actual_camp->get_owner()->likes_u < -10 ) {
+    if( actual_camp->get_owner()->guaranteed_hostile_to_player() ) {
         return true;
     }
 
