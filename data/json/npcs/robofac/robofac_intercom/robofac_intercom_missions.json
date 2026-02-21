@@ -15,7 +15,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -132,6 +133,24 @@
         },
         "effect": { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP", "success": true },
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_COMPLETE"
+      },
+      {
+        "text": "I've returned with a disabled Exodii worker.  [Hand over the broken Exodii worker]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "broken_exodii_worker" } ] },
+        "effect": [
+          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE"
+      },
+      {
+        "text": "About that Exodii worker you wanted.  Will this work instead?  [Hand over the broken robot head]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "exodii_chop_shop_head" } ] },
+        "effect": [
+          { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE_ALT"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -288,14 +307,57 @@
       {
         "text": "[Contract: Post-Apocalyptic IRB]",
         "condition": {
-          "and": [
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_chop_shop" } ] } },
-            { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
-            { "math": [ "ancilla_fortress_placed == 1" ] }
+          "or": [
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+                { "math": [ "hub01_stole_warehouse == 1" ] }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+                { "math": [ "ancilla_fortress_placed == 1" ] }
+              ]
+            }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_OFFER"
+      },
+      {
+        "text": "[Contract: Circuit Safari]",
+        "condition": {
+          "or": [
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
+                { "math": [ "hub01_stole_warehouse == 1" ] },
+                { "math": [ "hub01_told_u_about_warehouse == 1" ] }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
+                { "math": [ "ancilla_fortress_placed == 1" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_OFFER"
       },
       {
         "text": "I need a new NRE recorder.",
@@ -1405,6 +1467,112 @@
     "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_promised_warehouse_info == 1" ],
+      "yes": "As you are aware, we have recovered advanced equipment from the Exodii warehouse.  Analysis indicates it may constitute an automated surgical suite; however, additional hardware is required to fully assemble and activate the system.  Given your successful retrieval of the Trifacet, we are offering you the contract as a priority.  Research is in need of an Exodii \"worker\".\"\n\n\"The Exodii have demonstrated extreme hazard potential.  Accordingly, should you accept this contract, a prototype HOUND unit will be assigned to you to assist in your operation.\"\n\n\"This contract includes the standard hazard pay of 4 HGC and an indefinite license to use the HOUND unit.  Additionally, we anticipate that your involvement will facilitate critical technical developments, which may become available to you in due course.",
+      "no": "Our robotics research division has requested new robot specimens.  Given your successful retrieval of the Trifacet, we are offering you the contract as a priority.  Research is in need of an Exodii \"worker\".\"\n\n\"The Exodii have demonstrated extreme hazard potential.  Accordingly, should you accept this contract, a prototype HOUND unit will be assigned to you to assist in your operation.\"\n\n\"This contract includes the standard hazard pay of 4 HGC and an indefinite license to use the HOUND unit.  Additionally, we anticipate that your involvement will facilitate critical technical developments, which may become available to you in due course."
+    },
+    "responses": [
+      {
+        "text": "So take down an Exodii worker and bring it to you?  I'm in.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" },
+          { "u_spawn_item": "bot_robofac_hound", "count": 1 },
+          { "u_spawn_item": "powered_earplugs", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED"
+      },
+      {
+        "text": "What's an Exodii?",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+        "effect": { "u_add_var": "hub01_explained_exodii", "value": "yes" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What"
+      },
+      {
+        "text": "How am I supposed to take down an Exodii worker?",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How"
+      },
+      {
+        "text": "What exactly am I looking for?",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which"
+      },
+      {
+        "text": "Tell me more about this prototype HOUND.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What",
+    "type": "talk_topic",
+    "dynamic_line": "Killer robots that invaded earth during the portal storm.  They have a large fortress somewhere - some sort of metal castle - and thus show signs of dangerous intelligence.  We do not fully understand their directives or functions, and thus need a salvaged robot to deconstruct and reverse engineer."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How",
+    "type": "talk_topic",
+    "dynamic_line": "We understand these Exodii can be quite dangerous, hence why we are assigning you a HOUND unit.  You can disable the robot by any violent means you deem necessary, as long as it does not seriously damage its frame."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, a good question.  Our recon teams have identified several units that appear to be mindless \"worker\" drones.  These worker units can be found at some of their field sites, which may look like large shipping containers, metal boxes, or strange barns.  We also know that there are infected robots roaming near some of their facilities, which we have taken to calling \"zomborgs\".  But, we have other contractors working with these zomborgs, and these efforts have not yet yielded results, so please do not bring us any of those."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype",
+    "type": "talk_topic",
+    "dynamic_line": "We refer to it as the Hostile Overstimulation and Unmanned Neutralization Drone, or HOUND.  It is a custom-build robot that will engage hostiles with a noisemaker and taser unit.  It should keep hostile Exodii, and other threats, distracted so that you can engage them safely.  We strongly suggest you bring hearing protection."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom's tray slides open, revealing an inactive robot and a pair of earplugs.  \"Happy hunting.\""
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom's tray slides open, filled with your payment.  \"Excellent.  In addition to your contracting fee you may keep the HOUND.  We would appreciate periodic reports on its field performance.  If you remain interested in this project, we encourage you to check in from time to time.\"",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE_ALT",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent a long moment, and then you hear a keyboard clacking and the tray slides open, filled with your payment.  \"Yes, this will do.  In addition to your contracting fee you may of course keep the HOUND.  We would appreciate periodic reports on its field performance.  If you remain interested in this project, we encourage you to check in from time to time.\"",
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "mission_definition",
     "name": { "str": "Data Retrieval" },
@@ -1883,6 +2051,36 @@
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_chop_shop", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] },
         { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI",
+    "type": "mission_definition",
+    "name": { "str": "Circuit Safari" },
+    "description": "The intercom has asked me to <color_yellow>find and disable an Exodii worker</color>.  They gave me a Prototype Transportable Jammer to disable the senses of groups of Exodii, and recommend using the hm12 rifle and my electronics skills to disable the robot.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_circuit_safari", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] },
+        { "math": [ "hub01_has_cbm_interface_tech = 1" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

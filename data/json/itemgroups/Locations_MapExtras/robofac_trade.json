@@ -74,7 +74,7 @@
     "type": "item_group",
     "id": "robofac_robots",
     "subtype": "distribution",
-    "items": [ [ "bot_robofac_skittergun", 40 ], [ "robofac_robotrig", 50 ] ]
+    "items": [ [ "bot_robofac_hound", 40 ], [ "bot_robofac_skittergun", 40 ], [ "robofac_robotrig", 50 ] ]
   },
   {
     "type": "item_group",
