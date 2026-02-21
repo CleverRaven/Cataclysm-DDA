@@ -3,7 +3,14 @@
     "type": "effect_on_condition",
     "id": "EOC_safely_landed",
     "//": "Called on landing.  Adds the major earthside affects that are required to register the player as not at home, warpcloak invisibility, starts warpsickness ticking, and creates exits, slaughter missions, and target missions.",
-    "condition": { "not": { "u_near_om_location": "sky_island_core", "range": 4 } },
+    "condition": {
+      "not": {
+        "or": [
+          { "u_near_om_location": "sky_island_core", "range": 4 },
+          { "u_near_om_location": "sky_island_core_voidblock", "range": 4 }
+        ]
+      }
+    },
     "effect": [
       { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "60 s" } },
       {

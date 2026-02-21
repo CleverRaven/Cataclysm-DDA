@@ -76,7 +76,11 @@
       { "text": "Empower the warp obelisk.", "topic": "SKYISLAND_UPGRADES_RAIDS" },
       { "text": "Make the island more hospitable.", "topic": "SKYISLAND_UPGRADES_TERRAFORM" },
       { "text": "Upgrade expeditions.", "topic": "SKYISLAND_UPGRADES_FEATURES" },
-      { "text": "Construction options.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" },
+      {
+        "text": "Construction options.",
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE",
+        "condition": { "not": { "mod_is_loaded": "voidblock" } }
+      },
       { "text": "I need your services.", "topic": "SKYISLAND_SERVICES" },
       { "text": "I have some questions.", "topic": "SKYISLAND_QUESTIONS" },
       { "text": "Another time.  Goodbye.", "topic": "TALK_DONE" }
@@ -95,7 +99,7 @@
       },
       {
         "text": "Heal me.  (Costs 4 Warp Shards)",
-        "condition": { "math": [ "islandrank != 0" ] },
+        "condition": { "math": [ "islandrank > 0" ] },
         "effect": [ { "run_eocs": [ "EOC_HEAL_NEWBIE" ] } ],
         "topic": "SKYISLAND_SERVICES"
       },
@@ -132,6 +136,7 @@
       {
         "text": "View my construction stats.",
         "effect": [ { "run_eocs": [ "EOC_buildcheck" ] } ],
+        "condition": { "not": { "mod_is_loaded": "voidblock" } },
         "topic": "SKYISLAND_SERVICES"
       },
       {
@@ -175,7 +180,11 @@
       {
         "text": "Unlock Start Location: Basements",
         "condition": {
-          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_basementsunlock" } }, { "math": [ "basementsunlocked == 0" ] } ]
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_basementsunlock" } },
+            { "math": [ "basementsunlocked == 0" ] },
+            { "not": { "mod_is_loaded": "voidblock" } }
+          ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_basementsunlock" } ],
         "topic": "SKYISLAND_UPGRADES_RAIDS"
@@ -186,7 +195,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_roofsunlock" } },
             { "math": [ "roofsunlocked == 0" ] },
-            { "math": [ "islandrank >= 2" ] }
+            { "math": [ "islandrank >= 2" ] },
+            { "not": { "mod_is_loaded": "voidblock" } }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_roofsunlock" } ],
@@ -198,7 +208,8 @@
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_labsunlock" } },
             { "math": [ "labsunlocked == 0" ] },
-            { "math": [ "islandrank >= 4" ] }
+            { "math": [ "islandrank >= 4" ] },
+            { "not": { "mod_is_loaded": "voidblock" } }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_labsunlock" } ],
