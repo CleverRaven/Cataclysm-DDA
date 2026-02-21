@@ -312,10 +312,7 @@
   {
     "type": "overmap_special",
     "id": "dark cave",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "cave" },
-      { "point": [ 0, 0, -1 ], "overmap": "cave_greed_and_hunger" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" }, { "point": [ 0, 0, -1 ], "overmap": "cave_greed_and_hunger" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
