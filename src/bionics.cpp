@@ -1454,6 +1454,7 @@ void Character::burn_fuel( bionic &bio )
             // There *could* be multiple items. But we only take first.
             intensity *= result.connected_solar.front()->type->solar_efficiency;
         }
+        intensity *= solar_panel_deterioration_factor();
         energy_gain = units::from_joule( intensity );
     }
 

@@ -142,6 +142,9 @@ extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 
+/** Time elapsed since the start of the Cataclysm. */
+time_duration time_since_cataclysm();
+
 } // namespace calendar
 
 template<typename T>
@@ -643,6 +646,8 @@ bool is_twilight( const time_point &p );
 float default_daylight_level();
 /* Irradiance (W/m2) on clear day when sun is at 90 degrees */
 float max_sun_irradiance();
+/** Current deterioration coefficient, goes down from 100% by 1% per year */
+float solar_panel_deterioration_factor();
 /** Returns the current sunlight.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather.

@@ -12368,7 +12368,7 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
 
         item &corpse_item = *this_bd->corpse;
         corpse_item.set_var( butcher_progress_time_var(),
-                             to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
+                             to_turns<double>( calendar::time_since_cataclysm() ) );
     }
 }
 

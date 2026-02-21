@@ -52,6 +52,20 @@ float max_sun_irradiance()
     return 1000.f;
 }
 
+time_duration calendar::time_since_cataclysm()
+{
+    return calendar::turn - calendar::start_of_cataclysm;
+}
+
+float solar_panel_deterioration_factor()
+{
+    constexpr float deterioration_per_year = 0.01f;
+    constexpr float deterioration_per_day = deterioration_per_year / 365.0f;
+
+    const float days_since_cataclysm = to_days<float>( calendar::time_since_cataclysm() );
+    return 1.0f - ( days_since_cataclysm * deterioration_per_day );
+}
+
 time_duration lunar_month()
 {
     return 29.530588853 * 1_days;
