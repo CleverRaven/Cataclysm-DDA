@@ -128,6 +128,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_merchant_stall",
+    "effect": [ { "mapgen_update": "mx_skyisland_merchant_stall", "target_var": { "global_val": "OM_island_north" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_memorize_island",
     "//": "Tracks various map or overmap spots for the island's construction upgrades.",
     "effect": [
@@ -135,6 +140,10 @@
       {
         "u_location_variable": { "global_val": "OM_island_center" },
         "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS" }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_north" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_y": -1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subcenter" },
@@ -381,6 +390,89 @@
       ],
       "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "*": "t_glass_roof", ".": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_skyisland_merchant_stall",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        |Bt...T|        ",
+        "        |B....h|        ",
+        "        ||||+|||        ",
+        "        |Th...T|        ",
+        "        |......|        ",
+        "        |cccccc|        ",
+        "        |CCCCCC|        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ".": "t_floor",
+        "C": "t_traderwall",
+        "c": "t_floor",
+        "g": "t_floor",
+        "h": "t_floor",
+        "|": "t_traderwall_stone",
+        "+": "t_door_c",
+        "T": "t_floor",
+        "t": "t_floor",
+        "B": "t_floor"
+      },
+      "furniture": { "h": "f_chair", "T": "f_table", "B": "f_bed", "t": "f_coffee_table", "c": "f_counter" },
+      "faction_owner": [ { "id": "sky_island_traders", "x": [ 8, 15 ], "y": [ 5, 12 ] } ],
+      "place_nested": [ { "chunks": [ "mx_skyisland_merchant_stall_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_skyisland_merchant_stall_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "        ||||||||        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "|": "t_trader_thatch_roof" }
     }
   },
   {

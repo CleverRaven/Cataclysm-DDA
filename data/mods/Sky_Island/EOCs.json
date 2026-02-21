@@ -195,6 +195,10 @@
           "EOC_return_heal"
         ]
       },
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS" }
+      },
       { "clear_dimension": "dimension_sky_island_mission" },
       { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
