@@ -587,19 +587,27 @@ std::pair<std::string, nc_color> display::weary_malus_text_color( const Characte
 
 std::string display::activity_level_str( float level )
 {
-    static const std::array<translation, 6> activity_descriptions { {
-            to_translation( "activity description", "None" ),
-            to_translation( "activity description", "Light" ),
-            to_translation( "activity description", "Moderate" ),
-            to_translation( "activity description", "Brisk" ),
-            to_translation( "activity description", "Active" ),
-            to_translation( "activity description", "Extreme" ),
-        } };
-    // Activity levels are 1, 2, 4, 6, 8, 10
-    // So we can easily cut them in half and round down for an index
-    int idx = std::floor( level / 2 );
+    // This is either dead code, or we have two activity widgets.
+    // You're probably looking for data/json/ui/activity.json
+    static const std::map<float, translation> activity_descriptions_map {
+        { SLEEP_EXERCISE, to_translation( "activity description", "None" ), },
+        { NO_EXERCISE, to_translation( "activity description", "None" ), },
+        { LIGHT_EXERCISE, to_translation( "activity description", "Light" ), },
+        { MODERATE_EXERCISE, to_translation( "activity description", "Moderate" ), },
+        { BRISK_EXERCISE, to_translation( "activity description", "Brisk" ), },
+        { ACTIVE_EXERCISE, to_translation( "activity description", "Active" ), },
+        { EXTRA_EXERCISE, to_translation( "activity description", "Extreme" ), },
+        { COMBAT_EXERCISE, to_translation( "activity description", "Combat" ), }
+    };
 
-    return activity_descriptions[idx].translated();
+    std::string retval = activity_descriptions_map.begin()->second.translated();
+
+    for( const std::pair<const float, translation> &pair : activity_descriptions_map ) {
+        if( level >= pair.first ) {
+            retval = pair.second.translated();
+        }
+    }
+    return retval;
 }
 
 std::string display::activity_malus_str( const Character &u )

@@ -648,7 +648,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     // Fighting is hard work
-    set_activity_level( EXTRA_EXERCISE );
+    set_activity_level( COMBAT_EXERCISE );
 
     item_location cur_weapon = allow_unarmed ? used_weapon() : get_wielded_item();
     item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
@@ -975,6 +975,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
+    // Our COMBAT_EXERCISE is orders of magnitude higher than EXTRA_EXERCISE. Passing it here will result in *absurd* values.
+    // We must pass in EXTRA_EXERCISE at most.
     // Weariness handling - 1 / the value, because it returns what % of the normal speed
     const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     mod_moves( forced_movecost >= 0 ? -forced_movecost : -move_cost * ( 1 / weary_mult ) );
@@ -1033,7 +1035,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     }
 
     // Fighting is hard work
-    set_activity_level( EXTRA_EXERCISE );
+    set_activity_level( COMBAT_EXERCISE );
 
     creature_tracker &creatures = get_creature_tracker();
     Creature *critter = creatures.creature_at( p );
@@ -1045,6 +1047,8 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     recoil = MAX_RECOIL;
 
     // Weariness handling
+    // Our COMBAT_EXERCISE is orders of magnitude higher than EXTRA_EXERCISE. Passing it here will result in *absurd* values.
+    // We must pass in EXTRA_EXERCISE at most.
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     int move_cost = attack_speed( weapon ) * weary_mult;
@@ -1529,6 +1533,8 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         float move_cost = attack_speed( used_weap );
         move_cost *= tec_id->move_cost_multiplier( *this );
         move_cost += tec_id->move_cost_penalty( *this );
+        // Our COMBAT_EXERCISE is orders of magnitude higher than EXTRA_EXERCISE. Passing it here will result in *absurd* values.
+        // We must pass in EXTRA_EXERCISE at most.
         float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
         move_cost *= ( 1.0f / move_mult );
         if( get_moves() + get_speed() - move_cost < 0 ) {

@@ -1859,7 +1859,7 @@ void Character::on_try_dodge()
         const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
         burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
                                         dodge_skill_modifier ) );
-        set_activity_level( EXTRA_EXERCISE );
+        set_activity_level( COMBAT_EXERCISE );
     }
 }
 
@@ -3414,8 +3414,9 @@ float Character::instantaneous_activity_level() const
 
 int Character::activity_level_index() const
 {
-    // Activity levels are 1, 2, 4, 6, 8, 10
-    // So we can easily cut them in half and round down for an index
+    // Activity levels are 1, 2, 4, 6, 8, 10, 1000
+    // So we can (mostly) easily cut them in half and round down for an index
+    // ...This function is only called for EOCs, maybe we should just return the activity level directly instead of this.
     return std::floor( instantaneous_activity_level() / 2 );
 }
 
