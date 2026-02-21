@@ -1,0 +1,16 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_road_lighthouse",
+    "name": "Unit",
+    "terrain": [ "hab_unit" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_space_hunvre",
+    "name": "Space",
+    "terrain": [ "outer_space" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]

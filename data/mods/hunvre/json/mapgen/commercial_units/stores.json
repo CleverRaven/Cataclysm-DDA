@@ -1,0 +1,508 @@
+[
+  {
+    "type": "city_building",
+    "id": "store_unit_z1",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "store_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "store_unit",
+    "name": "store unit",
+    "sym": "^",
+    "color": "light_green",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_FUEL" ]
+  },
+  {
+    "om_terrain": [ "store_unit" ],
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "###########  ###########",
+        "#                      #",
+        "#                      #",
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "########################"
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [ { "chunks": [ "24x24_stores_straight", "24x24_stores_cross" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_cross",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_e" ]
+        },
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 13,
+          "y": 0,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_w" ]
+        },
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_e" ]
+        },
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_w" ]
+        },
+        { "chunks": [ "24x24_stores_south" ], "x": 0, "y": 0, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 23, "y": 11, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 0, "y": 11, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 22, "y": 11, "flags": { "east": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 0, "y": 11, "flags": { "west": [ "ROAD" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_s" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w", "11x11_store_s" ]
+        },
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_w", "11x11_store_s" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w", "11x11_store_s" ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_straight",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "###########  ###########",
+        "###########  ###########",
+        "###########  ###########",
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "########################"
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_e" ]
+        },
+        {
+          "chunks": [ "11x11_store_n", "11x11_store_e", "11x11_store_w" ],
+          "x": 13,
+          "y": 0,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_n", "11x11_store_w" ]
+        },
+        {
+          "chunks": [ "11x11_store_w", "11x11_store_e" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_e" ]
+        },
+        {
+          "chunks": [ "11x11_store_w", "11x11_store_e" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_w" ]
+        },
+        { "chunks": [ "24x24_stores_straight_south" ], "x": 0, "y": 0, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "ROAD" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_straight_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_store_e", "11x11_store_s" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_e", "11x11_store_w", "11x11_store_s" ]
+        },
+        {
+          "chunks": [ "11x11_store_w", "11x11_store_s" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_store_e", "11x11_store_w", "11x11_store_s" ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+##c##---#",
+        "#_tc.1#1.c#",
+        "#_tc.2#1.c#",
+        "#_tc..+..c#",
+        "#_tcc.#2.d#",
+        "#__tt_##-##",
+        "#_____#=.=#",
+        "#hh_hh#=.=#",
+        "#TT_TT#=.=#",
+        "#hh_hh#=.=#",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#---##c##+#",
+        "#c.1#1.ct_#",
+        "#c.1#2.ct_#",
+        "#c..+..ct_#",
+        "#d.2#.cct_#",
+        "##-##_tt__#",
+        "#=.=#_____#",
+        "#=.=#hh_hh#",
+        "#=.=#TT_TT#",
+        "#=.=#hh_hh#",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#====#dccc-",
+        "#....-....-",
+        "#====#2.11-",
+        "#######+###",
+        "#hTh__..21#",
+        "#hTh_tc...c",
+        "#____tcccc#",
+        "#hTh__tttt#",
+        "#hTh______+",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#hTh______+",
+        "#hTh__tttt#",
+        "#____tcccc#",
+        "#hTh_tc...c",
+        "#hTh__..21#",
+        "#######+###",
+        "#====#2.11-",
+        "#....-....-",
+        "#====#dccc-",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#=.=#hh_hh#",
+        "#=.=#TT_TT#",
+        "#=.=#hh_hh#",
+        "#=.=#_____#",
+        "##-##_tt__#",
+        "#d.2#.cct_#",
+        "#c..+..ct_#",
+        "#c.1#2.ct_#",
+        "#c.1#1.ct_#",
+        "#---##c##+#"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#hh_hh#=.=#",
+        "#TT_TT#=.=#",
+        "#hh_hh#=.=#",
+        "#_____#=.=#",
+        "#__tt_##-##",
+        "#_tcc.#2.d#",
+        "#_tc..+..c#",
+        "#_tc.2#1.c#",
+        "#_tc.1#1.c#",
+        "#+##c##---#"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "+______hTh#",
+        "#tttt__hTh#",
+        "#cccct____#",
+        "c...ct_hTh#",
+        "#12..__hTh#",
+        "###+#######",
+        "-11.2#====#",
+        "-....-....#",
+        "-cccd#====#",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_store_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "-cccd#====#",
+        "-....-....#",
+        "-11.2#====#",
+        "###+#######",
+        "#12..__hTh#",
+        "c...ct_hTh#",
+        "#cccct____#",
+        "#tttt__hTh#",
+        "+______hTh#",
+        "###########"
+      ],
+      "palettes": [ "base", "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": "t_concrete",
+        "1": "t_concrete",
+        "2": "t_concrete",
+        "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "c": "t_concrete",
+        "d": "t_concrete",
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": "t_concrete"
+      },
+      "furniture": { "d": "f_dumpster", "1": "f_oven", "2": "f_deep_fryer", "t": "f_barstool", "h": "f_chair", "c": "f_counter" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

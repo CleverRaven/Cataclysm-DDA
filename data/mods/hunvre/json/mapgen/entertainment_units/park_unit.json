@@ -1,0 +1,20 @@
+[
+  {
+    "type": "city_building",
+    "id": "park_unit_building",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "park_unit",
+    "name": "park unit",
+    "sym": "^",
+    "color": "yellow",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ]
+  }
+]

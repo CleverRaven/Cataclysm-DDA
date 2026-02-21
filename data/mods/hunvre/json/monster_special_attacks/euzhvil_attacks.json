@@ -1,0 +1,13 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_euzhvil_phase",
+    "effect": [
+      {
+        "if": { "math": [ "distance('u', 'npc') > 5" ] },
+        "then": { "u_add_effect": "invisibility", "duration": 1 },
+        "else": { "u_lose_effect": "invisibility" }
+      }
+    ]
+  }
+]

@@ -1,0 +1,953 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VANILLA_ROAD_WEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "vanilla_road_weight = 0" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "road_end",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "fill_ter": "t_concrete_wall",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ______________     ",
+        "     _............_     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*.**..*._     ",
+        "     _.*...**..**._     ",
+        "     _.*..**..**.._     ",
+        "     _.*.**..**..._     ",
+        "     _..**..**..*._     ",
+        "     _.**..**...*._     ",
+        "     _.*..**.*..*._     "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_cul_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        { "chunks": [ "24x24_road_roof" ], "x": 0, "y": 0, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_cul_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "____................____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "road_straight" ],
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "fill_ter": "t_concrete_wall",
+      "rows": [
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_sidewalk_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          },
+          "else_chunks": [ [ "24x24_airlock_open", 2 ], [ "24x24_airlock_closed", 5 ], [ "null", 3 ] ]
+        },
+        {
+          "else_chunks": [ "24x24_end_n_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
+        {
+          "else_chunks": [ "24x24_end_s_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "east": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
+        { "chunks": [ "24x24_road_roof" ], "x": 0, "y": 0, "z": 1 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "tram_car", "x": 15, "y": 6, "chance": 25, "rotation": 270 },
+        { "vehicle": "tram_car", "x": 15, "y": 18, "chance": 25, "rotation": 270 },
+        { "vehicle": "tram_car", "x": 8, "y": 5, "chance": 25, "rotation": 90 },
+        { "vehicle": "tram_car", "x": 8, "y": 17, "chance": 25, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_sidewalk_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____..            ..____",
+        "____..            ..____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____##            ##____",
+        "____..            ..____",
+        "____..            ..____"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "else_chunks": [ [ "24x24_sidewalk_airlock_open", 2 ], [ "24x24_sidewalk_airlock_closed", 5 ], [ "null", 3 ] ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "east": [ "SOURCE_FUEL" ], "west": [ "SOURCE_FUEL" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "road_curved",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "fill_ter": "t_concrete_wall",
+      "//": "Replace chunks road_curved_bend_lighthouse with a truck layby to deal with bad road spawns",
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_curved_layby_lighthouse" ],
+          "else_chunks": [ "road_curved_bend_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "east": [
+              { "om_terrain": "road_four_way", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "road_tee", "om_terrain_match_type": "SUBTYPE" }
+            ],
+            "south_east": [
+              { "om_terrain": "road_four_way", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "road_tee", "om_terrain_match_type": "SUBTYPE" }
+            ],
+            "south": [
+              { "om_terrain": "road_four_way", "om_terrain_match_type": "SUBTYPE" },
+              { "om_terrain": "road_tee", "om_terrain_match_type": "SUBTYPE" }
+            ]
+          }
+        },
+        { "chunks": [ "24x24_road_roof" ], "x": 0, "y": 0, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "road_curved_bend_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             ___________",
+        "            __..........",
+        "           __.**********",
+        "          __.**.........",
+        "         __.**..........",
+        "        __.**..*********",
+        "       __.**..**........",
+        "      __.**..**.........",
+        "     __.**..**..********",
+        "     _.**..**..**.......",
+        "     _.*..**..**........",
+        "     _.*..*..**..*******",
+        "     _.*..*..*..**......",
+        "     _.*..*..*..*.______",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_curved_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "else_chunks": [ "24x24_curved_end_s_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "south_east": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
+        },
+        {
+          "else_chunks": [ "24x24_curved_end_e_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_curved_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "____##....####....####..",
+        "____##....####....####..",
+        "____..........          ",
+        "____.........           ",
+        "____........            ",
+        "____.......             ",
+        "____##....              ",
+        "____##...               ",
+        "____##..                ",
+        "____##.                 ",
+        "____..                  ",
+        "____..                  ",
+        "____..                  ",
+        "____..                  ",
+        "____##            ......",
+        "____##            ......",
+        "____##            ..____",
+        "____##            ..____",
+        "____..            ..____",
+        "____..            ..____"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_curved_end_s_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_curved_end_chunk_s_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_curved_end_chunk_s_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    __            __    "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_curved_end_e_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_curved_end_chunk_e_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_curved_end_chunk_e_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       _",
+        "                       _",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       _",
+        "                       _",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_road_curved_layby_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "road_tee",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "fill_ter": "t_concrete_wall",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "________________________",
+        "........................",
+        "*************.**********",
+        ".............**.........",
+        "............**..........",
+        "**********.**..*********",
+        "..........**..**........",
+        ".........**..**.........",
+        "*******.**..**..********",
+        ".......**..**..**.......",
+        ".......*..**..**........",
+        "******.*..*..**..*******",
+        ".......*..*..*..**......",
+        "______.*..*..*..*.______",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_tee_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        { "chunks": [ "24x24_road_roof" ], "x": 0, "y": 0, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_tee_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "........................",
+        "........................",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "......            ......",
+        "......            ......",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
+    "object": {
+      "fill_ter": "t_concrete_wall",
+      "rows": [
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "______.*..*..*..*.______",
+        ".......*..*..*..*.......",
+        "*************.**********",
+        ".......*..*..**.........",
+        ".......*..*.**..........",
+        "**********.**..*********",
+        ".......*..**..**........",
+        ".......*.**..**.........",
+        "*******.**..**..********",
+        ".......**..**..**.......",
+        ".......*..**..**........",
+        "******.*..*..**..*******",
+        ".......*..*..*..**......",
+        "______.*..*..*..*.______",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     ",
+        "     _.*..*..*..*._     "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_crossroad_sidewalk_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": {
+            "north_west": [ "SIDEWALK" ],
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ]
+          }
+        },
+        { "chunks": [ "24x24_road_roof" ], "x": 0, "y": 0, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_crossroad_sidewalk_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "......            ......",
+        "......            ......",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "......            ......",
+        "......            ......",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____",
+        "____..            ..____"
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_end_n_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_end_n_chunk_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "north_west": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_end_s_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_end_s_chunk_lighthouse" ],
+          "x": 0,
+          "y": 0,
+          "flags_any": { "south_west": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_end_n_chunk_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "______.*..*..*..*.______",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####"
+      ],
+      "palettes": [ "road_palette" ],
+      "terrain": { "0": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_end_s_chunk_lighthouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "#####_.*..*..*..*._#####",
+        "______.*..*..*..*.______"
+      ],
+      "palettes": [ "road_palette" ],
+      "terrain": { "0": "t_dirt" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_sidewalk_airlock_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "____...*..*..*..*...____",
+        "#__###............###__#",
+        "#__###............###__#",
+        "____...*..*..*..*...____",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_sidewalk_airlock_closed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "____...*..*..*..*...____",
+        "########################",
+        "########################",
+        "____...*..*..*..*...____",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "terrain": { "#": "t_airlock_control" },
+      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_airlock_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     _.*..*..*..*._     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     _.*..*..*..*._     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_airlock_closed",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     _.*..*..*..*._     ",
+        "     ##############     ",
+        "     ##############     ",
+        "     _.*..*..*..*._     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "road_palette" ],
+      "remove_vehicles": [ { "vehicles": [  ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_road_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "terrain": { "#": "t_concrete_roof" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

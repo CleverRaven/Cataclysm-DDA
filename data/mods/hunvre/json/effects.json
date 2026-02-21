@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_dreamcatcher",
+    "name": [ "Cerebral tampering", "Strong cerebral tampering" ],
+    "desc": [ "Something feels off.", "Something is definitely off." ],
+    "max_intensity": 2
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "t_floor_container",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "Container",
+    "description": "Container",
+    "extend": { "flags": [ "CONTAINER" ] }
+  },
+  {
+    "id": "t_wall_control",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "wall controls",
+    "description": "Wall controls.",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] }
+  },
+  {
+    "id": "t_ret_furn_target",
+    "copy-from": "t_sidewalk",
+    "type": "terrain",
+    "name": "Target",
+    "description": "Target"
+  },
+  {
+    "id": "f_bed_retractable",
+    "copy-from": "f_bed",
+    "type": "furniture",
+    "name": "Bed",
+    "description": "Bed",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] }
+  },
+  {
+    "id": "f_shower_retractable",
+    "copy-from": "f_shower",
+    "type": "furniture",
+    "name": "Shower",
+    "description": "Shower",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] }
+  },
+  {
+    "id": "t_airlock_control",
+    "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "airlock controls",
+    "description": "Airlock controls."
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "airlock_to_path",
+    "furniture": [ { "result": "f_shower_retractable", "valid_furniture": [ "f_null", "f_shower_retractable", "f_bed_retractable" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "path_to_airlock",
+    "furniture": [ { "result": "f_null", "valid_furniture": [ "f_null", "f_shower_retractable", "f_bed_retractable" ] } ]
+  }
+]

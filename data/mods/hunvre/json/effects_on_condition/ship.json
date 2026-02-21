@@ -1,0 +1,33 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_start_storyteller",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "run_eocs": [ "eoc_announcements" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_announcements",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "effect": [
+      {
+        "switch": { "math": [ "time_since('cataclysm', 'unit':'hours')" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "u_message": "\"EMERGENCY ALERT.  This is not a test.\nThe ship is under attack from an unknown force.  Additionally, an unidentified and rapidly spreading condition is affecting individuals who fall asleep.\nEvery citizen is instructed to seek shelter immediately, secure basic necessities, and avoid falling sleep at all costs until further notice.\"",
+              "type": "warning",
+              "sound": true
+            }
+          },
+          {
+            "case": 24,
+            "effect": { "u_message": "\"EMERGENCY ALERT.  This is not a test.\n\"", "type": "warning", "sound": true }
+          }
+        ]
+      }
+    ]
+  }
+]

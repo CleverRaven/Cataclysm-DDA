@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "hunvre",
+    "name": "Hunvre",
+    "authors": [ "BalthazarArgall" ],
+    "description": "A sci-fi, claustrophobic spin on DDA.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ],
+    "path": "json/"
+  }
+]

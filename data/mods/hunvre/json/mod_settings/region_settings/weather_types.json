@@ -1,0 +1,20 @@
+[
+  {
+    "id": "hunvre_weather_base",
+    "type": "weather_type",
+    "name": "Default",
+    "color": "light_cyan",
+    "map_color": "yellow_white",
+    "sym": "*",
+    "sun_sym": "☼",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -100,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 10
+  }
+]
