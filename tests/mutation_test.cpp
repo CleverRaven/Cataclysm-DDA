@@ -41,7 +41,9 @@ static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -60,6 +62,8 @@ static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_CHIMERA( "THRESH_CHIMERA" );
 static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+
+static const itype_id itype_integrated_lupine_fur( "integrated_lupine_fur" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
@@ -385,6 +389,47 @@ TEST_CASE( "OVERMAP_SIGHT_enchantment_affect_overmap_sight_range", "[mutations][
             CHECK( dummy.overmap_modified_sight_range( 100.0f ) == 3.0 );
         }
     }
+}
+
+TEST_CASE( "cached_enchantment_mutation_is_not_reapplied", "[mutations][regression]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    dummy.cached_mutations.clear();
+    dummy.my_mutations.clear();
+    dummy.my_mutations_dirty.clear();
+    dummy.mutations_to_add.clear();
+    dummy.mutations_to_remove.clear();
+    dummy.new_mutation_cache->clear();
+    dummy.old_mutation_cache->clear();
+
+    dummy.cached_mutations.emplace( trait_NIGHTVISION, Character::trait_data() );
+    REQUIRE( !dummy.cached_mutations[trait_NIGHTVISION].powered );
+
+    dummy.old_mutation_cache->mutations = { trait_SMELLY };
+    dummy.new_mutation_cache->mutations = { trait_NIGHTVISION };
+
+    dummy.update_cached_mutations();
+
+    CHECK( !dummy.cached_mutations[trait_NIGHTVISION].powered );
+    clear_avatar();
+}
+
+TEST_CASE( "mutation_effect_does_not_stack_integrated_armor", "[mutations][regression]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    dummy.set_mutation( trait_LUPINE_FUR );
+    REQUIRE( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+
+    dummy.mutation_effect( trait_LUPINE_FUR, true );
+    CHECK( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+
+    dummy.mutation_effect( trait_LUPINE_FUR, true );
+    CHECK( dummy.amount_worn( itype_integrated_lupine_fur ) == 1 );
+    clear_avatar();
 }
 
 static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
@@ -770,4 +815,3 @@ TEST_CASE( "Threshold_substitutions", "[mutations]" )
     CHECK( !dummy.has_trait( trait_WINGS_BIRD ) );
     CHECK( !dummy.has_trait( trait_STR_ALPHA ) );
 }
-
