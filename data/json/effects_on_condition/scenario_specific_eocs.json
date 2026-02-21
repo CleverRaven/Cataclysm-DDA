@@ -304,5 +304,47 @@
       "next_weather",
       { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LAB_MUTANT_FRIENDS",
+    "effect": [ { "u_cast_spell": { "id": "SPELL_ALLY_WITH_MUTANTS" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LAB_MUTANT_NO_MUTAGENS",
+    "//": "Deletes boxes containing mutagens and locutus.  Leaves barrels of slurry intact.",
+    "effect": {
+      "u_map_run_item_eocs": "all",
+      "min_radius": 0,
+      "max_radius": 50,
+      "search_data": [ { "id": "box_small_plastic" } ],
+      "true_eocs": [ { "id": "EOC_DELETE_STARTER_MUTAGENS", "effect": [ "npc_die" ] } ]
+    }
+  },
+  {
+    "type": "SPELL",
+    "id": "SPELL_ALLY_WITH_MUTANTS",
+    "name": { "str": "SPELL_ALLY_WITH_MUTANTS", "//~": "NO_I18N" },
+    "description": { "str": "SPELL_ALLY_WITH_MUTANTS", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "shape": "blast",
+    "effect": "charm_monster",
+    "min_damage": 99999,
+    "max_damage": 99999,
+    "min_duration": 2000000000,
+    "max_duration": 2000000000,
+    "targeted_monster_ids": [
+      "mon_mutant_experimental",
+      "mon_mutant_evolved",
+      "mon_mutant_antler",
+      "mon_mutant_arthropod",
+      "mon_mutant_camouflaged",
+      "mon_mutant_alpha",
+      "mon_mutant_mollusk",
+      "mon_mutant_alpha_boss"
+    ],
+    "min_aoe": 50,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
   }
 ]
