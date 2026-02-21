@@ -6,6 +6,11 @@
     "dynamic_line": "&You see a black computer screen.  A circular cursor flickers on the screen, displayed at a very low resolution.  The cursor looks to be controlled by a red trackball on the machine.  Only one option appears:\n\n<color_light_green> [KÁ]</color>",
     "responses": [
       { "text": "[Select \"KÁ\"] ", "topic": "COMP_LS_SD_Entrance_Controls2" },
+      {
+        "text": "[Plug in the Exodii electronic storage device]",
+        "condition": { "u_has_items": { "item": "exodii_usb_stick", "count": 1 } },
+        "topic": "COMP_LS_SD_Download_Data"
+      },
       { "text": "[Step away]", "topic": "TALK_DONE" }
     ]
   },
@@ -28,6 +33,19 @@
         "topic": "COMP_LS_SD_Entrance_Controls"
       },
       { "text": "[Select \"adīni lā\"]", "topic": "COMP_LS_SD_Entrance_Controls" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_SD_Download_Data",
+    "//": "for Rubik's quest to download the data",
+    "dynamic_line": "&The screen starts to auto-populate with green text, and the process speeds up rapidly until it is just a blur.  It suddenly stops and the terminal beeps - you then here a ka-thunk as the storage device is ejected from the machine.",
+    "responses": [
+      {
+        "text": "[Take the Exodii electronic storage device]",
+        "effect": [ { "u_consume_item": "exodii_usb_stick", "count": 1 }, { "u_spawn_item": "exodii_usb_stick_full", "count": 1 } ],
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

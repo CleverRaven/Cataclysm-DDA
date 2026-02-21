@@ -135,5 +135,56 @@
     "type": "ter_furn_transform",
     "id": "string_dimension_ziggurat_transform",
     "furniture": [ { "result": [ "f_string_dimension_housing_imploded" ], "valid_furniture": [ "f_string_dimension_housing" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STRING_DIMENSION_ENTERED_EXODII_DOME",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "current_dimension": "string_dimension" },
+        {
+          "or": [
+            { "u_near_om_location": "string_dimension_dome_x1y1z-2" },
+            { "u_near_om_location": "string_dimension_dome_x2y0z-2" },
+            { "u_near_om_location": "string_dimension_dome_x2y0z-1" },
+            { "u_near_om_location": "string_dimension_dome_x2y0z0" },
+            { "u_near_om_location": "string_dimension_dome_x1y1z0" },
+            { "u_near_om_location": "string_dimension_dome_x1y2z0" },
+            { "u_near_om_location": "string_dimension_dome_x0y0z2" },
+            { "u_near_om_location": "string_dimension_dome_x1y0z2" },
+            { "u_near_om_location": "string_dimension_dome_x2y0z2" },
+            { "u_near_om_location": "string_dimension_dome_x0y1z2" },
+            { "u_near_om_location": "string_dimension_dome_x1y1z2" },
+            { "u_near_om_location": "string_dimension_dome_x2y1z2" },
+            { "u_near_om_location": "string_dimension_dome_x0y2z2" },
+            { "u_near_om_location": "string_dimension_dome_x1y2z2" },
+            { "u_near_om_location": "string_dimension_dome_x2y2z2" },
+            { "u_near_om_location": "string_dimension_dome_x0y0z1" },
+            { "u_near_om_location": "string_dimension_dome_x1y0z1" },
+            { "u_near_om_location": "string_dimension_dome_x2y0z1" },
+            { "u_near_om_location": "string_dimension_dome_x0y1z1" },
+            { "u_near_om_location": "string_dimension_dome_x1y1z1" },
+            { "u_near_om_location": "string_dimension_dome_x2y1z1" },
+            { "u_near_om_location": "string_dimension_dome_x0y2z1" },
+            { "u_near_om_location": "string_dimension_dome_x1y2z1" },
+            { "u_near_om_location": "string_dimension_dome_x2y2z1" }
+          ]
+        },
+        { "not": { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] } }
+      ]
+    },
+    "effect": [
+      { "u_add_var": "u_found_string_dimension_exodii", "value": "yes" },
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+        "then": {
+          "u_message": "This scrap-metal dome reminds you of Rubik and the Exodii castle.  Maybe you should ask them about it?",
+          "type": "neutral",
+          "popup": false
+        }
+      }
+    ]
   }
 ]
