@@ -1300,7 +1300,12 @@
         "encumbrance": 5
       }
     ],
-    "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Raise visor",
+      "target": "helmet_motor_raised",
+      "msg": "You raise the helm's visor."
+    },
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1371,7 +1376,7 @@
         "encumbrance": 2
       }
     ],
-    "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
+    "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You lower the helm's visor." },
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -2230,7 +2235,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "lc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "material": [ "lc_steel" ],
     "symbol": "o",
@@ -2280,7 +2285,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel light close helm (raised)", "str_pl": "mild steel light close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "lc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "lc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -2304,7 +2314,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_lc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2315,7 +2325,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel light close helm (raised)", "str_pl": "mild steel light close helms (raised)" },
     "copy-from": "lc_lighthelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_lc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2329,7 +2344,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "mc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2339,7 +2354,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel light close helm (raised)", "str_pl": "medium steel light close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "mc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -2352,7 +2372,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_mc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2363,7 +2383,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel light close helm (raised)", "str_pl": "medium steel light close helms (raised)" },
     "copy-from": "mc_lighthelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_mc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2377,7 +2402,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "hc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2387,7 +2412,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel light close helm (raised)", "str_pl": "high steel light close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "hc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -2400,7 +2430,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_hc_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2411,7 +2441,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel light close helm (raised)", "str_pl": "high steel light close helms (raised)" },
     "copy-from": "hc_lighthelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_hc_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2425,7 +2460,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "ch_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2435,7 +2470,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel light close helm (raised)", "str_pl": "hardened steel light close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "ch_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -2448,7 +2488,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_ch_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2459,7 +2499,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel light close helm (raised)", "str_pl": "hardened steel light close helms (raised)" },
     "copy-from": "ch_lighthelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_ch_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2473,7 +2518,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "qt_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -2483,7 +2528,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel light close helm (raised)", "str_pl": "tempered steel light close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "qt_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -2496,7 +2546,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_qt_lighthelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2507,7 +2557,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel light close helm (raised)", "str_pl": "tempered steel light close helms (raised)" },
     "copy-from": "qt_lighthelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_lighthelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_qt_lighthelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2522,7 +2577,12 @@
     "volume": "3 L",
     "price": "740 USD",
     "price_postapoc": "74 USD",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "lc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -2571,7 +2631,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
     "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "lc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "lc_helm_close", "menu_text": "Lower visor" },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -2591,7 +2651,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel close helm" },
     "copy-from": "lc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_lc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_lc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2601,7 +2666,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
     "copy-from": "lc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_helm_close", "menu_text": "Lower visor" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2611,7 +2676,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel close helm" },
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "mc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -2620,7 +2690,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower visor" },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -2629,7 +2699,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel close helm" },
     "copy-from": "mc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_mc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2639,7 +2714,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
     "copy-from": "mc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_helm_close", "menu_text": "Lower visor" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2649,7 +2724,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel close helm" },
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "mc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -2658,7 +2738,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower visor" },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -2667,7 +2747,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel close helm" },
     "copy-from": "hc_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_hc_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_hc_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2677,7 +2762,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
     "copy-from": "hc_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_helm_close", "menu_text": "Lower visor" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2687,7 +2772,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel close helm" },
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "ch_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "ch_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -2696,7 +2786,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower visor" },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -2705,7 +2795,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel close helm" },
     "copy-from": "ch_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_ch_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_ch_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2715,7 +2810,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
     "copy-from": "ch_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_helm_close", "menu_text": "Lower visor" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2725,7 +2820,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel close helm" },
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "qt_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -2734,7 +2834,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower visor" },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -2743,7 +2843,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel close helm" },
     "copy-from": "qt_helm_close",
-    "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_qt_helm_close_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You raise the helm's visor.",
+      "target": "xl_qt_helm_close_raised",
+      "menu_text": "Raise visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2753,7 +2858,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
     "copy-from": "qt_helm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower visor" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2772,7 +2877,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "lc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "material": [ "lc_steel" ],
     "symbol": "o",
@@ -2821,7 +2926,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel heavy close helm (raised)", "str_pl": "mild steel heavy close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "lc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "lc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "looks_like": "helmet_barbute",
     "armor": [
       {
@@ -2845,7 +2955,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_lc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2856,7 +2966,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "mild steel heavy close helm (raised)", "str_pl": "mild steel heavy close helms (raised)" },
     "copy-from": "lc_heavyhelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_lc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_lc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2870,7 +2985,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "mc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
@@ -2880,7 +2995,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel heavy close helm (raised)", "str_pl": "medium steel heavy close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "mc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "mc_steel" }
   },
   {
@@ -2893,7 +3013,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_mc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2904,7 +3024,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "medium steel heavy close helm (raised)", "str_pl": "medium steel heavy close helms (raised)" },
     "copy-from": "mc_heavyhelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_mc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_mc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2918,7 +3043,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "hc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
@@ -2928,7 +3053,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel heavy close helm (raised)", "str_pl": "high steel heavy close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "hc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "hc_steel" }
   },
   {
@@ -2941,7 +3071,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_hc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -2952,7 +3082,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "high steel heavy close helm (raised)", "str_pl": "high steel heavy close helms (raised)" },
     "copy-from": "hc_heavyhelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_hc_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_hc_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -2966,7 +3101,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "hc_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
@@ -2976,7 +3111,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel heavy close helm (raised)", "str_pl": "hardened steel heavy close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "ch_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -2989,7 +3129,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_ch_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -3000,7 +3140,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "hardened steel heavy close helm (raised)", "str_pl": "hardened steel heavy close helms (raised)" },
     "copy-from": "ch_heavyhelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_ch_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_ch_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -3014,7 +3159,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "qt_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
@@ -3024,7 +3169,12 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel heavy close helm (raised)", "str_pl": "tempered steel heavy close helms (raised)" },
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "qt_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
@@ -3037,7 +3187,7 @@
       "type": "transform",
       "msg": "You raise the helm's visor.",
       "target": "xl_qt_heavyhelm_close_raised",
-      "menu_text": "Raise"
+      "menu_text": "Raise visor"
     },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -3048,7 +3198,12 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "tempered steel heavy close helm (raised)", "str_pl": "tempered steel heavy close helms (raised)" },
     "copy-from": "qt_heavyhelm_close_raised",
-    "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_heavyhelm_close", "menu_text": "Lower" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You lower the helm's visor.",
+      "target": "xl_qt_heavyhelm_close",
+      "menu_text": "Lower visor"
+    },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },

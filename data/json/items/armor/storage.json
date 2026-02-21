@@ -1778,7 +1778,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your %s to wear it on your arm.",
+      "msg": "You adjust your purse to wear it on your arm.",
       "target": "armrig",
       "menu_text": "Adjust on the arm"
     }
@@ -1820,7 +1820,7 @@
     ],
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your %s to wear it on your leg.",
+      "msg": "You adjust your purse to wear it on your leg.",
       "target": "leg_small_bag",
       "menu_text": "Adjust on the leg"
     }

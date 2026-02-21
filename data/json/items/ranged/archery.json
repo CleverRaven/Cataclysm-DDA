@@ -694,7 +694,7 @@
     "use_action": {
       "need_wielding": true,
       "type": "transform",
-      "menu_text": "Disassemble it",
+      "menu_text": "Disassemble",
       "target": "takedown_recurbow_folded",
       "msg": "You disassemble your bow.",
       "ammo_scale": 0,
@@ -739,7 +739,7 @@
     "use_action": {
       "need_wielding": true,
       "type": "transform",
-      "menu_text": "Assemble it",
+      "menu_text": "Assemble",
       "target": "takedown_recurbow",
       "msg": "You assemble your bow.",
       "moves": 1500
