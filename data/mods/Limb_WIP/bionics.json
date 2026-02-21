@@ -113,5 +113,15 @@
     "enchantments": [ "ENCH_BIONIC_ARM_R" ],
     "passive_pseudo_items": [ "armor_bio_arm_r" ],
     "give_mut_on_removal": [ "NO_RIGHT_ARM" ]
+  },
+  {
+    "id": "bio_limb_torso",
+    "type": "bionic",
+    "name": { "str": "Standard Exodii Cyberframe - style 1P" },
+    "//": "1p's just player 1 lmao",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "description": "Player-facing version of a cyberframe. first part of bionic limb replacements.",
+    "enchantments": [ "ENCH_BIONIC_FRAME_1P" ],
+    "passive_psuedo_items": [ "armor_bio_torso" ]
   }
 ]
