@@ -92,6 +92,36 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "id": "arm_insect_upper_l",
+    "type": "sub_body_part",
+    "copy-from": "arm_upper_l"
+  },
+  {
+    "id": "arm_insect_elbow_l",
+    "type": "sub_body_part",
+    "copy-from": "arm_elbow_l"
+  },
+  {
+    "id": "arm_insect_lower_l",
+    "type": "sub_body_part",
+    "copy-from": "arm_lower_l"
+  },
+  {
+    "id": "arm_insect_upper_r",
+    "type": "sub_body_part",
+    "copy-from": "arm_upper_r"
+  },
+  {
+    "id": "arm_insect_elbow_r",
+    "type": "sub_body_part",
+    "copy-from": "arm_elbow_r"
+  },
+  {
+    "id": "arm_insect_lower_r",
+    "type": "sub_body_part",
+    "copy-from": "arm_lower_r"
+  },
+  {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
     "max_coverage": 25,
