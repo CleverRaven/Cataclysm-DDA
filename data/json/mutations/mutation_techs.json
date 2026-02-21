@@ -348,6 +348,50 @@
   },
   {
     "type": "technique",
+    "id": "TECH_BIRD_PECK",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -1,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_PECK_GRABBED",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "condition": {
+      "or": [
+        { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+        { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",

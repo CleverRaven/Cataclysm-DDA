@@ -36,6 +36,13 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_bird_peck",
+    "limbs": [ "beak_bird" ],
+    "contact_area": [ "beak_tip" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
