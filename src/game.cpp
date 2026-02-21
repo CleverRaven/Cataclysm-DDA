@@ -7602,7 +7602,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         modifier = -here.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = here.combined_movecost( pos, dest_loc, grabbed_vehicle,
+    const int mcost = here.combined_movecost( pos, dest_loc, grabbed ? grabbed_vehicle : nullptr,
                       modifier,
                       via_ramp, false, !impassable_field_ids.empty() && u.is_immune_fields( impassable_field_ids ) );
 
