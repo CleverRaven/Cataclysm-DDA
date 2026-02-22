@@ -56,8 +56,8 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
-static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
+static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
 
