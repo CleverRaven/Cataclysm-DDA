@@ -112,12 +112,13 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( json_flag_MUTATED_ANATOMY_ONLY ) ) {
         int wearable_parts = 0;
         for( const bodypart_id &bp : get_all_body_parts() ) {
-           if( it.covers( bp ) ) {
-              wearable_parts++;
-           }
+            if( it.covers( bp ) ) {
+                wearable_parts++;
+            }
         }
-        if ( wearable_parts == 0) {
-            return ret_val<void>::make_failure( _( "Can't wear that, it's made for particular mutated anatomy." ) );
+        if( wearable_parts == 0 ) {
+            return ret_val<void>::make_failure(
+                       _( "Can't wear that, it's made for particular mutated anatomy." ) );
         }
     }
 
