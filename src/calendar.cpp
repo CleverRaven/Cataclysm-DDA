@@ -59,7 +59,18 @@ time_duration calendar::time_since_cataclysm()
 
 float solar_panel_deterioration_factor()
 {
-    constexpr float deterioration_per_year = 0.01f;
+    // Baseline module deterioration is 0.5% per year
+    constexpr float baseline_deterioration_per_year = 0.005f;
+
+    // This represents aggregated average of many factors, including:
+    // age/generation of the module, extreme post-cataclysm weather events,
+    // lack of maintenance and cleaning, as lack of cleaning also increases the erosion rate
+    //
+    // Once any of those factors are represented in a more systematic way, throw it out or revise it
+    constexpr float additional_deterioration_per_year = 0.005f;
+
+    constexpr float deterioration_per_year = baseline_deterioration_per_year +
+            additional_deterioration_per_year;
     constexpr float deterioration_per_day = deterioration_per_year / 365.0f;
 
     const float days_since_cataclysm = to_days<float>( calendar::time_since_cataclysm() );
