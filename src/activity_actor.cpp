@@ -12983,8 +12983,31 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
                     // FIXME HACK: teleports item onto ground
                     you.mod_moves( -you.item_handling_cost( **iter ) );
-                    std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
+                    // Vehicle-only zones don't fall back to ground placement.
+                    // All other zones use default behavior (cargo first, then ground).
+                    const zone_type_id drop_zt = mgr.get_near_zone_type_for_item( **iter,
+                                                 drop_dest, 0, fac_id );
+                    const bool vehicle_only = drop_zt != zone_type_id::NULL_ID() &&
+                                              mgr.has_vehicle( drop_zt, drop_dest, fac_id ) &&
+                                              !mgr.has_terrain( drop_zt, drop_dest, fac_id );
+                    std::vector<item_location> dropped_crap;
+                    if( vehicle_only ) {
+                        // Vehicle-only zone: try cargo directly, no ground fallback
+                        if( std::optional<vpart_reference> ovp =
+                                here.veh_at( here.get_bub( drop_dest ) ).cargo() ) {
+                            item copy( **iter );
+                            if( std::optional<vehicle_stack::iterator> maybe =
+                                    ovp->vehicle().add_item( here, ovp->part(), copy ) ) {
+                                dropped_crap.emplace_back(
+                                    vehicle_cursor( ovp->vehicle(), ovp->part_index() ),
+                                    &*maybe.value() );
+                            }
+                        }
+                    } else {
+                        dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
+                                       item_drop_reason::deliberate, { **iter }, &here,
+                                       here.get_bub( drop_dest ), false, false );
+                    }
                     if( !dropped_crap.empty() ) {
                         if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
                             vehicle &cart_with_items = veh_curs->veh;
@@ -13135,13 +13158,24 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     continue;
                 }
                 item copy_thisitem( thisitem );
-                // Try vehicle cargo at destination first, fall back to ground
+                // Vehicle-only zones don't fall back to ground placement.
+                // All other zones (terrain, dual-bound) try cargo first, then ground.
+                // No overflow to adjacent tiles in either case.
+                const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id ) &&
+                                          !mgr.has_terrain( zt_id, dest, fac_id );
+                bool placed = false;
                 if( std::optional<vpart_reference> ovp = here.veh_at( dest_bub ).cargo() ) {
-                    if( !ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
-                        here.add_item_or_charges( dest_bub, copy_thisitem );
+                    if( ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
+                        placed = true;
                     }
-                } else {
-                    here.add_item_or_charges( dest_bub, copy_thisitem );
+                }
+                if( !placed && !vehicle_only ) {
+                    item_location ground = here.add_item_or_charges_ret_loc( dest_bub, copy_thisitem,
+                                           false );
+                    placed = ground.get_item() != nullptr;
+                }
+                if( !placed ) {
+                    continue;
                 }
                 you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
                 if( it->second ) {
