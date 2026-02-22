@@ -2920,7 +2920,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop, // extra stops to align with the max-space printing version
         header_stats_tab_stop,
         header_stats_tab_stop

@@ -541,11 +541,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             continue;
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
-        if( !cr ) {
-            continue;
-        }
 
-        if( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && !touch_required_hit( caster, *cr ) ) {
+        if( sp.has_flag( spell_flag::TOUCH_REQUIRED ) && cr && !touch_required_hit( caster, *cr ) ) {
             caster.add_msg_if_player( m_bad, _( "Your target avoids your attempt to touch them!" ) );
             continue;
         }
@@ -558,6 +555,10 @@ static void damage_targets( const spell &sp, Creature &caster,
             if( player_character.has_unfulfilled_pyromania() ) {
                 player_character.fulfill_pyromania_sees( here, target );
             }
+        }
+
+        if( !cr ) {
+            continue;
         }
 
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );

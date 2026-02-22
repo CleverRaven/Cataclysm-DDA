@@ -1808,6 +1808,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | dies_of_starvation | | { "character", `character_id` }  | character / NONE |
 | dies_of_thirst | | { "character", `character_id` }  | character / NONE |
 | digs_into_lava | | NONE  | avatar / NONE |
+| dimension_travel | Triggers after the player travels between dimensions | { "character", `character_id` }<br />{ "from_dimension", `string` }<br />{ "to_dimension", `string` }  | avatar / NONE |
 | disarms_nuke | Triggered via disarm missile computer action in missile silo special | NONE  | avatar / NONE |
 | eats_sewage | Triggered via use action `SEWAGE` | NONE  | avatar / NONE |
 | evolves_mutation | | { "character", `character_id` },<br/> { "from_trait", `trait_id` },<br/> { "to_trait", `trait_id` }, | character / NONE |

@@ -635,6 +635,7 @@ TEST_CASE( "monster_broken_verify", "[monster]" )
 TEST_CASE( "limit_mod_size_bonus", "[monster]" )
 {
     clear_creatures();
+    g->place_player( { 66, 66, 0 } );
     const std::string monster_type = "mon_zombie";
     monster &test_monster = spawn_test_monster( monster_type, tripoint_bub_ms::zero );
 

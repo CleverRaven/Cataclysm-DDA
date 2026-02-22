@@ -35,6 +35,7 @@
     "effect": [
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
       { "u_lose_effect": "warpdisintegration" },
+      { "u_lose_effect": "sleep" },
       {
         "u_message": "Goosebumps cover your skin as a warp pulse passes through you.  You're only one warp pulse from your deadline.",
         "popup": true
