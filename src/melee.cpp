@@ -2024,6 +2024,13 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // Now that blocks cost stamina, break out if stamina is too low
+     if( get_stamina() < 2000 ) {
+         add_msg_if_player( m_warning,
+                       _( "You're close to exhaustion and cannot block effectively." ) );
+        return false;
+     }
+
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
     float melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
@@ -2211,11 +2218,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                            damage_blocked_description, thing_blocked_with );
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
-    // stamina cost for blocking, 2/3rds more than dodge cost since blocking is not based on enemy skill 
+    // stamina cost for blocking, based on dodge
     // TODO: account for enemy melee scale, add diminishing returns. 
     const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float block_skill_modifier = ( 20.0f - get_skill_level( skill_melee ) ) / 20.0f;
-    const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 10.0f *
+    const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 6.0f *
                                         block_skill_modifier;
     burn_energy_legs( -block_stamina_cost );
     set_activity_level( EXTRA_EXERCISE );
