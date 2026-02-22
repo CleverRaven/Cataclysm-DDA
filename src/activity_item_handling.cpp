@@ -290,7 +290,7 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 //try to put items into_vehicle .If fail,first try to add to character bag, then character try wield  it, last drop.
 static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_drop_reason reason,
         const std::list<item> &items,
-        const vpart_reference &vpr )
+        const vpart_reference &vpr, bool overflow = true )
 {
     map &here = get_map();
     std::vector<item_location> result;
@@ -319,26 +319,38 @@ static std::vector<item_location> try_to_put_into_vehicle( Character &c, item_dr
             into_vehicle_count += it.count();
             result.emplace_back( vehicle_cursor( veh, vpr.part_index() ), &*maybe_item.value() );
         } else {
-            if( it.count_by_charges() ) {
-                // Maybe we can add a few charges in the trunk and the rest on the ground.
-                const int charges_added = veh.add_charges( here, vp, it );
-                it.mod_charges( -charges_added );
-                into_vehicle_count += charges_added;
-            }
-            items_did_not_fit_count += it.count();
-            //~ %1$s is item name, %2$s is vehicle name, %3$s is vehicle part name
-            add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name, part_name );
-            // Retain item in inventory if overflow not too large/heavy or wield if possible otherwise drop on the ground
-            if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-                result.push_back( c.i_add( it ) );
-            } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
-                c.wield( it );
-                result.emplace_back( c.get_wielded_item() );
+            if( overflow ) {
+                if( it.count_by_charges() ) {
+                    // Maybe we can add a few charges in the trunk and the rest on the ground.
+                    const int charges_added = veh.add_charges( here, vp, it );
+                    it.mod_charges( -charges_added );
+                    into_vehicle_count += charges_added;
+                }
+                items_did_not_fit_count += it.count();
+                //~ %1$s is item name, %2$s is vehicle name, %3$s is vehicle part name
+                add_msg( m_mixed, _( "Unable to fit %1$s in the %2$s's %3$s." ), it.tname(), veh.name,
+                         part_name );
+                // Retain item in inventory if not too large/heavy, wield if possible, otherwise ground
+                if( c.can_pickVolume( it ) && c.can_pickWeight( it,
+                        !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                    result.push_back( c.i_add( it ) );
+                } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
+                    c.wield( it );
+                    result.emplace_back( c.get_wielded_item() );
+                } else {
+                    const std::string ter_name = here.name( where );
+                    //~ %1$s - item name, %2$s - terrain name
+                    add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
+                    result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
+                }
             } else {
-                const std::string ter_name = here.name( where );
-                //~ %1$s - item name, %2$s - terrain name
-                add_msg( _( "The %1$s falls to the %2$s." ), it.tname(), ter_name );
-                result.push_back( here.add_item_or_charges_ret_loc( where, it ) );
+                // No overflow: try ground at same tile without spilling to adjacent tiles.
+                // Skip partial charges, inventory, and wield fallbacks.
+                items_did_not_fit_count += it.count();
+                item_location ground = here.add_item_or_charges_ret_loc( where, it, false );
+                if( ground.get_item() ) {
+                    result.push_back( std::move( ground ) );
+                }
             }
         }
         it.handle_pickup_ownership( c );
@@ -436,7 +448,8 @@ static itype_id get_first_fertilizer_itype( Character &you, const tripoint_abs_m
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        map *here, const tripoint_bub_ms &where )
+                                        map *here, const tripoint_bub_ms &where,
+                                        bool overflow )
 {
     if( items.empty() ) {
         return {};
@@ -533,7 +546,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     for( const item &it : items ) {
         // Use ret_loc variant so the item_location tracks the actual position,
         // which may differ from 'where' if the tile overflowed to an adjacent one.
-        item_location dropped_loc = here->add_item_or_charges_ret_loc( where, it );
+        item_location dropped_loc = here->add_item_or_charges_ret_loc( where, it, overflow );
         if( dropped_loc.get_item() ) {
             items_dropped.push_back( std::move( dropped_loc ) );
         }
@@ -556,14 +569,15 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items,
-                               map *here, const tripoint_bub_ms &where, bool force_ground )
+                               map *here, const tripoint_bub_ms &where, bool force_ground,
+                               bool overflow )
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
-        try_to_put_into_vehicle( you, reason, items, *vp );
+        try_to_put_into_vehicle( you, reason, items, *vp, overflow );
         return;
     }
-    drop_on_map( you, reason, items, here, where );
+    drop_on_map( you, reason, items, here, where, overflow );
 }
 
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
@@ -583,13 +597,14 @@ std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you,
         item_drop_reason reason,
         const std::list<item> &items,
-        map *here, const tripoint_bub_ms &where, bool force_ground )
+        map *here, const tripoint_bub_ms &where, bool force_ground,
+        bool overflow )
 {
     const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
-        return try_to_put_into_vehicle( you, reason, items, *vp );
+        return try_to_put_into_vehicle( you, reason, items, *vp, overflow );
     }
-    return drop_on_map( you, reason, items, here, where );
+    return drop_on_map( you, reason, items, here, where, overflow );
 }
 
 static double get_capacity_fraction( int capacity, int volume )

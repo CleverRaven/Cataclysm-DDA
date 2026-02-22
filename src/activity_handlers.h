@@ -168,15 +168,17 @@ enum class item_drop_reason : int {
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
-                               map *here, const tripoint_bub_ms &where, bool force_ground = false );
+                               map *here, const tripoint_bub_ms &where, bool force_ground = false,
+                               bool overflow = true );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
         const std::list<item> &items, tripoint_bub_ms dest = tripoint_bub_ms::invalid );
 std::vector<item_location> put_into_vehicle_or_drop_ret_locs( Character &you, item_drop_reason,
         const std::list<item> &items, map *here, const tripoint_bub_ms &where,
-        bool force_ground = false );
+        bool force_ground = false, bool overflow = true );
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        map *here, const tripoint_bub_ms &where );
+                                        map *here, const tripoint_bub_ms &where,
+                                        bool overflow = true );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
