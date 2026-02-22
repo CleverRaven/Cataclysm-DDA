@@ -60,6 +60,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -156,6 +157,8 @@ static const move_mode_id move_mode_prone( "prone" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_unarmed( "unarmed" );
+
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
@@ -2207,6 +2210,16 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
                            damage_blocked_description, thing_blocked_with );
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
+
+    // stamina cost for blocking, 2/3rds more than dodge cost since blocking is not based on enemy skill 
+    // TODO: account for enemy melee scale, add diminishing returns. 
+    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
+    const float block_skill_modifier = ( 20.0f - get_skill_level( skill_melee ) ) / 20.0f;
+    const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 10.0f *
+                                        block_skill_modifier;
+    burn_energy_legs( -block_stamina_cost );
+    set_activity_level( EXTRA_EXERCISE );
+    add_msg_debug( debugmode::DF_MELEE, "Blocking stamina cost %.1f", block_stamina_cost );
 
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );
