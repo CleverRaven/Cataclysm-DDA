@@ -114,8 +114,9 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
               wearable_parts++;
            }
         }
-        if ( wearable_parts == 0) {
-            return ret_val<void>::make_failure( _( "Can't wear that, it's made for particular mutated anatomy." ) );
+        if( wearable_parts == 0 ) {
+            return ret_val<void>::make_failure(
+                       _( "Can't wear that, it's made for particular mutated anatomy." ) );
         }
     }
 
