@@ -52,6 +52,7 @@ static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
@@ -254,7 +255,10 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_worn();
             dummy.remove_weapon();
+            dummy.add_bionic( bio_power_storage );
+            dummy.set_power_level( dummy.get_max_power_level() );
             dummy.add_bionic( bio_ears );
+            dummy.activate_bionic( bio_ears );
             here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
