@@ -1,3 +1,4 @@
+#include "player_activity.h"
 #include "ranged.h"
 
 #include <algorithm>
@@ -143,6 +144,8 @@ static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_de
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -187,6 +190,7 @@ static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GUNSHY( "GUNSHY" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
@@ -1223,13 +1227,22 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                                body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
     }
 
-    // Practice the base gun skill proportionally to number of hits, but always by one.
     if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
-        practice( skill_gun, ( hits + 1 ) * 5 );
+        int gun_weariness_xp_penalty = activity.id() == ACT_TARGET_PRACTICE ?
+                                       get_gun_weariness_factor() : 0;
+        add_msg_debug( debugmode::DF_RANGED, "Gun weariness XP penalty: %d", gun_weariness_xp_penalty );
+        add_msg_debug( debugmode::DF_RANGED, "Gun weariness factor: %f", get_gun_weariness_factor() );
+
+        // Practice the marksmanship proportionally to number of hits, but always by one.
+        practice( skill_gun, ( hits + 1 ) * 5 - gun_weariness_xp_penalty );
+        // launchers train weapon skill for both hits and misses.
+        int practice_units = gun_skill == skill_launcher ? curshot : hits;
+        practice( gun_skill, ( practice_units + 1 ) * 5 - gun_weariness_xp_penalty );
+
+        if( gun_skill != skill_archery ) {
+            add_gun_weariness();
+        }
     }
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun_skill == skill_launcher ? curshot : hits;
-    practice( gun_skill, ( practice_units + 1 ) * 5 );
 
     if( !gun.is_gun() ) {
         // If we lose our gun as a side effect of firing it, skip the rest of the function.
@@ -3321,10 +3334,11 @@ tripoint_bub_ms target_ui::choose_initial_target()
         return targets[0];
     }
 
-    // Try closest practice target
+    // Try closest practice/spinner target
     std::optional<tripoint_bub_ms> target_spot = find_point_closest_first( src, 0, range, [this,
     &here]( const tripoint_bub_ms & pt ) {
-        return here.tr_at( pt ).id == tr_practice_target && this->you->sees( here, pt );
+        return ( here.tr_at( pt ).id == tr_practice_target || here.tr_at( pt ).id == tr_target_spinner ) &&
+               this->you->sees( here, pt );
     } );
 
     if( target_spot != std::nullopt ) {

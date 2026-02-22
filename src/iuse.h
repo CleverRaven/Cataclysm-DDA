@@ -172,6 +172,7 @@ std::optional<int> spray_can( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> stimpack( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> strong_antibiotic( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> talking_doll( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> target_practice( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> tazer( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> teleport( Character *, item *, const tripoint_bub_ms & );
 std::optional<int> toolmod_attach( Character *, item *, const tripoint_bub_ms & );

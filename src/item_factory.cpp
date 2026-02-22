@@ -377,6 +377,11 @@ void Item_factory::finalize_pre( itype &obj )
         const std::string func2 = "modify_gunmods";
         emplace_usage( obj.use_methods, func2 );
         obj.ammo_scale.emplace( func2, 0 );
+        if( !obj.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+            const std::string func3 = "TARGET_PRACTICE";
+            emplace_usage( obj.use_methods, func3 );
+            obj.ammo_scale.emplace( func3, 0 );
+        }
     }
 
     if( obj.gunmod ) {
@@ -2060,6 +2065,7 @@ void Item_factory::init()
     add_iuse( "SPRAY_CAN", &iuse::spray_can );
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "STRONG_ANTIBIOTIC", &iuse::strong_antibiotic );
+    add_iuse( "TARGET_PRACTICE", &iuse::target_practice );
     add_iuse( "TAZER", &iuse::tazer );
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );

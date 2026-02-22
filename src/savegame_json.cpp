@@ -1149,6 +1149,10 @@ void Character::load( const JsonObject &data )
     data.read( "free_dodges_left", free_dodges_left );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
+    data.read( "gun_weariness", gun_weariness );
+    if( data.has_member( "gun_weariness_last_updated" ) ) {
+        gun_weariness_last_updated = time_point( data.get_int( "gun_weariness_last_updated" ) );
+    }
     data.read( "book_chapters", book_chapters );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
@@ -1519,6 +1523,8 @@ void Character::store( JsonOut &json ) const
     json.member( "free_dodges_left", free_dodges_left );
     json.member( "cash", cash );
     json.member( "recoil", recoil );
+    json.member( "gun_weariness", gun_weariness );
+    json.member( "gun_weariness_last_updated", to_turn<int>( gun_weariness_last_updated ) );
     json.member( "book_chapters", book_chapters );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );

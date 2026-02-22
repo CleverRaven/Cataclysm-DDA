@@ -77,6 +77,7 @@ std::string enum_to_string<distraction_type>( distraction_type data )
         case distraction_type::mutation: return "mutation";
         case distraction_type::oxygen: return "oxygen";
         case distraction_type::withdrawal: return "withdrawal";
+        case distraction_type::gun_weariness: return "gun_weariness";
         // *INDENT-ON*
         default:
             cata_fatal( "Invalid distraction_type in enum_to_string" );

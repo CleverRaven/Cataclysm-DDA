@@ -446,6 +446,11 @@
   },
   {
     "type": "item_action",
+    "id": "TARGET_PRACTICE",
+    "name": { "str": "Target practice" }
+  },
+  {
+    "type": "item_action",
     "id": "HEATPACK",
     "name": { "str": "Use" }
   },
