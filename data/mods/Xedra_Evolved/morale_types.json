@@ -58,5 +58,10 @@
     "id": "morale_game_inventor",
     "type": "morale_type",
     "text": "Entertained by created dreams."
+  },
+  {
+    "id": "morale_vampire_guilt",
+    "type": "morale_type",
+    "text": "Tormented by supernatural guilt."
   }
 ]

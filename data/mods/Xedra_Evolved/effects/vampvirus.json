@@ -65,6 +65,7 @@
               { "u_lose_trait": "VAMPIRE_WEAKNESS_GUILT" },
               { "u_lose_effect": "vampire_need_living_blood" },
               { "u_lose_morale": "morale_vw_no_fun" },
+              { "u_lose_morale": "morale_vampire_guilt" },
               {
                 "if": { "math": [ "u_suppressed_uncaring == 1" ] },
                 "then": [ { "u_add_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 0" ] } ]
