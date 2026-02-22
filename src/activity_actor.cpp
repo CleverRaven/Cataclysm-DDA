@@ -13075,12 +13075,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
 
-    // Which UNSORTED zone types exist at src? Items only participate in
-    // sorting if the source zone matches their binding (vehicle vs terrain).
-    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
-    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
-
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
+
+    // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
+    // zone), it's being used for transport - don't re-sort its cargo.
+    // If there IS a vehicle zone on the cart, the user explicitly wants
+    // the cart's cargo sorted.
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
+    bool skip_cart_cargo = false;
+    if( !src_has_vehicle_unsorted && you.is_avatar() &&
+        you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+        const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+        skip_cart_cargo = ( cart_pos == src_bub );
+    }
+
     // Track whether any sortable item failed pickup due to carry/cart capacity.
     bool cart_or_carry_blocked = false;
     // picked_up_this_pass is a member variable that persists across do_turn
@@ -13092,11 +13100,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         ++num_processed;
         item &thisitem = *it->first;
 
-        // Skip items that don't match the source zone binding
-        if( it->second && !src_has_vehicle_unsorted ) {
-            continue;
-        }
-        if( !it->second && !src_has_terrain_unsorted ) {
+        if( it->second && skip_cart_cargo ) {
             continue;
         }
 

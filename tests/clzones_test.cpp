@@ -1037,8 +1037,8 @@ TEST_CASE( "zone_sorting_adjacent_ground_delivery",
     CHECK( !dummy.activity );
 }
 
-// Terrain UNSORTED zone should only sort ground items, not vehicle cargo.
-// Vehicle parked on the same tile should have its cargo left untouched.
+// Terrain UNSORTED zone with grabbed cart at source: ground items get sorted,
+// but the grabbed cart's cargo is protected (used for transport, not as source).
 TEST_CASE( "zone_sorting_vehicle_on_terrain_unsorted_both_items",
            "[zones][items][activities][sorting][vehicle]" )
 {
@@ -1100,7 +1100,9 @@ TEST_CASE( "zone_sorting_vehicle_on_terrain_unsorted_both_items",
     CHECK( !dummy.activity );
 }
 
-// Vehicle UNSORTED zone should only sort vehicle cargo items, not ground items.
+// Vehicle UNSORTED zone with grabbed cart: vehicle zone lets cart cargo be
+// sorted (user explicitly marked the cart). Ground items also eligible since
+// any unsorted zone makes all items at the tile sortable.
 TEST_CASE( "zone_sorting_vehicle_unsorted_zone_ground_items_ignored",
            "[zones][items][activities][sorting][vehicle]" )
 {
@@ -1155,9 +1157,11 @@ TEST_CASE( "zone_sorting_vehicle_unsorted_zone_ground_items_ignored",
     dummy.assign_activity( zone_sort_activity_actor() );
     process_activity( dummy );
 
-    // Vehicle cargo sorted, ground item untouched
-    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
-    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    // Both vehicle cargo and ground items sorted (vehicle zone present,
+    // so cart cargo is not protected; ground items always eligible)
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );
     CHECK( !dummy.activity );
 }
 
@@ -1218,6 +1222,71 @@ TEST_CASE( "zone_sorting_both_zones_at_same_position",
     process_activity( dummy );
 
     // All items sorted
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );
+    CHECK( !dummy.activity );
+}
+
+// Terrain-only UNSORTED zone with a non-grabbed vehicle (like a parked van):
+// vehicle cargo should be sorted alongside ground items.
+TEST_CASE( "zone_sorting_terrain_zone_sorts_non_grabbed_vehicle_cargo",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source tile south
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    // Create terrain UNSORTED zone BEFORE spawning vehicle
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Spawn a vehicle at source but do NOT grab it (simulates a parked van)
+    vehicle *van = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                     src_pos, 0_degrees, 0, 0 );
+    REQUIRE( van != nullptr );
+    van->set_owner( dummy );
+    // No grab - this is a parked vehicle
+
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_vzones();
+    REQUIRE( mgr.has_terrain( zone_type_LOOT_UNSORTED, src_abs ) );
+    REQUIRE( !mgr.has_vehicle( zone_type_LOOT_UNSORTED, src_abs ) );
+
+    // Destination: terrain LOOT_FOOD zone adjacent
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Place items on ground AND in vehicle cargo
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    std::optional<vpart_reference> cargo = here.veh_at( src_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    cargo->vehicle().add_item( here, cargo->part(), item( itype_test_apple ) );
+
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Both ground and vehicle cargo items sorted (no grab, so no cart
+    // protection - terrain zone sorts everything at the tile)
     CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
     CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
     CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );

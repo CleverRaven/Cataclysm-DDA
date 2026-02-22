@@ -1448,9 +1448,10 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     *pickup_failure = false;
 
-    // Which UNSORTED zone types exist at src? Items only participate in
-    // sorting if the source zone matches their binding (vehicle vs terrain).
-    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
+    // Any UNSORTED zone at src (terrain or vehicle) makes all items at that
+    // tile eligible for sorting. The terrain/vehicle distinction only matters
+    // at the destination (where items get placed), not at the source.
+    const bool src_has_unsorted = mgr.has( zone_type_LOOT_UNSORTED, src, fac_id );
     const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
 
     // When grabbed cart sits on the source tile, items stay in cart cargo
@@ -1463,12 +1464,17 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
     }
 
+    // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
+    // zone), it's being used for transport - don't re-sort its cargo.
+    // If there IS a vehicle zone on the cart, the user explicitly wants
+    // the cart's cargo sorted.
+    const bool skip_cart_cargo = virtual_pickup_available && !src_has_vehicle_unsorted;
+
     for( std::pair<item *, bool> it_pair : items ) {
-        // Skip items that don't match the source zone binding
-        if( it_pair.second && !src_has_vehicle_unsorted ) {
+        if( !src_has_unsorted ) {
             continue;
         }
-        if( !it_pair.second && !src_has_terrain_unsorted ) {
+        if( it_pair.second && skip_cart_cargo ) {
             continue;
         }
 

@@ -1214,6 +1214,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
+- ```PLANT_BLOOD``` Forces monster to bleed sap.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
