@@ -514,6 +514,11 @@ ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
     }
+    if( it.has_flag( json_flag_SHAPESHIFTED_ARMOR ) ) {
+        return ret_val<void>::make_failure( !is_npc() ?
+                                            _( "That item is currently shapeshifted into your form." ) :
+                                            _( "That item is currently shapeshifted into <npcname>;s form." ) );
+    }
     return ret_val<void>::make_success();
 }
 

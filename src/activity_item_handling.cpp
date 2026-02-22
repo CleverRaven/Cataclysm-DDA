@@ -151,6 +151,8 @@ static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
+static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
@@ -1299,7 +1301,8 @@ bool route_to_destination( Character &you, player_activity &act,
 
 bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
-                     bool ignore_favorite, const tripoint_abs_ms &src )
+                     bool ignore_favorite, const tripoint_abs_ms &src,
+                     bool from_vehicle )
 {
     const zone_manager &mgr = zone_manager::get_manager();
 
@@ -1333,13 +1336,18 @@ bool sort_skip_item( Character &you, const item *it,
     const faction_id fac_id = _fac_id( you );
     const zone_type_id zt_id = mgr.get_near_zone_type_for_item( *it, you.pos_abs(),
                                MAX_VIEW_DISTANCE, fac_id );
-    // skip items that are already where they should be in for non-UNSORTED/CUSTOM zones
-    if( zt_id != zone_type_LOOT_CUSTOM && mgr.has( zt_id, src, fac_id ) ) {
+    // Skip items already at their destination. Use binding-aware lookup so a
+    // vehicle item is only considered "at destination" if the destination zone
+    // is bound to vehicle cargo, and likewise for ground items.
+    // LOOT_CUSTOM and LOOT_ITEM_GROUP need filter-based checking below.
+    if( zt_id != zone_type_LOOT_CUSTOM && zt_id != zone_type_LOOT_ITEM_GROUP &&
+        ( from_vehicle ? mgr.has_vehicle( zt_id, src, fac_id )
+          : mgr.has_terrain( zt_id, src, fac_id ) ) ) {
         return true;
     }
-    // ...and then for CUSTOM zones
-    if( zt_id == zone_type_LOOT_CUSTOM &&
-        mgr.custom_loot_has( src, it, zone_type_LOOT_CUSTOM, fac_id ) ) {
+    // Custom and item-group zones: check filters with binding awareness
+    if( ( zt_id == zone_type_LOOT_CUSTOM || zt_id == zone_type_LOOT_ITEM_GROUP ) &&
+        mgr.custom_loot_has( src, it, zt_id, fac_id, from_vehicle ) ) {
         return true;
     }
 
@@ -1386,17 +1394,15 @@ zone_items populate_items( const tripoint_bub_ms &src_bub )
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
 
     zone_items items;
-    // Check source for cargo part
-    // map_stack and vehicle_stack are different types but inherit from item_stack
-    // TODO: use one for loop
+    // Collect items from both vehicle cargo and ground at this tile.
+    // The bool in each pair tracks whether the item is from vehicle cargo.
     if( vp ) {
         for( item &it : vp->items() ) {
             items.emplace_back( &it, true );
         }
-    } else {
-        for( item &it : here.i_at( src_bub ) ) {
-            items.emplace_back( &it, false );
-        }
+    }
+    for( item &it : here.i_at( src_bub ) ) {
+        items.emplace_back( &it, false );
     }
     return items;
 }
@@ -1442,6 +1448,11 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     *pickup_failure = false;
 
+    // Which UNSORTED zone types exist at src? Items only participate in
+    // sorting if the source zone matches their binding (vehicle vs terrain).
+    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
+
     // When grabbed cart sits on the source tile, items stay in cart cargo
     // (virtual pickup) so the player carry capacity check doesn't apply.
     bool virtual_pickup_available = false;
@@ -1453,6 +1464,14 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
     }
 
     for( std::pair<item *, bool> it_pair : items ) {
+        // Skip items that don't match the source zone binding
+        if( it_pair.second && !src_has_vehicle_unsorted ) {
+            continue;
+        }
+        if( !it_pair.second && !src_has_terrain_unsorted ) {
+            continue;
+        }
+
         item *it = it_pair.first;
         const zone_type_id dest_zone_type_id = mgr.get_near_zone_type_for_item( *it, abspos,
                                                MAX_VIEW_DISTANCE, fac_id );
@@ -1461,7 +1480,8 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
             continue;
         }
 
-        if( !virtual_pickup_available && !you.can_add( *it ) ) {
+        // Virtual pickup only applies to vehicle items
+        if( !( virtual_pickup_available && it_pair.second ) && !you.can_add( *it ) ) {
             bool vehicle_can_hold = false;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
                 const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
@@ -1478,7 +1498,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         if( sort_skip_item( you, it, other_activity_items,
-                            zone_unload_options.ignore_favorite, src ) ) {
+                            zone_unload_options.ignore_favorite, src, it_pair.second ) ) {
             continue;
         }
 
