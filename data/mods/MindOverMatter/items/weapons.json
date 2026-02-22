@@ -275,5 +275,32 @@
     "heat_per_shot": 21,
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 seconds if that ever gets fixed.",
     "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true }
+  },
+  {
+    "id": "mom_exodii_stungun_pistol",
+    "looks_like": "v29",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "Onšut §A" },
+    "description": "The world where this crowd-control weapon came from made great use of psionic technology, but it wasn't enough to save them from their own Cataclysm.  The Exodii left most devices they found in the ruins, assuming that they would be too difficult to maintain, but took some of the simpler weapons with them.  The Onšut §A overloads the target's mind, trapping them in a hallucinatory waking dream.  This renders them almost completely harmless while in effect, with the unfortunate disadvantage of not affecting zombies.",
+    "melee_damage": { "bash": 5 },
+    "reload_noise_volume": 5,
+    "weight": "566 g",
+    "volume": "79 ml",
+    "longest_side": "158 mm",
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "pistol",
+    "material": [ "nether_crystal", "steel", "plastic" ],
+    "ranged_damage": { "damage_type": "psi_telepathic_damage", "amount": 3 },
+    "dispersion": 180,
+    "durability": 8,
+    "loudness": 7,
+    "reload": 200,
+    "range": 20,
+    "ammo_effects": [ "EXODII_NEURAL_STUNGUN" ],
+    "ammo": [ "psionic_charge_power" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "exodii_exodii_stungun_mag" ] } ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "NO_REPAIR" ]
   }
 ]
