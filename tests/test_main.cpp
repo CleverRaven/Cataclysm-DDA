@@ -295,6 +295,11 @@ struct CataCIReporter: Catch::ConsoleReporter {
 
 CATCH_REGISTER_REPORTER( "cata-ci-reporter", CataCIReporter )
 
+TEST_CASE( "noop_test", "[.]" )
+{
+    CHECK( true );
+}
+
 int main( int argc, const char *argv[] )
 {
 #if defined(_MSC_VER)
