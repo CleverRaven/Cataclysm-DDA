@@ -126,6 +126,7 @@ static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -1280,6 +1281,10 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         if( is_hauling() && new_mode->stop_hauling() ) {
             stop_hauling();
         }
+
+        // Going prone or standing up takes 50 to 150 moves
+        mod_moves( -move_mode_switch_cost( move_mode, new_mode ) );
+
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
         // Enchantments based on move modes can stack inappropriately without a recalc here

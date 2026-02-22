@@ -2196,6 +2196,26 @@ bool Character::can_switch_to( const move_mode_id &mode ) const
     return get_steed_type() != steed_type::NONE || mode->type() != move_mode_type::RUNNING || can_run();
 }
 
+float Character::move_mode_switch_cost( const move_mode_id &old_mode,
+                                        const move_mode_id &new_mode ) const
+{
+    // Both going prone and standing up take ~1 second, more if clumsy and less if deft
+    if( ( old_mode->type() == move_mode_type::PRONE && new_mode->type() != move_mode_type::PRONE ) ||
+        ( old_mode->type() != move_mode_type::PRONE && new_mode->type() == move_mode_type::PRONE ) ) {
+        if( has_trait( trait_DEFT ) ) {
+            return 50.0f;
+        }
+
+        if( has_trait( trait_CLUMSY ) ) {
+            return 150.0f;
+        }
+
+        return 100.0f;
+    }
+
+    return 0;
+}
+
 void Character::process_turn()
 {
     map &here = get_map();
