@@ -15,7 +15,7 @@
 
 // IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 
 struct level_cache {
     public:

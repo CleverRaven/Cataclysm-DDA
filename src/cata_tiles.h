@@ -42,7 +42,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 enum class direction : unsigned int;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 enum class visibility_type : int;
 
 extern void set_displaybuffer_rendertarget();
