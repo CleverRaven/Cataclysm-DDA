@@ -1618,6 +1618,11 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
+    "id": "MUTATED_ANATOMY_ONLY",
+    "type": "json_flag",
+    "info": "This can only be worn by those with <info>particular mutated anatomy</info> "
+  },
+  {
     "id": "MORPHIC",
     "type": "json_flag",
     "info": "This is <info>naturally sized to the body</info>."
