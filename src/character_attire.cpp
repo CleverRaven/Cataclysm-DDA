@@ -56,6 +56,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
+static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
@@ -107,6 +108,20 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+
+    if( it.has_flag( json_flag_MUTATED_ANATOMY_ONLY ) ) {
+        int wearable_parts = 0;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( it.covers( bp ) ) {
+                wearable_parts++;
+            }
+        }
+        if( wearable_parts == 0 ) {
+            return ret_val<void>::make_failure(
+                       _( "Can't wear that, it's made for particular mutated anatomy." ) );
+        }
+    }
+
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_success();
     }
