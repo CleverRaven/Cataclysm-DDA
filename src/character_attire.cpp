@@ -59,7 +59,6 @@ static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
-
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
 static const material_id material_chitin( "chitin" );
@@ -1598,7 +1597,7 @@ int outfit::sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const
 void outfit::inv_dump( std::vector<item *> &ret )
 {
     for( item &i : worn ) {
-        if( !i.has_flag( flag_INTEGRATED ) ) {
+        if( !i.has_flag( flag_INTEGRATED ) && !i.has_flag( json_flag_SHAPESHIFTED_ARMOR ) ) {
             ret.push_back( &i );
         }
     }
