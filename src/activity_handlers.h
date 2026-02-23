@@ -157,7 +157,8 @@ struct activity_reason_info {
 };
 
 int get_auto_consume_moves( Character &you, bool food );
-bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
+bool try_fuel_fire( Character &you,
+                    std::optional<tripoint_bub_ms> fire_target = std::nullopt );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -187,7 +188,6 @@ bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void find_mount_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 

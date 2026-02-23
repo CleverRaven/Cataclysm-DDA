@@ -1435,6 +1435,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | artifact_resonance()    |  ✅   |   ❌  | u, n  | Return amount of total artifact resonance character has. If used on item, return resonance of that item only. <br/><br/>Example:<br/>`"condition": { "math": [ "u_artifact_resonance() > 0" ] }`<br/>|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 | quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
+| gender() |  ✅  |  ✅  | u, n | Character's current gender. (Boolean value currently. Value is 1/true for male, 0/false for female).<br/><br/>Examples:<br/>`"condition: { "math": [ " u_gender() == 1 " ] }`<br/>`{ "math": [ "u_gender() = 0" ] }` |
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1456,7 +1457,6 @@ These can be read or written to with `val()`.
 | `focus` | ✅ | Current focus level. |
 | `focus_effective` | ❌ | Effective focus level, modified by focus enchants. |
 | `friendly` | ✅ | Current friendly level. Only works for monsters. |
-| `gender` | ✅ | Character's current gender. (Boolean value currently. Value is 1/true for male, 0/false for female) |
 | `grab_strength` | ❌ | Grab strength as defined in the monster definition. Only works for monsters |
 | `height` | ✅ | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320. |
 | `hunger` | ❌ | Current perceived hunger. |
