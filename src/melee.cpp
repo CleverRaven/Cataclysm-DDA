@@ -158,8 +158,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
-
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
 static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
@@ -175,6 +173,8 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
 static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
+
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
                                 Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
@@ -2025,6 +2025,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     // Now that blocks cost stamina, break out if stamina is too low
+    // TODO: More complicated calculation. Dodge checks your dodge chance 
+    // which is affected by stamina, pain, and so on and when it hits 
+    // zero, that's when you get the message that you can't dodge, but
+    // currently none of that affects blocking
     if( get_stamina() < 2000 ) {
         add_msg_if_player( m_warning,
                            _( "You're close to exhaustion and cannot block effectively." ) );
