@@ -216,15 +216,8 @@
     "encumbrance_threshold": 3,
     "main_part": "arm_insect_good_l",
     "opposite_part": "arm_insect_good_r",
-    "limb_scores": [
-      [ "balance", 0 ],
-      [ "manip", 0.1, 2 ],
-      [ "grip", 0.05 ],
-      [ "lift", 0.1 ],
-      [ "block", 0.5 ],
-      [ "crawl", 0.1 ],
-      [ "swim", 0.1 ]
-    ]
+    "limb_scores": [ [ "balance", 0 ], [ "manip", 0.1, 2 ], [ "lift", 0.1 ], [ "block", 0.5 ], [ "crawl", 0.1 ] ],
+    "sub_parts": [ "arm_insect_good_upper_l", "arm_insect_good_elbow_l", "arm_insect_good_lower_l" ]
   },
   {
     "type": "body_part",
@@ -232,15 +225,39 @@
     "copy-from": "arm_insect_r",
     "main_part": "arm_insect_good_r",
     "opposite_part": "arm_insect_good_l",
-    "limb_scores": [
-      [ "balance", 0 ],
-      [ "manip", 0.1, 2 ],
-      [ "grip", 0.05 ],
-      [ "lift", 0.1 ],
-      [ "block", 0.5 ],
-      [ "crawl", 0.1 ],
-      [ "swim", 0.1 ]
-    ]
+    "limb_scores": [ [ "balance", 0 ], [ "manip", 0.1, 2 ], [ "lift", 0.1 ], [ "block", 0.5 ], [ "crawl", 0.1 ] ],
+    "sub_parts": [ "arm_insect_good_upper_r", "arm_insect_good_elbow_r", "arm_insect_good_lower_r" ]
+  },
+  {
+    "id": "insect_hand_l",
+    "copy-from": "hand_l",
+    "type": "body_part",
+    "name": "insect tarsus",
+    "name_multiple": "insect tarsuses",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "insect tarsus" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tarsuses" },
+    "heading": "tarsus",
+    "heading_multiple": "tarsuses",
+    "limb_type": "hand",
+    "techniques": [ "TECH_CRAB_PUNCH", "BRUTAL", "WBLOCK_2" ],
+    "main_part": "arm_insect_good_l",
+    "opposite_part": "insect_hand_r",
+    "squeamish_penalty": 3,
+    "env_protection": 3,
+    "base_hp": 90,
+    "limb_scores": [ [ "grip", 0.05 ], [ "manip", 0.05, 0.25 ], [ "swim", 0.1 ] ],
+    "bionic_slots": 0,
+    "smash_message": "You smash the %s with your tarsus.",
+    "smash_efficiency": 2,
+    "sub_parts": [ "insect_tarsomere_l", "insect_segment_l", "insect_terminus_l" ]
+  },
+  {
+    "type": "body_part",
+    "id": "insect_hand_r",
+    "copy-from": "insect_hand_l",
+    "main_part": "arm_insect_good_r",
+    "opposite_part": "insect_hand_l",
+    "sub_parts": [ "insect_tarsomere_r", "insect_segment_r", "insect_terminus_r" ]
   },
   {
     "id": "gastropod_foot",
