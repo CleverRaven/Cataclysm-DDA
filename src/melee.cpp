@@ -2025,8 +2025,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     // Now that blocks cost stamina, break out if stamina is too low
-    // TODO: More complicated calculation. Dodge checks your dodge chance 
-    // which is affected by stamina, pain, and so on and when it hits 
+    // TODO: More complicated calculation. Dodge checks your dodge chance
+    // which is affected by stamina, pain, and so on and when it hits
     // zero, that's when you get the message that you can't dodge, but
     // currently none of that affects blocking
     if( get_stamina() < 2000 ) {
