@@ -2029,7 +2029,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         add_msg_if_player( m_warning,
                            _( "You're close to exhaustion and cannot block effectively." ) );
         return false;
-     }
+    }
 
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
