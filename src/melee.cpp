@@ -2219,7 +2219,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
     // stamina cost for blocking, based on dodge
-    // TODO: account for enemy melee scale, add diminishing returns. 
+    // TODO: account for enemy melee scale, add diminishing returns.
     const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float block_skill_modifier = ( 20.0f - get_skill_level( skill_melee ) ) / 20.0f;
     const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 6.0f *
