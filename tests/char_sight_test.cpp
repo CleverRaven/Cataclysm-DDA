@@ -123,6 +123,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
 
 TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][light][vision]" )
 {
+    g->place_player( { 66, 66, 0 } );
     Character &u = get_player_character();
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     overmap_buffer.insert_npc( guy );

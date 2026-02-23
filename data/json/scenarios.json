@@ -368,7 +368,7 @@
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "CITY_START" ],
+    "flags": [ "CITY_START", "LONE_START" ],
     "id": "fire",
     "points": -2,
     "start_name": "In Town",

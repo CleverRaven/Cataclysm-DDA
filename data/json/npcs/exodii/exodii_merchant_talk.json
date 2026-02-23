@@ -73,6 +73,20 @@
         "topic": "TALK_EXODII_MERCHANT_Zomborgs"
       },
       {
+        "text": "I'd feel strange saying this to anyone else, but I think I may have found a place with similar tech to yours in… well… what you might call an \"otherworld\".",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] },
+            { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
+            { "not": { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_returned_string_dimension_data" } ] }
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
+      },
+      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
@@ -462,6 +476,20 @@
           { "finish_mission": "EXODII_MISSION_CHOP_SHOP", "success": true }
         ],
         "topic": "TALK_EXODII_MERCHANT_mission_3_complete"
+      },
+      {
+        "text": "I managed to find a computer in that other-Exodii place we talked about.  Here's the data.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "exodii_usb_stick_full", "count": 1 } },
+            { "u_has_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "exodii_usb_stick_full", "count": 1, "popup": true },
+          { "finish_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII", "success": true }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Complete"
       },
       { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Actually, I changed my mind.  <end_talking_leave>", "topic": "TALK_DONE" }
@@ -1108,6 +1136,22 @@
     "speaker_effect": { "effect": { "u_add_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" } },
     "//2": "In the future, Rubik should be able to sell the player a robot.  This is a placeholder until that time arrives.",
     "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Ah, you found another node - another community of Exodii. Tell me what you saw?",
+      "str": "Ahh, mayhaps ye've found another node - kin o' us'n Exodii.  Tell ol' Rubik:  what'd ye escolt there?  Exodii alive?  Trade?  Stompers?  Manufactory?"
+    },
+    "responses": [
+      {
+        "text": "It was a large domed structure, with some towers around it.  The entire thing looked like it was made of metal - a lot like your castle.  Looked like it was a ruin, or abandoned.  If there was anyone alive, I didn't find them.",
+        "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1"
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]

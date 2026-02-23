@@ -5655,7 +5655,7 @@
           { "item": "gloves_fingerless" },
           { "item": "helmet_skid" },
           { "item": "sneakers" },
-          { "item": "folded_skateboard_generic" },
+          { "item": "folded_skateboard_generic", "custom-flags": [ "auto_wield" ] },
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone", "contents-item": "book_fict_soft_ya_rwya" },
