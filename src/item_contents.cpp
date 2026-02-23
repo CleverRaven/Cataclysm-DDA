@@ -487,12 +487,16 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         return true;
     } else if ( action == "FAV_WHITELIST_CONTENTS" ) {
         const cata::flat_set<itype_id> whitelisted_items = selected_pocket->settings.get_item_whitelist();
-        for (auto item : selected_pocket->all_items_top()) {
-            if (whitelisted_items.find(item->typeId()) == whitelisted_items.end()) {
-                selected_pocket->settings.whitelist_item(item->typeId());
+        bool modified = false;
+        for ( auto item : selected_pocket->all_items_top() ) {
+            if ( whitelisted_items.find( item->typeId() ) == whitelisted_items.end() ) {
+                selected_pocket->settings.whitelist_item( item->typeId() );
+                modified = true;
             }
         }
-        selected_pocket->settings.set_was_edited();
+        if ( modified ) {
+            selected_pocket->settings.set_was_edited();
+        }
         return true;
     } else if ( action == "FAV_CLEAR") {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
@@ -576,7 +580,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
 
         }
         const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
-        if( cmenu.ret >= 0 && cmenu.ret <= 11 && !evlist.empty() ) {
+        if( cmenu.ret >= 0 && cmenu.ret <= 12 && !evlist.empty() ) {
             return key( ctxt, evlist.front(), -1, menu );
         }
         return true;
