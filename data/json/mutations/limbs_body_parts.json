@@ -232,7 +232,7 @@
     "id": "insect_hand_l",
     "copy-from": "hand_l",
     "type": "body_part",
-    "name": "insect tarsus",
+    "name": "left tarsus",
     "name_multiple": "insect tarsuses",
     "accusative": { "ctxt": "bodypart_accusative", "str": "insect tarsus" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tarsuses" },
@@ -254,6 +254,7 @@
   {
     "type": "body_part",
     "id": "insect_hand_r",
+    "name": "right tarsus",
     "copy-from": "insect_hand_l",
     "main_part": "arm_insect_good_r",
     "opposite_part": "insect_hand_l",

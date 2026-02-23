@@ -302,7 +302,16 @@
     "vitamin_cost": 210,
     "visibility": 4,
     "ugliness": 5,
-    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_good_l" }, { "gain": "arm_insect_good_r" } ] } ]
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_insect_good_l" },
+          { "gain": "arm_insect_good_r" },
+          { "gain": "insect_hand_l" },
+          { "gain": "insect_hand_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
