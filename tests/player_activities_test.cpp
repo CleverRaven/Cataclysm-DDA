@@ -258,7 +258,8 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.add_bionic( bio_power_storage );
             dummy.set_power_level( dummy.get_max_power_level() );
             dummy.add_bionic( bio_ears );
-            dummy.activate_bionic( bio_ears );
+            std::optional<bionic *> bio_opt = dummy.find_bionic_by_type( bio_ears );
+            dummy.activate_bionic( **bio_opt );
             here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
