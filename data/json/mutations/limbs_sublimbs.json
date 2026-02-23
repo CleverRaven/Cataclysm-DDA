@@ -239,7 +239,7 @@
     "id": "beak_nares",
     "type": "sub_body_part",
     "max_coverage": 5,
-    "parent": "beak_bird",
+    "parent": "beak",
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "nares"
@@ -248,7 +248,7 @@
     "id": "beak_top",
     "type": "sub_body_part",
     "max_coverage": 35,
-    "parent": "beak_bird",
+    "parent": "beak",
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "beak top"
@@ -257,7 +257,7 @@
     "id": "beak_tip",
     "type": "sub_body_part",
     "max_coverage": 25,
-    "parent": "beak_bird",
+    "parent": "beak",
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "beak tip"
@@ -266,7 +266,7 @@
     "id": "beak_bottom",
     "type": "sub_body_part",
     "max_coverage": 35,
-    "parent": "beak_bird",
+    "parent": "beak",
     "opposite": "sub_limb_debug",
     "side": "both",
     "name": "beak bottom"
@@ -275,24 +275,28 @@
     "id": "beak_bird_nares",
     "copy-from": "beak_nares",
     "type": "sub_body_part",
+    "parent": "beak_bird",
     "similar_bodypart": "beak_nares"
   },
   {
     "id": "beak_bird_top",
     "copy-from": "beak_top",
     "type": "sub_body_part",
+    "parent": "beak_bird",
     "similar_bodypart": "beak_top"
   },
   {
     "id": "beak_bird_tip",
     "copy-from": "beak_tip",
     "type": "sub_body_part",
+    "parent": "beak_bird",
     "similar_bodypart": "beak_tip"
   },
   {
     "id": "beak_bird_bottom",
     "copy-from": "beak_bottom",
     "type": "sub_body_part",
+    "parent": "beak_bird",
     "similar_bodypart": "beak_bottom"
   },
   {
