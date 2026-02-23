@@ -8063,7 +8063,7 @@
     "id": "mutant_patient_none",
     "name": "Human Mutant",
     "description": "You were the control case in the scientists' experiments - after they were done playing God with you, they injected some kind of drug that made you normal again.  Unfortunately, you know this world is no longer a place for normality.  Will you embrace the changes once again?",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": -1,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
@@ -8078,7 +8078,7 @@
     "id": "mutant_patient_fish",
     "name": "Fish Mutant",
     "description": "You have become a creature from the deep, like a monster from a cheap horror flick.  Only, it is far too real.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8106,7 +8106,7 @@
     "id": "mutant_patient_spider",
     "name": "Spider Mutant",
     "description": "Forget about great responsibility - after everything that's been done to you, it's a miracle you don't have eight eyes.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8134,7 +8134,7 @@
     "id": "mutant_patient_lupine",
     "name": "Wolf Mutant",
     "description": "Being cooped up in here has been awful.  You need friends, and your fellow mutants aren't good company.  Hopefully once you escape, you'll find a pack to take you in.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8164,7 +8164,7 @@
     "id": "mutant_patient_beast",
     "name": "Beast Mutant",
     "description": "It's not clear exactly what kind of beast you became, but that's not important anymore.  All that matters is the hunt.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8194,7 +8194,7 @@
     "id": "mutant_patient_insect",
     "name": "Insect Mutant",
     "description": "Alike to The Fly, you are now a disturbing mix of human and bug.  But, bugs are nothing if not tenacious - and so shall you be.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8223,7 +8223,7 @@
     "id": "mutant_patient_feline",
     "name": "Feline Mutant",
     "description": "Considering the you always complained about Mondays, this was probably inevitable.  Too bad you can't eat lasagna to complete the fit.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8253,7 +8253,7 @@
     "id": "mutant_patient_trog",
     "name": "Subterranean Mutant",
     "description": "Your large, glowing eyes and starkly pallid skin suggest you have become some kind of cave creature.  The thought of the surface terrifies you, but anything is better than here.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
@@ -8282,7 +8282,7 @@
     "id": "mutant_patient_medical",
     "name": "Medical Mutant",
     "description": "Initially, the changes didn't seem obvious.  But then the psychological disorders began to manifest.  No matter; your body will survive anything.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
@@ -8313,7 +8313,7 @@
     "id": "mutant_patient_bird",
     "name": "Avian Mutant",
     "description": "The free skies of the surface seem so far away now.  Will you ever spread your wings again?",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] },
@@ -8344,7 +8344,7 @@
     "id": "mutant_patient_bear",
     "name": "Ursine Mutant",
     "description": "The experiments turned you into a hulking beast of fur and muscle.  It took a while to stop bonking your head on doorways, but that's the least of your problems now.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8374,7 +8374,7 @@
     "id": "mutant_patient_mouse",
     "name": "Mouse Mutant",
     "description": "One might think being shrunk down to the size of a child might be an issue in this world of violence.  Well, you'll prove them wrong!  You just have to be… craftier.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "UNDERSIZE" ] } ] }
@@ -8403,7 +8403,7 @@
     "id": "mutant_patient_rabbit",
     "name": "Rabbit Mutant",
     "description": "All the world will be your enemy, and when they catch you, they will kill you.  But first, they must catch you…  Be cunning, and full of tricks, and you shall never be destroyed.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8433,7 +8433,7 @@
     "id": "mutant_patient_elfa",
     "name": "Sylvan Mutant",
     "description": "At first it seemed like you were turning into a plant.  But now, your form calls to mind an elf, or perhaps a dryad.  Hopefully there are still pristine forests out there.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
@@ -8463,7 +8463,7 @@
     "id": "mutant_patient_plant",
     "name": "Plant Mutant",
     "description": "Mutation has turned you into a bizarre mix of tree and human.  While you're slower than you used to be, you're sturdy as an oak.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8490,7 +8490,7 @@
     "id": "mutant_patient_lizard",
     "name": "Lizard Mutant",
     "description": "It's a good thing you always thought dinosaurs were cool, considering you've practically become one.  Hopefully you don't also go extinct.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8518,7 +8518,7 @@
     "id": "mutant_patient_cow",
     "name": "Bovine Mutant",
     "description": "You've mutated into a minotaur, though unlike Asterios you've no hunger for human flesh, or any meat for that matter.  Still, you'll plow through anyone who gets in your way.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8546,7 +8546,7 @@
     "id": "mutant_patient_rat",
     "name": "Rat Mutant",
     "description": "Once you're free of this place, you'll be able to make all the rules.  Have all the cheese you want.  Hopefully the normal humans will tolerate your rather unsightly appearance…",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
@@ -8576,7 +8576,7 @@
     "id": "mutant_patient_cephalopod",
     "name": "Cephalopod Mutant",
     "description": "It was hard enough to adjust to having tentacles instead of arms and legs; now the world's coming to an end, too.  At least your annoying neighbors won't bother you anymore.",
-    "npc_background": "BGSS_Lab_Mutant_1",
+    "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
       "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange", "custom-flags": [ "FIT", "OVERSIZE" ] } ] }
