@@ -284,7 +284,7 @@
   {
     "id": "mon_devourer_hekatonkheire",
     "type": "MONSTER",
-    "name": { "str": "hekatonkheire, hundred-handed devourer" },
+    "name": { "str": "hekatonkheire devourer" },
     "description": "Zombified human bodies fused together into a colossus, with a multitude of heads and limbs sticking out of its bloated body ready to break free.  Dozens of arms grab at anything nearby and pull it apart once within the grip of multiple hands.",
     "default_faction": "zombie",
     "copy-from": "mon_devourer",
