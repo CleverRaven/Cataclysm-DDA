@@ -485,7 +485,16 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             }
         }
         return true;
-    } else if( action == "FAV_CLEAR" ) {
+    } else if ( action == "FAV_WHITELIST_CONTENTS" ) {
+        const cata::flat_set<itype_id> whitelisted_items = selected_pocket->settings.get_item_whitelist();
+        for (auto item : selected_pocket->all_items_top()) {
+            if (whitelisted_items.find(item->typeId()) == whitelisted_items.end()) {
+                selected_pocket->settings.whitelist_item(item->typeId());
+            }
+        }
+        selected_pocket->settings.set_was_edited();
+        return true;
+    } else if ( action == "FAV_CLEAR") {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
             selected_pocket->settings.set_was_edited();
@@ -515,7 +524,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                         ctxt.get_action_name( "FAV_APPLY_PRESET" ) );
         cmenu.addentry( 10, true, inp_mngr.get_first_char_for_action( "FAV_DEL_PRESET", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_DEL_PRESET" ) );
-        cmenu.addentry( 11, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
+        cmenu.addentry( 11, true, inp_mngr.get_first_char_for_action( "FAV_WHITELIST_CONTENTS", "INVENTORY" ),
+                        ctxt.get_action_name("FAV_WHITELIST_CONTENTS") );
+        cmenu.addentry( 12, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_CLEAR" ) );
         cmenu.query();
 
@@ -555,6 +566,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                 ev = "FAV_DEL_PRESET";
                 break;
             case 11:
+                ev = "FAV_WHITELIST_CONTENTS";
+                break;
+            case 12:
                 ev = "FAV_CLEAR";
                 break;
             default:
@@ -2816,7 +2830,8 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
         { "FAV_CONTEXT_MENU", translation() },
         { "FAV_SAVE_PRESET", translation() },
         { "FAV_APPLY_PRESET", translation() },
-        { "FAV_DEL_PRESET", translation() }
+        { "FAV_DEL_PRESET", translation() },
+        { "FAV_WHITELIST_CONTENTS", translation() }
     };
     // Override CONFIRM with FAV_CONTEXT_MENU
     pocket_selector.allow_confirm = false;
