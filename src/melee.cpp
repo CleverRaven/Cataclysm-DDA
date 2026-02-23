@@ -2025,9 +2025,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     // Now that blocks cost stamina, break out if stamina is too low
-     if( get_stamina() < 2000 ) {
-         add_msg_if_player( m_warning,
-                       _( "You're close to exhaustion and cannot block effectively." ) );
+    if( get_stamina() < 2000 ) {
+        add_msg_if_player( m_warning,
+                           _( "You're close to exhaustion and cannot block effectively." ) );
         return false;
      }
 
