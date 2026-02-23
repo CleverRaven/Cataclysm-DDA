@@ -4,7 +4,7 @@
     "id": "eoc_start_storyteller",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "run_eocs": [ "eoc_announcements" ] } ]
+    "effect": [ { "run_eocs": [ "eoc_announcements", "eoc_oneirosis" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -24,7 +24,11 @@
           },
           {
             "case": 24,
-            "effect": { "u_message": "\"EMERGENCY ALERT.  This is not a test.\n\"", "type": "warning", "sound": true }
+            "effect": {
+              "u_message": "\"EMERGENCY ALERT.\nREMINDER.  The condition affecting the ship seems to respond negatively to certain psychoactive substances.  Coffee and similar substances seem to help people in general while alcohol and similar substances seems to prevent the terminal effect of the disease during sleep.\"",
+              "type": "warning",
+              "sound": true
+            }
           }
         ]
       }

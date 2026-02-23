@@ -1,9 +1,14 @@
 [
   {
     "type": "effect_type",
-    "id": "effect_dreamcatcher",
-    "name": [ "Cerebral tampering", "Strong cerebral tampering" ],
-    "desc": [ "Something feels off.", "Something is definitely off." ],
-    "max_intensity": 2
+    "id": "oneirosis_effect",
+    "name": [ "16 Hz", "8 Hz", "4 Hz", "2 Hz" ],
+    "desc": [
+      "You feel awake, your thoughts are clear.",
+      "You catch yourself having vivid daydreams.",
+      "Reality comes to you in what feels like snaps out of sleepwalks.",
+      "You are trapped in a dream of which you are not the dreamer."
+    ],
+    "max_intensity": 4
   }
 ]

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "effect": [
+      {
+        "if": { "u_has_effect": "stim" },
+        "then": { "math": [ "u_vitamin('oneirosis_vitamin') += 3" ] },
+        "else": { "math": [ "u_vitamin('oneirosis_vitamin') -= 3" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis_sleep",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "effect": [ { "if": { "u_has_effect": "depressants" }, "else": [ { "u_message": "" }, "u_die" ] } ]
+  }
+]
