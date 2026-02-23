@@ -719,7 +719,7 @@
     "type": "MONSTER",
     "copy-from": "mon_star_vampire",
     "description": "Originally invisible, you can now see the thick coiling tentacles tipped with rather flat maws that make up this creature.  The small central body is dominated by an enormous mouth from which emerges a near-constant high-pitched tittering.",
-    "regeneration_modifiers": [ [ "star_vampire_blood_drank", 5 ] ],
+    "regeneration_modifiers": [ [ "star_vampire_blood_drank", 10 ] ],
     "speed": 105,
     "color": "pink",
     "grab_strength": 70,
