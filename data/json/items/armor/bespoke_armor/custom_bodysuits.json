@@ -146,7 +146,7 @@
     "weight": "3500 g",
     "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
     "//1": "Wool has a density of 1.31g/cm^3, thickness of 0.1 cm leaves us with 2192 grams.",
-    "//1": "Nomex has a density of 1.38g/cm^3, thickness of 0.05 cm leaves us with 1154 grams.",
+    "//2": "Nomex has a density of 1.38g/cm^3, thickness of 0.05 cm leaves us with 1154 grams.",
     "//3": "Nylon has a density of 1.14g/cm^3, thickness of 0.05 cm and ~5% coverage leaves us with 48 grams - this is just for some reinforced pockets sewn on.",
     "//4": "Totalled up this is 3394 grams - round up to 3500 to account for clasps, zippers, etc.",
     "//5": "The odd encumbrance rounds down to 3-4 when fitted - usually will always be, but since it's hand-tailored to your body, it should be harder for someone else to wear compared to a one-size-fits-all commercial garment.",
