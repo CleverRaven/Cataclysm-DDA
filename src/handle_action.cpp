@@ -2343,7 +2343,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CYCLE_MOVE:
-            player_character.cycle_move_mode();
+            player_character.cycle_move_mode_skip_prone();
             break;
 
         case ACTION_CYCLE_MOVE_REVERSE:

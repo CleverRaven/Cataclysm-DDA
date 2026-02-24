@@ -1349,6 +1349,18 @@ void avatar::cycle_move_mode()
     }
 }
 
+void avatar::cycle_move_mode_skip_prone()
+{
+    move_mode_id next = current_movement_mode()->cycle();
+    for( size_t i = 0; i < move_modes_by_speed().size(); i++ ) {
+        if( next != move_mode_prone && can_switch_to( next ) ) {
+            set_movement_mode( next );
+            break;
+        }
+        next = next->cycle();
+    }
+}
+
 void avatar::cycle_move_mode_reverse()
 {
     const move_mode_id prev = current_movement_mode()->cycle_reverse();
