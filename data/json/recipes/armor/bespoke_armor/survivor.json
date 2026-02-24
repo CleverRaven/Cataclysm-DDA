@@ -7,11 +7,12 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "10 h",
+    "time": "30 h",
     "autolearn": true,
     "using": [
-      [ "tailoring_kevlar_fabric", 130 ],
-      [ "fabric_lycra", 20 ],
+      [ "tailoring_cotton_patchwork", 170 ],
+      [ "tailoring_canvas_patchwork", 20 ],
+      [ "tailoring_nylon_patchwork", 6 ],
       [ "fabric_fauxfur", 20 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
@@ -20,38 +21,41 @@
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_elastics" }
-    ],
-    "byproducts": [ [ "scrap_kevlar", 8 ], [ "scrap_lycra", 3 ] ]
+      { "proficiency": "prof_furriery" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_quilting" }
+    ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
-    "time": "10 h",
+    "time": "25 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 100 ],
-      [ "fabric_lycra", 15 ],
-      [ "fabric_fauxfur", 15 ],
+      [ "tailoring_cotton_patchwork", 130 ],
+      [ "tailoring_canvas_patchwork", 16 ],
+      [ "tailoring_nylon_patchwork", 6 ],
+      [ "fabric_fauxfur", 16 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ]
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
   {
     "result": "xl_wsurvivor_jumpsuit_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
-    "time": "11 h 36 m",
+    "time": "40 h 30 m",
     "using": [
-      [ "tailoring_kevlar_fabric", 200 ],
-      [ "fabric_lycra", 30 ],
-      [ "fabric_fauxfur", 30 ],
+      [ "tailoring_cotton_patchwork", 220 ],
+      [ "tailoring_canvas_patchwork", 25 ],
+      [ "tailoring_nylon_patchwork", 6 ],
+      [ "fabric_fauxfur", 25 ],
       [ "fastener_large", 1 ],
-      [ "clasps", 8 ]
+      [ "clasps", 10 ]
+    ],
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
@@ -63,32 +67,31 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "6 h",
+    "time": "20 h",
     "autolearn": true,
     "using": [
-      [ "tailoring_kevlar_fabric", 130 ],
-      [ "fabric_lycra", 20 ],
-      [ "fabric_nylon", 30 ],
+      [ "tailoring_felt_patchwork", 80 ],
+      [ "tailoring_nomex_patchwork", 40 ],
+      [ "tailoring_nylon_patchwork", 6 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_quilting" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_elastics" }
-    ],
-    "byproducts": [ [ "scrap_kevlar", 17 ], [ "scrap_lycra", 7 ] ]
+      { "proficiency": "prof_articulation" }
+    ]
   },
   {
     "result": "xs_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
-    "time": "6 h",
+    "time": "18 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 100 ],
-      [ "fabric_lycra", 15 ],
-      [ "fabric_nylon", 23 ],
+      [ "tailoring_felt_patchwork", 72 ],
+      [ "tailoring_nomex_patchwork", 36 ],
+      [ "tailoring_nylon_patchwork", 6 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ]
@@ -97,13 +100,13 @@
     "result": "xl_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
-    "time": "7 h",
+    "time": "30 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 200 ],
-      [ "fabric_lycra", 30 ],
-      [ "fabric_nylon", 45 ],
+      [ "tailoring_felt_patchwork", 100 ],
+      [ "tailoring_nomex_patchwork", 50 ],
+      [ "tailoring_nylon_patchwork", 6 ],
       [ "fastener_large", 1 ],
-      [ "clasps", 8 ]
+      [ "clasps", 10 ]
     ]
   },
   {
@@ -114,33 +117,30 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "7 h",
+    "time": "27 h",
     "autolearn": true,
     "using": [
-      [ "tailoring_kevlar_fabric", 220 ],
-      [ "fabric_lycra", 20 ],
-      [ "fabric_nylon", 30 ],
+      [ "tailoring_kevlar_fabric", 190 ],
+      [ "tailoring_nylon_patchwork", 60 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_articulation" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_elastics" }
-    ],
-    "byproducts": [ [ "scrap_kevlar", 22 ], [ "scrap_lycra", 5 ] ]
+      { "proficiency": "prof_quilting" }
+    ]
   },
   {
     "result": "xssurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "7 h",
+    "time": "24 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 155 ],
-      [ "fabric_lycra", 15 ],
-      [ "fabric_nylon", 23 ],
+      [ "tailoring_kevlar_fabric", 175 ],
+      [ "tailoring_nylon_patchwork", 50 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ]
@@ -150,13 +150,66 @@
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "8 h 10 m",
+    "time": "33 h 30 m",
     "using": [
-      [ "tailoring_kevlar_fabric", 310 ],
-      [ "fabric_lycra", 30 ],
-      [ "fabric_nylon", 45 ],
+      [ "tailoring_kevlar_fabric", 230 ],
+      [ "tailoring_nylon_patchwork", 75 ],
       [ "fastener_large", 1 ],
-      [ "clasps", 8 ]
+      [ "clasps", 10 ]
+    ]
+  },
+  {
+    "result": "hsurvivor_jumpsuit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "chemistry", 2 ],
+    "time": "32 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_kevlar_fabric", 190 ],
+      [ "tailoring_canvas_patchwork", 60 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 10 ],
+      [ "vinylizing_standard", 240 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_quilting" },
+      { "proficiency": "prof_intro_chemistry" }
+    ]
+  },
+  {
+    "result": "xs_hsurvivor_jumpsuit",
+    "type": "recipe",
+    "copy-from": "survivor_jumpsuit",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "28 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 175 ],
+      [ "tailoring_canvas_patchwork", 50 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 10 ],
+      [ "vinylizing_standard", 220 ]
+    ]
+  },
+  {
+    "result": "xl_hsurvivor_jumpsuit",
+    "type": "recipe",
+    "copy-from": "survivor_jumpsuit",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "42 h 30 m",
+    "using": [
+      [ "tailoring_kevlar_fabric", 230 ],
+      [ "tailoring_canvas_patchwork", 75 ],
+      [ "fastener_large", 1 ],
+      [ "clasps", 12 ],
+      [ "vinylizing_standard", 270 ]
     ]
   },
   {
@@ -167,24 +220,24 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "10 h",
+    "time": "30 h",
     "autolearn": true,
     "using": [
-      [ "tailoring_kevlar_fabric", 130 ],
-      [ "fabric_lycra", 20 ],
-      [ "fabric_fur_pelt", 3 ],
+      [ "tailoring_cotton_patchwork", 170 ],
+      [ "tailoring_canvas_patchwork", 20 ],
+      [ "tailoring_nylon_patchwork", 6 ],
+      [ "fabric_fur", 20 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_furriery" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_elastics" }
-    ],
-    "byproducts": [ [ "scrap_kevlar", 15 ], [ "scrap_lycra", 6 ] ]
+      { "proficiency": "prof_furriery" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_quilting" }
+    ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit",
@@ -193,28 +246,28 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 100 ],
-      [ "fabric_lycra", 15 ],
-      [ "fabric_fur_pelt", 2 ],
+      [ "tailoring_cotton_patchwork", 130 ],
+      [ "tailoring_canvas_patchwork", 16 ],
+      [ "tailoring_nylon_patchwork", 6 ],
+      [ "fabric_fur", 16 ],
       [ "fastener_large", 1 ],
       [ "clasps", 8 ]
-    ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+    ]
   },
   {
     "result": "xl_wsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "wsurvivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "11 h 36 m",
+    "time": "40 h 30 m",
     "using": [
-      [ "tailoring_kevlar_fabric", 200 ],
-      [ "fabric_lycra", 30 ],
-      [ "fabric_fur_pelt", 5 ],
+      [ "tailoring_cotton_patchwork", 220 ],
+      [ "tailoring_canvas_patchwork", 25 ],
+      [ "tailoring_nylon_patchwork", 6 ],
+      [ "fabric_fur", 25 ],
       [ "fastener_large", 1 ],
-      [ "clasps", 8 ]
-    ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+      [ "clasps", 10 ]
+    ]
   },
   {
     "result": "survivor_rig",
