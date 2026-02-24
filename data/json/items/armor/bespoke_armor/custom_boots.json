@@ -121,6 +121,7 @@
       }
     ],
     "melee_damage": { "bash": 3 }
+  },
   {
     "id": "xl_boots_wsurvivor_nofur",
     "type": "ITEM",
