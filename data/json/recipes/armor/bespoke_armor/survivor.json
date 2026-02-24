@@ -192,7 +192,8 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_quilting" },
-      { "proficiency": "prof_intro_chemistry" }
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_plasticworking" }
     ]
   },
   {
