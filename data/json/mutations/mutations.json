@@ -2442,7 +2442,6 @@
     "prereqs": [ "CHAOTIC" ],
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "points": -8,
-    "starting_trait": false,
     "purifiable": false,
     "vitamin_cost": 300,
     "vitamin_rates": [ [ "instability", -60 ] ]
