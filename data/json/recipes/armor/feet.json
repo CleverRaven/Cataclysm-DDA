@@ -452,16 +452,19 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "30 h",
+    "skills_required": [ [ "fabrication", 6 ], [ "chemistry", 2 ] ]
+    "time": "36 h",
     "autolearn": true,
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "using": [
-      [ "tailoring_kevlar_fabric", 18 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 24 ],
-      [ "welding_standard", 10 ]
+      [ "tailoring_leather_patchwork", 6 ],
+      [ "vinylizing_standard", 30 ],
+      [ "blacksmithing_standard", 8 ],
+      [ "hc_steel_standard", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -469,36 +472,28 @@
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" }
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_intro_chemistry" }
     ],
-    "components": [
-      [ [ "filament_durable", 100, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
-      [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ]
-    ]
+    "components": [ [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 15, "LIST" ] ] ]
   },
   {
     "result": "boots_xssurvivor",
     "type": "recipe",
     "copy-from": "boots_survivor",
-    "time": "24 h",
+    "time": "30 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 16 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 12 ],
-      [ "welding_standard", 8 ]
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "vinylizing_standard", 27 ],
+      [ "blacksmithing_standard", 8 ],
+      [ "hc_steel_standard", 2 ]
     ],
-    "components": [
-      [ [ "filament_durable", 80, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 3 ], [ "sheet_nomex_patchwork", 3 ] ],
-      [ [ "thread_nomex", 18 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ]
-    ]
+    "components": [ [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 15, "LIST" ] ] ]
   },
   {
     "result": "boots_western",
@@ -672,34 +667,19 @@
     "type": "recipe",
     "copy-from": "boots_survivor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 5 ],
+    "skills_required": [ "fabrication", 7 ],
     "time": "45 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 27 ],
-      [ "fastener_small", 10 ],
+    "using": [
+      [ "fastener_small", 8 ],
       [ "shoe_rubber", 2 ],
       [ "adhesive_rubber", 2 ],
-      [ "tailoring_leather_small", 30 ],
-      [ "welding_standard", 12 ],
-      [ "blacksmithing_standard", 2 ],
-      [ "steel_chunk_any", 2 ]
+      [ "tailoring_leather_patchwork", 8 ],
+      [ "vinylizing_standard", 36 ],
+      [ "blacksmithing_standard", 12 ],
+      [ "hc_steel_standard", 3 ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_blacksmithing" }
-    ],
-    "components": [
-      [ [ "filament_durable", 150, "LIST" ] ],
-      [ [ "xlnomex_socks", 1 ], [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
-      [ [ "thread_nomex", 30 ] ]
-    ]
+    "components": [ [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 20, "LIST" ] ] ]
   },
   {
     "result": "clogs",
