@@ -7135,5 +7135,14 @@
     "visibility": 5,
     "ugliness": 9,
     "flags": [ "IMMUNE_SPOIL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELDRITCH_IRE",
+    "name": { "str": "Eldritch Ire" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "As if the apocalypse itself wasn't enough, you are constantly being at the ire of the zombies.  Zombies somehow can sense your presence from very far away and approach your general location."
   }
 ]
