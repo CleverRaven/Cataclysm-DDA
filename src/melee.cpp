@@ -2035,6 +2035,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
+    // Can't block attacks from attackers two sizes greater than you
+    if( get_size() + 1 < source.get_size() ) {
+        return false;
+    }
+
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
     float melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
