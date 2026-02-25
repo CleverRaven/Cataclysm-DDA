@@ -131,8 +131,6 @@ static bool isWide = false;
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-static int skill_increment_cost( const Character &u, const skill_id &skill );
-
 class tab_manager
 {
         std::vector<std::string> &tab_names;
@@ -294,22 +292,6 @@ struct multi_pool {
 
 };
 
-static int skill_points_left( const avatar &u, pool_type pool )
-{
-    switch( pool ) {
-        case pool_type::MULTI_POOL: {
-            return multi_pool( u ).skill_points_left;
-        }
-        case pool_type::ONE_POOL: {
-            return point_pool_total() - points_used_total( u );
-        }
-        case pool_type::TRANSFER:
-        case pool_type::FREEFORM:
-            return 0;
-    }
-    return 0;
-}
-
 // Toggle this trait and all prereqs, removing upgrades on removal
 void Character::toggle_trait_deps( const trait_id &tr, const std::string &variant )
 {
@@ -336,24 +318,9 @@ void Character::toggle_trait_deps( const trait_id &tr, const std::string &varian
     calc_mutation_levels();
 }
 
-static std::string pools_to_string( const avatar &u, pool_type pool )
+static std::string pools_to_string( pool_type pool )
 {
     switch( pool ) {
-        case pool_type::MULTI_POOL: {
-            multi_pool p( u );
-            bool is_valid = p.stat_points_left >= 0 && p.trait_points_left >= 0 && p.skill_points_left >= 0;
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       p.stat_points_left >= 0 ? "light_gray" : "red", p.pure_stat_points,
-                       p.pure_trait_points >= 0 ? '+' : '-',
-                       p.trait_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_trait_points ),
-                       p.pure_skill_points >= 0 ? '+' : '-',
-                       p.skill_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_skill_points ),
-                       is_valid ? "light_gray" : "red", p.skill_points_left );
-        }
-        case pool_type::ONE_POOL: {
-            return string_format( _( "Points left: %4d" ), point_pool_total() - points_used_total( u ) );
-        }
         case pool_type::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
         case pool_type::FREEFORM:
@@ -1122,7 +1089,7 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
-    std::string points_msg = pools_to_string( u, pool );
+    std::string points_msg = pools_to_string( pool );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
     print_colored_text( w, point( 2, 4 ), color, c_light_gray,
@@ -1499,7 +1466,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int thirds = std::min( ( TERMX - 4 ) / 3, 38 );  // to allign scrollbar with the traits tab
-        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( u, pool ), true ) + 2 );
+        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( pool ), true ) + 2 );
         const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
@@ -1863,7 +1830,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
-        const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
+        const int remaining_points_length = utf8_width( pools_to_string( pool ), true );
         if( pool != pool_type::FREEFORM ) {
             std::string full_string =
                 string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
@@ -3070,17 +3037,6 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     } while( true );
 }
 
-/**
- * @return The skill points to consume when a skill is increased (by one level) from the
- * current level.
- *
- * @note: There is one exception: if the current level is 0, it can be boosted by 2 levels for 1 point.
- */
-static int skill_increment_cost( const Character &u, const skill_id &skill )
-{
-    return std::max( 1, ( static_cast<int>( u.get_skill_level( skill ) ) + 1 ) / 2 );
-}
-
 static std::string assemble_skill_details( const avatar &u,
         const std::map<skill_id, int> &prof_skills, const Skill *currentSkill )
 {
@@ -3224,8 +3180,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
-    const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
-
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         std::string cur_skill_text;
         const std::string help_text = assemble_skill_help( ctxt );
@@ -3242,24 +3196,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         // Helptext skill tab
         fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         help_text );
-
-        // Write the hint as to upgrade costs
-        const int cost = skill_increment_cost( u, currentSkill->ident() );
-        const int level = u.get_skill_level( currentSkill->ident() );
-        if( pool != pool_type::FREEFORM ) {
-            // in pool the first level of a skill gives 2
-            const int upgrade_levels = level == 0 ? 2 : 1;
-            // We have two different strings to pluralize, so we have to use two translation calls.
-            const std::string upgrade_levels_s = string_format(
-                    //~ levels here are skill levels at character creation time
-                    n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
-            const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
-            mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
-                       //~ Second string is e.g. "1 level" or "2 levels"
-                       n_gettext( "Upgrading %s by %s costs %d point",
-                                  "Upgrading %s by %s costs %d points", cost ),
-                       currentSkill->name(), upgrade_levels_s, cost );
-        }
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
@@ -4404,26 +4340,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
-            if( pool == pool_type::ONE_POOL ) {
-                if( points_used_total( you ) > point_pool_total() ) {
-                    popup( _( "Too many points allocated, change some features and try again." ) );
-                    continue;
-                }
-            } else if( pool == pool_type::MULTI_POOL ) {
-                multi_pool p( you );
-                if( p.skill_points_left < 0 ) {
-                    popup( _( "Too many points allocated, change some features and try again." ) );
-                    continue;
-                }
-                if( p.trait_points_left < 0 ) {
-                    popup( _( "Too many trait points allocated, change some traits or lower some stats and try again." ) );
-                    continue;
-                }
-                if( p.stat_points_left < 0 ) {
-                    popup( _( "Too many stat points allocated, lower some stats and try again." ) );
-                    continue;
-                }
-            }
             if( has_unspent_points( you ) && pool != pool_type::FREEFORM &&
                 !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 continue;
