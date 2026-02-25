@@ -2612,6 +2612,11 @@
     "info": "You have nonhuman ancestry or are not human"
   },
   {
+    "id": "BLOCK_HUGE_ATTACKS",
+    "type": "json_flag",
+    "info": "You are capabale of blocking attacks from targets of any size"
+  },
+  {
     "id": "SUFFOCATION_IMMUNE",
     "type": "json_flag",
     "info": "You are immune to being crowd-crushed"

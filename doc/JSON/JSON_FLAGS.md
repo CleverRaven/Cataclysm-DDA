@@ -391,6 +391,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
+- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.

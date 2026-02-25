@@ -136,6 +136,7 @@ static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
+static const json_character_flag json_flag_BLOCK_HUGE_ATTACKS( "BLOCK_HUGE_ATTACKS");
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
@@ -2036,7 +2037,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     }
 
     // Can't block attacks from attackers two sizes greater than you
-    if( get_size() + 1 < source.get_size() ) {
+    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
         return false;
     }
 
