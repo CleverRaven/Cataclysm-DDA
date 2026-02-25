@@ -1151,10 +1151,10 @@ bool Character::pick_wound_fix( int pos )
             }
         } else {
             if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
-                popup( string_format( _( "The damage of %s cannot be repaired." ), bp_id->name ) );
+                popup( string_format( _( "The %s damage cannot be repaired." ), bp_id->name ) );
                 return false;
             } else {
-                popup( string_format( _( "The wounds of %s cannot be treated." ), bp_id->name ) );
+                popup( string_format( _( "The %s wounds cannot be treated." ), bp_id->name ) );
                 return false;
             }
         }
