@@ -1485,7 +1485,24 @@
     "warmth": 5,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 65,
+        "covers": [
+          "foot_l",
+          "foot_r",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
+      }
+    ]
   },
   {
     "id": "footrags_fur",
@@ -1504,7 +1521,24 @@
     "warmth": 20,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [
+          "foot_l",
+          "foot_r",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
+      }
+    ]
   },
   {
     "id": "footrags_faux_fur",
@@ -1523,7 +1557,24 @@
     "warmth": 18,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [
+          "foot_l",
+          "foot_r",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
+      }
+    ]
   },
   {
     "id": "footrags_leather",
@@ -1542,7 +1593,24 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [
+          "foot_l",
+          "foot_r",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
+      }
+    ]
   },
   {
     "id": "footrags_wool",
@@ -1561,7 +1629,24 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [
+          "foot_l",
+          "foot_r",
+          "hoof_r",
+          "hoof_l",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r"
+        ]
+      }
+    ]
   },
   {
     "id": "geta",

@@ -7,6 +7,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -17,6 +18,8 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
+#include "omdata.h"
+#include "overmapbuffer.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
@@ -63,6 +66,7 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::FULL_MOON: return "full_moon";
         case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
+        case relic_recharge_type::FOREST: return "forest";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -540,6 +544,14 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
+// checks if the relic is in the appropriate location to be able to recharge from being in a forest.
+static bool can_recharge_forest( const tripoint_bub_ms &pos )
+{
+    const tripoint_abs_omt omt_were_at = project_to<coords::omt>( get_map().get_abs( pos ) );
+    return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() &&
+           !overmap_buffer.is_in_city( omt_were_at );
+}
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -592,6 +604,12 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
         case relic_recharge_type::SOLAR_CLOUDY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier < 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::FOREST: {
+            if( can_recharge_forest( pos ) ) {
                 charge.accumulate_charge( parent );
             }
             return;

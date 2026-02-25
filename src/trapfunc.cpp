@@ -513,7 +513,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
         } else {
-            z->stumble();
+            z->stumble_involuntary();
         }
         if( rng( 0, 10 ) > z->get_dodge() ) {
             z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_pure, rng( 1,

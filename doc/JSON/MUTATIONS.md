@@ -212,6 +212,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
+  "stamina": true,                               // If true, activated mutation consumes `cost` stamina. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation

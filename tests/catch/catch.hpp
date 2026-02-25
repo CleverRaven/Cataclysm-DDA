@@ -5290,7 +5290,7 @@ namespace Catch {
         WarnAbout::What warnings = WarnAbout::Nothing;
         ShowDurations::OrNot showDurations = ShowDurations::DefaultForReporter;
         double minDuration = -1;
-        RunTests::InWhatOrder runOrder = RunTests::InDeclarationOrder;
+        RunTests::InWhatOrder runOrder = RunTests::InLexicographicalOrder;
         UseColour::YesOrNo useColour = UseColour::Auto;
         WaitForKeypress::When waitForKeypress = WaitForKeypress::Never;
 
@@ -9847,9 +9847,9 @@ namespace Catch {
             | Opt( config.listReporters )
                 ["--list-reporters"]
                 ( "list all reporters" )
-            | Opt( setTestOrder, "decl|lex|rand" )
+            | Opt( setTestOrder, "lex|decl|rand" )
                 ["--order"]
-                ( "test case order (defaults to decl)" )
+                ( "test case order (defaults to lex)" )
             | Opt( setRngSeed, "'time'|number" )
                 ["--rng-seed"]
                 ( "set a specific seed for random numbers" )

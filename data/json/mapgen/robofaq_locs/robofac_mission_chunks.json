@@ -62,19 +62,19 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "    @@@                 ",
+        "u                       ",
         "                        ",
         "                        ",
         "                        ",
-        "          u             ",
+        "                       u",
         "           T            ",
         "           k            ",
-        "          u     u       ",
-        "                k       ",
-        "              u         ",
-        "        ku              ",
+        "          u             ",
         "                        ",
         "                        ",
+        "                        ",
+        "                        ",
+        "     u                  ",
         "                        ",
         "                        ",
         "                        ",
@@ -87,7 +87,6 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "@": "t_pavement" },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "monster": {
         "T": { "monster": "mon_leech_blossom" },

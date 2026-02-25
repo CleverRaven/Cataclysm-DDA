@@ -528,7 +528,9 @@
         "#####",
         "#####"
       ],
-      "furniture": { "#": "f_solar_unit" }
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -544,7 +546,9 @@
         " ##  ",
         " ##  "
       ],
-      "furniture": { "#": "f_solar_unit_v2", "?": [ [ "f_solar_unit_v2", 1 ], [ "f_null", 1 ] ] }
+      "terrain": { "#": "t_flat_roof", "?": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit_v2", "?": [ [ "f_solar_unit_v2", 1 ], [ "f_null", 1 ] ] },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -569,7 +573,9 @@
         "######",
         "      "
       ],
-      "furniture": { "#": "f_solar_unit" }
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -586,7 +592,9 @@
         "###   ",
         "      "
       ],
-      "furniture": { "#": "f_solar_unit_v2" }
+      "terrain": { "#": "t_flat_roof" },
+      "furniture": { "#": "f_solar_unit_v2" },
+      "flags": [ "ERASE_ITEMS_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -611,6 +619,7 @@
         "######",
         "######"
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit" }
     }
   },
@@ -628,6 +637,7 @@
         "###   ",
         "###   "
       ],
+      "terrain": { "#": "t_flat_roof" },
       "furniture": { "#": "f_solar_unit_v2" }
     }
   },

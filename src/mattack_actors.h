@@ -301,4 +301,20 @@ class gun_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+class polymorph_special : public mattack_actor
+{
+    public:
+        mtype_id mon_id;
+        bool keep_speed = true;
+        bool keep_hp = true;
+        bool keep_anger = true;
+
+        polymorph_special() = default;
+        ~polymorph_special() override = default;
+
+        void load_internal( const JsonObject &jo, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+};
+
 #endif // CATA_SRC_MATTACK_ACTORS_H

@@ -845,7 +845,7 @@ class game
         void draw_bullet( const tripoint_bub_ms &t, int i, const std::vector<tripoint_bub_ms> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint_bub_ms &p, const monster &m, bool dead = false );
-        void draw_hit_player( const Character &p, int dam );
+        void draw_hit_player( const Character &p, int dam ) const;
         void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );

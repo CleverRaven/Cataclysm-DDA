@@ -573,6 +573,32 @@
     "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
   },
   {
+    "id": "bot_robofac_hound",
+    "looks_like": "broken_skitterbot",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "inactive Hub 01 HOUND" },
+    "description": "A Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If reprogrammed and reloaded successfully, this quadrupedal robot will closely track you, using a taser and noise-generator to distract, disorient, and ultimately neutralize nearby enemies.",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "price": "800 USD",
+    "price_postapoc": "600 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_hound",
+      "friendly_msg": "The HOUND gives a quick bow and falls in at your side.",
+      "hostile_msg": "The HOUND darts around you and menacingly clicks its tasers.  RUN!",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
+    },
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
+  },
+  {
     "id": "bot_science_bot",
     "looks_like": "broken_science_bot",
     "type": "ITEM",

@@ -1295,7 +1295,9 @@ bool vehicle::can_close( int part_index, Character &who )
                 if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
-                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
+                if( parts[partID].has_fake &&
+                    parts[partID].fake_part_at < static_cast<int>( parts.size() ) &&
+                    parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -2140,7 +2142,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                     g->setremoteveh( nullptr );
                 } );
             } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
-                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                menu.add( engine_on ? colorize( _( "Turn off the engine" ), c_pink ) : _( "Turn on the engine" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
                 .on_submit( [this, here] {

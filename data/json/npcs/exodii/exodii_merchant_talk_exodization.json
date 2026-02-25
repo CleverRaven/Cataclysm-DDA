@@ -73,7 +73,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
     "type": "talk_topic",
-    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*\n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee, or an act of service, to earn this package.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
     "responses": [
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
@@ -150,25 +150,12 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
-      "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Maybe you do a job for us, we do a job for you?  Or we could trade, maybe if you bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Mayhap a tit-for-tat, aye?  Or a trade, aye, mayhap wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
     },
     "responses": [
       {
-        "text": "One thousand units of, uh, anesthetic, coming up.  <done_conversation_section>",
-        "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
-            ]
-          }
-        },
-        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
-        "topic": "TALK_EXODII_MERCHANT_Talk"
-      },
-      {
-        "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
+        "text": "So I could bring you one thousand units of, uh, anesthetic?  And you'll give me this \"upgrade?\"  Sure, coming right up.  I'd better start looking.",
         "condition": {
           "not": {
             "or": [
@@ -181,14 +168,8 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
-        "condition": {
-          "or": [
-            { "u_has_mission": "RUBIK_ANUS_FETICK" },
-            { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
-          ]
-        },
-        "topic": "TALK_DONE"
+        "text": "Could I do something else, maybe some kind of job, to earn this \"upgrade?\"",
+        "topic": "TALK_EXODII_MERCHANT_Jobs"
       }
     ]
   },
@@ -202,6 +183,7 @@
     "responses": [
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
+        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
@@ -212,7 +194,36 @@
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
-      { "text": "Hold on.  I need to rethink it again.", "topic": "TALK_DONE" }
+      {
+        "text": "[Install Power Storage Mk. II CBM] I guess since I'm already a cyborg, I could use some more power.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_faction_trust": 2 },
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_power_storage_mkII" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $400 in store credit].",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [ { "u_spend_cash": -40000 }, { "u_add_faction_trust": 2 }, "start_trade" ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Consider it a favor, Rubik.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hold on.  I need to rethink it again.",
+        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

@@ -103,7 +103,6 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -1653,11 +1652,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
     // skill gains are handled by the activity, but stored here in the index field
     const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
-    p->assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                        0, it.tname() );
-    p->activity.targets.emplace_back( *p, &it );
-    p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = here->get_abs( pos );
+    p->assign_activity( fire_start_activity_actor( here->get_abs( pos ), form_loc( *p, here, pos, it ),
+                        potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
 }
@@ -2794,8 +2790,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, map *here,
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.all_items_top(
-                                      pocket_type::CONTAINER );
+    std::list<item *> all_items = it.all_holstered_items();
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
         return string_format( _( "Draw %s" ), elem->display_name() );

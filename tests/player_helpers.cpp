@@ -90,6 +90,9 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    // clear_mutations() removes traits but does not rebuild bodypart topology.
+    // Rebuild anatomy now so tests see baseline human limbs (e.g. feet, not talons).
+    dummy.set_body();
     dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 

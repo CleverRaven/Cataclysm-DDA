@@ -905,7 +905,7 @@
     "id": "spellbook_hedge_book_of_raziel",
     "type": "ITEM",
     "name": { "str": "Sefer Raziel HaMalakh", "str_pl": "copies of Sefer Raziel HaMalakh" },
-    "description": "The Book of Raziel the Angel, originally written in Hebrew and Aramaic but despite the title, this is an English translation.  Supposedly given to Adam the First Man by Raziel after Adam and Eve were expelled from Eden, it contains knowledge of ",
+    "description": "The Book of Raziel the Angel, originally written in Hebrew and Aramaic but despite the title, this is an English translation.  Supposedly given to Adam the First Man by Raziel after Adam and Eve were expelled from Eden, it contains knowledge of the holy names of God, the divisions of Heaven and Hell, and the names and hierarchy of the angels and spirits.",
     "weight": "539 g",
     "volume": "674 ml",
     "price": "25 USD",

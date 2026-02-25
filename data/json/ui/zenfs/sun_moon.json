@@ -2,29 +2,17 @@
   {
     "id": "zenfs_sundial_desc_no_label",
     "type": "widget",
-    "label": "Sundial",
     "style": "text",
     "var": "sundial_text",
     "flags": [ "W_LABEL_NONE" ]
-  },
-  {
-    "id": "zenfs_sundial_label_text",
-    "type": "widget",
-    "style": "text",
-    "width": 4,
-    "flags": [ "W_LABEL_NONE" ],
-    "clauses": [
-      { "id": "sundial_sun", "text": "Sun ", "color": "white", "condition": "is_day" },
-      { "id": "sundial_moon", "text": "Moon", "color": "white", "condition": { "not": "is_day" } }
-    ]
   },
   {
     "id": "zenfs_sun_bar",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_sundial_label_text", "zenfs_sundial_desc_no_label" ],
-    "flags": [ "W_LABEL_NONE" ]
+    "label": "Sky",
+    "widgets": [ "zenfs_sundial_desc_no_label" ]
   },
   {
     "id": "zenfs_sun_bar_42",

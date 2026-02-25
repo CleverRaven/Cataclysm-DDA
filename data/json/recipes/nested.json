@@ -3383,42 +3383,6 @@
     "difficulty": 7
   },
   {
-    "id": "nested_lsurvivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "light survivor pants",
-    "description": "Recipes related to constructing various sizes of light survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "lsurvivor_pants", "xs_lsurvivor_pants", "xl_lsurvivor_pants" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_survivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor pants",
-    "description": "Recipes related to constructing various sizes of survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "pants_survivor", "xs_pants_survivor", "xl_pants_survivor" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_all_survivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_LEGS",
-    "name": "survivor pants",
-    "description": "Recipes related to constructing various sizes and variations of survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "nested_lsurvivor_pants", "nested_survivor_pants" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_lc_chainmail_legs",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",

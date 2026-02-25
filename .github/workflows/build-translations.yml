@@ -19,7 +19,7 @@ jobs:
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.17/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
 
       - name: Checkout local repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: master
           sparse-checkout: |
@@ -27,6 +27,7 @@ jobs:
             tools
             lang
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Pull translations
         continue-on-error: true
@@ -46,7 +47,7 @@ jobs:
         run: ./lang/update_stats.sh
 
       - name: Store translation artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: "translations"
           path: |

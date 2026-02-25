@@ -60,8 +60,11 @@
   {
     "type": "terrain",
     "id": "t_pseudo_phase",
-    "name": "pseudo phase",
-    "description": "Placeholder terrain representing the original tile for PHASE_BACK behavior.  Should not be seen in-game.",
+    "name": { "str": "pseudo phase", "//~": "NO_I18N" },
+    "description": {
+      "str": "Placeholder terrain representing the original tile for PHASE_BACK behavior.  Should not be seen in-game.",
+      "//~": "NO_I18N"
+    },
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,

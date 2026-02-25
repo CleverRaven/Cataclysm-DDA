@@ -175,6 +175,10 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         pushing = true;
     } else if( std::abs( dp.x() + dp_veh.x() ) != 2 && std::abs( dp.y() + dp_veh.y() ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "grabbed_veh_move: SIDEWAYS dp=(%d,%d) grab=(%d,%d)->(%d,%d)",
+                       dp.x(), dp.y(), prev_grab.x(), prev_grab.y(),
+                       -( dp.x() + dp_veh.x() ), -( dp.y() + dp_veh.y() ) );
         u.grab_point = - ( dp + dp_veh );
         return false;
     } else if( ( dp.x() == prev_grab.x() || dp.y() == prev_grab.y() ) &&
@@ -191,6 +195,12 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         next_grab = - dp;
         pulling = true;
     }
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "grabbed_veh_move: %s dp=(%d,%d) grab=(%d,%d) dp_veh=(%d,%d) next_grab=(%d,%d)",
+                   pushing ? "PUSH" : pulling ? "PULL" : zigzag ? "ZIGZAG" : "???",
+                   dp.x(), dp.y(), prev_grab.x(), prev_grab.y(),
+                   dp_veh.x(), dp_veh.y(), next_grab.x(), next_grab.y() );
 
     // Make sure the mass and pivot point are correct
     grabbed_vehicle->invalidate_mass();
@@ -291,6 +301,9 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         if( !bad_veh_angle ) {
             add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         }
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "grabbed_veh_move: STR FAIL str_req=%d str=%d angle=%d",
+                       str_req, str, bad_veh_angle ? 1 : 0 );
         u.mod_moves( -to_moves<int>( 1_seconds ) );
         return true;
     }
@@ -391,6 +404,9 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 
     if( final_dp_veh == tripoint_rel_ms::invalid ) {
         add_msg( _( "The %s collides with %s." ), grabbed_vehicle->name, blocker_name );
+        add_msg_debug( debugmode::DF_ACTIVITY,
+                       "grabbed_veh_move: COLLISION with '%s' dp_veh=(%d,%d)",
+                       blocker_name, dp_veh.x(), dp_veh.y() );
         u.grab_point = prev_grab;
         grabbed_vehicle->face = initial_veh_face;
         return true;
@@ -400,6 +416,10 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     if( u.grab_point != tripoint_rel_ms::zero ) {
         u.grab_point = next_grab;
     }
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "grabbed_veh_move: SUCCESS displacing veh by (%d,%d) new_grab=(%d,%d)",
+                   final_dp_veh.x(), final_dp_veh.y(), next_grab.x(), next_grab.y() );
 
     here.displace_vehicle( *grabbed_vehicle, final_dp_veh );
     here.rebuild_vehicle_level_caches();

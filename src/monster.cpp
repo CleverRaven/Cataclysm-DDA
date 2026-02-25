@@ -2186,6 +2186,13 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool monster_missed = monster_hit_roll < 0.0;
         // Miss
+        if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
+            add_effect( effect_downed, 2_turns, true );
+            if( target.is_avatar() && u_see_my_spot && !target.in_sleep_state() ) {
+                add_msg( _( "%s stumbles and falls as it attacks you." ),
+                         u_see_me ? disp_name() : _( "something" ) );
+            }
+        }
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( monster_missed ) {
@@ -2204,11 +2211,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
             }
         } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
-        }
-        if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
-            add_effect( effect_downed, 2_turns, true );
-            add_msg( _( "%s stumbles and falls as it attacks." ), u_see_me ? disp_name( false,
-                     true ) : _( "Something" ) );
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
@@ -4033,8 +4035,9 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
     if( !tmp_provocative ) {
         return;
     }
-    // already following a more interesting sound
-    if( provocative_sound && wandf > 0 ) {
+    // already following a more interesting sound,
+    // so 50% will try to stick to it, and 50% will move in direction of a new sound
+    if( provocative_sound && wandf > 0 && rng( 0, 1 ) ) {
         return;
     }
 

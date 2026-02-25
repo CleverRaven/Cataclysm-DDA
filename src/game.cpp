@@ -760,6 +760,8 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
+    //Needs to be explicitly cleared so a previously loaded world state doesn't leak into the new game
+    dimension_prefix.clear();
 
     background_pane background;
     static_popup popup;
@@ -1042,13 +1044,14 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         const vehicle &veh = *id->blueprint;
+        std::vector<std::string> water_types = { "river", "lake", "ocean" };
+        std::vector<std::string> land_types = { "road", "field" };
         if( veh.max_ground_velocity( here ) == 0 && veh.can_float( here ) ) {
-            search_types.emplace_back( "river" );
-            search_types.emplace_back( "lake" );
-            search_types.emplace_back( "ocean" );
+            search_types.insert( search_types.end(), water_types.begin(), water_types.end() );
+            search_types.insert( search_types.end(), land_types.begin(), land_types.end() );
         } else {
-            search_types.emplace_back( "road" );
-            search_types.emplace_back( "field" );
+            search_types.insert( search_types.end(), land_types.begin(), land_types.end() );
+            search_types.insert( search_types.end(), water_types.begin(), water_types.end() );
         }
     }
     for( const std::string &search_type : search_types ) {
@@ -7599,7 +7602,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         modifier = -here.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = here.combined_movecost( pos, dest_loc, grabbed_vehicle,
+    const int mcost = here.combined_movecost( pos, dest_loc, grabbed ? grabbed_vehicle : nullptr,
                       modifier,
                       via_ramp, false, !impassable_field_ids.empty() && u.is_immune_fields( impassable_field_ids ) );
 
@@ -9659,6 +9662,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
     game::mon_info_update();
+    get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
     return true;
 }
 
