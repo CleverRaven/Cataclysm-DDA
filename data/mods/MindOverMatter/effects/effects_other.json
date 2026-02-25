@@ -22,5 +22,14 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_psi_blocking_huge_attacks",
+    "//": "Hidden effect, used for a conditional bonus",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "BLOCK_HUGE_ATTACKS" ]
   }
 ]
