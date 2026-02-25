@@ -338,7 +338,6 @@ static bool filter_query( std::string &filterstring, const std::string &descript
     return !filter_popup.cancelled();
 }
 
-static void set_points( tab_manager &tabs, avatar &u, pool_type & );
 static void set_stats( tab_manager &tabs, avatar &u, pool_type );
 static void set_traits( tab_manager &tabs, avatar &u, pool_type );
 static void set_scenario( tab_manager &tabs, avatar &u, pool_type );
@@ -739,7 +738,6 @@ bool avatar::create( character_type type, const std::string &tempname )
                              type != character_type::FULL_RANDOM;
 
     std::vector<std::string> character_tabs = {
-        _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
         //~ Not scenery/backdrop, but previous life up to this point
@@ -814,27 +812,24 @@ bool avatar::create( character_type type, const std::string &tempname )
 
         switch( tabs.position.cur_index() ) {
             case 0:
-                set_points( tabs, *this, /*out*/ pool );
-                break;
-            case 1:
                 set_scenario( tabs, *this, pool );
                 break;
-            case 2:
+            case 1:
                 set_profession( tabs, *this, pool );
                 break;
-            case 3:
+            case 2:
                 set_hobbies( tabs, *this, pool );
                 break;
-            case 4:
+            case 3:
                 set_stats( tabs, *this, pool );
                 break;
-            case 5:
+            case 4:
                 set_traits( tabs, *this, pool );
                 break;
-            case 6:
+            case 5:
                 set_skills( tabs, *this, pool );
                 break;
-            case 7:
+            case 6:
                 set_description( tabs, *this, allow_reroll, pool );
                 break;
         }
@@ -1130,125 +1125,6 @@ static const char *dress_switch_msg()
             _( "Outfit: <color_light_cyan>male</color> (press <color_light_green>%1$s</color> to change)" ) :
             //~ Outfit switch message. 1s - change key name.
             _( "Outfit: <color_pink>female</color> (press <color_light_green>%1$s</color> to change)" );
-}
-
-void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
-{
-    const int iSecondColumn = 31;
-    const int iHeaderHeight = 6;
-    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
-    int iHelpHeight = 3;
-    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
-
-    ui_adaptor ui;
-    catacurses::window w;
-    catacurses::window w_description;
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = freeWidth > 15;
-        w = catacurses::newwin( TERMY, TERMX, point::zero );
-        w_description = catacurses::newwin( TERMY - iHeaderHeight - iHelpHeight - 1,
-                                            TERMX - iSecondColumn - 1, point( iSecondColumn, iHeaderHeight ) );
-        ui.position_from_window( w );
-    };
-    init_windows( ui );
-    ui.on_screen_resize( init_windows );
-
-    input_context ctxt( "NEW_CHAR_POINTS" );
-    tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_navigate_ui_list();
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-
-
-    using point_limit_tuple = std::tuple<pool_type, std::string, std::string>;
-    std::vector<point_limit_tuple> opts = { {
-            std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
-                             _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) )
-        }
-    };
-
-    int highlighted = 0;
-
-    ui.on_redraw( [&]( ui_adaptor & ui ) {
-        const std::string help_text =
-            ( isWide ? string_format(
-                  _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                     "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                     "<color_light_green>%s</color> to confirm selection.\n"
-                     "Press <color_light_green>%s</color> to go to the next tab or "
-                     "<color_light_green>%s</color> to return to main menu." ),
-                  ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                  ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) )
-              : string_format(
-                  _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                  ctxt.get_desc( "HELP_KEYBINDINGS" ) )
-            );
-        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
-        if( new_iHelpHeight != iHelpHeight ) {
-            iHelpHeight = new_iHelpHeight;
-            init_windows( ui );
-        }
-        werase( w );
-        tabs.draw( w );
-
-        std::string title = std::get<1>( opts[highlighted] );
-        std::string description = std::get<2>( opts[highlighted] );
-
-        if( screen_reader_mode ) {
-            // Include option title in option description, and say whether it's active
-            if( std::get<0>( opts[highlighted] ) == pool ) {
-                title.append( _( " - active" ) );
-            }
-            description = title +  "\n" + description;
-        }
-
-        draw_points( w, pool, u );
-
-        // Clear the bottom of the screen.
-        werase( w_description );
-
-        const int opts_length = static_cast<int>( opts.size() );
-        for( int i = 0; i < opts_length; i++ ) {
-            nc_color color;
-            if( pool == std::get<0>( opts[i] ) ) {
-                color = highlighted == i ? hilite( c_light_green ) : c_green;
-            } else {
-                color = highlighted == i ? COL_SELECT : c_light_gray;
-            }
-            const point opt_pos( 2, 6 + i );
-            if( highlighted == i ) {
-                ui.set_cursor( w, opt_pos );
-            }
-            if( screen_reader_mode ) {
-                // The list of options only clutters up the screen in screen reader mode
-            } else {
-                mvwprintz( w, opt_pos, color, std::get<1>( opts[i] ) );
-            }
-        }
-
-        fold_and_print( w_description, point::zero, getmaxx( w_description ),
-                        COL_SKILL_USED, description );
-
-        // Helptext points tab
-        fold_and_print( w, point( 2, TERMY - foldstring( help_text, getmaxx( w ) - 4 ).size() - 1 ),
-                        getmaxx( w ) - 4, COL_NOTE_MINOR, help_text );
-        wnoutrefresh( w );
-        wnoutrefresh( w_description );
-    } );
-
-    const int opts_length = static_cast<int>( opts.size() );
-    do {
-        ui_manager::redraw();
-        const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action, ctxt ) ) {
-            break; // Tab has changed or user has quit the screen
-        } else if( navigate_ui_list( action, highlighted, 1, opts_length, true ) ) {
-        } else if( action == "CONFIRM" ) {
-            const auto &cur_opt = opts[highlighted];
-            pool = std::get<0>( cur_opt );
-        }
-    } while( true );
 }
 
 static std::string assemble_stat_details( avatar &u, int sel )
