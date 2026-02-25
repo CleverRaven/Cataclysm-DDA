@@ -129,6 +129,7 @@ static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
+static const json_character_flag json_flag_BLOCK_HUGE_ATTACKS( "BLOCK_HUGE_ATTACKS" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -136,7 +137,6 @@ static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
-static const json_character_flag json_flag_BLOCK_HUGE_ATTACKS( "BLOCK_HUGE_ATTACKS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
