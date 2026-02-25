@@ -498,7 +498,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             selected_pocket->settings.set_was_edited();
         }
         return true;
-    } else if( action == "FAV_CLEAR") {
+    } else if( action == "FAV_CLEAR" ) {
         if( query_yn( _( "Are you sure you want to clear settings for pocket %d?" ), pocket_num ) ) {
             selected_pocket->settings.clear();
             selected_pocket->settings.set_was_edited();
