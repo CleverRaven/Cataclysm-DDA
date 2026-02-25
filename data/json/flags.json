@@ -2614,7 +2614,7 @@
   {
     "id": "BLOCK_HUGE_ATTACKS",
     "type": "json_flag",
-    "info": "You are capabale of blocking attacks from targets of any size"
+    "info": "You are capable of blocking attacks from targets of any size"
   },
   {
     "id": "SUFFOCATION_IMMUNE",
