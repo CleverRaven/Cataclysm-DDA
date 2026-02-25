@@ -1117,23 +1117,14 @@ void avatar::initialize( character_type type )
 
 }
 
-static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
-                         int netPointCost = 0 )
+static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u )
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     std::string points_msg = pools_to_string( u, pool );
-    int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
-    if( pool != pool_type::FREEFORM ) {
-        if( netPointCost > 0 ) {
-            mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, " (-%d)", std::abs( netPointCost ) );
-        } else if( netPointCost < 0 ) {
-            mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
-        }
-    }
     print_colored_text( w, point( 2, 4 ), color, c_light_gray,
                         player_difficulty::getInstance().difficulty_to_string( u ) );
 }
@@ -2570,35 +2561,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<void> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
-            int pointsForProf = sorted_profs[cur_id]->point_cost();
-            bool negativeProf = pointsForProf < 0;
-            if( negativeProf ) {
-                pointsForProf *= -1;
-            }
-
-            // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-                const char *prof_msg_temp;
-                if( negativeProf ) {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
-                                               "Profession %1$s earns %2$d points",
-                                               pointsForProf );
-                } else {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
-                                               "Profession %1$s costs %2$d points",
-                                               pointsForProf );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                           prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
@@ -2921,34 +2884,8 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_hobbies.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_hobbies[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<void> can_pick = sorted_hobbies[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            int pointsForProf = sorted_hobbies[cur_id]->point_cost();
-            bool negativeProf = pointsForProf < 0;
-            if( negativeProf ) {
-                pointsForProf *= -1;
-            }
-
             // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-                const char *prof_msg_temp;
-                if( negativeProf ) {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
-                                               "Background %1$s earns %2$d points",
-                                               pointsForProf );
-                } else {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
-                                               "Background %1$s costs %2$d points",
-                                               pointsForProf );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick.success() ? c_green : c_light_red,
-                           prof_msg_temp, sorted_hobbies[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
@@ -3643,35 +3580,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
-            ret_val<void> can_afford = sorted_scens[cur_id]->can_afford(
-                                           *get_scenario(),
-                                           skill_points_left( u, pool ) );
-            ret_val<void> can_pick = sorted_scens[cur_id]->can_pick();
-
-            int pointsForScen = sorted_scens[cur_id]->point_cost();
-            bool negativeScen = pointsForScen < 0;
-            if( negativeScen ) {
-                pointsForScen *= -1;
-            }
             // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-
-                const char *scen_msg_temp;
-
-                if( negativeScen ) {
-                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
-                                               "Scenario earns %2$d points", pointsForScen );
-                } else {
-                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
-                                               "Scenario costs %2$d points", pointsForScen );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                           scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
