@@ -185,7 +185,7 @@
     "type": "trait_group",
     "id": "BG_survival_story_LAB_MUTANT",
     "subtype": "distribution",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Lab_Mutant_1" } ]
+    "traits": [ { "trait": "BGSS_Lab_Mutant_1" } ]
   },
   {
     "//": "This group is for NPCs that were left unusually emotionally or physically defenseless after the Cataclysm.",
