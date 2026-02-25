@@ -18,10 +18,6 @@
 #ifdef __ANDROID__
 #define MALLOC_USABLE_SIZE_QUALIFIER const
 #endif
-// Static redirection of malloc doesn't work on Windows.
-#ifndef _WIN32
-#include <snmalloc/override/malloc.cc> // NOLINT(bugprone-suspicious-include)
-#endif
 #include <snmalloc/override/new.cc> // NOLINT(bugprone-suspicious-include)
 #endif
 
