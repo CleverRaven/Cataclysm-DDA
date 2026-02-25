@@ -1094,7 +1094,7 @@ bool Character::pick_wound_fix( int pos )
                                    wound.id.str() ) );
                 }
                 if( opts.empty() ) {
-                    popup( string_format( "Toggle failed, as there are no wounds on %s.", bp_id->name ) );
+                    popup( string_format( "Toggle failed, as there are no %s wounds.", bp_id->name ) );
                     return false;
                 }
                 menu.query();
