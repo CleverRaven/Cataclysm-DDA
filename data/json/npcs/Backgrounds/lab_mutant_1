@@ -18,7 +18,6 @@
     "dynamic_line": "Well, just look at me.  I'm a gods-damned <freaking> freak.  And I got off lucky - I can still TALK to you, some of the poor bastards basically turned into animals, brains and all.  I don't know how the fuck that science stuff they stabbed us with worked, and I'm not sure I WANT to, but a lot of us just went completely insane.  It sure didn't seem to bother those psychopaths in charge any.  And to think WE were the ones locked up.  At least every single one of those monsters is dead now - we made sure of that.",
     "responses": [
       { "text": "So how did you escape?", "topic": "BGSS_LAB_MUTANT_1_STORY3" },
-      { "text": "If there was a way to get cured, would you take it?", "topic": "BGSS_LAB_MUTANT_1_PURIFIER" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
