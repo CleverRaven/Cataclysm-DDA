@@ -784,12 +784,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     };
     tab_manager tabs( character_tabs );
 
-    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
     pool_type pool = pool_type::FREEFORM;
-    if( point_pool == "multi_pool" ) {
-        // if using legacy multipool only set it to that
-        pool = pool_type::MULTI_POOL;
-    }
 
     switch( type ) {
         case character_type::CUSTOM:
@@ -1207,32 +1202,13 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
 
-    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
 
     using point_limit_tuple = std::tuple<pool_type, std::string, std::string>;
-    std::vector<point_limit_tuple> opts;
-
-    const point_limit_tuple multi_pool = std::make_tuple( pool_type::MULTI_POOL,
-                                         _( "Legacy: Multiple pools" ),
-                                         _( "Stats, traits and skills have separate point pools.\n"
-                                            "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill points.\n\n"
-                                            "This is a legacy mode.  Point totals are no longer balanced." ) );
-
-    const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Legacy: Single pool" ),
-                                       _( "Stats, traits and skills share a single point pool.\n\n"
-                                          "This is a legacy mode.  Point totals are no longer balanced." ) );
-
-    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
-                                       _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) );
-
-    if( point_pool == "multi_pool" ) {
-        opts = { { multi_pool } };
-    } else if( point_pool == "story_teller" ) {
-        opts = { { freeform } };
-    } else {
-        opts = { { freeform, multi_pool, one_pool } };
-    }
+    std::vector<point_limit_tuple> opts = { {
+            std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
+                             _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) )
+        }
+    };
 
     int highlighted = 0;
 
