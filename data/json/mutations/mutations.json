@@ -4447,8 +4447,7 @@
           { "value": "STEALTH_MODIFIER", "add": 40 }
         ]
       }
-    ],
-    "flags": [ "BLOCK_HUGE_ATTACKS" ]
+    ]
   },
   {
     "type": "mutation",
