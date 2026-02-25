@@ -528,7 +528,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                         ctxt.get_action_name( "FAV_APPLY_PRESET" ) );
         cmenu.addentry( 10, true, inp_mngr.get_first_char_for_action( "FAV_DEL_PRESET", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_DEL_PRESET" ) );
-        cmenu.addentry( 11, true, inp_mngr.get_first_char_for_action( "FAV_WHITELIST_CONTENTS", "INVENTORY" ),
+        cmenu.addentry( 11, true, inp_mngr.get_first_char_for_action( "FAV_WHITELIST_CONTENTS",
+                        "INVENTORY" ),
                         ctxt.get_action_name( "FAV_WHITELIST_CONTENTS" ) );
         cmenu.addentry( 12, true, inp_mngr.get_first_char_for_action( "FAV_CLEAR", "INVENTORY" ),
                         ctxt.get_action_name( "FAV_CLEAR" ) );
