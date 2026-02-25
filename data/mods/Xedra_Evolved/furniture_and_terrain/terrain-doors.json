@@ -55,10 +55,10 @@
     "can_resume": false,
     "interruptable": false,
     "interruptable_with_kb": false,
-    "completion_eoc": "EOC_UNLOCK_ELOCK"
+    "completion_eoc": "EOC_UNLOCK_ELOCK_ACTUAL"
   },
   {
-    "id": "EOC_UNLOCK_ELOCK",
+    "id": "EOC_UNLOCK_ELOCK_ACTUAL",
     "type": "effect_on_condition",
     "condition": { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 },
     "effect": [
