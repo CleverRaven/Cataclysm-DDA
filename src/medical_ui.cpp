@@ -1094,7 +1094,7 @@ bool Character::pick_wound_fix( int pos )
                                    wound.id.str() ) );
                 }
                 if( opts.empty() ) {
-                    popup( string_format( "The %s doesn't have any wounds to toggle.", bp_id->name ) );
+                    popup( string_format( "Toggle failed, as there are no wounds on %s.", bp_id->name ) );
                     return false;
                 }
                 menu.query();
@@ -1143,18 +1143,18 @@ bool Character::pick_wound_fix( int pos )
     if( healing_options.empty() ) {
         if( bp->get_wounds().empty() ) {
             if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
-                popup( string_format( _( "The %s doesn't have any damage to repair." ), bp_id->name ) );
+                popup( string_format( _( "No need to repair %s, as no damage has been made." ), bp_id->name ) );
                 return false;
             } else {
-                popup( string_format( _( "The %s doesn't have any wounds to treat." ), bp_id->name ) );
+                popup( string_format( _( "No need to treat %s, as no wounds have been caused." ), bp_id->name ) );
                 return false;
             }
         } else {
             if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
-                popup( string_format( _( "The %s damage cannot be repaired." ), bp_id->name ) );
+                popup( string_format( _( "The damage of %s cannot be repaired." ), bp_id->name ) );
                 return false;
             } else {
-                popup( string_format( _( "The %s wounds cannot be treated." ), bp_id->name ) );
+                popup( string_format( _( "The wounds of %s cannot be treated." ), bp_id->name ) );
                 return false;
             }
         }
