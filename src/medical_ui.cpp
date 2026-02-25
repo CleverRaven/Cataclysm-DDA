@@ -1143,10 +1143,10 @@ bool Character::pick_wound_fix( int pos )
     if( healing_options.empty() ) {
         if( bp->get_wounds().empty() ) {
             if( bp_id->has_flag( json_flag_BIONIC_LIMB ) ) {
-                popup( string_format( _( "No need to repair %s, as no damage has been made." ), bp_id->name ) );
+                popup( string_format( _( "No %s damage needs to be repaired." ), bp_id->name ) );
                 return false;
             } else {
-                popup( string_format( _( "No need to treat %s, as no wounds have been caused." ), bp_id->name ) );
+                popup( string_format( _( "No %s wounds need to be treated." ), bp_id->name ) );
                 return false;
             }
         } else {
