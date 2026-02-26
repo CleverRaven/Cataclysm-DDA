@@ -65,9 +65,22 @@
     },
     "speaker_effect": { "effect": [ { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
     "responses": [
-      { "text": "Sure, let's see what you have to offer.", "condition": { "math": [ "ancilla_autodoc_placed == 1" ] }, "topic": "TALK_DONE", "effect": "start_trade" },
-      { "text": "Sorry, not interested.", "condition": { "math": [ "ancilla_autodoc_placed == 1" ] }, "topic": "TALK_DONE" },
-      { "text": "Alright.  Maybe some other time.", "condition": { "math": [ "ancilla_autodoc_placed != 1" ] }, "topic": "TALK_DONE" }
+      {
+        "text": "Sure, let's see what you have to offer.",
+        "condition": { "math": [ "ancilla_autodoc_placed == 1" ] },
+        "topic": "TALK_DONE",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Sorry, not interested.",
+        "condition": { "math": [ "ancilla_autodoc_placed == 1" ] },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright.  Maybe some other time.",
+        "condition": { "math": [ "ancilla_autodoc_placed != 1" ] },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]
