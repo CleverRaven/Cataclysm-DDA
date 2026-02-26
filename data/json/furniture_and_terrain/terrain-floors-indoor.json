@@ -457,6 +457,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_floor_warped_light",
+    "looks_like": "t_floor_warped",
+    "name": "warped stone floor",
+    "description": "A rough stone floor.  Its patterns constantly shift as if your mind can't quite understand what it's really seeing.  Can support a roof.",
+    "symbol": ".",
+    "color": "magenta",
+    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "light_emitted": 50,
+    "roof": "t_warped_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "SUPPORTS_ROOF", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_highland_mosaic",
     "name": "mosaic floor",
     "copy-from": "t_marble_floor",
