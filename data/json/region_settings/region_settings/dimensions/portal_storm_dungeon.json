@@ -15,7 +15,7 @@
     "type": "region_settings_ravine",
     "id": "default_portal_storm_dungeon",
     "copy-from": "default",
-    "num_ravines": 20,
+    "num_ravines": 50,
     "ravine_width": 2,
     "ravine_range": 15,
     "ravine_depth": -9
@@ -34,7 +34,7 @@
     "highways": null,
     "cities": null,
     "map_extras": "default_portal_storm_dungeon",
-    "terrain_furniture": "default",
+    "terrain_furniture": "default_portal_storm_dungeon",
     "weather": "default_portal_storm_dungeon",
     "neighbor_connections": false,
     "place_roads": false,
@@ -50,8 +50,8 @@
       "nether_glass_deep_north",
       "nether_glass_deep_north",
       "default_portal_storm_dungeon_overmap",
-      "nether_glass_deep_north",
-      "nether_glass_deep_north",
+      "open_air",
+      "open_air",
       "nether_glass_deep_north",
       "nether_glass_deep_north",
       "nether_glass_deep_north",
@@ -61,13 +61,19 @@
       "nether_glass_deep_north",
       "nether_glass_deep_north"
     ],
-    "default_groundcover": [ [ "t_portal_storm_dungeon_groundcover", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "PORTAL_STORM_DUNGEON" ] }
+  },
+  {
+    "type": "region_settings_terrain_furniture",
+    "id": "default_portal_storm_dungeon",
+    "copy-from": "default",
+    "ter_furn": [ "portal_storm_dungeon_t_region_groundcover" ]
   },
   {
     "type": "region_terrain_furniture",
     "id": "portal_storm_dungeon_t_region_groundcover",
-    "ter_id": "t_portal_storm_dungeon_groundcover",
-    "replace_with_terrain": [ "t_nl_chasm_no_trap" ]
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_open_air", 1 ] ]
   }
 ]
