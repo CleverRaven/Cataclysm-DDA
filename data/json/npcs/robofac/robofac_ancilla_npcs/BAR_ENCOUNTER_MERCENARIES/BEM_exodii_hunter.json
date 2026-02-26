@@ -58,11 +58,16 @@
   {
     "id": [ "BEM_EXODII_HUNTER_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&The garishly-dressed hunter greets you with an easy smile and a haughty accent.  His exotic-looking rifle is resting against the table.  \"Excellent, excellent, come chat, talk, and see.  You, yes you.  I'm a hunter, you see, and I've been stalking those infernal tin nightmares - you know the ones - since the very first tear in the sky.  Capital sport, I assure you.  Splendid chase, even when they shoot back.\"\n\n\"Well, I am told we've developed a rather practical appetite for their innards.  So, I've taken the liberty of collecting and cleaning a few choice specimens.  Do have a look.  These are the finest cuts of alien machinery you're likely to find this side of oblivion.\"",
+    "dynamic_line": {
+      "math": [ "ancilla_autodoc_placed == 1" ],
+      "yes": "&The garishly-dressed hunter greets you with an easy smile and a haughty accent.  Their exotic-looking rifle is resting against the table.  \"Excellent, excellent, come chat, talk, and see.  You, yes you.  I'm a hunter, you see, and I've been stalking those infernal tin nightmares - you know the ones - since the very first tear in the sky.  Capital sport, I assure you.  Splendid chase, even when they shoot back.\"\n\n\"Well, I am told we've developed a rather practical appetite for their innards.  So, I've taken the liberty of collecting and cleaning a few choice specimens.  Do have a look.  These are the finest cuts of alien machinery you're likely to find this side of oblivion.\"",
+      "no": "&The garishly-dressed hunter greets you with an easy smile and a haughty accent.  Their exotic-looking rifle is resting against the table.  \"I am here for a drink and a moment's blessed quiet.  Please allow me to enjoy both.  Undisturbed.\""
+    },
     "speaker_effect": { "effect": [ { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
     "responses": [
-      { "text": "Sure, let's see what you have to offer.", "topic": "TALK_DONE", "effect": "start_trade" },
-      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+      { "text": "Sure, let's see what you have to offer.", "condition": { "math": [ "ancilla_autodoc_placed == 1" ] }, "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Sorry, not interested.", "condition": { "math": [ "ancilla_autodoc_placed == 1" ] }, "topic": "TALK_DONE" },
+      { "text": "Alright.  Maybe some other time.", "condition": { "math": [ "ancilla_autodoc_placed != 1" ] }, "topic": "TALK_DONE" }
     ]
   }
 ]
