@@ -1430,7 +1430,7 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
                         7_days, 4_days );
         }
-        else if (has_trait(trait_BLOOD_DRINKER)) {
+        else if( has_trait( trait_BLOOD_DRINKER ) ) {
             add_msg_if_player( m_good, _( "You sate your thirst for blood.  You want more." ) );
         }
         else if( cannibal && psycho ) {
