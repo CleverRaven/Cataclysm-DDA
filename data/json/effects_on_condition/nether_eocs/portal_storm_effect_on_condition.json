@@ -963,6 +963,7 @@
       { "math": [ "portal_dungeon_level = 1" ] },
       { "math": [ "visited_a_portal_dungeon = 1" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
+      { " u_add-effect": "effect_portal_storm_dungeon_time_tracker", "duration": "2 days" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true }
     ]
   },
