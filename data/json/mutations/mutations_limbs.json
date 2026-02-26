@@ -284,9 +284,8 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -302,7 +301,17 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 4,
-    "ugliness": 5
+    "ugliness": 5,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_insect_good_l" },
+          { "gain": "arm_insect_good_r" },
+          { "gain": "insect_hand_l" },
+          { "gain": "insect_hand_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

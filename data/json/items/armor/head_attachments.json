@@ -518,7 +518,7 @@
         "coverage": 90
       },
       {
-        "covers": [ "mouth", "muzzle" ],
+        "covers": [ "mouth", "muzzle", "beak" ],
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100
@@ -673,7 +673,7 @@
         "coverage": 90
       },
       {
-        "covers": [ "mouth", "muzzle" ],
+        "covers": [ "mouth", "muzzle", "beak" ],
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 5,
         "coverage": 100

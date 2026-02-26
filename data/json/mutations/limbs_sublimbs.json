@@ -1,12 +1,129 @@
 [
   {
+    "id": "muzzle_lips",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips"
+  },
+  {
+    "id": "muzzle_nose",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils"
+  },
+  {
+    "id": "muzzle_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "muzzle_chin",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin"
+  },
+  {
+    "id": "muzzle_bear_lips",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_bear_nose",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_bear_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_bear_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_bear",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
+    "id": "muzzle_lupine_lips",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_lupine",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_lupine_nose",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "muzzle_lupine",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_lupine_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_lupine",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_lupine_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "muzzle_lupine",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
     "id": "muzzle_long_lips",
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "lips"
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
   },
   {
     "id": "muzzle_long_nostrils",
@@ -15,7 +132,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "nostrils"
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
   },
   {
     "id": "muzzle_long_cheeks",
@@ -24,7 +142,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "cheeks"
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
   },
   {
     "id": "muzzle_long_chin",
@@ -33,7 +152,8 @@
     "parent": "muzzle_long",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "chin"
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
   },
   {
     "id": "muzzle_rodent_lips",
@@ -42,7 +162,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "lips"
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
   },
   {
     "id": "muzzle_rodent_nose",
@@ -51,7 +172,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "nostrils"
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
   },
   {
     "id": "muzzle_rodent_cheeks",
@@ -60,7 +182,8 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "cheeks"
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
   },
   {
     "id": "muzzle_rodent_chin",
@@ -69,7 +192,112 @@
     "parent": "muzzle_rodent",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "chin"
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
+    "id": "muzzle_rabbit_lips",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "muzzle_lips"
+  },
+  {
+    "id": "muzzle_rabbit_nose",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nostrils",
+    "similar_bodypart": "muzzle_nose"
+  },
+  {
+    "id": "muzzle_rabbit_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "muzzle_cheeks"
+  },
+  {
+    "id": "muzzle_rabbit_chin",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "muzzle_rabbit",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "muzzle_chin"
+  },
+  {
+    "id": "beak_nares",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "beak",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nares"
+  },
+  {
+    "id": "beak_top",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "beak",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak top"
+  },
+  {
+    "id": "beak_tip",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "beak",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak tip"
+  },
+  {
+    "id": "beak_bottom",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "beak",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "beak bottom"
+  },
+  {
+    "id": "beak_bird_nares",
+    "copy-from": "beak_nares",
+    "type": "sub_body_part",
+    "parent": "beak_bird",
+    "similar_bodypart": "beak_nares"
+  },
+  {
+    "id": "beak_bird_top",
+    "copy-from": "beak_top",
+    "type": "sub_body_part",
+    "parent": "beak_bird",
+    "similar_bodypart": "beak_top"
+  },
+  {
+    "id": "beak_bird_tip",
+    "copy-from": "beak_tip",
+    "type": "sub_body_part",
+    "parent": "beak_bird",
+    "similar_bodypart": "beak_tip"
+  },
+  {
+    "id": "beak_bird_bottom",
+    "copy-from": "beak_bottom",
+    "type": "sub_body_part",
+    "parent": "beak_bird",
+    "similar_bodypart": "beak_bottom"
   },
   {
     "id": "crustacean_pincer_wrist_r",
@@ -90,6 +318,156 @@
     "parent": "crustacean_pincer_r",
     "side": "right",
     "opposite": "hand_fingers_l"
+  },
+  {
+    "id": "arm_insect_upper_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_l",
+    "copy-from": "arm_upper_l"
+  },
+  {
+    "id": "arm_insect_elbow_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "arm_insect_l",
+    "copy-from": "arm_elbow_l"
+  },
+  {
+    "id": "arm_insect_lower_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_l",
+    "copy-from": "arm_lower_l"
+  },
+  {
+    "id": "arm_insect_upper_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_r",
+    "copy-from": "arm_upper_r"
+  },
+  {
+    "id": "arm_insect_elbow_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "arm_insect_r",
+    "copy-from": "arm_elbow_r"
+  },
+  {
+    "id": "arm_insect_lower_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_r",
+    "copy-from": "arm_lower_r"
+  },
+  {
+    "id": "arm_insect_good_upper_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_good_l",
+    "similar_bodypart": "arm_insect_upper_l",
+    "copy-from": "arm_upper_l"
+  },
+  {
+    "id": "arm_insect_good_elbow_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "arm_insect_good_l",
+    "similar_bodypart": "arm_insect_elbow_l",
+    "copy-from": "arm_elbow_l"
+  },
+  {
+    "id": "arm_insect_good_lower_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_good_l",
+    "similar_bodypart": "arm_insect_lower_l",
+    "copy-from": "arm_lower_l"
+  },
+  {
+    "id": "arm_insect_good_upper_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_good_r",
+    "similar_bodypart": "arm_insect_upper_r",
+    "copy-from": "arm_upper_r"
+  },
+  {
+    "id": "arm_insect_good_elbow_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "arm_insect_good_r",
+    "similar_bodypart": "arm_insect_elbow_r",
+    "copy-from": "arm_elbow_r"
+  },
+  {
+    "id": "arm_insect_good_lower_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_insect_good_r",
+    "similar_bodypart": "arm_insect_lower_r",
+    "copy-from": "arm_lower_r"
+  },
+  {
+    "id": "insect_tarsomere_l",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_l",
+    "side": "left",
+    "opposite": "insect_tarsomere_r",
+    "name_multiple": "upper tarsomeres",
+    "name": "left upper tarsomere"
+  },
+  {
+    "id": "insect_segment_l",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_l",
+    "side": "left",
+    "opposite": "insect_segment_r",
+    "name_multiple": "middle tarsomeres",
+    "name": "left middle tarsomere"
+  },
+  {
+    "id": "insect_terminus_l",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_l",
+    "side": "left",
+    "opposite": "insect_terminus_r",
+    "name_multiple": "terminuses",
+    "name": "left terminus"
+  },
+  {
+    "id": "insect_tarsomere_r",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_r",
+    "side": "right",
+    "opposite": "insect_tarsomere_l",
+    "name_multiple": "upper tarsomeres",
+    "name": "right upper tarsomere"
+  },
+  {
+    "id": "insect_segment_r",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_r",
+    "side": "right",
+    "opposite": "insect_segment_r",
+    "name_multiple": "middle tarsomeres",
+    "name": "right middle tarsomere"
+  },
+  {
+    "id": "insect_terminus_r",
+    "type": "sub_body_part",
+    "max_coverage": 33,
+    "parent": "insect_hand_r",
+    "side": "right",
+    "opposite": "insect_terminus_r",
+    "name_multiple": "terminuses",
+    "name": "right terminus"
   },
   {
     "id": "hoof_sole_l",

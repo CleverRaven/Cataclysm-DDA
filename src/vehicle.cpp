@@ -8005,7 +8005,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         coeff_air_changed = true;
 
         // update the fake part
-        if( vp.has_fake ) {
+        if( vp.has_fake && vp.fake_part_at < static_cast<int>( parts.size() ) ) {
             parts[vp.fake_part_at].base = vp.base;
         }
         // refresh cache in case the broken part has changed the status

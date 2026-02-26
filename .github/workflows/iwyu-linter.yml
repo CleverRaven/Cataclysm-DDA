@@ -1,0 +1,96 @@
+name: IWYU Suggester
+
+on:
+  pull_request_target:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+
+concurrency:
+  group: iwyu-linter-${{ github.event.pull_request.number }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  iwyu-suggest:
+    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    env:
+      COMPILER: clang++-19
+    steps:
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+
+    - name: install LLVM 19
+      run: sudo apt install llvm-19-dev clang-19 libclang-19-dev cmake
+
+    - name: checkout IWYU repository
+      id: iwyu-checkout
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        repository: include-what-you-use/include-what-you-use
+        path: include-what-you-use-src
+        ref: clang_19
+        persist-credentials: false
+
+    - name: cache IWYU build
+      id: iwyu-cache
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: iwyu-build
+        key: iwyu-clang19-ubuntu2404-${{ steps.iwyu-checkout.outputs.commit }}
+
+    - name: build IWYU
+      if: steps.iwyu-cache.outputs.cache-hit != 'true'
+      run: |
+        cmake -B iwyu-build -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 \
+              -DCMAKE_BUILD_TYPE=Release include-what-you-use-src
+        cmake --build iwyu-build --parallel 4
+
+    - name: determine changed files
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) { console.log(path); }
+          fs.writeFileSync("files_changed", files.join('\n') + '\n');
+
+    - name: create compilation database
+      run: |
+        cmake -B build \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DCMAKE_CXX_COMPILER=$COMPILER \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DTILES=${TILES:-0} \
+          -DSOUND=${SOUND:-0} \
+          -DLOCALIZE=${LOCALIZE:-0} \
+          .
+        make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
+
+    - name: run IWYU and apply fixes
+      run: |
+        export PATH="${PWD}/iwyu-build/bin:${PWD}/include-what-you-use-src:${PATH}"
+        python build-scripts/ci-iwyu-suggest.py
+
+    - name: 'suggester / IWYU'
+      uses: reviewdog/action-suggester@aa38384ceb608d00f84b4690cacc83a5aba307ff # v1
+      if: ${{ always() }}
+      with:
+        tool_name: 'IWYU'

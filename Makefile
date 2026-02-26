@@ -621,9 +621,14 @@ ifeq ($(NATIVE), osx)
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
-    CXXFLAGS += -arch x86_64 -arch arm64
-    CFLAGS += -arch x86_64 -arch arm64
+    CXXFLAGS += -arch x86_64 -mcx16 -arch arm64
+    CFLAGS += -arch x86_64 -mcx16 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
+  else
+    ifneq ($(findstring x86-64,$(shell $(CXX) -v 2>&1 | grep Target: | awk '{print $2}')),)
+      CXXFLAGS += -mcx16
+      CFLAGS += -mcx16
+    endif
   endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
@@ -648,10 +653,7 @@ ifeq ($(NATIVE), osx)
       endif
     endif
   endif
-  TARGETSYSTEM=LINUX
-  ifneq ($(OS), Linux)
-    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
-  endif
+  BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
 endif
 
 # Win32 (MinGW32 or MinGW-w64(32bit)?)
@@ -949,6 +951,8 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
     SDL2_solib = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
@@ -962,6 +966,8 @@ ifeq ($(TARGETSYSTEM),LINUX)
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
@@ -980,6 +986,7 @@ ifeq ($(HEADERPOPULARITY), 1)
 else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
+C_SOURCES := $(SRC_DIR)/cata_allocator_c.c
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp $(SRC_DIR)/third-party/fmt/*.cc)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
@@ -997,6 +1004,7 @@ CLANG_TIDY_PLUGIN_HEADERS := \
 ASTYLE_SOURCES := $(sort \
   src/cldr/imgui-glyph-ranges.cpp \
   $(SOURCES) \
+  $(C_SOURCES) \
   $(HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
@@ -1165,6 +1173,9 @@ $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
+
+$(ODIR)/%.o: $(SRC_DIR)/%.c
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
