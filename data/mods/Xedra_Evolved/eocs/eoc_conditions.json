@@ -118,6 +118,7 @@
     "id": "EOC_DREAMS_OR_NIGHTMARES_MANA",
     "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
     "effect": [
+      { "u_message": "You have a good dream.", "type": "neutral" },
       { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
@@ -125,6 +126,7 @@
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ],
     "false_effect": [
+      { "u_message": "You have a bad dream.", "type": "neutral" },
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -40 ], "max_bonus": -40 },
       { "math": [ "dream_counter = 1" ] },
@@ -171,12 +173,14 @@
     "id": "EOC_DREAMS_OR_NIGHTMARES_NO_MANA",
     "condition": { "or": [ { "one_in_chance": 2 }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
     "effect": [
+      { "u_message": "You have a good dream.", "type": "neutral" },
       { "u_message": "sweet_dreams", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_sweet_dreams", "bonus": [ 15, 40 ], "max_bonus": 40 },
       { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ],
     "false_effect": [
+      { "u_message": "You have a bad dream.", "type": "neutral" },
       { "u_message": "XE_BAD_DREAMS", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -40 ], "max_bonus": -40 },
       { "math": [ "dream_counter = 1" ] },
