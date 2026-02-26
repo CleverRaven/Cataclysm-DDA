@@ -568,6 +568,54 @@
     ]
   },
   {
+    "id": "integrated_rabbitfur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "rabbit fur" },
+    "description": "Soft, fluffy fur for a soft, fluffy rabbit.",
+    "weight": "350 g",
+    "volume": "350 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "white",
+    "warmth": 12,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "mouth", "muzzle" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_lynx_fur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
