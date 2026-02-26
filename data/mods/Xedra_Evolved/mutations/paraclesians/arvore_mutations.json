@@ -779,6 +779,7 @@
         "condition": {
           "and": [
             "u_is_outside",
+            { "u_has_trait": "THRESH_ARVORE" },
             {
               "or": [ { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_trail" }, { "u_at_om_location": "forest_thick" } ]
             }
