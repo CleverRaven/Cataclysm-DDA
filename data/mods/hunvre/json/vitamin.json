@@ -6,8 +6,8 @@
     "name": { "str": "oneirosis vitamin" },
     "min": 0,
     "max": 100,
-    "flags": [ "NO_DISPLAY" ],
     "excess": "oneirosis_effect",
-    "disease_excess": [ [ 20, 50 ], [ 50, 80 ], [ 80, 100 ] ]
+    "disease_excess": [ [ 20, 50 ], [ 50, 80 ], [ 80, 100 ] ],
+    "rate": "0 hours"
   }
 ]

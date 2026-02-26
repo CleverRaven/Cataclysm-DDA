@@ -42,7 +42,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "24x24_cul_lighthouse" ],
+          "chunks": [ "24x24_cul_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -62,7 +62,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_cul_lighthouse",
+    "nested_mapgen_id": "24x24_cul_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -132,7 +132,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "24x24_sidewalk_lighthouse" ],
+          "chunks": [ "24x24_sidewalk_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -148,13 +148,13 @@
           "else_chunks": [ [ "24x24_airlock_open", 2 ], [ "24x24_airlock_closed", 5 ], [ "null", 3 ] ]
         },
         {
-          "else_chunks": [ "24x24_end_n_lighthouse" ],
+          "else_chunks": [ "24x24_end_n_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "24x24_end_s_lighthouse" ],
+          "else_chunks": [ "24x24_end_s_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "east": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
@@ -171,7 +171,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_sidewalk_lighthouse",
+    "nested_mapgen_id": "24x24_sidewalk_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -219,11 +219,11 @@
     "object": {
       "fallback_predecessor_mapgen": "field",
       "fill_ter": "t_concrete_wall",
-      "//": "Replace chunks road_curved_bend_lighthouse with a truck layby to deal with bad road spawns",
+      "//": "Replace chunks road_curved_bend_hunvre with a truck layby to deal with bad road spawns",
       "place_nested": [
         {
-          "chunks": [ "24x24_road_curved_layby_lighthouse" ],
-          "else_chunks": [ "road_curved_bend_lighthouse" ],
+          "chunks": [ "24x24_road_curved_layby_hunvre" ],
+          "else_chunks": [ "road_curved_bend_hunvre" ],
           "x": 0,
           "y": 0,
           "neighbors": {
@@ -247,7 +247,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "road_curved_bend_lighthouse",
+    "nested_mapgen_id": "road_curved_bend_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -281,7 +281,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "24x24_curved_lighthouse" ],
+          "chunks": [ "24x24_curved_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -296,13 +296,13 @@
           }
         },
         {
-          "else_chunks": [ "24x24_curved_end_s_lighthouse" ],
+          "else_chunks": [ "24x24_curved_end_s_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "south_east": [ "SIDEWALK" ], "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ] }
         },
         {
-          "else_chunks": [ "24x24_curved_end_e_lighthouse" ],
+          "else_chunks": [ "24x24_curved_end_e_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "north": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
@@ -312,7 +312,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_curved_lighthouse",
+    "nested_mapgen_id": "24x24_curved_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -348,13 +348,13 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_curved_end_s_lighthouse",
+    "nested_mapgen_id": "24x24_curved_end_s_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_curved_end_chunk_s_lighthouse" ],
+          "chunks": [ "24x24_curved_end_chunk_s_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "north": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ] }
@@ -364,7 +364,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_curved_end_chunk_s_lighthouse",
+    "nested_mapgen_id": "24x24_curved_end_chunk_s_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -400,13 +400,13 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_curved_end_e_lighthouse",
+    "nested_mapgen_id": "24x24_curved_end_e_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_curved_end_chunk_e_lighthouse" ],
+          "chunks": [ "24x24_curved_end_chunk_e_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "south_west": [ "SIDEWALK" ], "west": [ "SIDEWALK" ], "north_west": [ "SIDEWALK" ] }
@@ -416,7 +416,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_curved_end_chunk_e_lighthouse",
+    "nested_mapgen_id": "24x24_curved_end_chunk_e_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -452,7 +452,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_road_curved_layby_lighthouse",
+    "nested_mapgen_id": "24x24_road_curved_layby_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -522,7 +522,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "24x24_tee_lighthouse" ],
+          "chunks": [ "24x24_tee_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -542,7 +542,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_tee_lighthouse",
+    "nested_mapgen_id": "24x24_tee_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -611,7 +611,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [ "24x24_crossroad_sidewalk_lighthouse" ],
+          "chunks": [ "24x24_crossroad_sidewalk_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": {
@@ -627,7 +627,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_crossroad_sidewalk_lighthouse",
+    "nested_mapgen_id": "24x24_crossroad_sidewalk_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -663,13 +663,13 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_end_n_lighthouse",
+    "nested_mapgen_id": "24x24_end_n_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_end_n_chunk_lighthouse" ],
+          "chunks": [ "24x24_end_n_chunk_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "north_west": [ "SIDEWALK" ], "north_east": [ "SIDEWALK" ] }
@@ -679,13 +679,13 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_end_s_lighthouse",
+    "nested_mapgen_id": "24x24_end_s_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "place_nested": [
         {
-          "chunks": [ "24x24_end_s_chunk_lighthouse" ],
+          "chunks": [ "24x24_end_s_chunk_hunvre" ],
           "x": 0,
           "y": 0,
           "flags_any": { "south_west": [ "SIDEWALK" ], "south_east": [ "SIDEWALK" ] }
@@ -695,7 +695,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_end_n_chunk_lighthouse",
+    "nested_mapgen_id": "24x24_end_n_chunk_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -732,7 +732,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_end_s_chunk_lighthouse",
+    "nested_mapgen_id": "24x24_end_s_chunk_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],

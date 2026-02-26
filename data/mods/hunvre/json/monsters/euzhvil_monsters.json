@@ -15,11 +15,15 @@
     "symbol": "E",
     "color": "red",
     "categories": [ "NULL" ],
-    "default_faction": "euzhvil_fac",
+    "default_faction": "euzhvil_faction",
     "species": [ "EUZHVIL" ],
     "material": [ "flesh" ],
     "special_attacks": [ { "id": "euzhvil_phase", "cooldown": 1 } ],
-    "aggression": 100
+    "aggression": 100,
+    "anger_triggers": [ "SOUND", "HURT", "HOSTILE_SEEN" ],
+    "vision_day": 10,
+    "vision_night": 5,
+    "flags": [ "BASHES", "SEES", "HEARS", "SMELLS" ]
   },
   {
     "id": "mon_euzhvil_chaser",
@@ -28,33 +32,47 @@
     "name": { "str": "euzhvil chaser" },
     "description": "A quadrupedal euzhvil, its grotesquely oversized maw lined with human teeth.  It scans its surroundings with a feral, animalistic gaze.",
     "looks_like": "mon_dog_skeleton",
-    "default_faction": "euzhvil_fac",
+    "default_faction": "euzhvil_faction",
     "bodytype": "dog",
-    "volume": "30 L",
-    "weight": "30 kg",
-    "hp": 30,
-    "speed": 150,
-    "flags": [ "HEARS", "SEES", "SMELLS" ]
+    "volume": "60 L",
+    "weight": "80 kg",
+    "hp": 80,
+    "speed": 110
   },
   {
     "id": "mon_euzhvil_bound",
     "copy-from": "mon_euzhvil_chaser",
     "type": "MONSTER",
     "name": { "str": "bound euzhvil" },
-    "description": "You can see limbs pushing and struggling inside of this misshapen euzhvil, it keeps gnashing at the air and thrashing as if it was trying to escape its own skin."
+    "description": "You can see limbs pushing and struggling inside of this misshapen euzhvil, it keeps gnashing at the air and thrashing as if it was trying to escape its own skin.",
+    "bodytype": "human",
+    "volume": "60 L",
+    "weight": "80 kg",
+    "hp": 80,
+    "speed": 110
   },
   {
     "id": "mon_euzhvil_bully",
     "copy-from": "mon_euzhvil_chaser",
     "type": "MONSTER",
     "name": { "str": "euzhvil bully", "str_pl": "euzhvil bullies" },
-    "description": "A towering euzhvil with a head squeezed between two gigantic arms almost dragging on the floor, its face stuck in an expression of sadistic bliss."
+    "description": "A towering euzhvil with a head squeezed between two gigantic arms almost dragging on the floor, its face stuck in an expression of sadistic bliss.",
+    "bodytype": "human",
+    "volume": "60 L",
+    "weight": "80 kg",
+    "hp": 80,
+    "speed": 110
   },
   {
     "id": "mon_euzhvil_suffocating",
     "copy-from": "mon_euzhvil_chaser",
     "type": "MONSTER",
     "name": { "str": "suffocating euzhvil" },
-    "description": "This euzhvil is perpetually seized by violent convulsions, fingers raking desperately at its throat and at the skin that seals its mouth, nose, and eyes.  Just looking at it makes your own breathing laborious."
+    "description": "This euzhvil is perpetually seized by violent convulsions, fingers raking desperately at its throat and at the skin that seals its mouth, nose, and eyes.  Just looking at it makes your own breathing laborious.",
+    "bodytype": "human",
+    "volume": "60 L",
+    "weight": "80 kg",
+    "hp": 80,
+    "speed": 110
   }
 ]

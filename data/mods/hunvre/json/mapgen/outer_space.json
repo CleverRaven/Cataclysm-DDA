@@ -25,20 +25,20 @@
     "object": {
       "fill_ter": "t_hard_vacuum",
       "place_nested": [
-        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 0, "flags": { "north": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "24x24_wall_h_lighthouse" ], "x": 0, "y": 22, "flags": { "south": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 0, "y": 0, "flags": { "west": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "24x24_wall_v_lighthouse" ], "x": 22, "y": 0, "flags": { "east": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 0, "flags": { "north_west": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 0, "flags": { "north_east": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 0, "y": 22, "flags": { "south_west": [ "ROAD", "SIDEWALK" ] } },
-        { "chunks": [ "2x2_corner_lighthouse" ], "x": 22, "y": 22, "flags": { "south_east": [ "ROAD", "SIDEWALK" ] } }
+        { "chunks": [ "24x24_wall_h_hunvre" ], "x": 0, "y": 0, "flags": { "north": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_h_hunvre" ], "x": 0, "y": 22, "flags": { "south": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_v_hunvre" ], "x": 0, "y": 0, "flags": { "west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "24x24_wall_v_hunvre" ], "x": 22, "y": 0, "flags": { "east": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_hunvre" ], "x": 0, "y": 0, "flags": { "north_west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_hunvre" ], "x": 22, "y": 0, "flags": { "north_east": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_hunvre" ], "x": 0, "y": 22, "flags": { "south_west": [ "ROAD", "SIDEWALK" ] } },
+        { "chunks": [ "2x2_corner_hunvre" ], "x": 22, "y": 22, "flags": { "south_east": [ "ROAD", "SIDEWALK" ] } }
       ]
     }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_wall_v_lighthouse",
+    "nested_mapgen_id": "24x24_wall_v_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -74,7 +74,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "24x24_wall_h_lighthouse",
+    "nested_mapgen_id": "24x24_wall_h_hunvre",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
@@ -110,7 +110,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "2x2_corner_lighthouse",
+    "nested_mapgen_id": "2x2_corner_hunvre",
     "object": {
       "mapgensize": [ 2, 2 ],
       "rows": [
