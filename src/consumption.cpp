@@ -205,7 +205,7 @@ static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_BLOOD_DRINKER("BLOOD_DRINKER");
+static const trait_id trait_BLOOD_DRINKER( "BLOOD_DRINKER" );
 
 static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
 static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
