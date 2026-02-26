@@ -207,7 +207,8 @@
     "traits": [
       { "group": "BG_survival_story_LAB_MUTANT" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_demographics" },
+      { "group": "BG_LAB_MUTANT_Tree_Choice" }
     ],
     "proficiencies": [ "prof_gross_anatomy", "prof_unarmed_familiar" ],
     "bonus_str": { "rng": [ 2, 4 ] },
