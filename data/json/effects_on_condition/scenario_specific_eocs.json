@@ -348,6 +348,7 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "NO_FAIL", "IGNORE_WALLS" ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_scenario_eldritch_ire",
     "recurrence": [ "6 hours", "12 hours" ],
     "condition": { "u_has_trait": "ELDRITCH_IRE" },
