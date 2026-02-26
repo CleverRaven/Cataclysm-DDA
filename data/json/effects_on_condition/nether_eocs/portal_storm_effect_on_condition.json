@@ -958,12 +958,14 @@
         "fail_message": "Nothing seems to change.",
         "success_message": "The screaming rage of the portal storm folds in upon itself."
       },
+      { "u_location_variable": { "context_val": "get_unstuck_from_wall" }, "min_radius": 1, "max_radius": 1 },
+      { "u_teleport": { "context_val": "get_unstuck_from_wall" } },
       { "u_location_variable": { "context_val": "make_sure_were_at_level_0" }, "z_adjust": 0, "z_override": true },
       { "u_teleport": { "context_val": "make_sure_were_at_level_0" } },
       { "math": [ "portal_dungeon_level = 1" ] },
       { "math": [ "visited_a_portal_dungeon = 1" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
-      { " u_add-effect": "effect_portal_storm_dungeon_time_tracker", "duration": "2 days" },
+      { "u_add_effect": "effect_portal_storm_dungeon_time_tracker", "duration": "2 days" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true }
     ]
   },
