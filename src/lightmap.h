@@ -4,6 +4,9 @@
 
 #include <cmath> // IWYU pragma: keep
 #include <ostream>
+
+#include <stdint.h>
+
 #include "map_scale_constants.h"
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
@@ -50,7 +53,7 @@ constexpr inline int LIGHT_RANGE( float b )
                              LIGHT_TRANSPARENCY_OPEN_AIR ) );
 }
 
-enum class lit_level : int {
+enum class lit_level : uint8_t {
     DARK = 0,
     LOW, // Hard to see
     BRIGHT_ONLY, // bright but indistinct
