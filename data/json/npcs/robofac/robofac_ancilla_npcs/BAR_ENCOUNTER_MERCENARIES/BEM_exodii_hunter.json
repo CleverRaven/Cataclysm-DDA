@@ -49,10 +49,10 @@
     "id": "BEM_EXODII_HUNTER_STOCK",
     "subtype": "collection",
     "entries": [
-      { "group": "EXODII_CBM_Store_Tier1", "prob": 100, "count": [ 1, 5 ] },
-      { "group": "EXODII_CBM_Store_Tier2", "prob": 80, "count": [ 1, 4 ] },
-      { "group": "EXODII_CBM_Store_Tier3", "prob": 40, "count": [ 1, 3 ] },
-      { "group": "EXODII_CBM_Store_Tier4", "prob": 20, "count": [ 1, 2 ] }
+      { "group": "EXODII_CBM_Store_Tier1", "prob": 100, "count": [ 1, 2 ] },
+      { "group": "EXODII_CBM_Store_Tier2", "prob": 80, "count": 1 },
+      { "group": "EXODII_CBM_Store_Tier3", "prob": 40, "count": 1 },
+      { "group": "EXODII_CBM_Store_Tier4", "prob": 20, "count": 1 }
     ]
   },
   {
