@@ -565,6 +565,7 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 720 ], [ "mutagen", 300 ] ],
+    "no_empathize_with": [ "HUMAN" ],
     "flags": [ "CANNIBAL", "HEMOVORE" ],
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
     "//": "Unless you attack them or are the ultimate vampire killer, vampires and renfields won't attack you as your blood holds no interest for them.",
@@ -575,7 +576,6 @@
         },
         "mutations": [ "VAMPIRE_TRUCE" ]
       },
-      { "condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } }, "mutations": [ "VAMPIRE_EMPATHY" ] },
       {
         "values": [
           {
@@ -598,17 +598,6 @@
     "purifiable": false,
     "player_display": false,
     "ignored_by": [ "VAMPIRE", "RENFIELD" ]
-  },
-  {
-    "type": "mutation",
-    "id": "VAMPIRE_EMPATHY",
-    "name": { "str": "Vampire's Empathy", "//~": "NO_I18N" },
-    "description": { "str": "This makes you not care about mundane humans.", "//~": "NO_I18N" },
-    "points": 1,
-    "valid": false,
-    "purifiable": false,
-    "player_display": false,
-    "no_empathize_with": [ "HUMAN" ]
   },
   {
     "type": "mutation",
@@ -1493,7 +1482,7 @@
     "id": "BLOOD_DRINKER",
     "name": { "str": "Fully fueled by the Blood" },
     "points": 0,
-    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
+    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs and feelings.  The only thing you need and care about now is blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1513,7 +1502,6 @@
           { "value": "METABOLISM", "multiply": -1 }
         ]
       },
-      { "condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } }, "mutations": [ "PSYCHOPATH" ] },
       {
         "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
         "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight", "intensity": 1 } ]
@@ -1811,16 +1799,6 @@
     "name": { "str": "Vampiric weakness: barred from mortal joys" },
     "points": -1,
     "description": "Blood is the only thing that can bring a smile to your lips.  Nothing else gives you any lasting joy or pleasure.  It is impossible for you to be truly happy unless you recently consumed blood.",
-    "starting_trait": false,
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
-    "id": "VAMPIRE_WEAKNESS_GUILT",
-    "name": { "str": "Vampiric weakness: overwhelming guilt" },
-    "points": -1,
-    "description": "Despite everything you've done, there is still some good in you.  It is horrified by your heinous acts and will cause you anguish the more you indulge your selfish desires.",
     "starting_trait": false,
     "valid": false,
     "purifiable": false

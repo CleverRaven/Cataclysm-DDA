@@ -120,21 +120,13 @@
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
         "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "effect": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" },
-          { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" },
-          { "run_eocs": "EOC_GUILT_FROM_RENFIELD_DRINK" }
-        ]
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
       },
       {
         "text": "[Drink from them] Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "effect": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" },
-          { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" },
-          { "run_eocs": "EOC_GUILT_FROM_RENFIELD_DRINK" }
-        ]
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
       },
       {
         "text": "I changed my mind.  Keep your blood.",
@@ -166,22 +158,14 @@
         "text": "[Drink from them] Thank you.  Can we talk about something else?",
         "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "effect": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" },
-          { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" },
-          { "run_eocs": "EOC_GUILT_FROM_RENFIELD_DRINK" }
-        ],
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 }
       },
       {
         "text": "[Drink from them] Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "effect": [
-          { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" },
-          { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" },
-          { "run_eocs": "EOC_GUILT_FROM_RENFIELD_DRINK" }
-        ],
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 }
       },
       {
@@ -255,24 +239,6 @@
       { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
       { "math": [ "n_vitamin('blood') -= 400 + rand(100)" ] },
       { "math": [ "n_vitamin('redcells') -= 400 + rand(100)" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GUILT_FROM_RENFIELD_DRINK",
-    "condition": { "and": [ { "npc_has_trait": "RENFIELD" }, { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } ] },
-    "effect": [
-      {
-        "u_message": "As their blood enter your mouth, you feel sickened by taking advantage of a victim of vampiric mind control.",
-        "type": "bad"
-      },
-      {
-        "u_add_morale": "morale_vampire_guilt",
-        "bonus": -40,
-        "max_bonus": -100,
-        "duration": "10 h",
-        "decay_start": " 5h"
-      }
     ]
   }
 ]

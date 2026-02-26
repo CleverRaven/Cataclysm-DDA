@@ -542,9 +542,8 @@
     "id": "EOC_VAMPIRE_5",
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
-      { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
-      { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] },
       { "u_add_trait": "BLOOD_DRINKER" },
+      { "run_eocs": [ "EOC_TIER_5_REMOVE_MORALS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },

@@ -41,31 +41,11 @@
             { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
             { "not": { "npc_has_trait": "RENFIELD" } },
             { "not": { "npc_has_trait": "VAMPIRE" } },
-            { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" },
-            { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } }
-          ]
-        }
-      },
-      {
-        "text": "[Use your powers to affect their mind]",
-        "topic": "TALK_WONT_MASTER_MORTAL_MIND",
-        "condition": {
-          "and": [
-            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
-            { "not": { "npc_has_trait": "RENFIELD" } },
-            { "not": { "npc_has_trait": "VAMPIRE" } },
-            { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" },
-            { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" }
+            { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" }
           ]
         }
       }
     ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_WONT_MASTER_MORTAL_MIND",
-    "dynamic_line": "[The very thought makes you feel sick].",
-    "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",

@@ -48,6 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
+      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -528,8 +529,7 @@
           "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
           "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
           "VAMPIRE_WEAKNESS_BLOOD_CRAVING",
-          "VAMPIRE_WEAKNESS_NO_FUN",
-          "VAMPIRE_WEAKNESS_GUILT"
+          "VAMPIRE_WEAKNESS_NO_FUN"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS" ],
@@ -540,12 +540,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS",
-    "//": "Workaround to the below not working due to the roll_remainder used.  When this will be fixed, remove this message as the others give a message informing the player of the new weakness.",
-    "effect": [
-      { "u_message": "You gain a new vampiric weakness.", "type": "bad" },
-      { "run_eocs": [ "EOC_SUPPRESS_MORALITY" ] },
-      { "run_eocs": [ "EOC_SUPPRESS_IMMORALITY" ] }
-    ]
+    "//": "Workaround to the below not working due to the roll_remainder used.  When this will be fixed, remove this EOC as the others give a message informing the player of the new weakness.",
+    "effect": [ { "u_message": "You gain a new vampiric weakness.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -644,14 +640,6 @@
         "type": "bad"
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VW_GUILT_MESSAGE",
-    "eoc_type": "EVENT",
-    "required_event": "gains_mutation",
-    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_GUILT", { "context_val": "trait" } ] },
-    "effect": [ { "u_message": "You feel unbearable remorse for a moment, then it subsides and waits to strike.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -2217,6 +2205,67 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TIER_5_REMOVE_MORALS",
+    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
+    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VEGAN" },
+        "then": [
+          { "u_lose_trait": "VEGAN" },
+          {
+            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "then": [ { "u_message": "A wave of crimson drowns your empathy for lesser beings.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "SPIRITUAL" },
+        "then": [
+          { "u_lose_trait": "SPIRITUAL" },
+          {
+            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "then": [
+              {
+                "u_message": "There are no wonders and nothing beyond sight, only the thirst and how you will sate it.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "PACIFIST" },
+        "then": [
+          { "u_lose_trait": "PACIFIST" },
+          {
+            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "then": [ { "u_message": "Your disdain for violence melts as you drink your fill.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "then": [
+          { "u_add_trait": "PSYCHOPATH" },
+          {
+            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "then": [
+              {
+                "u_message": "The blood in your mouth makes you realise that anything that isn't blood isn't worth caring about.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      { "math": [ "u_shed_morality++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal",
     "//": "Check if the vampire is underweight or lower for their size category.  If yes, consume some blood to increase their calories.  Conversion rate of 1 blood vitamin to 5 calories, in 500 calories chunks.",
     "//2": "95000 Kcal is within the normal range for a medium-sized character for both short and tall.  This value is then multiplied or divided to account for the player's size category.  The following EOCs are listed according to the code's check order.",
@@ -3119,56 +3168,6 @@
       {
         "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a GitHub bug report.",
         "type": "popup"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SUPPRESS_MORALITY",
-    "condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" } },
-    "//": "Replaces vegan, pacifist, spiritual, etc on tier 5 vampires until the player gains the weakness.  Tier 3 and 4 don't suppress these by not having the trait.",
-    "//2": "Put all traits based on morality here so they're extinguished by the final tier of vampirism.",
-    "//3": "This doesn't suppress meat intolerance as it is a physiological issue.",
-    "effect": [
-      {
-        "if": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
-        "then": [ { "u_lose_trait": "SPIRITUAL", "suppress_message": true }, { "math": [ "u_suppressed_spiritual = 1" ] } ]
-      },
-      {
-        "if": { "and": [ { "u_has_trait": "VEGAN" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
-        "then": [ { "u_lose_trait": "VEGAN", "suppress_message": true }, { "math": [ "u_suppressed_vegan = 1" ] } ]
-      },
-      {
-        "if": { "and": [ { "u_has_trait": "PACIFIST" }, { "u_has_trait": "BLOOD_DRINKER" } ] },
-        "then": [ { "u_lose_trait": "PACIFIST", "suppress_message": true }, { "math": [ "u_suppressed_pacifist = 1" ] } ]
-      },
-      {
-        "if": { "math": [ "u_suppressed_uncaring == 1" ] },
-        "then": [ { "u_add_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 0" ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SUPPRESS_IMMORALITY",
-    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_GUILT" },
-    "//": "Replaces uncaring so it is inactive but regained when the weakness is removed.",
-    "effect": [
-      {
-        "if": { "u_has_trait": "PSYCHOPATH" },
-        "then": [ { "u_lose_trait": "PSYCHOPATH", "suppress_message": true }, { "math": [ "u_suppressed_uncaring = 1" ] } ]
-      },
-      {
-        "if": { "math": [ "u_suppressed_spiritual == 1" ] },
-        "then": [ { "u_add_trait": "SPIRITUAL", "suppress_message": true }, { "math": [ "u_suppressed_spiritual = 0" ] } ]
-      },
-      {
-        "if": { "math": [ "u_suppressed_vegan == 1" ] },
-        "then": [ { "u_add_trait": "VEGAN", "suppress_message": true }, { "math": [ "u_suppressed_vegan = 0" ] } ]
-      },
-      {
-        "if": { "math": [ "u_suppressed_pacifist == 1" ] },
-        "then": [ { "u_add_trait": "PACIFIST", "suppress_message": true }, { "math": [ "u_suppressed_pacifist = 0" ] } ]
       }
     ]
   },
