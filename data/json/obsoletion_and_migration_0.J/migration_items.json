@@ -711,12 +711,12 @@
   {
     "type": "MIGRATION",
     "id": "xl_boots_fsurvivor",
-    "replace": "xl_boots_survivor"
+    "replace": "boots_xlsurvivor"
   },
   {
     "type": "MIGRATION",
     "id": "xs_boots_fsurvivor",
-    "replace": "xs_boots_survivor"
+    "replace": "boots_xssurvivor"
   },
   {
     "type": "MIGRATION",
@@ -741,17 +741,17 @@
   {
     "type": "MIGRATION",
     "id": "xl_boots_lsurvivor",
-    "replace": "xl_boots_survivor"
+    "replace": "boots_xlsurvivor"
   },
   {
     "type": "MIGRATION",
     "id": "xs_boots_lsurvivor",
-    "replace": "xs_boots_survivor"
+    "replace": "boots_xssurvivor"
   },
   {
     "type": "MIGRATION",
     "id": "gloves_lsurvivor",
-    "replace": "boots_survivor"
+    "replace": "gloves_survivor"
   },
   {
     "type": "MIGRATION",
