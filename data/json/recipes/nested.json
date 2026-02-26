@@ -2680,10 +2680,7 @@
     "name": "survivor hoods",
     "description": "Recipes related to constructing various types and sizes of specialized hoods designed to protect the wearer.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_hood_survivor",
-      "nested_hood_wsurvivor"
-    ],
+    "nested_category_data": [ "nested_hood_survivor", "nested_hood_wsurvivor" ],
     "difficulty": 5
   },
   {
@@ -3031,11 +3028,8 @@
     "name": "survivor gloves",
     "description": "Recipes related to constructing various sizes and types of survivor gloves.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_gloves_survivor",
-      "nested_gloves_wsurvivor"
-    ],
-    "difficulty": 1
+    "nested_category_data": [ "nested_gloves_survivor", "nested_gloves_wsurvivor" ],
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_hands",
@@ -3389,10 +3383,7 @@
     "name": "survivor boots",
     "description": "Recipes related to constructing various sizes and variations of survivor boots.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_boots_survivor",
-      "nested_boots_wsurvivor"
-    ],
+    "nested_category_data": [ "nested_boots_survivor", "nested_boots_wsurvivor" ],
     "difficulty": 5
   },
   {
