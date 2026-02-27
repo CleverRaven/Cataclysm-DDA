@@ -1960,7 +1960,7 @@
       "msg": "Your optical cloak flickers as it becomes transparent.",
       "target": "optical_cloak_on",
       "need_charges": 20,
-      "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
+      "need_charges_msg": "You don't have enough UPS charges."
     },
     "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "SOFT", "NO_REPAIR", "RAINPROOF" ],
     "armor": [

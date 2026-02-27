@@ -444,7 +444,7 @@ ifeq ($(RELEASE), 1)
     ifeq ($(CXXMACHINE), x86_64-w64-mingw32.static)
       OPTLEVEL = -O3
     else
-      OPTLEVEL = -Os
+      OPTLEVEL = -O2
     endif
   endif
 
@@ -561,7 +561,7 @@ endif
 CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party $(DEFINES)
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
-DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM
+DEFINES += -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM -DFMT_USE_LOCALE=0
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -621,9 +621,14 @@ ifeq ($(NATIVE), osx)
   # doesn't use GNU ar
   THIN_AR=0
   ifeq ($(UNIVERSAL_BINARY), 1)
-    CXXFLAGS += -arch x86_64 -arch arm64
-    CFLAGS += -arch x86_64 -arch arm64
+    CXXFLAGS += -arch x86_64 -mcx16 -arch arm64
+    CFLAGS += -arch x86_64 -mcx16 -arch arm64
     LDFLAGS += -arch x86_64 -arch arm64
+  else
+    ifneq ($(findstring x86-64,$(shell $(CXX) -v 2>&1 | grep Target: | awk '{print $2}')),)
+      CXXFLAGS += -mcx16
+      CFLAGS += -mcx16
+    endif
   endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
@@ -648,10 +653,7 @@ ifeq ($(NATIVE), osx)
       endif
     endif
   endif
-  TARGETSYSTEM=LINUX
-  ifneq ($(OS), Linux)
-    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
-  endif
+  BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
 endif
 
 # Win32 (MinGW32 or MinGW-w64(32bit)?)
@@ -785,20 +787,20 @@ ifeq ($(TILES), 1)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl2-config --cflags) \
-		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      CXXFLAGS += $(subst -I,-isystem ,$(shell sdl2-config --cflags)) \
+		  -isystem $(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
       ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
   else ifneq ($(NATIVE),emscripten)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags sdl2))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags freetype2))
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -855,7 +857,7 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX)))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
@@ -883,13 +885,13 @@ ifeq ($(SOUND), 1)
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
-        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
         LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
         LDFLAGS += -lvorbisfile -lvorbis -logg
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    CXXFLAGS += $(subst -I,-isystem ,$(shell $(PKG_CONFIG) --cflags SDL2_mixer))
     LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
     LDFLAGS += -lpthread
   endif
@@ -949,6 +951,8 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   ifneq ("$(wildcard LICENSE-SDL.txt)","")
     SDL2_solib = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
@@ -962,6 +966,8 @@ ifeq ($(TARGETSYSTEM),LINUX)
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
+  CFLAGS += -mcx16
+  CXXFLAGS += -mcx16
   BINDIST_EXTRAS += cataclysm-launcher
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
@@ -980,7 +986,8 @@ ifeq ($(HEADERPOPULARITY), 1)
 else
   SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 endif
-THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
+C_SOURCES := $(SRC_DIR)/cata_allocator_c.c
+THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp $(SRC_DIR)/third-party/fmt/*.cc)
 THIRD_PARTY_C_SOURCES := $(wildcard $(SRC_DIR)/third-party/zstd/common/*.c $(SRC_DIR)/third-party/zstd/compress/*.c $(SRC_DIR)/third-party/zstd/decompress/*.c)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
@@ -997,6 +1004,7 @@ CLANG_TIDY_PLUGIN_HEADERS := \
 ASTYLE_SOURCES := $(sort \
   src/cldr/imgui-glyph-ranges.cpp \
   $(SOURCES) \
+  $(C_SOURCES) \
   $(HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
@@ -1022,7 +1030,10 @@ endif
 
 SOURCES += $(IMGUI_SOURCES)
 
-_OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
+CPP_SOURCES := $(filter %.cpp,$(SOURCES))
+CC_SOURCES := $(filter %.cc,$(SOURCES))
+_OBJS = $(CPP_SOURCES:$(SRC_DIR)/%.cpp=%.o)
+_OBJS += $(CC_SOURCES:$(SRC_DIR)/%.cc=%.o)
 _OBJS += $(C_SOURCES:$(SRC_DIR)/%.c=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -1141,6 +1152,9 @@ $(shell mkdir -p $(DIRS))
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
 
+$(ODIR)/%.inc: $(SRC_DIR)/%.cc
+	$(COMPILE.cc) -o /dev/null -Wno-error -H -E $< 2> $@
+
 $(ODIR)/%.inc: $(SRC_DIR)/%.c
 	$(COMPILE.c) -o /dev/null -Wno-error -H -E $< 2> $@
 
@@ -1151,11 +1165,17 @@ includes: $(OBJS:.o=.inc)
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cpp
 	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
 
+$(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.cc
+	$(COMPILE.cc) $(OUTPUT_OPTION) -w -MMD -MP $<
+
 $(ODIR)/third-party/%.o: $(SRC_DIR)/third-party/%.c
 	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -w -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(COMPILE.cc) $(OUTPUT_OPTION) $(PCHFLAGS) -MMD -MP $<
+
+$(ODIR)/%.o: $(SRC_DIR)/%.c
+	$(COMPILE.c) $(OUTPUT_OPTION) -x c $(CFLAGS) -MMD -MP $<
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1196,8 +1216,8 @@ clean: clean-tests clean-lang
 	rm -f $(SRC_DIR)/version.h $(SRC_DIR)/prefix.h
 	rm -f $(CHKJSON_BIN)
 	rm -f $(TEST_MO)
-	rm -rf zzip.DSYM
-	rm -f zzip zzip.*
+	rm -rf zzip.dSYM
+	rm -f zzip zzip.* zstd.a
 
 distclean:
 	rm -rf *$(BINDIST_DIR)

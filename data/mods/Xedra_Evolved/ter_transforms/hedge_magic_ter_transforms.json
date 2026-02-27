@@ -7,5 +7,10 @@
       { "result": "t_door_locked_peep", "valid_terrain": [ "t_door_c_peep" ] },
       { "result": "t_door_metal_locked", "valid_terrain": [ "t_door_metal_c" ] }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_hedge_extinguish_fire_spell",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fire gutters and dies!", "message_good": true } ]
   }
 ]

@@ -1,0 +1,261 @@
+[
+  {
+    "id": "TALK_PAT_RECON_DIRECTIONS_NO",
+    "type": "talk_topic",
+    "dynamic_line": "Nothing new.  Check back later.",
+    "responses": [ { "text": "Yeah, alright.  I'll check back later.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_PAT_RECON_DIRECTIONS_YES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  \"Heah's what we got for the moment, yeah?\"",
+      "no": "&Pat boots up their laptop and pulls out a stack of maps, photos, and documents.  \"Let's see what we have heah, yeah?\""
+    },
+    "responses": [
+      {
+        "text": "[Photo of a farmstead] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_1",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 1" ] },
+            { "math": [ "HEW_vitrified_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_1" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_vitrified" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_1" }
+      },
+      {
+        "text": "[Photo of large gate] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_2",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 2" ] },
+            { "math": [ "HEW_lixa_data_sold < 1" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_2" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
+            }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_2" }
+      },
+      {
+        "text": "[Map with red marks on it] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_3",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 3" ] },
+            { "math": [ "HEW_temple_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_3" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_3" }
+      },
+      {
+        "text": "[Series of photos] This looks new.  What is it?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_4",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 4" ] },
+            { "math": [ "HEW_amigara_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_4" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_amigara" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_4" }
+      },
+      {
+        "text": "[Image of a strange castle] What is that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_5",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 5" ] },
+            { "math": [ "HEW_exodii_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_5" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_exodii" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_5" }
+      },
+      {
+        "text": "[Documents marked CLASSIFIED] Ooh?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_6",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 6" ] },
+            { "math": [ "HEW_physics_lab_data_sold < 1" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "[Image of a test tube with a hunk of meat in it] What's this?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_7",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 7" ] },
+            { "math": [ "HEW_monster_corpse_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_7" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_monster_corpse" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_7" }
+      },
+      {
+        "text": "[Image of a glowing smear] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_8",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 8" ] },
+            { "math": [ "HEW_barricaded_church_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_8" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_rural_church" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_8" }
+      },
+      {
+        "text": "[A pin on Pat's digital map] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_9",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 9" ] },
+            { "math": [ "HEW_morgantown_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_9" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_9" }
+      },
+      {
+        "text": "[A pin on Pat's digital map] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_10",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 10" ] },
+            { "math": [ "HEW_cabin_reverb_data_sold < 1" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_10" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_10" }
+      },
+      {
+        "text": "[An old cassette player and an audio file] Haven't seen one of those in a while.",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_11",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 11" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_11" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_11" }
+      },
+      {
+        "text": "[A scanned sheet of paper with several spirals drawn on it] What's that?",
+        "topic": "MISSION_ROBOFAC_PAT_RECON_12",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_pat_recon_random_loc == 12" ] },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_12" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] } }
+          ]
+        },
+        "effect": { "assign_mission": "MISSION_ROBOFAC_PAT_RECON_12" }
+      },
+      { "text": "Nothing looks interesting to me.  I'll check in again later.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_1",
+    "type": "talk_topic",
+    "dynamic_line": "I bought these photos off a merc.  Just looks like some house outta town, but look, there are some odd ahrtifacts - little floatin' distortions - all over'em.  I've seen ghost shows.  The merc was a believah, so they didn't try and loot it.  Gotta be somethin' there, though.  Worth a scan.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_2",
+    "type": "talk_topic",
+    "dynamic_line": "Shared a smoke with a merc that took these photos of a Department of Energy facility.  Nothin' more ominous than the DOE, yeah?  Worth a scan.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_3",
+    "type": "talk_topic",
+    "dynamic_line": "Fucker sold me this - for a full coin I might add - said it's a fuckin' treasure map.  I was hard up for fresh data, so I bought it.  Says there's a grate out in the contry, and treasure underneath.  Figured it's worth checkin' out, anyway.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_4",
+    "type": "talk_topic",
+    "dynamic_line": "Check out these photos - looks like some kind of minin' operation.  But the strange thing is that, apparently, the ground was a rumblin', and the tradah that passed by swore they heard screams.  Not the zombie kind neithah.  Worth a scan - from the parking lot, maybe.",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_5",
+    "type": "talk_topic",
+    "dynamic_line": "This is a doozy.  This guy, all out of his mind, came by and swore he saw this scrap-metal castle just fuckin' BLIP into existence.  So crazy a story I doubt he made it up.  Lock'n'load and check it out, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_6",
+    "type": "talk_topic",
+    "dynamic_line": "I picked these up off a trader in exchange for some cigs - didn't tell me where they got'em.  Most of it's redacted, which probably means strange shit, no?  But I'm seein' here all these order forms for materials to build ventilation shafts, and a few geological reports say somethin' about forests.  It isn't much to go on, but keep an eye out for strange shit in the woods, yeah?",
+    "responses": [ { "text": "I'll keep an eye out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_7",
+    "type": "talk_topic",
+    "dynamic_line": "Came fresh off another merc claims they got it on a job from our employers, but wouldn't say too much more.  I coaxed a location out'of'em.  Given how secretive they were, I think it's worth a look and a scan, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_8",
+    "type": "talk_topic",
+    "dynamic_line": "All I've got is that photo and a location.  It's some kind of building, glowing all purple.  I'd take a hazmat suit, if you got one.  Maybe it's nukes or some shit, yeah?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_9",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat uploads a scanned, blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it.  Pat then drops a digital pin in your HUDs map application.  \"Figure you can't see much, but this place is where the merc saw it.  Maybe worth a look.",
+      "no": "Merc told me she saw some sort'a creature in the woods.  I made her prove it.  She shows me this.\"  Pat pulls out a blurry Polaroid photo showing a fence in the forest, with some small, dark smear of a creature moving behind it. \"Figure you can't see much, but this place is where the merc saw it.  Maybe worth a look."
+    },
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_10",
+    "type": "talk_topic",
+    "dynamic_line": "This one might be nothin', but the mercs have been talking about this loner lives out in a cabin - this cabin, here.  They say he's SEEN things, but everyone's got a different idea about what he's seen.  Maybe you go see for yourself?",
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_11",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Check this out.\"  Pat double clicks an audio file and an old version of Winamp opens up.  The sound starts immediately, but nothing but static fills your earpiece.  Pat stops it after a moment.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+      "no": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?"
+    },
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_12",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat uploads a scan of a sketched map to your headset HUD.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
+      "no": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out."
+    },
+    "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
+  }
+]

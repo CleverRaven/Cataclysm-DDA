@@ -122,7 +122,7 @@ static void test_bash_set( const bash_test_set &set )
 
 TEST_CASE( "map_bash_chances", "[map][bash]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     for( const bash_test_set &set : test_data::bash_tests ) {
         test_bash_set( set );
@@ -135,7 +135,7 @@ static void test_bash_fields( const std::function<void( map &, const tripoint_bu
                               bool hit_field, field_type_str_id hit, int hit_intensity,
                               bool destroy_field, field_type_str_id destroy, int destroy_intensity )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
 
     const tripoint_bub_ms pt_1( 30, 30, 0 );
@@ -334,7 +334,7 @@ TEST_CASE( "map_bash_create_fields", "[map][bash]" )
 
 TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
 
     const tripoint_bub_ms test_pt( 40, 40, 0 );
@@ -456,7 +456,7 @@ static void shoot_at_terrain( std::function<void()> &setup, npc &shooter,
 
 TEST_CASE( "shooting_at_terrain", "[rng][map][bash][ranged]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     // Make a shooter
     standard_npc shooter( "Shooter", { 30, 30, 0 } );

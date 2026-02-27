@@ -14,7 +14,7 @@
     "material": [ "flesh" ],
     "symbol": "L",
     "color": "green",
-    "aggression": 80,
+    "aggression": 50,
     "morale": 80,
     "vision_day": 10,
     "vision_night": 20,

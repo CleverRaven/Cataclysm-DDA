@@ -399,10 +399,11 @@
     "bonus_dex": { "rng": [ 5, 10 ] },
     "bonus_int": { "rng": [ -4, -8 ] },
     "bonus_per": { "rng": [ 4, 8 ] },
+    "bonus_str": { "rng": [ 2, 4 ] },
     "skills": [
-      { "skill": "dodge", "level": { "dice": [ 2, 2 ] } },
-      { "skill": "melee", "level": { "dice": [ 2, 2 ] } },
-      { "skill": "unarmed", "level": { "dice": [ 2, 2 ] } }
+      { "skill": "dodge", "level": { "dice": [ 5, 5 ] } },
+      { "skill": "melee", "level": { "dice": [ 5, 5 ] } },
+      { "skill": "unarmed", "level": { "dice": [ 5, 5 ] } }
     ],
     "worn_override": "EMPTY_GROUP",
     "carry_override": "EMPTY_GROUP",
@@ -415,12 +416,18 @@
       [ "MANDIBLES", 100 ],
       [ "TAIL_STING", 100 ],
       [ "INSECT_ARMS_OK", 100 ],
-      [ "CHITIN3", 100 ],
+      [ "CHITIN", 100 ],
+      [ "CHITIN2", 100 ],
       [ "POISONOUS2", 100 ],
       [ "PAINRESIST", 100 ],
       [ "ADRENALINE", 100 ],
       [ "FLEET2", 100 ],
-      [ "ANTENNAE", 100 ]
+      [ "ANTENNAE", 100 ],
+      [ "COMPOUND_EYES", 100 ],
+      [ "MUTE_INSECT", 100 ],
+      [ "PROBOSCIS", 100 ],
+      [ "personality_brave", 100 ],
+      [ "personality_aggressive_plus", 100 ]
     ]
   },
   {

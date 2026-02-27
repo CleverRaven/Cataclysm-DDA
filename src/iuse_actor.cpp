@@ -47,6 +47,7 @@
 #include "generic_factory.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -85,7 +86,6 @@
 #include "safe_reference.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"
 #include "translations.h"
 #include "trap.h"
@@ -103,7 +103,6 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -183,7 +182,7 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 template<typename T>
-static item_location form_loc_recursive( T &loc, item &it )
+item_location form_loc_recursive( T &loc, item &it )
 {
     item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
@@ -192,6 +191,10 @@ static item_location form_loc_recursive( T &loc, item &it )
 
     return item_location( loc, &it );
 }
+
+//explict template instantiation
+template item_location form_loc_recursive<Character>( Character &loc, item &it );
+template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
 static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
 {
@@ -386,7 +389,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
-        return ret_val<void>::make_failure( string_format( need_charges_msg, it.tname() ) );
+        return ret_val<void>::make_failure( string_format( need_charges_msg.translated(), it.tname() ) );
     }
 
     if( qualities_needed.empty() ) {
@@ -642,6 +645,7 @@ void sound_iuse::load( const JsonObject &obj, const std::string & )
     optional( obj, false, "name", name );
     optional( obj, false, "sound_message", sound_message );
     optional( obj, false, "sound_volume", sound_volume, 0 );
+    optional( obj, false, "sound_type", sound_type, enum_flags_reader<sounds::sound_t> { "alarm" } );
     optional( obj, false, "sound_id", sound_id, "misc" );
     optional( obj, false, "sound_variant", sound_variant, "default" );
 }
@@ -652,7 +656,7 @@ std::optional<int> sound_iuse::use( Character *, item &,
     map &bubble_map = reality_bubble();
 
     if( bubble_map.inbounds( here->get_abs( pos ) ) ) {
-        sounds::sound( bubble_map.get_bub( here->get_abs( pos ) ), sound_volume, sounds::sound_t::alarm,
+        sounds::sound( bubble_map.get_bub( here->get_abs( pos ) ), sound_volume, sound_type,
                        sound_message.translated(), true,
                        sound_id, sound_variant );
     }
@@ -1648,11 +1652,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
     // skill gains are handled by the activity, but stored here in the index field
     const int potential_skill_gain = moves_modifier * ( std::min( 10.0, moves_cost_fast / 100.0 ) + 2 );
-    p->assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                        0, it.tname() );
-    p->activity.targets.emplace_back( *p, &it );
-    p->activity.values.push_back( g->natural_light_level( pos.z() ) );
-    p->activity.placement = here->get_abs( pos );
+    p->assign_activity( fire_start_activity_actor( here->get_abs( pos ), form_loc( *p, here, pos, it ),
+                        potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
 }
@@ -2080,18 +2081,14 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         gerund, cut.type_name() );
 
-    string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), verb ) )
-    .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : std::string() )
-    .description( messageprefix )
-    .identifier( "inscribe_item" )
-    .max_length( 128 )
-    .query();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50, hasnote ? cut.get_var( carving ) : std::string() );
+    popup.set_label( string_format( _( "%s what?" ), verb ) );
+    popup.set_description( messageprefix );
+    popup.set_identifier( "inscribe_item" );
+    const std::string message = popup.query();
+    if( popup.cancelled() ) {
         return false;
     }
-    const std::string message = popup.text();
     if( message.empty() ) {
         cut.erase_var( carving );
         cut.erase_var( carving_tool );
@@ -2793,8 +2790,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, map *here,
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.all_items_top(
-                                      pocket_type::CONTAINER );
+    std::list<item *> all_items = it.all_holstered_items();
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
         return string_format( _( "Draw %s" ), elem->display_name() );
@@ -2810,8 +2806,11 @@ std::optional<int> holster_actor::use( Character *you, item &it, map *here,
             if( opts.size() != it.num_item_stacks() ) {
                 ret--;
             }
-            auto iter = std::next( all_items.begin(), ret );
-            internal_item = *iter;
+            // If the action selected is Holster item / sheath item, then don't pick an item to use.
+            if( ret >= 0 ) {
+                auto iter = std::next( all_items.begin(), ret );
+                internal_item = *iter;
+            }
         }
     } else {
         if( !all_items.empty() ) {
@@ -3049,7 +3048,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         if( print_msg ) {
             for( const itype_id &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough clean %s to do that.  Have: %d, need: %d" ),
+                                      //~Note the quotation marks around the item name here. In English, a lot of people were confused that "Clean foo" might be a different item than "foo". It is recommended your translation also uses quotation marks or other punctuation to specify.
+                                      _( "You don't have enough clean \"%1$s\" to do that.  Have: %2$d, need: %3$d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.charges_of( mat_comp, items_needed ) :

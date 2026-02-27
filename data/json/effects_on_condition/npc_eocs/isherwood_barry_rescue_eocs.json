@@ -336,14 +336,14 @@
       { "math": [ "currently_invading_map = 0" ] },
       { "math": [ "is_isherwood_flee_eoc_activated = 0" ] },
       {
-        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "u_location_variable": { "global_val": "isherwood_mission_success_return_map" },
         "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
         "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
         "max_radius": 0
       },
-      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+      { "u_teleport": { "global_val": "isherwood_mission_success_return_map" }, "force": true }
     ]
   },
   {
@@ -395,14 +395,14 @@
         "popup": true
       },
       {
-        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "u_location_variable": { "global_val": "isherwood_mission_success_return_map" },
         "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
         "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
         "max_radius": 0
       },
-      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+      { "u_teleport": { "global_val": "isherwood_mission_success_return_map" }, "force": true }
     ]
   },
   {
@@ -452,14 +452,14 @@
           { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           {
-            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "u_location_variable": { "global_val": "isherwood_mission_success_return_map" },
             "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
             "furniture": "f_chair",
             "target_max_radius": 30,
             "min_radius": 0,
             "max_radius": 0
           },
-          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+          { "u_teleport": { "global_val": "isherwood_mission_success_return_map" }, "force": true }
         ],
         "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
       }

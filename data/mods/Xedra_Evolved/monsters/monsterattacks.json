@@ -20,7 +20,7 @@
     ],
     "skill": "throw",
     "ammo": [ "throwing_knives" ],
-    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES" ],
     "ranged_damage": { "damage_type": "cut", "amount": -1 },
     "clip_size": 1,
     "weight": "540 g",

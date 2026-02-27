@@ -1978,7 +1978,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     map &m = get_map();
     Character &u = get_player_character();
-    clear_map();
+    clear_map_without_vision();
     clear_character( u, true );
     item_location cont1( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_rigid ) );
@@ -2400,7 +2400,7 @@ TEST_CASE( "picking_up_items_respects_pocket_autoinsert_settings", "[pocket][ite
 
 TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &u = get_player_character();
@@ -2777,7 +2777,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
 
     const tripoint_bub_ms ipos = get_player_character().pos_bub();
     map &m = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     item_location backpack_loc( map_cursor( tripoint_bub_ms( ipos ) ), &m.add_item( ipos, backpack ) );
     item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
@@ -2848,7 +2848,7 @@ TEST_CASE( "bag_with_restrictions_and_nested_bag_does_not_fit_too_large_items", 
 TEST_CASE( "pocket_leak" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &u = get_avatar();
     map &here = get_map();
     item backpack( itype_test_backpack );
@@ -2918,7 +2918,7 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     tripoint_abs_omt const this_omt =
         project_to<coords::omt>( get_avatar().pos_abs() );
     tripoint_bub_ms const this_bub = get_map().get_bub( project_to<coords::ms>( this_omt ) );
@@ -3033,7 +3033,7 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
 TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &u = get_avatar();
     map &here = get_map();
     item pill( itype_tums ); // "antacid pill"

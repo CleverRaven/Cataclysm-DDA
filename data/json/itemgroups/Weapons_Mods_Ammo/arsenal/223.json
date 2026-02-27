@@ -38,7 +38,12 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_223",
-    "items": [ { "group": "nested_m4_carbine_no_ammo", "prob": 70 }, { "group": "nested_m27_assault_rifle_no_ammo", "prob": 40 } ]
+    "items": [
+      { "group": "nested_m4_carbine_no_ammo", "prob": 70 },
+      { "group": "nested_h&k416a5_assault_rifle_no_ammo", "prob": 40 },
+      { "group": "nested_m27_assault_rifle_no_ammo", "prob": 15 },
+      { "group": "nested_m38dmr_no_ammo", "prob": 5 }
+    ]
   },
   {
     "id": "nested_m4_carbine_no_ammo",
@@ -50,7 +55,19 @@
     "id": "nested_m27_assault_rifle_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "modular_m27_assault_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "group": "m27iar" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_h&k416a5_assault_rifle_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "h&k416a5_any" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_m38dmr_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "m38dmr" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "stanag_mags",

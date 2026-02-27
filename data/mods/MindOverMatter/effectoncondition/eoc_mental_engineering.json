@@ -237,7 +237,7 @@
               { "u_add_trait": "ADDICTIVE" },
               { "u_lose_trait": "NONADDICTIVE" },
               {
-                "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just became a worse idea, however.",
+                "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just become a worse idea, however.",
                 "type": "bad"
               }
             ]
@@ -312,7 +312,7 @@
             "effect": [
               { "u_add_trait": "INATTENTIVE" },
               {
-                "u_message": "The emotions on people's faces and movements of animals means nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
+                "u_message": "The emotions on people's faces and movements of animals mean nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
                 "type": "bad"
               }
             ]
@@ -475,7 +475,7 @@
           "Force yourself to appreciate the company of others by making yourself an extrovert.  Hopefully you'll be able to find people to interact with.",
           "Stop yourself from enjoying the company of others by removing your extroversion.  It's not like there's anybody around anyways, right?",
           "Force yourself to require the company of others by making yourself incredibly sociable.  Hopefully you have friends.",
-          "Work on yourself by stopping your need for other's presence.  A workable lifestyle turned problem which started with the death of everyone you knew and loved.",
+          "Work on yourself by stopping your need for others' presence.  A workable lifestyle turned problem which started with the death of everyone you knew and loved.",
           "Make sure that you're happy alone by making yourself an introvert.  With near everyone dead, this mindset just got a lot more viable.",
           "Stop yourself from enjoying being alone by removing your introversion.  You now feel positively neutral.",
           "Force yourself to hate interacting with others.  What would have been a debilitating mentality in pre-Cataclysm life might actually help you.  What's the chance you'll actually have to talk to someone now?",
@@ -485,7 +485,7 @@
           "Replace therapy and many other normal, healthy options for getting over your inability to use guns.  At least this method is quick.",
           "Drastic times require dramatic measures.  Whatever your reason for not driving, you can get over it with a small dose of major psychic surgery.",
           "As much as you love travelling you can see the benefits of staying in one place.  Psychically remove your desire to keep exploring.",
-          "As much as it hurts you you just cannot get over the dullness of familiar places.  With a bit of psychic surgery, that dullness can get a good bit brighter.",
+          "As much as it hurts you, you just cannot get over the dullness of familiar places.  With a bit of psychic surgery, that dullness can get a good bit brighter.",
           "Even taking the time to consider this alteration of your head is making you incredibly unhappy at your lack of travel.  You should really fix this.",
           "Logically speaking, your refusal to wear tainted clothing really isn't that bad.  There may be some benefit to reducing your squeamishness, though.",
           "Finding time to DM a game is probably not going to happen again.  Even so, by spending an inordinate amount of time studying a DM'ing guide while under the effect of your psychic powers you think you can get some ideas on how to do it again but quicker.",
@@ -493,7 +493,7 @@
           "As fun as it is, you can begrudgingly agree that there's better things to do than setting fires.  Put a hypothetical therapist out of business with your psychic powers and fix that.",
           "Being able to lie could be an important part of your life… if there was even anyone to lie to.  You doubt this would help you much.",
           "There's still a couple of survivors around, and being good at lying to them might give you some opportunities you otherwise would lack.  It might also get you in trouble.",
-          "Even the thought of doing this makes you incredibly uncomfortable, but of all the reasons to quite veganism, the complete destruction of your entire world probably qualifies.",
+          "Even the thought of doing this makes you incredibly uncomfortable, but of all the reasons to quit veganism, the complete destruction of your entire world probably qualifies.",
           "Logically speaking, those things that kind of look human really aren't.  It might currently feel uncomfortable, but it's hard to think of a real argument against eating them.  May as well get over your emotions.  Telepathically!",
           "You feel just fine eating those not-humans, but a tiny part of your brain tells you that this might be a slippery slope.  It might not be logical, but you can stop this immediately.",
           "Completely disgusting, and potentially quite unhealthy.  However, given the times it may be your only option.  Can you force yourself to enjoy the taste of human flesh?",
@@ -671,7 +671,7 @@
             "effect": [
               { "u_lose_trait": "ASOCIAL1" },
               {
-                "u_message": "There's definitely someone out there right?  Its a shame you cannot enjoy your solitude anymore.",
+                "u_message": "There's definitely someone out there right?  It's a shame you cannot enjoy your solitude anymore.",
                 "type": "neutral"
               }
             ]
@@ -682,7 +682,7 @@
               { "u_add_trait": "ASOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
               {
-                "u_message": "You absolutely detest having to interact with anyone else!  Its a good thing you'll never have to again!",
+                "u_message": "You absolutely detest having to interact with anyone else!  It's a good thing you'll never have to again!",
                 "type": "neutral"
               }
             ]
@@ -703,7 +703,7 @@
             "effect": [
               { "u_lose_trait": "HATES_WATER" },
               {
-                "u_message": "Earlier you was over-reacting a bit.  You cannot really connect with why water was just that bad.",
+                "u_message": "Earlier you were over-reacting a bit.  You cannot really connect with why water was just that bad.",
                 "type": "good"
               }
             ]
@@ -802,7 +802,7 @@
             "case": 28,
             "effect": [
               { "u_lose_trait": "TRUTHTELLER" },
-              { "u_message": "You can now lie to your hearts content!  Mostly to a mirror.", "type": "good" }
+              { "u_message": "You can now lie to your heart's content!  Mostly to a mirror.", "type": "good" }
             ]
           },
           {
@@ -875,7 +875,7 @@
             "effect": [
               { "u_add_trait": "SAVANT" },
               {
-                "u_message": "Its hard to even understand how you used to think.  There's only one thing that makes sense now.",
+                "u_message": "It's hard to even understand how you used to think.  There's only one thing that makes sense now.",
                 "type": "neutral"
               }
             ]
@@ -901,7 +901,7 @@
             "case": 40,
             "effect": [
               { "u_lose_trait": "SCHIZOPHRENIC" },
-              { "u_message": "Its been so long since you've been alone in your head.", "type": "good" }
+              { "u_message": "It's been so long since you've been alone in your head.", "type": "good" }
             ]
           },
           {

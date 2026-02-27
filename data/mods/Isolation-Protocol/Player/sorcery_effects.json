@@ -92,24 +92,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_iso_eldritch_mass_aoe_zombie_destruction",
-    "name": [ "The Most Excellent Obliteration of Blasphemies" ],
-    "desc": [ "You are channeling The Most Excellent Obliteration of Blasphemies." ],
-    "rating": "good",
-    "remove_message": "You cease channeling your spell.",
-    "max_intensity": 50,
-    "int_decay_step": 1,
-    "int_decay_tick": 2,
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "iso_eldritch_mass_aoe_zombie_destruction_secondary" } ] } ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_iso_eldritch_mass_aoe_zombie_destruction_preventer",
     "//": "Hidden effects, blocks The Most Excellent Obliteration of Blasphemies from being instantly dispelled",
     "name": [ "" ],

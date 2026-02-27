@@ -429,6 +429,7 @@
       [ "motorbike_armor", 25 ],
       [ "ski_jacket", 10 ],
       [ "coat_winter", 10 ],
+      [ "coat_light_winter", 10 ],
       [ "coat_fur", 1 ],
       [ "coat_faux_fur", 1 ]
     ]

@@ -269,5 +269,32 @@
       ]
     ],
     "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extinguish_fire_spell",
+    "type": "requirement",
+    "tools": [ [ [ "spellbook_hedge_book_of_raziel", -1 ] ] ],
+    "components": [ [ [ "ash", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_chicken_sacrifice_make_rain",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "milk_standard_raw_fresh", 6, "LIST" ] ],
+      [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ] ],
+      [ [ "wild_herbs", 20 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_raziel_amulet_protection",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [
+      [ [ "worthy_wine", 3, "LIST" ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "apple", 1 ], [ "lemon", 1 ] ],
+      [ [ "copper_necklace", 1 ] ]
+    ]
   }
 ]

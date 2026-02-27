@@ -1496,6 +1496,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "sound",            // Makes sound
   "name": "Turn on",          // Optional name for the action. Default "Activate"
   "sound_message": "Bzzzz.",  // message shown to player if they are able to hear the sound. %s is replaced by item name
+  "sound_type": "alarm",      // type of the sound emitted. Default "alarm". Possible types are "background", "weather", "sensory", "music", "movement", "speech", "electronic_speech", "activity", "destructive_activity", "alarm", "combat", "alert", "order"
   "sound_id": "misc",         // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details
   "sound_variant": "default", // Default is "default"
   "sound_volume": 5           // Loudness of the noise

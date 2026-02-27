@@ -1015,6 +1015,107 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_metal_shipping_container",
+    "copy-from": "t_abstract_wall_metal",
+    "name": "shipping container wall",
+    "description": "A shipping container made of corrugated weathering steel.",
+    "symbol": "#",
+    "color": "light_gray",
+    "bash": {
+      "str_min": 60,
+      "str_max": 350,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_black",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "black"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_white",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_magenta",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "magenta"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_brown",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "brown"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_pink",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "pink"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_yellow",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "yellow"
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_bulkhead",
     "copy-from": "t_abstract_wall_metal",
     "//": "identical to t_wall_metal, but gray and cannot be oxytorched",

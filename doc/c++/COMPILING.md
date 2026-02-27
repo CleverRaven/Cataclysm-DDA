@@ -511,7 +511,7 @@ Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    brew install sdl2 sdl2_image sdl2_ttf
+    brew install pkgconfig freetype sdl2 sdl2_image sdl2_ttf
 
 with sound:
 

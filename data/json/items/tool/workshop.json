@@ -879,12 +879,11 @@
       {
         "type": "manualnoise",
         "moves": 100,
-        "noise": 28,
+        "noise": 100,
         "noise_message": "FWEEEET!",
         "noise_id": "misc",
         "noise_variant": "whistle",
-        "use_message": "You blow the whistle.",
-        "//": "Moderatly lower than the proper whistle."
+        "use_message": "You blow the whistle."
       },
       { "type": "firestarter", "moves": 1000, "moves_slow": 5000 }
     ],

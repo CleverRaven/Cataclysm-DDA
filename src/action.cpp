@@ -454,6 +454,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         case ACTION_DISTRACTION_MANAGER:
+        case ACTION_EXPORT_BUG_REPORT_ARCHIVE:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
@@ -1122,7 +1123,13 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG, 'd' );
+    if( hotkey_for_action( ACTION_DEBUG, /*maximum_modifier_count=*/1, false ).has_value() ) {
+        REGISTER_ACTION( ACTION_DEBUG, 'D' );
+    }
+
+    // Special handling: This one is not a keybind, so we emplace it manually with a descriptive name.
+    entries.emplace_back( ACTION_EXPORT_BUG_REPORT_ARCHIVE, true, 'd',
+                          _( "Export save archive for github bug report" ) );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );

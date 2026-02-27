@@ -504,7 +504,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 {
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
@@ -850,7 +850,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     bool const ups_on_ground = GENERATE( true, false );
     CAPTURE( ups_on_ground );
     avatar dummy;
-    clear_map();
+    clear_map_without_vision();
     clear_character( dummy );
     tripoint_bub_ms const test_loc = dummy.pos_bub();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -1424,7 +1424,7 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
 {
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
         const recipe &test_recipe = *recipe_leather_belt;
 
         grant_skills_to_character( get_player_character(), test_recipe, 0 );
@@ -1454,7 +1454,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 {
     GIVEN( "a recipe with required proficiencies" ) {
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
         Character &tester = get_player_character();
         const recipe &test_recipe = *recipe_leather_belt;
 
@@ -1954,7 +1954,7 @@ TEST_CASE( "Unloading_non-empty_components", "[crafting]" )
 TEST_CASE( "Warn_when_using_favorited_component", "[crafting]" )
 {
     map &m = get_map();
-    clear_map();
+    clear_map_without_vision();
     item pocketknife( itype_pockknife );
 
     GIVEN( "crafting 1 makeshift funnel" ) {
@@ -2371,7 +2371,7 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
 
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
 
     clear_vehicles();
@@ -2473,6 +2473,6 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 }
             }
         }
-        clear_map();
+        clear_map_without_vision();
     }
 }

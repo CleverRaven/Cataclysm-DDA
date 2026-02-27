@@ -59,10 +59,10 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
-#include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -112,7 +112,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -202,7 +201,6 @@ static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
@@ -250,8 +248,6 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
-
-static const harvest_drop_type_id harvest_drop_blood( "blood" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -339,13 +335,9 @@ static const mtype_id mon_vortex( "mon_vortex" );
 static const mutation_category_id mutation_category_CATTLE( "CATTLE" );
 static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
 
-static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
-static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
-
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
 static const quality_id qual_HOTPLATE( "HOTPLATE" );
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
@@ -356,7 +348,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_traps( "traps" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
@@ -480,8 +471,8 @@ void remove_radio_mod( item &it, Character &p )
 // Checks that the player can smoke
 std::optional<std::string> iuse::can_smoke( const Character &you )
 {
-    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item & it ) {
-        return it.active;
+    auto cigs = you.cache_get_items_with( flag_LITCIG, []( const item_location & it ) {
+        return it->active;
     } );
 
     if( !cigs.empty() ) {
@@ -2490,10 +2481,10 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
     const double default_ratio = 4; // Existing pur_tablets will not have the var
-    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
-                                     default_ratio ) );
+    double max_water_per_tablet_d = purifier->get_var( "water_per_tablet", default_ratio );
+    const int max_water_per_tablet = static_cast<int>( std::lround( max_water_per_tablet_d ) );
     if( max_water_per_tablet < 1 ) {
-        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+        debugmsg( _( "ERROR: %s set to purify only %d water each.  Nothing was purified." ),
                   purifier->typeId().str(), max_water_per_tablet );
         return std::nullopt;
     }
@@ -2511,8 +2502,8 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
-                              purifier->tname( to_consume ) );
+        p->add_msg_if_player( m_info, _( "Purifying %d water using %d %s" ), charges_of_water,
+                              to_consume, purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
@@ -2521,7 +2512,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              _( "You need %d tablets to purify that.  You only have %d" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }
@@ -2571,7 +2562,7 @@ std::optional<int> iuse::directional_antenna( Character *p, item *it, const trip
         map_stack items = get_map().i_at( p->pos_bub() );
         for( item &an_item : items ) {
             if( an_item.typeId() == itype_radio_on ) {
-                radios.push_back( &an_item );
+                radios.emplace_back( map_cursor( p->pos_bub() ), &an_item );
             }
         }
     }
@@ -3193,32 +3184,10 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    int qual = it->get_quality( qual_LOCKPICK );
-    if( qual < 1 ) {
-        debugmsg( "Item %s with 'PICK_LOCK' use action requires LOCKPICK quality of at least 1.",
-                  it->typeId().c_str() );
-        qual = 1;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration_proficiency_factor = 10;
-
-    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
-        duration_proficiency_factor = 5;
-    }
-    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
-        duration_proficiency_factor = 1;
-    }
-    time_duration duration = 5_seconds;
-    if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
-                                     you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
-    }
-
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().get_abs( *target ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( item_location( you, it ),
+                         get_map().get_abs( *target ),
+                         *p
+                                                          ) );
     return 1;
 }
 
@@ -3795,7 +3764,9 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
 std::optional<int> iuse::mp3_on( Character *p, item *it, const tripoint_bub_ms &pos )
 {
     if( !it->activation_success() ) {
-        p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        if( p ) {
+            p->add_msg_if_player( m_bad, _( "Your %s goes silent for a moment." ), it->tname() );
+        }
         return std::nullopt;
     }
 
@@ -4149,11 +4120,12 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
             }
             for( npc *n : friends_w_game ) {
                 // this vector may be empty, so a nullptr would be passed
-                std::vector<item *> nit = n->cache_get_items_with( it->typeId(), []( const item & i ) {
-                    return i.ammo_sufficient( nullptr );
+                std::vector<item_location> nit = n->cache_get_items_with( it->typeId(), [](
+                const item_location & i ) {
+                    return i->ammo_sufficient( nullptr );
                 } );
-                portable_game_activity_actor portable_game_act( 15_minutes, item_location( *n, nit.front() ),
-                        entertain_players, winner );
+                portable_game_activity_actor portable_game_act( 15_minutes, nit.front(), entertain_players,
+                        winner );
                 n->assign_activity( portable_game_act );
             }
         }
@@ -4451,9 +4423,6 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
-    map &here = get_map();
-    const tripoint_bub_ms pos = p->pos_bub( here );
-
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4470,31 +4439,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : here.i_at( pos.xy() ) ) {
-        if( map_it.is_corpse() &&
-            query_yn( _( "Draw blood from %s?" ),
-                      colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
-            p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
-            drew_blood = true;
-            blood_temp = map_it.temperature;
-
-            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
-            if( bloodtype.obj().has_acid ) {
-                acid_blood = true;
-            } else {
-                blood.set_mtype( map_it.get_mtype() );
-
-                for( const harvest_entry &entry : map_it.get_mtype()->harvest.obj() ) {
-                    if( entry.type == harvest_drop_blood ) {
-                        blood.convert( itype_id( entry.drop ) );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
+    if( query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
         blood_temp = units::from_celsius( 37 );
@@ -4798,10 +4743,52 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
         }
         return std::nullopt;
     }
+    // Assign activity to calculate total_moves via ::start _before_ asking for confirmation.
     if( p->pos_bub() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
         p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+    }
+
+    std::string query;
+    if( p->activity.moves_left == p->activity.moves_total ) {
+        query += string_format( _( "Cut up metal using your %1$s?" ), it->tname() );
+    } else {
+        query += string_format( _( "Resume cutting up metal using your %1$s?" ), it->tname() );
+    }
+
+    // HACK: Update the player_activity moves_left based on progress stored in the activity_actor.
+    int activity_actor_moves_left = static_cast<const hacksaw_activity_actor &>(
+                                        *p->activity.actor ).moves_left;
+    p->activity.moves_left = activity_actor_moves_left;
+
+    query += "\n";
+    query += _( "Time to complete: " );
+    int required_moves = p->activity.moves_left;
+    add_msg_debug( debugmode::DF_ACTIVITY, "iuse hacksaw required_moves: %d.", required_moves );
+
+    const float weary_mult = p->exertion_adjusted_move_multiplier( p->activity.exertion_level() );
+    time_duration required_time = time_duration::from_turns( required_moves * weary_mult /
+                                  p->get_speed() );
+    const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+    query += time_string;
+
+    if( it->ammo_required() ) {
+        const int charges_needed = it->ammo_required() * required_moves / 100;
+        query += "\n";
+        if( it->ammo_current()->nname( charges_needed ) == "battery" ) {
+            query += string_format( _( "This will require %d kJ." ), charges_needed );
+        } else {
+            query += string_format(
+                         _( "This will require %d %s." ),
+                         charges_needed, it->ammo_current()->nname( charges_needed )
+                     );
+        }
+    }
+
+    if( !query_yn( query ) ) {
+        p->cancel_activity();
+        p->add_msg_if_player( m_info, _( "You decide not to cut up this metal." ) );
     }
 
     return std::nullopt;
@@ -4915,13 +4902,12 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_m
 std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         map *here, const tripoint_bub_ms &where )
 {
-    string_input_popup popup;
-    std::string message = popup
-                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
-                          .text( here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() )
-                          .identifier( "graffiti" )
-                          .query_string();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 50,
+                                    here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() );
+    popup.set_description( prefix + " " + _( "(To delete, clear the text and confirm)" ) );
+    popup.set_identifier( "graffiti" );
+    std::string message = popup.query();
+    if( popup.cancelled() ) {
         return std::nullopt;
     }
 
@@ -5150,7 +5136,7 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint_bub_ms
 
     } else if( !it->activation_success() ) {
         p->add_msg_if_player( m_bad,
-                              _( "nothing happens when you try to inject yourself with your %s. Try again." ), it->tname() );
+                              _( "You try to inject yourself with the %s, but nothing happens." ), it->tname() );
         return std::nullopt;
 
     } else {
@@ -5635,13 +5621,14 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
     amenu.text = _( "Select operation:" );
     amenu.addentry( efd_combo_bm, true, 'a', _( "Browse + move files from all devices" ) );
     amenu.addentry( efd_browse, true, 'b', _( "Browse devices" ) );
+    const bool has_files = !used_edevice->efiles().empty();
     if( used_edevice->is_browsed() ) {
-        amenu.addentry( efd_read_this, true, 'r', _( "Read files on this device" ) );
+        amenu.addentry( efd_read_this, has_files, 'r', _( "Read files on this device" ) );
         amenu.addentry( efd_read_external, true, 'e', _( "Read files on external devices" ) );
         amenu.addentry( efd_move_onto_this, true, 'm', _( "Move files onto this device" ) );
-        amenu.addentry( efd_move_off_this, true, 'k', _( "Move files off of this device" ) );
         amenu.addentry( efd_copy_onto_this, true, 'c', _( "Copy files onto this device" ) );
-        amenu.addentry( efd_copy_from_this, true, 'f', _( "Copy files off of this device" ) );
+        amenu.addentry( efd_move_off_this, has_files, 'k', _( "Move files off of this device" ) );
+        amenu.addentry( efd_copy_from_this, has_files, 'f', _( "Copy files off of this device" ) );
         amenu.addentry( efd_wipe, true, 'W', _( "Wipe files from devices" ) );
     }
 
@@ -8211,6 +8198,27 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 }
 
+void heater::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "heating_effect", heating_effect );
+    jsout.member( "loc", loc );
+    jsout.member( "consume_flag", consume_flag );
+    jsout.member( "pseudo_flag", pseudo_flag );
+    jsout.member( "vpt", vpt );
+    jsout.end_object();
+}
+
+void heater::deserialize( const JsonValue &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "heating_effect", heating_effect );
+    data.read( "loc", loc );
+    data.read( "consume_flag", consume_flag );
+    data.read( "pseudo_flag", pseudo_flag );
+    data.read( "vpt", vpt );
+}
+
 heater find_heater( Character *p, item *it, bool force_use_it )
 {
     map &here = get_map();
@@ -8300,8 +8308,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     map &here = get_map();
 
     p->inv->restack( *p );
-    heater h = find_heater( p, it, force_use_it );
-    if( h.available_heater == -1 ) {
+    heater heater_data = find_heater( p, it, force_use_it );
+    if( heater_data.available_heater == -1 ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
@@ -8332,17 +8340,26 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                      ( solid_items && !location->made_of_from_type( phase_id::LIQUID ) ) );
         } );
         auto make_raw_stats = [available_volume,
-                               h]( const std::vector<std::pair<item_location, int>> &locs
+                               heater_data]( const std::vector<std::pair<item_location, int>> &locs
         ) {
             units::volume used_volume = 0_ml;
             units::mass frozen_weight = 0_gram;
             units::mass not_frozen_weight = 0_gram;
             for( const auto &pair : locs ) {
                 used_volume +=  pair.first->volume( false, true, pair.second );
-                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                units::mass item_weight = 0_gram;
+                if( pair.first->count_by_charges() ) {
+                    const int charges_in_item = pair.first->charges;
+                    if( charges_in_item > 0 ) {
+                        item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+                    }
                 } else {
-                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                    item_weight = pair.first->weight( false, false ) * pair.second;
+                }
+                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+                    frozen_weight += item_weight;
+                } else {
+                    not_frozen_weight += item_weight;
                 }
             }
             heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
@@ -8359,8 +8376,8 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
             const std::string volume = string_join( display_stat( "", used_volume.value(),
                                                     available_volume.value(),
                                                     to_string ), "" );
-            const std::string ammo = string_join( display_stat( "", required.ammo * h.heating_effect,
-                                                  h.available_heater,
+            const std::string ammo = string_join( display_stat( "", required.ammo * heater_data.heating_effect,
+                                                  heater_data.available_heater,
                                                   to_string ), "" );
             using stats = inventory_selector::stats;
             return inventory_selector::convert_stats_to_header_stats( stats{{
@@ -8386,10 +8403,19 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     }
     for( const auto &pair : to_heat ) {
         used_volume +=  pair.first->volume( false, true, pair.second );
-        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
-            frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+        units::mass item_weight = 0_gram;
+        if( pair.first->count_by_charges() ) {
+            const int charges_in_item = pair.first->charges;
+            if( charges_in_item > 0 ) {
+                item_weight = pair.first->weight( false, false ) / charges_in_item * pair.second;
+            }
         } else {
-            not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+            item_weight = pair.first->weight( false, false ) * pair.second;
+        }
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+            frozen_weight += item_weight;
+        } else {
+            not_frozen_weight += item_weight;
         }
     }
     heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
@@ -8397,7 +8423,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     if( multiple ? used_volume > available_volume : false ) {
         p->add_msg_if_player( _( "You need more space to contain these items." ) );
         return false;
-    } else if( h.available_heater < required.ammo * h.heating_effect ) {
+    } else if( heater_data.available_heater < required.ammo * heater_data.heating_effect ) {
         p->add_msg_if_player( _( "You need more energy to heat these items." ) );
         return false;
     }
@@ -8407,7 +8433,7 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( heat_activity_actor( to_heat, required, h ) );
+    p->assign_activity( heat_activity_actor( to_heat, required, heater_data ) );
     return true;
 }
 
@@ -8813,17 +8839,6 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
     p->add_msg_if_player( m_good, _( "You put up the %s." ), copy_item.tname() );
 
     return 0;
-}
-
-std::optional<int> iuse::melatonin_tablet( Character *p, item *it, const tripoint_bub_ms & )
-{
-    p->add_msg_if_player( _( "You pop a %s." ), it->tname() );
-    if( p->has_effect( effect_melatonin ) ) {
-        p->add_msg_if_player( m_warning,
-                              _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
-    }
-    p->add_effect( effect_melatonin, 16_hours );
-    return 1;
 }
 
 std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_ms & )

@@ -1096,7 +1096,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || maybe_get_value( "remote_controlling" );
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
+        std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1104,7 +1104,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( const item *cable : cables ) {
+            for( const item_location &cable : cables ) {
                 if( cable->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
@@ -2098,7 +2098,8 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
     }
 
     if( bio.id->cant_remove_reason.has_value() ) {
-        popup( string_format( bio.id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
+        popup( string_format( bio.id->cant_remove_reason.value().translated(), disp_name( true ),
+                              disp_name() ) );
         return false;
     }
 
@@ -3331,8 +3332,8 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::ups, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::ups, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return stored_fuels;
@@ -3363,8 +3364,8 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::solarpack, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::solarpack, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return solar_sources;
@@ -3393,11 +3394,11 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
-    []( const item & it ) {
-        return it.link_has_state( link_state::bio_cable ) &&
-               ( it.link_has_state( link_state::vehicle_battery ) ||
-                 it.link_has_state( link_state::vehicle_port ) );
+    const std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item_location & it ) {
+        return it->link_has_state( link_state::bio_cable ) &&
+               ( it->link_has_state( link_state::vehicle_battery ) ||
+                 it->link_has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3406,7 +3407,7 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 
     map &here = get_map();
 
-    for( const item *cable : cables ) {
+    for( const item_location &cable : cables ) {
         if( cable->link().t_veh ) {
             remote_vehicles.emplace_back( cable->link().t_veh.get() );
         } else {

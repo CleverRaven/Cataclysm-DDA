@@ -1,29 +1,9 @@
 [
   {
     "type": "body_part",
-    "id": "mouth",
-    "copy-from": "mouth",
-    "name": "mouth",
-    "similar_bodyparts": [ "test_corvid_beak" ],
-    "limb_type": "mouth",
-    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 1.0 ] ]
-  },
-  {
-    "type": "sub_body_part",
-    "id": "mouth_lips",
-    "copy-from": "mouth_lips",
-    "similar_bodyparts": [ "sub_limb_test_corvid_beak" ],
-    "opposite": "mouth_lips",
-    "side": 0,
-    "name": "lips",
-    "name_multiple": "lips"
-  },
-  {
-    "type": "body_part",
     "id": "test_arm_l",
     "name": "left arm",
     "copy-from": "arm_l",
-    "similar_bodyparts": [ "test_bird_wing_l" ],
     "opposite_part": "test_arm_r"
   },
   {
@@ -31,7 +11,6 @@
     "id": "test_arm_r",
     "name": "right arm",
     "copy-from": "arm_r",
-    "similar_bodyparts": [ "test_bird_wing_r" ],
     "opposite_part": "test_arm_l"
   },
   {
@@ -39,7 +18,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "foot_l",
-    "side": 0,
+    "side": "both",
     "opposite": "test_foot_r",
     "name_multiple": "feet",
     "name": "left foot"
@@ -52,7 +31,6 @@
     "side": 0,
     "opposite": "test_foot_l",
     "name_multiple": "feet",
-    "similar_bodyparts": [ "sub_limb_test_bird_foot_r", "sub_limb_test_bird_foot_l" ],
     "name": "right foot"
   },
   {
@@ -120,6 +98,7 @@
     "opposite_part": "test_corvid_beak",
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
+    "similar_bodypart": "mouth",
     "limb_types": [ [ "mouth", 1.0 ], [ "hand", 0.1 ] ],
     "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 0.5 ], [ "consume_solid", 2.0 ] ],
     "side": "both",
@@ -139,7 +118,8 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_corvid_beak",
-    "side": 0,
+    "side": "both",
+    "similar_bodypart": "mouth_lips",
     "opposite": "sub_limb_test_corvid_beak",
     "name_multiple": "corvid beaks",
     "name": "corvid beak"
@@ -157,6 +137,7 @@
     "encumbrance_threshold": 5,
     "hp_bar_ui_text": "L WING",
     "main_part": "test_bird_wing_l",
+    "similar_bodypart": "test_arm_l",
     "connected_to": "torso",
     "opposite_part": "test_bird_wing_r",
     "hit_size": 13,
@@ -186,7 +167,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bird_wing_l",
-    "side": 1,
+    "side": "left",
     "opposite": "sub_test_wing_r",
     "name_multiple": "wings",
     "name": "left bird wing"
@@ -196,7 +177,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bird_wing_r",
-    "side": 1,
+    "side": "left",
     "opposite": "sub_test_wing_l",
     "name_multiple": "wings",
     "name": "right bird wing"
@@ -214,6 +195,7 @@
     "encumbrance_text": "Melee combat is hampered.",
     "encumbrance_threshold": 5,
     "main_part": "test_bird_wing_r",
+    "similar_bodypart": "test_arm_r",
     "connected_to": "torso",
     "opposite_part": "test_bird_wing_l",
     "hit_size": 13,
@@ -272,8 +254,9 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bird_foot_l",
-    "side": 0,
+    "side": "both",
     "opposite": "sub_limb_test_bird_foot_l",
+    "similar_bodypart": "test_foot_r",
     "name_multiple": "feet",
     "name": "left bird foot"
   },
@@ -311,8 +294,9 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bird_foot_r",
-    "side": 0,
+    "side": "both",
     "opposite": "sub_limb_test_bird_foot_r",
+    "similar_bodypart": "test_foot_r",
     "name_multiple": "feet",
     "name": "right bird foot"
   },

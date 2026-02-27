@@ -1,0 +1,19 @@
+[
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier2",
+    "copy-from": "EXODII_Shop_Guns_Tier2",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        {
+          "collection": [
+            { "item": "mom_exodii_stungun_pistol", "prob": 100, "count": [ 1, 2 ] },
+            { "item": "exodii_exodii_stungun_mag", "prob": 100, "count": [ 3, 4 ], "charges": 36 }
+          ],
+          "prob": 15
+        }
+      ]
+    }
+  }
+]

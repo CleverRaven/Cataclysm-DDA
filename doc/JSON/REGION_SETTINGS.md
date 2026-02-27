@@ -416,8 +416,8 @@ Basic overmap settings can be found in external options.
 
 ```json
     "overmap_highway_settings": {
-      "grid_column_seperation": 1,
-      "grid_row_seperation": 1,
+      "grid_column_separation": 1,
+      "grid_row_separation": 1,
       "width_of_segments": 2,
       "reserved_terrain_id": "highway_reserved",
       "reserved_terrain_water_id": "highway_reserved_water",
@@ -556,10 +556,10 @@ See above.
 | ------------------------------ | --------------------------------------------------------------------- |
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
-| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_pressure`                | Base pressure for the region in millibars.  Increasing it decreases the wind strength |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
-| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `base_wind_season_variation`   | How the wind varies with season. Increases wind speed in the summer, decreases wind speed in the winter. Larger values amplify effects, negative values reverse effects.  |
 | `weather_black_list`           | Ids of weather types not allowed in this region.                      |
 | `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 
@@ -611,3 +611,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
     "feature_flag_settings": { "extend": { "blacklist": [ "HIGHLANDS" ] }, "delete": { "whitelist" : [ "CLASSIC" ]} }
   }
 ```
+
+### The EXTRADIMENSIONAL flag
+
+At the moment, the EXTRADIMENSIONAL flag is used to prevent locations from spawning in the default dimension.  An additional flag (for example, `HIGHLANDS`) can be then whitelisted to allow extradimensional locations to spawn in the appropriate dinmension. 

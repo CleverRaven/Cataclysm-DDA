@@ -28,9 +28,9 @@ static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
 static const vproto_id vehicle_prototype_suv( "suv" );
 static const vproto_id vehicle_prototype_test_van( "test_van" );
 
-static void really_clear_map()
+static void really_clear_map_without_vision()
 {
-    clear_map();
+    clear_map_without_vision();
     build_test_map( ter_id( "t_pavement" ) );
 }
 
@@ -80,7 +80,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
             for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
                  sub_angle += 1 )  {
                 const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
-                really_clear_map();
+                really_clear_map_without_vision();
                 map &here = get_map();
 
                 vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, angle, 100, 0 );
@@ -110,7 +110,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
     std::vector<int> active_fakes_by_angle = { 0, 3, 8, 15, 6, 1 };
 
     GIVEN( "A vehicle with a known number of parts" ) {
-        really_clear_map();
+        really_clear_map_without_vision();
         map &here = get_map();
         const tripoint_bub_ms test_origin( 30, 30, 0 );
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 0_degrees, 100, 0 );
@@ -168,7 +168,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     const tripoint_bub_ms test_origin( 30, 30, 0 );
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 0, 0 );
@@ -196,7 +196,7 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 45 degree angle to the X axis" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
@@ -255,7 +255,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
 TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 30 degree angle to the X axis" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
@@ -312,7 +312,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     GIVEN( "A vehicle with no parts that block movement" ) {
         const tripoint_bub_ms test_origin( 30, 30, 0 );
@@ -329,7 +329,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
 TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle_fake]" )
 {
     clear_avatar();
-    really_clear_map();
+    really_clear_map_without_vision();
     map &here = get_map();
     Character &you = get_player_character();
     const tripoint_bub_ms test_origin( 30, 30, 0 );
@@ -352,7 +352,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
 
 TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 {
-    really_clear_map();
+    really_clear_map_without_vision();
     Character &you = get_player_character();
     clear_avatar();
     const tripoint_bub_ms test_origin = you.pos_bub() + point( 6, 2 );
@@ -369,7 +369,7 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 
 TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
 {
-    really_clear_map();
+    really_clear_map_without_vision();
     Character &you = get_player_character();
     clear_avatar();
     const tripoint_bub_ms test_origin = you.pos_bub() + point( 3, 0 );

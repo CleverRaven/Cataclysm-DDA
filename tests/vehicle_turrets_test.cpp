@@ -51,7 +51,7 @@ static void clear_faults_from_vp( vehicle_part &vp )
 // Install, reload and fire every possible vehicle turret.
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();

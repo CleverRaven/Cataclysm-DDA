@@ -43,6 +43,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -1549,9 +1550,10 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
-    []( const item & itm ) {
-        return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed,
+    []( const item_location & itm ) {
+        return itm->typeId() != itype_marloss_seed && itm->typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant." ) );
@@ -1563,7 +1565,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for( item *&seed : seed_inv ) {
+    for( item_location &seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
             seed_types.push_back( seed->typeId() );
             seed_names.push_back( seed->tname() );

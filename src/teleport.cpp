@@ -390,7 +390,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
     return true;
 }
 
-bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
+bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp, bool force )
 {
     map &here = get_map();
     map *dest = &here;
@@ -439,7 +439,8 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
             break;
         }
     }
-    if( !TestForVehicleTeleportCollision( veh, here, dest, dp ) ) {
+    // Once forced teleportation is specified, collision test is skipped.
+    if( !force && !TestForVehicleTeleportCollision( veh, here, dest, dp ) ) {
         return false;
     }
     here.memory_clear_vehicle_points( veh );

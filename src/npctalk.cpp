@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <numeric>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -74,6 +73,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -770,6 +770,10 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
                                    const std::function<bool( const Character * )> &exclude_func )
 {
+    auto npc_enabled = [&exclude_func, &npc_list]( int list_index ) {
+        return exclude_func == nullptr || !exclude_func( npc_list[list_index] );
+    };
+
     std::vector<int> picked;
     if( npc_list.empty() ) {
         return picked;
@@ -784,7 +788,7 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
             if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
                 entry = "* ";
             }
-            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            bool enable = npc_enabled( i );
             entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
@@ -795,8 +799,12 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
         } else if( nmenu.ret == npc_count ) {
-            picked.resize( npc_count );
-            std::iota( picked.begin(), picked.end(), 0 );
+            picked.clear();
+            for( int i = 0; i < npc_count; i++ ) {
+                if( npc_enabled( i ) ) {
+                    picked.emplace_back( i );
+                }
+            }
             last_index = nmenu.fselected;
             continue;
         } else if( nmenu.ret > npc_count ) {
@@ -828,7 +836,7 @@ static std::string training_select_menu( const Character &c, const std::string &
     }
     for( const proficiency_id &p : c.known_proficiencies() ) {
         std::string entry = string_format( "%s: %s", _( "Proficiency" ), p->name() );
-        nmenu.addentry( i, p->is_teachable(), MENU_AUTOASSIGN, entry );
+        nmenu.addentry( i, p->can_learn() && p->is_teachable(), MENU_AUTOASSIGN, entry );
         trainlist.emplace_back( p.c_str() );
         i++;
     }
@@ -1217,28 +1225,22 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
             break;
         case NPC_CHAT_SENTENCE: {
             std::string popupdesc = _( "Enter a sentence to yell" );
-            string_input_popup popup;
-            popup.title( _( "Yell a sentence" ) )
-            .width( 64 )
-            .description( popupdesc )
-            .identifier( "sentence" )
-            .max_length( 128 )
-            .query();
-            yell_msg = popup.text();
+            string_input_popup_imgui popup( 80 );
+            popup.set_label( _( "Yell a sentence" ) );
+            popup.set_description( popupdesc );
+            popup.set_identifier( "sentence" );
+            yell_msg = popup.query();
             is_order = false;
             break;
         }
         case NPC_CHAT_EMOTE: {
             std::string popupdesc =
                 _( "What do you want to emote?  (This will have no in-game effect!)" );
-            string_input_popup popup;
-            popup.title( _( "Emote" ) )
-            .width( 64 )
-            .description( popupdesc )
-            .identifier( "sentence" )
-            .max_length( 128 )
-            .query();
-            emote_msg = popup.text();
+            string_input_popup_imgui popup( 80 );
+            popup.set_label( _( "Emote" ) );
+            popup.set_description( popupdesc );
+            popup.set_identifier( "sentence" );
+            emote_msg = popup.query();
             is_order = false;
             break;
         }
@@ -3029,6 +3031,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
+            if( evt.type == input_event_t::error || evt.type == input_event_t::timeout ) {
+                continue;
+            }
             d_win.handle_scrolling( action, ctxt );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
@@ -4421,6 +4426,18 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         }
         write_var_value( type, var_name, &d, target_pos );
         run_eoc_vector( true_eocs, d );
+    };
+}
+
+talk_effect_fun_t::func f_dimension_name( const JsonObject &jo, std::string_view member,
+        std::string_view )
+{
+    var_info var = read_var_info( jo.get_object( member ) );
+    var_type type = var.type;
+    std::string var_name = var.name;
+
+    return [var_name, type]( dialogue & d ) {
+        write_var_value( type, var_name, &d, g->get_dimension_prefix() );
     };
 }
 
@@ -5820,19 +5837,20 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
             i18n ? i18n_vals[index].evaluate( d ).translated() : str_vals[index].evaluate( d );
 
         if( input_params.has_value() ) {
-            string_input_popup popup;
-            popup
-            .title( input_params.value().title ? input_params.value().title->evaluate( d ).translated() : "" )
-            .description( input_params.value().description ? input_params.value().description->evaluate(
-                              d ).translated() : "" )
-            .width( input_params.value().width )
-            .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
-                             d ) : "" );
-
+            std::string label = input_params.value().title ? input_params.value().title->evaluate(
+                                    d ).translated() : "";
             std::string str_temp = input_params.value().default_text ?
                                    input_params.value().default_text->evaluate( d ).translated() : "";
-            popup.edit( str_temp );
-            if( !popup.canceled() ) {
+            string_input_popup_imgui popup( input_params.value().width + label.size(), str_temp );
+            popup.set_label( input_params.value().title ? input_params.value().title->evaluate(
+                                 d ).translated() : "" );
+            popup.set_description( input_params.value().description ?
+                                   input_params.value().description->evaluate( d ).translated() : "" );
+            popup.set_identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
+                                      d ) : "" );
+
+            str_temp = popup.query();
+            if( !popup.cancelled() ) {
                 str = str_temp;
             }
         }
@@ -7837,7 +7855,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         }
         vehicle *veh = d.actor( is_npc )->get_vehicle();
         if( veh ) {
-            if( teleport::teleport_vehicle( *veh, target_pos ) ) {
+            if( teleport::teleport_vehicle( *veh, target_pos, force ) ) {
                 add_msg( success_message.evaluate( d ) );
             } else {
                 add_msg( fail_message.evaluate( d ) );
@@ -8085,6 +8103,7 @@ parsers = {
     { "u_learn_martial_art", "npc_learn_martial_art", jarg::member, &talk_effect_fun::f_learn_martial_art },
     { "u_forget_martial_art", "npc_forget_martial_art", jarg::member, &talk_effect_fun::f_forget_martial_art },
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun::f_location_variable },
+    { "dimension_name", jarg::object, &talk_effect_fun::f_dimension_name },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun::f_transform_radius },
     { "u_explosion", "npc_explosion", jarg::member, &talk_effect_fun::f_explosion },
     { "u_query_tile", "npc_query_tile", jarg::member, &talk_effect_fun::f_query_tile },

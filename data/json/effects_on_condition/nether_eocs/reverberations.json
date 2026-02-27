@@ -1,6 +1,20 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_REVERBERATION_ENTER",
+    "effect": [
+      {
+        "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
+        "then": { "run_eocs": "EOC_PORTAL_RADIOSPHERE" }
+      },
+      {
+        "if": { "or": [ { "u_at_om_location": "cabin_roof_3" }, { "u_at_om_location": "cabin_roof_3_reverberation_hint" } ] },
+        "then": { "run_eocs": "EOC_PORTAL_CABINS" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_RADIOSPHERE",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
@@ -49,7 +63,7 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_radio_tower_floor" },
-        "target_params": { "om_terrain": "radio_tower_top", "z": 6 },
+        "target_params": { "om_terrain": "radio_tower_top", "z": 6, "min_distance": 50, "search_range": 250, "random": true },
         "terrain": "t_ladder_down",
         "target_max_radius": 60,
         "min_radius": 0,
@@ -101,7 +115,6 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_floor" },
-        "target_params": { "om_terrain": "cabin_roof_3", "z": 1 },
         "terrain": "t_tar_flat_roof",
         "target_max_radius": 60,
         "min_radius": 0,
@@ -135,7 +148,14 @@
       },
       {
         "u_location_variable": { "context_val": "nearest_cabin_roof_floor" },
-        "target_params": { "om_terrain": "cabin_roof_3", "z": 1, "om_terrain_match_type": "PREFIX" },
+        "target_params": {
+          "om_terrain": "cabin_roof_3",
+          "z": 1,
+          "om_terrain_match_type": "PREFIX",
+          "min_distance": 50,
+          "search_range": 250,
+          "random": true
+        },
         "terrain": "t_tar_flat_roof",
         "target_max_radius": 60,
         "min_radius": 0,

@@ -215,9 +215,9 @@ static std::unordered_set<bodypart_id> filtered_bodyparts;
 static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
 static std::unordered_set<layer_level> filtered_layers;
 
-template<typename Unit>
+template<typename Unit, size_t N>
 static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
-                                std::vector<std::pair<std::string, Unit>> units )
+                                const std::array<std::pair<std::string_view, Unit>, N> &units )
 {
     // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
     auto const error = [hint, txt]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {

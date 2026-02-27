@@ -54,7 +54,7 @@
 
 enum class om_vision_level : int8_t;
 
-static const efftype_id effect_blind( "blind" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
 
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
 static const ter_str_id ter_t_pit( "t_pit" );
@@ -193,8 +193,9 @@ void game::print_terrain_info( const tripoint_bub_ms &lp, const catacurses::wind
         area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----TERRAIN-----" ) );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
-    std::string desc = string_format( here.ter( lp ).obj().description );
+    std::string desc = string_format( here.ter( lp ).obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -282,13 +283,18 @@ void game::print_furniture_info( const tripoint_bub_ms &lp, const catacurses::wi
     }
     const int max_width = getmaxx( w_look ) - column - 1;
 
+    // Print an empty line as padding IF and only if we're going to print any furniture info.
+    mvwprintw( w_look, point( column, line++ ), "" );
+
+    mvwprintz( w_look, point( column, line++ ), c_light_blue, _( "-----FURNITURE-----" ) );
+
     // Print furniture name in white
     std::string desc = uppercase_first_letter( here.furnname( lp ) );
     mvwprintz( w_look, point( column, line++ ), c_white, desc );
 
     // Print each line of furniture description in gray
     const furn_id &f = here.furn( lp );
-    desc = string_format( f.obj().description );
+    desc = string_format( f.obj().description.translated() );
     std::vector<std::string> lines = foldstring( desc, max_width );
     int numlines = lines.size();
     wattron( w_look, c_light_gray );
@@ -426,7 +432,7 @@ void game::print_items_info( const tripoint_bub_ms &lp, const catacurses::window
         return;
     } else if( here.has_flag( ter_furn_flag::TFLAG_CONTAINER, lp ) && !here.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
+    } else if( u.has_effect_with_flag( json_flag_BLIND ) || u.worn_with_flag( flag_BLIND ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;
@@ -489,9 +495,9 @@ void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window
             mvwprintz( w_look, point( column, ++line ), c_white, "field: " );
             mvwprintz( w_look, point( column + utf8_width( "field: " ), line ), c_yellow, "%s",
                        fd.first.id().c_str() );
-            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%s seconds)",
+            mvwprintz( w_look, point( column, ++line ), c_white, "age: %s (%d seconds)",
                        to_string( fd.second.get_field_age() ), to_seconds<int>( fd.second.get_field_age() ) );
-            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %s",
+            mvwprintz( w_look, point( column, ++line ), c_white, "intensity: %d",
                        fd.second.get_field_intensity() );
             mvwprintz( w_look, point( column, ++line ), c_white, "causer: %s",
                        fd.second.get_causer() == nullptr ? "none" : fd.second.get_causer()->disp_name() );

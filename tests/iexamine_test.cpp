@@ -21,7 +21,7 @@ TEST_CASE( "mapdata_examine" )
 
 TEST_CASE( "examine_bush" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
     const tripoint_bub_ms &pine_loc = tripoint_bub_ms::zero;
     const tripoint_bub_ms &elderberry_loc = pine_loc + tripoint::east;

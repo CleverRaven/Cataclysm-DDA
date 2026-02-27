@@ -95,7 +95,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
     Character &player_character = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     g->clear_zombies();
     item_location test_item = player_character.i_add( item( itype_bot_manhack, calendar::turn_zero,

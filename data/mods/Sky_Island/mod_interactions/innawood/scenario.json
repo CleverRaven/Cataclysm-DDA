@@ -1,0 +1,8 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "//": "need to re-override this for this mod",
+    "scenarios": [ "scenario_warper" ]
+  }
+]

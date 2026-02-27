@@ -571,63 +571,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_cvdbody",
-    "name": "CVD machine",
-    "description": "The bulk of a highly technical-looking apparatus controlled by a nearby console.",
-    "symbol": "%",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 65,
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
-    "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 8 ], "prob": 50 }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_cvdmachine",
-    "name": "CVD control panel",
-    "description": "A VERY expensive-looking apparatus that's labeled 'Chemical Vapor Deposition Machine'.  With the input of certain exceptionally rare chemicals and elements, one could conceivably coat one's weapon with diamond.  While the process is extremely complicated, a previous user has helpfully sketched: Hydrogen + charcoal = smiley face.",
-    "symbol": "&",
-    "color": "cyan",
-    "looks_like": "f_console",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE" ],
-    "examine_action": "cvdmachine",
-    "bash": {
-      "str_min": 8,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_metal_floor",
-      "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",

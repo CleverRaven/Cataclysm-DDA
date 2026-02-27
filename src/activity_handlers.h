@@ -66,6 +66,7 @@ enum class do_activity_reason : int {
     NEEDS_HARVESTING,       //* For farming - tile is harvestable now.
     NEEDS_PLANTING,         //* For farming - tile can be planted
     NEEDS_TILLING,          //* For farming - tile can be tilled
+    NEEDS_FERTILIZING,          //* For farming - tile can be fertilized
     BLOCKING_TILE,          // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_BOOK_TO_LEARN,    //* There is book to learn
     NEEDS_CHOPPING,         //* There is wood there to be chopped
@@ -155,15 +156,9 @@ struct activity_reason_info {
     }
 };
 
-// activity_item_handling.cpp
-void activity_on_turn_drop();
-// return true if there is an activity that can be done potentially
-// return false if no work can be found or if we're routing to the activity's next destination
-bool generic_multi_activity_handler( player_activity &act, Character &you,
-                                     bool check_only = false );
-void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
-bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
+bool try_fuel_fire( Character &you,
+                    std::optional<tripoint_bub_ms> fire_target = std::nullopt );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -190,52 +185,18 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( Character &you );
-void generic_game_turn_handler( player_activity *act, Character *you, int morale_bonus,
-                                int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void armor_layers_do_turn( player_activity *act, Character *you );
-void atm_do_turn( player_activity *act, Character *you );
-void dismember_do_turn( player_activity *act, Character *you );
-void chop_trees_do_turn( player_activity *act, Character *you );
-void fertilize_plot_do_turn( player_activity *act, Character *you );
-void fetch_do_turn( player_activity *act, Character *you );
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void find_mount_do_turn( player_activity *act, Character *you );
-void multiple_butcher_do_turn( player_activity *act, Character *you );
-void multiple_chop_planks_do_turn( player_activity *act, Character *you );
-void multiple_construction_do_turn( player_activity *act, Character *you );
-void multiple_craft_do_turn( player_activity *act, Character *you );
-void multiple_dis_do_turn( player_activity *act, Character *you );
-void multiple_farm_do_turn( player_activity *act, Character *you );
-void multiple_fish_do_turn( player_activity *act, Character *you );
-void multiple_read_do_turn( player_activity *act, Character *you );
-void multiple_study_do_turn( player_activity *act, Character *you );
-void multiple_mine_do_turn( player_activity *act, Character *you );
-void multiple_mop_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
-void start_fire_do_turn( player_activity *act, Character *you );
-void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
-void tree_communion_do_turn( player_activity *act, Character *you );
-void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
-void vehicle_repair_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 do_turn_functions;
 
 /** activity_finish functions: */
-void atm_finish( player_activity *act, Character *you );
-void heat_item_finish( player_activity *act, Character *you );
-void mend_item_finish( player_activity *act, Character *you );
-void pull_creature_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
-void socialize_finish( player_activity *act, Character *you );
-void start_fire_finish( player_activity *act, Character *you );
-void teach_finish( player_activity *act, Character *you );
-void toolmod_add_finish( player_activity *act, Character *you );
-void train_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

@@ -37,6 +37,11 @@ enum class sound_t : int {
     LAST // must always be last
 };
 
+inline auto format_as( sound_t st )
+{
+    return static_cast<std::underlying_type_t<sound_t>>( st );
+}
+
 // Methods for recording sound events.
 /**
  * Sound at (p) of intensity (vol)

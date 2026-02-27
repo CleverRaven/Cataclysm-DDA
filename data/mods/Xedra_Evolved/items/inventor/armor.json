@@ -41,7 +41,15 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "use_action": [ { "target": "helmet_inventor_on", "need_charges": 1, "msg": "The helmet turns on.", "type": "transform" } ],
+    "use_action": [
+      {
+        "target": "helmet_inventor_on",
+        "msg": "You turn on the %s.",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      }
+    ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ],
     "tool_ammo": [ "battery" ],
@@ -313,6 +321,7 @@
         "target": "aura_force_on",
         "need_charges": 1,
         "msg": "The torus start to emit an invisible waves.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -367,7 +376,7 @@
         "msg": "Turn on.",
         "menu_text": "Turn on a battle mode",
         "need_charges": 1,
-        "need_charges_msg": "The halo's charge is too low.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -578,7 +587,7 @@
         "msg": "Turn on.",
         "menu_text": "Turn on the overture",
         "need_charges": 1,
-        "need_charges_msg": "The halo's charge is too low.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -652,7 +661,7 @@
         "msg": "Turn on.",
         "menu_text": "Turn on the mask",
         "need_charges": 1,
-        "need_charges_msg": "The mask's charge is too low.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -717,6 +726,7 @@
       {
         "target": "crafting_assistant_on",
         "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
         "msg": "The assistant deploys its new arms, ready to help with crafting.",
         "type": "transform"
       }

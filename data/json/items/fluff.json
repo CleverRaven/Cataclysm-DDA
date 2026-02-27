@@ -57,15 +57,34 @@
         "weight": 2
       },
       {
-        "id": "deck_of_tarot_cards",
-        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
-        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
-        "weight": 2
-      },
-      {
         "id": "deck_of_cards_makeshift",
         "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
         "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
+        "weight": 0
+      }
+    ]
+  },
+  {
+    "id": "deck_of_tarot_cards",
+    "copy-from": "deck_of_cards",
+    "looks_like": "deck_of_cards",
+    "type": "ITEM",
+    "category": "other",
+    "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+    "description": "A fairly new, glossy deck of tarot cards, commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+    "use_action": [
+      "PLAY_GAME",
+      { "type": "effect_on_conditions", "menu_text": "Pull a spread", "effect_on_conditions": [ "EOC_DRAW_TAROT" ] }
+    ],
+    "variants": [
+      {
+        "id": "generic",
+        "description": "A fairly new, glossy deck of tarot cards, commonly used for the practice of divination.  Each card has a unique and highly symbolic picture."
+      },
+      {
+        "id": "makeshift",
+        "name": { "str": "makeshift deck of tarot cards", "str_pl": "makeshift decks of tarot cards" },
+        "description": "A deck of tarot cards made out of cardboard rectangles with simple designs drawn on them, its makeshift nature doesn't affect its divinatory properties.",
         "weight": 0
       }
     ]
@@ -1879,5 +1898,15 @@
     "material": [ "steel", "plastic" ],
     "price": "14 USD 99 cent",
     "price_postapoc": "5 cent"
+  },
+  {
+    "type": "ITEM",
+    "id": "alien_leaves",
+    "copy-from": "leaves",
+    "name": { "str": "handful of alien leaves", "str_pl": "handfuls of alien leaves" },
+    "looks_like": "withered",
+    "description": "A handful of dry leaves(?) from an alien plant.  Despite their otherworldly origin, they have very few uses and are thus (almost) only good for burning.",
+    "color": "red",
+    "symbol": ","
   }
 ]

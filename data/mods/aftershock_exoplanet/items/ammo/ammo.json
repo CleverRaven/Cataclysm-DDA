@@ -17,8 +17,7 @@
     "dispersion": 100,
     "count": 80,
     "stack_size": 80,
-    "loudness": 9,
-    "effects": [ "NEVER_MISFIRES" ]
+    "loudness": 9
   },
   {
     "type": "ITEM",
@@ -52,8 +51,7 @@
     "dispersion": 100,
     "count": 1,
     "stack_size": 3,
-    "loudness": 9,
-    "effects": [ "NEVER_MISFIRES" ]
+    "loudness": 9
   },
   {
     "type": "ITEM",

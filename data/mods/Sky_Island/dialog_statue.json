@@ -1056,14 +1056,7 @@
       },
       {
         "text": "One of my bunker constructions had an error.  Could you help me fix it?",
-        "condition": {
-          "or": [
-            { "math": [ "skyisland_build_bigroom >= 2" ] },
-            { "math": [ "skyisland_build_northroom >= 2" ] },
-            { "math": [ "skyisland_build_westroom >= 2" ] },
-            { "math": [ "skyisland_build_eastroom >= 2" ] }
-          ]
-        },
+        "condition": { "math": [ "skyisland_build_base >= 1" ] },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
@@ -1074,6 +1067,24 @@
     "id": "SKYISLAND_FIX_CONSTRUCTIONS",
     "dynamic_line": "Please remove all obstructing appliances or vehicles from the section of the island in question.  Where do you need help with?",
     "responses": [
+      {
+        "text": "I need help with the Bunker Entrance.",
+        "condition": { "math": [ "skyisland_build_base == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_base1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Miner's Cameo stage of the main room.",
+        "condition": { "math": [ "skyisland_build_bigroom == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_bigroom1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
       {
         "text": "I need help with the Hollow Carver stage of the main room.",
         "condition": { "math": [ "skyisland_build_bigroom == 2" ] },

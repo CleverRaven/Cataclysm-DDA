@@ -1280,12 +1280,21 @@
     "type": "mission_definition",
     "name": { "str": "Plumbing Maintenance" },
     "description": "Find 200 pipes for Helena Misinter.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "pipe",
-    "count": 200,
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [ { "item": "pipe_cpvc", "amount": 200 }, { "item": "pipe", "amount": 200 }, { "item": "cu_pipe", "amount": 200 } ]
+    },
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 40 } ], "opinion": { "trust": 2, "value": 2 } },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 40 },
+        {
+          "u_consume_item_sum": [ { "item": "pipe_cpvc", "amount": 200 }, { "item": "pipe", "amount": 200 }, { "item": "cu_pipe", "amount": 200 } ]
+        }
+      ],
+      "opinion": { "trust": 2, "value": 2 }
+    },
     "fail": { "opinion": { "anger": 2 } },
     "followup": "MISSION_GODCO_HELENA_2",
     "origins": [ "ORIGIN_SECONDARY" ],

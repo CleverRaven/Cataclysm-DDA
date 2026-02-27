@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <iterator>
@@ -33,18 +32,16 @@
 #include "itype.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
-
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 
@@ -693,10 +690,10 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
 
     Character &player_character = get_player_character();
-    auto do_return_entry = [&player_character]() {
-        player_character.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        player_character.activity.auto_resume = true;
-        player_character.activity.moves_left = INT_MAX;
+    auto do_return_entry = [this, &player_character]() {
+        uistate.open_menu = [this, &player_character]() {
+            sort_armor( player_character );
+        };
     };
 
     int leftListSize = 0;
@@ -1138,14 +1135,7 @@ void outfit::sort_armor( Character &guy )
 
                     // remove the item, asking to drop it if necessary
                     guy.takeoff( loc_for_takeoff );
-                    if( !player_character.has_activity( ACT_ARMOR_LAYERS ) ) {
-                        // An activity has been created to take off the item;
-                        // we must surrender control until it is done.
-                        return;
-                    }
-                    player_character.cancel_activity();
-                    selected = -1;
-                    leftListIndex = std::max( 0, leftListIndex - 1 );
+                    return;
                 }
             }
         } else if( action == "ASSIGN_INVLETS" ) {
@@ -1226,4 +1216,5 @@ void outfit::sort_armor( Character &guy )
             exit = true;
         }
     }
+    uistate.open_menu.reset();
 }

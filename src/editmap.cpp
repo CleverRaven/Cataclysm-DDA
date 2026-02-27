@@ -33,6 +33,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
@@ -52,7 +53,6 @@
 #include "scent_map.h"
 #include "shadowcasting.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "submap.h"
 #include "translation.h"
 #include "translations.h"
@@ -145,11 +145,9 @@ void edit_json( SAVEOBJ &it )
             }
             fs2.clear();
         } else if( tmret == 1 ) {
-            string_input_popup popup;
-            std::string ret = popup
-                              .text( save1 )
-                              .query_string();
-            if( popup.confirmed() ) {
+            string_input_popup_imgui popup( 50, save1 );
+            std::string ret = popup.query();
+            if( !popup.cancelled() ) {
                 fs1 = fld_string( ret, TERMX - 10 );
                 save1 = ret;
                 tmret = -2;
@@ -1483,20 +1481,18 @@ void editmap::edit_itm()
                             } );
                             break;
                     }
-                    string_input_popup popup;
                     int retval = 0;
                     bool confirmed = false;
                     if( imenu.ret < imenu_tags ) {
                         retval = intval;
                         confirmed = query_int( retval, true, "set:" );
                     } else if( imenu.ret == imenu_tags ) {
-                        strval = popup
-                                 .title( _( "Flags:" ) )
-                                 .description( "UPPERCASE, no quotes, separate with spaces:" )
-                                 .text( strval )
-                                 .query_string();
+                        string_input_popup_imgui popup( 50, strval, _( "Flags:" ) );
+                        popup.set_description( "UPPERCASE, no quotes, separate with spaces:" );
+                        strval = popup.query();
+                        confirmed = !popup.cancelled();
                     }
-                    if( popup.confirmed() || confirmed ) {
+                    if( confirmed ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );

@@ -20,7 +20,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_standard_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -98,7 +98,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_combat_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -176,7 +176,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_eva_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -256,7 +256,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_hazard_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {

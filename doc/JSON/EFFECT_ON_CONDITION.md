@@ -1185,9 +1185,9 @@ NPC is dead
 | ------ | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
-### `u_is_on_terrain`, `npc_is_on_terrain`
+### `u_is_on_terrain`, `npc_is_on_terrain`, `u_is_on_furniture`, `npc_is_on_furniture`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on specific terrain
+- return true if alpha or beta talker stand on specific terrain or furniture
 
 #### Valid talkers:
 
@@ -1201,9 +1201,9 @@ check do you stand on grass
 { "u_is_on_terrain": "t_grass" }
 ```
 
-### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`
+### `u_is_on_terrain_with_flag`, `npc_is_on_terrain_with_flag`, `u_is_on_furniture_with_flag`, `npc_is_on_furniture_with_flag`
 - type: string or [variable object](#variable-object)
-- return true if alpha or beta talker stand on terrain with specific flag
+- return true if alpha or beta talker stand on terrain or furniture with specific flag
 
 #### Valid talkers:
 
@@ -1689,6 +1689,22 @@ You can see selected location.
 "u_is_avatar_passenger"
 ```
 
+### `u_is_in_vehicle`, `npc_is_in_vehicle`
+- type: simple string
+- return true if alpha or beta talker is in a vehicle, ie physically standing on it
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_in_vehicle"
+```
+
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
@@ -1792,6 +1808,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | dies_of_starvation | | { "character", `character_id` }  | character / NONE |
 | dies_of_thirst | | { "character", `character_id` }  | character / NONE |
 | digs_into_lava | | NONE  | avatar / NONE |
+| dimension_travel | Triggers after the player travels between dimensions | { "character", `character_id` }<br />{ "from_dimension", `string` }<br />{ "to_dimension", `string` }  | avatar / NONE |
 | disarms_nuke | Triggered via disarm missile computer action in missile silo special | NONE  | avatar / NONE |
 | eats_sewage | Triggered via use action `SEWAGE` | NONE  | avatar / NONE |
 | evolves_mutation | | { "character", `character_id` },<br/> { "from_trait", `trait_id` },<br/> { "to_trait", `trait_id` }, | character / NONE |
@@ -3754,6 +3771,26 @@ Save the condition  `season is not winter, and it is a daytime` into `random_enc
 ```
 
 
+#### `dimension_name`
+Store string from dimension_name in the [variable](#variable-object) object. The default dimension is currently an empty string.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "dimension_name" | **mandatory** | [variable object](#variable-object) | variable, that accept the value; usually `context_val` |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+Saves the current dimension into `dimension_name` variable and display it in a message:
+```jsonc
+{ "dimension_name": { "u_val": "dim_name" } }, { "u_message": "Dimension Name: '<u_val:dim_name>'" },
+```
+
+
 #### `u_location_variable`, `npc_location_variable`
 Search a specific coordinates of map around `u_`, `npc_` or `target_params` and save them in [variable](#variable-object)
 
@@ -4457,7 +4494,7 @@ You or NPC is teleported to `target_var` coordinates
 | "u_teleport", / "npc_teleport" | **mandatory** | [variable object](#variable-object) | location to teleport; should use `target_var`, created previously |
 | "success_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was successful |
 | "fail_message" | optional | string or [variable object](#variable-object) | message, that would be printed, if teleportation was failed, like if coordinates contained creature or impassable obstacle (like wall) |
-| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead |
+| "force" | optional | boolean | default false; if true, teleportation can't fail - any creature, that stand on target coordinates, would be brutally telefragged, and if impassable obstacle occur, the closest point would be picked instead. For the vehicle, collision test will be skipped. |
 | "force_safe" | optional | boolean | default false; if true, teleportation cannot^(tm) fail.  If there is a creature or obstacle at the target coordinate, the closest passable point within 5 horizontal tiles is picked instead.  If there is no point, the creature remains where they are. |
 
 ##### Valid talkers:
@@ -5508,7 +5545,7 @@ search_data is an array, that allow to filter specific items from the list. At t
 | "material" | string, [variable object](#variable-object) or array of strings or variable objects | filter the list of items by their material |
 | "uses_energy" | boolean | filter the list of items by whether or not they use energy. `true` would pick only items that use energy, `false` would pick all items that do not use energy |
 | "is_chargeable" | boolean | filter the list of items by whether or not they are chargeable.  `true` will only return electrical items that can hold more charge.  `false` will only return electrical items that cannot hold more charge (ie, fully charged items or ups / bionic items).
-| "worn_only" | boolean | return only items you you wear (clothes) |
+| "worn_only" | boolean | return only items you wear (clothes) |
 | "wielded_only" | boolean | return only item you hold in your hands right now. if you hold nothing, and picking object is not manual, it return string `none` |
 | "held_only" | boolean | return both items you wear and item you hold in your hands |
 | "condition" | condition object | allows to use same conditions as EoC. Alpha talker in this case is whoever runs the effect, and beta is the item |

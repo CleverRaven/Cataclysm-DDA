@@ -40,7 +40,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles();
     clear_avatar();
     Character &player = get_player_character();
@@ -167,7 +167,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
 TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 {
     /* Avoid locked doors rule
-    * Target is a the north side of a locked door (otherwise inaccessible room)
+    * Target is on the north side of a locked door (otherwise inaccessible room)
     * We can open the door, but our rules forbid it
     * Test succeeds if NPC fails to path to other side of door
     *

@@ -11,7 +11,7 @@
     "condition": "ALWAYS",
     "values": [
       { "value": "MAX_MANA", "add": { "math": [ "u_skill('deduction')*150" ] } },
-      { "value": "REGEN_MANA", "multiply": -0.8 }
+      { "value": "REGEN_MANA", "multiply": -1 }
     ]
   },
   {

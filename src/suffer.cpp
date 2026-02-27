@@ -300,6 +300,18 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             }
         }
 
+        if( mut_id->stamina ) {
+            // no enough stamina
+            if( you.get_stamina() < mut_id->cost ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You don't have enough stamina to keep your %s going." ),
+                                       you.mutation_name( mut_id ) );
+                you.deactivate_mutation( mut_id );
+            } else {
+                you.mod_stamina( -mut_id->cost );
+            }
+        }
+
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );

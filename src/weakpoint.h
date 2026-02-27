@@ -74,6 +74,8 @@ struct weakpoint_effect {
     float chance;
     // Whether the effect is permanent.
     bool permanent;
+    // Chance to instantly kill the monster on attack, percent from 1 to 100
+    std::pair<int, int> instant_death_chance;
     // The range of the durations (in turns) of the effect.
     std::pair<int, int> duration;
     // The range of the intensities of the effect.

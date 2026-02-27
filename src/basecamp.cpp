@@ -1060,8 +1060,11 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.get_bub( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_crafting_component, src );
+        std::list<item> consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                   is_crafting_component, src );
+        for( item &comp : consumed ) {
+            consumed_components_.add( comp );
+        }
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

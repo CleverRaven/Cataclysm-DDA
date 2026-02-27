@@ -36,8 +36,6 @@
 #include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
-static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -140,8 +138,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     if( type == ACT_AIM ||
-        type == ACT_ARMOR_LAYERS ||
-        type == ACT_ATM ||
         type == ACT_INVOKE_ITEM
       ) {
         return std::nullopt;
@@ -215,7 +211,7 @@ void player_activity::do_turn( Character &you )
     synchronize_type_with_actor();
     // Should happen before activity or it may fail due to 0 moves
     if( *this && type->will_refuel_fires() && have_fire ) {
-        have_fire = try_fuel_fire( *this, you );
+        have_fire = try_fuel_fire( you );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -287,7 +283,13 @@ void player_activity::do_turn( Character &you )
 
     // This might finish the activity (set it to null)
     if( actor ) {
+        const activity_id prior_act_id = id();
         actor->do_turn( *this, you );
+
+        // if an activity was assigned during this activity, stop processing immediately
+        if( *this && prior_act_id != id() ) {
+            return;
+        }
     } else {
         // Use the legacy turn function
         type->call_do_turn( this, &you );

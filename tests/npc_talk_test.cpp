@@ -150,7 +150,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     map &here = get_map();
     clear_avatar();
     clear_vehicles();
-    clear_map();
+    clear_map_without_vision();
     avatar &player_character = get_avatar();
     player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";

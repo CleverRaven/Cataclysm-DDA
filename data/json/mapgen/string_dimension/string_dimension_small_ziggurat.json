@@ -1,0 +1,188 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "string_dimension_small_ziggurat_1" ],
+    "object": {
+      "fill_ter": "t_string_xyz",
+      "rows": [
+        "                        ",
+        " ,,,,,,,,,,,,,,,,,,,,,, ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,...................., ",
+        " ,,,,,,,,,,,,,,,,,,,,,, ",
+        "                        "
+      ],
+      "palettes": [ "string_dimension_small_ziggurat_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "string_dimension_small_ziggurat_0" ],
+    "object": {
+      "rows": [
+        "222222222222222222222222",
+        "211111111111111111111112",
+        "21####################12",
+        "21#.-----------------#12",
+        "21#.v..............v-#12",
+        "21#.#..............#-#12",
+        "21#.c..............c-#12",
+        "21#.c...@......@...c-#12",
+        "21#.#cccccccccccccc#-#12",
+        "21#.c..............c-#12",
+        "21#.c.#cccccccccc#.c-#12",
+        "21#.c.c..........c.c-#12",
+        "21#.c.c..........c.c-#12",
+        "21#.c.#cccccccccc#.c-#12",
+        "21#.c..............c-#12",
+        "21#.#..............#-#12",
+        "21#.c..............c-#12",
+        "21#.c..............c-#12",
+        "21#.#..............#-#12",
+        "21#.v..............v-#12",
+        "21#.................>#12",
+        "21#########++#########12",
+        "2111111111,,,a1111111112",
+        "222222222,,,,,2222222222"
+      ],
+      "palettes": [ "string_dimension_small_ziggurat_palette" ],
+      "monster": { "@": { "monster": "mon_zombie_brute_string_dimension" } },
+      "place_loot": [
+        { "item": "string_dimension_partigiana_ixwa", "x": 9, "y": 6 },
+        { "item": "string_dimension_partigiana_ixwa", "x": 16, "y": 7 }
+      ],
+      "terrain": { "@": "t_metal_floor", "a": "t_string_gates_mech_control", "v": "t_metal_floor" },
+      "furniture": { "v": "f_vent_cold_air2_blast" },
+      "place_graffiti": [
+        { "text": "Six lines of text you cannot understand, each in different character sets.", "x": 10, "y": 21 },
+        {
+          "text": "Four simple images: A circle with an alien symbol inside, a human heart, a human face that looks scared, and a human face with a slack jaw and closed eyes.",
+          "x": 13,
+          "y": 21
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "string_dimension_small_ziggurat_-1" ],
+    "object": {
+      "fill_ter": "t_string_xyz",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  ####################  ",
+        "  ##.................#  ",
+        "  ##>---------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------.#  ",
+        "  ##----------------<#  ",
+        "  ####################  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "string_dimension_small_ziggurat_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "string_dimension_small_ziggurat_-2" ],
+    "object": {
+      "fill_ter": "t_string_xyz",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ##################   ",
+        "   #<...............#   ",
+        "   #................#   ",
+        "   #cccccccccccccccc#   ",
+        "   #................#   ",
+        "   #................#   ",
+        "   #................#   ",
+        "   #cccccccccccccccc#   ",
+        "   #.....d..........#   ",
+        "   #.....d..........#   ",
+        "   #cccccccccccccccc#   ",
+        "   #................#   ",
+        "   #................#   ",
+        "   #................#   ",
+        "   #cccccccccccccccc#   ",
+        "   #................#   ",
+        "   #................#   ",
+        "   ##################   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "string_dimension_small_ziggurat_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "string_dimension_small_ziggurat_-3" ],
+    "object": {
+      "fill_ter": "t_string_xyz",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ######         ",
+        "         #OOOO#         ",
+        "        ##...O#         ",
+        "        #u...E#         ",
+        "        #u...c#         ",
+        "        ##...O#         ",
+        "         #OOOO#         ",
+        "         ######         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "string_dimension_small_ziggurat_palette" ],
+      "terrain": { "E": "t_metal_floor", "O": "t_metal_floor" },
+      "furniture": { "O": "f_string_dimension_pylon", "E": "f_string_dimension_housing" }
+    }
+  }
+]

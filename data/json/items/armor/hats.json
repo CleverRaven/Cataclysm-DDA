@@ -1692,6 +1692,14 @@
     ]
   },
   {
+    "id": "golden_hat",
+    "type": "ITEM",
+    "copy-from": "wizard_hat_costume",
+    "name": "golden hat",
+    "material": [ "leather" ],
+    "description": "An incredibly tall hat made from leather covered in gold leaf.  Its crown in divided into several segments, with patterns  describing the phases of the moon, the seasons and the movements of strange constellations."
+  },
+  {
     "id": "hijab",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],

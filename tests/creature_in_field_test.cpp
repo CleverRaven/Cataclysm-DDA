@@ -14,7 +14,7 @@ static const vproto_id vehicle_prototype_handjack( "handjack" );
 TEST_CASE( "creature_in_field", "[monster],[field]" )
 {
     static const tripoint_bub_ms target_location{ 5, 5, 0 };
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     GIVEN( "An acid field" ) {
         here.add_field( target_location, field_type_id( "fd_acid" ) );

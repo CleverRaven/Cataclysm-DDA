@@ -217,8 +217,14 @@
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
-      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } }
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } },
+      { "run_eocs": "EOC_innawood_bonus_exp_material_tokens" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_bonus_exp_material_tokens",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -394,6 +400,7 @@
       { "run_eocs": [ "EOC_death_heal" ] },
       { "u_spawn_item": "corpse_painful" },
       { "math": [ "raidslost++" ] },
+      { "if": { "mod_is_loaded": "bombastic_perks" }, "then": { "clear_dimension": "dimension_perk_closetland" } },
       { "run_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
       {
         "u_message": "You feel the icy grip of death begin to take you, and the world whirls and rushes past.  Reality bends and at the peak of your last mortal moment, something snags you and hauls you through space and time.  Your mind has been preserved, at cost, and your body is not far behind.",
@@ -460,9 +467,12 @@
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
       { "math": [ "u_val('pkill') = 0" ] },
+      { "math": [ "u_oxygen() = u_oxygen_max()" ] },
+      { "math": [ "u_val('stamina') = u_val('stamina_max')" ] },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
       {
         "u_lose_effect": [
+          "irradiated",
           "corroding",
           "onfire",
           "dazed",
@@ -1061,7 +1071,7 @@
     "valid_targets": [ "hostile" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_range": 100,
     "max_range": 100,
@@ -1084,7 +1094,7 @@
     "valid_targets": [ "ground" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_LEGS", "NO_HANDS", "NON_MAGICAL", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "caster_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "difficulty": 0,
     "min_damage": 1,
     "max_damage": 1,

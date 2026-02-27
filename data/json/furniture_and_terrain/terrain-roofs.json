@@ -319,6 +319,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_roof_sloped",
+    "name": "sloped metal roof",
+    "description": "A high-quality and sturdy section of metallic rooftop that is slightly sloped toward some point.",
+    "symbol": ".",
+    "looks_like": "t_scrap_floor",
+    "color": "dark_gray",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "UNSTABLE" ],
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
+  },
+  {
+    "type": "terrain",
     "id": "t_log_sod_roof",
     "name": "sod roof",
     "description": "A section of rooftop made out of sod.",

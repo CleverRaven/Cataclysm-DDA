@@ -1,0 +1,15 @@
+[
+  {
+    "id": "avatar_enters_oter_test",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "forest", "forest_thick" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_oter_test",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_oter_test",
+    "description": { "str": "test map entered", "str_pl": "test maps entered" }
+  }
+]

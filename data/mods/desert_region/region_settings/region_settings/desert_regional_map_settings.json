@@ -58,7 +58,7 @@
     "base_pressure": 1025.0,
     "base_wind": 5.7,
     "base_wind_distrib_peaks": 20,
-    "base_wind_season_variation": 40,
+    "base_wind_season_variation": 0,
     "summer_temp_manual_mod": 25,
     "spring_temp_manual_mod": 15,
     "autumn_temp_manual_mod": 15,
@@ -625,6 +625,6 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "HIGHLANDS" ], "whitelist": [  ] }
+    "feature_flag_settings": { "blacklist": [ "WASP", "BEE", "ANT", "FUNGAL", "TRIFFID", "FARM", "EXTRADIMENSIONAL" ], "whitelist": [  ] }
   }
 ]

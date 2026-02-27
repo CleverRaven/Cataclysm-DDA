@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <numeric>
+#include <ostream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -735,8 +736,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                                                  into_bottom, restack_charges, ignore_contents );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
-                    debugmsg( "error: item %s cannot fit into pocket while loading: %s",
-                              it->typeId().str(), inserted.str() );
+                    DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME ) <<
+                            "error: item " << it->typeId().str() << "cannot fit into pocket while loading: " << inserted.str();
                 }
             }
 
@@ -1817,6 +1818,20 @@ std::list<const item *> item_contents::all_known_contents() const
 {
     return all_items_top( []( const item_pocket & pocket ) {
         return pocket.is_standard_type() && pocket.transparent();
+    } );
+}
+
+std::list<item *> item_contents::all_holstered_items()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) && pocket.is_holster();
+    } );
+}
+
+std::list<const item *> item_contents::all_holstered_items() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_type( pocket_type::CONTAINER ) && pocket.is_holster();
     } );
 }
 

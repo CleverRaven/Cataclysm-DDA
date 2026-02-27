@@ -705,6 +705,28 @@ int dealt_damage_instance::total_damage() const
     } );
 }
 
+dealt_damage_instance &dealt_damage_instance::operator+=( const dealt_damage_instance &rhs )
+{
+    for( auto&[dt_lhs, amt_lhs] : dealt_dams ) {
+        for( const auto&[dt_rhs, amt_rhs] : rhs.dealt_dams ) {
+            if( dt_lhs != dt_rhs ) {
+                continue;
+            }
+            amt_lhs += amt_rhs;
+        }
+
+        if( !rhs.bp_hit ) {
+            bp_hit = rhs.bp_hit;
+        }
+
+        if( !rhs.wp_hit.empty() ) {
+            wp_hit = rhs.wp_hit;
+        }
+    }
+
+    return *this;
+}
+
 int accumulate_to_bash_damage( int so_far, const std::pair<damage_type_id, int> &dam )
 {
     return so_far + ( dam.second * dam.first->bash_conversion_factor );
