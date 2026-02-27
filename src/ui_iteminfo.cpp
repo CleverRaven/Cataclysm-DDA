@@ -96,6 +96,7 @@ void iteminfo_window::execute()
 
                 if (data.on_data_changed) {
                     data.on_data_changed();
+                    mark_resized();
                 }
             }
         } else if( action == "CONFIRM" || action == "QUIT" ||
