@@ -47,6 +47,8 @@ targets:
           - "**/swift/*.swift"
           - "**/third-party/imgui/*.cpp"
           - "**/third-party/imgui/*.h"
+          - "**/third-party/fmt/*.cc"
+          - "**/third-party/fmt/*.h"
           - "**/third-party/zstd/common/*.c"
           - "**/third-party/zstd/compress/*.c"
           - "**/third-party/zstd/decompress/*.c"
@@ -152,3 +154,4 @@ targets:
         DEBUG_MODE: YES
       Release:
         DEBUG_MODE: NO
+
