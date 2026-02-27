@@ -453,7 +453,7 @@ static void check_damage_from_test_fire( const std::vector<itype_id> &armor_item
 
 TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][eoc]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "Attacking a monster with no resistance to test_fire" ) {
         check_damage_from_test_fire( "mon_test_zombie", 0, false, 16.f );
@@ -489,7 +489,7 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][e
 
 TEST_CASE( "Damage_type_EOCs", "[damage][eoc]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "Attacking a monster" ) {
         check_eocs_from_test_fire( "mon_test_zombie_only_fire" );

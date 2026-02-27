@@ -32,7 +32,6 @@ set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 add_compile_options(
     /MP    # cl.exe build with multiple processes
     /utf-8 # set source and execution character sets to UTF-8
-    /bigobj # increase # of sections in object files
     /permissive- # enforce more standards compliant behavior
     /sdl-  # disable additional security checks
     /FC    # full path in compiler messages

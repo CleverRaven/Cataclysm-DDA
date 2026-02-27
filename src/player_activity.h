@@ -34,16 +34,17 @@ class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions; // NOLINT(cata-serialize)
 
         bool ignoreQuery = false; // NOLINT(cata-serialize)
 
     public:
-        /** Total number of moves required to complete the activity */
+        cata::clone_ptr<activity_actor> actor;
+
+        /** Total number of moves (1/100th of a second) required to complete the activity */
         int moves_total = 0;
-        /** The number of moves remaining in this activity before it is complete. */
+        /** The number of moves (1/100th of a second) remaining in this activity before it is complete. */
         int moves_left = calendar::INDEFINITELY_LONG;
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
@@ -168,6 +169,12 @@ class player_activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
+
+        /**
+         * Passes new activity_actor to the old one so it can update its parameter when
+         * activity is resumed with another one.
+         */
+        void set_resume_values( const player_activity &other, const Character &who ) ;
 
         bool is_interruptible() const;
         bool is_interruptible_with_kb() const;

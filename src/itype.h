@@ -1479,6 +1479,9 @@ struct itype {
         // Type of the variant - so people can turn off certain types of variants
         itype_variant_kind variant_kind = itype_variant_kind::last;
 
+        // return translated names of all variants this itype can have, if it's weight is > 0
+        std::set<std::string> all_variant_names() const;
+
         phase_id phase = phase_id::SOLID; // e.g. solid, liquid, gas
 
         /** If positive starts countdown to countdown_action at item creation */

@@ -1096,7 +1096,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || maybe_get_value( "remote_controlling" );
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
+        std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1104,7 +1104,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( const item *cable : cables ) {
+            for( const item_location &cable : cables ) {
                 if( cable->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
@@ -1142,7 +1142,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                    _( "You have at least one free cable in your inventory that you could use to connect yourself." ) );
             }
         }
-        if( !success ) {
+        if( !success && bio.auto_shutdown ) {
             refund_power();
             bio.powered = false;
             return false;
@@ -1292,7 +1292,6 @@ Character::bionic_fuels Character::bionic_fuel_check( bionic &bio,
         result.connected_fuel = get_bionic_fuels( bio.id );
     }
 
-    int other_charges = 0;
     // There could be multiple fuels. But probably not. So we just check the first.
     bool is_perpetual = !bio.id->fuel_opts.empty() &&
                         bio.id->fuel_opts.front()->get_fuel_data().is_perpetual_fuel;
@@ -1300,13 +1299,8 @@ Character::bionic_fuels Character::bionic_fuel_check( bionic &bio,
                               bio.id->fuel_opts.front() == fuel_type_metabolism;
 
     if( metabolism_powered ) {
-        other_charges = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
-    }
-
-    if( !is_perpetual && !other_charges && result.connected_vehicles.empty() &&
-        result.connected_solar.empty() &&
-        result.connected_fuel.empty() ) {
-        if( metabolism_powered ) {
+        int metabolism_charges = get_stored_kcal() - static_cast<int>( 0.8f * get_healthy_kcal() );
+        if( metabolism_charges <= 0 ) {
             if( start ) {
                 add_msg_player_or_npc( m_info,
                                        _( "Your %s cannot be started because your calories are below safe levels." ),
@@ -1322,19 +1316,33 @@ Character::bionic_fuels Character::bionic_fuel_check( bionic &bio,
                 bio.powered = false;
                 deactivate_bionic( bio, true );
             }
-        } else if( start ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
-                                   _( "<npcname>'s %s does not have enough fuel to start." ),
-                                   bio.info().name );
-        } else if( bio.powered ) {
-            add_msg_player_or_npc( m_info,
-                                   _( "Your %s runs out of fuel and turns off." ),
-                                   _( "<npcname>'s %s runs out of fuel and turns off." ),
-                                   bio.info().name );
-            bio.powered = false;
-            deactivate_bionic( bio, true );
+            result.can_be_on = false;
         }
-        result.can_be_on = false;
+    } else if( !is_perpetual && result.connected_vehicles.empty() &&
+               result.connected_solar.empty() &&
+               result.connected_fuel.empty() ) {
+        if( bio.auto_shutdown ) {
+            if( start ) {
+                add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                                       _( "<npcname>'s %s does not have enough fuel to start." ),
+                                       bio.info().name );
+            } else if( bio.powered ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s runs out of fuel and turns off." ),
+                                       _( "<npcname>'s %s runs out of fuel and turns off." ),
+                                       bio.info().name );
+                bio.powered = false;
+                deactivate_bionic( bio, true );
+            }
+            result.can_be_on = false;
+        } else {
+            if( start ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s does not currently have enough fuel to produce energy." ),
+                                       _( "<npcname>'s %s does not currently have enough fuel to produce energy." ),
+                                       bio.info().name );
+            }
+        }
     }
 
     return result;
@@ -1410,13 +1418,22 @@ void Character::burn_fuel( bionic &bio )
                 // Do not waste fuel charging over limit.
                 return;
             }
+            bool depleted = false;
             if( fuel->count_by_charges() ) {
                 fuel->charges--;
                 if( fuel->charges == 0 ) {
                     i_rem( fuel );
+                    depleted = true;
                 }
             } else {
                 i_rem( fuel );
+                depleted = true;
+            }
+            if( depleted && !bio.auto_shutdown ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s runs out of fuel." ),
+                                       _( "<npcname>'s %s runs out of fuel." ),
+                                       bio.info().name );
             }
 
         }
@@ -2081,7 +2098,8 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
     }
 
     if( bio.id->cant_remove_reason.has_value() ) {
-        popup( string_format( bio.id->cant_remove_reason.value(), disp_name( true ), disp_name() ) );
+        popup( string_format( bio.id->cant_remove_reason.value().translated(), disp_name( true ),
+                              disp_name() ) );
         return false;
     }
 
@@ -3080,6 +3098,7 @@ void bionic::serialize( JsonOut &json ) const
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
     json.member( "show_sprite", show_sprite );
+    json.member( "auto_shutdown", auto_shutdown );
 
     if( has_weapon() ) {
         json.member( "weapon", weapon );
@@ -3138,6 +3157,9 @@ void bionic::deserialize( const JsonObject &jo )
     }
     if( jo.has_bool( "show_sprite" ) ) {
         show_sprite = jo.get_bool( "show_sprite" );
+    }
+    if( jo.has_bool( "auto_shutdown" ) ) {
+        auto_shutdown = jo.get_bool( "auto_shutdown" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
@@ -3310,8 +3332,8 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::ups, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::ups, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return stored_fuels;
@@ -3342,8 +3364,8 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::solarpack, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::solarpack, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return solar_sources;
@@ -3372,11 +3394,11 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
-    []( const item & it ) {
-        return it.link_has_state( link_state::bio_cable ) &&
-               ( it.link_has_state( link_state::vehicle_battery ) ||
-                 it.link_has_state( link_state::vehicle_port ) );
+    const std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item_location & it ) {
+        return it->link_has_state( link_state::bio_cable ) &&
+               ( it->link_has_state( link_state::vehicle_battery ) ||
+                 it->link_has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3385,7 +3407,7 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 
     map &here = get_map();
 
-    for( const item *cable : cables ) {
+    for( const item_location &cable : cables ) {
         if( cable->link().t_veh ) {
             remote_vehicles.emplace_back( cable->link().t_veh.get() );
         } else {

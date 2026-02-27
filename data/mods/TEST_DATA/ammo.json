@@ -10,5 +10,11 @@
     "id": "test_100mm",
     "name": "test_100mm",
     "default": "test_100mm_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "test_liquid",
+    "name": "test_liquid",
+    "default": "test_napalm"
   }
 ]

@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <cwctype>
 #include <functional>
 #include <memory>
 #include <numeric>
@@ -111,16 +110,11 @@
 #include "weather.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
-static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
-static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
-static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
-static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -204,6 +198,7 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mech_recon_vision( "mech_recon_vision" );
+static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -299,6 +294,7 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
+static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
@@ -393,6 +389,63 @@ int character_max_dex = 20;
 int character_max_per = 20;
 int character_max_int = 20;
 
+
+queued_eocs::queued_eocs() = default;
+
+queued_eocs::queued_eocs( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+}
+
+queued_eocs::queued_eocs( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+}
+
+queued_eocs &queued_eocs::operator=( const queued_eocs &rhs )
+{
+    list = rhs.list;
+    // Why doesn't std::priority_queue have a clear() function.
+    queue = {};
+    for( auto it = list.begin(), end = list.end(); it != end; ++it ) {
+        queue.emplace( it );
+    }
+    return *this;
+}
+queued_eocs &queued_eocs::operator=( queued_eocs &&rhs ) noexcept
+{
+    queue.swap( rhs.queue );
+    list.swap( rhs.list );
+    return *this;
+}
+
+bool queued_eocs::empty() const
+{
+    return queue.empty();
+}
+
+const queued_eoc &queued_eocs::top() const
+{
+    return *queue.top();
+}
+
+void queued_eocs::push( const queued_eoc &eoc )
+{
+    auto it = list.emplace( list.end(), eoc );
+    queue.push( it );
+}
+
+void queued_eocs::pop()
+{
+    auto it = queue.top();
+    queue.pop();
+    list.erase( it );
+}
+
 void Character::queue_effects( const std::vector<effect_on_condition_id> &effects )
 {
     for( const effect_on_condition_id &eoc_id : effects ) {
@@ -407,10 +460,15 @@ void Character::queue_effects( const std::vector<effect_on_condition_id> &effect
 void Character::queue_effect( const std::string &name, const time_duration &delay,
                               const time_duration &effect_duration )
 {
+#pragma GCC diagnostic push
+#ifndef __clang__
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
     global_variables::impl_t ctx = {
         { "effect", diag_value{ name } },
         { "duration", diag_value{ to_turns<int>( effect_duration ) } }
     };
+#pragma GCC diagnostic pop
 
     effect_on_conditions::queue_effect_on_condition( delay, effect_on_condition_add_effect, *this,
             ctx );
@@ -1520,6 +1578,13 @@ void Character::mount_creature( monster &z )
         // mech night-vision counts as optics for overmap sight range.
         g->update_overmap_seen();
     }
+
+    // Switch from potentially invalid crouch or prone to trot
+    // Trot is sustained and doesn't spend stamina, so it's a good default for animal riding
+    if( get_steed_type() == steed_type::ANIMAL ) {
+        set_movement_mode( move_mode_run );
+    }
+
     mod_moves( -100 );
 }
 
@@ -1826,6 +1891,8 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
     }
     martial_arts_data->ma_ondodge_effects( *this );
 
+    magic->break_channeling( *this );
+
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos_bub(), source->pos_bub() ) == 1 ) {
         matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
@@ -1920,11 +1987,12 @@ bool Character::has_min_manipulators() const
     return get_limb_score( limb_score_manip ) > MIN_MANIPULATOR_SCORE;
 }
 
-/** Returns true if the character has two functioning arms */
+/** Returns true if the character has two functioning arms and two human-like hands */
 bool Character::has_two_arms_lifting() const
 {
-    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
-    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f;
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify. Same with hands.
+    return get_limb_score( limb_score_lift, bp_type::arm ) > 0.5f &&
+           get_limb_score( limb_score_grip, bp_type::hand ) > 0.5f;
 }
 
 std::set<matec_id> Character::get_limb_techs() const
@@ -2164,8 +2232,8 @@ void Character::process_turn()
     // Didn't just pick something up
     last_item = itype_id::NULL_ID();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
-        it.process_relic( this, pos_bub() );
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( item_location & it ) {
+        it->process_relic( this, pos_bub() );
     } );
 
     suffer();
@@ -2958,9 +3026,9 @@ std::map<damage_type_id, int> Character::smash_ability() const
 {
     int bonus = 0;
     std::map<damage_type_id, int> ret;
-
-    ///\EFFECT_STR increases smashing capability
+    ///\EFFECT_STR and SMASH_BONUS increase smashing capability
     bonus += get_arm_str();
+    bonus += enchantment_cache->get_value_add( enchant_vals::mod::SMASH_BONUS );
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
         bonus += mon->mech_str_addition() + mon->type->melee_dice * mon->type->melee_sides;
@@ -3152,6 +3220,9 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
                                   get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+        if( !needs_food() ) {
+            penalty = 0;
+        }
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -3684,8 +3755,8 @@ float Character::active_light() const
     float lumination = 0.0f;
 
     int maxlum = 0;
-    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item & it ) {
-        const int lumit = it.getlight_emit();
+    cache_visit_items_with( "is_emissive", &item::is_emissive, [&maxlum]( const item_location & it ) {
+        const int lumit = it->getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -4197,10 +4268,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         }
 
         const fault_fix &fix = opt.fix;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
-        activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id.str() );
-        activity.targets.push_back( std::move( obj ) );
+        assign_activity( mend_item_activity_actor( opt.time_to_fix, obj, opt.fault, fix.id ) );
     }
 }
 
@@ -4377,16 +4445,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
-    }
-
     actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
@@ -4518,9 +4576,7 @@ void Character::shout( std::string msg, bool order )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
-        std::wstring wstr( utf8_to_wstr( msg ) );
-        std::transform( wstr.begin(), wstr.end(), wstr.begin(), towlower );
-        msg = wstr_to_utf8( wstr );
+        msg = to_lower_case( msg );
     }
 
     // Screaming underwater is not good for oxygen and harder to do overall
@@ -4731,14 +4787,14 @@ void Character::recalculate_enchantment_cache()
 {
     enchantment_cache->clear();
 
-    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item & it ) {
-        for( const enchant_cache &ench : it.get_proc_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+    cache_visit_items_with( "is_relic", &item::is_relic, [this]( const item_location & it ) {
+        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
-        for( const enchantment &ench : it.get_defined_enchantments() ) {
-            if( ench.is_active( *this, it ) ) {
+        for( const enchantment &ench : it->get_defined_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench, *this );
             }
         }
@@ -4827,7 +4883,9 @@ void Character::update_cached_mutations()
                     if( are_opposite_traits( it, iter.first ) || b_is_lower_trait_of_a( it, iter.first )
                         || are_same_type_traits( it, iter.first ) ) {
                         ++iter.second.corrupted;
-                        ++my_mutations[it].corrupted;
+                        if( my_mutations.count( it ) ) {
+                            ++my_mutations[it].corrupted;
+                        }
                     }
                 }
             }
@@ -4841,7 +4899,7 @@ void Character::update_cached_mutations()
         }
         for( const trait_id &it : new_muts ) {
             auto exists = find( old_muts.begin(), old_muts.end(), it );
-            if( exists == old_muts.end() ) {
+            if( exists == old_muts.end() && !cached_mutations.count( it ) ) {
                 mutations_to_add.insert( it );
             }
         }
@@ -5146,7 +5204,11 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const activity_actor &actor )
 {
-    assign_activity( player_activity( actor ) );
+    player_activity act( actor );
+    if( act.is_multi_type() ) {
+        act.auto_resume = true;
+    }
+    assign_activity( act );
 }
 
 void Character::assign_activity( const player_activity &act )
@@ -5157,9 +5219,13 @@ void Character::assign_activity( const player_activity &act )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
+        activity.set_resume_values( act, *this );
     } else {
         if( activity ) {
             backlog.push_front( activity );
+            if( backlog.size() > 100 ) {
+                debugmsg( "activity backlog exceeded 100, likely an infinite loop" );
+            }
         }
 
         activity = act;
@@ -5221,7 +5287,9 @@ void Character::resume_backlog_activity()
 {
     if( !backlog.empty() && backlog.front().auto_resume ) {
         activity = backlog.front();
-        activity.auto_resume = false;
+        if( !activity.is_multi_type() ) {
+            activity.auto_resume = false;
+        }
         activity.allow_distractions();
         backlog.pop_front();
     }
@@ -5262,7 +5330,11 @@ void Character::fall_asleep()
         // In practice, the sleepiness from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
     } else {
-        fall_asleep( 10_hours );    // default max sleep time.
+        time_duration sleep_duration = 10_hours;  // default max sleep time
+        if( has_effect( effect_melatonin ) ) {
+            sleep_duration = 12_hours;  // Artificial sleep hormone boost allows you to sleep longer
+        }
+        fall_asleep( sleep_duration );
     }
 }
 
@@ -5324,10 +5396,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_TRY_SLEEP ) ||
            has_activity( ACT_OPERATION ) ||
            has_activity( ACT_TREE_COMMUNION ) ||
-           has_activity( ACT_EAT_MENU ) ||
-           has_activity( ACT_CONSUME_FOOD_MENU ) ||
-           has_activity( ACT_CONSUME_DRINK_MENU ) ||
-           has_activity( ACT_CONSUME_MEDS_MENU ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 
@@ -5466,13 +5534,13 @@ const
     std::pair<float, item> best_weapon = std::make_pair( 0.0f, item() );
 
     cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
-                  dmg_type]( const item & it ) {
+                  dmg_type]( const item_location & it ) {
         damage_instance di;
-        roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
+        roll_damage( dmg_type, false, di, true, *it, attack_vector_id::NULL_ID(),
                      sub_bodypart_str_id::NULL_ID(), 1.f );
         for( damage_unit &du : di.damage_units ) {
             if( du.type == dmg_type && best_weapon.first < du.amount ) {
-                best_weapon = std::make_pair( du.amount, it );
+                best_weapon = std::make_pair( du.amount, *it );
             }
         }
     } );
@@ -5491,8 +5559,8 @@ units::energy Character::available_ups() const
     }
 
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5500,9 +5568,8 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining(
-                             ) ) );
+    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item_location & it ) {
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it->ammo_remaining( ) ) );
     } );
 
     return available_charges;
@@ -5521,8 +5588,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from bionic
     bool has_bio_powered_ups = false;
-    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item & it ) {
-        if( it.has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
+    cache_visit_items_with( flag_IS_UPS, [&has_bio_powered_ups]( const item_location & it ) {
+        if( it->has_flag( flag_USES_BIONIC_POWER ) && !has_bio_powered_ups ) {
             has_bio_powered_ups = true;
         }
     } );
@@ -5534,12 +5601,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
-            if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr,
-                                          it.type->tool->fuel_efficiency );
+        cache_visit_items_with( flag_IS_UPS, [&qty]( item_location & it ) {
+            if( it->is_tool() && it->type->tool->fuel_efficiency >= 0 ) {
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr,
+                                           it->type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr );
+                qty -= it->energy_consume( qty, tripoint_bub_ms::zero, nullptr );
             }
         } );
     }
@@ -5939,7 +6006,18 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     const bool water_walking = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
                                has_flag( json_flag_WATERWALKING );
 
+
     if( is_mounted() ) {
+        // Ignore mech movemodes
+        // TODO: Figure what to do with mech movemodes
+        if( get_steed_type() != steed_type::MECH ) {
+            run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
+                                 //TODO get these strings from elsewhere
+                                 is_running() ? _( "Running" ) :
+                                 is_crouching() ? _( "Crouching" ) :
+                                 is_prone() ? _( "Prone" ) : _( "Walking" )
+                               );
+        }
         return effects;
     }
 
@@ -6064,7 +6142,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
 
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
                          _( "Stamina" ) );
-
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
                          //TODO get these strings from elsewhere
                          is_running() ? _( "Running" ) :
@@ -6184,7 +6261,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub( here ), critter.pos_bub( here ), 100 ) );
+        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && !here.find_clear_path( pos_bub( here ), critter.pos_bub( here ), true ).empty( ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub( here ),
@@ -7093,6 +7170,11 @@ action_id Character::get_next_auto_move_direction()
         // they will cancel the auto-move on the next cycle (as the distance increases).
         if( std::max( { diff.x(), diff.y(), diff.z()} ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "auto_move: OFF COURSE pos=(%d,%d) expected=(%d,%d) diff=(%d,%d,%d) route_left=%zu",
+                           pos_bub().x(), pos_bub().y(),
+                           next_expected_position->x(), next_expected_position->y(),
+                           diff.x(), diff.y(), diff.z(), auto_move_route.size() );
             return ACTION_NULL;
         }
     }
@@ -7101,6 +7183,12 @@ action_id Character::get_next_auto_move_direction()
     auto_move_route.erase( auto_move_route.begin() );
 
     tripoint_rel_ms dp = *next_expected_position - pos_bub();
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "auto_move: step dp=(%d,%d) pos=(%d,%d) target=(%d,%d) route_left=%zu",
+                   dp.x(), dp.y(), pos_bub().x(), pos_bub().y(),
+                   next_expected_position->x(), next_expected_position->y(),
+                   auto_move_route.size() );
 
     return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
@@ -8065,6 +8153,7 @@ void Character::pause()
     }
     // on-pause effects for martial arts
     martial_arts_data->ma_onpause_effects( *this );
+    magic->channel_magic( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs

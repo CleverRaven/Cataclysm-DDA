@@ -685,22 +685,6 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::dermatik_eggs_hatch: {
-            character_id ch = e.get<character_id>( "character" );
-            if( ch == avatar_id ) {
-                add( pgettext( "memorial_male", "Dermatik eggs hatched." ),
-                     pgettext( "memorial_female", "Dermatik eggs hatched." ) );
-            }
-            break;
-        }
-        case event_type::dermatik_eggs_injected: {
-            character_id ch = e.get<character_id>( "character" );
-            if( ch == avatar_id ) {
-                add( pgettext( "memorial_male", "Injected with dermatik eggs." ),
-                     pgettext( "memorial_female", "Injected with dermatik eggs." ) );
-            }
-            break;
-        }
         case event_type::destroys_triffid_grove: {
             add( pgettext( "memorial_male", "Destroyed a triffid grove." ),
                  pgettext( "memorial_female", "Destroyed a triffid grove." ) );
@@ -788,6 +772,12 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::digs_into_lava: {
             add( pgettext( "memorial_male", "Dug a shaft into lava." ),
                  pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            break;
+        }
+        case event_type::dimension_travel: {
+            add( pgettext( "memorial_male", "Traveled from '%s' to '%s'." ),
+                 pgettext( "memorial_female", "Traveled from '%s' to '%s'." ),
+                 e.get<std::string>( "from_dimension" ), e.get<std::string>( "to_dimension" ) );
             break;
         }
         case event_type::disarms_nuke: {

@@ -18,6 +18,7 @@
 #include "effect_source.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "magic_enchantment.h"
@@ -314,6 +315,10 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
         eoc->activate( d );
     }
 
+    if( x_in_y( rng( instant_death_chance.first, instant_death_chance.second ), 100 ) ) {
+        target.die( &get_map(), attack.source == nullptr ? nullptr : attack.source );
+    }
+
     if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
@@ -326,6 +331,7 @@ void weakpoint_effect::load( const JsonObject &jo )
     optional( jo, false, "chance", chance, numeric_bound_reader{0.f, 100.f} );
     optional( jo, false, "permanent", permanent );
     optional( jo, false, "message", message );
+    optional( jo, false, "instant_death_chance", instant_death_chance, pair_reader<int> {} );
     optional( jo, false, "duration", duration, pair_reader<int> {} );
     optional( jo, false, "intensity", intensity, pair_reader<int> {} );
     optional( jo, false, "damage_required", damage_required, pair_reader<float> {} );

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "SKY_ISLAND_NO_RAID_SPAWN",
+    "type": "json_flag",
+    "name": "Sky Island Spawn Prevention",
+    "//": "used to specials to not spawn in the raid dimension, notably faction bases"
+  },
+  {
+    "type": "overmap_special",
+    "id": "Isherwood Farm Mutable",
+    "copy-from": "Isherwood Farm Mutable",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Strange warehouse",
+    "copy-from": "Strange warehouse",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "exodii_base",
+    "copy-from": "exodii_base",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "evac_center",
+    "copy-from": "evac_center",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "New England Church Retreat",
+    "copy-from": "New England Church Retreat",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "ranch_camp",
+    "copy-from": "ranch_camp",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "cemetery_lacroix",
+    "copy-from": "cemetery_lacroix",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "balthazar_bunker",
+    "copy-from": "balthazar_bunker",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "hub_01",
+    "copy-from": "hub_01",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "isolated_road",
+    "copy-from": "isolated_road",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Bastion Fort",
+    "copy-from": "Bastion Fort",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Chem Lab",
+    "copy-from": "Occupied Chem Lab",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Scrap Yard",
+    "copy-from": "Occupied Scrap Yard",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Lumbermill",
+    "copy-from": "Occupied Lumbermill",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Homeless Camp",
+    "copy-from": "Occupied Homeless Camp",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Militia Lodge",
+    "copy-from": "Militia Lodge",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  }
+]

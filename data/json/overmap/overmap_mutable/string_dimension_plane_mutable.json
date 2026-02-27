@@ -1,0 +1,37 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_plane_mutable",
+    "subtype": "mutable",
+    "locations": [ "string_dimension_crossroads" ],
+    "occurrences": [ 0, 20 ],
+    "priority": 3,
+    "flags": [ "WILDERNESS", "EXTRADIMENSIONAL", "STRING_DIMENSION" ],
+    "check_for_locations_area": [ { "type": [ "string_dimension_crossroads" ], "from": [ 2, 2, 0 ], "to": [ -2, -2, 0 ] } ],
+    "joins": [ "string_dimension_plane_to_string_dimension_plane" ],
+    "overmaps": {
+      "string_dimension_plane_core": {
+        "overmap": "string_dimension_plane_core",
+        "north": "string_dimension_plane_to_string_dimension_plane",
+        "east": "string_dimension_plane_to_string_dimension_plane",
+        "south": "string_dimension_plane_to_string_dimension_plane",
+        "west": "string_dimension_plane_to_string_dimension_plane"
+      },
+      "string_dimension_plane_end": { "overmap": "string_dimension_plane_end_north", "north": "string_dimension_plane_to_string_dimension_plane" },
+      "string_dimension_plane_fill": {
+        "overmap": "string_dimension_plane_end_north",
+        "north": { "id": "string_dimension_plane_to_string_dimension_plane", "type": "available" },
+        "east": { "id": "string_dimension_plane_to_string_dimension_plane", "type": "available" },
+        "west": { "id": "string_dimension_plane_to_string_dimension_plane", "type": "available" }
+      }
+    },
+    "root": "string_dimension_plane_core",
+    "phases": [
+      [
+        { "overmap": "string_dimension_plane_core", "weight": 200 },
+        { "overmap": "string_dimension_plane_end", "weight": 100 },
+        { "overmap": "string_dimension_plane_fill", "weight": 1 }
+      ]
+    ]
+  }
+]

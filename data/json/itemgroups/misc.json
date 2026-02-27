@@ -420,5 +420,11 @@
       },
       { "item": "condom", "prob": 10 }
     ]
+  },
+  {
+    "id": "decks_of_cards",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "deck_of_cards", 10 ], [ "deck_of_tarot_cards", 1 ] ]
   }
 ]

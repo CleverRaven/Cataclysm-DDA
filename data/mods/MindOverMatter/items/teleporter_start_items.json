@@ -374,7 +374,8 @@
           { "type": "bash", "add": -8 },
           { "type": "stab", "add": -20 },
           { "type": "cut", "add": -15 },
-          { "type": "bullet", "add": -40 }
+          { "type": "bullet", "add": -40 },
+          { "type": "electric", "add": -4 }
         ]
       }
     ],
@@ -612,6 +613,9 @@
     "sided": true,
     "price": "500000 USD",
     "price_postapoc": "50 USD",
+    "etransfer_rate": "1 GB",
+    "e_port": "laptop",
+    "charges_per_use": 1,
     "material": [ { "type": "nether_crystal", "portion": 5 }, { "type": "plastic", "portion": 95 } ],
     "flags": [
       "WATCH",

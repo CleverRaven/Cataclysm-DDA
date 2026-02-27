@@ -55,6 +55,7 @@ class move_mode
         move_mode_type _type = move_mode_type::WALKING;
 
         float _exertion_level = 0.0f;
+        float _exertion_level_animal_riding = 0.0f;
         float _move_speed_mult = 0.0f;
         float _sound_multiplier = 0.0f;
         float _stamina_multiplier = 0.0f;
@@ -88,6 +89,7 @@ class move_mode
         float sound_mult() const;
         float stamina_mult() const;
         float exertion_level() const;
+        float exertion_level_animal_riding() const;
         float move_speed_mult() const;
 
         units::energy mech_power_use() const;

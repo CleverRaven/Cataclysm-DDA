@@ -105,6 +105,9 @@ void vehicle_part::set_base( item &&new_base )
 std::string vehicle_part::name( bool with_prefix ) const
 {
     std::string res;
+    if( debug_mode ) {
+        res += string_format( "(dam %d,deg %d)", base.damage_level( true ), base.degradation() );
+    }
     if( with_prefix ) {
         res += base.damage_indicator() + base.degradation_symbol() + " ";
         if( !base.type->degrade_increments() ) {
@@ -144,6 +147,11 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( is_leaking() ) {
         res += _( " (draining)" );
     }
+
+    for( const fault_id &f : faults() ) {
+        res += string_format( " (%s)", f->item_suffix() );
+    }
+
     if( debug_mode ) {
         res += "{" + variant + "}";
     }
@@ -512,6 +520,11 @@ bool vehicle_part::has_fault_flag( const std::string &searched_flag ) const
     return base.has_fault_flag( searched_flag );
 }
 
+bool vehicle_part::has_fault( const fault_id &fault ) const
+{
+    return base.has_fault( fault );
+}
+
 std::set<fault_id> vehicle_part::faults_potential() const
 {
     return base.faults_potential();
@@ -676,6 +689,11 @@ bool vehicle_part::is_seat() const
     return info().has_flag( "SEAT" );
 }
 
+bool vehicle_part::is_wheel() const
+{
+    return info().wheel_info.has_value();
+}
+
 const vpart_info &vehicle_part::info() const
 {
     return *info_;
@@ -778,4 +796,49 @@ std::string vehicle_part::carried_name() const
     return carried_stack.empty()
            ? std::string()
            : carried_stack.top().veh_name;
+}
+
+int vehicle_part::contact_area() const
+{
+    int contact_area = 1;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        contact_area = wi.value().contact_area;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        contact_area *= ft.obj().contact_area_mod();
+    }
+
+    return std::max( 1, contact_area );
+}
+
+float vehicle_part::rolling_resistance() const
+{
+    float rolling_resistance = 1.f;
+
+    const std::optional<vpslot_wheel> &wi = info_->wheel_info;
+
+    if( wi.has_value() ) {
+        rolling_resistance = wi.value().rolling_resistance;
+    }
+
+    for( const fault_id &ft : faults() ) {
+        rolling_resistance *= ft.obj().rolling_resistance_mod();
+    }
+
+    return rolling_resistance;
+}
+
+int vehicle_part::move_penalty() const
+{
+    int move_penalty = 0;
+
+    for( const fault_id &ft : faults() ) {
+        move_penalty += ft.obj().vehicle_move_penalty_mod();
+    }
+
+    return move_penalty;
 }

@@ -73,13 +73,14 @@
     "fungalize_into": "mon_beekeeper_dusted",
     "upgrades": false,
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 1 },
-    "extend": { "weakpoint_sets": [ "wps_natural_armor" ], "families": [ "prof_wp_nat_armored" ] }
+    "extend": { "weakpoint_sets": [ "wps_natural_armor" ], "families": [ "prof_wp_nat_armored" ], "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie",
     "type": "MONSTER",
     "copy-from": "mon_zombie_base",
-    "categories": [ "CLASSIC" ]
+    "categories": [ "CLASSIC" ],
+    "extend": { "flags": [ "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_cop",
@@ -192,7 +193,7 @@
     "grab_strength": 15,
     "fungalize_into": "mon_zombie_rot_dusted",
     "upgrades": { "half_life": 172, "into": "mon_devourer" },
-    "extend": { "flags": [ "GEN_DORMANT" ] }
+    "extend": { "flags": [ "GEN_DORMANT", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_swat",
@@ -207,7 +208,11 @@
     "death_drops": "mon_zombie_swat_death_drops",
     "upgrades": { "half_life": 152, "into": "mon_zombie_kevlar_0" },
     "armor": { "bash": 10, "cut": 16, "bullet": 18, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] },
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+      "families": [ "prof_wp_syn_armored" ],
+      "flags": [ "CLUMSY_ATTACKS" ]
+    },
     "delete": { "special_attacks": [ "bite_humanoid" ] }
   },
   {
@@ -230,7 +235,7 @@
     ],
     "fungalize_into": "mon_zombie_tough_dusted",
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT", "CLUMSY_ATTACKS" ] }
   },
   {
     "id": "mon_zombie_resort_dancer",

@@ -34,6 +34,7 @@
     "//": "Searching for individual furniture IDs isn't great, but there's no obvious flag to check for.",
     "condition": { "not": { "u_has_effect": "effect_bombastic_escaped_closetland" } },
     "effect": [
+      { "dimension_name": { "global_val": "closetland_last_dimension" } },
       { "math": [ "u_closetland_perk_nearby_walls = 0" ] },
       { "math": [ "u_closetland_perk_nearby_doors = 0" ] },
       {
@@ -77,19 +78,46 @@
           "and": [ { "math": [ "u_closetland_perk_nearby_walls == 7" ] }, { "math": [ "u_closetland_perk_nearby_doors == 1" ] } ]
         },
         "then": [
-          { "u_location_variable": { "u_val": "closetland_departure_point" }, "min_radius": 0, "max_radius": 0 },
-          { "u_add_effect": "blind", "duration": 0 },
-          { "u_add_effect": "effect_perk_closetland_temp_levitation", "duration": 0 },
           {
-            "u_travel_to_dimension": "dimension_perk_closetland",
-            "npc_travel_radius": 0,
-            "region_type": "dimension_perk_closetland_settings"
-          },
-          { "u_add_effect": "effect_perk_closetland_sleepiness", "duration": "PERMANENT" },
-          {
-            "if": { "not": { "math": [ "has_var(u_closetland_arrival_point)" ] } },
-            "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INITIAL_ARRIVAL" },
-            "else": [ { "u_teleport": { "u_val": "closetland_arrival_point" } }, { "u_lose_effect": "blind" } ]
+            "if": { "compare_string": [ { "global_val": "closetland_last_dimension" }, "", "dimension_sky_island_mission", "highlands" ] },
+            "then": [
+              { "u_location_variable": { "u_val": "closetland_departure_point" }, "min_radius": 0, "max_radius": 0 },
+              { "u_add_effect": "blind", "duration": 0 },
+              { "u_add_effect": "effect_perk_closetland_temp_levitation", "duration": 0 },
+              {
+                "u_travel_to_dimension": "dimension_perk_closetland",
+                "npc_travel_radius": 0,
+                "region_type": "dimension_perk_closetland_settings"
+              },
+              { "u_add_effect": "effect_perk_closetland_sleepiness", "duration": "PERMANENT" },
+              {
+                "if": { "not": { "math": [ "has_var(u_closetland_arrival_point)" ] } },
+                "then": { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_INITIAL_ARRIVAL" },
+                "else": [ { "u_teleport": { "u_val": "closetland_arrival_point" } }, { "u_lose_effect": "blind" } ]
+              },
+              {
+                "if": {
+                  "and": [
+                    { "mod_is_loaded": "skyisland" },
+                    { "not": { "math": [ "has_var(u_closetland_has_been_told_about_skyisland_risk)" ] } }
+                  ]
+                },
+                "then": [
+                  {
+                    "u_message": "The walls of the closet seem to vibrate to your heartbeat, you feel certain that failing a raid will cause the walls here to briefly vanish, ejecting everything here into nothingness.",
+                    "popup": true
+                  },
+                  { "math": [ "u_closetland_has_been_told_about_skyisland_risk = true" ] }
+                ]
+              }
+            ],
+            "else": [
+              { "u_message": "Try as you might, you can't seem to find the way to the secret realm." },
+              {
+                "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND_DEACTIVATE_FUTURE",
+                "time_in_future": 0
+              }
+            ]
           }
         ],
         "else": [
@@ -128,7 +156,9 @@
         "u_location_variable": { "u_val": "closetland_arrival_point" },
         "terrain": "t_closetland_floor_olight",
         "target_min_radius": 0,
-        "target_max_radius": 24
+        "target_max_radius": 24,
+        "z_override": true,
+        "z_adjust": 0
       },
       { "u_teleport": { "u_val": "closetland_arrival_point" } },
       { "u_lose_effect": "blind" }
@@ -162,7 +192,7 @@
         "ter_furn_transform": "perk_closetland_regenerate_light_if_broken",
         "target_var": { "u_val": "closetland_arrival_point" }
       },
-      { "u_travel_to_dimension": "default" },
+      { "u_travel_to_dimension": { "global_val": "closetland_last_dimension" } },
       { "u_teleport": { "u_val": "closetland_departure_point" } },
       { "u_lose_effect": "blind" },
       { "u_lose_effect": "effect_perk_closetland_sleepiness" }

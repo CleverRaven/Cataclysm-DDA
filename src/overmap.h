@@ -536,7 +536,8 @@ class overmap
         void spawn_mongroup( const tripoint_om_sm &p, const mongroup_id &type, int count );
         horde_entity *entity_at( const tripoint_om_ms &p );
         std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
-            const tripoint_om_omt &p );
+            const tripoint_om_omt &p, int filter );
+
         /**
          * Getter for overmap scents.
          * @returns a reference to a scent_trace from the requested location.
@@ -890,8 +891,6 @@ class overmap
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town,
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
-                        const std::string &prefix, int train_odds );
         void place_ravines();
 
         // Connection laying

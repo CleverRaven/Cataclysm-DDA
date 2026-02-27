@@ -10,7 +10,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 185,
-      "terrain": [ "field_office", "lab_surface_brick_blockC3", "lab_surface_brick_basementD1_hidden_lab_stairs" ],
+      "terrain": [ "field_office", "lab_surface_brick_blockC3" ],
       "message": "You add the locations to your map."
     }
   },

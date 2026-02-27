@@ -95,6 +95,8 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
+class weather_generator;
+
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -395,6 +397,16 @@ class map
         // Constructors & Initialization
         map() : map( MAPSIZE, true ) { }
         virtual ~map();
+
+        // Apply phase-change logic for a single map square based on historical
+        // weather (10-day average at 08:00). Currently implements "water_freeze".
+        void temp_based_phase_change_at( const tripoint_bub_ms &p, const class weather_generator &wgen );
+
+        // Original terrain recording for phase changes
+        bool has_original_terrain_at( const tripoint_bub_ms &p ) const;
+        ter_id get_original_terrain_at( const tripoint_bub_ms &p ) const;
+        void set_original_terrain_at( const tripoint_bub_ms &p, const ter_id &t );
+        void clear_original_terrain_at( const tripoint_bub_ms &p );
 
         map &operator=( const map & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -698,9 +710,10 @@ class map
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
          * returns the line found, which may be the straight line, but blocked.
+         * With empty_on_fail returns empty vector
          */
         std::vector<tripoint_bub_ms> find_clear_path( const tripoint_bub_ms &source,
-                const tripoint_bub_ms &destination ) const;
+                const tripoint_bub_ms &destination, bool empty_on_fail = false ) const;
 
         /**
          * Check whether the player can access the items located @p. Certain furniture/terrain
@@ -1420,9 +1433,14 @@ class map
         // Partial construction functions
         void partial_con_set( const tripoint_bub_ms &p, const partial_con &con );
         void partial_con_remove( const tripoint_bub_ms &p );
+        void partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p );
         partial_con *partial_con_at( const tripoint_bub_ms &p );
         // Traps
         void trap_set( const tripoint_bub_ms &p, const trap_id &type );
+
+    private:
+        void partial_con_remove_impl( const tripoint_bub_ms &p );
+    public:
 
         const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
@@ -1886,6 +1904,8 @@ class map
         * direction from 'p', leaving a stump behind at 'p'.
         */
         void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
+
+        void maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creature &critter ) const;
     protected:
         /**
          * Radiation-related plant (and fungus?) death.
@@ -1905,8 +1925,6 @@ class map
         void on_unload( const tripoint_rel_sm &loc );
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
-
-        void draw_lab( mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -2245,6 +2263,9 @@ class map
         std::list<Creature *> get_creatures_in_radius( const tripoint_bub_ms &center, size_t radius,
                 size_t radiusz = 0 ) const;
 
+        std::list<Creature *> get_creatures_in_radius_circ( const tripoint_bub_ms &center, size_t radius,
+                size_t radiusz = 0 ) const;
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint_bub_ms &p ) const;
@@ -2400,6 +2421,7 @@ class tinymap : private map
         tripoint_range<tripoint_omt_ms> points_on_zlevel( int z ) const;
         tripoint_range<tripoint_omt_ms> points_in_rectangle(
             const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
+        // rectangular prism
         tripoint_range<tripoint_omt_ms> points_in_radius(
             const tripoint_omt_ms &center, size_t radius, size_t radiusz = 0 ) const;
         map_stack i_at( const tripoint_omt_ms &p ) {

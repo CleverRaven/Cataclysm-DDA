@@ -354,7 +354,7 @@ Currently, nested maps do not support z level linking, so any nested map you mak
 As the nested maps used in vanilla increase, modders can make use of these existing entries to incorporate their mod maps into existing buildings.  This should greatly expand the mod's ability to add its content into vanilla maps.  By using the same `nested mapgen id` and assigning a `weight` to both your new nest and existing nests (as needed).
 
 I recommend the modder take a look through existing maps and see if there is one that fits the same overall size, orientation, and spawning rarity that they would like their modded nest to have.
-You can search for the nested mapgen ids in the github to make sure its representation meets your needs.
+You can search for the nested mapgen ids in the GitHub to make sure its representation meets your needs.
 
 
 **Update_mapgen:**

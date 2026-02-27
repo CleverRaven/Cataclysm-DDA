@@ -9,7 +9,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cwctype>
 #include <exception>
 #include <fstream>
 #include <sstream>
@@ -33,6 +32,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "unicode.h"
+#include "wcwidth.h"
 #include "zlib.h"
 #include "zzip.h"
 #include "zzip_stack.h"
@@ -97,8 +97,8 @@ bool lcmatch( std::string_view str, std::string_view qry )
 
     std::u32string u32_str = utf8_to_utf32( str );
     std::u32string u32_qry = utf8_to_utf32( qry );
-    std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
-    std::for_each( u32_qry.begin(), u32_qry.end(), u32_to_lowercase );
+    std::transform( u32_str.begin(), u32_str.end(), u32_str.begin(), u32_to_lowercase );
+    std::transform( u32_qry.begin(), u32_qry.end(), u32_qry.begin(), u32_to_lowercase );
     // First try match their lowercase forms
     if( u32_str.find( u32_qry ) != std::u32string::npos ) {
         return true;
@@ -640,47 +640,41 @@ bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
     }
 }
 
-std::string obscure_message( const std::string &str, const std::function<char()> &f )
+std::string obscure_message( const std::string_view str,
+                             const std::function<obscure_message_action()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
     std::string gibberish_wide =
         //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
         _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
-    std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
-    std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
-    std::wstring w_str = utf8_to_wstr( str );
-    // a trailing NULL terminator is necessary for utf8_width function
-    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-    char transformation[2] = { 0 };
-    for( size_t i = 0; i < w_str.size(); ++i ) {
-        transformation[0] = f();
-        std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
-        // mk_wcwidth, which is used by utf8_width, might return -1 for some values, such as newlines 0x0A
-        if( transformation[0] == -1 || utf8_width( this_char ) == -1 ) {
-            // Leave unchanged
-            continue;
-        } else if( transformation[0] == 0 ) {
-            // Replace with random character
-            if( utf8_width( this_char ) == 1 ) {
-                w_str[i] = random_entry( w_gibberish_narrow );
-            } else {
-                w_str[i] = random_entry( w_gibberish_wide );
+    std::u32string u32_gibberish_narrow = utf8_to_utf32( gibberish_narrow );
+    std::u32string u32_gibberish_wide = utf8_to_utf32( gibberish_wide );
+    const std::u32string u32_str = utf8_to_utf32( str );
+    std::u32string u32_result;
+    u32_result.reserve( u32_str.size() );
+    for( const char32_t ch : u32_str ) {
+        const int width = mk_wcwidth( ch );
+        std::visit( overloaded{[&]( do_not_replace_character )
+        {
+            u32_result.push_back( ch );
+        },
+        [&]( const replace_character_with replace_ch )
+        {
+            for( int i = 0; i < width; i++ ) {
+                u32_result.push_back( replace_ch.ch );
             }
-        } else {
-            // Only support the case e.g. replace current character to symbols like # or ?
-            if( utf8_width( transformation ) != 1 ) {
-                debugmsg( "target character isn't narrow" );
+        },
+        [&]( replace_character_randomly )
+        {
+            if( width == 1 ) {
+                u32_result.push_back( random_entry( u32_gibberish_narrow ) );
+            } else if( width == 2 ) {
+                u32_result.push_back( random_entry( u32_gibberish_wide ) );
             }
-            // A 2-width wide character in the original string should be replace by two narrow characters
-            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation[0] ) ) );
-        }
+        }}, f() );
     }
-    std::string result = wstr_to_utf8( w_str );
-    if( utf8_width( str ) != utf8_width( result ) ) {
-        debugmsg( "utf8_width differ between original string and obscured string" );
-    }
-    return result;
+    return utf32_to_utf8( u32_result );
 }
 
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback )
@@ -698,16 +692,14 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_empty_or_whitespace( const std::string &s )
+bool string_empty_or_whitespace( const std::string_view s )
 {
     if( s.empty() ) {
         return true;
     }
 
-    std::wstring ws = utf8_to_wstr( s );
-    return std::all_of( ws.begin(), ws.end(), []( const wchar_t &c ) {
-        return std::iswspace( c );
-    } );
+    const std::u32string u32_str = utf8_to_utf32( s );
+    return std::all_of( u32_str.begin(), u32_str.end(), u32_isspace );
 }
 
 int string_view_cmp( std::string_view l, std::string_view r )

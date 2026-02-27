@@ -27,7 +27,7 @@
     "spoils_in": "12 hours",
     "flags": [ "RAW" ],
     "smoking_result": "froglegs_smoked",
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 1.5 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 18 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ],
     "calories": 73
   },
   {

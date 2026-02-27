@@ -85,7 +85,7 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 
 TEST_CASE( "monster_get_hit_base", "[monster][melee][hit]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "monster get_hit_base is equal to melee skill level" ) {
         monster zed( mon_zombie );
@@ -95,7 +95,7 @@ TEST_CASE( "monster_get_hit_base", "[monster][melee][hit]" )
 
 TEST_CASE( "Character_get_hit_base", "[character][melee][hit][dex]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -114,7 +114,7 @@ TEST_CASE( "Character_get_hit_base", "[character][melee][hit][dex]" )
 
 TEST_CASE( "monster_get_dodge_base", "[monster][melee][dodge]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "monster get_dodge_base is equal to dodge skill level" ) {
         monster smoker( mon_zombie_smoker );
@@ -124,7 +124,7 @@ TEST_CASE( "monster_get_dodge_base", "[monster][melee][dodge]" )
 
 TEST_CASE( "Character_get_dodge_base", "[character][melee][dodge][dex][skill]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -185,7 +185,7 @@ TEST_CASE( "Character_get_dodge_base", "[character][melee][dodge][dex][skill]" )
 
 TEST_CASE( "monster_get_dodge_with_effects", "[monster][melee][dodge][effect]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     monster zombie( mon_zombie_smoker );
 
@@ -216,7 +216,7 @@ TEST_CASE( "monster_get_dodge_with_effects", "[monster][melee][dodge][effect]" )
 
 TEST_CASE( "player_get_dodge", "[player][melee][dodge]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );
@@ -239,7 +239,7 @@ TEST_CASE( "player_get_dodge", "[player][melee][dodge]" )
 
 TEST_CASE( "player_get_dodge_with_effects", "[player][melee][dodge][effect]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     avatar &dummy = get_avatar();
     clear_character( dummy );

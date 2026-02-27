@@ -9,7 +9,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
+            "id": "EOC_CONDITION_CHECK_ELF_IN_THE_WILD_ON_OMT_ENTER_2",
             "condition": { "and": [ { "not": { "u_near_om_location": "road", "range": 3 } } ] },
             "effect": [ { "math": [ "u_magiclysm_elf_is_in_wilderness = 1" ] } ],
             "false_effect": [ { "math": [ "u_magiclysm_elf_is_in_wilderness = 0" ] } ]

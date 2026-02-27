@@ -1,10 +1,10 @@
 # Design Docs
 
-These documents are for the lore basis and mechnical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
+These documents are for the lore basis and mechanical assumptions behind some of XEs systems. They contain heavy spoilers, obviously--if you're a player, don't read if you want to be surprised!
 
 ## The Principle of Supernatural Exclusivity
 
-Xedra Evolved has more types of playable supernatural with their own magic than any other CDDA mod, and it's a general principle that these are all exclusive. You cannot have a werewolf chronomancer, or a changeling mad genius, or a a gracken lilit. Most magickal powers require starting as having that power to develop it, and those who start with non-human power sources cannot learn human dream magick.
+Xedra Evolved has more types of playable supernatural with their own magic than any other CDDA mod, and it's a general principle that these are all exclusive. You cannot have a werewolf chronomancer, or a changeling mad genius, or a gracken lilit. Most magickal powers require starting as having that power to develop it, and those who start with non-human power sources cannot learn human dream magick.
 
 The exception to this is vampirism. Since vampirism is an infection, anyone can theoretically develop it (barring lilin or dhampirs who are immune), but becoming a vampire locks out previous supernatural powers. The lower tiers merely cannot learn new powers, but making the choice to become a full vampire removes all previous supernatural powers as the blood overwhelms everything.
 
@@ -21,13 +21,13 @@ TBD
 Cryptids are an assortment of unique beings and creatures that share a single thing: how hard they are to encounter.  Their abilities and motives are as unique as they are, and their origin is unclear.
 
 There are three ways to encounter a cryptid:
-- Find and examinate their tracks to locate that cryptid's lair.
+- Find and examine their tracks to locate that cryptid's lair.
 - Start as a cryptid hunter to get a map to a random cryptid.
 - Stumble upon their lair by pure chance.
 
 Guidelines to add a new cryptid:
 - All cryptids must be unique.  The player cannot encounter the same cryptid twice in the same world.
-- Adding a cryptid includes the addition of a lair terrain where they can be found, and a track terrain where the player can get directions to the lair by examinating a special tile.
+- Adding a cryptid includes the addition of a lair terrain where they can be found, and a track terrain where the player can get directions to the lair by examining a special tile.
 - The cryptid's lair is globally unique, while the track overmap cannot be found more than once per overmap.
 - Each cryptid have their own track and lair.  They do not share them.
 - There is no need for them to have loot.  You can make your new cryptid drop something, but it is not required.
@@ -149,7 +149,7 @@ Each Paraclesian has their own design sensibilities:
 - Arvore: Arvore powers relate to plants, nature, and growing things. Their magic allows them to become more plantlike, encourage plant growth, draw sustenance from soil and sunlight, and so on. While Arvore do have damaging spells, they mostly only affect plants and zombies, and then not generally in a magical bolt instant-damage fashion, since damage-over-time is much more similar to how nature works. Arvore deliberately have no powers that affect animals. The mortal need Arvore can overcome is requiring food and drink.
 - Homullus: Homullus powers relate to humanity, tools, cities and knowledge.  They have abilities related to managing humans and formerly human creatures such as ferals, renfields, etc.  Currently not implemented but they should be incredibly effective at dealing with cyborgs and some abilities related to interacting with robots (as tools created by humans).  They have the ability to install CBMs or even choose to limit their Paraclesian abilities by pursuing a mutation path created by humans.  The mortal need that Homullus can overcome is anything that limits their ability to make choices such as mind control. Homullus are also, uniquely, not bothered by iron.
 - Ierde: Ierde powers relate to resilience, preservation, and the manipulation of earth and stone. They are designed less to destroy their enemies with magick and more to slow them, redirect them, and simply outlast them (though since only the player has stamina this works less well than it could). The mortal need Ierde can overcome is sensitivity to pain and tiredness (stamina, not sleepiness). 
-- Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associatons with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
+- Salamander: Salamanders are the most innately destructive of the Paraclesians, though their magick also invokes the way forests regrow after a forest fire. Their magick allows them to move quickly and set everything on fire (though they are deliberately designed without an "I cast fireball" equivalent), with some associations with the heat of the forge and with light. The mortal need Salamander can overcome is need for water or sleep, though part of their design is that they need much more extra food (as fuel, so to speak)
 - Sylph: Sylph powers relate to wind, lightning, and the weather (weather currently unimplemented). Their powers allow them to breathe without air, affect the morale of enemies and friends, conjure up blasts of lightning, and control the air around them. The mortal need Sylphs can overcome is being tied down, in both the literal gravity sense and the metaphorical snares or entanglements sense.
 - Undine: Undine powers relate to water and acid, as well as the transformation of liquids.  Undines are slightly different because by default they do not need to drink water and heal when in water, but many of their powers have a thirst cost so they can become thirsty by using their magic. They can also regain thirst automatically when underwater, so the push-pull of Undine powers is making sure to never be so far from water that they can't top up when necessary.
 
@@ -159,7 +159,7 @@ Paraclesians gain their powers by spending time in their native environments, th
 
 Changelings are originally the offspring of pairings between mortals and elemental fae in the unremembered past, which occurred often enough that their descendants formed a new stable population. While they do sometimes still swap mortal babies for fae babies, the name "changeling" as a collective is used for convenience and most changelings are born and grow up Under the Hill.
 
-The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arragement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
+The Fair Folk make a habit of making offers to mortals to come back to the Elflands with them, especially on worlds that have undergone or are about to undergo a Cataclysm. The reason for this is that changeling magic relies on mortal dreams for power, which means they need mortals on hand to dream for them. The degree to which they are willing to coerce mortals into this arrangement varies based on the individual changeling but the temptation is always there. They will not bring anyone to the Elflands who has not sworn some sort of agreement with them, and for this reason the Exodii are wary to antagonistic towards them. 
 
 Changelings are divided into two great courts, the Summer (or Seelie) Court and the Winter (or Unseelie) Court. The Summer Court is more benevolent to mortals (Lady Boann is Summer Court), but that does not mean they are nice. Changelings are also divided into two broad types, nobles and commoners. Nobles are more magically powerful, but commoners have individual tricks that the nobles cannot copy with their magic, such as the selkies' facility with weather control or brownies' ability to speed crafting when unobserved.
 
@@ -173,7 +173,7 @@ The following types of changelings exist or are planned:
 - Selkies: Based on the seal-folk of Northern Europe. They can control the weather and exist without penalty in water, and are beguiling to mortals.
 - Trow: Based on coblyns and knockers. Their abilities relate to the earth and mining.
 
-Currently, changelings gain their powers in a steady drip of 1 per 8-10 days. There are a small number of various deeds that each changeling can accomplish to gain more powers, which will be expanded over time. Deeds should generally be in-theme, such as how pooka deeds invovle the wilderness, trow deeds involve mining and the underground, etc. Repeatable deeds are possible, but should be tasks that require effort: the only currently repeatable deeds are killing a March Lord and closing a shadow wound.
+Currently, changelings gain their powers in a steady drip of 1 per 8-10 days. There are a small number of various deeds that each changeling can accomplish to gain more powers, which will be expanded over time. Deeds should generally be in-theme, such as how pooka deeds involve the wilderness, trow deeds involve mining and the underground, etc. Repeatable deeds are possible, but should be tasks that require effort: the only currently repeatable deeds are killing a March Lord and closing a shadow wound.
 
 #### Seasonal Magick
 
@@ -210,7 +210,7 @@ Principles of lilin powers:
 - Lilin can use their ruach to weave beautiful illusions around themselves (at night), but they need to use their own words to persuade.
 - Like Blood Arts, lilin powers that turn on and remain on until turned off should be implemented as activatable mutations, and powers which create an instant or temporary effect should be implemented as spells in the Supernatural Powers menu.
 
-Lilin gain new powers by dedicating some ruach to power reseach. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 
+Lilin gain new powers by dedicating some ruach to power research. They can only possibly gain new powers when outside under the moonlight (currently implemented as just outside at night), where periodic power-gaining rolls are made. 
 
 ## Gracken
 

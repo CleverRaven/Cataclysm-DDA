@@ -50,6 +50,7 @@
 #include "value_ptr.h"
 #include "weather.h"
 
+static const ammotype ammo_45( "45" );
 static const ammotype ammo_test_9mm( "test_9mm" );
 
 static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
@@ -388,8 +389,6 @@ TEST_CASE( "max_item_volume", "[pocket][max_item_volume]" )
 //
 TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 {
-    // TODO: Add tests for having multiple ammo types in the ammo_restriction
-
     WHEN( "pocket has no ammo_restriction" ) {
         pocket_data data_box( pocket_type::CONTAINER );
         // Just a normal 1-liter box
@@ -414,6 +413,30 @@ TEST_CASE( "max_container_volume", "[pocket][max_contains_volume]" )
 
         THEN( "volume_capacity is based on the pocket's ammo type" ) {
             CHECK( data_ammo_box.volume_capacity() == 1_liter );
+        }
+    }
+
+    WHEN( "pocket has multiple ammo_restrictions" ) {
+        pocket_data data_ammo_box( pocket_type::CONTAINER );
+
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 90 );
+        data_ammo_box.raw_volume_capacity = 1_ml;
+
+        THEN( "volume_capacity uses the largest restricted ammo volume" ) {
+            CHECK( data_ammo_box.volume_capacity() == 1_liter );
+        }
+    }
+
+    WHEN( "pocket has multiple ammo_restrictions with a larger alternate ammo type" ) {
+        pocket_data data_ammo_box( pocket_type::CONTAINER );
+
+        data_ammo_box.ammo_restriction.emplace( ammo_test_9mm, 200 );
+        data_ammo_box.ammo_restriction.emplace( ammo_45, 150 );
+        data_ammo_box.raw_volume_capacity = 1_ml;
+
+        THEN( "volume_capacity follows the most space-intensive ammo" ) {
+            CHECK( data_ammo_box.volume_capacity() == 1250_ml );
         }
     }
 }
@@ -441,8 +464,6 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
     data_mag.min_item_volume = 0_liter;
     data_mag.max_item_length = 0_meter;
     data_mag.max_contains_weight = 0_gram;
-
-    // TODO: Add tests for multiple ammo types in the same clip
 
     GIVEN( "magazine has 9mm ammo_restriction" ) {
         // Magazine ammo_restriction may be a single { ammotype, count } or a list of ammotypes and
@@ -510,6 +531,73 @@ TEST_CASE( "magazine_with_ammo_restriction", "[pocket][magazine][ammo_restrictio
             }
         }
     }
+
+    GIVEN( "magazine has multiple ammo_restrictions" ) {
+        const int full_clip_qty_9mm = 10;
+        const int full_clip_qty_45 = 6;
+        data_mag.ammo_restriction.emplace( ammo_test_9mm, full_clip_qty_9mm );
+        data_mag.ammo_restriction.emplace( ammo_45, full_clip_qty_45 );
+        item_pocket pocket_mag( &data_mag );
+
+        WHEN( "it does not already contain any ammo" ) {
+            REQUIRE( pocket_mag.empty() );
+
+            THEN( "it can contain a full clip of any allowed ammo type" ) {
+                const item ammo_9mm( itype_test_9mm_ammo, calendar::turn_zero, full_clip_qty_9mm );
+                const item ammo_45( itype_test_45_ammo, calendar::turn_zero, full_clip_qty_45 );
+                expect_can_contain( pocket_mag, ammo_9mm );
+                expect_can_contain( pocket_mag, ammo_45 );
+            }
+
+            THEN( "it cannot exceed any allowed ammo restriction" ) {
+                item ammo_9mm_over( itype_test_9mm_ammo, calendar::turn_zero, full_clip_qty_9mm + 1 );
+                item ammo_45_over( itype_test_45_ammo, calendar::turn_zero, full_clip_qty_45 + 1 );
+                expect_cannot_contain( pocket_mag, ammo_9mm_over,
+                                       "tried to put too many charges of ammo in item",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+                expect_cannot_contain( pocket_mag, ammo_45_over,
+                                       "tried to put too many charges of ammo in item",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+
+        WHEN( "it is partly full of 9mm ammo" ) {
+            const int half_clip_qty_9mm = full_clip_qty_9mm / 2;
+            item ammo_9mm_half_clip( itype_test_9mm_ammo, calendar::turn_zero, half_clip_qty_9mm );
+            expect_can_insert( pocket_mag, ammo_9mm_half_clip );
+
+            THEN( "it can contain more of the same ammo" ) {
+                item ammo_9mm_refill( itype_test_9mm_ammo, calendar::turn_zero,
+                                      full_clip_qty_9mm - half_clip_qty_9mm );
+                expect_can_contain( pocket_mag, ammo_9mm_refill );
+            }
+
+            THEN( "it cannot contain ammo of another allowed type" ) {
+                item ammo_45( itype_test_45_ammo, calendar::turn_zero, 1 );
+                expect_cannot_contain( pocket_mag, ammo_45, "can't mix different ammo",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+
+        WHEN( "it is partly full of .45 ammo" ) {
+            const int half_clip_qty_45 = full_clip_qty_45 / 2;
+            item ammo_45_half_clip( itype_test_45_ammo, calendar::turn_zero, half_clip_qty_45 );
+            expect_can_insert( pocket_mag, ammo_45_half_clip );
+
+            THEN( "it can contain more of the same ammo" ) {
+                item ammo_45_refill( itype_test_45_ammo, calendar::turn_zero,
+                                     full_clip_qty_45 - half_clip_qty_45 );
+                expect_can_contain( pocket_mag, ammo_45_refill );
+            }
+
+            THEN( "it cannot contain ammo of another allowed type" ) {
+                item ammo_9mm( itype_test_9mm_ammo, calendar::turn_zero, 1 );
+                expect_cannot_contain( pocket_mag, ammo_9mm, "can't mix different ammo",
+                                       item_pocket::contain_code::ERR_NO_SPACE );
+            }
+        }
+    }
+
 }
 
 // Flag restriction
@@ -1890,7 +1978,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     map &m = get_map();
     Character &u = get_player_character();
-    clear_map();
+    clear_map_without_vision();
     clear_character( u, true );
     item_location cont1( map_cursor( u.pos_abs() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_rigid ) );
@@ -2312,7 +2400,7 @@ TEST_CASE( "picking_up_items_respects_pocket_autoinsert_settings", "[pocket][ite
 
 TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &u = get_player_character();
@@ -2689,7 +2777,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
 
     const tripoint_bub_ms ipos = get_player_character().pos_bub();
     map &m = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     item_location backpack_loc( map_cursor( tripoint_bub_ms( ipos ) ), &m.add_item( ipos, backpack ) );
     item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
@@ -2760,7 +2848,7 @@ TEST_CASE( "bag_with_restrictions_and_nested_bag_does_not_fit_too_large_items", 
 TEST_CASE( "pocket_leak" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &u = get_avatar();
     map &here = get_map();
     item backpack( itype_test_backpack );
@@ -2830,7 +2918,7 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     tripoint_abs_omt const this_omt =
         project_to<coords::omt>( get_avatar().pos_abs() );
     tripoint_bub_ms const this_bub = get_map().get_bub( project_to<coords::ms>( this_omt ) );
@@ -2945,7 +3033,7 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
 TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &u = get_avatar();
     map &here = get_map();
     item pill( itype_tums ); // "antacid pill"
@@ -2993,3 +3081,4 @@ TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
         }
     }
 }
+

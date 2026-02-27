@@ -71,6 +71,11 @@
         [ "battleaxe", -1 ],
         [ "lucern_hammer", -1 ],
         [ "warhammer", -1 ],
+        [ "lc_warhammer", -1 ],
+        [ "mc_warhammer", -1 ],
+        [ "hc_warhammer", -1 ],
+        [ "ch_warhammer", -1 ],
+        [ "qt_warhammer", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],
         [ "hc_battleaxe", -1 ],
@@ -548,6 +553,11 @@
     "tools": [
       [
         [ "warhammer", -1 ],
+        [ "lc_warhammer", -1 ],
+        [ "mc_warhammer", -1 ],
+        [ "hc_warhammer", -1 ],
+        [ "ch_warhammer", -1 ],
+        [ "qt_warhammer", -1 ],
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],

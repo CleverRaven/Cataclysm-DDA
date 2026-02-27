@@ -2270,7 +2270,7 @@
     "description": "A thick gray paste used as a sealant in many construction projects.",
     "weight": "2480 mg",
     "volume": "100 ml",
-    "//": "density: 0.76–4.20 g/cm3 according to google, I'm going with the middle ground",
+    "//": "density: 0.76–4.20 g/cm3 according to Google, I'm going with the middle ground",
     "price": "9 USD 36 cent",
     "price_postapoc": "4 USD",
     "ammo_type": "components",

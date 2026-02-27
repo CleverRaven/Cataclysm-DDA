@@ -1,0 +1,18 @@
+[
+  {
+    "type": "palette",
+    "id": "ravine",
+    "nested": { "#": { "else_chunks": [ "1x1_ground" ], "check_z": [ 0 ] }, " ": { "chunks": [ "1x1_open_air" ], "check_z": [ 0 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "ravine_edge_parameters",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "scope": "omt_stack",
+        "default": { "distribution": [ "24x24_ravine_edge_v1", "24x24_ravine_edge_v2" ] }
+      }
+    }
+  }
+]

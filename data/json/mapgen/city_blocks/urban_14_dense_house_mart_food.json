@@ -132,7 +132,7 @@
         "6": [ { "item": "groce_ingredient", "chance": 30, "repeat": [ 0, 4 ] } ],
         "7": [ { "item": "alcohol", "chance": 30, "repeat": [ 0, 4 ] } ],
         "3": [
-          { "item": "groce_cereal", "chance": 30, "repeat": [ 0, 4 ] },
+          { "item": "cereal_in_container_full", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] }
         ],
         "4": [

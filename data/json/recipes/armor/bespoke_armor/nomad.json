@@ -13,7 +13,13 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [
+        [ "glasses_safety", 1 ],
+        [ "glasses_bal", 1 ],
+        [ "goggles_ski", 1 ],
+        [ "face_shield_plastic", 1 ],
+        [ "goggles_chem", 1 ]
+      ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
       [ [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
     ],
@@ -34,7 +40,13 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [
+        [ "glasses_safety", 1 ],
+        [ "glasses_bal", 1 ],
+        [ "goggles_ski", 1 ],
+        [ "face_shield_plastic", 1 ],
+        [ "goggles_chem", 1 ]
+      ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
       [ [ "sheet_denim", 8 ], [ "sheet_denim_patchwork", 8 ] ]
     ],
@@ -49,7 +61,13 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
-      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "face_shield_plastic", 1 ] ],
+      [
+        [ "glasses_safety", 1 ],
+        [ "glasses_bal", 1 ],
+        [ "goggles_ski", 1 ],
+        [ "face_shield_plastic", 1 ],
+        [ "goggles_chem", 1 ]
+      ],
       [ [ "leather", 12 ], [ "tanned_hide", 3 ], [ "sheet_leather", 3 ], [ "sheet_leather_patchwork", 3 ] ],
       [ [ "sheet_denim", 15 ], [ "sheet_denim_patchwork", 15 ] ]
     ],
@@ -229,5 +247,127 @@
     "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "glue_weak", 500 ] ] ],
     "flags": [ "SECRET" ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
+  },
+  {
+    "result": "nomad_papr_blower_273diyua_off",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "basic_papr_belt_off", 1 ], [ "military_papr_blower_off", 1 ], [ "molle_papr_blower_off", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "tool_belt", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap_leather", 11 ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "result": "nomad_papr_blower_273grenade_off",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "basic_papr_belt_off", 1 ], [ "military_papr_blower_off", 1 ], [ "molle_papr_blower_off", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "tool_belt", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap_leather", 11 ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "result": "nomad_papr_blower_magpouch_off",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "electronics", 3 ],
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_jumpsuit", 4 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "sheet_leather", 1 ], [ "sheet_leather_patchwork", 1 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "exodii_wire_kit", 1 ] ],
+      [ [ "basic_papr_belt_off", 1 ], [ "military_papr_blower_off", 1 ], [ "molle_papr_blower_off", 1 ] ],
+      [ [ "plastic_sheet", 2 ] ],
+      [ [ "tool_belt", 1 ] ]
+    ],
+    "byproducts": [ [ "scrap_leather", 11 ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "result": "helmet_nomad_papr",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 5,
+    "time": "5 h",
+    "book_learn": [ [ "bp_nomad_cowl", 4 ] ],
+    "using": [ [ "filament_canvas", 80 ], [ "fastener_small", 4 ], [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ], [ "hat_golf", 1 ] ],
+      [ [ "hose", 4 ] ],
+      [
+        [ "helmet_motor", 1 ],
+        [ "basic_papr_helmet", 1 ],
+        [ "divemask_full_modular", 1 ],
+        [ "face_shield_plastic", 2 ],
+        [ "flight_helmet", 1 ]
+      ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ], [ "sheet_leather", 2 ], [ "sheet_leather_patchwork", 2 ] ],
+      [ [ "chunk_rubber", 16 ] ],
+      [ [ "sheet_denim", 10 ], [ "sheet_denim_patchwork", 10 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_closures" }
+    ],
+    "flags": [ "SECRET" ]
   }
 ]

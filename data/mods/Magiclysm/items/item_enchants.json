@@ -4,20 +4,18 @@
     "id": "ench_longsword_holy",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "name": { "str": "Magic blade" },
-    "description": "The damage done and light emitted by this sword increase with intelligence.",
+    "name": { "str": "Force blade" },
+    "description": "The damage done and light emitted by this sword increase with intelligence and spell level.",
     "melee_damage_bonus": [
       {
         "type": "light",
-        "add": {
-          "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus') ) ),40)" ]
-        }
+        "add": { "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('magus_mage_conjured_blade') * 1.5 ) ),40)" ] }
       }
     ],
     "values": [
       {
         "value": "LUMINATION",
-        "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))) * 3" ] }
+        "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('magus_mage_conjured_blade') * 1.5 ) ) * 3" ] }
       }
     ]
   },
@@ -33,7 +31,7 @@
         "type": "bash",
         "add": {
           "math": [
-            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('magus_mage_conjured_armor') + u_spell_level('magus_mage_conjured_armor_plus')) * 0.5) * -1), -45)"
           ]
         }
       },
@@ -41,7 +39,7 @@
         "type": "stab",
         "add": {
           "math": [
-            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('magus_mage_conjured_armor') + u_spell_level('magus_mage_conjured_armor_plus')) * 0.5) * -1), -45)"
           ]
         }
       },
@@ -49,7 +47,7 @@
         "type": "cut",
         "add": {
           "math": [
-            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('magus_mage_conjured_armor') + u_spell_level('magus_mage_conjured_armor_plus')) * 0.5) * -1), -45)"
           ]
         }
       },
@@ -57,7 +55,7 @@
         "type": "bullet",
         "add": {
           "math": [
-            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('magus_mage_conjured_armor') + u_spell_level('magus_mage_conjured_armor_plus')) * 0.5) * -1), -45)"
           ]
         }
       }
@@ -66,7 +64,9 @@
       {
         "value": "LUMINATION",
         "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * 3" ]
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_spell_level('magus_mage_conjured_armor') + u_spell_level('magus_mage_conjured_armor_plus')) * 0.5) * 3"
+          ]
         }
       }
     ]

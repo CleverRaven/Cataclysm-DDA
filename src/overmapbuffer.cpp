@@ -512,11 +512,11 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
     return false;
 }
 
-int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
+int overmapbuffer::get_horde_size( const tripoint_abs_omt &p, int filter )
 {
     int horde_size = 0;
     std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
-                p );
+                p, filter );
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
         horde_size += horde_group->size();
     }
@@ -1812,14 +1812,14 @@ point_abs_om overmap_feature_grid::get_grid_origin() const
 std::vector<overmap_feature_grid_node>
 overmap_feature_grid::find_grid_adjacent_features( const point_abs_om &generated_om_pos )
 {
-    const int c_seperation = column_separation;
-    const int r_seperation = row_separation;
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
 
     //generate adjacent intersection points
     std::vector<overmap_feature_grid_node> adjacent_features;
     for( const point &cardinal : four_adjacent_offsets ) {
-        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_seperation,
-                              generated_om_pos.y() + cardinal.y * r_seperation );
+        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_separation,
+                              generated_om_pos.y() + cardinal.y * r_separation );
         if( !feature_point_exists( p ) ) {
             generate_feature_point( p );
         }
@@ -2135,15 +2135,14 @@ horde_entity *overmapbuffer::entity_at( const tripoint_abs_ms &p )
 }
 
 std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
-    const tripoint_abs_omt &p )
+    const tripoint_abs_omt &p, int filter )
 {
     point_abs_om omp;
     tripoint_om_omt omt;
     std::tie( omp, omt ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    return om.hordes_at( omt );
+    return om.hordes_at( omt, filter );
 }
-
 
 horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
 {
@@ -2291,7 +2290,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
-        // Filter the sectors to those which are in in range of our center point, so
+        // Filter the sectors to those which are in range of our center point, so
         // that we don't end up creating specials in areas that are outside of our radius,
         // since the whole point is to create a special that is within the parameters.
         std::vector<point_om_omt> sector_points_in_range;

@@ -30,6 +30,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `condition`          | A dialog condition to determine if this weather is happening.  See Dialogue conditions section of [NPCs](NPCs.md) A context variable of `weather_location` contains the location of the current tile checking its weather.  This can be used to have weather be based on location. |
 | `priority`           | An integer.  If the condition of multiple weather types are true the one with higher priority wins. |
 | `required_weathers`  | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present.  Required weathers need to have lower load orders to be. |
+| `passive_effects`    | Passive effects, that will be applied on character when this weather occurs; for detailed syntax, see [field_effect](JSON_INFO.md#field_effect) |
 
 #### `weather_type` example
 
@@ -42,6 +43,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "color": "c_yellow",
     "map_color": "h_yellow",
     "sym": "%",
+    "sun_sym": "⛈️",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -51,6 +53,26 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "rains": true,
     "required_weathers": [ "thunder" ],
     "priority": 80,
-    "condition": { "math": [ "weather('pressure') < 990" ] }
+    "condition": { "math": [ "weather('pressure') < 990" ] },
+    "passive_effects": [
+      {
+        "effect_id": "smoke_eyes",
+        "body_part": "eyes",
+        "intensity": 1,
+        "min_duration": "2 seconds",
+        "max_duration": "2 seconds",
+        "immunity_data": { "body_part_env_resistance": [ [ "sensor", 3 ] ] },
+        "immune_inside_vehicle": true
+      },
+      {
+        "effect_id": "smoke_lungs",
+        "body_part": "mouth",
+        "intensity": 1,
+        "min_duration": "2 seconds",
+        "max_duration": "2 seconds",
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
+        "immune_inside_vehicle": true
+      }
+    ]
   }
 ]

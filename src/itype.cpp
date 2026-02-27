@@ -469,6 +469,19 @@ const itype_id &itype::tool_slot_first_ammo() const
     return itype_id::NULL_ID();
 }
 
+std::set<std::string> itype::all_variant_names() const
+{
+    std::set<std::string> ret;
+
+    for( const itype_variant_data &var : variants ) {
+        if( var.weight > 0 ) {
+            ret.insert( var.alt_name.translated() );
+        }
+    }
+
+    return ret;
+}
+
 int islot_ammo::dispersion_considering_length( units::length barrel_length ) const
 {
 

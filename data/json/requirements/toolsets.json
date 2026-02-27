@@ -387,17 +387,32 @@
     "id": "concrete_removal_standard",
     "type": "requirement",
     "//": "Tools for removing concrete",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [
       [
-        [ "pickaxe_list", 1, "LIST" ],
         [ "jackhammer", 140 ],
         [ "elec_jackhammer", 1848 ],
-        [ "hammer_sledge", -1 ],
-        [ "masonrysaw_off", 100 ],
-        [ "electric_masonrysaw_off", 1320 ]
+        [ "masonrysaw_off", 200 ],
+        [ "electric_masonrysaw_off", 2640 ],
+        [ "heavy_masonrysaw_off", 100 ],
+        [ "corded_demolition_hammer", 1848 ]
       ],
-      [ [ "angle_grinder", 200 ], [ "hacksaw", -1 ], [ "reciprocating_saw", 200 ] ]
+      [ [ "hammer_sledge", -1 ], [ "hammer_sledge_heavy", -1 ] ]
+    ]
+  },
+  {
+    "id": "concrete_wall_removal_standard",
+    "type": "requirement",
+    "//": "Tools for removing concrete walls. Smaller masonry saws can be used, but use double power to account for increased usage during deconstruction period.  Demo equipment is preferred.",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [
+      [
+        [ "masonrysaw_off", 200 ],
+        [ "electric_masonrysaw_off", 2640 ],
+        [ "heavy_masonrysaw_off", 100 ],
+        [ "corded_demolition_hammer", 1848 ]
+      ],
+      [ [ "hammer_sledge", -1 ], [ "hammer_sledge_heavy", -1 ] ]
     ]
   },
   {
@@ -444,9 +459,25 @@
   {
     "id": "metal_removal_standard",
     "type": "requirement",
-    "//": "Tools for removing metal / rebar",
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 1 }, { "id": "PRY", "level": 3 } ],
-    "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
+    "//": "Tools for removing metal bars / rebar / etc",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "tools": [
+      [
+        [ "hacksaw", -1 ],
+        [ "small_repairkit", -1 ],
+        [ "large_repairkit", -1 ],
+        [ "angle_grinder", 200 ],
+        [ "reciprocating_saw", 200 ],
+        [ "exodii_prybar", 200 ]
+      ]
+    ]
+  },
+  {
+    "id": "metal_removal_high_standard",
+    "type": "requirement",
+    "//": "Tools for removing things like locked metal doors, which won't have easy to access points to place a manual saw",
+    "qualities": [ { "id": "SAW_M", "level": 3 } ],
+    "tools": [ [ [ "angle_grinder", 200 ], [ "reciprocating_saw", 200 ], [ "exodii_prybar", 200 ] ] ]
   },
   {
     "id": "cement_removal",
@@ -496,6 +527,7 @@
         [ "mask_gas_xs", -1 ],
         [ "mask_gas_xl", -1 ],
         [ "mask_bunker", -1 ],
+        [ "goggles_chem", 1 ],
         [ "mask_survivor", 1 ],
         [ "mask_survivorxs", 1 ],
         [ "mask_survivorxl", 1 ],

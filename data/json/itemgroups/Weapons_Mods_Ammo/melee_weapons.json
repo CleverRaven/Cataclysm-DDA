@@ -139,6 +139,7 @@
       { "group": "falxes", "prob": 1 },
       { "group": "talwars", "prob": 1 },
       { "group": "kilijes", "prob": 1 },
+      { "group": "khopeshes", "prob": 1 },
       { "item": "makeshift_scythe_war", "prob": 16 },
       { "item": "makeshift_halberd", "prob": 16 },
       { "item": "halberd", "prob": 1 },
@@ -388,6 +389,11 @@
     "type": "item_group",
     "id": "longswords",
     "items": [ [ "lc_longsword", 20 ], [ "mc_longsword", 10 ], [ "hc_longsword", 5 ], [ "ch_longsword", 2 ], [ "qt_longsword", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "khopeshes",
+    "items": [ [ "lc_khopesh", 20 ], [ "mc_khopesh", 10 ], [ "hc_khopesh", 5 ], [ "ch_khopesh", 2 ], [ "qt_khopesh", 1 ] ]
   },
   {
     "type": "item_group",

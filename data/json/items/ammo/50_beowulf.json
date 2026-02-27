@@ -81,7 +81,7 @@
     },
     "dispersion": 25,
     "recoil": 2500,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "id": "50beowulf_penetrator",
@@ -109,7 +109,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_50beowulf_penetrator",
@@ -124,7 +124,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_50beowulf_xtp",
@@ -134,7 +134,7 @@
     "name": { "str_sp": ".50 Beowulf XTP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_50beowulf_penetrator",
@@ -144,6 +144,6 @@
     "name": { "str_sp": ".50 Beowulf Xtreme Penetrator, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

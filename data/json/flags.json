@@ -5,6 +5,11 @@
     "info": "This is not intended to be visible during normal gameplay.  <bad>Please file a bug report</bad> unless you are seeing this in the debug menu."
   },
   {
+    "id": "SWIM_UNDER",
+    "type": "json_flag",
+    "info": "Terrain with this flag is treated as having water beneath a covering (e.g. ice); entities may be considered under water for swimming and related mechanics."
+  },
+  {
     "id": "ABLATIVE_CHAINMAIL_ARMS",
     "type": "json_flag",
     "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
@@ -86,6 +91,18 @@
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
+    "id": "ALCOHOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALCOHOL_STRONG",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALCOHOL_WEAK",
+    "type": "json_flag"
   },
   {
     "id": "ALLOWS_TAIL",
@@ -272,6 +289,16 @@
     "id": "INDUSTRIAL_CARD",
     "type": "json_flag",
     "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
+    "id": "ANDURIL_AR_CARD",
+    "type": "json_flag",
+    "info": "You could probably use this to get into a secure Anduril Industries facility."
+  },
+  {
+    "id": "EXODII_STRING_DIMENSION_CARD",
+    "type": "json_flag",
+    "info": "You could probably use this to open some lock."
   },
   {
     "id": "COOP_CARD",
@@ -1510,6 +1537,10 @@
     "type": "json_flag"
   },
   {
+    "id": "FLAT_TIRE",
+    "type": "json_flag"
+  },
+  {
     "id": "FELINE",
     "type": "json_flag"
   },
@@ -1585,6 +1616,11 @@
     "id": "INTEGRATED",
     "type": "json_flag",
     "info": "This is <info>integrated into the body</info>."
+  },
+  {
+    "id": "MUTATED_ANATOMY_ONLY",
+    "type": "json_flag",
+    "info": "This can only be worn by those with <info>particular mutated anatomy</info> "
   },
   {
     "id": "MORPHIC",
@@ -2126,7 +2162,8 @@
     "type": "json_flag"
   },
   {
-    "id": "DAMAGE_VEHICLE_WHEELS",
+    "id": "PUNCTURE_VEHICLE_WHEELS",
+    "//": "Sharp or pointy item, capable to make a hole in your tire",
     "type": "json_flag"
   },
   {
@@ -2522,6 +2559,16 @@
     "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   },
   {
+    "id": "PAPR_MASK",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator."
+  },
+  {
+    "id": "PAPR_BLOWER",
+    "type": "json_flag",
+    "info": "This item functions as a powered air purifying respirator blower."
+  },
+  {
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather.",
@@ -2563,6 +2610,11 @@
     "id": "HERITAGE",
     "type": "json_flag",
     "info": "You have nonhuman ancestry or are not human"
+  },
+  {
+    "id": "BLOCK_HUGE_ATTACKS",
+    "type": "json_flag",
+    "info": "You are capable of blocking attacks from targets of any size"
   },
   {
     "id": "SUFFOCATION_IMMUNE",
@@ -2896,5 +2948,17 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag used in Construction pre_flags field",
     "name": "Wired Wall"
+  },
+  {
+    "id": "MWS_PORTAL_STORM_DATA",
+    "type": "json_flag",
+    "name": "Odd recordings",
+    "info": "This ongoing report has a series of odd recordings, as if the instruments malfunctioned."
+  },
+  {
+    "id": "PHASE_BACK",
+    "type": "json_flag",
+    "//": "Terrain / Furniture flag",
+    "//2": "This terrain will phase back to its original terrain when no longer modified."
   }
 ]

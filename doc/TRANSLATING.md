@@ -415,12 +415,7 @@ You can also change the language in game options if both are installed.
 
 ### Language stats
 
-We also store some statistics for how complete each translation is, in
-`src/lang_stats.inc`.  This can be used for example to show end users some
-information about the translations.
-
-These stats are also normally updated by the GitHub workflow, but can be
-updated by hand via `lang/update_stats.sh`.
+You can see statistics for how complete each translation is in [Transifex translations project][1] or in-game language selection menu.
 
 [1]: https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion

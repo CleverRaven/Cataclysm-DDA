@@ -11,11 +11,11 @@
 #include "debug.h"
 #include "enums.h"
 #include "string_formatter.h"
+#include "translation.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
-class translation;
 
 namespace catacurses
 {
@@ -55,7 +55,7 @@ inline void add_msg( const char *const msg, Args &&... args )
 template<typename ...Args>
 inline void add_msg( const translation &msg, Args &&... args )
 {
-    return add_msg( string_format( msg, std::forward<Args>( args )... ) );
+    return add_msg( string_format( msg.translated(), std::forward<Args>( args )... ) );
 }
 
 void add_msg( const game_message_params &params, std::string msg );

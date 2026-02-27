@@ -3383,42 +3383,6 @@
     "difficulty": 7
   },
   {
-    "id": "nested_lsurvivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "light survivor pants",
-    "description": "Recipes related to constructing various sizes of light survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "lsurvivor_pants", "xs_lsurvivor_pants", "xl_lsurvivor_pants" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_survivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor pants",
-    "description": "Recipes related to constructing various sizes of survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "pants_survivor", "xs_pants_survivor", "xl_pants_survivor" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_all_survivor_pants",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_LEGS",
-    "name": "survivor pants",
-    "description": "Recipes related to constructing various sizes and variations of survivor cargo pants.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "nested_lsurvivor_pants", "nested_survivor_pants" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_lc_chainmail_legs",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -4135,7 +4099,16 @@
     "name": "flamethrower fuels",
     "description": "Recipes related to creating flammable liquids suitable for loading into a flamethrower.",
     "skill_used": "chemistry",
-    "nested_category_data": [ "napalm", "gelled_gasoline", "flamethrower_fuel" ],
+    "nested_category_data": [
+      "napalm",
+      "flamethrower_fuel",
+      "gelled_gasoline_from_lye_and_rosin",
+      "gelled_gasoline_from_lye_alcohol_tallow",
+      "gelled_gasoline_from_lye_alcohol_tallow_substitute",
+      "gelled_gasoline_from_alcohol_soap",
+      "gelled_gasoline_from_wax",
+      "gelled_gasoline_from_blood"
+    ],
     "difficulty": 2
   },
   {
@@ -7113,7 +7086,8 @@
       "spear_stone_simple",
       "spear_wood",
       "spear_wood_simple",
-      "nested_pikes"
+      "nested_pikes",
+      "crude_goedendag"
     ]
   },
   {
@@ -8375,7 +8349,7 @@
     "name": "bats",
     "description": "Recipes for making baseball bats and improving them with various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt" ],
+    "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt", "goedendag_bat" ],
     "difficulty": 1
   },
   {

@@ -2,11 +2,13 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <array>
 #include <limits>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
-#include <vector>
 #include <climits>
 
 #include "units_fwd.h"
@@ -53,6 +55,11 @@ enum moon_phase {
     /** Not a valid moon phase, but can be used for iterating through enum */
     MOON_PHASE_MAX
 };
+
+inline auto format_as( moon_phase mp )
+{
+    return static_cast<std::underlying_type_t<moon_phase>>( mp );
+}
 
 enum class time_accuracy {
     /** No accuracy, no idea what time it is **/
@@ -348,7 +355,7 @@ class time_duration
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
 
-        static const std::vector<std::pair<std::string, time_duration>> units;
+        static const std::array<std::pair<std::string_view, time_duration>, 15> units;
 };
 
 /// @see x_in_y(int,int)
@@ -630,6 +637,8 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
+/** Returns true if it's currently dusk or dawn */
+bool is_twilight( const time_point &p );
 /** How much light is provided in full daylight */
 float default_daylight_level();
 /* Irradiance (W/m2) on clear day when sun is at 90 degrees */
@@ -640,6 +649,7 @@ float max_sun_irradiance();
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+float moon_light_at( const time_point &p );
 
 /* Returns sun irradiance (W/m2) on a flat surface*/
 float sun_irradiance( const time_point &p );

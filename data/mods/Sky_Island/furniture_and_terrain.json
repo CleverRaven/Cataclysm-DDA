@@ -79,6 +79,16 @@
     }
   },
   {
+    "type": "terrain",
+    "id": "t_wall_r_glow",
+    "copy-from": "t_wall_color",
+    "looks_like": "t_wall_r",
+    "name": "red glowing wall",
+    "description": "A red wall emitting otherworldly glow, enough to be noticeable at night.",
+    "color": "red",
+    "light_emitted": 120
+  },
+  {
     "id": "fakeitem_statue",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

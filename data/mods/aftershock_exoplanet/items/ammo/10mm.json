@@ -65,7 +65,7 @@
     "dispersion": 0,
     "recoil": 600,
     "critical_multiplier": 4,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "effects": [ "COOKOFF" ],
     "flags": [ "CASELESS_ROUNDS" ]
   }
 ]

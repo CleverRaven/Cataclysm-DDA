@@ -169,6 +169,33 @@ Add activity zone to automatically study books
 Completely remove the animal food system
 Restrict follower sleep spot to the same vehicle when player is sleeping in a vehicle
 allow to extend region feature flag settings
+allow the player to simply read map boards without forcing them to smash it
+Mobile weather stations and things to do with them
+Allow fields to track their sources (i.e. who started a fire)
+New Hub 01 quest-line for hazard meteorologists
+overthrow the reign of RELOAD_ONE, aka Reload everything one by one as part of activity
+More proper sorting
+Freeze water into ice in winter basic func
+Spells can now be actively channeled, causing continued effects over time so long as you wait after casting.
+Better furniture loading onto vehicles
+Freeze water into ice in winter with phase change system.（2/?）
+Use `EXTRADIMENSIONAL` flag as a catch-all for other-dimensional specials
+Set of clothes takes off ALL items, always
+Frezze water in winter monster and plant part. (3/?)
+Promote "SWIM_UNDER" flag to docks and bridges.
+Water frozen in winter veh and thick ice part. (4/5)
+Limbify tails
+Allow furniture/vehicles to be vertically dragged
+Shift Alpha Exodii Labyrinth to its own dimension
+Monsters check for `BLIND` flag, not `blind` effect
+Allow mutations to be powered by Stamina, apply it to Insect Wings
+Expose dimension names to EOC
+Add `forest` artifact recharge option
+Move jumping mutations to `"stamina": true`
+Add `TOUCH_REQUIRED` flag for spells
+Armor shapeshifted into your form has a special message when trying to take it off
+Add `MUTATED_ANATOMY_ONLY` flag for gear that can only be worn by mutants
+Add PLANT_BLOOD monster flag, apply to defender of the wood in XE
 
 
 
@@ -386,6 +413,26 @@ Add a supermarket
 Portable hand truck for moving furniture and appliances
 RANGE_DODGE no longer applies to spells, can be applied to monsters
 Move dense forest raspberry/strawberry/blueberry spawn to patches
+Add Radiosphere dimension
+Rework the blood analysis quest
+A new nether-creature encounter with prototype XEDRA tech as a reward
+new 2-piece Powered Air Purifying Respirator (PAPR) system
+New demo power tools + more difficult, but more consistent, concrete removal
+Inland container depot
+25 more shipping containers
+Your new pal, Pat (check the Hub)
+Add feldspar chunks to forest/field itemgroups, add feldspar veins to Innawood
+Dimension of sundered spacetime
+Turn various traits into limb-adding mutations
+Add tarot reading
+Devourer Evolution
+Multilevel Exodii dungeon in the string dimension
+Hunting horrors have a poison that makes you burn in light
+Tons of limbification 
+HEW system can detect shimmering portals
+[Old Lab Removal] Removing old lab specials
+Hub 01 chop shop with Hub & Exodii missions
+Mission to explore a failed Exodii node for Rubik
 
 
 ## Interface:
@@ -517,6 +564,27 @@ overmap sidebar ImGui conversion
 Add vehicle zone enable/disable keys to the zone manager UI
 Rework inventory capacity summary
 Show weapon category in item info
+Optimize pinyin search
+Move the lore snippets from the faction to the diary UI
+Persist zoom levels
+Improved controller support to add left trigger to switch to alternate buttons, and radial menus
+Add crafting recipe **filter** by its source
+Better contrast for blue-on-black color
+Print 'taming' foods for monsters
+Sidebar headers to differentiate terrain vs furniture
+Remove 'Toggle skill training' hotkey description
+Add a new display mode to the construction menu: ready.
+Disable invalid file operations for empty e-devices
+Show time required to hotwire a car
+Add sidebar widgets for oxygen levels
+Show time required to pick a lock
+Show time to hacksaw before committing to doing it
+Show objective directions on overmap
+Allow resuming hacksaw cutting metal with different tools
+Add missing components to view priority from crafting menu
+Add deprioritize components of a recipe to the crafting menu
+Holster iuse just list items in pockets that are flagged as holsters
+Add goodbye option to Smokes' conversation hub
 
 
 ## Mods:
@@ -962,6 +1030,33 @@ Martial Mastery Stat Widget
 [DDotD] Albertan trees rework
 [XE/DDotD] Add XE_CLASSIC category, apply it to appropriate XE monsters
 [DDotD] Laptop rework
+Add Mind Over Matter: Psychic Scream mod to the CDDA repository
+Martial Mastery: New defense oriented perkline.
+[Magiclysm] Shapeshifting and druid items
+Add an enchantment that modifies the 'free dodges' stat introduced for Martial Art styles
+[Sky Island] Missions take place in alternate dimensions
+[Magiclysm] The great spell categorization
+[Magiclysm] The great spell itemgroup reorganization
+[MoM] Add Rainywood Oubliette dimension
+[Magiclysm] Add restricted and illegal spells to appropriate locations
+[Innawood] Add ore to some outcroppings
+[Xedra Evolved] Sidebar updates
+[Xedra Evolved] Add Sefer Raziel HaMalakh as a hedge magic book
+[MoM] Add biokinesis/vitakinesis research facility
+[Aftershock] Add esper enkindling tinctures
+[MoM] Add spoiler doc to explain how power learning works
+[XE] Add three vampire hunter professions
+[Mods] Use external options in the manipulation of mods skills and proficiencies
+[Xedra Evolved] Fix elemental fae joining the Butlerian Jihad
+[Sky Island] Spawn the Island in a void
+[Sky Island] Mod compatibility
+[Sky Island] Dummy EOCs so the innawood integration does not cause an error
+[No Hope] Actually use defined region settings
+[XE] The holy-burnt suffer from wearing holy symbols.
+[Bombastic Perks] Change the way you get playstyle perks
+[Bombastic Perks] Add more prerequisites for perks
+[Xedra Evolved] Make Nether Sorcery learnable
+New Mod Megacity.
 
 
 
@@ -1075,6 +1170,34 @@ Make picking individual threads out of cotton scraps SUCK (for morale)
 Change Throwing Assist CBM's enchant to use THROW_STR and THROW_DAMAGE instead of adding to skill
 Greatly reduce lone fruit trees in the forest
 Rebalance Aikido to emphasize surviving and escaping opponents
+Make single fruit bushes less common, add huckleberry/hobbleberry/autumn olive patches
+Add UNBREAKABLE_MORALE flag, apply it to zombies
+Murdering humans('monsters') is still murdering humans
+Fixes Cloud Formation and Pressure
+Getting hurt is bad for your long-term health
+You can't choose where you will appear after exiting a reverberation
+Techniqueify `HOOVES`
+Increase hulk combat ability
+internal vehicle electronics don't threaten the integrity of the tires when destroyed
+Apis npc is more insectoid, more brave, less talkative, and more dangerous
+Natural healing degrades health but medical healing does not
+Devourers gain abilities and resilience from devouring
+Scale devourer flesh raptor generation with size
+Remove grenade hacks from direct spawn, make lab bots spawn flashbang hacks instead
+Reduce the rate of siphoning and drawing a liquid from vehicle from 0.66L to 0.25L per second
+Technique-ify Several traits
+Hub 01 pays less for HEW reports
+Exodii do not pay for clothes or common kitchen goods
+Remove free attack from rabbit feet
+Give krecks a bite attack
+Make riding an animal exerting; add walking gait
+Flying Polyps are out of phase
+Adjusts default game temperatures to be more in line with Boston, MA
+Melatonin makes sense now
+Remove above-and-beyond damage bonus on mutation natural weapon crits
+Slit Nostrils cause a breathing limb score penalty, not a mouth encumbrance penalty
+Clothing is subject to more considerations when sustaining damage from unarmed attacks
+Stat boost CBMs require power
 
 
 ## Bugfixes:
@@ -1486,6 +1609,50 @@ Make dry_veggy (dehydrated vegetable) not dryable
 Properly load the region type of the dimension the game was last saved in
 Make pockets check volume of a single charge against min_item_volume
 fix a crash when opening the item comparison window
+Remove anvilmancy (the ability to teleport anvils above zombies)
+Workaround UTF-8 and wide string conversion failure on some Linux/macOS systems
+Reset consume menu state when closed
+Fix translation progress not showing up
+You can now swim down (and up) in oceans
+[Xedra Evolved] Fix being allowed to study occult texts in complete darkness
+Fix x-ray vision of NPC underwear
+bridge crossing in autodrive mode
+Fix format mismatch in cataimgui::draw_colored_text
+Fixing error and tips msg for water purification tablets
+Fix ethereal item info
+Fixed debug msg in mapgen that caused debug errors.
+You can't fold veh with furn in it.
+Fix bandages or disinfectant could apply bonus healing to other body parts
+Updated logic for sunlight availability for planting
+More reasonable approach to item rot
+Fix vehicles not being seriously impacted by flat tires
+fix focus always be a penalty when install GUNMOD with `INSTALL_DIFFICULT`
+Fix supermarket items spawning with unrealistic quantities and missing containers
+Fix update_mapgen in missions to use mission target as origin instead of player if possible
+Fix add_mod printf specifier
+Fix basic typos in code and comments
+[MoM] Remove riot damage from labs
+Fix typos in code and comments
+Fix another edge case with zone sorting
+Fix monster infighting slowing game down
+Support copy from in string extractor for overmap special
+Adjusts region seasonal wind variation so it actually does something
+Fix crash to desktop when sleeping caused by sundial division by zero
+Item rot calculation
+monsters that step on the void spider starlit webs don't cause you to go to a bugged inescapable nowhere dimension
+Fix auto-move silently eating activities on grabbed vehicle collision
+Fix zone sorting pathfinding when dragging a single-tile vehicle
+Game start fail when bicycle is set as start vehicle
+Overmap Specials can use copy-from
+Applies mend fix for each fault cleared
+Fix 100% CPU usage in ncurses
+Fix zone sorting infinite loops and item loss with unreachable destinations
+Rubik will only install CBMs if you have a CBM interface
+Fix stacked integrated armor from cached enchantment mutations
+Respect terrain/vehicle zone binding during sorting
+Fix shapeshifted gear disappearing when you become `incorporeal`
+Fix auto-move aborting after opening vehicle doors, and sort vehicle cargo from terrain UNSORTED zones
+Fix fire starting deleting firewood instead of fueling the fire
 
 
 ## Performance:
@@ -1520,6 +1687,12 @@ Speed up mapgen especially noticeable in Sky Islands
 don’t call std::pow for squaring numbers
 don’t compute the size of far away hordes when drawing the world map
 can_contain: calculate pocket volume once (huge speed up in special cases)
+Shrink binary by using constexpr arrays for units constants
+Speed up autopickup by skipping items that were already checked
+Speed up tests with faster map teardown
+Even faster tests with less map memory manipulation
+Optimize grab-aware pathfinding during zone sorting
+Batch zone sorting pickups from nearby sources
 
 
 ## Infrastructure:
@@ -1685,6 +1858,36 @@ Add tests for match_include_exclude filter rules
 move ACT_VEHICLE handler to vehicle_activity_actor
 Add an effect for EoCs to be able to browse or unbrowse items
 move ACT_BUILD handler to build_construction_activity_actor
+Allow overriding in snippets definitions
+obsolete ACT_ARMOR_LAYERS, move to uistate::open_menu
+move ACT_TREE_COMMUNION handler to activity_actor
+move ACT_ATM handler to activity_actor
+Add support for fstring style placeholders in translated strings.
+Move ACT_TRAIN handler to activity_actor, obsolete ACT_TRAIN_TEACHER
+Add captions to AppStream screenshots to satisfy Flathub linter
+move ACT_TOOLMOD_ADD to activity_actor
+remove ACT_DISMEMBER handler (dead code)
+move ACT_PULL_CREATURE handler to activity_actor
+Move ACT_MEND_ITEM to activity_actor
+clean up heat_activity_actor
+Add tileset support for pets wearing armor
+activity_actor framework for multi-activities, move ACT_MULTIPLE_MINE to activity_actor
+Rewrite and migrate V menu to ImGui
+move ACT_MULTIPLE_MOP, ACT_MULTIPLE_CHOP_PLANKS, ACT_MULTIPLE_CHOP_TREES to activity actor
+move ACT_VEHICLE_REPAIR, ACT_VEHICLE_DECONSTRUCTION to activity_actor
+Move ACT_MULTIPLE_FISH/FARM/READ/STUDY to activity_actors
+move ACT_MULTIPLE_CRAFT, ACT_MULTIPLE_DIS(assembly) to activity_actors
+Make inv_search_cache operate on item_location
+move ACT_MULTIPLE_BUTCHER, ACT_FETCH_REQUIRED, ACT_MULTIPLE_CONSTRUCTION to activity_actors
+obsolete ACT_TIDY_UP
+Obsolete ACT_FERTILIZE_PLOT, replace with fertilize_plant_activity_actor
+multi-activity overhaul part 7: cleanup dead legacy code
+Pin GitHub Actions to commit SHAs and apply security hardening
+Fix test labeler spurious failures, cache IWYU and clang-tidy plugin builds
+move ACT_START_FIRE to activity_actor
+Change default test sort order to lexicographical
+multi-activity overhaul part 8: simplify multi-activity backlogging
+Add dimension travel to the event bus for EOCs to use
 
 
 ## Build:
@@ -1716,6 +1919,8 @@ Build tilesets in CI for releases, delete tilesets from repo
 Build translations in CI for releases, delete translations from repo
 Fix clang 21 warnings
 Upgrade vcpkg baseline
+Remove MXE from release, fix clang on macOS
+Fix maybe-uninitialized warning in unseal_and_spill_test
 
 
 ## I18N and A11Y:

@@ -73,7 +73,7 @@ pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,c
 
 -> Windows 10 and later
 ```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf} zlib-devel
 ```
 
 5. Close MSYS2.

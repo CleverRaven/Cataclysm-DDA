@@ -380,7 +380,7 @@
       { "group": "canned_staples_1l" },
       { "group": "dry_lentils_bag_plastic_full", "count": 2 },
       { "group": "dry_rice_bag_plastic_full", "count": 2 },
-      { "group": "flatbread_bag_plastic_full", "count": 2 },
+      { "group": "flatbread_in_bag_full", "count": 2 },
       { "item": "peanutbutter", "count": 2 },
       { "item": "jam_fruit", "count": 2 },
       { "item": "protein_bar_evac", "count": 6 }
@@ -442,7 +442,7 @@
     "//": "an item that wouldn't be super useful to the player, recreational items and such.",
     "entries": [
       { "item": "towel", "count": 1, "prob": 50 },
-      { "group": "pet_food", "count": [ 1, 2 ], "prob": 20 },
+      { "group": "pet_food_in_container", "count": [ 1, 2 ], "prob": 20 },
       { "group": "SUS_book", "prob": 50 },
       { "group": "games", "prob": 20 },
       { "group": "bugout_memento", "prob": 50 },
@@ -596,14 +596,14 @@
     "subtype": "distribution",
     "//": "1L of calorie dense canned food, not things like tomatoes or pineapples",
     "entries": [
-      { "group": "can_beans_can_medium_2", "count": 2 },
-      { "group": "pork_beans_can_medium_2", "count": 2 },
-      { "group": "can_chicken_can_medium_2", "count": 2 },
-      { "group": "chili_can_medium_2", "count": 2 },
-      { "group": "ravioli_can_medium_2", "count": 2 },
-      { "group": "can_spam_can_medium_6", "count": 2 },
+      { "group": "beans_in_can", "count": 2 },
+      { "group": "pork_beans_in_can", "count": 2 },
+      { "group": "chicken_in_can", "count": 2 },
+      { "group": "chili_in_can", "count": 2 },
+      { "group": "ravioli_in_can", "count": 2 },
+      { "group": "spam_in_can", "count": 2 },
       { "item": "milk_evap", "count": 2 },
-      { "item": "can_tuna", "count": 4 }
+      { "group": "tuna_in_can", "count": 4 }
     ]
   },
   {
@@ -659,7 +659,6 @@
     "type": "item_group",
     "id": "pills_sleep_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "pills_sleep", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -667,7 +666,6 @@
     "type": "item_group",
     "id": "oxycodone_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -675,7 +673,6 @@
     "type": "item_group",
     "id": "xanax_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "xanax", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -683,7 +680,6 @@
     "type": "item_group",
     "id": "tobacco_bag_plastic_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -691,7 +687,6 @@
     "type": "item_group",
     "id": "crack_bag_zipper_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "crack", "container-item": "null", "count": [ 1, 4 ] } ]
   },
@@ -699,7 +694,6 @@
     "type": "item_group",
     "id": "antifungal_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 5 ] } ]
   },
@@ -707,7 +701,6 @@
     "type": "item_group",
     "id": "homeopathic_pills_bottle_plastic_pill_supplement_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
   },
@@ -715,7 +708,6 @@
     "type": "item_group",
     "id": "cookies_box_snack_1_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "box_snack",
     "entries": [ { "item": "cookies", "container-item": "null", "count": [ 1, 4 ] } ]
   }

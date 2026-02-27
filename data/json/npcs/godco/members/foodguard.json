@@ -145,13 +145,13 @@
         "text": "Could some money persuade you?",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
         "failure": { "topic": "TALK_GODCO_guard_food_bribe_fail", "opinion": { "trust": -2 } },
-        "success": { "topic": "TALK_GODCO_guard_food_bribe_sucess" }
+        "success": { "topic": "TALK_GODCO_guard_food_bribe_success" }
       },
       {
         "text": "I can give these people one less mouth to feed, if you'd prefer that.",
         "trial": { "type": "INTIMIDATE", "difficulty": 10 },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "success": { "topic": "TALK_GODCO_guard_food_intimidate_sucess", "opinion": { "trust": -4 } }
+        "success": { "topic": "TALK_GODCO_guard_food_intimidate_success", "opinion": { "trust": -4 } }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_GODCO_guard_food" },
       { "text": "Alright.  <end_talking_bye>", "topic": "TALK_DONE" }
@@ -184,7 +184,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_GODCO_guard_food_intimidate_sucess",
+    "id": "TALK_GODCO_guard_food_intimidate_success",
     "dynamic_line": [ "Alright, alright.  Here's some food and water, <name_b>.  Get out of my sight." ],
     "speaker_effect": [ { "effect": { "math": [ "n_npc_anger() += 2" ] } } ],
     "responses": [
@@ -200,7 +200,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_GODCO_guard_food_bribe_sucess",
+    "id": "TALK_GODCO_guard_food_bribe_success",
     "dynamic_line": [ "Okay, here's some food and water.  Don't tell anyone I gave you that." ],
     "responses": [
       {

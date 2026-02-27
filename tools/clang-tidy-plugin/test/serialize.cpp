@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-serialize %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_include/third-party
+// RUN: %check_clang_tidy -allow-stdinc %s cata-serialize %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_third_party_include
 
 #include "json.h"
 

@@ -11,7 +11,7 @@
     "id": "SUS_science_personal_effects",
     "//": "These are personal effects, such as might be found at their workplace or on their person. The rates for medication (including vision aids) are intended to mirror the distribution of these items in the general US population.",
     "//2": "diazepem ~5.6% in 2013 https://www.benzoinfo.com/prescribing-statistics/",
-    "//3": "antiparasitics: only data for US military could be found via google searching, but if rate is comparable to general population it's not even 1% https://academic.oup.com/ofid/article/9/3/ofac040/6528390 https://health.mil/News/Articles/2024/01/01/MSMR-Ivermectin",
+    "//3": "antiparasitics: only data for US military could be found via Google searching, but if rate is comparable to general population it's not even 1% https://academic.oup.com/ofid/article/9/3/ofac040/6528390 https://health.mil/News/Articles/2024/01/01/MSMR-Ivermectin",
     "//4": "~4.1% of the population with at least one stimulant prescription per year https://www.cdc.gov/mmwr/volumes/72/wr/mm7213a1.htm",
     "//5": "~8.7% of the population have asthma, presumably only some require an inhaler https://www.cdc.gov/nchs/fastats/asthma.htm",
     "items": [

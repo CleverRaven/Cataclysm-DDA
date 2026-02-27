@@ -185,7 +185,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
-    "weight": "168 g",
+    "weight": "6 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -197,7 +197,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "mouth", "muzzle" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -282,6 +282,15 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "xl_mask_dust",
+    "copy-from": "mask_dust",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "dust mask" },
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mask_hockey",

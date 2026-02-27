@@ -212,6 +212,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```INTANGIBLE_ARMOR``` The armor provides no protection on any covered body part, as thought it had a coverage of 0%. 
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
+- ```MUTATED_ANATOMY_ONLY``` For gear designed only for players with non-standard bodyparts.  Prevents normal humans from wearing the item
 - ```MUTE``` Makes the player mute.
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
@@ -390,6 +391,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
+- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -503,6 +505,9 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 ## Comestibles
 
 - ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```ALCOHOL``` Increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds effect `drunk`.
+- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds effect `drunk`.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
@@ -559,9 +564,6 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 
 These flags apply to the `use_action` field, instead of the `flags` field.
 
-- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds disease `drunk`.
-- ```ALCOHOL``` Increases drunkenness.  Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections.  Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
@@ -776,6 +778,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 - ```ACT_IN_FIRE``` This item would be activated if dropped on a tile with fire.
 - ```ALLERGEN_MILK``` This item contain milk, which make it inedible for person with lactose intolerance.
+- ```ANDURIL_AR_CARD``` This item grants access to doors in the Anduril Industries IVAS testing warehouse.
 - ```ANIMAL_PRODUCT``` This item can't be worn or eaten by vegan, despite it's materials is not blacklisted or it has no another flags, that restrict it.
 - ```BAD_TASTE``` This comestible gives -5 to taste, that can't be covered through cooking.
 - ```BANK_NOTE_SHAPED``` This item fits into the folded sleeve of wallets, like a bank note.
@@ -820,6 +823,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```E_STORABLE``` This item can be stored on an in-game electronic device.
 - ```E_STORABLE_EXCLUSIVE``` This item can ONLY be stored on an in-game electronic device; it may only be handled electronically.
 - ```ELECTRONIC``` This item contain sensitive electronics which can be fried by nearby EMP blast.
+- ```EXODII_STRING_DIMENSION_CARD``` This item opens the door in the string dimension Exodii dome.
 - ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
 - ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
 - ```FELINE``` Food that only player with `FELINE` threshold mutation can eat.  See also `INEDIBLE`.
@@ -991,6 +995,7 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```NEVER_JAMS``` Never malfunctions.  Unaffected by the `JAMMED_GUN` fault.
 - ```NO_DIRTYING``` Prevents the gun from receiving `fault_gun_dirt` fault.
 - ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
+- ```OVERHEATS``` Adds a description stating the gun overheats when fired continuously. Purely informational. Does not affect behavior.
 - ```JAMMED_GUN``` Stops burst fire.  Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 
@@ -1134,6 +1139,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```CAN_DIG``` Will dig on any diggable terrain the same way `DIGS` does, however, will walk normally over non-diggable terrain.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
 - ```CLIMBS``` (depricated in favor of [moveskills](MONSTERS.md#move_skills)) Can climb over fences or similar obstacles quickly.
+- ```CLUMSY_ATTACKS``` Has a 1 in 4 chance of falling over when missing an attack.
 - ```COLDPROOF``` Immune to cold damage.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
@@ -1209,6 +1215,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
+- ```PLANT_BLOOD``` Forces monster to bleed sap.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
@@ -1577,7 +1584,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MILITARYMAP``` Learn of local military installations, and show roads.
 - ```MININUKE``` Set the timer and run.  Or hit with a hammer (not really).
-- ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOP``` Mop up the mess.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
@@ -1705,6 +1711,8 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.
+- ```FURNITURE_LIFT_ASSIST``` This part has bonus effective strength when 'e'xamining it to load furniture onto it. Requires the part to also be FURNITURE_TIEDOWN. Bonus is currently set to 5.
+- ```FURNITURE_TIEDOWN``` This part can have furniture loaded onto it. Requires the part to also be CARGO.
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
 - ```HANDHELD_BATTERY_MOUNT``` Same as `BATTERY_MOUNT`, but for handheld battery mount.
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.

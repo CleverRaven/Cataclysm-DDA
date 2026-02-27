@@ -294,7 +294,6 @@
     "material": [ "veggy" ],
     "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
-    "container": "can_medium",
     "quench": 5,
     "calories": 152,
     "volume": "250 ml",

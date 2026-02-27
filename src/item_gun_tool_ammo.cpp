@@ -2243,10 +2243,6 @@ void item::reload_option::qty( int val )
     int remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
                              target->remaining_ammo_capacity();
-    if( target->has_flag( flag_RELOAD_ONE ) &&
-        !( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) ) {
-        remaining_capacity = 1;
-    }
     if( ammo_obj.type->ammo ) {
         if( ammo_obj.ammo_type() == ammo_plutonium ) {
             remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
@@ -2921,36 +2917,90 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     }
 
     // Normally efficiency is the chance to get a charge every charge_interval, but if we're catching up from
-    // time spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    // time spent outside the reality bubble it should be applied as a percentage of the total instead.
     bool short_time_passed = turns_elapsed <= link().charge_interval;
 
     if( turns_elapsed < 1 || ( short_time_passed &&
                                !calendar::once_every( time_duration::from_turns( link().charge_interval ) ) ) ) {
+        // Too early to get any charge
         return link().charge_rate;
     }
 
-    // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
-    int transfer_total = short_time_passed ? 1 :
-                         ( turns_elapsed * 1.0f / link().charge_interval ) * link().charge_interval;
-
     if( power_in ) {
-        const int battery_deficit = linked_veh.discharge_battery( here, transfer_total, true );
-        // Around 85% efficient by default; a few of the discharges don't actually recharge
-        if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
-            ammo_set( itype_battery, ammo_remaining( ) + transfer_total );
+        int available_charges = linked_veh.connected_battery_power_level( here ).first;
+        int wanted_charges = ammo_capacity( ammo_battery ) - ammo_remaining( );
+
+        // Nothing to charge or nothing to charge with
+        if( wanted_charges == 0 || available_charges == 0 ) {
+            return link().charge_rate;
         }
-    } else {
-        // Around 85% efficient by default; a few of the discharges don't actually charge
-        if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
-            const int battery_surplus = linked_veh.charge_battery( here, transfer_total, true );
-            if( battery_surplus == 0 ) {
-                ammo_set( itype_battery, ammo_remaining( ) - transfer_total );
+
+        if( short_time_passed ) {
+            // Single charge - subtract one from source, roll against efficiency to add one to destination
+            int deficit = linked_veh.discharge_battery( here, 1, true );
+            if( deficit == 0 && rng_float( 0.0, 1.0 ) <= link().efficiency ) {
+                ammo_set( itype_battery, ammo_remaining( ) + 1 );
             }
         } else {
-            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level( here );
-            if( linked_levels.first < linked_levels.second ) {
-                ammo_set( itype_battery, ammo_remaining( ) - transfer_total );
+            // Multiple charges - get minimum from available charges, possible transfer in given time and
+            // amount of charges destination needs to charge itself to full with given efficiency.
+            // Subtract that value from the source and after reduction by efficiency add it to the destination.
+            int possible_transfer =
+                static_cast<int>( turns_elapsed * 1.0f / link().charge_interval );
+            int required_charges = static_cast<int>( wanted_charges / link().efficiency );
+            int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
+            int deficit = linked_veh.discharge_battery( here, spent_charges, true );
+            int actual_spent = spent_charges - deficit;
+            // Avoid rounding error on full charge
+            int received_charges = actual_spent >= required_charges
+                                   ? wanted_charges
+                                   : static_cast<int>( actual_spent * link().efficiency );
+
+            ammo_set( itype_battery, ammo_remaining( ) + received_charges );
+        }
+    } else {
+        const auto [bat_remaining, bat_capacity] = linked_veh.connected_battery_power_level( here );
+        int available_charges = ammo_remaining( );
+        int wanted_charges = bat_capacity - bat_remaining;
+
+        // Nothing to charge or nothing to charge with
+        if( wanted_charges == 0 || available_charges == 0 ) {
+            return link().charge_rate;
+        }
+
+        if( short_time_passed ) {
+            // Single charge - subtract one from source, roll against efficiency to add one to destination
+            ammo_set( itype_battery, ammo_remaining( ) - 1 );
+            if( rng_float( 0.0, 1.0 ) <= link().efficiency ) {
+                int surplus = linked_veh.charge_battery( here, 1, true );
+                if( surplus != 0 ) {
+                    // Battery couldn't accept the charge, refund it
+                    ammo_set( itype_battery, ammo_remaining( ) + 1 );
+                }
             }
+        } else {
+            // Multiple charges - get minimum from available charges, possible transfer in given time and
+            // amount of charges destination needs to charge itself to full with given efficiency.
+            // Subtract that value from the source and after reduction by efficiency add it to the destination.
+            int possible_transfer =
+                static_cast<int>( turns_elapsed * 1.0f / link().charge_interval );
+            int required_charges = static_cast<int>( wanted_charges / link().efficiency );
+            int spent_charges = std::min( { possible_transfer, available_charges, required_charges } );
+            // Avoid rounding error on full charge
+            int received_charges = spent_charges == required_charges
+                                   ? wanted_charges
+                                   : static_cast<int>( spent_charges * link().efficiency );
+
+            int surplus = linked_veh.charge_battery( here, received_charges, true );
+            int actual_received = received_charges - surplus;
+            // Only deduct from source what was actually accepted (accounting for efficiency)
+            int actual_spent = actual_received == wanted_charges
+                               ? required_charges
+                               : static_cast<int>( actual_received / link().efficiency );
+            // Ensure we don't spend more than planned
+            actual_spent = std::min( actual_spent, spent_charges );
+
+            ammo_set( itype_battery, ammo_remaining( ) - actual_spent );
         }
     }
     return link().charge_rate;

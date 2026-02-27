@@ -121,5 +121,15 @@
     "mission": 7,
     "chat": "BEM_HIREABLE_1",
     "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_exodii_hunter",
+    "name_unique": "the decorated hunter",
+    "class": "NC_BEM_EXODII_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_EXODII_HUNTER_1",
+    "faction": "robofac_auxiliaries"
   }
 ]

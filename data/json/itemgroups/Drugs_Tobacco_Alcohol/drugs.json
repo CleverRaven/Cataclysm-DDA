@@ -233,6 +233,7 @@
       [ "denat_alcohol", 60 ],
       [ "methed_alcohol", 40 ],
       [ "thermometer", 50 ],
+      [ "pressure_cooker", 15 ],
       [ "flu_shot", 50 ],
       [ "disinfectant", 35 ]
     ]
@@ -256,8 +257,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "bfipowder_bottle_plastic_5_60", "prob": 100 },
-      { "item": "dayquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
-      { "item": "nyquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "group": "any_cough_syrup_in_bottle", "prob": 100 },
       { "item": "flu_shot", "count": [ 1, 10 ], "container-item": "null", "prob": 50 }
     ]
   },
@@ -343,8 +343,7 @@
       { "prob": 15, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
-      { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
-      { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
+      { "group": "any_cough_syrup_in_bottle", "prob": 140 },
       { "group": "alcohol_wipes_box_used", "prob": 75 },
       { "group": "alcohol_wipes_box_full", "prob": 10 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
@@ -409,7 +408,7 @@
           }
         ]
       },
-      { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "count": [ 0, 2 ] },
       { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
       { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
       { "count": [ 0, 2 ], "group": "meth_bag_zipper_1_6" }
@@ -419,7 +418,7 @@
     "type": "item_group",
     "id": "meth_ingredients",
     "items": [
-      { "item": "dayquil", "prob": 2, "charges": [ 1, 5 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle", "prob": 2 },
       { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
       [ "energy_drink", 2 ],
@@ -430,7 +429,6 @@
     "type": "item_group",
     "id": "tramadol_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -566,7 +564,6 @@
     "type": "item_group",
     "id": "weed_jar_3l_glass_sealed_10_420",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_3l_glass_sealed",
     "entries": [ { "item": "weed", "count": [ 10, 420 ] } ]
   },
@@ -574,7 +571,6 @@
     "type": "item_group",
     "id": "hi_q_shatter_jar_glass_sealed_5_140",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "hi_q_shatter", "count": [ 5, 140 ] } ]
   },
@@ -582,7 +578,6 @@
     "type": "item_group",
     "id": "hi_q_wax_jar_glass_sealed_5_140",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
     "entries": [ { "item": "hi_q_wax", "count": [ 5, 140 ] } ]
   },
@@ -590,7 +585,6 @@
     "type": "item_group",
     "id": "calcium_tablet_bottle_plastic_pill_supplement_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -620,7 +614,6 @@
     "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "caffeine", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -635,7 +628,6 @@
     "type": "item_group",
     "id": "homeopathic_pills_bottle_plastic_pill_supplement_1_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_supplement",
     "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": [ 1, 20 ] } ]
   },
@@ -643,7 +635,6 @@
     "type": "item_group",
     "id": "thorazine_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 1, 10 ] } ]
   },
@@ -651,7 +642,6 @@
     "type": "item_group",
     "id": "prozac_bottle_plastic_pill_prescription_1_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "prozac", "container-item": "null", "count": [ 1, 15 ] } ]
   },
@@ -659,7 +649,6 @@
     "type": "item_group",
     "id": "strong_antibiotic_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
   },
@@ -813,7 +802,6 @@
     "type": "item_group",
     "id": "codeine_bottle_plastic_pill_painkiller_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_painkiller",
     "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
   },
@@ -821,7 +809,6 @@
     "type": "item_group",
     "id": "oxycodone_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
   },
@@ -829,7 +816,6 @@
     "type": "item_group",
     "id": "meth_bag_zipper_6",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   },
@@ -862,5 +848,32 @@
     "id": "sunscreen_bottle",
     "subtype": "distribution",
     "entries": [ { "item": "sunscreen", "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nondrowsy_cough_syrup_in_bottle",
+    "subtype": "distribution",
+    "entries": [ { "item": "dayquil", "container-item": "bottle_plastic_small", "charges": [ 1, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nondrowsy_cough_syrup_in_bottle_full",
+    "subtype": "distribution",
+    "entries": [ { "item": "dayquil", "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_cough_syrup_in_bottle",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "nyquil", "container-item": "bottle_plastic_small", "charges": [ 1, -1 ] },
+      { "group": "nondrowsy_cough_syrup_in_bottle" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_cough_syrup_in_bottle_full",
+    "subtype": "distribution",
+    "entries": [ { "item": "nyquil", "container-item": "bottle_plastic_small" }, { "group": "nondrowsy_cough_syrup_in_bottle_full" } ]
   }
 ]

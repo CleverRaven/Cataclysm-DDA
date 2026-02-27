@@ -1,0 +1,15 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXISTING_CHARACTER_UPDATE_BOMBASTIC_PERKS",
+    "//": "Remove after 0.J",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "math": [ "u_upgraded_to_new_bombastic_version != 1" ] },
+    "effect": [
+      { "math": [ "u_upgraded_to_new_bombastic_version = 1" ] },
+      { "math": [ "u_perks_toward_playstyle_setting = 6" ] },
+      { "math": [ "u_playstyle_perks_available = 0" ] }
+    ]
+  }
+]

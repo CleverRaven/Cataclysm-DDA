@@ -48,6 +48,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -59,6 +60,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -127,6 +129,7 @@ static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
+static const json_character_flag json_flag_BLOCK_HUGE_ATTACKS( "BLOCK_HUGE_ATTACKS" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
@@ -171,6 +174,8 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
 static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
+
+static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
                                 Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
@@ -280,7 +285,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                             ( wear_multiplier * enchant_multiplier ) ) );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
-    if( shield->has_flag( flag_DURABLE_MELEE ) ) {
+    // Sturdy armor (such as a pair of steel gauntlets) are considered durable too.
+    if( shield->has_flag( flag_DURABLE_MELEE ) || shield->has_flag( flag_STURDY ) ) {
         damage_chance *= 4;
     }
 
@@ -597,6 +603,17 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 {
     map &here = get_map();
 
+    // Prevent player from melee-attacking creatures that are swimming under terrain.
+    if( t.is_underwater() ) {
+        const tripoint_bub_ms tpos = t.pos_bub( here );
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, tpos ) ) {
+            if( is_avatar() ) {
+                add_msg_if_player( m_info, _( "You can't reach that through the solid surface." ) );
+            }
+            return false;
+        }
+    }
+
     if( !enough_working_legs() ) {
         if( !movement_mode_is( move_mode_prone ) ) {
             add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
@@ -647,7 +664,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         return false;
     }
 
-    if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
+    if( is_avatar() && move_cost > 300 && calendar::turn > melee_warning_turn ) {
         const std::string &action = query_popup()
                                     .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
                                     .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
@@ -2002,7 +2019,25 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
 
+    magic->break_channeling( *this );
+
     if( blocks_left < 1 ) {
+        return false;
+    }
+
+    // Now that blocks cost stamina, break out if stamina is too low
+    // TODO: More complicated calculation. Dodge checks your dodge chance
+    // which is affected by stamina, pain, and so on and when it hits
+    // zero, that's when you get the message that you can't dodge, but
+    // currently none of that affects blocking
+    if( get_stamina() < 2000 ) {
+        add_msg_if_player( m_warning,
+                           _( "You're close to exhaustion and cannot block effectively." ) );
+        return false;
+    }
+
+    // Can't block attacks from attackers two sizes greater than you
+    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
         return false;
     }
 
@@ -2192,6 +2227,16 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
                            damage_blocked_description, thing_blocked_with );
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
+
+    // stamina cost for blocking, based on dodge
+    // TODO: account for enemy melee scale, add diminishing returns.
+    const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
+    const float block_skill_modifier = ( 20.0f - get_skill_level( skill_melee ) ) / 20.0f;
+    const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 6.0f *
+                                     block_skill_modifier;
+    burn_energy_legs( -block_stamina_cost );
+    set_activity_level( EXTRA_EXERCISE );
+    add_msg_debug( debugmode::DF_MELEE, "Blocking stamina cost %.1f", block_stamina_cost );
 
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );

@@ -79,6 +79,7 @@ enum class widget_var : int {
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string
+    oxygen,         // Current oxygen
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
@@ -298,7 +299,7 @@ class widget
         translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
-        // Optional color breaks in percent of the value's range; length = lenght(colors) - 1
+        // Optional color breaks in percent of the value's range; length = length(colors) - 1
         std::vector<int> _breaks;
         // Child widget ids for layout style
         std::vector<widget_id> _widgets;

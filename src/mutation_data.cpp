@@ -318,6 +318,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "sleepiness", sleepiness, false );
     optional( jo, was_loaded, "mana", mana, false );
+    optional( jo, was_loaded, "stamina", stamina, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -400,7 +401,7 @@ void mutation_branch::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "activation_msg", activation_msg,
               to_translation( "You activate your %s." ) );
 
-    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
+    optional( jo, was_loaded, "provided_qualities", provided_qualities );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
 

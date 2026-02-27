@@ -104,13 +104,13 @@ bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_a
 /**
  * Reveal the cloest overmap terrain of a type and return the its location
  */
-tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reveal_rad,
+tripoint_abs_omt mission_util::reveal_om_ter( tripoint_abs_omt origin, const std::string &omter,
+        int reveal_rad,
         bool must_see, int target_z )
 {
     // Missions are normally on z-level 0, but allow an optional argument.
-    tripoint_abs_omt loc = get_player_character().pos_abs_omt();
-    loc.z() = target_z;
-    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, omter, 0, must_see );
+    origin.z() = target_z;
+    const tripoint_abs_omt place = overmap_buffer.find_closest( origin, omter, 0, must_see );
     if( !place.is_invalid() && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -144,35 +144,6 @@ tripoint_abs_omt mission_util::random_house_in_closest_city()
         return player_character.pos_abs_omt();
     }
     return random_house_in_city( cref );
-}
-
-tripoint_abs_omt mission_util::target_closest_lab_entrance(
-    const tripoint_abs_omt &origin, int reveal_rad, mission *miss )
-{
-    tripoint_abs_omt testpoint = origin;
-    // Get the surface locations for labs and for spaces above hidden lab stairs.
-    testpoint.z() = 0;
-    tripoint_abs_omt surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false,
-                               ot_match_type::contains );
-
-    testpoint.z() = -1;
-    tripoint_abs_omt underground =
-        overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
-                                     ot_match_type::contains );
-    underground.z() = 0;
-
-    tripoint_abs_omt closest;
-    if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
-        closest = surface;
-    } else {
-        closest = underground;
-    }
-
-    if( !closest.is_invalid() && reveal_rad >= 0 ) {
-        overmap_buffer.reveal( closest, reveal_rad );
-    }
-    miss->set_target( closest );
-    return closest;
 }
 
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
@@ -354,9 +325,10 @@ tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &
  * and returns the mission target.
 */
 tripoint_abs_omt mission_util::target_om_ter(
-    const std::string &omter, int reveal_rad, mission *miss, bool must_see, int target_z )
+    tripoint_abs_omt origin, const std::string &omter, int reveal_rad, mission *miss, bool must_see,
+    int target_z )
 {
-    const tripoint_abs_omt place = reveal_om_ter( omter, reveal_rad, must_see, target_z );
+    const tripoint_abs_omt place = reveal_om_ter( origin, omter, reveal_rad, must_see, target_z );
     miss->set_target( place );
     return place;
 }
@@ -488,7 +460,8 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
     if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
         auto mission_func = [update_map = std::move( update_map ), om_terrain]( mission * miss ) {
-            tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
+            tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( miss->has_target() ? miss->get_target()
+                                           : get_player_character().pos_abs_omt(), om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
         funcs.emplace_back( std::move( mission_func ) );

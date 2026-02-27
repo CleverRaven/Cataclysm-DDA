@@ -206,7 +206,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bionic_basic_leg_l",
-    "side": 1,
+    "side": "left",
     "opposite": "test_bionic_basic_leg_sub_r",
     "name_multiple": "bionic sublegs",
     "name": "left bionic subleg"
@@ -216,7 +216,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "test_bionic_basic_leg_r",
-    "side": 2,
+    "side": "right",
     "opposite": "test_bionic_basic_leg_sub_l",
     "name_multiple": "bionic sublegs",
     "name": "right bionic subleg"

@@ -33,7 +33,7 @@ void nested_test( map &m, tripoint_abs_omt const &loc )
 TEST_CASE( "mapgen_place_vehicles" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     REQUIRE( here.get_vehicles().empty() );
     tripoint_abs_omt const this_test_omt = project_to<coords::omt>( get_avatar().pos_abs() );

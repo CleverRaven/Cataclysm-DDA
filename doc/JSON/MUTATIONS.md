@@ -120,7 +120,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
-  "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
+  "provided_qualities": { "BUTCHER": 4, "HAMMER": 1 }, // Tool qualities that are granted by this mutation
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
@@ -212,6 +212,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
+  "stamina": true,                               // If true, activated mutation consumes `cost` stamina. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation

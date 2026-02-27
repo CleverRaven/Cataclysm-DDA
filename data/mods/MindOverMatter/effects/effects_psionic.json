@@ -50,6 +50,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -158,6 +162,7 @@
     "name": [ "Oxygen Absorption" ],
     "desc": [ "You can absorb oxygen through your skin." ],
     "rating": "good",
+    "remove_message": "You take an involuntary breath.",
     "max_duration": "7 days",
     "flags": [ "GILLS", "SUFFOCATION_IMMUNE" ]
   },
@@ -637,6 +642,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 20" ] },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -1245,6 +1254,14 @@
             }
           },
           {
+            "value": "FREE_DODGES",
+            "add": {
+              "math": [
+                "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
+              ]
+            }
+          },
+          {
             "value": "BONUS_DODGE",
             "add": {
               "math": [
@@ -1321,7 +1338,7 @@
       "hallucination_attacks",
       "deaf",
       "weed_high",
-      "High",
+      "high",
       "drunk",
       "no_sight",
       "glare",

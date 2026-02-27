@@ -60,7 +60,7 @@
       "msg": "You activate your %s.",
       "target": "psionic_mindsight_glasses_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {

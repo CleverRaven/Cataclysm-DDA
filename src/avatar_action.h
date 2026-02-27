@@ -4,10 +4,8 @@
 
 #include <optional>
 #include <string>
-#include <vector>
 
 #include "coordinates.h"
-#include "type_id.h"
 
 class Character;
 class avatar;
@@ -21,10 +19,7 @@ namespace avatar_action
 
 /** Eat food or fuel  'E' (or 'a') */
 void eat( avatar &you, item_location &loc );
-void eat( avatar &you, item_location &loc,
-          const std::vector<int> &consume_menu_selections,
-          const std::vector<item_location> &consume_menu_selected_items,
-          const std::string &consume_menu_filter, activity_id type );
+
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );

@@ -1134,7 +1134,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 {
     Character &dummy = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     item backpack( itype_bigback );
     dummy.wear_item( backpack );
     item canteen( itype_2lcanteen );

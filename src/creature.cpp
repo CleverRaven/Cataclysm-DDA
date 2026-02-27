@@ -417,7 +417,8 @@ bool Creature::is_likely_underwater( const map &here ) const
 {
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
-             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+             ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub( here ) ) ) );
 }
 
 bool Creature::hallucination_die( map *here, Creature *killer )
@@ -828,7 +829,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle diff = units::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {

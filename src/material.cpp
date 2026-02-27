@@ -365,7 +365,7 @@ material_list materials::get_all()
     return material_data.get_all();
 }
 
-std::set<material_id> materials::get_rotting()
+const std::set<material_id> &materials::get_rotting()
 {
     static generic_factory<material_type>::Version version;
     static std::set<material_id> rotting;

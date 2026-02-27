@@ -1,12 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_AFS_INSTANT_DEATH",
-    "condition": "has_beta",
-    "effect": [ "npc_die" ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_AFS_REACTOR_MELTDOWN",
     "condition": "has_beta",
     "effect": [

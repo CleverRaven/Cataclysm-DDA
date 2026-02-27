@@ -94,7 +94,7 @@
     "spoils_in": "1 day",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "name": { "str_sp": "cooked meat" },
+    "name": { "str_sp": "cooked fae meat" },
     "description": "This is a chunk of freshly cooked fae meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": "7 USD 50 cent",
     "price_postapoc": "1 USD",

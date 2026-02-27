@@ -340,7 +340,8 @@
             { "overmap": "forest_thick", "pos": [ 4, 3, 0 ] },
             { "overmap": "forest_thick", "pos": [ 3, 3, 0 ] }
           ],
-          "weight": 1
+          "weight": 1,
+          "max": 1
         }
       ],
       [

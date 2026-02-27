@@ -126,7 +126,6 @@
     "type": "item_group",
     "id": "afs_kibble_afs_foil_bag_2",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "afs_foil_bag",
     "entries": [ { "item": "afs_kibble", "count": 2 } ]
   },
@@ -134,7 +133,6 @@
     "type": "item_group",
     "id": "afs_kelp_afs_foil_bag_9",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "afs_foil_bag",
     "entries": [ { "item": "kelp_sugar", "count": 9 } ]
   },
@@ -142,7 +140,6 @@
     "type": "item_group",
     "id": "afs_ruined_food_can_food_2",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "can_food",
     "entries": [ { "item": "afs_ruined_food", "count": 2 } ]
   },
@@ -150,7 +147,6 @@
     "type": "item_group",
     "id": "afs_ruined_food_afs_foil_bag_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "afs_foil_bag",
     "entries": [ { "item": "afs_ruined_food", "count": 5 } ]
   },
@@ -158,7 +154,6 @@
     "type": "item_group",
     "id": "afs_mealgrubs_afs_foil_bag_5",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "afs_foil_bag",
     "entries": [ { "item": "afs_mealgrubs", "container-item": "null", "count": 5 } ]
   }

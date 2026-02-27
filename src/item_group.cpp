@@ -25,6 +25,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "math_parser_diag_value.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"
@@ -527,6 +528,12 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
+    if( !item_vars.empty() ) {
+        for( const auto &[str, diag_val] : item_vars ) {
+            new_item.set_var( str, diag_val );
+        }
+    }
+
     {
         // create container here from modifier or from default to get max charges later
         std::optional<item> cont;
@@ -833,7 +840,7 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->set_probablility( std::min( 100, ptr->get_probability( true ) ) );
+        ptr->set_probability( std::min( 100, ptr->get_probability( true ) ) );
     }
     sum_prob += ptr->get_probability( true );
 
