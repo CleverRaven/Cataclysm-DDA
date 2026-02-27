@@ -2216,7 +2216,7 @@
         "then": [
           { "u_lose_trait": "VEGAN" },
           {
-            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "if": { "math": [ "u_shed_morality > 0" ] },
             "then": [ { "u_message": "A wave of crimson drowns your empathy for lesser beings.", "type": "mixed" } ]
           }
         ]
@@ -2226,7 +2226,7 @@
         "then": [
           { "u_lose_trait": "SPIRITUAL" },
           {
-            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "if": { "math": [ "u_shed_morality > 0" ] },
             "then": [
               {
                 "u_message": "There are no wonders and nothing beyond sight, only the thirst and how you will sate it.",
@@ -2241,7 +2241,7 @@
         "then": [
           { "u_lose_trait": "PACIFIST" },
           {
-            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "if": { "math": [ "u_shed_morality > 0" ] },
             "then": [ { "u_message": "Your disdain for violence melts as you drink your fill.", "type": "mixed" } ]
           }
         ]
@@ -2251,7 +2251,7 @@
         "then": [
           { "u_add_trait": "PSYCHOPATH" },
           {
-            "if": { "math": [ "u_shed_morality >= 0" ] },
+            "if": { "math": [ "u_shed_morality > 0" ] },
             "then": [
               {
                 "u_message": "The blood in your mouth makes you realise that anything that isn't blood isn't worth caring about.",
