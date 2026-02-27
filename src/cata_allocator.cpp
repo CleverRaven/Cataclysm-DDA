@@ -6,9 +6,9 @@
 
 // snmalloc isn't compatible with any sanitizers.
 // It is straight up unsupported on iOS due to `mach_vm` being unsupported
-#if !defined(__SANITIZE_ADDRESS__) && !__has_feature(address_sanitizer) || !defined(__IPHONEOS__)
-#define CATA_USE_SNMALLOC
-#endif
+//#if !defined(__SANITIZE_ADDRESS__) && !__has_feature(address_sanitizer) || !defined(__IPHONEOS__)
+//#define CATA_USE_SNMALLOC
+//#endif
 
 #ifdef CATA_USE_SNMALLOC
 // Disable asserts and slower debug code in the allocator.
