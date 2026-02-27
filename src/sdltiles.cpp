@@ -2626,7 +2626,7 @@ static void draw_gamepad_radial_menu()
     SDL_RenderSetScale( renderer.get(), 1.0f, 1.0f );
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
