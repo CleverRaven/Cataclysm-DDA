@@ -2476,4 +2476,3 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
         clear_map_without_vision();
     }
 }
-
