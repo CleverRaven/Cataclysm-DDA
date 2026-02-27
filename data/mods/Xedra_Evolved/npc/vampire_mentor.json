@@ -11,7 +11,7 @@
     "faction": "no_faction"
   },
   {
-    "//": "Copy-paste of NPC_starting_traits, with the traits lost by tier 5 vampires removed.",
+    "//": "Copy-paste of NPC_starting_traits, without the traits lost by tier 5 vampires.",
     "//2": "When possible, replace this by a copy_from of NPC_starting_traits that removes morality-based traits.",
     "type": "trait_group",
     "id": "NPC_Vampire_Mentor_starting_traits",
