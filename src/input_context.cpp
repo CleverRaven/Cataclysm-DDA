@@ -190,7 +190,6 @@ void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const
 
 input_context_stack_impl input_context::input_context_stack;
 
-#if defined(__ANDROID__) || defined(__IPHONEOS__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates
