@@ -121,6 +121,7 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_solder_wire( "solder_wire" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
+static const itype_id itype_survivor_mess_kit( "survivor_mess_kit" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_storage_battery( "test_storage_battery" );
@@ -1012,6 +1013,18 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
             item( itype_water, calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( itype_pot );
+
+        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
+        prep_craft( recipe_water_clean, tools, true );
+    }
+    SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( itype_popcan_stove, 500 ) );
+        item plastic_bottle( itype_bottle_plastic );
+        plastic_bottle.put_in(
+            item( itype_water, calendar::turn_zero, 2 ), pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.push_back( tool_with_ammo( itype_survivor_mess_kit, 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
@@ -2463,3 +2476,4 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
         clear_map_without_vision();
     }
 }
+
