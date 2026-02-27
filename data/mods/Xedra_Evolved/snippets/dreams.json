@@ -242,6 +242,18 @@
   },
   {
     "type": "snippet",
+    "category": "lilin_wake_up",
+    "text": [
+      "The deep heart of the night.",
+      "An endless cycle of moons.",
+      "An empty barn, an abandoned warehouse, both call to you the same.",
+      "Owls diving at their prey.",
+      "Night after night the coughing grows louder in the village below until slower the village becomes quieter until one night it is silent.",
+      "Flight over and out of the desert, to the places where men live."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "fae_wake_up",
     "text": [
       "Seasons pass and change without end.",
@@ -250,6 +262,21 @@
       "A memory of iron… Is it yours or some kind of racial memory?",
       "Water erodes the rock into soil and sand, the sapling pushes up through the cracks, lighting strikes the tree and sets it on fire, a human looking hand picks up the fire blackened staff.",
       "What will you do with eternity if you can grasp it?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "gracken_wake_up",
+    "text": [
+      "…",
+      "…",
+      "….",
+      "…",
+      "…………",
+      "…bzzzpt…",
+      "…kachunk……",
+      "mi-go chan",
+      "darkness, endless darkness"
     ]
   }
 ]
