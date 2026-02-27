@@ -1,7 +1,15 @@
 [
   {
-    "id": "t_floor_container",
+    "id": "t_concrete_light",
     "copy-from": "t_concrete",
+    "type": "terrain",
+    "name": "Concrete light",
+    "description": "Concrete light",
+    "extend": { "flags": [ "TRANSPARENT_FLOOR" ] }
+  },
+  {
+    "id": "t_floor_container",
+    "copy-from": "t_concrete_light",
     "type": "terrain",
     "name": "Container",
     "description": "Container",

@@ -16,16 +16,16 @@
     "urbanity_increase": [ 0, 0, 0, 0 ],
     "weather": "default_hunvre",
     "default_oter": [
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
+      "ship_frame",
       "outer_space",
       "outer_space",
       "outer_space",
@@ -77,6 +77,6 @@
     "summer_humidity_manual_mod": 0,
     "autumn_humidity_manual_mod": 0,
     "winter_humidity_manual_mod": 0,
-    "weather_white_list": [ "hunvre_weather_base" ]
+    "weather_white_list": [ "hunvre_weather_base_light_off" ]
   }
 ]

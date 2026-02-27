@@ -9,7 +9,7 @@
   {
     "type": "effect_on_condition",
     "id": "eoc_announcements",
-    "recurrence": [ "1 hours", "2 hours" ],
+    "recurrence": [ "30 minutes", "90 minutes" ],
     "effect": [
       {
         "switch": { "math": [ "time_since('cataclysm', 'unit':'hours')" ] },
@@ -31,7 +31,26 @@
             }
           }
         ]
-      }
+      },
+      { "run_eocs": [ "eoc_switch_lights" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_switch_lights",
+    "condition": { "math": [ "rng(0, 12) = 0" ] },
+    "effect": {
+      "if": { "math": [ "lights_are_off == 0" ] },
+      "then": [
+        { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
+        { "math": [ "lights_are_off = 1" ] },
+        { "u_message": "You hear the lights suddenly turn off." }
+      ],
+      "else": [
+        { "alter_timed_events": "lights_off" },
+        { "math": [ "lights_are_off = 0" ] },
+        { "u_message": "The lights turn back on." }
+      ]
+    }
   }
 ]

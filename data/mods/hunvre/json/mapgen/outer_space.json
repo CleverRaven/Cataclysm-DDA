@@ -131,5 +131,20 @@
     "move_cost": 1000,
     "light_emitted": 420,
     "flags": [ "DESTROY_ITEM" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ship_frame",
+    "vision_levels": "large_building",
+    "see_cost": "full_high",
+    "name": "frame",
+    "sym": ".",
+    "color": "black",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "ship_frame",
+    "object": { "fill_ter": "t_open_air" }
   }
 ]

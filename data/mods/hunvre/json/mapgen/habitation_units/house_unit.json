@@ -3,7 +3,7 @@
     "om_terrain": [ "hab_unit_central" ],
     "type": "mapgen",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_concrete_light",
       "rows": [
         "########################",
         "#                      #",
@@ -51,7 +51,7 @@
     "om_terrain": [ "hab_unit", "shop_unit", "park_unit" ],
     "type": "mapgen",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_concrete_light",
       "rows": [
         "########################",
         "#                      #",

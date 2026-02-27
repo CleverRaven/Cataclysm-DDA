@@ -1,6 +1,6 @@
 [
   {
-    "id": "hunvre_weather_base",
+    "id": "hunvre_weather_base_light_off",
     "type": "weather_type",
     "name": "Default",
     "color": "light_cyan",
@@ -9,7 +9,7 @@
     "sun_sym": "☼",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -100,
+    "light_modifier": 125,
     "sound_attn": 0,
     "dangerous": false,
     "precip": "none",
