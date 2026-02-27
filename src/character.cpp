@@ -22,6 +22,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_attire.h"
@@ -4292,6 +4293,51 @@ float Character::get_arms_stam_mult() const
 float Character::get_legs_stam_mult() const
 {
     return legs_stam_mult;
+}
+
+void Character::recover_gun_weariness() const
+{
+    // Recovery number can be thought of as "shots/bursts per hour"
+    constexpr float baseline_recovery_per_hour = 35.0f;
+    float recovery_per_hour = baseline_recovery_per_hour;
+    // Recover quicker above 200 weariness. At 400, total recovery speed is 70 per hour,
+    // at 300 it's 52.5 per hour, at 200 and below it's back to baseline 35
+
+    // Total recovery rate comes down to recovering fully from 400 to 0 in ~9.5 hours
+    // From 400 to 300 ~1.6 hours
+    // from 300 to 200 ~2.2 hours
+    // from 200 to 100 ~2.8 hours
+    // from 100 to 0   ~2.8 hours
+    if( gun_weariness > 200.0f ) {
+        recovery_per_hour += baseline_recovery_per_hour * ( gun_weariness - 200.0f ) / 200.0f;
+    }
+
+    const float hours_elapsed = to_hours<float>( calendar::turn - gun_weariness_last_updated );
+    const float recovered_within_elapsed_time = recovery_per_hour * hours_elapsed;
+
+    gun_weariness -= recovered_within_elapsed_time;
+    gun_weariness = std::max( 0.0f, gun_weariness );
+    gun_weariness_last_updated = calendar::turn;
+}
+
+void Character::add_gun_weariness()
+{
+    recover_gun_weariness();
+    // maximum is a bit over 400, to allow for factor to be cast to 3 as integer
+    gun_weariness = std::min( gun_weariness + 1.0f, 420.0f );
+}
+
+// This is supposed to be MENTAL weariness, not anything physical
+float Character::get_gun_weariness_factor() const
+{
+    recover_gun_weariness();
+
+    if( gun_weariness <= 100 ) {
+        return 0.0f;
+    } else {
+        // 100 -> 0; 150 -> 0.5; 200 -> 1; 250 -> 1.5; ...; 400 -> 3
+        return ( gun_weariness - 100 ) / 100.0f;
+    }
 }
 
 void Character::recalc_limb_energy_usage()

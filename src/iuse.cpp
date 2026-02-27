@@ -106,12 +106,14 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "ranged.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "sounds.h"
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -253,6 +255,8 @@ static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
+static const itype_id itype_attached_ear_plugs_off( "attached_ear_plugs_off" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
@@ -267,6 +271,7 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_flight_helmet( "flight_helmet" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
@@ -278,6 +283,7 @@ static const itype_id itype_joint_lit( "joint_lit" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
+static const itype_id itype_makeshift_ear_plugs_off( "makeshift_ear_plugs_off" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
@@ -288,6 +294,8 @@ static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pot( "pot" );
 static const itype_id itype_pur_tablets( "pur_tablets" );
+static const itype_id itype_powered_earmuffs( "powered_earmuffs" );
+static const itype_id itype_powered_earplugs( "powered_earplugs" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_mod( "radio_mod" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -313,6 +321,7 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -5204,6 +5213,106 @@ std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bu
                               _( "You press a button on the %s to make it talk, but nothing happens." ), it->tname() );
         return std::nullopt;
     }
+}
+
+std::optional<int> iuse::target_practice( Character *p, item *it, const tripoint_bub_ms & )
+{
+    avatar *you = p->as_avatar();
+    if( !you ) {
+        // NPCs can't do target practice yet
+        // Enabling them to woudln't require much though
+        return std::nullopt;
+    }
+
+    static const std::set<itype_id> transforms_into_hearing_protection = {
+        itype_attachable_ear_muffs,
+        itype_powered_earmuffs,
+        itype_powered_earplugs,
+        itype_flight_helmet,
+        itype_attached_ear_plugs_off,
+        itype_makeshift_ear_plugs_off
+    };
+    const bool has_hearing_protection =
+        p->cache_has_item_with( flag_DEAF ) || p->cache_has_item_with( flag_PARTIAL_DEAF ) ||
+    p->has_item_with( [&]( const item & held_item ) {
+        return transforms_into_hearing_protection.count( held_item.typeId() ) > 0;
+    } );
+
+    if( !has_hearing_protection &&
+        !p->has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You need hearing protection, basic earplugs would do." ) );
+        return std::nullopt;
+    }
+
+    if( p->is_blind() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You need to be able to see for target practice." ) );
+        return std::nullopt;
+    }
+
+    if( p->cant_do_underwater() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "And how exactly are you planning on doing that underwater?" ) );
+        return std::nullopt;
+    }
+
+    if( p->is_limb_broken( body_part_arm_l ) && p->is_limb_broken( body_part_arm_r ) ) {
+        p->add_msg_if_player( m_bad,
+                              _( "Both your arms are broken!  You can't do target practice." ) );
+        return std::nullopt;
+    }
+
+    if( p->is_limb_broken( body_part_arm_l ) || p->is_limb_broken( body_part_arm_r ) ) {
+        const bool is_pistol = it->gun_type() == gun_type_type( "pistol" );
+
+        if( is_pistol ) {
+            p->add_msg_if_player( m_good,
+                                  _( "Even though your arm is broken, you can still get some useful practice with this pistol." ) );
+        } else {
+            p->add_msg_if_player( m_bad,
+                                  _( "Both your arms need to be intact to do target practice with this weapon." ) );
+            return std::nullopt;
+        }
+    }
+
+    if( it->ammo_remaining() == 0 ) {
+        p->add_msg_if_player( m_bad,
+                              _( "You need a loaded gun to start target practice." ) );
+        return std::nullopt;
+    }
+
+    const int max_rounds = 500;
+    int rounds_planned = 100;
+
+    string_input_popup popup;
+    popup
+    .title( _( "How many rounds to fire?" ) )
+    .width( 10 )
+    .description( _( "Enter the number of rounds (500 max):" ) )
+    .edit( rounds_planned );
+
+    if( popup.canceled() ) {
+        return std::nullopt;
+    }
+
+    rounds_planned = std::clamp( rounds_planned, 1, max_rounds );
+
+    const int range = it->gun_range( p );
+    target_handler::trajectory traj = target_handler::mode_select_only( *p->as_avatar(), range );
+
+    if( traj.empty() ) {
+        return std::nullopt;
+    }
+
+    tripoint_bub_ms target = traj.back();
+    tripoint_abs_ms target_abs = get_map().get_abs( target );
+
+    p->assign_activity(
+        target_practice_activity_actor( item_location( *p, it ), target_abs, rounds_planned )
+    );
+
+    return 0;
 }
 
 std::optional<int> iuse::gun_repair( Character *p, item *it, const tripoint_bub_ms & )
