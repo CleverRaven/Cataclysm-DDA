@@ -9,7 +9,9 @@
 #  include <mach/mach_init.h>
 #  include <mach/mach_vm.h>
 #  include <mach/vm_statistics.h>
-#  include <mach/vm_types.h>
+#  if !TARGET_OS_IPHONE && !TARGET_OS_SIMULATOR
+#    include <mach/vm_types.h>
+#  endif
 #  include <stdio.h>
 #  include <stdlib.h>
 #  include <sys/mman.h>
