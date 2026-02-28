@@ -366,7 +366,9 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
     optional( jsobj, was_loaded, "activate_remove_cbm", activate_remove_cbm, false );
-
+if( activate_remove_cbm ) {
+    activated_close_ui = true;
+}
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
