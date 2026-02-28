@@ -10,9 +10,9 @@
     "cant_remove_reason": "You'd have an open hole going through your skull to your brain."
   },
   {
-    "id": "xe_bio_dataslot_knife_basic",
+    "id": "xe_bio_dataslot_giant_hunting",
     "type": "bionic",
-    "name": { "str": "Datacore: Knives" },
+    "name": { "str": "Datacore: Giant Hunting", "str_pl": "Datacores: Giant Hunting" },
     "description": "A removable data core that can be slotted into a data core for temporary knowledge of a proficiency.",
     "activate_remove_cbm": true,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
