@@ -1,6 +1,26 @@
 [
   {
     "type": "MIGRATION",
+    "id": "shot_00",
+    "replace": "afs_shot_00"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_beanbag",
+    "replace": "afs_shot_beanbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_slug",
+    "replace": "afs_shot_slug"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_flechette",
+    "replace": "afs_shot_flechette"
+  },
+  {
+    "type": "MIGRATION",
     "id": "shot_he",
     "replace": "afs_shot_he"
   }

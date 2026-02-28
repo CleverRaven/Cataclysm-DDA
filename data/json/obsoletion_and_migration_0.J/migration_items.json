@@ -477,5 +477,10 @@
     "type": "MIGRATION",
     "id": "washboard",
     "replace": "wash_kit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_slug"
   }
 ]
