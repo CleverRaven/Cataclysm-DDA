@@ -2270,6 +2270,6 @@
     "type": "item_group",
     "id": "tomatoes_in_can",
     "subtype": "distribution",
-    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_food", "count": 1 } ]
+    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_food", "count": 4 } ]
   }
 ]
