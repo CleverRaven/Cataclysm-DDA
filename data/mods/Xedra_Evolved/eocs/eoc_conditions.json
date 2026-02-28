@@ -109,14 +109,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_VAMPS_AND_LILIN",
-    "condition": [ { "u_has_trait": "VAMPIRE4" } ],
+    "condition": { "u_has_trait": "VAMPIRE4" },
     "effect": [ { "u_message": "undead_wake_up", "snippet": true, "type": "neutral" } ],
     "false_effect": [ { "u_message": "lilin_wake_up", "snippet": true, "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMS_OR_NIGHTMARES_VAMPS_AND_LILIN",
-    "condition": [ { "u_has_trait": "GRACKEN" } ],
+    "condition": { "u_has_trait": "GRACKEN" },
     "effect": [ { "u_message": "gracken_wake_up", "snippet": true, "type": "neutral" } ],
     "false_effect": [ { "u_message": "fae_wake_up", "snippet": true, "type": "neutral" } ]
   },
