@@ -1694,6 +1694,12 @@
     "subtype": "distribution",
     "entries": [ { "item": "can_beans", "entry-wrapper": "can_medium", "count": 2 } ]
   },
+    {
+    "type": "item_group",
+    "id": "tomatoes_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_medium", "count": 2 } ]
+  },
   {
     "type": "item_group",
     "id": "pork_beans_in_can",
