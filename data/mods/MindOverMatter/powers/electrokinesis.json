@@ -560,7 +560,7 @@
     "description": { "str": "Creates a tool used to hack robots.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "PERMANENT" ],
     "effect": "spawn_item",
     "effect_str": "electro_robot_interface",
     "shape": "blast",

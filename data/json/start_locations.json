@@ -306,7 +306,13 @@
     "type": "start_location",
     "id": "sloc_library",
     "name": "Library",
-    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3", "urban_library" ]
+    "terrain": [
+      "s_library",
+      "s_library_1",
+      "s_library_2",
+      "s_library_3",
+      { "om_terrain": "urban_library", "om_terrain_match_type": "PREFIX" }
+    ]
   },
   {
     "type": "start_location",
