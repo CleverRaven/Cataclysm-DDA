@@ -2,6 +2,7 @@
 #include <array>
 #include <cstdlib>
 #include <functional>
+#include <imgui/imgui.h>
 #include <map>
 #include <memory>
 #include <set>
@@ -14,6 +15,7 @@
 #include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_modifier.h"
@@ -64,6 +66,44 @@ static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
+
+class medical_ui : public cataimgui::window
+{
+    public:
+        medical_ui( Character *guy ) : cataimgui::window( _( "Medical" ),
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
+            ctxt = input_context();
+            you = guy;
+        };
+
+        bool execute();
+        std::string get_limb_effects( const bodypart_id &part );
+        std::string get_limb_wounds( const bodypart_id &part );
+        std::string get_limb_scores_and_modifiers( const bodypart_id &part );
+        std::string get_modified_limb_name( const bodypart_id &part );
+
+        void draw_limbs_list( const std::vector<bodypart_id> bodyparts, int &selected_limb );
+
+        std::string last_action;
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override {
+            const cataimgui::bounds bounds{ -1.f, -1.f, window_width, window_height };
+            return bounds;
+        }
+
+    private:
+        Character *you;
+        input_context ctxt;
+        float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                         ImGui::GetMainViewport()->Size.x / 2,
+                                         ImGui::GetMainViewport()->Size.x );
+        float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                          ImGui::GetMainViewport()->Size.y / 2,
+                                          ImGui::GetMainViewport()->Size.y );
+        float table_column_width = window_width / 2;
+        cataimgui::scroll s = cataimgui::scroll::none;
+};
 
 enum class medical_tab_mode {
     TAB_SUMMARY
@@ -749,7 +789,7 @@ static medical_column draw_stats_summary( const int column_count, Character &you
     return stats_column;
 }
 
-bool Character::disp_medical()
+bool Character::disp_medical_old()
 {
     // Windows
     catacurses::window w_title; // Title Bar - Tabs, Pain Indicator & Blood Indicator
@@ -1062,6 +1102,331 @@ bool Character::disp_medical()
         }
     }
     return false;
+}
+
+bool Character::disp_medical()
+{
+    medical_ui medic( this );
+    return medic.execute();
+}
+
+bool medical_ui::execute()
+{
+    input_context ctxt;
+
+    ctxt.register_action( "QUIT" );
+    ctxt.set_timeout( 16 );
+
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input();
+        if( action == "QUIT" || !get_is_open() ) {
+            break;
+            return true;
+        }
+    }
+    return false;
+}
+
+std::string medical_ui::get_limb_effects( const bodypart_id &part )
+{
+    std::string description;
+
+    const int bleed_intensity = you->get_effect_int( effect_bleed, part );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = you->has_effect( effect_bite, part.id() );
+    const bool infected = you->has_effect( effect_infected, part.id() );
+
+    // BLEEDING block
+    if( bleeding ) {
+        const effect bleed_effect = you->get_effect( effect_bleed, part );
+        const nc_color bleeding_color = colorize_bleeding_intensity( bleed_intensity );
+        description += string_format( "[ %s ] - %s\n",
+                                      colorize( bleed_effect.get_speed_name(), bleeding_color ),
+                                      bleed_effect.disp_short_desc() );
+    }
+
+    // BITTEN block
+    if( bitten ) {
+        const effect bite_effect = you->get_effect( effect_bite, part );
+        description += string_format( "[ %s ] - %s\n",
+                                      colorize( bite_effect.get_speed_name(), c_yellow ),
+                                      bite_effect.disp_short_desc() );
+    }
+
+    // INFECTED block
+    if( infected ) {
+        const effect infected_effect = you->get_effect( effect_infected, part );
+        description += string_format( "[ %s ] - %s\n",
+                                      colorize( infected_effect.get_speed_name(), c_pink ),
+                                      infected_effect.disp_short_desc() );
+    }
+
+    // rest of effects
+    for( const effect &eff : you->get_effects_from_bp( part ) ) {
+        if( eff.get_id() != effect_bleed &&
+            eff.get_id() != effect_bite &&
+            eff.get_id() != effect_infected ) {
+            description += string_format( "[ %s ] - %s\n", colorize( eff.get_speed_name(), c_bold ),
+                                          eff.disp_short_desc() );
+        }
+    }
+
+    return description;
+}
+
+std::string medical_ui::get_limb_wounds( const bodypart_id &part )
+{
+
+    std::string detail_str;
+    const bodypart *bp = you->get_part( part );
+
+    // for existing wounds
+    for( const wound &wd : bp->get_wounds() ) {
+        detail_str += _( "Current wounds" );
+        detail_str += ":\n";
+        if( !debug_mode ) {
+            detail_str +=
+                string_format( "%s - %s\n", colorize( wd.type->get_name(), c_cyan ), wd.type->get_description() );
+        } else {
+            detail_str +=
+                string_format( "wound: %s - %s (healing time %s, healing percentage %.3f%%, gives pain: %d)\n",
+                               colorize( wd.type->get_name(), c_cyan ), wd.type->get_description(),
+                               to_string( wd.get_healing_time() ), wd.healing_percentage(), wd.get_pain() );
+        }
+
+    }
+
+    if( debug_mode ) {
+        detail_str += "All potential wounds:\n";
+        for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
+            std::string damage_types;
+
+            for( const damage_type_id dt : wd.first.damage_type ) {
+                damage_types += dt.c_str();
+                damage_types += ", ";
+            }
+            damage_types.pop_back();
+            damage_types.pop_back();
+            detail_str +=
+                string_format( "%s:\nweight: %d\ndamage types required: %s\ndamage required: [ %d - %d ]\n",
+                               colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
+                               wd.first.damage_required.second );
+        }
+    }
+
+    return detail_str;
+}
+
+std::string medical_ui::get_limb_scores_and_modifiers( const bodypart_id &part )
+{
+    const bodypart *bp = you->get_part( part );
+    std::string detail_str;
+    for( const limb_score &sc : limb_score::get_all() ) {
+        if( !part->has_limb_score( sc.getId() ) ) {
+            continue;
+        }
+
+        float injury_score = bp->get_limb_score( *you, sc.getId(), 0, 0, 1 );
+        float max_score = part->get_limb_score( sc.getId() );
+
+        if( injury_score < max_score ) {
+            const float injury_modifier = 100 * ( max_score - injury_score ) / max_score;
+            std::pair<std::string, nc_color> score_c;
+            if( injury_score < max_score * 0.4f ) {
+                score_c.first = _( "Crippled" );
+                score_c.second = c_red;
+            } else if( injury_score < max_score * 0.6f ) {
+                score_c.first = _( "Impaired" );
+                score_c.second = c_light_red;
+            } else if( injury_score < max_score * 0.75f ) {
+                score_c.first = _( "Weakened" );
+                score_c.second = c_yellow;
+            } else if( injury_score < max_score * 0.9f ) {
+                score_c.first = _( "Weakened" );
+                score_c.second = c_dark_gray;
+            } else {
+                score_c.first = _( "OK" );
+                score_c.second = c_dark_gray;
+            }
+            detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( score_c.first,
+                                         score_c.second ) );
+        } else {
+            detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( "OK", c_green ) );
+        }
+    }
+
+    return detail_str;
+}
+
+std::string medical_ui::get_modified_limb_name( const bodypart_id &part )
+{
+
+    // all these fancy stuff, and they do not even work in imgui :(
+
+    std::string header; // Bodypart Title
+    std::string hp_str; // Bodypart HP, later merged into the header
+    std::string detail; // additional info, like [ BLEEDING ]
+
+    const int bleed_intensity = you->get_effect_int( effect_bleed, part );
+    const bool bleeding = bleed_intensity > 0;
+    const bool bitten = you->has_effect( effect_bite, part.id() );
+    const bool infected = you->has_effect( effect_infected, part.id() );
+    const bool no_feeling = you->has_flag( json_flag_PAIN_IMMUNE );
+    const int maximal_hp = you->get_part_hp_max( part );
+    const int current_hp = you->get_part_hp_cur( part );
+    const bool limb_is_broken = you->is_limb_broken( part );
+    const bool limb_is_mending = you->worn_with_flag( flag_SPLINT, part );
+
+    if( limb_is_mending ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "SPLINTED" ), c_yellow ) );
+        if( no_feeling ) {
+            hp_str = colorize( "==%==", c_blue );
+        } else {
+            const effect &eff = you->get_effect( effect_mending, part );
+            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+
+            const int num = mend_perc / 20;
+            hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+        }
+    } else if( limb_is_broken ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "BROKEN" ), c_red ) );
+        hp_str = "==%==";
+    } else if( no_feeling ) {
+        const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
+        if( cur_hp_pcnt < 0.125f ) {
+            hp_str = colorize( _( "Very Bad" ), c_red );
+        } else if( cur_hp_pcnt < 0.375f ) {
+            hp_str = colorize( _( "Bad" ), c_light_red );
+        } else if( cur_hp_pcnt < 0.625f ) {
+            hp_str = colorize( _( "So-so" ), c_yellow );
+        } else if( cur_hp_pcnt < 0.875f ) {
+            hp_str = colorize( _( "Okay" ), c_light_green );
+        } else {
+            hp_str = colorize( _( "Good" ), c_green );
+        }
+    } else {
+        std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
+        hp_str = colorize( h_bar.first, h_bar.second ) +
+                 colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+    }
+    const std::string bp_name = uppercase_first_letter( body_part_name( part, 1 ) );
+    header += colorize( bp_name,
+                        display::limb_color( *you,
+                                part, true, true, true ) ) + " " + hp_str;
+
+    // BLEEDING block
+    if( bleeding ) {
+        const nc_color bleeding_color = colorize_bleeding_intensity( bleed_intensity );
+        detail += string_format( _( "[ %s ]" ), colorize( _( "BLEEDING" ), bleeding_color ) );
+    }
+
+    // BITTEN block
+    if( bitten ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "BITTEN" ), c_yellow ) );
+    }
+
+    // INFECTED block
+    if( infected ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "SEPTIC" ), c_pink ) );
+    }
+
+    return string_format( "%s %s", header, detail );
+
+}
+
+void medical_ui::draw_limbs_list( const std::vector<bodypart_id> bodyparts, int &selected_limb )
+{
+    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75,
+                             ImGui::GetContentRegionAvail().y ) ) ) {
+
+        for( size_t i = 0; i < bodyparts.size(); i++ ) {
+            const bodypart_id &part = bodyparts[i];
+            bool is_selected = selected_limb == i;
+            ImGui::PushID( i );
+
+            ImGui::Selectable( "", &is_selected,
+                               ImGuiSelectableFlags_AllowDoubleClick |
+                               ImGuiSelectableFlags_AllowItemOverlap |
+                               ImGuiSelectableFlags_SpanAllColumns );
+
+            ImGui::SameLine();
+            cataimgui::draw_colored_text( get_modified_limb_name( part ), ImGui::GetContentRegionAvail().x );
+
+            if( is_selected ) {
+                selected_limb = i;
+                ImGui::SetScrollHereY();
+                ImGui::SetItemDefaultFocus();
+            }
+            ImGui::PopID();
+        }
+        ImGui::EndListBox();
+    }
+}
+
+void medical_ui::draw_controls()
+{
+    static int selected_limb = 0;
+    const std::vector<bodypart_id> bodyparts = you->get_all_body_parts( get_body_part_flags::sorted );
+    size_t num_entries = bodyparts.size();
+    const int last_entry = num_entries == 0 ? 0 : ( static_cast<int>( num_entries ) - 1 );
+    if( last_action == "UP" ) {
+        ImGui::SetKeyboardFocusHere( -1 );
+        selected_limb--;
+    } else if( last_action == "DOWN" ) {
+        ImGui::SetKeyboardFocusHere( 1 );
+        selected_limb++;
+    } else if( last_action == "HOME" ) {
+        selected_limb = 0;
+    } else if( last_action == "END" ) {
+        selected_limb = last_entry;
+    } else if( last_action == "QUIT" ) {
+        return;
+    }
+
+    if( selected_limb < 0 ) {
+        selected_limb = last_entry;
+    } else if( selected_limb > last_entry ) {
+        selected_limb = 0;
+    };
+
+    if( ImGui::BeginTable( "##Limbs", 2, ImGuiTableFlags_None,
+                           ImGui::GetContentRegionAvail() ) ) {
+        ImGui::TableSetupColumn( _( "Limbs" ), ImGuiTableColumnFlags_WidthStretch,
+                                 table_column_width * 0.8 );
+        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_WidthStretch,
+                                 table_column_width * 1.2 );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+        draw_limbs_list( bodyparts, selected_limb );
+        ImGui::TableNextColumn();
+        ImGui::BeginChild( "##Limb_Info" );
+
+        const int table_width = ImGui::GetContentRegionAvail().x;
+        const bodypart_id bp = bodyparts[selected_limb];
+
+        const std::string limb_effects = get_limb_effects( bp );
+        if( !limb_effects.empty() ) {
+            cataimgui::draw_colored_text( limb_effects, c_unset, table_width );
+            ImGui::Separator();
+        }
+
+        const std::string limb_wounds = get_limb_wounds( bp );
+        if( !limb_wounds.empty() ) {
+            cataimgui::draw_colored_text( limb_wounds, c_unset, table_width );
+            ImGui::Separator();
+        }
+
+        const std::string limb_scores = get_limb_scores_and_modifiers( bp );
+        if( !limb_scores.empty() ) {
+            cataimgui::draw_colored_text( limb_scores, c_unset, table_width );
+        }
+
+        ImGui::EndChild();
+        ImGui::EndTable();
+    }
+
+    cataimgui::set_scroll( s );
 }
 
 struct healing_option {
