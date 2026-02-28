@@ -13,6 +13,10 @@
     "cancels": [ "NO_CBM_INSTALLATION" ]
   },
   {
+    "type": "mutation_type",
+    "id": "Cybernetic_expansion_data"
+  },
+  {
     "type": "mutation",
     "id": "XE_DATA_SHUNT2",
     "name": { "str": "Data Shunt, expansion" },
