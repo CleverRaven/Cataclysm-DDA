@@ -2,8 +2,8 @@
    {
     "id": "xe_bio_data_shunt",
     "type": "bionic",
-    "name": { "str": "Datashunt, basic" },
-    "description": "CBM which replaces your left leg with a bionic counterpart.",
+    "name": { "str": "Data Shunt, basic" },
+    "description": "CBM which gives you the ability to slot in and out data cores to give yourself proficiencies.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "enchantments": [ "ENCH_DATA_SHUNT_BP" ],
     "passive_pseudo_items": [ "data_core_slots" ],
@@ -49,13 +49,15 @@
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
     "learned_proficiencies": [ "prof_batons_pro" ]
   },
   {
     "id": "xe_bio_dataslot_med_swords_basic",
     "type": "bionic",
-    "name": { "str": "Datacore: Medium Swords," },
+    "name": { "str": "Datacore: Medium Swords" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
@@ -75,7 +77,8 @@
   {
     "id": "xe_bio_dataslot_short_swords_basic",
     "type": "bionic",
-    "name": { "str": "Datacore: Short Swords," },
+    "name": { "str": "Datacore: Short Swords" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
@@ -89,6 +92,7 @@
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
     "learned_proficiencies": [ "prof_short_swords_pro" ]
   }
