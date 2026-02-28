@@ -171,7 +171,7 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_BLOOD_DRINKER("BLOOD_DRINKER");
+static const trait_id trait_BLOOD_DRINKER( "BLOOD_DRINKER" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
