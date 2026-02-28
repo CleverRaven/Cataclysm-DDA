@@ -4,12 +4,15 @@ on:
   workflow_run:
     workflows: ["astyle", "JSON Validation", "General build matrix"]
     types: [completed]
+    branches-ignore:
+      - master
 
 jobs:
   labeling:
     if: >-
       github.repository == 'CleverRaven/Cataclysm-DDA' &&
-      github.event.workflow_run.event == 'pull_request'
+      github.event.workflow_run.event == 'pull_request' &&
+      (github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure')
     runs-on: ubuntu-latest
     steps:
     - name: setLabel

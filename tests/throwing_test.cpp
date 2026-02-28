@@ -171,7 +171,7 @@ static constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8,
 static constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
 static constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
-TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
+TEST_CASE( "basic_throwing_sanity_tests", "[throwing] [balance]" )
 {
     avatar &p = get_avatar();
     clear_map_without_vision();
@@ -216,7 +216,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     }
 }
 
-TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
+TEST_CASE( "throwing_skill_impact_test", "[throwing] [balance]" )
 {
     avatar &p = get_avatar();
     clear_map_without_vision();
@@ -304,7 +304,7 @@ static void test_player_kills_monster(
     CHECK( num_failures <= 1 );
 }
 
-TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
+TEST_CASE( "player_kills_zombie_before_reach", "[throwing] [balance] [scenario]" )
 {
     avatar &p = get_avatar();
     clear_map_without_vision();
@@ -314,7 +314,7 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
     }
 }
 
-TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
+TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing] [balance]" )
 {
     Character &you = get_avatar();
     clear_avatar();

@@ -217,6 +217,7 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
         return;
     }
     ImFont *Font = ImGui::GetFont();
+    ImGuiWindow *window = ImGui::GetCurrentWindow();
     const char *textStart = str.data();
     const char *textEnd = textStart + str.length();
 
@@ -229,15 +230,30 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
             // adding another so it advances CursorPos.y by
             // ItemSpacing.y. Since we know that this is just part of
             // a paragraph, undo just that small extra spacing.
-            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            widthRemaining = ImGui::CalcWrapWidthForPos( ImGui::GetCursorScreenPos(), wrap_width );
             drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
-        } else {
+        } else if( drawEnd > textStart && drawEnd < textEnd
+                   && !ImCharIsBlankA( *( drawEnd - 1 ) ) && !ImCharIsBlankA( *drawEnd ) ) {
+            // Word was cut because it exceeds widthRemaining, but it
+            // may fit on a full line. Wrap and retry unless already at
+            // line start (word is genuinely too long).
+            float lineStartX = IM_TRUNC( window->Pos.x + window->DC.Indent.x +
+                                         window->DC.ColumnsOffset.x );
+            if( window->DC.CursorPos.x > lineStartX + 1.0f ) {
+                ImGui::NewLine();
+                window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+                continue;
+            }
+        }
+
+        if( drawEnd > textStart ) {
             if( color ) {
                 ImGui::PushStyleColor( ImGuiCol_Text, color );
             }
-            ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
+            ImGui::TextUnformatted( textStart, drawEnd );
             // see above
-            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
             if( color ) {
                 ImGui::PopStyleColor();
             }

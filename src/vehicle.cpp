@@ -6414,6 +6414,16 @@ std::map<item, int> vehicle::prepare_tools( map &here, const vehicle_part &vp ) 
 {
     std::map<item, int> res;
     for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
+        if( pair.first.is_valid() && pair.first->has_flag( flag_NEEDS_SUNLIGHT ) ) {
+            const tripoint_bub_ms vp_pos = bub_part_pos( here, vp );
+            if( !is_sm_tile_outside( here.get_abs( vp_pos ) ) ) {
+                continue;
+            }
+            const weather_type_id wtype = current_weather( pos_abs() );
+            if( incident_sun_irradiance( wtype, calendar::turn ) <= irradiance::high ) {
+                continue;
+            }
+        }
         item it( pair.first, calendar::turn );
         prepare_tool( here, it );
         res.emplace( it, pair.second > 0 ? pair.second : -1 );

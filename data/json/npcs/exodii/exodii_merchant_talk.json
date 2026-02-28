@@ -398,7 +398,8 @@
           "and": [
             { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
             { "not": { "u_has_trait": "CBM_Interface" } },
-            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
@@ -430,7 +431,7 @@
       {
         "text": "Can you help me with CBM surgery?",
         "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
-        "condition": { "u_has_trait": "CBM_Interface" }
+        "condition": { "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ] }
       },
       {
         "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
@@ -463,7 +464,13 @@
       },
       {
         "text": "I've brought the anesthetic for you.  Can you help me out?",
-        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "anesthetic", "count": 1000 } },
+            { "u_has_mission": "RUBIK_ANUS_FETICK" },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
         "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
@@ -1672,8 +1679,43 @@
       "str": "If'n you're full an' plenty, this'n's happy to make the call, for a shiny farthing."
     },
     "responses": [
-      { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
-      { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
+      {
+        "text": "I've got some stuff I'd like to install.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "topic": "TALK_DONE",
+        "effect": "bionic_install"
+      },
+      {
+        "text": "Would you be able to take out one of my implants?",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove"
+      },
+      {
+        "text": "I've got some stuff I'd like to install.",
+        "condition": { "u_has_trait": "Hub01_CBM_Interface" },
+        "topic": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface"
+      },
+      {
+        "text": "Would you be able to take out one of my implants?",
+        "condition": { "u_has_trait": "Hub01_CBM_Interface" },
+        "topic": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Right, let's see what we can do for you.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well, well, well.  Looks like you got your interface swapped out.  I won't hear any excuses.  We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  You've got two minutes to get out of here.  Got it?\"",
+      "str": "&Rubik pulls out a glowing, green terminal while a surgical robot rolls in to do standard pre-surgical checks.  \"Rightly then, let us'n see what can do 'ye for.\"  Then the surgical robot starts to beep loudly and blurts out words you don't understand in a mechanical voice.  Rubik stares at it a moment, then stares at you.  \"Well now.  Seems to this'n ye've had yer interface swapped.  I'll hear no excuses.  We've had some tech an' stompers gone missin', an' word aroun' says a certain bunker offerin' stolen steelies.  Ye've two minutes to traipse out o'here.  Ken it.\""
+    },
+    "responses": [
+      {
+        "text": "Two minutes?  Ah, shit.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": "EOC_EXODII_HATES_YOU", "time_in_future": [ "100 seconds", "140 seconds" ] }
+      }
     ]
   },
   {
