@@ -312,7 +312,7 @@
       { "prob": 1, "group": "pelmeni_can_medium_2" },
       { "prob": 1, "group": "canned_liver_can_food_4" },
       { "prob": 1, "group": "beans_in_can" },
-      { "item": "can_tomato", "prob": 1 },
+      { "group": "tomatoes_in_can", "prob": 1 },
       { "item": "broth", "prob": 1 },
       { "item": "broth_bone", "prob": 1 },
       { "item": "soup_veggy", "prob": 1 },
