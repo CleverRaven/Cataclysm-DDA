@@ -72,6 +72,7 @@
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "learned_proficiencies": [ "prof_medium_swords_pro" ]
   },
   {
