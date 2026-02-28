@@ -2436,7 +2436,7 @@
       [ "ravioli", 25 ],
       { "group": "beans_in_can", "prob": 40 },
       [ "pork_beans", 40 ],
-	  { "group": "tomatoes_in_can", "prob": 40 },
+      { "group": "tomatoes_in_can", "prob": 40 },
       [ "cooked_pumpkin", 20 ],
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
