@@ -60,7 +60,7 @@
     "difficulty": 5
   },
   {
-    "id": "xe_bio_dataslot_knife_basic",
+    "id": "xe_bio_dataslot_giant_hunter",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
