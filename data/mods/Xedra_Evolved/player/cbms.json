@@ -23,7 +23,7 @@
   {
     "id": "xe_bio_dataslot_cyborg_hunting",
     "type": "bionic",
-    "name": { "str": "Datacore: Cyborg Hunting", "str_pl": "Datacores: Cyborg Hunting" },
+    "name": { "str": "Datacore: Cyborg Hunting" },
     "description": "A brain implant that grants instinctual knowledge about the weakpoints of cyborgs.",
     "activate_remove_cbm": true,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
@@ -34,7 +34,7 @@
   {
     "id": "xe_bio_dataslot_migo_weakpoints",
     "type": "bionic",
-    "name": { "str": "Datacore: Mi-Go Hunting", "str_pl": "Datacores: Mi-Go Hunting" },
+    "name": { "str": "Datacore: Mi-Go Hunting" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
@@ -45,7 +45,7 @@
   {
     "id": "xe_bio_dataslot_lockpicking",
     "type": "bionic",
-    "name": { "str": "Datacore: Lockpicking", "str_pl": "Datacores: Lockpicking" },
+    "name": { "str": "Datacore: Lockpicking" },
     "description": "A brain implant that grants instinctual knowledge about the principles of lockpicking.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
