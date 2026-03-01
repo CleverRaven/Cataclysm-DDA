@@ -55,7 +55,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "charges": 83,
-    "time": "47 m",
+    "time": "40 m",
     "batch_time_factors": [ 3, 10 ],
     "autolearn": false,
     "never_learn": true,
