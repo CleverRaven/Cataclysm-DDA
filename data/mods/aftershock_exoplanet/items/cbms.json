@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Solar Panels CBM" },
-    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
     "price": "3 kUSD 500 USD",
     "difficulty": 4
   },
@@ -109,9 +109,9 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Salvaged Power Storage", "str_pl": "Several Salvaged Power Storage CBMs" },
+    "name": { "str": "Salvaged Power Storage CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A battered and used Compact Bionics Module that upgrades the user's power capacity by 50 units.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
+    "description": "A battered and used Compact Bionics Module that upgrades the user's power capacity by 50 kJ.  Having at least one of these is a prerequisite to using powered bionics.  The user will also need a power supply, found in various CBMs.",
     "price": "3 kUSD 800 USD",
     "weight": "70 g",
     "difficulty": 1,
@@ -171,7 +171,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Melee Optimization Unit CBM" },
-    "description": "An implanted AI executes the optimal followup for each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "description": "An implanted AI module calculates the optimal followup to each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
     "price": "10 kUSD",
     "price_postapoc": "1 kUSD",
     "difficulty": 10
@@ -280,7 +280,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "HawkingCorps Mark I Shield CBM" },
-    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of energy fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.  Activating the field will reduce incoming bashing and cut damage by 5 points.",
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of -color glass condensate- and any and all of their specific functions are the intellectual property of the Hawking Corporation and/or its local subsidiaries.\n-From the owners manual of HawkingCorps Mark I Shield.\n\nActivating the shield will create an energy shield capable of negating a modest amount of damage from weak or improvised weapons.",
     "price": "80 kUSD",
     "price_postapoc": "80 kUSD",
     "difficulty": 6
@@ -291,7 +291,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "HawkingCorps Mark V Shield CBM" },
-    "description": "Powerful and covert, the Mark V Shield is a military-grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse-engineered from.  A.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
+    "description": "Powerful and covert, the Mark V Shield is a military-grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse-engineered from.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
     "price": "220 kUSD",
     "price_postapoc": "220 kUSD",
     "difficulty": 10
@@ -302,7 +302,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Kinetic Annulment System CBM" },
-    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
     "price": "1320 kUSD",
     "price_postapoc": "1320 kUSD",
     "difficulty": 16

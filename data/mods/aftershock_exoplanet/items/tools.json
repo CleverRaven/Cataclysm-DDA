@@ -315,7 +315,7 @@
     "copy-from": "afs_atomic_smartphone_flashlight",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
+    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Wraitheon executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
@@ -600,7 +600,6 @@
       {
         "target": "vr_laptop_holosuite",
         "msg": "The holosuite comes to life around you.",
-        "menu_text": "power on holosuite",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead.",
         "type": "transform"

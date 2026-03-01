@@ -23,7 +23,7 @@
     "id": "BKGR_NOETIC_SCION",
     "name": { "str": "Noetic Scion" },
     "points": 0,
-    "description": "Your appearance and distinctive tattoos mark you as a noetic scion, a member of one of the powerful families who maintained and even strengthened their esper powers through and after the Discontinuity by means of careful breeding programs.  Others may react to you with caution or seek to use you, seeing only the power that your bloodline embodies.",
+    "description": "Your appearance and distinctive tattoos mark you as a noetic scion, a member of one of the powerful families who maintained and even strengthened their esper powers through and after the Discontinuity by means of careful breeding programs.  Others may react to you with caution or seek to use you, despite that your family's powers have not been passed down to you.  Their legacy, however, remains in your genes.",
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -146,7 +146,7 @@
   {
     "type": "mutation",
     "id": "MIGO_THRESH_RAD_FLUSH",
-    "name": { "str": "Radiation Flush " },
+    "name": { "str": "Radiation Flush" },
     "points": 5,
     "description": "You can instruct your immune system to flush out radioactive particles at an enviable speed.",
     "prereqs": [ "MIGO_RAD_ADAPTION" ],
