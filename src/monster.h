@@ -79,7 +79,7 @@ enum monster_horde_attraction {
 
 class monster : public Creature
 {
-        friend class editmap;
+        friend class editmap_ui;
     public:
         monster();
         explicit monster( const mtype_id &id );

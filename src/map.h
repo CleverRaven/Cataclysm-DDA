@@ -371,7 +371,7 @@ struct tile_render_info {
 class map
 {
         friend class teleport;
-        friend class editmap;
+        friend class editmap_ui;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
 
@@ -2316,7 +2316,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 */
 class tinymap : private map
 {
-        friend class editmap;
+        friend class editmap_ui;
     protected:
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 

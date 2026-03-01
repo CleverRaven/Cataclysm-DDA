@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cstddef>
 #include <initializer_list>
+#include <utility>
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
@@ -337,6 +338,13 @@ void TextColoredParagraph( nc_color default_color, std::string_view str,
         }
     }
     TextEx( str.substr( s, std::string::npos ), wrap_width, colors.back() );
+}
+
+void TextColoredParagraphNewline( nc_color default_color, std::string_view str,
+                                  std::optional<Segment> value, float wrap_width )
+{
+    cataimgui::TextColoredParagraph( default_color, str, std::move( value ), wrap_width );
+    ImGui::NewLine();
 }
 
 static std::string trim_substring( std::string_view text, float width )
