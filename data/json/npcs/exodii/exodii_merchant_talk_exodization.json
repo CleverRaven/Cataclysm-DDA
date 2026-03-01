@@ -183,14 +183,15 @@
     "responses": [
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": { "and": [ { "not": { "u_has_trait": "CBM_Interface" } }, { "not": { "u_has_trait": "Hub01_CBM_Interface" } } ] },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
           { "u_add_bionic": "bio_power_storage" },
           { "u_add_bionic": "bio_cable" },
-          { "u_add_trait": "CBM_Interface" }
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_var": "Rubik_exodized_u", "value": "yes" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
@@ -205,6 +206,11 @@
           { "u_add_bionic": "bio_power_storage_mkII" }
         ],
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "Actually, Rubik.  This feels strange to say, but I already have a bionic interface.  The scientists from that bunker, Hub 01, installed it.  What I really want is for you to remove it, and replace it with your interface.",
+        "condition": { "and": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ] },
+        "topic": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1"
       },
       {
         "text": "How about store credit instead?  [adds $400 in store credit].",
@@ -223,6 +229,36 @@
         "text": "Hold on.  I need to rethink it again.",
         "condition": { "not": { "u_has_trait": "CBM_Interface" } },
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Remove_Hub01_CBM_interface_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Right, well that explains where our missing warehouses and robots went.  You came clean, and Rubik appreciates that.  Yeah, we can remove it, but not without risk.  Might leave you with a little less brain than before, I'm afraid.  But despite your honesty, we can't trade with you or let you stick around if you refuse, now.  So we can take it out, and you might be a bit duller, or you can keep it, and I'll give you a ten minute head start before the stompys come after you.  Sorry that it has to be this way.\"",
+      "str": "&Rubik stares at you for a very long moment, rubs their chin, and scratches at a bit of metal on their head.  \"Rightly then, that tells where the missin' shinies n' stompers went.  Ye came clean, an' ol' Rubik prizes that.  Aye.  We can take it out.  But not wi'out risk.  Might leave ye wi' a mite less wits than afore, I'm afeared.  Yet for all yet honesty, we can't trade wi' ye nor let ye tarry if ye refuse, now.  So we take it out, an' ye may be the duller for it.  Or ye keep it, an' I'll grant ye' ten minutes' head start afore the stompers come huntin'.  Sorry.  Must be so.\""
+    },
+    "responses": [
+      {
+        "text": "[Replace Hub 01 CBM interface with Exodii CBM interface; -1 Intelligence, -1 Dexterity]  I think it's worth the risk, especially so we can keep working together.  Get this thing out of me.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_trait": "Hub01_CBM_Interface" },
+          { "u_add_trait": "CBM_Interface" },
+          { "u_add_trait": "CBM_Interface_brain_lesion" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_cable" },
+          { "u_add_var": "Rubik_exodized_u", "value": "yes" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Exodized_Alt"
+      },
+      {
+        "text": "Sorry, Rubik, but that doesn't sound worth it.  Thanks for the head start.  Guess I better go, before the Exodii start shooting.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": "EOC_EXODII_HATES_YOU", "time_in_future": [ "500 seconds", "700 seconds" ] }
       }
     ]
   },
@@ -256,6 +292,23 @@
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  Thanks for the brain implants.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized_Alt",
+    "type": "talk_topic",
+    "dynamic_line": "*makes a stiff, bowing gesture and leads you out of the shop and down a stone pathway towards one of the larger buildings in the compound.  A thick steel door slides aside to reveal a gloomy, rust-dusted corridor.  At the end of the corridor is a clean appearing surgical suite, not too different from any other surgical suite aside from the dim lighting and the surgeon itself.  At the head of the surgical table is a contraption reminiscent of an upside-down spider, its multiple glistening medical limbs curling gently in eager anticipation of your approach.  You have little time to question your choices before you feel a sharp pinch in your left shoulder, and the world drifts away.\n\nYou awaken on a comfortable bed, your chest and throat sore but otherwise well.  As the haze of anesthesia fades, you notice several tiny, sore wounds on your chest and arms.  A humanoid cyborg, not Rubik, notices that you are awake and wordlessly gestures you to follow, leading you back to Rubik's store.\n\n\"Ah, an' you're with the stars 'n lights again, an I'm ken.  'Tis grand.  Those wee CBMs will do ye little an fine, but they are a start.  Now us'n can sell you all you like, an' help with install, should ye wish.\"",
+    "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
+    "responses": [
+      {
+        "text": "Feels good to get that Hub 01 tech out of my head, but I don't really feel much different.  So I'm a cyborg like you, now?",
+        "topic": "TALK_EXODII_MERCHANT_Exodized2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      {
+        "text": "<end_talking_leave>  Thanks for swapping out my brain implants.  <end_talking_bye>",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

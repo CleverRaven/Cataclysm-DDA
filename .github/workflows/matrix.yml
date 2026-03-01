@@ -219,8 +219,8 @@ jobs:
         SKIP: >-
           ${{
           ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang oldest supported, Ubuntu, Curses)' ) ||
-          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
-          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
+          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates-code.outputs.should_skip_code == 'true' ) ||
+          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-data.outputs.should_skip_data == 'true' )
           }}
         SKIP_TESTS: ${{ fromJSON(needs.matrix-variables.outputs.skip_tests) || (matrix.android != '') }}
     steps:
@@ -353,5 +353,5 @@ jobs:
   #emscripten:
   #  needs: [ skip-duplicates-code, varied_builds ]
   #  uses: ./.github/workflows/emscripten.yml
-  #  if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
+  #  if: ${{ needs.skip-duplicates-code.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
   #  secrets: inherit

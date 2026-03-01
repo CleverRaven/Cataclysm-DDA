@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_item_handling.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -36,6 +37,7 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
+static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
 static const itype_id itype_test_milk( "test_milk" );
 static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
@@ -1855,4 +1857,219 @@ TEST_CASE( "zone_sorting_multi_dest_processes_all_items",
     // Both items should be gone from source - sorted to their destinations
     CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
     CHECK( count_items_or_charges( src_pos, itype_test_bitter_almond, std::nullopt ) == 0 );
+}
+
+// Without a grabbed vehicle, zone sorting should stop picking up items once
+// carried weight exceeds the player's weight capacity.  Prevents the player
+// from overloading themselves while auto-sorting.
+TEST_CASE( "zone_sorting_no_grab_weight_gate",
+           "[zones][items][activities][sorting][weight]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    // Backpack for stashing items (large volume, won't be the bottleneck)
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // Use a below-average STR to cover weaker characters (Refugee Center
+    // beggars and similar NPCs can have very poor stats).
+    // str 6: weight_capacity = 13 + 6*4 = 37 kg.
+    // Each boulder is 10 kg.  After picking up 3 (30 kg), the fourth would
+    // push carried weight to 40 kg > 37 kg, so the weight gate should block it.
+    dummy.str_max = 6;
+    dummy.str_cur = 6;
+    dummy.set_str_bonus( 0 );
+    const int num_boulders = 5;
+
+    // Source: UNSORTED at player position
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    here.ter_set( start_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    for( int i = 0; i < num_boulders; i++ ) {
+        here.add_item_or_charges( start_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    // Destination: LOOT_FOOD 8 tiles south (non-adjacent, forces pickup-then-route)
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    for( int y = start_pos.y(); y <= dest_pos.y(); ++y ) {
+        here.ter_set( tripoint_bub_ms( start_pos.x(), y, 0 ), ter_t_floor );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Weight gate should have blocked some items from being picked up.
+    const int remaining = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
+    int carried = 0;
+    dummy.visit_items( [&carried]( const item * it, const item * ) {
+        if( it->typeId() == itype_test_heavy_boulder ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    CAPTURE( remaining );
+    CAPTURE( carried );
+    CAPTURE( dummy.weight_carried().value() );
+    CAPTURE( dummy.weight_capacity().value() );
+    // Should have picked up some but not all
+    CHECK( carried > 0 );
+    CHECK( carried < num_boulders );
+    CHECK( remaining > 0 );
+    // Carried weight should be at or below capacity
+    CHECK( dummy.weight_carried() <= dummy.weight_capacity() );
+}
+
+// With a grabbed cart, zone sorting should stop loading items into the cart
+// once the projected mass would exceed the player's drag strength on the
+// worst terrain tile of the delivery route.
+TEST_CASE( "zone_sorting_drag_weight_gate",
+           "[zones][items][activities][sorting][weight][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    // Low strength so the drag gate triggers at reasonable weights.
+    // str 4 -> arm_str ~4, weight_capacity = 13+16 = 29 kg
+    dummy.str_max = 4;
+    dummy.str_cur = 4;
+    dummy.set_str_bonus( 0 );
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    // Backpack for overflow items
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // Cart adjacent to player (south) and grab it
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    // Leave terrain as grass (default from clear_map) -- no ROAD/FLAT flags,
+    // so traction is poor and drag becomes harder.
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      cart_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::south );
+    REQUIRE( dummy.get_grab_type() == object_type::VEHICLE );
+
+    // Source: UNSORTED at player position (set to floor so items are accessible)
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    here.ter_set( start_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    const int num_boulders = 20;
+    for( int i = 0; i < num_boulders; i++ ) {
+        here.add_item_or_charges( start_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    // Destination: LOOT_FOOD 8 tiles south.  Route goes over grass, which
+    // has poor traction and makes dragging harder.
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int arm_str = dummy.get_arm_str();
+    CAPTURE( arm_str );
+    CAPTURE( cart->total_mass( here ).value() );
+
+    // Verify drag_str_req_at produces meaningful values on grass
+    {
+        // With just the cart's own mass, drag should be easy
+        const int easy_req = cart->drag_str_req_at( here, dest_pos );
+        CAPTURE( easy_req );
+        CHECK( easy_req <= arm_str );
+
+        // Find the threshold mass where drag gate trips
+        int threshold_kg = -1;
+        for( int extra_kg = 10; extra_kg <= 300; extra_kg += 10 ) {
+            units::mass proj = cart->total_mass( here ) + extra_kg * 1_kilogram;
+            int req = cart->drag_str_req_at( here, dest_pos, proj );
+            if( req > arm_str ) {
+                threshold_kg = extra_kg;
+                break;
+            }
+        }
+        CAPTURE( threshold_kg );
+        REQUIRE( threshold_kg > 0 );
+
+        units::mass heavy = cart->total_mass( here ) + 200_kilogram;
+        const int hard_req = cart->drag_str_req_at( here, dest_pos, heavy );
+        CAPTURE( hard_req );
+        REQUIRE( hard_req > arm_str );
+    }
+
+    // Verify worst_drag_tile_on_route works for our layout
+    {
+        std::vector<tripoint_abs_ms> test_dropoffs = { here.get_abs( dest_pos ) };
+        auto worst = zone_sorting::worst_drag_tile_on_route( dummy, test_dropoffs );
+        REQUIRE( worst.has_value() );
+        if( worst ) {
+            int req_at_worst = cart->drag_str_req_at( here, *worst,
+                               cart->total_mass( here ) + 200_kilogram );
+            CAPTURE( req_at_worst );
+            CAPTURE( worst->x() );
+            CAPTURE( worst->y() );
+            REQUIRE( req_at_worst > arm_str );
+        }
+    }
+
+    // Also directly test that drag gate would catch late items
+    {
+        units::mass after_10 = cart->total_mass( here ) + 100_kilogram;
+        std::vector<tripoint_abs_ms> test_drops = { here.get_abs( dest_pos ) };
+        auto wt = zone_sorting::worst_drag_tile_on_route( dummy, test_drops );
+        if( wt ) {
+            int req10 = cart->drag_str_req_at( here, *wt, after_10 );
+            CAPTURE( req10 );
+            // After loading 10 boulders (100kg), should exceed arm_str
+            REQUIRE( req10 > arm_str );
+        }
+    }
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Count items in cart cargo
+    int in_cart = 0;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    if( cargo.has_value() ) {
+        in_cart = count_items_or_charges( cart_pos, itype_test_heavy_boulder, cargo );
+    }
+    int at_source = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
+    int carried = 0;
+    dummy.visit_items( [&carried]( const item * it, const item * ) {
+        if( it->typeId() == itype_test_heavy_boulder ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    CAPTURE( in_cart );
+    CAPTURE( carried );
+    CAPTURE( at_source );
+    // Drag gate should have limited how many went into the cart.
+    // Some items may overflow to inventory (body weight gate applies there too).
+    // The key check: not all items were picked up.
+    CHECK( in_cart + carried + at_source == num_boulders );
+    CHECK( at_source > 0 );
 }

@@ -4959,6 +4959,13 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV_WHITELIST_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Whitelist Contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FAV_BLACKLIST",
     "category": "INVENTORY",
     "name": "Switch to modifying blacklist",

@@ -2986,7 +2986,9 @@ void item::io( Archive &archive )
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
-    archive.io( "components", components, io::empty_default_tag() );
+    if( !has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+        archive.io( "components", components, io::empty_default_tag() );
+    }
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );

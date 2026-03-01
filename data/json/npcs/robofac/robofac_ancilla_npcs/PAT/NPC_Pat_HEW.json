@@ -88,6 +88,11 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SPIRAL_MINE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] }
       },
+      {
+        "text": "[Distorted images of the spider's lair] Well, I guess that might've been a good place",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VOID_SPIDER_LAIR",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spider_dimension" } ] }
+      },
       { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_DONE" }
     ]
   },
@@ -186,5 +191,13 @@
     "type": "talk_topic",
     "dynamic_line": "I'd say that theah was an elaborate prank, if it weren't for the fuckin' wicked crazy shit inside.  Yeah.  Scan it from the parking lot, will ya'?",
     "responses": [ { "text": "Guess I'll give it a try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" } ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VOID_SPIDER_LAIR",
+    "type": "talk_topic",
+    "dynamic_line": "Well, yeah, I'd fuckin' say so.  You don' plan to go back theah, though, right?  That fuckin' spidah, man.  I don' like spidahs.",
+    "responses": [
+      { "text": "I guess if I'm ever back there, I could try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" }
+    ]
   }
 ]

@@ -209,6 +209,7 @@ const flag_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE( "NANOFAB_TEMPLATE_SINGLE_USE" );
 const flag_id flag_NATURAL_WEAPON( "NATURAL_WEAPON" );
 const flag_id flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
+const flag_id flag_NEEDS_SUNLIGHT( "NEEDS_SUNLIGHT" );
 const flag_id flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 const flag_id flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
 const flag_id flag_NEVER_JAMS( "NEVER_JAMS" );

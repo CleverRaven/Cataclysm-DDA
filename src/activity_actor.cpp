@@ -12811,6 +12811,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     // in stage_do when items are picked up from the new source.
     dropoff_coords.clear();
     picked_up_stuff.clear();
+    drag_worst_tile.reset();
 
     // Clear unreachable_sources when position or grab state changed -
     // both affect which tiles are reachable. force_clear_unreachable handles
@@ -13193,6 +13194,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
     // Track whether any sortable item failed pickup due to carry/cart capacity.
     bool cart_or_carry_blocked = false;
+    // Track whether the drag gate specifically blocked any item (no first-item
+    // exception, so items can be permanently unsortable via cart).
+    bool drag_gate_fired = false;
+    // Track whether the knock-down gate blocked any item (item so heavy it
+    // would cause the character to collapse under its weight).
+    bool knockdown_gate_fired = false;
     // picked_up_this_pass is a member variable that persists across do_turn
     // calls so batching still fires when move exhaustion splits pickup and
     // batching into separate turns. Reset after the batching check evaluates.
@@ -13339,6 +13346,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                                thisitem.tname(), dest_set.size() );
                 continue;
             }
+            if( !drag_worst_tile ) {
+                drag_worst_tile = zone_sorting::worst_drag_tile_on_route( you, dropoff_coords );
+            }
         }
 
         item_location thisitem_loc;
@@ -13362,6 +13372,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
                 if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
                     vehicle &veh = ovp->vehicle();
+                    bool drag_ok = true;
+                    if( drag_worst_tile ) {
+                        units::mass projected = veh.total_mass( here ) + copy_thisitem.weight();
+                        if( veh.drag_str_req_at( here, *drag_worst_tile, projected ) >
+                            you.get_arm_str() ) {
+                            drag_ok = false;
+                        }
+                    }
+                    if( !drag_ok ) {
+                        // Cart would be too heavy to drag - stop loading.
+                        cart_or_carry_blocked = true;
+                        drag_gate_fired = true;
+                        continue;
+                    }
                     std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
                             copy_thisitem );
                     if( vehstack ) {
@@ -13371,6 +13395,24 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
             }
             if( !thisitem_loc ) {
+                if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+                    // Knock-down gate: never pick up items so heavy they would
+                    // cause the character to collapse (exceed max_pickup_capacity).
+                    // TODO: handle these items via hauling instead of skipping them.
+                    if( you.weight_carried() + copy_thisitem.weight() > you.max_pickup_capacity() ) {
+                        cart_or_carry_blocked = true;
+                        knockdown_gate_fired = true;
+                        continue;
+                    }
+                    // No-grab weight gate: stop picking up when over capacity.
+                    // Always allow at least one item so heavy things like corpses
+                    // can be sorted one at a time.
+                    if( !picked_up_stuff.empty() &&
+                        you.weight_carried() + copy_thisitem.weight() > you.weight_capacity() ) {
+                        cart_or_carry_blocked = true;
+                        continue;
+                    }
+                }
                 thisitem_loc = you.try_add( copy_thisitem );
             }
             if( !thisitem_loc ) {
@@ -13433,6 +13475,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     }
 
     if( picked_up_stuff.empty() ) {
+        if( drag_gate_fired ) {
+            you.add_msg_if_player( m_info,
+                                   _( "Could not sort some items: the cart would be too heavy to drag." ) );
+        }
+        if( knockdown_gate_fired ) {
+            you.add_msg_if_player( m_info,
+                                   _( "Could not sort some items: too heavy to carry." ) );
+        }
         bool cart_at_source = false;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
             const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
@@ -13479,6 +13529,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // the nearest destination and has compatible items we can carry.
         // If so, detour there first to batch pickups into one delivery trip.
         // Only attempt if we actually picked something up this call (freeze gate).
+        if( picked_up_this_pass ) {
+            // No-grab weight gate: skip batching if already over capacity
+            if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+                if( you.weight_carried() > you.weight_capacity() ) {
+                    picked_up_this_pass = false;
+                }
+            }
+        }
         if( picked_up_this_pass ) {
             int dest_dist = INT_MAX;
             for( const tripoint_abs_ms &dest : dropoff_coords ) {
@@ -13560,14 +13618,27 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     if( !shares_dest ) {
                         continue;
                     }
-                    // Per-item capacity check
+                    // Per-item capacity check with weight gates
                     bool fits = false;
                     if( batch_cart_vp &&
                         batch_cart_vp->items().free_volume() >= it->volume() ) {
-                        fits = true;
+                        if( drag_worst_tile ) {
+                            const vehicle &bv = batch_cart_vp->vehicle();
+                            units::mass projected = bv.total_mass( here ) + it->weight();
+                            fits = ( bv.drag_str_req_at( here, *drag_worst_tile, projected ) <=
+                                     you.get_arm_str() );
+                        } else {
+                            fits = true;
+                        }
                     }
                     if( !fits && you.can_stash( *it ) ) {
-                        fits = true;
+                        if( you.is_avatar() &&
+                            you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+                            fits = true;
+                        } else {
+                            fits = ( you.weight_carried() + it->weight() <=
+                                     you.weight_capacity() );
+                        }
                     }
                     if( fits ) {
                         should_batch = true;

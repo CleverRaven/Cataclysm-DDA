@@ -171,6 +171,7 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BLOOD_DRINKER( "BLOOD_DRINKER" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
@@ -1428,6 +1429,8 @@ void Character::modify_morale( item &food, const int nutr )
             // Reduced penalties
             add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
                         7_days, 4_days );
+        } else if( has_trait( trait_BLOOD_DRINKER ) ) {
+            add_msg_if_player( m_good, _( "Blood.  Just what you need.  You want more." ) );
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good,
                                _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );

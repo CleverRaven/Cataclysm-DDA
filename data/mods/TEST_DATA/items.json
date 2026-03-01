@@ -1794,6 +1794,21 @@
     "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
+    "id": "test_heavy_boulder",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "category": "food",
+    "name": { "str": "test heavy boulder" },
+    "description": "A very heavy edible boulder for testing weight limits.",
+    "volume": "1500 ml",
+    "weight": "10 kg",
+    "color": "dark_gray",
+    "symbol": "*",
+    "calories": 1,
+    "material": [ "test_material" ]
+  },
+  {
     "id": "test_egg",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],

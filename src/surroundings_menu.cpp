@@ -1075,8 +1075,7 @@ void surroundings_menu::draw_monster_tab()
             if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
                 if( monster_data.selected_entry ) {
                     draw_extended_description(
-                        monster_data.selected_entry->get_selected_entity()->extended_description(),
-                        str_width_to_pixels( width ), info_scroll );
+                        monster_data.selected_entry->get_selected_entity()->extended_description(), info_scroll );
                 }
             }
             ImGui::EndChild();
@@ -1155,8 +1154,7 @@ void surroundings_menu::draw_terfurn_tab()
             if( ImGui::BeginChild( "info", ImVec2( 0.0f, str_height_to_pixels( info_height ) ) ) ) {
                 if( terfurn_data.selected_entry ) {
                     draw_extended_description(
-                        terfurn_data.selected_entry->get_selected_entity()->extended_description(),
-                        str_width_to_pixels( width ), info_scroll );
+                        terfurn_data.selected_entry->get_selected_entity()->extended_description(), info_scroll );
                 }
             }
             ImGui::EndChild();

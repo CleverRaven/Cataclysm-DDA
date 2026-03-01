@@ -1261,7 +1261,7 @@
     "volume": "83 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "plant_name": "corn",
     "fruit": "corn",
     "seeds": false,

@@ -122,6 +122,12 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
 // Uses grab-aware routing when the player is dragging a vehicle.
 // Returns INT_MAX if unreachable.
 int route_length( const Character &you, const tripoint_bub_ms &dest );
+
+// Worst-terrain tile on the route to nearest dropoff destination for a
+// grabbed single-tile vehicle.  Returns nullopt if no grabbed vehicle,
+// multi-tile vehicle, or trivial/unreachable route.
+std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
+    const Character &who, const std::vector<tripoint_abs_ms> &dropoff_coords );
 } //namespace zone_sorting
 
 

@@ -1770,6 +1770,47 @@ int route_length( const Character &you, const tripoint_bub_ms &dest )
     g_route_cache.store( dest, route );
     return route.empty() ? INT_MAX : static_cast<int>( route.size() );
 }
+
+std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
+    const Character &who, const std::vector<tripoint_abs_ms> &dropoff_coords )
+{
+    if( !who.is_avatar() ||
+        who.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+        return std::nullopt;
+    }
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = who.pos_bub() + who.as_avatar()->grab_point;
+    const optional_vpart_position ovp = here.veh_at( veh_pos );
+    if( !ovp || ovp->vehicle().get_points().size() != 1 ) {
+        return std::nullopt;
+    }
+    if( dropoff_coords.empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_bub_ms dest_bub = here.get_bub( dropoff_coords.front() );
+    // Trigger route computation and caching in g_route_cache.
+    const int rlen = route_length( who, dest_bub );
+    if( rlen == INT_MAX || rlen == 0 ) {
+        return std::nullopt;
+    }
+    g_route_cache.ensure_valid( who );
+    const std::vector<tripoint_bub_ms> *route = g_route_cache.find( dest_bub );
+    if( !route || route->empty() ) {
+        return std::nullopt;
+    }
+    vehicle &veh = ovp->vehicle();
+    const units::mass cur_mass = veh.total_mass( here );
+    int worst_req = 0;
+    std::optional<tripoint_bub_ms> worst_tile;
+    for( const tripoint_bub_ms &pos : *route ) {
+        const int req = veh.drag_str_req_at( here, pos, cur_mass );
+        if( req > worst_req ) {
+            worst_req = req;
+            worst_tile = pos;
+        }
+    }
+    return worst_tile;
+}
 } //namespace zone_sorting
 
 std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoint_bub_ms &dest )

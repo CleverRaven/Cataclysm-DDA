@@ -4935,6 +4935,11 @@ double vehicle::coeff_water_drag( map &here ) const
 
 float vehicle::k_traction( map &here, float wheel_traction_area ) const
 {
+    return k_traction( here, wheel_traction_area, weight_on_wheels( here ) );
+}
+
+float vehicle::k_traction( map &here, float wheel_traction_area, units::mass mass ) const
+{
     if( in_deep_water ) {
         return can_float( here ) ? 1.0f : -1.0f;
     }
@@ -4949,12 +4954,41 @@ float vehicle::k_traction( map &here, float wheel_traction_area ) const
     if( fraction_without_traction == 0 ) {
         return 1.0f;
     }
-    const float mass_penalty = fraction_without_traction * to_kilogram( weight_on_wheels( here ) );
+    const float mass_penalty = fraction_without_traction * to_kilogram( mass );
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg_debug( debugmode::DF_VEHICLE, "%s has traction %.2f", name, traction );
 
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
+}
+
+int vehicle::drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos,
+                              units::mass projected_mass ) const
+{
+    const int max_str = projected_mass / 10_kilogram;
+    if( !sufficient_wheel_config() ) {
+        return max_str;
+    }
+    const int n = static_cast<int>( wheelcache.size() );
+    const int base = max_str / 10;
+    int mc = 0;
+    for( const int p : wheelcache ) {
+        const tripoint_bub_ms wp = tile_pos + part( p ).precalc[0];
+        // Exclude self: at current position the vehicle is on the tile;
+        // at a hypothetical position there is no vehicle, so this is a no-op.
+        const int mapcost = here.move_cost( wp, this );
+        mc += base * mapcost / n;
+    }
+    const int eff = ( n > 4 || n == 1 ) ? 4 : n;
+    int str_req = mc / eff + 1;
+    const float wta = here.vehicle_wheel_traction( *this, tile_pos );
+    str_req = static_cast<int>( str_req / k_traction( here, wta, projected_mass ) );
+    return std::min( str_req, max_str );
+}
+
+int vehicle::drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos ) const
+{
+    return drag_str_req_at( here, tile_pos, total_mass( here ) );
 }
 
 units::power vehicle::static_drag( bool actual ) const
@@ -6414,6 +6448,16 @@ std::map<item, int> vehicle::prepare_tools( map &here, const vehicle_part &vp ) 
 {
     std::map<item, int> res;
     for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
+        if( pair.first.is_valid() && pair.first->has_flag( flag_NEEDS_SUNLIGHT ) ) {
+            const tripoint_bub_ms vp_pos = bub_part_pos( here, vp );
+            if( !is_sm_tile_outside( here.get_abs( vp_pos ) ) ) {
+                continue;
+            }
+            const weather_type_id wtype = current_weather( pos_abs() );
+            if( incident_sun_irradiance( wtype, calendar::turn ) <= irradiance::high ) {
+                continue;
+            }
+        }
         item it( pair.first, calendar::turn );
         prepare_tool( here, it );
         res.emplace( it, pair.second > 0 ? pair.second : -1 );

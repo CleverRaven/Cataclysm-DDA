@@ -873,33 +873,6 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "id": "survivor_mess_kit",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "survivor mess kit" },
-    "description": "A homemade mess kit containing everything you might need for creating post-apocalyptic cuisine.  Powered by a kerosene burner, it is composed of simple yet durable tools and materials.",
-    "weight": "2160 g",
-    "volume": "2500 ml",
-    "longest_side": "24 cm",
-    "price": "20 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "glass" ],
-    "symbol": ";",
-    "color": "brown",
-    "sub": "oil_cooker",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true },
-      { "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true }
-    ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "charges_per_use": 2,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 1 ] ],
-    "use_action": [ "HEAT_ALL_ITEMS" ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": [ "lamp_oil" ]
-  },
-  {
     "id": "teapot",
     "type": "ITEM",
     "category": "tools",
