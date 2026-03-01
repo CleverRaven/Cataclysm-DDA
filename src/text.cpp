@@ -217,6 +217,7 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
         return;
     }
     ImFont *Font = ImGui::GetFont();
+    ImGuiWindow *window = ImGui::GetCurrentWindow();
     const char *textStart = str.data();
     const char *textEnd = textStart + str.length();
 
@@ -229,15 +230,30 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
             // adding another so it advances CursorPos.y by
             // ItemSpacing.y. Since we know that this is just part of
             // a paragraph, undo just that small extra spacing.
-            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            widthRemaining = ImGui::CalcWrapWidthForPos( ImGui::GetCursorScreenPos(), wrap_width );
             drawEnd = Font->CalcWordWrapPositionA( 1.0f, textStart, textEnd, widthRemaining );
-        } else {
+        } else if( drawEnd > textStart && drawEnd < textEnd
+                   && !ImCharIsBlankA( *( drawEnd - 1 ) ) && !ImCharIsBlankA( *drawEnd ) ) {
+            // Word was cut because it exceeds widthRemaining, but it
+            // may fit on a full line. Wrap and retry unless already at
+            // line start (word is genuinely too long).
+            float lineStartX = IM_TRUNC( window->Pos.x + window->DC.Indent.x +
+                                         window->DC.ColumnsOffset.x );
+            if( window->DC.CursorPos.x > lineStartX + 1.0f ) {
+                ImGui::NewLine();
+                window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+                continue;
+            }
+        }
+
+        if( drawEnd > textStart ) {
             if( color ) {
                 ImGui::PushStyleColor( ImGuiCol_Text, color );
             }
-            ImGui::TextUnformatted( textStart, textStart == drawEnd ? nullptr : drawEnd );
+            ImGui::TextUnformatted( textStart, drawEnd );
             // see above
-            ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+            window->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
             if( color ) {
                 ImGui::PopStyleColor();
             }
@@ -353,12 +369,13 @@ static std::string trim_substring( std::string_view text, float width )
     float last_free = 0.f;
 
     do {
-        std::string trimmed_str( text.substr( 0, visible_chars ) );
+        std::string trimmed_str = utf8_truncate( std::string( text ), visible_chars );
         trimmed_str += ellipsis;
         float trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
 
-        // number of characters we can still draw or drew too much estimated by ellipsis width
-        float free_chars = ( width - trimmed_width ) / ellipsis_width;
+        // number of characters we can still draw or drew too much
+        // estimated by average character width of trimmed string
+        float free_chars = ( width - trimmed_width ) / ( trimmed_width / utf8_width( trimmed_str ) );
 
         if( free_chars >= 1.f && last_free != free_chars ) {
             visible_chars += std::floor( free_chars );

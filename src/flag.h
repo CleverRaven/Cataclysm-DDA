@@ -221,6 +221,7 @@ extern const flag_id flag_NANOFAB_TEMPLATE;
 extern const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE;
 extern const flag_id flag_NATURAL_WEAPON;
 extern const flag_id flag_NEEDS_NO_LUBE;
+extern const flag_id flag_NEEDS_SUNLIGHT;
 extern const flag_id flag_NEEDS_UNFOLD;
 extern const flag_id flag_NEGATIVE_MONOTONY_OK;
 extern const flag_id flag_NEVER_JAMS;

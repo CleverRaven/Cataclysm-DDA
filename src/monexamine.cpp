@@ -21,6 +21,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -36,7 +37,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "talker.h"  // IWYU pragma: keep
 #include "translations.h"
 #include "type_id.h"
@@ -192,11 +192,10 @@ void push( monster &z )
 
 void rename_pet( monster &z )
 {
-    std::string unique_name = string_input_popup()
-                              .title( _( "Enter new pet name:" ) )
-                              .width( 20 )
-                              .query_string();
-    if( !unique_name.empty() ) {
+    string_input_popup_imgui pet_popup( 55, z.unique_name );
+    pet_popup.set_label( _( "Enter new pet name:" ) );
+    std::string unique_name = pet_popup.query();
+    if( !pet_popup.cancelled() ) {
         z.unique_name = unique_name;
     }
 }

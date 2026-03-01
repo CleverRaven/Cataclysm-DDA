@@ -27,7 +27,8 @@
         [ "propane_cooker", 2 ],
         [ "acetylene_cooker", 1 ],
         [ "popcan_stove", 3 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "fake_solar_cooker", -1 ]
       ]
     ]
   },
@@ -94,7 +95,8 @@
         [ "propane_cooker", 16 ],
         [ "acetylene_cooker", 8 ],
         [ "popcan_stove", 20 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "fake_solar_cooker", -1 ]
       ]
     ]
   },

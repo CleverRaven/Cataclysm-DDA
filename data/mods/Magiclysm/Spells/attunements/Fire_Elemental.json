@@ -12,7 +12,7 @@
       "SOMATIC",
       "NO_PROJECTILE",
       "MUST_HAVE_CLASS_TO_LEARN",
-      "NO_HANDS"
+      "TOUCH_REQUIRED"
     ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",

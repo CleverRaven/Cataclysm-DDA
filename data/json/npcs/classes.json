@@ -396,14 +396,14 @@
     "name": { "str": "Apis" },
     "job_description": "I'm bugged - I shouldn't talk to you.",
     "common": false,
-    "bonus_dex": { "rng": [ 5, 10 ] },
+    "bonus_dex": { "rng": [ 2, 6 ] },
     "bonus_int": { "rng": [ -4, -8 ] },
-    "bonus_per": { "rng": [ 4, 8 ] },
+    "bonus_per": { "rng": [ 2, 6 ] },
     "bonus_str": { "rng": [ 2, 4 ] },
     "skills": [
-      { "skill": "dodge", "level": { "dice": [ 5, 5 ] } },
-      { "skill": "melee", "level": { "dice": [ 5, 5 ] } },
-      { "skill": "unarmed", "level": { "dice": [ 5, 5 ] } }
+      { "skill": "dodge", "level": { "dice": [ 5, 1 ] } },
+      { "skill": "melee", "level": { "dice": [ 5, 1 ] } },
+      { "skill": "unarmed", "level": { "dice": [ 5, 1 ] } }
     ],
     "worn_override": "EMPTY_GROUP",
     "carry_override": "EMPTY_GROUP",

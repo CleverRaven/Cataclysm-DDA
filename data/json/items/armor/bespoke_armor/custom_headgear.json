@@ -506,7 +506,7 @@
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "covers": [ "mouth", "muzzle" ],
+        "covers": [ "mouth", "muzzle", "beak" ],
         "coverage": 100,
         "encumbrance": 5
       }

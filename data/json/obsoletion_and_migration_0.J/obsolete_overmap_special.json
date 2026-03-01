@@ -115,5 +115,25 @@
     "type": "overmap_special_migration",
     "id": "Ice Lab",
     "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Central Lab",
+    "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Prison Hidden Lab",
+    "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "basement_hidden_lab_entrance",
+    "//": "Removed in 0.J experimental"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "office_tower_hiddenlab",
+    "//": "Removed in 0.J experimental"
   }
 ]

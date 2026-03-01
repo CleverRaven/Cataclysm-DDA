@@ -46,6 +46,33 @@
     }
   },
   {
+    "id": "EXODII_MISSION_CHOP_SHOP",
+    "type": "mission_definition",
+    "name": { "str": "Recover the Missing Exodii" },
+    "description": "Rubik believes a missing Exodii scout is being kept hostage, and they want me to bring them back, dead or alive.  Rubik says the hostage will look a bit like him - a mostly metal robot.",
+    "goal": "MGOAL_NULL",
+    "destination": "robofac_strip_mall_x1y0",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "robofac_strip_mall_x1y0", "om_special": "robofac_strip_mall", "reveal_radius": 4, "random": false }
+    },
+    "end": { "effect": { "u_add_var": "mission_completed_exodii_mission_chop_shop", "value": "yes" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
     "id": "EXODII_MISSION_WAREHOUSE",
     "name": { "str": "Find the lost Exodii warehouse and reboot its locator antenna." },
     "type": "mission_definition",
@@ -66,6 +93,28 @@
       "success": "Fine an' fine.  We can pass it in when you like.",
       "success_lie": "Fine an' fine.  We can pass it in when you like.",
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
+    }
+  },
+  {
+    "id": "EXODII_MISSION_STRING_DIMENSION_EXODII",
+    "name": { "str": "Download data from the other-dimension Exodii node" },
+    "type": "mission_definition",
+    "goal": "MGOAL_NULL",
+    "start": { "effect": { "u_spawn_item": "exodii_usb_stick" } },
+    "end": { "effect": [ { "u_add_var": "mission_completed_u_returned_string_dimension_data", "value": "yes" } ] },
+    "difficulty": 5,
+    "value": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
     }
   },
   {
@@ -258,7 +307,12 @@
       },
       {
         "text": "Could I become a cyborg, like yourself?",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
@@ -432,8 +486,9 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_reward",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "You'll win my endless happiness?  Of course not.  I can find you something special from the CBM vaults.  Maybe I can give you a choice?  Three different ones.  Think on it and decide when it's done.",
-      "str": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last."
+      "u_has_trait": "CBM_Interface",
+      "yes": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special, from the ol' CBM vaults.  Mayahp a choice?  We're kickin' a thriceways.\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT that, amid all the strange alien technology, looks bizarrely familiar, like something from a 1970's sci-fi movie.  They scroll rapidly down a list to find three items, which they tap to emphasize.  'air filtration CBM', 'blood analysis CBM', and 'radiation scrubber system CBM'.\n\n\"Think on it, decide on a last.",
+      "no": "Ye'll win the endless delight of ol' Rubik?\"  You hear a tinny chuckle from behind Rubik's faceplate.  \"O'course.  Ol' Rubik can find f'r ye something a mite special from the ol' vaults, or, us'n can fix ye with some goods like ol' Rubik's, aye - stuck in the flesh and to the bone, wired into the brain."
     },
     "responses": [
       { "text": "Then I'll find it.", "topic": "TALK_DONE", "effect": { "assign_mission": "EXODII_MISSION_WAREHOUSE" } },
@@ -445,6 +500,37 @@
   },
   {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete",
+    "type": "talk_topic",
+    "dynamic_line": { "//~": "Aye?", "str": "Aye?" },
+    "responses": [
+      {
+        "text": "Yes, I found it intact.",
+        "condition": { "and": [ { "math": [ "hub01_stole_warehouse != 1" ] }, { "math": [ "hub01_bought_exodii_warehouse != 1" ] } ] },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_success"
+      },
+      {
+        "text": "Yes, but you should know that it was empty when I got there.  Someone must have beat us to it.",
+        "condition": { "math": [ "hub01_stole_warehouse == 1" ] },
+        "trial": { "type": "LIE", "difficulty": 10 },
+        "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success" },
+        "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
+      },
+      {
+        "text": "Yes, but you should know that the people from that bunker may be poking around.  I think they caught on that I was looking for it while I asking around for information.  Sorry, Rubik.",
+        "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
+        "trial": { "type": "LIE", "difficulty": 30 },
+        "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success" },
+        "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
+      },
+      {
+        "text": "Yes, but you should know that I sold its location to someone else.",
+        "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_truth"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_success",
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "u_rebooted_locator == 1" ],
@@ -467,13 +553,101 @@
     ]
   },
   {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "Ah, shame, that.  But not ye doin' and a fine farthing ye did, on that.  Thankee sai.",
+      "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"Ah, shame, that.  But not ye doin' and a fine farthing ye did, on that.  But did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "Bad luck I suppose, but I still found the warehouse.  So, let's talk payment.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 4 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "Ah, shame on ye!  Ye kennin these'n's could be a right thorn.  But, a fine farthing ye did, on that.  Thankee sai.",
+      "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"Ah, shame on ye!  Ye kennin these'n's could be a right thorn.  But did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "I'm sorry Rubik, I'll be more careful in the future.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": 1 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "u_rebooted_locator == 1" ],
+      "yes": "*gives you a long look and then addresses you in a skeptical tone.  \"As'n'ye say.  Alas and alack.\"",
+      "no": "*gives you a long look and then addresses you in a skeptical tone.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
+    },
+    "responses": [
+      {
+        "text": "I guess we should talk payment.",
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
+        "effect": [ { "u_add_faction_trust": -3 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      },
+      {
+        "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
+        "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": -4 } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_truth",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Alas.  You're a mercenary, so you'll act like a mercenary.  But you better remember that the Exodii also remember.",
+      "str": "*looks you up and down, sizing you up fully before speaking in a matter-of-fact tone.  \"Alas and alack.  A pop-an-work you'n be, a pop-an-work you'n do.  Now, ye remember this… the Exodii remembers, aye?\""
+    },
+    "responses": [
+      {
+        "text": "Right.  Guess I'll see you around.",
+        "effect": { "math": [ "exodii_knows_u_double_crossed = 1" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_mission_2_complete_pay",
     "type": "talk_topic",
-    "dynamic_line": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.  Which'll it be?  We can slip an' crank 'em in as y'like.",
-    "//": "This dialogue should change if you're not exodized, allowing them to offer you exodization along with the new CBM.",
+    "dynamic_line": {
+      "u_has_trait": "CBM_Interface",
+      "yes": "Ol' Rubik's gone down into the stores an' slicked up a handful o' some dandies for ye.\"  They reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Us'n can only spare one o', though.    We can slip an' crank 'em in as y'like.",
+      "no": "Aye, which'll ye like?"
+    },
     "responses": [
       {
         "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -485,6 +659,7 @@
       },
       {
         "text": "[Install Blood Analysis CBM] I've always wondered what's in my veins.  Let's try that blood analysis module.",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -496,6 +671,7 @@
       },
       {
         "text": "[Install Radiation Scrubber CBM] I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
+        "condition": { "u_has_trait": "CBM_Interface" },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "30 minutes" },
           { "u_add_effect": "sleep", "duration": "30 minutes" },
@@ -504,6 +680,18 @@
         ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "Could I become a cyborg, like yourself?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
         "text": "How about store credit instead?  [adds $1500 in store credit].",
@@ -517,6 +705,234 @@
         "opinion": { "trust": 7, "value": 5 },
         "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_intro",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Do you remember that bunker you found for us?  Well, turns out they're not so friendly.  We found out one of their people is running some sort of workshop, and we think that an explorer we lost is being held inside.  They're Exodii like me - lots of metal, not easy to miss.  I think they're being tortured, at the least.  If you, a mercenary, can recover them, we'd pay handsomely.",
+      "str": "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome."
+    },
+    "responses": [
+      { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_3_explain" },
+      {
+        "text": "So one of those scientists from the bunker abducted one of your people?  You want me to find them?  I'll do it.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_explain",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "I don't want them to know we are involved.  We've seen people like this in other otherlands, and we know it's dangerous to let them know too much about us.",
+      "str": "Ol' Rubik don't want'n 'em kennin' us'n be involved.  Folk o' this kind we've spied in otherlands, an' we ken it be perilous t'let 'em learn o'er much about us'n."
+    },
+    "responses": [
+      {
+        "text": "Right, so you don't want them to know that you're involved.  I'll do it.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_complete",
+    "type": "talk_topic",
+    "dynamic_line": "&Rubik sighs, takes the head, stares at it for a moment, then sets it gently down on the counter.  They then reach below the counter and take out three clear plastic bags, each containing a different cybernetic module.  \"Ye've done us'n a true service, so as us'n promised, take one o' these dandies as true reward.  Which'll it be?  As y'like.",
+    "responses": [
+      {
+        "text": "[Install Diamond Cornea CBM] I like the look of those eye implants.  Let's try that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_eye_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Muscle Augmentation CBM] Some new muscle fibers sound great.  Let's do those.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_str_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Cerebral Booster CBM] Don't think I'd consider a brain implant before all of this, but didn't think I'd ever meet an alien, either.  Let's do that.",
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_int_enhancer" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything from you at the moment.  Let's call this a favor for a friend.  See you around, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "All dead. That's a shame. Could I interest you in a mercenary contract to get me some more information on this place?",
+      "str": "All dead, eh?  A sorry shame.  Ahh, but, might I tempt ye with a pop-n-work's bond t'fetch us'n more ken?"
+    },
+    "responses": [
+      {
+        "text": "You want to pay me to go back?  Sure, tell me more.",
+        "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Offer2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "If you can find your way back to that place, look all over for some sort of terminal or computer. You may or may not find one with a plug for this contraption. If you plug it in, and it works, and the Exodii there aren't too diverged from us, it should download lots of important data we can use. Do this for me, and I'll reward you handsomely.",
+      "str": "If ye wend back that way, escolt fer some manner o' terminal, computer, the like.  Ye mayhap upon one wi' a jack fer this contraption.\"  Rubik pulls out a small, scrap metal device that looks like an otherworldly USB drive.  \"If ye set it in, an' it takes, an' the node strayed not o'er far from us'n, it should draw down a trove o' vital reckonin' we can make use of.  Do this fer me, an' us'll pay ye right handsome."
+    },
+    "responses": [
+      {
+        "text": "So you want me to take that device, plug it into a computer there, download the data, and return it to you?  Sure, I can do that.",
+        "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Accepted"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Accepted",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik hands you the device and nods.  \"Good luck.\"",
+      "str": "&Rubik hands you the device and nods.  \"Good fortune.\""
+    },
+    "responses": [
+      {
+        "text": "[Take the device]",
+        "effect": { "assign_mission": "EXODII_MISSION_STRING_DIMENSION_EXODII" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_String_Dimension_Exodii_Mission_Complete",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "CBM_Interface",
+      "yes": "&Rubik takes the device and nods.  \"Aye, that ye did.  A spell t'tease this out, no doubt.  Mayhap more than these lands see us'n.  But yer work be prized.  VERY prized.  What say ye for reward?\"  Rubik reaches into the desk in front of them and pulls out a tiny, green-glowing CRT, scrolling rapidly down a list to find three items, which they click slowly through.  'teleporter CBM', 'time dilation CBM', and 'probability travel CBM'.\n\n\"Think on it, decide on a last.\"",
+      "no": "&Rubik takes the device and nods.  \"Aye, that ye did.  A spell t'tease this out, no doubt.  Mayhap more than these lands see us'n.  But yer work be prized.  VERY prized.  What say ye for reward?\""
+    },
+    "responses": [
+      {
+        "text": "[Install Teleporter CBM] Teleporting sounds dangerous, but after this interdimensional travel, maybe I can handle it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_teleport" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Time Dilation CBM] \"Time Dilation\" sounds like something that should surprise me.  But after the places I've now been?  I'm ready for it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_time_freeze" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Install Probability Travel CBM] Phasing through barriers?  Would've helped in that maze of a node.  Let's do it.",
+        "condition": { "u_has_trait": "CBM_Interface" },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_probability_travel" }
+        ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Could I become a cyborg, like yourself?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "How about store credit instead?  [adds $1500 in store credit].",
+        "effect": [ { "u_spend_cash": -150000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I don't need anything.  Helping you out is its own reward, Rubik.",
+        "effect": [ { "u_add_faction_trust": 4 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ANUS_FETICK_ALT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Maybe you could bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "str": "Mayhap ye bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
+    },
+    "responses": [
+      {
+        "text": "One thousand units of, uh, anesthetic?  And you'll give me an upgrade?  Sure, I'd better start looking.",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_mission": "RUBIK_ANUS_FETICK" },
+              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+            ]
+          }
+        },
+        "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "What other work do you have?", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {

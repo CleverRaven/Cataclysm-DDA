@@ -343,7 +343,9 @@ class monster : public Creature
          * bash the designated target.  **/
         std::map<damage_type_id, int> group_bash_skill( const tripoint_bub_ms &target );
 
-        void stumble();
+        void stumble_base( bool is_voluntary );
+        void stumble_voluntary();
+        void stumble_involuntary();
         void knock_back_to( const tripoint_bub_ms &to ) override;
 
         // Combat

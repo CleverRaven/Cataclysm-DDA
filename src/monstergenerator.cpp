@@ -1327,6 +1327,8 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
+    } else if( attack_type == "polymorph_special" ) {
+        new_attack = std::make_unique<polymorph_special>();
     } else if( attack_type == "eoc" ) {
         new_attack = std::make_unique<mon_eoc_actor>();
     } else if( attack_type == "invalid" ) {

@@ -1,30 +1,6 @@
 [
   {
     "type": "monstergroup",
-    "id": "GROUP_CENTRAL_LAB",
-    "default": "mon_zombie_scientist",
-    "monsters": [
-      { "monster": "mon_zombie_scientist", "weight": 150, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_soldier", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_feral_scientist_scalpel", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_skitterbot", "weight": 145, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_skitterbot", "weight": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },
-      { "monster": "mon_secubot", "weight": 5, "cost_multiplier": 10 },
-      { "monster": "mon_talon_m202a1", "weight": 3, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hazmat", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_technician", "weight": 50, "cost_multiplier": 3 },
-      { "monster": "mon_feral_human_tool", "weight": 25, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_static", "weight": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_brute_shocker", "weight": 10, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_hulk", "weight": 1, "cost_multiplier": 50 },
-      { "monster": "mon_skeleton_hulk", "weight": 1, "cost_multiplier": 50 },
-      { "monster": "mon_lab_rat", "weight": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
-    ]
-  },
-  {
-    "type": "monstergroup",
     "id": "GROUP_LAB",
     "default": "mon_zombie_scientist",
     "monsters": [

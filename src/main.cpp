@@ -23,6 +23,7 @@
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
+#include "cata_allocator.h"
 #include "platform_win.h"
 #else
 #include <csignal>
@@ -31,6 +32,7 @@
 #include <flatbuffers/util.h>
 
 #include "cached_options.h"
+#include "cata_allocator.h"
 #include "cata_path.h"
 #include "color.h"
 #include "compatibility.h"
@@ -628,6 +630,9 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+
+    cata::init_allocator();
+
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();

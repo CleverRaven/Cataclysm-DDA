@@ -1354,6 +1354,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_smash_boost",
+    "name": { "str": "Smashing for Wimps" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to your smashing ability that increases the weaker you are.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SMASH_BONUS", "add": { "math": [ "16 - clamp(u_val('strength'), 0, 16)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_speedballing",
     "name": { "str": "Speedballing" },
     "points": 0,

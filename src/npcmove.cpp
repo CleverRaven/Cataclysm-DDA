@@ -22,7 +22,6 @@
 
 #include "active_item_cache.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -2866,7 +2865,7 @@ bool npc::wont_hit_friend( const tripoint_bub_ms &tar, const item &it, bool thro
         // TODO: Extract common functions with turret target selection
         units::angle safe_angle_ally = safe_angle;
         units::angle ally_angle = coord_to_angle( pos_bub(), ally.pos_bub() );
-        units::angle angle_diff = units::fabs( ally_angle - target_angle );
+        units::angle angle_diff = units::abs( ally_angle - target_angle );
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
@@ -3438,9 +3437,6 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_MULTIPLE_BUTCHER ) {
             assign_activity( multi_butchery_activity_actor() );
-            return true;
-        } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
-            assign_activity( elem );
             return true;
         }
     }
@@ -4138,16 +4134,6 @@ bool npc::can_do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
-    if( moves > 200 && activity && activity.is_multi_type() ) {
-        // a huge backlog of a multi-activity type can forever loop
-        // instead; just scan the map ONCE for a task to do, and if it returns false
-        // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_character(), true ) ) {
-            revert_after_activity();
-            set_moves( 0 );
-            return true;
-        }
-    }
     // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
     // ( when they are setting a destination etc. )
     // normally this isn't a problem, but in the main game loop, if the NPC has a huge backlog of moves;
@@ -4157,7 +4143,7 @@ bool npc::do_player_activity()
     // to satisfy the infinite loop counter.
     const bool multi_type = activity ? activity.is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity ) {
+    while( moves > 0 && activity && !has_destination() ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
