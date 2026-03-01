@@ -12,7 +12,7 @@
   {
     "id": "xe_bio_dataslot_giant_hunting",
     "type": "bionic",
-    "name": { "str": "Datacore: Giant Hunting", "str_pl": "Datacores: Giant Hunting" },
+    "name": { "str": "Datacore: Giant Hunting" },
     "description": "A removable data core that can be slotted into a data core for temporary knowledge of a proficiency.  This one teaches you how best to bring down giant humanoids in combat.",
     "activate_remove_cbm": true,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
@@ -54,47 +54,47 @@
     "learned_proficiencies": [ "prof_lockpicking", "prof_lockpicking_expert" ]
   },
   {
-    "id": "xe_bio_dataslot_med_swords_basic",
+    "id": "xe_bio_dataslot_game_ui",
     "type": "bionic",
-    "name": { "str": "Datacore: Medium Swords" },
+    "name": { "str": "Datacore: Trap Highlight UI" },
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
-    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "description": "A brain implant causes your visual cortex to highlight likely traps.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
-    "learned_proficiencies": [ "prof_medium_swords_familiar" ]
+    "learned_proficiencies": [ "prof_spotting" ]
   },
   {
-    "id": "xe_bio_dataslot_med_swords_advanced",
+    "id": "xe_bio_dataslot_EOD",
     "type": "bionic",
-    "name": { "str": "Datacore: Medium Swords, advanced" },
-    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "name": { "str": "Datacore: Trap Disposal" },
+    "description": "A brain implant that grants instinctual knowledge about how to disarm many types of traps.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
-    "learned_proficiencies": [ "prof_medium_swords_pro" ]
+    "learned_proficiencies": [ "prof_disarming" ]
   },
   {
-    "id": "xe_bio_dataslot_short_swords_basic",
+    "id": "xe_bio_dataslot_parkour",
     "type": "bionic",
-    "name": { "str": "Datacore: Short Swords" },
+    "name": { "str": "Datacore: Parkour" },
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
-    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "description": "A brain implant that grants the ability to free run across difficult terrains.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
     "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
-    "learned_proficiencies": [ "prof_short_swords_familiar" ]
+    "learned_proficiencies": [ "prof_parkour" ]
   },
   {
-    "id": "xe_bio_dataslot_short_swords_advanced",
+    "id": "xe_bio_dataslot_helicopter_pilot",
     "type": "bionic",
-    "name": { "str": "Datacore: Short Swords, advanced" },
+    "name": { "str": "Datacore: Helicopter Pilot" },
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "activate_remove_cbm": true,
     "installation_requirement": "data_core_install",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
-    "learned_proficiencies": [ "prof_short_swords_pro" ]
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
   }
 ]
