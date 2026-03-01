@@ -2269,7 +2269,7 @@
       {
         "condition": {
           "math": [
-            "( u_spell_level('telekinetic_momentum') * scaling_factor(u_val('intelligence') * u_nether_attunement_power_scaling) >= 30"
+            "( u_spell_level('telekinetic_momentum') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 30"
           ]
         },
         "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
