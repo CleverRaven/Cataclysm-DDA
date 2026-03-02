@@ -89,7 +89,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 12,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE", "MUTANT_ANATOMY_ONLY" ],
     "armor": [
       {
         "covers": [ "hoof_l", "hoof_r" ],
