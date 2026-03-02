@@ -4734,8 +4734,6 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 2,
-    "encumbrance_covered": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
       { "part": "arm_r", "neutral": 50 },
