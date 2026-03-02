@@ -320,6 +320,92 @@
     "opposite": "hand_fingers_l"
   },
   {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_l",
+    "name": "left feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_shoulder_l",
+    "opposite": "arm_feathers_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_l",
+    "name": "left feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_upper_l",
+    "opposite": "arm_feathers_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_l",
+    "name": "left feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_elbow_l",
+    "opposite": "arm_feathers_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_l",
+    "name": "lower left feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "opposite": "arm_feathers_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_r",
+    "name": "right feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_shoulder_r",
+    "opposite": "arm_feathers_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_r",
+    "name": "right feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_upper_r",
+    "opposite": "arm_feathers_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_r",
+    "name": "right feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_elbow_r",
+    "opposite": "arm_feathers_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_r",
+    "name": "lower right feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "opposite": "arm_feathers_lower_l",
+    "max_coverage": 45
+  },
+  {
     "id": "arm_insect_upper_l",
     "type": "sub_body_part",
     "max_coverage": 45,
