@@ -476,7 +476,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ [ "fabrication", 7 ], [ "chemistry", 2 ] ]
+    "skills_required": [ [ "fabrication", 7 ], [ "chemistry", 2 ] ],
     "time": "36 h",
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 1 } ],
