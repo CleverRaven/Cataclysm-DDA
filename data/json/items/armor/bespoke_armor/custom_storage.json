@@ -68,7 +68,15 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 10, "volume_encumber_modifier": 0.25, "coverage": 1000, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 1000,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "survivor_dry_duffelbag",
@@ -233,7 +241,15 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": 6, "volume_encumber_mult": 0.2, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_mult": 0.2,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "survivor_rucksack",
@@ -335,7 +351,15 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 15, "volume_encumber_mult": 0.2, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [
+      {
+        "encumbrance": 15,
+        "volume_encumber_mult": 0.2,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "survivor_runner_pack",
@@ -364,7 +388,15 @@
     "warmth": 2,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": 3, "volume_encumber_mult": 0.15, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "volume_encumber_mult": 0.15,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
   },
   {
     "id": "survivor_dry_bag",
