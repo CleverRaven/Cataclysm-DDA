@@ -5268,7 +5268,7 @@ bool game::npc_menu( npc &who )
         float prof_bonus = u.get_skill_level( skill_firstaid );
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
+        const bool precise = prof_bonus * 4 + u.get_per() >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == examine_status ) {
@@ -7405,7 +7405,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
     // That function call is:
-    // x_in_y(1+u.dex_cur/2, 40)
+    // x_in_y(1+u.get_dex()/2, 40)
     const int magic_number_78 = 78;
 
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
@@ -7419,7 +7419,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
                !here.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || here.veh_at( dest_loc ) ) &&
-               u.dex_cur < magic_number_78 &&
+               u.get_dex() < magic_number_78 &&
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
@@ -7704,7 +7704,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
-            one_in( 80 + u.dex_cur + u.int_cur ) ) {
+            one_in( 80 + u.get_dex() + u.get_int() ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_sleepiness( 1 );
         }
@@ -7997,7 +7997,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( here.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
         !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
-        !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
+        !x_in_y( 1 + u.get_dex() / 2.0, 40 ) &&
         ( !u.in_vehicle && !here.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         const int sharp_damage = rng( 1, 10 );
@@ -10655,7 +10655,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
-    slip /= std::max( 1, u.dex_cur + u.str_cur );
+    slip /= std::max( 1, u.get_dex() + u.get_str() );
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %.0f%%", slip );
 

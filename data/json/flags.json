@@ -1728,6 +1728,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NEEDS_SUNLIGHT",
+    "type": "json_flag",
+    "info": "This tool only functions in strong direct sunlight.  It will not work indoors, underground, at night, or in overcast weather."
+  },
+  {
     "id": "MAGICAL",
     "//": "Does not specifically cause magical effects, but used to know if an item can be considered magical by the code",
     "type": "json_flag"

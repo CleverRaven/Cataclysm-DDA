@@ -48,6 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
+      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -2200,6 +2201,67 @@
         ],
         "else": { "u_message": "You must be near a door or window to seep through." }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TIER_5_REMOVE_MORALS",
+    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
+    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VEGAN" },
+        "then": [
+          { "u_lose_trait": "VEGAN" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "A wave of crimson drowns your empathy for lesser beings.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "SPIRITUAL" },
+        "then": [
+          { "u_lose_trait": "SPIRITUAL" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "There are no wonders and nothing beyond sight, only the thirst and how you will sate it.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "PACIFIST" },
+        "then": [
+          { "u_lose_trait": "PACIFIST" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "Your disdain for violence melts as you drink your fill.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "then": [
+          { "u_add_trait": "PSYCHOPATH" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "The blood in your mouth makes you realise that anything that isn't blood isn't worth caring about.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      { "math": [ "u_shed_morality++" ] }
     ]
   },
   {

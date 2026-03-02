@@ -215,28 +215,6 @@
         ]
       },
       {
-        "text": "These glasses are a bit clunky.  Think we can improve them at all?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
-        "condition": {
-          "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
-            { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
-          ]
-        }
-      },
-      {
-        "text": "We've had these glasses for a while.  They're clunky, fragile, and go through batteries pretty quick.  Think we can improve them at all?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
-        "condition": {
-          "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
-            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] }
-          ]
-        }
-      },
-      {
         "text": "So, no easy way to say this, but I let some robots turn me into a cyborg.  Pretty cool, yeah?",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG",
         "condition": {
@@ -275,7 +253,7 @@
         }
       },
       {
-        "text": "Hey, check out this military-grade AR unit.  Think we can do something with it?",
+        "text": "Hey, check out this Hub 01 AR unit.  Think we can do something with it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
         "condition": {
           "and": [
@@ -364,6 +342,11 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
           ]
         }
+      },
+      {
+        "text": "About the equipment we use…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_GEAR_MENU",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] }
       },
       {
         "text": "Just came by to chat.",
@@ -542,6 +525,168 @@
     "responses": [ { "text": "[Have a chat then say goodbye]", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_ROBOFAC_MERC_PAT_GEAR_MENU",
+    "type": "talk_topic",
+    "dynamic_line": "Whatsup?",
+    "responses": [
+      {
+        "text": "These glasses are a bit clunky.  Think we can improve them at all?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_gear_improvement" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "We've had these glasses for a while.  They're clunky, fragile, and go through batteries pretty quick.  Think we can improve them at all?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_gear_improvement" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "What do you need if I want another pair of AR glasses?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_NO",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+        "effect": { "u_add_var": "robofac_pat_told_u_about_remaking_glasses", "value": "yes" }
+      },
+      {
+        "text": "Could I get another pair of AR glasses?  Here are the electronics you need.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_glasses" } ] },
+            { "u_has_items": { "item": "eink_tablet_pc", "count": 2 } },
+            { "u_has_items": { "item": "ar_glasses_advanced", "count": 1 } },
+            { "u_has_items": { "item": "two_way_radio", "count": 2 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "eink_tablet_pc", "count": 2, "popup": true },
+          { "u_consume_item": "ar_glasses_advanced", "count": 1, "popup": true },
+          { "u_consume_item": "two_way_radio", "count": 2, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_remaking_glasses", "value": "yes" }
+        ]
+      },
+      {
+        "text": "Could I get another pair of AR glasses?  Here's 10 HGC for supplies.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_glasses" } ] },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_remaking_glasses", "value": "yes" }
+        ]
+      },
+      {
+        "text": "It's been a day.  Are the AR glasses done?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_DONE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_remaking_glasses" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "ar_glasses_advanced_pat", "count": 1 },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_lose_var": "robofac_pat_remaking_glasses" }
+        ]
+      },
+      {
+        "text": "What do you need if I want another earpiece?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_NO",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] },
+        "effect": { "u_add_var": "robofac_pat_told_u_about_remaking_earpiece", "value": "yes" }
+      },
+      {
+        "text": "Could I get another earpiece?  Here's a couple HGC for supplies.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_earpiece" } ] },
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
+          { "u_add_var": "robofac_pat_remaking_earpiece", "value": "yes" }
+        ]
+      },
+      {
+        "text": "It's been a day.  Is the earpiece done?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_DONE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_remaking_earpiece" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+          ]
+        },
+        "effect": [ { "u_spawn_item": "pat_earpiece", "count": 1 }, { "u_lose_var": "robofac_pat_remaking_earpiece" } ]
+      },
+      { "text": "Let's talk about something else…", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_NO",
+    "type": "talk_topic",
+    "dynamic_line": "Pair'a advanced AR glasses, 2 two-way radios, and 2 tablet PCs.  Or, ya' cough up 10 HGC, and I'll scrounge up the pahts myself.  Cool?",
+    "responses": [ { "text": "Cool.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_NO",
+    "type": "talk_topic",
+    "dynamic_line": "No prob.  Just cough up 2 HGC, and I'll scrounge up the pahts myself.  Cool?",
+    "responses": [ { "text": "Cool.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whips out their soldering iron and starts to clear their desk.  \"Wicked.  Come back tomorrah.\"",
+    "responses": [ { "text": "Thanks, Pat.  See you tomorrow.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_YES",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whips out their soldering iron and starts to clear their desk.  \"Wicked.  Come back tomorrah.\"",
+    "responses": [ { "text": "Thanks, Pat.  See you tomorrow.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_DONE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat picks up a new pair of modified AR glasses, wipes the lenses, and hands them over to you.  \"Careful with this set, yeah?\"",
+    "responses": [ { "text": "Thanks, Pat.  See you later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_DONE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whistles sharply and tosses the earpiece in the air.  You catch it.  Pat chuckles.  \"Don' lose that one, got it?\"",
+    "responses": [ { "text": "Thanks, Pat.  See you later.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1",
     "type": "talk_topic",
     "dynamic_line": "Actually, yeah, I been thinkin' about this a lot.  I'm probably bettah suited stayin' heah, an' you're bettah out in the field.  I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
@@ -643,7 +788,13 @@
     "id": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
     "type": "talk_topic",
     "dynamic_line": "I think this is about as good as my post-apocalyptic engineering will take us, eh?  Unless our employer chips in, or you can dig up one of those cutting-edge military AR units, I think we're S-O-L.",
-    "responses": [ { "text": "Yeah, alright.  Maybe sometime in the future.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+    "responses": [
+      {
+        "text": "Yeah, alright.  Maybe sometime in the future.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "effect": { "u_add_var": "robofac_pat_talked_about_gear_improvement", "value": "yes" }
+      }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG",

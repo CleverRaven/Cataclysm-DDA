@@ -193,7 +193,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact ) const
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_CHURL_ANGRY" );
         } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
-                   ( me_npc->int_cur >= 9 ) ) {
+                   ( me_npc->get_int() >= 9 ) ) {
             add_topics.emplace_back( "TALK_CHURL_TRADE" );
         } else {
             add_topics.emplace_back( "TALK_CHURL" );
@@ -745,24 +745,24 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
 
     std::string info = "&";
     int str_range = static_cast<int>( 100 / ability );
-    int str_min = static_cast<int>( me_npc->str_max / str_range ) * str_range;
+    int str_min = static_cast<int>( me_npc->get_str_base() / str_range ) * str_range;
     info += string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
 
     if( ability >= 40 ) {
         int dex_range = static_cast<int>( 160 / ability );
-        int dex_min = static_cast<int>( me_npc->dex_max / dex_range ) * dex_range;
+        int dex_min = static_cast<int>( me_npc->get_dex_base() / dex_range ) * dex_range;
         info += string_format( _( "  Dex %d - %d" ), dex_min, dex_min + dex_range );
     }
 
     if( ability >= 50 ) {
         int int_range = static_cast<int>( 200 / ability );
-        int int_min = static_cast<int>( me_npc->int_max / int_range ) * int_range;
+        int int_min = static_cast<int>( me_npc->get_int_base() / int_range ) * int_range;
         info += string_format( _( "  Int %d - %d" ), int_min, int_min + int_range );
     }
 
     if( ability >= 60 ) {
         int per_range = static_cast<int>( 240 / ability );
-        int per_min = static_cast<int>( me_npc->per_max / per_range ) * per_range;
+        int per_min = static_cast<int>( me_npc->get_per_base() / per_range ) * per_range;
         info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
     }
     needs_rates rates = me_npc->calc_needs_rates();

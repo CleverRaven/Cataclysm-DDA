@@ -307,7 +307,12 @@
       },
       {
         "text": "Could I become a cyborg, like yourself?",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
@@ -678,7 +683,12 @@
       },
       {
         "text": "Could I become a cyborg, like yourself?",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
@@ -877,7 +887,12 @@
       },
       {
         "text": "Could I become a cyborg, like yourself?",
-        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
+          ]
+        },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"

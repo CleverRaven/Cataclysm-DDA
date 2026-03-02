@@ -762,10 +762,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE",
-    "dynamic_line": "Now THIS is what I'm good at.  Tell ya' what, I can take this one, if you want.  No guarantees on time, but check in once a week, and I'll let ya' know if I find it.",
+    "dynamic_line": "Now THIS is what I'm good at.  Tell ya' what, I can take this one, if you want.  No guarantees on time, but check in once a week, and I'll let ya' know if I find it.  But listen, you should talk to our employah 'bout this, yeah?  I'm tellin' ya, they'd probably cough up a wicked pile'a coins for the tech in that thing.  Think about it.",
     "responses": [
       {
-        "text": "Absolutely.  I'll check in next week.",
+        "text": "Absolutely.  I'll check in next week.  And I'll think about telling the intercom.",
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE" },
           { "u_add_var": "robofac_pat_looking_for_exodii_warehouse", "value": "yes" },
@@ -773,22 +773,25 @@
         ],
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
       },
-      { "text": "No, I've got this for now.  I'll think about it, though.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" }
+      {
+        "text": "No, I've got this for now.  If I change my mind, I'll let you know.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE"
+      }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_NO_FOUND",
-    "dynamic_line": "Nothin' yet.  Check back later.",
-    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
+    "dynamic_line": "Nothin' yet.  Check back later.  Ya' tell our employah' about it yet?  You should.",
+    "responses": [ { "text": "Thanks.  I'll check in later.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_WAREHOUSE_YES_FOUND",
-    "dynamic_line": "Boom!  Found it.  I think.  I'll upload the data.",
+    "dynamic_line": "Boom!  Found it.  I think.  I'll upload the data.  Look, like I said befoah, maybe you go check this place out, but don' touch nothin'.  Negotiate somethin' with the intercom, yeah?",
     "responses": [
       {
-        "text": "Thanks, Pat!",
+        "text": "Thanks, Pat!  If it's what I'm looking for, I guess I'll have to decide if I want to activate the transponder for Rubik, or come talk to the intercom about it.",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
         "effect": [ { "finish_mission": "MISSION_ROBOFAC_PAT_1", "success": true }, { "assign_mission": "mission_exodii_wh_directions" } ]
       }

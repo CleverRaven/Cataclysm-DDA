@@ -95,12 +95,262 @@
       "sentinel": "ancilla_doctor_meet"
     },
     "responses": [
-      { "text": "Could you help me with some bionics?", "topic": "TALK_ANCILLA_DOCTOR_BIONICS" },
+      {
+        "text": "I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+          ]
+        }
+      },
+      {
+        "text": "I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "u_has_trait": "CBM_Interface" }
+          ]
+        }
+      },
+      { "text": "What services do you offer?", "topic": "TALK_ANCILLA_DOCTOR_SERVICES" },
+      {
+        "text": "Could you help me with some bionics?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS",
+        "condition": { "u_has_trait": "Hub01_CBM_Interface" }
+      },
+      {
+        "text": "So… believe it or not, I've swapped my bionic interfaces.  Let's say I wanted you to swap them again, in favor of a new Hub 01 interface.  What's that gonna cost me?",
+        "topic": "TALK_ANCILLA_DOCTOR_SWAP_INTERFACE_AGAIN",
+        "condition": { "and": [ { "u_has_trait": "CBM_Interface_brain_lesion" }, { "u_has_trait": "CBM_Interface" } ] }
+      },
+      {
+        "text": "I HAVE A MINOR BRAIN LESION AND NO CBM INTERFACE, WHICH SHOULDN'T BE POSSIBLE!  [IF YOU SEE THIS OPTION IN A NORMAL GAME PLEASE FILE A BUG REPORT]",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface_brain_lesion" },
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+          ]
+        }
+      },
       { "text": "I could use your medical assistance.", "topic": "TALK_ANCILLA_DOCTOR_AID" },
       { "text": "I need to trade some medical supplies.", "topic": "TALK_ANCILLA_DOCTOR", "effect": "start_trade" },
       { "text": "Is there anything I can help you with?", "topic": "TALK_ANCILLA_DOCTOR_WORK" },
       { "text": "…", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_SERVICES",
+    "type": "talk_topic",
+    "dynamic_line": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  We are also accepting applications for the cutting-edge Hub 01 Cybernetic Enhancements Program, if you're interested.",
+    "responses": [
+      {
+        "text": "What?!  Seriously?  Cybernetics?  Tell me more!",
+        "topic": "TALK_ANCILLA_DOCTOR_CYBERNETICS_INFO",
+        "condition": {
+          "and": [ { "not": { "u_has_trait": "Hub01_CBM_Interface" } }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ]
+        }
+      },
+      {
+        "text": "Actually, I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+          ]
+        }
+      },
+      {
+        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+          ]
+        }
+      },
+      { "text": "Okay, thanks.", "topic": "TALK_ANCILLA_DOCTOR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_CYBERNETICS_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "&The doc cracks a wry grin.  \"Yup, believe it or not, motherfucker, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  So, for a DISCOUNTED fee of 20 HGCs, I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment to keep it charged, and an integrated two-way radio.  Crazy shit, huh?\"",
+    "responses": [
+      {
+        "text": "Actually, I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
+        "condition": {
+          "and": [ { "math": [ "hub01_promised_cbm_reward == 1" ] }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ]
+        }
+      },
+      {
+        "text": "Actually, I'm <u_name>.  I was told to see you about replacing my Exodii interface with the updated Hub 01 interface.",
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+          ]
+        }
+      },
+      {
+        "text": "[20 HGC - Install Hub 01 CBM interface]  Twenty HGC to turn me into a cyborg?  Let's do it.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 20 } },
+        "effect": [
+          {
+            "if": { "u_has_trait": "CBM_Interface" },
+            "then": [
+              { "u_lose_trait": "CBM_Interface" },
+              { "u_add_trait": "CBM_Interface_brain_lesion" },
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+            ]
+          },
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_add_trait": "Hub01_CBM_Interface" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_batteries" },
+          { "u_add_bionic": "bio_radio" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ],
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALLED_HUB01_INTERFACE"
+      },
+      { "text": "Maybe later.  Let's talk about something else.", "topic": "TALK_ANCILLA_DOCTOR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
+    "type": "talk_topic",
+    "dynamic_line": "Right, they told me about you.  I guess we owe a lot of this to your efforts, yeah?  So, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  For you?  No charge.  I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment, and an integrated commlink.  Crazy shit, huh?\"",
+    "responses": [
+      {
+        "text": "[Install Hub 01 CBM interface]  Turn me into a cyborg?  For free?  Let's do it.",
+        "effect": [
+          {
+            "if": { "u_has_trait": "CBM_Interface" },
+            "then": [
+              { "u_lose_trait": "CBM_Interface" },
+              { "u_add_trait": "CBM_Interface_brain_lesion" },
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+            ]
+          },
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_add_trait": "Hub01_CBM_Interface" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_batteries" },
+          { "u_add_bionic": "bio_radio" }
+        ],
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALLED_HUB01_INTERFACE"
+      },
+      { "text": "Maybe later.  Let's talk about something else.", "topic": "TALK_ANCILLA_DOCTOR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_B",
+    "type": "talk_topic",
+    "dynamic_line": "Right, they told me about you.  I guess you know the drill and how these things work.  I'll use the machine to take out that hostile Exodii tech, install the upgraded Hub 01 unit, and top you up with some extra power, a battery compartment, and a commlink, if you don't have those already.  The new interface is backwards compatible with the Exodii bionics, so no worries there.  I've been given 10 HGC to pay YOU for the Exodii interface scrap.  Remember, the Hub keeping your old interface is a condition for the surgery, and that old thing would've given you cancer, anyway.  So, good riddance, yeah?  You ready?\"",
+    "responses": [
+      {
+        "text": "[Exchange your Exodii CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
+        "effect": [
+          { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_trait": "CBM_Interface" },
+          { "u_add_trait": "Hub01_CBM_Interface" },
+          { "u_add_trait": "CBM_Interface_brain_lesion" },
+          { "u_add_bionic": "bio_power_storage" },
+          { "u_add_bionic": "bio_batteries" },
+          { "u_add_bionic": "bio_radio" },
+          { "u_spawn_item": "RobofacCoin", "count": 10 }
+        ],
+        "topic": "TALK_ANCILLA_DOCTOR_INSTALLED_HUB01_INTERFACE"
+      },
+      { "text": "Maybe later.  Let's talk about something else.", "topic": "TALK_ANCILLA_DOCTOR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_INSTALLED_HUB01_INTERFACE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_found_u_exodii_interface == 1" ],
+      "yes": "&The doc lays you down on the bed and tells you not to move - you're all too familiar with this process, having done it with the Exodii already.  You close your eyes and relax.  In an instant you wake up, now resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  Quite the cyborg already, weren't we?  No worries.  Doc Stevens Junior over here got that old, obsolete tech out without a problem.  The new stuff is ready to go, with the fresh upgrades to boot.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\"",
+      "no": "&The doc lays you down on the bed and tells you not to move.  The last thing you see is the robotic arm of the device slowly descend toward your neck.  A syringe full of some liquid is then plunged into your skin, and you wake up, resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\""
+    },
+    "responses": [
+      {
+        "text": "Feels about the same.  Thanks, Doc.",
+        "condition": { "math": [ "hub01_found_u_exodii_interface == 1" ] },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I'm a cyborg now?  Doesn't feel too much different.  Guess I should go experiment with whatever the hell you did to me.  Thanks, I guess.",
+        "condition": { "math": [ "hub01_found_u_exodii_interface != 1" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_SWAP_INTERFACE_AGAIN",
+    "type": "talk_topic",
+    "dynamic_line": "…you what?  Seriously?  I mean, yeah, I can do it again.  But look, I'll give it to you straight:  your brain isn't gonna be the same after.  I'm not even sure you'll live.  I'll tell you what… I'll discount it to 10 HGCs, but I get to keep your shit if you die.  Deal?",
+    "responses": [
+      {
+        "text": "[10 HGC - swap CBM interfaces - MAJOR RISK OF BRAIN DAMAGE]  It's worth the risk.  Swap them!",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_trait": "CBM_Interface" },
+          { "u_lose_trait": "CBM_Interface_brain_lesion" },
+          { "u_add_trait": "Hub01_CBM_Interface" },
+          { "u_add_trait": "CBM_Interface_brain_lesion_2" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ],
+        "topic": "TALK_ANCILLA_DOCTOR_SWAPPED_INTERFACE_AGAIN"
+      },
+      { "text": "Maybe later.  Let's talk about something else.", "topic": "TALK_ANCILLA_DOCTOR" },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_SWAPPED_INTERFACE_AGAIN",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything after that moment is a blur in your memory.  You wake up.  For a moment, you're back in your bed.  Was the cataclysm all a dream?  Then you look around, and see Doc Stevens.  You come to your senses.",
+    "responses": [
+      {
+        "text": "Well, I feel pretty much the same.  Seems like there weren't any complications!",
+        "topic": "TALK_ANCILLA_DOCTOR_SWAPPED_INTERFACE_AGAIN_2"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_DOCTOR_SWAPPED_INTERFACE_AGAIN_2",
+    "type": "talk_topic",
+    "dynamic_line": "&Doc Stevens stares at you confusedly.  Then he squints at you.  Then he just shrugs his shoulders.  \"Yeah, what you said… same for me.  I think.\"  Then the doctor's eyes go wide and he raises his eyebrows.  He takes a sharp breath.  Then he turns and walks away.",
+    "responses": [ { "text": "…What?", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_ANCILLA_DOCTOR_AID",
@@ -155,7 +405,6 @@
         "effect": "bionic_remove_allies",
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
-      { "text": "Oh no, I was wondering if you knew where to get some.", "topic": "TALK_ANCILLA_DOCTOR_FIND_BIONICS" },
       { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
@@ -180,12 +429,6 @@
       }
     ],
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_ANCILLA_DOCTOR_FIND_BIONICS",
-    "dynamic_line": "If you want to carve up cyborg corpses, find someone at the bar, not me.",
-    "responses": [ { "text": "…", "topic": "TALK_ANCILLA_DOCTOR" } ]
   },
   {
     "type": "talk_topic",

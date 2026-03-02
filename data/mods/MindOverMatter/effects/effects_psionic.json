@@ -50,6 +50,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -638,6 +642,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 20" ] },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -2257,6 +2265,14 @@
             }
           }
         ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( u_spell_level('telekinetic_momentum') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 30"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ],
     "flags": [ "MUSCLE_VEH_BOOST" ]
@@ -2366,7 +2382,7 @@
             "type": "stab",
             "add": {
               "math": [
-                "( -5 + ( u_spell_level('telekinetic_shield') * -1.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( -5 + ( u_spell_level('telekinetic_shield') * -1.5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -2374,7 +2390,7 @@
             "type": "cut",
             "add": {
               "math": [
-                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -2382,11 +2398,19 @@
             "type": "bullet",
             "add": {
               "math": [
-                "( -12 + ( u_spell_level('telekinetic_shield') * -2.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( -12 + ( u_spell_level('telekinetic_shield') * -2.5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           }
         ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( u_spell_level('telekinetic_shield') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 25"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },

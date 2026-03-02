@@ -356,7 +356,8 @@
                 { "u_has_items": { "item": "HEW_printout_data_cabin_reverb", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_cabin_reverb_dimension", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_barricaded_church", "count": 1 } },
-                { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } }
+                { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } }
               ]
             }
           ]
@@ -554,6 +555,26 @@
         "text": "Any news on the Exodii warehouse?",
         "condition": { "and": [ { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] }, { "math": [ "hub01_stole_warehouse != 1" ] } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4c"
+      },
+      {
+        "text": "You mentioned that the Exodii I brought you would be useful for some kind of technology.  Any news on that?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_autodoc)" ] },
+            { "math": [ "hub01_told_u_about_warehouse_autodoc != 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_A"
+      },
+      {
+        "text": "Any news on that Exodii surgical-thing?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_autodoc)" ] },
+            { "math": [ "hub01_told_u_about_warehouse_autodoc == 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B"
       },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
@@ -1391,7 +1412,8 @@
         "effect": [
           { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
           { "u_lose_var": "timer_hub_waiting_on_warehouse" },
-          { "math": [ "hub01_told_u_about_warehouse = 1" ] }
+          { "math": [ "hub01_told_u_about_warehouse = 1" ] },
+          { "math": [ "hub01_told_u_about_warehouse_autodoc = 1" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -1414,6 +1436,119 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_A",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ],
+      "yes": "&The intercom clicks off and there is a long moment of silence, before it clicks back on again with a new person on the other end.  \"Yes, hello.  Right.  Yes.  Indeed, the technology we recovered was instrumental in developing new medical technology we are making available for our contractors, like yourself.  You can find a new, public medical suite across the street, in the old basement of the weather station - you should be able to find the stairs just inside the entrance.  Please feel free to make use of its services.\"",
+      "no": {
+        "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('12 d')" ],
+        "yes": "Our newest project will be ready for field testing within the week.  We suggest checking back regularly.",
+        "no": {
+          "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('7 d')" ],
+          "yes": "This project is ongoing, but is advancing quickly.  We expect research to be done in a matter of weeks.",
+          "no": "The project is ongoing, and we expect it will take weeks or months until it is ready for testing.  We suggest you check back in next week."
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "A new medical facility across the street, in the basement?  I guess I can go check it out.",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" }, { "u_lose_var": "timer_hub_waiting_on_autodoc" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) < time('14 d')" ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ],
+      "yes": "&The intercom clicks off and there is a long moment of silence, before it clicks back on again with a new person on the other end.  \"Yes, hello.  Right.  Yes.  Indeed, we have been able to reconstruct the automatic medical device, and due to your efforts, and the efforts of other contractors and Hub scientists, we were able to reverse engineer the cybernetic implants the Exodii make use of.  You can find a new, public medical suite across the street, in the old basement of the weather station - you should be able to find the stairs just inside the entrance.  Please feel free to make use of its services.  As previously discussed, we would like to invite you to join our new program, where select mercenaries will be allowed to field test new cybernetic enhancements.  Doctor Stevens at the facility will give you more information.  In fact, as a reward for your service, we are prepared to install some very useful cybernetic enhancements that we developed as a part of these efforts.\"",
+      "no": {
+        "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('12 d')" ],
+        "yes": "Our newest project will be ready for field testing within days.  We suggest checking back regularly.",
+        "no": {
+          "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('7 d')" ],
+          "yes": "We expect the surgical suite to be ready in approximately one week.",
+          "no": "The project is ongoing, and we expect it will take weeks or months until it is ready for testing.  We suggest you check back in next week."
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "condition": {
+          "and": [ { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] }, { "u_has_trait": "CBM_Interface" } ]
+        },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B_EXODII_INTERFACE"
+      },
+      {
+        "text": "Cybernetics?  What do you mean by that?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+            { "not": { "u_has_trait": "CBM_Interface" } }
+          ]
+        },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B_CYBERNETICS_INFO"
+      },
+      {
+        "text": "I guess I can go check the new medical facility out.  Across the street in the basement, right?",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) < time('14 d')" ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B_EXODII_INTERFACE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent for a long moment, then it clicks off, then back on, with the same voice as before:  \"Interesting.  We'll inform Doc Stevens.  We would be willing to pay you to study this device, whether you wish to participate in the field testing units or not.  Unfortunately, based on our research, this Exodii technology was a complete dead end, with no room for improvement, and it carries significant risks, including cancer and increased risk of internal bleeding.  Our improved interface is completely safe and will be of great benefit to u- to mankind.  To boot, it will remain compatible with whatever bionic modules we can continue to recover from the Exodii.  We suggest you have Doc Stevens swap it out immediately.\"",
+    "responses": [
+      {
+        "text": "I'll keep that in mind, and maybe I'll check out the new facility.  Across the street in the basement, right?",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B_CYBERNETICS_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "The Exodii made their \"workers\" out of human beings, each implanted with a computer-brain interface.  This allows to interface with electronic bionic modules, including things like integrated toolsets, rangefinders, and radios.  Unfortunately, the Exodii interfaces are not particularly advanced or safe, and come with serious cancer risks, among other problems.  Our improved interface is completely safe and will be of great benefit to u- to mankind.  To boot, it will remain compatible with whatever bionic modules we can continue to recover from the Exodii.",
+    "responses": [
+      {
+        "text": "I'll keep that in mind, and maybe I'll check out the new facility.  Across the street in the basement, right?",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
     ]
   }
 ]

@@ -1420,7 +1420,9 @@ void overmap::place_special_forced( const overmap_special_id &special_id,
                                     const tripoint_om_omt &p,
                                     om_direction::type dir )
 {
-    static city invalid_city;
+    // Dummy city for place_special's road-connection fallback.
+    // "" avoids city() default ctor that eats RNG via SNIPPET.
+    static const city invalid_city( "" );
     place_special( *special_id, p, dir, invalid_city, false, true );
 }
 /**

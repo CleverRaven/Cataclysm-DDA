@@ -477,5 +477,10 @@
     "type": "MIGRATION",
     "id": "washboard",
     "replace": "wash_kit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_mess_kit",
+    "replace": "oil_cooker"
   }
 ]

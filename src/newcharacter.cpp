@@ -208,7 +208,7 @@ static int stat_points_used( const Character &u )
 {
     int used = 0;
     for( int stat : {
-             u.str_max, u.dex_max, u.int_max, u.per_max
+             u.get_str_base(), u.get_dex_base(), u.get_int_base(), u.get_per_base()
          } ) {
         used += stat + std::max( 0, stat - HIGH_STAT );
     }
@@ -448,10 +448,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
     world_origin = std::nullopt;
     random_start_location = true;
 
-    str_max = rng( 6, HIGH_STAT - 2 );
-    dex_max = rng( 6, HIGH_STAT - 2 );
-    int_max = rng( 6, HIGH_STAT - 2 );
-    per_max = rng( 6, HIGH_STAT - 2 );
+    set_str_base( rng( 6, HIGH_STAT - 2 ) );
+    set_dex_base( rng( 6, HIGH_STAT - 2 ) );
+    set_int_base( rng( 6, HIGH_STAT - 2 ) );
+    set_per_base( rng( 6, HIGH_STAT - 2 ) );
 
     set_body();
     randomize_hobbies();
@@ -503,23 +503,23 @@ void Character::randomize( const bool random_scenario, bool play_now )
         } else {
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    if( str_max > 5 ) {
-                        str_max--;
+                    if( get_str_base() > 5 ) {
+                        set_str_base( get_str_base() - 1 );
                     }
                     break;
                 case 2:
-                    if( dex_max > 5 ) {
-                        dex_max--;
+                    if( get_dex_base() > 5 ) {
+                        set_dex_base( get_dex_base() - 1 );
                     }
                     break;
                 case 3:
-                    if( int_max > 5 ) {
-                        int_max--;
+                    if( get_int_base() > 5 ) {
+                        set_int_base( get_int_base() - 1 );
                     }
                     break;
                 case 4:
-                    if( per_max > 5 ) {
-                        per_max--;
+                    if( get_per_base() > 5 ) {
+                        set_per_base( get_per_base() - 1 );
                     }
                     break;
             }
@@ -554,16 +554,16 @@ void Character::randomize( const bool random_scenario, bool play_now )
                 if( allow_stats ) {
                     switch( rng( 1, 4 ) ) {
                         case 1:
-                            str_max++;
+                            set_str_base( get_str_base() + 1 );
                             break;
                         case 2:
-                            dex_max++;
+                            set_dex_base( get_dex_base() + 1 );
                             break;
                         case 3:
-                            int_max++;
+                            set_int_base( get_int_base() + 1 );
                             break;
                         case 4:
-                            per_max++;
+                            set_per_base( get_per_base() + 1 );
                             break;
                     }
                     break;
@@ -1361,7 +1361,25 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
-    std::array<int *, 4> stats = { &u.str_max, &u.dex_max, &u.int_max, &u.per_max };
+    std::array<int, 4> stats = { u.get_str_base(), u.get_dex_base(), u.get_int_base(), u.get_per_base() };
+    auto mod_stat_base = [&]( int stat, int amt ) {
+        switch( stat ) {
+            case 0:
+                u.set_str_base( u.get_str_base() + amt );
+                break;
+            case 1:
+                u.set_dex_base( u.get_dex_base() + amt );
+                break;
+            case 2:
+                u.set_int_base( u.get_int_base() + amt );
+                break;
+            case 3:
+                u.set_per_base( u.get_per_base() + amt );
+                break;
+            default:
+                break;
+        }
+    };
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         const std::string help_text = assemble_stat_help( ctxt );
@@ -1384,24 +1402,24 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             for( int i = 0; i < 4; i++ ) {
                 mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
                            stat_labels[i].translated() );
-                mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+                mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", stats[i] );
                 mvwprintz( w, point( 19, i + iHeaderHeight ), c_light_gray, "(%s)",
-                           stat_level_description( *stats[i] ) );
+                           stat_level_description( stats[i] ) );
             }
         }
 
         draw_points( w, pool, u );
         const point desc_line = point( iSecondColumn, 3 );
         warning_text = "";
-        if( *stats[sel] <= min_stat_points ) {
+        if( stats[sel] <= min_stat_points ) {
             //~ %s - stat
             warning_text = string_format( _( "%s cannot be further decreased" ),
                                           stat_labels[sel].translated() );
-        } else if( *stats[sel] >= max_stat_points ) {
+        } else if( stats[sel] >= max_stat_points ) {
             //~ %s - stat
             warning_text = string_format( _( "%s cannot be further increased" ),
                                           stat_labels[sel].translated() );
-        } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
+        } else if( stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
             //~ %s - stat
             warning_text = string_format( _( "Increasing %s further costs 2 points" ),
                                           stat_labels[sel].translated() );
@@ -1418,7 +1436,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         if( details_recalc ) {
             std::string stat_details;
             if( screen_reader_mode ) {
-                stat_details = string_format( "%s: %i\n", stat_labels[sel].translated(), *stats[sel] );
+                stat_details = string_format( "%s: %i\n", stat_labels[sel].translated(), stats[sel] );
                 if( !last_stat.empty() && !stat_details.empty() && last_stat[0] == stat_details[0] ) {
                     // Shift the text to force the screen reader to read it
                     stat_details = " " + stat_details;
@@ -1451,13 +1469,15 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                    || navigate_ui_list( action, sel, 1, 4, true ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
-            if( *stats[sel] > min_stat_points ) {
-                ( *stats[sel] )--;
+            if( stats[sel] > min_stat_points ) {
+                stats[sel]--;
+                mod_stat_base( sel, -1 );
                 details_recalc = true;
             }
         } else if( action == "RIGHT" ) {
-            if( *stats[sel] < max_stat_points ) {
-                ( *stats[sel] )++;
+            if( stats[sel] < max_stat_points ) {
+                stats[sel]++;
+                mod_stat_base( sel, 1 );
                 details_recalc = true;
             }
         }
@@ -3944,10 +3964,10 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     utf8_width( vStatNames[i] ) : pos );
             mvwprintz( w_stats, point( 0, i + 1 ), c_light_gray, vStatNames[i] );
         }
-        mvwprintz( w_stats, point( pos + 1, 1 ), c_light_gray, "%2d", you.str_max );
-        mvwprintz( w_stats, point( pos + 1, 2 ), c_light_gray, "%2d", you.dex_max );
-        mvwprintz( w_stats, point( pos + 1, 3 ), c_light_gray, "%2d", you.int_max );
-        mvwprintz( w_stats, point( pos + 1, 4 ), c_light_gray, "%2d", you.per_max );
+        mvwprintz( w_stats, point( pos + 1, 1 ), c_light_gray, "%2d", you.get_str_base() );
+        mvwprintz( w_stats, point( pos + 1, 2 ), c_light_gray, "%2d", you.get_dex_base() );
+        mvwprintz( w_stats, point( pos + 1, 3 ), c_light_gray, "%2d", you.get_int_base() );
+        mvwprintz( w_stats, point( pos + 1, 4 ), c_light_gray, "%2d", you.get_per_base() );
         wnoutrefresh( w_stats );
 
         if( isWide ) {
@@ -4817,10 +4837,10 @@ void reset_scenario( avatar &u, const scenario *scen )
     const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
 
     u.random_start_location = true;
-    u.str_max = 8;
-    u.dex_max = 8;
-    u.int_max = 8;
-    u.per_max = 8;
+    u.set_str_base( 8 );
+    u.set_dex_base( 8 );
+    u.set_int_base( 8 );
+    u.set_per_base( 8 );
     set_scenario( scen );
     u.prof = &default_prof.obj();
 
