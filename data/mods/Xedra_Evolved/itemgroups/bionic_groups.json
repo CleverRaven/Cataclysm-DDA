@@ -18,7 +18,8 @@
     "entries": [
       { "group": "Zomborg_CBM_harvest_utility", "prob": 2 },
       { "group": "Zomborg_CBM_harvest_structural", "prob": 3 },
-      { "group": "Zomborg_CBM_harvest_combat", "prob": 2 }
+      { "group": "Zomborg_CBM_harvest_combat", "prob": 2 },
+      { "item": "xe_bio_data_shunt", "prob": 2 }
     ]
   }
 ]
