@@ -4258,9 +4258,11 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
                 const int size = actor->size;
                 const int vacancies = size - get_contents().get_additional_space_used();
                 insert_separation_line( info );
-                info.emplace_back( "CONTAINER", _( "* <bold><info>MOLLE-compatible</info> pouches can be attached to this item</bold>." ) );
-                info.emplace_back( "CONTAINER", _( "Total space: " ), _( "<num>.  " ), iteminfo::no_newline, size  );
-                info.emplace_back( "CONTAINER", _( "Spare space: " ), _( "<num>." ), iteminfo::no_flags, vacancies );
+                info.emplace_back( "CONTAINER",
+                                   _( "* <bold><info>MOLLE-compatible</info> pouches can be attached to this item</bold>." ) );
+                info.emplace_back( "CONTAINER", _( "Total space: " ), _( "<num>.  " ), iteminfo::no_newline, size );
+                info.emplace_back( "CONTAINER", _( "Spare space: " ), _( "<num>." ), iteminfo::no_flags,
+                                   vacancies );
             }
             contents.info( info, parts );
             contents_info( info, parts, batch, debug );
