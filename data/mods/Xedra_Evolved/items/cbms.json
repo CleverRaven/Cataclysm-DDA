@@ -70,11 +70,11 @@
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_knife_advanced",
+    "id": "xe_bio_dataslot_cyborg_hunting",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Knives, advanced" },
+    "name": { "str": "Datacore: Cyborg Hunting", "str_pl": "Datacores: Cyborg Hunting" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
