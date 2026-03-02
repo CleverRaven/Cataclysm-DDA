@@ -8568,6 +8568,98 @@ void vehicle::update_time( map &here, const time_point &update_to )
     }
 }
 
+int vehicle::catchup_off_map_renewables( const time_point &now )
+{
+    const time_point update_from = last_update;
+    if( now <= update_from || update_from == time_point( 0 ) ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( sm_pos.z() < 0 ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( now - update_from < 1_minutes ) {
+        return 0;
+    }
+
+    if( solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
+        return 0;
+    }
+
+    const time_duration elapsed = now - update_from;
+    last_update = now;
+
+    int total_energy = 0;
+    const weather_sum accum_weather = sum_conditions( update_from, now, pos_abs() );
+
+    if( !solar_panels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : solar_panels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        double intensity = accum_weather.radiant_exposure / max_sun_irradiance() /
+                           to_seconds<float>( elapsed );
+        int energy_bat = power_to_energy_bat( epower * intensity, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from solar panels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !wind_turbines.empty() ) {
+        // Same TODO as update_time: uses current wind, not weather backfill
+        const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
+        weather_manager &weather = get_weather();
+        units::power epower = 0_W;
+        for( const int p : wind_turbines ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            int windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                                 abs_part_pos( vp ),
+                                                 weather.winddirection, false );
+            if( windpower <= ( weather.windspeed / 10.0 ) ) {
+                continue;
+            }
+            epower += part_epower( vp ) * windpower;
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from wind turbines", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !water_wheels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : water_wheels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_over_water( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from water wheels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    return total_energy;
+}
+
 void vehicle::invalidate_mass()
 {
     mass_dirty = true;

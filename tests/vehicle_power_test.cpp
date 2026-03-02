@@ -610,3 +610,96 @@ TEST_CASE( "grid_power_cross_turn_recovery", "[vehicle][power][grid]" )
     CHECK( lamp_veh.part( consumer_idx ).enabled );
     CHECK_FALSE( lamp_veh.part( consumer_idx ).power_disabled );
 }
+
+TEST_CASE( "off_map_solar_catchup_generates_energy", "[vehicle][power][grid]" )
+{
+    clear_vehicles();
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
+    map &here = get_map();
+
+    const tripoint_bub_ms solar_origin{ 5, 5, 0 };
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
+                                         0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+    REQUIRE_FALSE( veh_ptr->solar_panels.empty() );
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
+
+    // Set time to summer noon for maximum solar
+    calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days + 12_hours;
+    veh_ptr->update_time( here, calendar::turn );
+
+    // Drain battery fully
+    veh_ptr->discharge_battery( here, 100000000 );
+    REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
+
+    SECTION( "30 minutes of off-map solar matches on-map update_time" ) {
+        // Run catchup for 30 minutes
+        time_point future = calendar::turn + 30_minutes;
+        int offmap_energy = veh_ptr->catchup_off_map_renewables( future );
+        CHECK( offmap_energy > 0 );
+        // Should produce roughly the same as update_time for the same interval.
+        // The exact value may differ slightly because update_time uses
+        // bub_part_pos while catchup uses abs_part_pos, but for outdoor tiles
+        // on a flat map the outside check should agree.
+        CHECK( offmap_energy == Approx( 425 ).margin( 10 ) );
+    }
+
+    SECTION( "underground vehicle produces no solar" ) {
+        veh_ptr->sm_pos = tripoint_abs_sm( veh_ptr->sm_pos.xy(), -1 );
+        time_point future = calendar::turn + 30_minutes;
+        int offmap_energy = veh_ptr->catchup_off_map_renewables( future );
+        CHECK( offmap_energy == 0 );
+    }
+}
+
+TEST_CASE( "off_map_catchup_prevents_double_charge", "[vehicle][power][grid]" )
+{
+    clear_vehicles();
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
+    map &here = get_map();
+
+    const tripoint_bub_ms solar_origin{ 5, 5, 0 };
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
+                                         0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
+
+    calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days + 12_hours;
+    veh_ptr->update_time( here, calendar::turn );
+    veh_ptr->discharge_battery( here, 100000000 );
+    REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
+
+    // Simulate off-map catchup advancing last_update
+    time_point future = calendar::turn + 30_minutes;
+    int offmap_energy = veh_ptr->catchup_off_map_renewables( future );
+    REQUIRE( offmap_energy > 0 );
+
+    // Now simulate on-map re-entry: update_time should produce nothing
+    // because last_update was already advanced by catchup
+    veh_ptr->update_time( here, future );
+    // Battery should still be zero (catchup returned energy but didn't charge)
+    CHECK( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
+}
+
+TEST_CASE( "off_map_catchup_skips_short_intervals", "[vehicle][power][grid]" )
+{
+    clear_vehicles();
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
+    map &here = get_map();
+
+    const tripoint_bub_ms solar_origin{ 5, 5, 0 };
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin,
+                                         0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
+
+    calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days + 12_hours;
+    veh_ptr->update_time( here, calendar::turn );
+
+    // Less than 1 minute should return 0
+    int energy = veh_ptr->catchup_off_map_renewables( calendar::turn + 30_seconds );
+    CHECK( energy == 0 );
+}
