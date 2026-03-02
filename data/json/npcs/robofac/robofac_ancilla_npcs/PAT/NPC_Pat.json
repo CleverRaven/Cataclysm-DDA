@@ -1006,7 +1006,7 @@
         }
       },
       {
-        "text": "[Use your Weather Reader to perfetly predict atmospheric conditions] Who needs a weather station when you've got implants?",
+        "text": "[Use your Weather Reader to perfectly recite current atmospheric conditions] Who needs a weather station when you've got implants?",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
         "condition": {
           "and": [
