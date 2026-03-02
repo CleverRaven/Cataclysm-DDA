@@ -41,6 +41,7 @@
 #include "overmap_types.h"
 #include "overmap_map_data_cache.h"
 #include "path_info.h"
+#include "power_network.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -1707,6 +1708,7 @@ void game::unserialize_dimension_data( const cata_path &file_name, std::istream 
 
 void game::unserialize_dimension_data( const JsonValue &jv )
 {
+    power_networks().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1718,6 +1720,8 @@ void game::unserialize_dimension_data( const JsonValue &jv )
             overmap_buffer.deserialize_placed_unique_specials( jsin );
         } else if( name == "region_type" ) {
             jsin.read( overmap_buffer.current_region_type );
+        } else if( name == "power_networks" ) {
+            power_networks().deserialize( jsin );
         }
     }
 }
@@ -1872,6 +1876,10 @@ void game::serialize_dimension_data( std::ostream &fout )
         weather_manager::serialize_all( json );
 
         json.member( "region_type", overmap_buffer.current_region_type );
+
+        json.member( "power_networks" );
+        power_networks().serialize( json );
+
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_DIMENSION_DATA, e.c_str() );

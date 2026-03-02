@@ -5597,6 +5597,42 @@ units::power vehicle::total_water_wheel_epower( map &here ) const
     return epower;
 }
 
+units::power vehicle::rated_solar_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : solar_panels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_wind_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : wind_turbines ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_water_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : water_wheels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
 units::power vehicle::net_battery_charge_rate( map &here, bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower( here ) + total_accessory_epower() +

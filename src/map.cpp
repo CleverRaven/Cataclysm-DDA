@@ -83,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
+#include "power_network.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "relic.h"
@@ -730,6 +731,9 @@ void map::resolve_off_map_grid_generation()
         in_bubble.insert( cache->vehicle_list.begin(), cache->vehicle_list.end() );
     }
 
+    power_network_manager &pnm = g->power_networks();
+    pnm.begin_rebuild();
+
     for( vehicle *veh : in_bubble ) {
         if( resolved.count( veh ) ) {
             continue;
@@ -746,6 +750,9 @@ void map::resolve_off_map_grid_generation()
             }
         }
 
+        // Record every grid in the power network manager
+        pnm.add_grid( veh, grid );
+
         if( !has_off_map_renewables ) {
             continue;
         }
@@ -761,6 +768,8 @@ void map::resolve_off_map_grid_generation()
             }
         }
     }
+
+    pnm.finish_rebuild();
 }
 
 void map::resolve_appliance_grid_power()
