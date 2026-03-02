@@ -160,7 +160,7 @@
       {
         "material": [
           { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "nomex", "covered_by_mat": 95, "thickness": 0.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r" ],
         "coverage": 100,
@@ -169,7 +169,7 @@
       {
         "material": [
           { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "nomex", "covered_by_mat": 95, "thickness": 0.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -179,15 +179,15 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
         "moves": 110,
-        "max_item_length": "20 cm",
+        "max_item_length": "32 cm",
         "description": "Lower back pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -195,7 +195,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -203,7 +203,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -211,7 +211,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -286,15 +286,15 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
         "moves": 110,
-        "max_item_length": "20 cm",
+        "max_item_length": "32 cm",
         "description": "Lower back pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -302,7 +302,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -310,7 +310,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -318,7 +318,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -393,15 +393,15 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
         "moves": 110,
-        "max_item_length": "20 cm",
+        "max_item_length": "32 cm",
         "description": "Lower back pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -409,7 +409,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -417,7 +417,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -425,7 +425,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -460,7 +460,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "survivor winter suit" },
-    "description": "A stuffy coverall jumpsuit consisting of a durably woven cotton lined with fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
+    "description": "A stuffy coverall jumpsuit consisting of durably woven cotton lined with fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
     "weight": "8800 g",
     "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
     "//1": "Cotton has a density of 1.52g/cm^3, thickness of 0.15 cm leaves us with 3814 grams.",
@@ -501,15 +501,15 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
         "moves": 110,
-        "max_item_length": "20 cm",
+        "max_item_length": "32 cm",
         "description": "Lower back pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -517,7 +517,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -525,7 +525,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -533,7 +533,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 80,
         "max_item_length": "15 cm",
@@ -567,7 +567,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "faux fur Kevlar jumpsuit" },
-    "description": "A stuffy coverall jumpsuit consisting of a durably woven cotton lined with faux fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
+    "description": "A stuffy coverall jumpsuit consisting of durably woven cotton lined with faux fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
     "copy-from": "wsurvivor_jumpsuit",
     "material": [ "cotton", "faux_fur", "canvas" ],
     "armor": [
