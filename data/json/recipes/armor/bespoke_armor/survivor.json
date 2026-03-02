@@ -59,7 +59,6 @@
       [ "clasps", 10 ],
       [ "fastener_small", 5 ]
     ],
-    ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
   {
