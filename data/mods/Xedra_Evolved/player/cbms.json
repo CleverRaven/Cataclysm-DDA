@@ -34,8 +34,8 @@
   {
     "id": "xe_bio_dataslot_migo_weakpoints",
     "type": "bionic",
-    "name": { "str": "Datacore: Mi-Go Hunting" },
-    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "name": { "str": "Datacore: Mi-go Hunting" },
+    "description": "A brain implant that grants instinctual knowledge about the weakpoints of Mi-go.",
     "activate_remove_cbm": true,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
     "installation_requirement": "data_core_install",

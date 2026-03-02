@@ -80,61 +80,61 @@
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_baton_basic",
+    "id": "xe_bio_dataslot_migo_weakpoints",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Batons" },
+    "name": { "str": "Datacore: Mi-go Weakpoints", "str_pl": "Datacores: Mi-go Weakpoints" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_baton_advanced",
+    "id": "xe_bio_dataslot_lockpicking",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Batons, advanced" },
+    "name": { "str": "str": "Datacore: Lockpicking", "str_pl": "Datacores: Lockpicking" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_med_swords_basic",
+    "id": "xe_bio_dataslot_game_ui",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Medium Swords" },
+    "name": { "str": "Datacore: Trap Highlight UI", "str_pl": "Datacores: Trap Highlight UI" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_med_swords_advanced",
+    "id": "xe_bio_dataslot_EOD",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Medium Swords, advanced" },
+    "name": { "str": "Datacore: Trap Disposal", "str_pl": "Datacores: Trap Disposal" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_short_swords_basic",
+    "id": "xe_bio_dataslot_parkour",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Short Swords" },
+    "name": { "str": "Datacore: Parkour", "str_pl": "Datacores: Parkour" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "1 kUSD 500 USD",
     "difficulty": 0
   },
   {
-    "id": "xe_bio_dataslot_short_swords_advanced",
+    "id": "xe_bio_dataslot_helicopter_pilot",
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Datacore: Short Swords, advanced" },
+    "name": { "str": "Datacore: Helicopter Pilot", "str_pl": "Datacores: Helicopter Pilot" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
