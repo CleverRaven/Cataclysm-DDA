@@ -1161,9 +1161,9 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
-    total_skill_modifiers += int_cur / 4.0f;
+    total_skill_modifiers += get_int() / 4.0f;
     add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
-                   total_skill_modifiers, int_cur / 4.f );
+                   total_skill_modifiers, get_int() / 4.f );
 
     // Missing proficiencies penalize skill level
     for( const recipe_proficiency &recip : making.proficiencies ) {
@@ -2904,7 +2904,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + int_cur;
+    int skill_sides = 16 + get_int();
 
     int diff_dice = dis.difficulty;
     int diff_sides = 24; // 16 + 8 (default intelligence)

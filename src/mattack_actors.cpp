@@ -1437,7 +1437,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
 
     add_msg_debug( debugmode::DF_MATTACK,
                    "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d\nGun skill (%s) %d",
-                   tmp.str_cur, tmp.dex_cur, tmp.int_cur, tmp.per_cur,
+                   tmp.get_str(), tmp.get_dex(), tmp.get_int(), tmp.get_per(),
                    gun.gun_skill().c_str(), static_cast<int>( tmp.get_skill_level( throwing ? skill_throw :
                            skill_gun ) ) );
 

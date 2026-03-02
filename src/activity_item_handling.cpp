@@ -3614,7 +3614,7 @@ static int chop_moves( Character &you, item &it )
     const int quality = it.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it.has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
+    const int attr = it.has_flag( flag_POWERED ) ? you.get_dex() : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );

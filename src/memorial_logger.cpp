@@ -273,15 +273,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Stats
     file << _( "Final Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_cur )
-         << indent << string_format( _( "Dex %d" ), u.dex_cur )
-         << indent << string_format( _( "Int %d" ), u.int_cur )
-         << indent << string_format( _( "Per %d" ), u.per_cur ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex() )
+         << indent << string_format( _( "Int %d" ), u.get_int() )
+         << indent << string_format( _( "Per %d" ), u.get_per() ) << eol;
     file << _( "Base Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_max )
-         << indent << string_format( _( "Dex %d" ), u.dex_max )
-         << indent << string_format( _( "Int %d" ), u.int_max )
-         << indent << string_format( _( "Per %d" ), u.per_max ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str_base() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex_base() )
+         << indent << string_format( _( "Int %d" ), u.get_int_base() )
+         << indent << string_format( _( "Per %d" ), u.get_per_base() ) << eol;
     file << eol;
 
     //Last 20 messages
