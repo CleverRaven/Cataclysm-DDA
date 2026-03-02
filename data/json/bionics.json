@@ -1106,6 +1106,14 @@
     "passive_pseudo_items": [ "fake_radio" ]
   },
   {
+    "id": "bio_radio_pat",
+    "type": "bionic",
+    "name": { "str": "Modified Infolink" },
+    "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.  This one has custom software for communicating with your pal Pat.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "passive_pseudo_items": [ "fake_radio", "integrated_pat_transponder", "integrated_pat_radio" ]
+  },
+  {
     "id": "bio_radscrubber",
     "type": "bionic",
     "name": { "str": "Radiation Scrubber System" },
