@@ -2742,7 +2742,6 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
         // start by saying what items are attached to this directly
         if( !additional_pockets.empty() ) {
-            insert_separation_line( info );
             info.emplace_back( "CONTAINER", _( "<bold>This item incorporates</bold>:" ) );
             for( const item &it : additional_pockets ) {
                 info.emplace_back( "CONTAINER", string_format( _( "%s." ),
