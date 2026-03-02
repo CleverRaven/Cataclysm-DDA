@@ -242,16 +242,20 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 5 ],
+    "skills_required": [ [ "fabrication", 6 ], [ "chemistry", 2 ] ],
     "time": "36 h",
     "autolearn": true,
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "using": [
-      [ "tailoring_kevlar_fabric", 14 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 12 ],
-      [ "welding_standard", 10 ]
+      [ "tailoring_leather_patchwork", 4 ],
+      [ "tailoring_faux_fur_patchwork", 4 ],
+      [ "vinylizing_standard", 32 ],
+      [ "blacksmithing_standard", 10 ],
+      [ "hc_steel_standard", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -259,20 +263,13 @@
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_furriery" }
     ],
-    "components": [
-      [ [ "filament_durable", 150, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
-      [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
-      [ [ "sheet_faux_fur", 2 ], [ "sheet_faux_fur_patchwork", 2 ] ],
-      [ [ "faux_fur", 8 ] ]
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 4 ] ]
+    "components": [ [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 20, "LIST" ] ] ]
   },
   {
     "result": "xs_boots_wsurvivor_nofur",
@@ -280,22 +277,16 @@
     "copy-from": "boots_wsurvivor_nofur",
     "time": "30 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 12 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 10 ],
-      [ "welding_standard", 8 ]
+      [ "tailoring_leather_patchwork", 3 ],
+      [ "tailoring_fur_patchwork", 3 ],
+      [ "vinylizing_standard", 28 ],
+      [ "blacksmithing_standard", 10 ],
+      [ "hc_steel_standard", 2 ]
     ],
-    "components": [
-      [ [ "filament_durable", 125, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 3 ], [ "sheet_nomex_patchwork", 3 ] ],
-      [ [ "thread_nomex", 18 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
-      [ [ "sheet_faux_fur", 2 ], [ "sheet_faux_fur_patchwork", 2 ] ],
-      [ [ "faux_fur", 4 ] ]
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 7 ] ]
+    "components": [ [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 15, "LIST" ] ] ]
   },
   {
     "result": "xl_boots_wsurvivor_nofur",
@@ -306,34 +297,16 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "54 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 14 ],
-      [ "fastener_small", 6 ],
-      [ "shoe_rubber", 1 ],
-      [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 16 ],
-      [ "welding_standard", 10 ],
-      [ "steel_chunk_any", 2 ]
+      [ "fastener_small", 8 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "tailoring_faux_fur_patchwork", 5 ],
+      [ "vinylizing_standard", 40 ],
+      [ "blacksmithing_standard", 15 ],
+      [ "hc_steel_standard", 3 ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_furriery" }
-    ],
-    "components": [
-      [ [ "filament_durable", 225, "LIST" ] ],
-      [ [ "xlnomex_socks", 1 ], [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
-      [ [ "thread_nomex", 30 ] ],
-      [ [ "sheet_faux_fur", 4 ], [ "sheet_faux_fur_patchwork", 4 ] ],
-      [ [ "faux_fur", 12 ] ]
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "wax_any", 4, "LIST" ], [ "any_tallow", 30, "LIST" ] ] ]
   },
   {
     "result": "boots_larmor",
@@ -452,7 +425,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ [ "fabrication", 6 ], [ "chemistry", 2 ] ]
+    "skills_required": [ [ "fabrication", 6 ], [ "chemistry", 2 ] ],
     "time": "36 h",
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 1 } ],
@@ -608,16 +581,20 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 5 ],
+    "skills_required": [ [ "fabrication", 6 ], [ "chemistry", 2 ] ],
     "time": "36 h",
     "autolearn": true,
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "using": [
-      [ "tailoring_kevlar_fabric", 14 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 12 ],
-      [ "welding_standard", 10 ]
+      [ "tailoring_leather_patchwork", 4 ],
+      [ "tailoring_fur_patchwork", 4 ],
+      [ "vinylizing_standard", 32 ],
+      [ "blacksmithing_standard", 10 ],
+      [ "hc_steel_standard", 2 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -625,19 +602,13 @@
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
+      { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_furriery" }
     ],
-    "components": [
-      [ [ "filament_durable", 150, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
-      [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
-      [ [ "sheet_fur_patchwork", 2 ], [ "tanned_pelt", 2 ], [ "boots_fur", 1 ] ],
-      [ [ "fur", 8 ] ]
-    ]
+    "components": [ [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 20, "LIST" ] ] ]
   },
   {
     "result": "xs_boots_wsurvivor",
@@ -645,57 +616,34 @@
     "copy-from": "boots_wsurvivor",
     "time": "30 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 12 ],
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 10 ],
-      [ "welding_standard", 8 ]
+      [ "tailoring_leather_patchwork", 3 ],
+      [ "tailoring_fur_patchwork", 3 ],
+      [ "vinylizing_standard", 28 ],
+      [ "blacksmithing_standard", 10 ],
+      [ "hc_steel_standard", 2 ]
     ],
-    "components": [
-      [ [ "filament_durable", 125, "LIST" ] ],
-      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 3 ], [ "sheet_nomex_patchwork", 3 ] ],
-      [ [ "thread_nomex", 18 ] ],
-      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
-      [ [ "tanned_pelt", 2 ], [ "sheet_fur_patchwork", 2 ], [ "boots_fur", 1 ] ],
-      [ [ "fur", 4 ] ]
-    ]
+    "components": [ [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 15, "LIST" ] ] ]
   },
   {
     "result": "xl_boots_wsurvivor",
     "type": "recipe",
     "copy-from": "boots_wsurvivor",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 6 ],
     "time": "54 h",
     "using": [
-      [ "tailoring_kevlar_fabric", 14 ],
-      [ "fastener_small", 6 ],
-      [ "shoe_rubber", 1 ],
-      [ "adhesive_rubber", 1 ],
-      [ "tailoring_leather_small", 16 ],
-      [ "welding_standard", 10 ],
-      [ "steel_chunk_any", 2 ]
+      [ "fastener_small", 8 ],
+      [ "shoe_rubber", 2 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "tailoring_fur_patchwork", 5 ],
+      [ "vinylizing_standard", 40 ],
+      [ "blacksmithing_standard", 15 ],
+      [ "hc_steel_standard", 3 ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_furriery" }
-    ],
-    "components": [
-      [ [ "filament_durable", 225, "LIST" ] ],
-      [ [ "xlnomex_socks", 1 ], [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
-      [ [ "thread_nomex", 30 ] ],
-      [ [ "sheet_fur_patchwork", 4 ], [ "tanned_pelt", 4 ] ],
-      [ [ "fur", 12 ] ]
-    ]
+    "components": [ [ [ "wax_any", 4, "LIST" ], [ "any_tallow", 30, "LIST" ] ] ]
   },
   {
     "result": "boots_xlsurvivor",
