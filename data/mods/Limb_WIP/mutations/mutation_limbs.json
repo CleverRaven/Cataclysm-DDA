@@ -244,7 +244,7 @@
     "main_part": "arm_wing_bird_l",
     "connected_to": "torso",
     "opposite_part": "arm_wing_bird_r",
-    "conditional_flags": [ "WING_ARM" ],
+    "conditional_flags": [ "WING_ARMS" ],
     "encumbrance_limit": 10,
     "hit_size": 20,
     "hit_difficulty": 1.2,

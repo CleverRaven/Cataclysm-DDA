@@ -210,7 +210,7 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
-static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
@@ -5496,7 +5496,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
     if( you.has_flag( json_flag_GLIDE ) || you.has_flag( json_flag_WING_GLIDE ) ||
-        you.has_bodypart_with_flag( json_flag_WING_ARM ) ) {
+        you.has_bodypart_with_flag( json_flag_WING_ARMS ) ) {
         cmenu.addentry( ledge_glide, you.can_fly(), 'g',
                         ( you.can_fly() ? _( "Glide away." ) : _( "You can't glide in your current state" ) ) );
     }
