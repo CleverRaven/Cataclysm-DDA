@@ -390,12 +390,7 @@
     "name": "dusters",
     "description": "Recipes related to tailoring long coats, known as dusters.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_cotton_duster",
-      "nested_fur_duster",
-      "nested_leather_duster",
-      "nested_faux_fur_duster"
-    ],
+    "nested_category_data": [ "nested_cotton_duster", "nested_fur_duster", "nested_leather_duster", "nested_faux_fur_duster" ],
     "difficulty": 3
   },
   {
@@ -455,12 +450,7 @@
     "name": "trenchcoats",
     "description": "Recipes related to tailoring long coats, known as trenchcoats.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_cotton_trenchcoat",
-      "nested_fur_trenchcoat",
-      "nested_leather_trenchcoat",
-      "nested_faux_fur_trenchcoat"
-    ],
+    "nested_category_data": [ "nested_cotton_trenchcoat", "nested_fur_trenchcoat", "nested_leather_trenchcoat", "nested_faux_fur_trenchcoat" ],
     "difficulty": 3
   },
   {
@@ -2842,12 +2832,7 @@
     "name": "survivor masks",
     "description": "Recipes related to constructing specialized survivor masks.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "nested_mask_survivor",
-      "nested_mask_fsurvivor",
-      "nested_mask_hsurvivor",
-      "nested_mask_lsurvivor"
-    ],
+    "nested_category_data": [ "nested_mask_survivor", "nested_mask_fsurvivor", "nested_mask_hsurvivor", "nested_mask_lsurvivor" ],
     "difficulty": 6
   },
   {
