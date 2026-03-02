@@ -473,7 +473,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "nail_box_part", "chance": 95, "repeat": [ 10, 20 ] } }
+      "items": { " ": { "item": "nail_box_10lb_full", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
