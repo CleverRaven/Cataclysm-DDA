@@ -1111,7 +1111,7 @@ ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
       ifneq ($(NATIVE), emscripten)
-	$(STRIP) $(TARGET)
+	$(STRIP) -Sx $(TARGET)
       endif
     endif
   endif
