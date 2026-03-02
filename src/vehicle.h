@@ -2260,6 +2260,9 @@ class vehicle
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( map &here, const time_point &update_to );
+        // Catch up renewable generation for off-map vehicles using absolute positions.
+        // Returns energy generated in kJ. Updates last_update to prevent double-charge.
+        int catchup_off_map_renewables( const time_point &now );
 
         // The faction that owns this vehicle.
         faction_id owner = faction_id::NULL_ID();
