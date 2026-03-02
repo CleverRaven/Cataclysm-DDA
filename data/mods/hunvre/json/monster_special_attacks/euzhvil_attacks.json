@@ -1,5 +1,13 @@
 [
   {
+    "type": "monster_attack",
+    "attack_type": "eoc",
+    "id": "euzhvil_phase",
+    "cooldown": 1,
+    "range": 100,
+    "eoc": [ "eoc_euzhvil_phase" ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "eoc_euzhvil_phase",
     "effect": [
@@ -24,6 +32,14 @@
     "miss_msg_npc": "%1$s tries to slam <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s slams you without penetrating your armor.",
     "no_dmg_msg_npc": "%1$s slams <npcname> without penetrating their armor."
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "eoc",
+    "id": "euzhvil_suffocate",
+    "cooldown": 1,
+    "range": 100,
+    "eoc": [ "eoc_euzhvil_phase" ]
   },
   {
     "type": "effect_on_condition",

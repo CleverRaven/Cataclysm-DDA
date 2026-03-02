@@ -1,13 +1,5 @@
 [
   {
-    "type": "monster_attack",
-    "attack_type": "eoc",
-    "id": "euzhvil_phase",
-    "cooldown": 1,
-    "range": 100,
-    "eoc": [ "eoc_euzhvil_phase" ]
-  },
-  {
     "abstract": "mon_euzhvil",
     "type": "MONSTER",
     "name": { "str": "abstract euzhvil" },
@@ -38,7 +30,7 @@
     "id": "mon_euzhvil_chaser",
     "copy-from": "mon_euzhvil",
     "proportional": { "speed": 1.1 },
-    "extend": { "special_attacks": [ "bite_humanoid", 1 ] },
+    "extend": { "special_attacks": [ [ "bite_humanoid", 1 ] ] },
     "type": "MONSTER",
     "name": { "str": "euzhvil chaser" },
     "description": "A quadrupedal euzhvil, its grotesquely oversized maw lined with human teeth.  It scans its surroundings with a feral, animalistic gaze.",
@@ -49,7 +41,7 @@
     "id": "mon_euzhvil_bound",
     "copy-from": "mon_euzhvil_chaser",
     "proportional": { "volume": 1.25, "weight": 1.25 },
-    "extend": { "special_attacks": [ [ "bite_humanoid", 1 ], [ "euzhvil_slam", 1 ] ] },
+    "extend": { "special_attacks": [ [ "euzhvil_slam", 1 ] ] },
     "type": "MONSTER",
     "name": { "str": "bound euzhvil" },
     "description": "You can see limbs pushing and struggling inside of this misshapen euzhvil, it keeps gnashing at the air and thrashing as if it was trying to escape its own skin.",
@@ -69,7 +61,7 @@
     "id": "mon_euzhvil_suffocating",
     "copy-from": "mon_euzhvil_chaser",
     "proportional": { "volume": 1.25, "weight": 1.25 },
-    "extend": { "special_attacks": [ "eoc_euzhvil_suffocate", 1 ] },
+    "extend": { "special_attacks": [ [ "euzhvil_suffocate", 1 ] ] },
     "type": "MONSTER",
     "name": { "str": "suffocating euzhvil" },
     "description": "This euzhvil is perpetually seized by violent convulsions, fingers raking desperately at its throat and at the skin that seals its mouth, nose, and eyes.  Just looking at it makes your own breathing laborious.",

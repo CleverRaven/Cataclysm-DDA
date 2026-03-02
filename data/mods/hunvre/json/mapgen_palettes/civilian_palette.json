@@ -35,5 +35,41 @@
       "L": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ],
       "3": [ { "item": "locker_gym", "chance": 50, "repeat": 3 }, { "item": "oneirosis_countermeasures", "chance": 5 } ]
     }
+  },
+  {
+    "type": "palette",
+    "id": "restaurant_palette_hunvre",
+    "palettes": [ "base" ],
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_carpet_green", 1 ], [ "t_carpet_red", 1 ], [ "t_carpet_yellow", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      ".": "t_concrete",
+      "1": "t_concrete",
+      "2": "t_concrete",
+      "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "C": "t_concrete",
+      "c": "t_concrete",
+      "d": "t_concrete",
+      "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "=": "t_concrete",
+      "f": "t_concrete"
+    },
+    "furniture": {
+      "d": "f_dumpster",
+      "1": "f_oven",
+      "2": "f_deep_fryer",
+      "t": "f_barstool",
+      "h": "f_chair",
+      "C": "f_counter",
+      "c": "f_counter_gate_c",
+      "=": "f_warehouse_shelf",
+      "f": "f_freezer"
+    }
   }
 ]
