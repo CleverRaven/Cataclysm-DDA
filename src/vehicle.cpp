@@ -1147,7 +1147,7 @@ units::power vehicle::part_vpower_w( map &here, const vehicle_part &vp,
                     muscle_veh_boost_bonus = 8;
                 }
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus +
+                const float muscle_multiplier = muscle_user->get_str() - 8 + athlete_form_bonus +
                                                 muscle_veh_boost_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;

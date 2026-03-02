@@ -978,7 +978,7 @@ static int hack_level( const Character &who, item_location &tool )
     // tool_quality_modifier may increase or reduce the success chance of hacking
     return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
                   static_cast<float>
-                  ( who.int_cur ) / 2.0f - 8 );
+                  ( who.get_int() ) / 2.0f - 8 );
 }
 
 static hack_result hack_attempt( Character &who, item_location &tool )
@@ -3326,7 +3326,7 @@ int lockpick_activity_actor::lockpicking_moves(
         /** @EFFECT_DEX speeds up door lock picking */
         return to_moves<int>(
                    std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.get_dex() ) / 4.0f +
                                      weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }
@@ -3408,8 +3408,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
-    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
-                                          who.int_cur ) / 9.0f;
+    const float weighted_stat_average = ( 6.0f * who.get_dex() + 2.0f * who.get_per() +
+                                          who.get_int() ) / 9.0f;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
@@ -6640,7 +6640,7 @@ void robot_control_activity_actor::finish( player_activity &act, Character &who 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = who.get_skill_level( skill_computer );
-    const float randomized_skill = rng( 2, who.int_cur ) + computer_skill;
+    const float randomized_skill = rng( 2, who.get_int() ) + computer_skill;
     float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
@@ -9651,7 +9651,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
 
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) ) {
+    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.get_per() - 2 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos_bub(), calendar::turn );
         // map::put_items_from_loc can create multiple items and merge them into one stack.

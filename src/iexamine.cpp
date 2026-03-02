@@ -4604,7 +4604,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
-    move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
+    move_cost /= rng( std::max( 4, you.get_per() ), 4 + you.get_per() * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
     you.activity.placement = here.get_abs( examp );
     you.activity.auto_resume = true;
@@ -4645,9 +4645,9 @@ void trap::examine( const tripoint_bub_ms &examp ) const
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
         const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
-        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
-                                              player_character.dex_cur +
-                                              player_character.int_cur ) / 6.0f;
+        const float weighted_stat_average = ( 2.0f * player_character.get_per() + 3.0f *
+                                              player_character.get_dex() +
+                                              player_character.get_int() ) / 6.0f;
         int proficiency_effect = -2;
         // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
@@ -7531,7 +7531,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 void iexamine::practice_survival_while_foraging( Character &who )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = who.int_cur / 3 + 1;
+    const int max_forage_skill = who.get_int() / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
                                   skill_survival ) ) );

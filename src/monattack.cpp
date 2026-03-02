@@ -938,9 +938,9 @@ bool mattack::pull_metal_weapon( monster *z )
                 z->mod_moves( -att_cost_pull );
                 int success = 100;
                 ///\Grip strength increases resistance to pull_metal_weapon special attack
-                if( foe->str_cur > min_str ) {
+                if( foe->get_str() > min_str ) {
                     ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->get_str() - 6 ) * foe->get_limb_score(
                                             limb_score_grip ) ) - ( 6 * wp_skill ),
                                         0.0f );
                 }
@@ -3574,7 +3574,7 @@ bool mattack::riotbot( monster *z )
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );
         amenu.addentry( ur_resist, true, 'r', _( "Resist arrest!" ) );
         ///\EFFECT_INT >10 allows and increases chance whether you can feign death to avoid riot bot arrest
-        if( foe->int_cur > 12 || ( foe->int_cur > 10 && !one_in( foe->int_cur - 8 ) ) ) {
+        if( foe->get_int() > 12 || ( foe->get_int() > 10 && !one_in( foe->get_int() - 8 ) ) ) {
             amenu.addentry( ur_trick, true, 't', _( "Feign death." ) );
         }
 
@@ -3596,7 +3596,7 @@ bool mattack::riotbot( monster *z )
                                     foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of handcuffs
-            const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
+            const bool is_dex = foe->get_dex() > 13 && !one_in( foe->get_dex() - 11 );
 
             if( is_uncanny || is_dex ) {
 
@@ -3637,7 +3637,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_trick ) {
 
             ///\EFFECT_INT >10 allows and increases chance of successful feign death
-            if( !one_in( foe->int_cur - 10 ) ) {
+            if( !one_in( foe->get_int() - 10 ) ) {
 
                 add_msg( m_good,
                          _( "You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the robot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help." ) );

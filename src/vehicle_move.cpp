@@ -1682,7 +1682,7 @@ void vehicle::pldrive( map &here, Character &driver, const int trn, const int ac
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) <
-            driver.dex_cur + effective_driver_skill * 2 ) {
+            driver.get_dex() + effective_driver_skill * 2 ) {
             driver.add_msg_if_player( _( "You regain control of the %s." ), name );
             driver.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
@@ -2429,7 +2429,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         int move_resist = 1;
         if( psg ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
-            move_resist = psg->str_cur * 150 + 500;
+            move_resist = psg->get_str() * 150 + 500;
             if( veh.part( ps ).info().has_flag( "SEAT_REQUIRES_BALANCE" ) ) {
                 // Much harder to resist being thrown on a skateboard-like vehicle.
                 // Penalty mitigated by Deft and Skater.
@@ -2476,7 +2476,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
             ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
+            if( lose_ctrl_roll > psg->get_dex() * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ), veh.name );

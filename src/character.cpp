@@ -3366,6 +3366,30 @@ void Character::mod_int_bonus( int nint )
     int_cur = std::max( 0, int_max + int_bonus );
 }
 
+void Character::set_str_base( int nstr )
+{
+    str_max = std::min( nstr, character_max_str );
+    str_cur = std::min( std::max( 0, str_max + str_bonus ), character_max_str );
+}
+
+void Character::set_dex_base( int ndex )
+{
+    dex_max = std::min( ndex, character_max_dex );
+    dex_cur = std::min( std::max( 0, dex_max + dex_bonus ), character_max_dex );
+}
+
+void Character::set_per_base( int nper )
+{
+    per_max = std::min( nper, character_max_per );
+    per_cur = std::min( std::max( 0, per_max + per_bonus ), character_max_per );
+}
+
+void Character::set_int_base( int nint )
+{
+    int_max = std::min( nint, character_max_int );
+    int_cur = std::min( std::max( 0, int_max + int_bonus ), character_max_int );
+}
+
 namespace io
 {
 template<>

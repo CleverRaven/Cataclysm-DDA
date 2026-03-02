@@ -1927,33 +1927,48 @@ static void control_npc_menu()
 static void character_edit_stats_menu( Character &you )
 {
     uilist smenu;
-    smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), you.str_max );
-    smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), you.dex_max );
-    smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), you.int_max );
-    smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), you.per_max );
+    smenu.addentry( 0, true, 'S', "%s: %d", _( "Base strength" ), you.get_str_base() );
+    smenu.addentry( 1, true, 'D', "%s: %d", _( "Base dexterity" ), you.get_dex_base() );
+    smenu.addentry( 2, true, 'I', "%s: %d", _( "Base intelligence" ), you.get_int_base() );
+    smenu.addentry( 3, true, 'P', "%s: %d", _( "Base perception" ), you.get_per_base() );
     smenu.query();
-    int *bp_ptr = nullptr;
-    switch( smenu.ret ) {
-        case 0:
-            bp_ptr = &you.str_max;
-            break;
-        case 1:
-            bp_ptr = &you.dex_max;
-            break;
-        case 2:
-            bp_ptr = &you.int_max;
-            break;
-        case 3:
-            bp_ptr = &you.per_max;
-            break;
-        default:
-            break;
-    }
+    int stat = smenu.ret;
 
-    if( bp_ptr != nullptr ) {
-        int value = *bp_ptr;
-        if( query_int( value, true, _( "Set the stat to?" ) ) && value >= 0 ) {
-            *bp_ptr = value;
+    if( stat >= 0 && stat <= 3 ) {
+        int value = -1;
+        switch( stat ) {
+            case 0:
+                value = you.get_str_base();
+                break;
+            case 1:
+                value = you.get_dex_base();
+                break;
+            case 2:
+                value = you.get_int_base();
+                break;
+            case 3:
+                value = you.get_per_base();
+                break;
+            default:
+                break;
+        }
+        if( query_int( value, true, _( "Set the base stat to?" ) ) && value >= 0 ) {
+            switch( stat ) {
+                case 0:
+                    you.set_str_base( value );
+                    break;
+                case 1:
+                    you.set_dex_base( value );
+                    break;
+                case 2:
+                    you.set_int_base( value );
+                    break;
+                case 3:
+                    you.set_per_base( value );
+                    break;
+                default:
+                    break;
+            }
             you.reset_stats();
         }
     }
