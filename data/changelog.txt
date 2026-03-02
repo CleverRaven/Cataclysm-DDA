@@ -192,6 +192,10 @@ Allow mutations to be powered by Stamina, apply it to Insect Wings
 Expose dimension names to EOC
 Add `forest` artifact recharge option
 Move jumping mutations to `"stamina": true`
+Add `TOUCH_REQUIRED` flag for spells
+Armor shapeshifted into your form has a special message when trying to take it off
+Add `MUTATED_ANATOMY_ONLY` flag for gear that can only be worn by mutants
+Add PLANT_BLOOD monster flag, apply to defender of the wood in XE
 
 
 
@@ -427,6 +431,8 @@ Hunting horrors have a poison that makes you burn in light
 Tons of limbification 
 HEW system can detect shimmering portals
 [Old Lab Removal] Removing old lab specials
+Hub 01 chop shop with Hub & Exodii missions
+Mission to explore a failed Exodii node for Rubik
 
 
 ## Interface:
@@ -577,6 +583,8 @@ Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
 Add missing components to view priority from crafting menu
 Add deprioritize components of a recipe to the crafting menu
+Holster iuse just list items in pockets that are flagged as holsters
+Add goodbye option to Smokes' conversation hub
 
 
 ## Mods:
@@ -1048,6 +1056,7 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Bombastic Perks] Change the way you get playstyle perks
 [Bombastic Perks] Add more prerequisites for perks
 [Xedra Evolved] Make Nether Sorcery learnable
+New Mod Megacity.
 
 
 
@@ -1188,6 +1197,7 @@ Melatonin makes sense now
 Remove above-and-beyond damage bonus on mutation natural weapon crits
 Slit Nostrils cause a breathing limb score penalty, not a mouth encumbrance penalty
 Clothing is subject to more considerations when sustaining damage from unarmed attacks
+Stat boost CBMs require power
 
 
 ## Bugfixes:
@@ -1631,6 +1641,18 @@ Fix crash to desktop when sleeping caused by sundial division by zero
 Item rot calculation
 monsters that step on the void spider starlit webs don't cause you to go to a bugged inescapable nowhere dimension
 Fix auto-move silently eating activities on grabbed vehicle collision
+Fix zone sorting pathfinding when dragging a single-tile vehicle
+Game start fail when bicycle is set as start vehicle
+Overmap Specials can use copy-from
+Applies mend fix for each fault cleared
+Fix 100% CPU usage in ncurses
+Fix zone sorting infinite loops and item loss with unreachable destinations
+Rubik will only install CBMs if you have a CBM interface
+Fix stacked integrated armor from cached enchantment mutations
+Respect terrain/vehicle zone binding during sorting
+Fix shapeshifted gear disappearing when you become `incorporeal`
+Fix auto-move aborting after opening vehicle doors, and sort vehicle cargo from terrain UNSORTED zones
+Fix fire starting deleting firewood instead of fueling the fire
 
 
 ## Performance:
@@ -1669,6 +1691,8 @@ Shrink binary by using constexpr arrays for units constants
 Speed up autopickup by skipping items that were already checked
 Speed up tests with faster map teardown
 Even faster tests with less map memory manipulation
+Optimize grab-aware pathfinding during zone sorting
+Batch zone sorting pickups from nearby sources
 
 
 ## Infrastructure:
@@ -1863,6 +1887,7 @@ Fix test labeler spurious failures, cache IWYU and clang-tidy plugin builds
 move ACT_START_FIRE to activity_actor
 Change default test sort order to lexicographical
 multi-activity overhaul part 8: simplify multi-activity backlogging
+Add dimension travel to the event bus for EOCs to use
 
 
 ## Build:
@@ -1895,6 +1920,7 @@ Build translations in CI for releases, delete translations from repo
 Fix clang 21 warnings
 Upgrade vcpkg baseline
 Remove MXE from release, fix clang on macOS
+Fix maybe-uninitialized warning in unseal_and_spill_test
 
 
 ## I18N and A11Y:

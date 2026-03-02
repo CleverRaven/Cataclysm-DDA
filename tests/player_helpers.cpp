@@ -16,6 +16,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -218,6 +219,7 @@ void clear_avatar()
 {
     avatar &avatar = get_avatar();
     clear_character( avatar );
+    avatar.grab( object_type::NONE );
     avatar.clear_identified();
     avatar.clear_nutrition();
     avatar.reset_all_missions();

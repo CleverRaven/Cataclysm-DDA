@@ -588,6 +588,9 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     const mutation_branch &branch = mut.obj();
 
     for( const itype_id &armor : branch.integrated_armor ) {
+        if( is_wearing( armor ) ) {
+            continue;
+        }
         item tmparmor( armor );
         wear_item( tmparmor, false, true, true, true );
     }

@@ -19,6 +19,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "ambient_lab_subway",
+    "recurrence": [ "1 hours", "2 hours" ],
+    "global": true,
+    "condition": { "u_at_om_location": "lab_subway" },
+    "effect": [ { "u_message": "<AMBIENT_LAB_SUBWAY>", "snippet": true, "sound": true } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "ambient_sewer",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,

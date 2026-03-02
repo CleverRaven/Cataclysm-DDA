@@ -30,7 +30,6 @@
       { "group": "trait_group_LIAR", "prob": 40 },
       { "group": "trait_group_STRONGBACK", "prob": 15 },
       { "group": "trait_group_STRONGSTOMACH", "prob": 10 },
-      { "group": "trait_group_THICKSKIN", "prob": 10 },
       { "group": "trait_group_TOUGH", "prob": 20 },
       { "group": "trait_group_WEAKSCENT", "prob": 10 },
       { "group": "trait_group_PAINRESIST", "prob": 10 },
@@ -221,12 +220,6 @@
     "id": "trait_group_STRONGSTOMACH",
     "subtype": "distribution",
     "traits": [ { "trait": "STRONGSTOMACH" }, { "trait": "WEAKSTOMACH" } ]
-  },
-  {
-    "type": "trait_group",
-    "id": "trait_group_THICKSKIN",
-    "subtype": "distribution",
-    "traits": [ { "trait": "THICKSKIN" }, { "trait": "THINSKIN" } ]
   },
   {
     "type": "trait_group",

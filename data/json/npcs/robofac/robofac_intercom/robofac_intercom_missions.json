@@ -15,7 +15,8 @@
       "MISSION_ROBOFAC_INTERCOM_MWS_4_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_IVAS_ACCEPTED",
-      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED"
+      "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED"
     ],
     "type": "talk_topic",
     "dynamic_line": "What would you like to discuss?",
@@ -132,6 +133,28 @@
         },
         "effect": { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP", "success": true },
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_COMPLETE"
+      },
+      {
+        "text": "I've returned with a disabled Exodii worker.  [Hand over the broken Exodii worker]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "broken_exodii_worker" } ] },
+        "effect": [
+          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true },
+          { "math": [ "u_timer_hub_waiting_on_autodoc = time('now')" ] },
+          { "u_add_var": "dialogue_hub_u_waiting_on_autodoc", "value": "yes" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE"
+      },
+      {
+        "text": "About that Exodii worker you wanted.  Will this work instead?  [Hand over the broken robot head]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" }, { "u_has_item": "exodii_chop_shop_head" } ] },
+        "effect": [
+          { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true },
+          { "math": [ "u_timer_hub_waiting_on_autodoc = time('now')" ] },
+          { "u_add_var": "dialogue_hub_u_waiting_on_autodoc", "value": "yes" }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE_ALT"
       },
       {
         "text": "[Contract: Return to sender]",
@@ -278,7 +301,9 @@
             {
               "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
             },
-            { "math": [ "u_portal_storm_recordings_sold > 2" ] }
+            {
+              "or": [ { "math": [ "u_portal_storm_recordings_sold > 2" ] }, { "math": [ "HEW_lixa_data_sold > 0" ] } ]
+            }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
@@ -286,14 +311,67 @@
       {
         "text": "[Contract: Post-Apocalyptic IRB]",
         "condition": {
-          "and": [
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_chop_shop" } ] } },
-            { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
-            { "math": [ "ancilla_fortress_placed == 1" ] }
+          "or": [
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+                { "math": [ "hub01_stole_warehouse == 1" ] },
+                { "not": { "math": [ "ancilla_autodoc_placed == 1" ] } }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_chop_shop" } ] }
+                },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
+                { "math": [ "ancilla_fortress_placed == 1" ] },
+                { "not": { "math": [ "ancilla_autodoc_placed == 1" ] } }
+              ]
+            }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP_OFFER"
+      },
+      {
+        "text": "[Contract: Circuit Safari]",
+        "condition": {
+          "or": [
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
+                {
+                  "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ]
+                },
+                { "math": [ "hub01_stole_warehouse == 1" ] },
+                { "math": [ "hub01_told_u_about_warehouse == 1" ] },
+                { "not": { "math": [ "ancilla_autodoc_placed == 1" ] } }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" } },
+                {
+                  "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] }
+                },
+                {
+                  "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ]
+                },
+                { "math": [ "ancilla_fortress_placed == 1" ] },
+                { "not": { "math": [ "ancilla_autodoc_placed == 1" ] } }
+              ]
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_OFFER"
       },
       {
         "text": "I need a new NRE recorder.",
@@ -1403,6 +1481,120 @@
     "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which",
+      "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_told_u_about_warehouse_autodoc == 1" ],
+      "yes": "As you are aware, we have recovered advanced equipment from the Exodii warehouse.  Analysis indicates it may constitute an automated surgical suite; however, additional hardware is required to fully assemble and activate the system.  Given your successful retrieval of the Trifacet, we are offering you the contract as a priority.  Research is in need of an Exodii \"worker\".\"\n\n\"The Exodii have demonstrated extreme hazard potential.  Accordingly, should you accept this contract, a prototype HOUND unit will be assigned to you to assist in your operation.\"\n\n\"This contract includes the standard hazard pay of 4 HGC and an indefinite license to use the HOUND unit.  Additionally, we anticipate that your involvement will facilitate critical technical developments, which may become available to you in due course.",
+      "no": "Our robotics research division has requested new robot specimens.  Given your successful retrieval of the Trifacet, we are offering you the contract as a priority.  Research is in need of an Exodii \"worker\".\"\n\n\"The Exodii have demonstrated extreme hazard potential.  Accordingly, should you accept this contract, a prototype HOUND unit will be assigned to you to assist in your operation.\"\n\n\"This contract includes the standard hazard pay of 4 HGC and an indefinite license to use the HOUND unit.  Additionally, we anticipate that your involvement will facilitate critical technical developments, which may become available to you in due course."
+    },
+    "responses": [
+      {
+        "text": "So take down an Exodii worker and bring it to you?  I'm in.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI" },
+          { "u_spawn_item": "bot_robofac_hound", "count": 1 },
+          { "u_spawn_item": "powered_earplugs", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED"
+      },
+      {
+        "text": "What's an Exodii?",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+        "effect": { "u_add_var": "hub01_explained_exodii", "value": "yes" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What"
+      },
+      {
+        "text": "How am I supposed to take down an Exodii worker?",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How"
+      },
+      {
+        "text": "What exactly am I looking for?",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which"
+      },
+      {
+        "text": "Tell me more about this prototype HOUND.",
+        "condition": {
+          "or": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "compare_string": [ "yes", { "u_val": "hub01_explained_exodii" } ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_What",
+    "type": "talk_topic",
+    "dynamic_line": "Killer robots that invaded earth during the portal storm.  They have a large fortress somewhere - some sort of metal castle - and thus show signs of dangerous intelligence.  We do not fully understand their directives or functions, and thus need a salvaged robot to deconstruct and reverse engineer."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_How",
+    "type": "talk_topic",
+    "dynamic_line": "We understand these Exodii can be quite dangerous, hence why we are assigning you a HOUND unit.  You can disable the robot by any violent means you deem necessary, as long as it does not seriously damage its frame."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Which",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, a good question.  Our recon teams have identified several units that appear to be mindless \"worker\" drones.  These worker units can be found at some of their field sites, which may look like large shipping containers, metal boxes, or strange barns.  We also know that there are infected robots roaming near some of their facilities, which we have taken to calling \"zomborgs\".  But, we have other contractors working with these zomborgs, and these efforts have not yet yielded results, so please do not bring us any of those."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ADVICE_Prototype",
+    "type": "talk_topic",
+    "dynamic_line": "We refer to it as the Hostile Overstimulation and Unmanned Neutralization Drone, or HOUND.  It is a custom-build robot that will engage hostiles with a noisemaker and taser unit.  It should keep hostile Exodii, and other threats, distracted so that you can engage them safely.  We strongly suggest you bring hearing protection."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom's tray slides open, revealing an inactive robot and a pair of earplugs.  \"Happy hunting.\""
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_told_u_about_warehouse_autodoc == 1" ],
+      "yes": "&The intercom's tray slides open, filled with your payment.  \"Excellent.  In addition to your contracting fee you may keep the HOUND.  We would appreciate periodic reports on its field performance.\"\n\nYou hear a THUNK as something covers the microphone, and through scratches and muffled words, you heard \"Permission--tell-----okay.\"\n\nYou then hear the intercom click off, there is a moment of silence, and it clicks on again.  \"Ahem, so, as discussed earlier, we think this unit will lead to some important developments that will need field testing.  If things go as planned we will happily offer you a place in our field testing program.  Please occasionally check with us about project status.\"",
+      "no": "&The intercom's tray slides open, filled with your payment.  \"Excellent.  In addition to your contracting fee you may keep the HOUND.  We would appreciate periodic reports on its field performance.\""
+    },
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE_ALT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "hub01_told_u_about_warehouse_autodoc == 1" ],
+      "yes": "&The intercom is silent a long moment, and then you hear a keyboard clacking and the tray slides open, filled with your payment.  \"Yes, this will do.  In addition to your contracting fee you may of course keep the HOUND.  We would appreciate periodic reports on its field performance.\"\n\nYou hear a THUNK as something covers the microphone, and through scratches and muffled words, you heard \"Permission--tell-----okay.\"\n\nYou then hear the intercom click off, there is a moment of silence, and it clicks on again.  \"Ahem, so, as discussed earlier, we think this unit will lead to some important developments that will need field testing.  If things go as planned we will happily offer you a place in our field testing program.  Please occasionally check with us about project status.\"",
+      "no": "&The intercom is silent a long moment, and then you hear a keyboard clacking and the tray slides open, filled with your payment.  \"Yes, this will do.  In addition to your contracting fee you may of course keep the HOUND.  We would appreciate periodic reports on its field performance.\""
+    },
+    "responses": [ { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "mission_definition",
     "name": { "str": "Data Retrieval" },
@@ -1440,7 +1632,8 @@
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE",
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
-      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW"
     ],
     "type": "talk_topic",
     "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.\"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
@@ -1463,6 +1656,11 @@
         "text": "If I lose the ID card or the memory stick, what should I do?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
       },
+      {
+        "text": "You told me that the HEW system picked up \"spacetime anomalies\".  What does that mean?",
+        "condition": { "math": [ "HEW_lixa_data_sold > 0" ] },
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW"
+      },
       { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
     ]
   },
@@ -1481,6 +1679,11 @@
     "type": "talk_topic",
     "//": "I feel like this could be phrased better.",
     "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"But that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_HEW",
+    "type": "talk_topic",
+    "dynamic_line": "&You hear a click as the microphone shuts off.  After several seconds it clicks back on, someone taps the microphone twice to test it - thud thud - and then speaks: \"All I can tell you is that you may encounter extradimensional anomalies, but we cannot be certain which.  I strongly recommend you take an NRE recorder.\""
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
@@ -1870,6 +2073,37 @@
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_chop_shop", "value": "yes" },
         { "math": [ "u_hub01_completed_missions++" ] },
         { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI",
+    "type": "mission_definition",
+    "name": { "str": "Circuit Safari" },
+    "description": "The intercom has asked me to <color_yellow>find and disable an Exodii worker</color>.  They gave me a Prototype Transportable Jammer to disable the senses of groups of Exodii, and recommend using the hm12 rifle and my electronics skills to disable the robot.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_circuit_safari", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions++" ] },
+        { "math": [ "hub01_has_cbm_interface_tech = 1" ] },
+        { "run_eocs": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_AUTODOC", "time_in_future": "14 days" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

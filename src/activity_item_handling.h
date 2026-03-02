@@ -71,7 +71,7 @@ bool sorter_out_of_bounds( Character &you, const T &act )
 bool route_to_destination( Character &you, player_activity &act,
                            const tripoint_bub_ms &dest, zone_activity_stage &stage );
 /**
-* Returns true if the given item should be skipped while sorting
+* Returns true if the given item should be skipped while sorting.
 */
 bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
@@ -122,6 +122,12 @@ void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
 // Uses grab-aware routing when the player is dragging a vehicle.
 // Returns INT_MAX if unreachable.
 int route_length( const Character &you, const tripoint_bub_ms &dest );
+
+// Worst-terrain tile on the route to nearest dropoff destination for a
+// grabbed single-tile vehicle.  Returns nullopt if no grabbed vehicle,
+// multi-tile vehicle, or trivial/unreachable route.
+std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
+    const Character &who, const std::vector<tripoint_abs_ms> &dropoff_coords );
 } //namespace zone_sorting
 
 

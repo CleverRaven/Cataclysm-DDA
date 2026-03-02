@@ -840,6 +840,12 @@ class map
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false );
 
+        // Traction at a hypothetical position (for drag feasibility checks).
+        // Computes wheel positions as at_origin + part.precalc[0] instead of
+        // using the vehicle's actual map position.
+        float vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                      bool ignore_movement_modifiers = false );
+
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
         // If vector contains collisions with vehicles other than veh2, they will be ignored

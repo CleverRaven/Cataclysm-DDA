@@ -647,7 +647,7 @@ bool mattack::shriek_stun( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &cone : here.points_in_radius( z->pos_bub(), 4 ) ) {
         units::angle tile_angle = coord_to_angle( z->pos_bub().raw(), cone.raw() );
-        units::angle diff = units::fabs( target_angle - tile_angle );
+        units::angle diff = units::abs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
         if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos_bub() ) {
             continue;

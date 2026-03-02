@@ -72,5 +72,18 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_AUTODOC",
+    "condition": { "math": [ "ancilla_autodoc_placed != 1" ] },
+    "effect": [
+      { "mapgen_update": "robofachq_ancilla_bar_autodoc", "om_terrain": "robofachq_subcc_a1" },
+      {
+        "u_location_variable": { "global_val": "ancilla_autodoc_loc" },
+        "target_params": { "om_terrain": "robofachq_subcc_a1" }
+      },
+      { "math": [ "ancilla_autodoc_placed = 1" ] }
+    ]
   }
 ]

@@ -185,8 +185,8 @@ void unseal_items_containing( contents_change_handler &handler, item_location &r
 
 struct item_initialization {
     itype_id id;
-    bool fill_parent;
-    bool seal;
+    bool fill_parent = false;
+    bool seal = false;
     std::vector<item_initialization> contents;
 };
 

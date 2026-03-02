@@ -760,6 +760,8 @@ bool game::start_game()
     get_safemode().load_global();
 
     init_autosave();
+    //Needs to be explicitly cleared so a previously loaded world state doesn't leak into the new game
+    dimension_prefix.clear();
 
     background_pane background;
     static_popup popup;
@@ -7600,7 +7602,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         modifier = -here.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = here.combined_movecost( pos, dest_loc, grabbed_vehicle,
+    const int mcost = here.combined_movecost( pos, dest_loc, grabbed ? grabbed_vehicle : nullptr,
                       modifier,
                       via_ramp, false, !impassable_field_ids.empty() && u.is_immune_fields( impassable_field_ids ) );
 
@@ -9660,6 +9662,7 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
     }
     game::mon_info_update();
+    get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
     return true;
 }
 

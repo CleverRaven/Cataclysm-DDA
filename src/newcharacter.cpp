@@ -131,8 +131,6 @@ static bool isWide = false;
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-static int skill_increment_cost( const Character &u, const skill_id &skill );
-
 class tab_manager
 {
         std::vector<std::string> &tab_names;
@@ -294,22 +292,6 @@ struct multi_pool {
 
 };
 
-static int skill_points_left( const avatar &u, pool_type pool )
-{
-    switch( pool ) {
-        case pool_type::MULTI_POOL: {
-            return multi_pool( u ).skill_points_left;
-        }
-        case pool_type::ONE_POOL: {
-            return point_pool_total() - points_used_total( u );
-        }
-        case pool_type::TRANSFER:
-        case pool_type::FREEFORM:
-            return 0;
-    }
-    return 0;
-}
-
 // Toggle this trait and all prereqs, removing upgrades on removal
 void Character::toggle_trait_deps( const trait_id &tr, const std::string &variant )
 {
@@ -336,24 +318,9 @@ void Character::toggle_trait_deps( const trait_id &tr, const std::string &varian
     calc_mutation_levels();
 }
 
-static std::string pools_to_string( const avatar &u, pool_type pool )
+static std::string pools_to_string( pool_type pool )
 {
     switch( pool ) {
-        case pool_type::MULTI_POOL: {
-            multi_pool p( u );
-            bool is_valid = p.stat_points_left >= 0 && p.trait_points_left >= 0 && p.skill_points_left >= 0;
-            return string_format(
-                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       p.stat_points_left >= 0 ? "light_gray" : "red", p.pure_stat_points,
-                       p.pure_trait_points >= 0 ? '+' : '-',
-                       p.trait_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_trait_points ),
-                       p.pure_skill_points >= 0 ? '+' : '-',
-                       p.skill_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_skill_points ),
-                       is_valid ? "light_gray" : "red", p.skill_points_left );
-        }
-        case pool_type::ONE_POOL: {
-            return string_format( _( "Points left: %4d" ), point_pool_total() - points_used_total( u ) );
-        }
         case pool_type::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
         case pool_type::FREEFORM:
@@ -371,7 +338,6 @@ static bool filter_query( std::string &filterstring, const std::string &descript
     return !filter_popup.cancelled();
 }
 
-static void set_points( tab_manager &tabs, avatar &u, pool_type & );
 static void set_stats( tab_manager &tabs, avatar &u, pool_type );
 static void set_traits( tab_manager &tabs, avatar &u, pool_type );
 static void set_scenario( tab_manager &tabs, avatar &u, pool_type );
@@ -772,7 +738,6 @@ bool avatar::create( character_type type, const std::string &tempname )
                              type != character_type::FULL_RANDOM;
 
     std::vector<std::string> character_tabs = {
-        _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
         //~ Not scenery/backdrop, but previous life up to this point
@@ -784,12 +749,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     };
     tab_manager tabs( character_tabs );
 
-    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
     pool_type pool = pool_type::FREEFORM;
-    if( point_pool == "multi_pool" ) {
-        // if using legacy multipool only set it to that
-        pool = pool_type::MULTI_POOL;
-    }
 
     switch( type ) {
         case character_type::CUSTOM:
@@ -852,27 +812,24 @@ bool avatar::create( character_type type, const std::string &tempname )
 
         switch( tabs.position.cur_index() ) {
             case 0:
-                set_points( tabs, *this, /*out*/ pool );
-                break;
-            case 1:
                 set_scenario( tabs, *this, pool );
                 break;
-            case 2:
+            case 1:
                 set_profession( tabs, *this, pool );
                 break;
-            case 3:
+            case 2:
                 set_hobbies( tabs, *this, pool );
                 break;
-            case 4:
+            case 3:
                 set_stats( tabs, *this, pool );
                 break;
-            case 5:
+            case 4:
                 set_traits( tabs, *this, pool );
                 break;
-            case 6:
+            case 5:
                 set_skills( tabs, *this, pool );
                 break;
-            case 7:
+            case 6:
                 set_description( tabs, *this, allow_reroll, pool );
                 break;
         }
@@ -1122,23 +1079,14 @@ void avatar::initialize( character_type type )
 
 }
 
-static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
-                         int netPointCost = 0 )
+static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u )
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
     mvwprintz( w, point( 2, 4 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
-    std::string points_msg = pools_to_string( u, pool );
-    int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
+    std::string points_msg = pools_to_string( pool );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
-    if( pool != pool_type::FREEFORM ) {
-        if( netPointCost > 0 ) {
-            mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, " (-%d)", std::abs( netPointCost ) );
-        } else if( netPointCost < 0 ) {
-            mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
-        }
-    }
     print_colored_text( w, point( 2, 4 ), color, c_light_gray,
                         player_difficulty::getInstance().difficulty_to_string( u ) );
 }
@@ -1177,144 +1125,6 @@ static const char *dress_switch_msg()
             _( "Outfit: <color_light_cyan>male</color> (press <color_light_green>%1$s</color> to change)" ) :
             //~ Outfit switch message. 1s - change key name.
             _( "Outfit: <color_pink>female</color> (press <color_light_green>%1$s</color> to change)" );
-}
-
-void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
-{
-    const int iSecondColumn = 31;
-    const int iHeaderHeight = 6;
-    // guessing most likely, but it doesn't matter, it will be recalculated if wrong
-    int iHelpHeight = 3;
-    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
-
-    ui_adaptor ui;
-    catacurses::window w;
-    catacurses::window w_description;
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = freeWidth > 15;
-        w = catacurses::newwin( TERMY, TERMX, point::zero );
-        w_description = catacurses::newwin( TERMY - iHeaderHeight - iHelpHeight - 1,
-                                            TERMX - iSecondColumn - 1, point( iSecondColumn, iHeaderHeight ) );
-        ui.position_from_window( w );
-    };
-    init_windows( ui );
-    ui.on_screen_resize( init_windows );
-
-    input_context ctxt( "NEW_CHAR_POINTS" );
-    tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_navigate_ui_list();
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CONFIRM" );
-
-    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
-
-    using point_limit_tuple = std::tuple<pool_type, std::string, std::string>;
-    std::vector<point_limit_tuple> opts;
-
-    const point_limit_tuple multi_pool = std::make_tuple( pool_type::MULTI_POOL,
-                                         _( "Legacy: Multiple pools" ),
-                                         _( "Stats, traits and skills have separate point pools.\n"
-                                            "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill points.\n\n"
-                                            "This is a legacy mode.  Point totals are no longer balanced." ) );
-
-    const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Legacy: Single pool" ),
-                                       _( "Stats, traits and skills share a single point pool.\n\n"
-                                          "This is a legacy mode.  Point totals are no longer balanced." ) );
-
-    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
-                                       _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) );
-
-    if( point_pool == "multi_pool" ) {
-        opts = { { multi_pool } };
-    } else if( point_pool == "story_teller" ) {
-        opts = { { freeform } };
-    } else {
-        opts = { { freeform, multi_pool, one_pool } };
-    }
-
-    int highlighted = 0;
-
-    ui.on_redraw( [&]( ui_adaptor & ui ) {
-        const std::string help_text =
-            ( isWide ? string_format(
-                  _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                     "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                     "<color_light_green>%s</color> to confirm selection.\n"
-                     "Press <color_light_green>%s</color> to go to the next tab or "
-                     "<color_light_green>%s</color> to return to main menu." ),
-                  ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                  ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) )
-              : string_format(
-                  _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                  ctxt.get_desc( "HELP_KEYBINDINGS" ) )
-            );
-        const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
-        if( new_iHelpHeight != iHelpHeight ) {
-            iHelpHeight = new_iHelpHeight;
-            init_windows( ui );
-        }
-        werase( w );
-        tabs.draw( w );
-
-        std::string title = std::get<1>( opts[highlighted] );
-        std::string description = std::get<2>( opts[highlighted] );
-
-        if( screen_reader_mode ) {
-            // Include option title in option description, and say whether it's active
-            if( std::get<0>( opts[highlighted] ) == pool ) {
-                title.append( _( " - active" ) );
-            }
-            description = title +  "\n" + description;
-        }
-
-        draw_points( w, pool, u );
-
-        // Clear the bottom of the screen.
-        werase( w_description );
-
-        const int opts_length = static_cast<int>( opts.size() );
-        for( int i = 0; i < opts_length; i++ ) {
-            nc_color color;
-            if( pool == std::get<0>( opts[i] ) ) {
-                color = highlighted == i ? hilite( c_light_green ) : c_green;
-            } else {
-                color = highlighted == i ? COL_SELECT : c_light_gray;
-            }
-            const point opt_pos( 2, 6 + i );
-            if( highlighted == i ) {
-                ui.set_cursor( w, opt_pos );
-            }
-            if( screen_reader_mode ) {
-                // The list of options only clutters up the screen in screen reader mode
-            } else {
-                mvwprintz( w, opt_pos, color, std::get<1>( opts[i] ) );
-            }
-        }
-
-        fold_and_print( w_description, point::zero, getmaxx( w_description ),
-                        COL_SKILL_USED, description );
-
-        // Helptext points tab
-        fold_and_print( w, point( 2, TERMY - foldstring( help_text, getmaxx( w ) - 4 ).size() - 1 ),
-                        getmaxx( w ) - 4, COL_NOTE_MINOR, help_text );
-        wnoutrefresh( w );
-        wnoutrefresh( w_description );
-    } );
-
-    const int opts_length = static_cast<int>( opts.size() );
-    do {
-        ui_manager::redraw();
-        const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action, ctxt ) ) {
-            break; // Tab has changed or user has quit the screen
-        } else if( navigate_ui_list( action, highlighted, 1, opts_length, true ) ) {
-        } else if( action == "CONFIRM" ) {
-            const auto &cur_opt = opts[highlighted];
-            pool = std::get<0>( cur_opt );
-        }
-    } while( true );
 }
 
 static std::string assemble_stat_details( avatar &u, int sel )
@@ -1532,7 +1342,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     bool details_recalc = true;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         const int thirds = std::min( ( TERMX - 4 ) / 3, 38 );  // to allign scrollbar with the traits tab
-        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( u, pool ), true ) + 2 );
+        iSecondColumn = std::max( thirds, utf8_width( pools_to_string( pool ), true ) + 2 );
         const size_t iContentHeight = TERMY - iHeaderHeight - iHelpHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point::zero );
         w_details_pane = catacurses::newwin( iContentHeight, TERMX - iSecondColumn - 1,
@@ -1896,7 +1706,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
-        const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
+        const int remaining_points_length = utf8_width( pools_to_string( pool ), true );
         if( pool != pool_type::FREEFORM ) {
             std::string full_string =
                 string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
@@ -2594,35 +2404,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<void> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
-            int pointsForProf = sorted_profs[cur_id]->point_cost();
-            bool negativeProf = pointsForProf < 0;
-            if( negativeProf ) {
-                pointsForProf *= -1;
-            }
-
-            // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-                const char *prof_msg_temp;
-                if( negativeProf ) {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
-                                               "Profession %1$s earns %2$d points",
-                                               pointsForProf );
-                } else {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
-                                               "Profession %1$s costs %2$d points",
-                                               pointsForProf );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                           prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
@@ -2945,34 +2727,8 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_hobbies.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_hobbies[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<void> can_pick = sorted_hobbies[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            int pointsForProf = sorted_hobbies[cur_id]->point_cost();
-            bool negativeProf = pointsForProf < 0;
-            if( negativeProf ) {
-                pointsForProf *= -1;
-            }
-
             // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-                const char *prof_msg_temp;
-                if( negativeProf ) {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
-                                               "Background %1$s earns %2$d points",
-                                               pointsForProf );
-                } else {
-                    //~ 1s - profession name, 2d - current character points.
-                    prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
-                                               "Background %1$s costs %2$d points",
-                                               pointsForProf );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick.success() ? c_green : c_light_red,
-                           prof_msg_temp, sorted_hobbies[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
@@ -3157,17 +2913,6 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     } while( true );
 }
 
-/**
- * @return The skill points to consume when a skill is increased (by one level) from the
- * current level.
- *
- * @note: There is one exception: if the current level is 0, it can be boosted by 2 levels for 1 point.
- */
-static int skill_increment_cost( const Character &u, const skill_id &skill )
-{
-    return std::max( 1, ( static_cast<int>( u.get_skill_level( skill ) ) + 1 ) / 2 );
-}
-
 static std::string assemble_skill_details( const avatar &u,
         const std::map<skill_id, int> &prof_skills, const Skill *currentSkill )
 {
@@ -3311,8 +3056,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
-    const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
-
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         std::string cur_skill_text;
         const std::string help_text = assemble_skill_help( ctxt );
@@ -3329,24 +3072,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         // Helptext skill tab
         fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         help_text );
-
-        // Write the hint as to upgrade costs
-        const int cost = skill_increment_cost( u, currentSkill->ident() );
-        const int level = u.get_skill_level( currentSkill->ident() );
-        if( pool != pool_type::FREEFORM ) {
-            // in pool the first level of a skill gives 2
-            const int upgrade_levels = level == 0 ? 2 : 1;
-            // We have two different strings to pluralize, so we have to use two translation calls.
-            const std::string upgrade_levels_s = string_format(
-                    //~ levels here are skill levels at character creation time
-                    n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
-            const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
-            mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
-                       //~ Second string is e.g. "1 level" or "2 levels"
-                       n_gettext( "Upgrading %s by %s costs %d point",
-                                  "Upgrading %s by %s costs %d points", cost ),
-                       currentSkill->name(), upgrade_levels_s, cost );
-        }
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
@@ -3667,35 +3392,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
-            ret_val<void> can_afford = sorted_scens[cur_id]->can_afford(
-                                           *get_scenario(),
-                                           skill_points_left( u, pool ) );
-            ret_val<void> can_pick = sorted_scens[cur_id]->can_pick();
-
-            int pointsForScen = sorted_scens[cur_id]->point_cost();
-            bool negativeScen = pointsForScen < 0;
-            if( negativeScen ) {
-                pointsForScen *= -1;
-            }
             // Draw header.
-            draw_points( w, pool, u, netPointCost );
-            if( pool != pool_type::FREEFORM ) {
-
-                const char *scen_msg_temp;
-
-                if( negativeScen ) {
-                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
-                                               "Scenario earns %2$d points", pointsForScen );
-                } else {
-                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
-                                               "Scenario costs %2$d points", pointsForScen );
-                }
-
-                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                           scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
-            }
+            draw_points( w, pool, u );
         }
 
         //Draw options
@@ -4518,26 +4216,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
-            if( pool == pool_type::ONE_POOL ) {
-                if( points_used_total( you ) > point_pool_total() ) {
-                    popup( _( "Too many points allocated, change some features and try again." ) );
-                    continue;
-                }
-            } else if( pool == pool_type::MULTI_POOL ) {
-                multi_pool p( you );
-                if( p.skill_points_left < 0 ) {
-                    popup( _( "Too many points allocated, change some features and try again." ) );
-                    continue;
-                }
-                if( p.trait_points_left < 0 ) {
-                    popup( _( "Too many trait points allocated, change some traits or lower some stats and try again." ) );
-                    continue;
-                }
-                if( p.stat_points_left < 0 ) {
-                    popup( _( "Too many stat points allocated, lower some stats and try again." ) );
-                    continue;
-                }
-            }
             if( has_unspent_points( you ) && pool != pool_type::FREEFORM &&
                 !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 continue;

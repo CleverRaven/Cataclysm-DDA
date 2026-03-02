@@ -32,7 +32,8 @@
       "Maybe we should start boarding up this place.",
       "I suppose getting a car up and running would be really be useful if we have to move.",
       "We could look for a farm.  They should have food and tools, and they aren't close to cities.",
-      "We should probably stay away from cities, even if they have lots of supplies."
+      "We should probably stay away from cities, even if they have lots of supplies.",
+      "Maybe we should go West, the further away from the urban coastline we are, the better.  It must be hell on earth over there in the East."
     ],
     "responses": [ { "text": "Hmm, okay.", "topic": "TALK_NONE" } ]
   },

@@ -1696,6 +1696,12 @@
   },
   {
     "type": "item_group",
+    "id": "tomatoes_in_can",
+    "subtype": "distribution",
+    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_medium", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
     "id": "pork_beans_in_can",
     "subtype": "distribution",
     "entries": [ { "item": "pork_beans", "entry-wrapper": "can_medium", "count": 2 } ]
@@ -2259,11 +2265,5 @@
     "id": "fruits_in_can",
     "subtype": "distribution",
     "entries": [ { "item": "apple_canned", "entry-wrapper": "can_food", "count": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tomatoes_in_can",
-    "subtype": "distribution",
-    "entries": [ { "item": "can_tomato", "entry-wrapper": "can_food", "count": 1 } ]
   }
 ]

@@ -2330,6 +2330,70 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     return traction_wheel_area;
 }
 
+float map::vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                   bool ignore_movement_modifiers )
+{
+    if( veh.is_in_water( /* deep_water = */ true ) ) {
+        return veh.can_float( *this ) ? 1.0f : -1.0f;
+    }
+    if( veh.is_watercraft() && veh.can_float( *this ) ) {
+        return 1.0f;
+    }
+
+    if( veh.wheelcache.empty() ) {
+        return 0.0f;
+    }
+
+    float traction_wheel_area = 0.0f;
+    for( const int wheel_idx : veh.wheelcache ) {
+        const vehicle_part &vp = veh.part( wheel_idx );
+        const vpart_info &vpi = vp.info();
+        const tripoint_bub_ms pp = at_origin + vp.precalc[0];
+        const ter_t &tr = ter( pp ).obj();
+        if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+            tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
+            continue;
+        }
+
+        int move_mod = move_cost_ter_furn( pp );
+        if( move_mod == 0 ) {
+            return 0.0f;
+        }
+
+        if( ignore_movement_modifiers ) {
+            traction_wheel_area += vp.contact_area();
+            continue;
+        }
+
+        for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
+            const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
+            if( ter_has_flag && mod.move_override ) {
+                move_mod = mod.move_override;
+                break;
+            } else if( !ter_has_flag && mod.move_penalty ) {
+                move_mod += mod.move_penalty;
+                break;
+            }
+        }
+
+        move_mod = std::max( move_mod, move_mod + vp.move_penalty() );
+
+        if( move_mod == 0 ) {
+            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
+            continue;
+        }
+
+        constexpr float THICK_ICE_TRACTION_FACTOR = 0.3f;
+        if( tr.has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod * THICK_ICE_TRACTION_FACTOR;
+        } else {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod;
+        }
+    }
+
+    return traction_wheel_area;
+}
+
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                  const units::angle &direction )
 {

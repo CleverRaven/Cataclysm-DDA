@@ -1,0 +1,568 @@
+[
+  {
+    "id": "MISSION_ROBOFAC_PAT_1",
+    "type": "mission_definition",
+    "name": { "str": "Find smokes for Pat" },
+    "description": "I met a fellow Hub mercenary named Pat.  They asked me to keep an eye out for two cigarettes - normal kind.  If I find them, I should take the cigs back to Pat.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_2",
+    "type": "mission_definition",
+    "name": { "str": "Find gear for Pat" },
+    "description": "Pat and I seem to be getting along well, and they want to start working together as partners.  I should find <color_yellow>1 pair of advanced AR glasses</color>, <color_yellow>2 two-way radios</color>, and <color_yellow>2 e-ink tablet PCs</color> for Pat, and they'll make a pair of glasses so they can assist me in the field.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_FIAH_POWAH",
+    "type": "mission_definition",
+    "name": { "str": "Fiah-Powah" },
+    "description": "Pat knew about a military outpost near their cousin's place.  Maybe I can get some fire power there to help take the bandits Smokes is having trouble with.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "outpost",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "outpost", "om_special": "military_outpost", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_GROCERY",
+    "type": "mission_definition",
+    "name": { "str": "Supah-Mahket" },
+    "description": "Pat sent me to their favorite supermarket.  Maybe they'll have all the jars Smokes needs?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "supermarket_x0_y0_z0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "supermarket_x0_y0_z0", "om_special": "supermarket", "reveal_radius": 4 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_CONTAINAH",
+    "type": "mission_definition",
+    "name": { "str": "Cousin's Fathah's Containahs" },
+    "description": "Pat said that maybe a nearby container yard has cigs.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "container_yard_inland_fence_corner_office_bandit",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "container_yard_inland_fence_corner_office_bandit",
+        "om_special": "o_container_yard_inland_bandit",
+        "reveal_radius": 4
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_OUTTA_TOWN",
+    "type": "mission_definition",
+    "name": { "str": "Outta Town Farm Supply" },
+    "description": "Pat said that maybe I can find fertilizer at a farm supply store.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "farm_supply_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "farm_supply_1", "om_special": "Farm Supply Store", "reveal_radius": 4 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_HOSPITAL",
+    "type": "mission_definition",
+    "name": { "str": "The hospital, ya' stunad" },
+    "description": "Pat said that maybe I can find anesthetic for Rubik at a hospital.  Naturally.  I guess I could check it out?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "urban_35_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "urban_35_1", "om_special": "urban_35_hospital", "reveal_radius": 6 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_EXODII_WAREHOUSE",
+    "type": "mission_definition",
+    "name": { "str": "Pat & the Lost Warehouse" },
+    "description": "Pat is looking into the Rubik's lost warehouse for me.  They said it could take a while, and told me to check in once a week.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_LUMBERMILL",
+    "type": "mission_definition",
+    "name": { "str": "A lumbermill" },
+    "description": "Pat gave me directions to a lumbermill to get supplies for the traders.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "lumbermill_1_1_ocu_north",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "lumbermill_1_1_ocu_north", "om_special": "Occupied Lumbermill", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_1",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Farmstead" },
+    "description": "Pat directed me to a strange farmstead, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "unvitrified_farm_0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "unvitrified_farm_0", "om_special": "quiet_farm", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_2",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: DOE Building" },
+    "description": "Pat directed me to a building owned by the Department of Energy, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "LIXA_entry_1",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "LIXA_entry_1", "om_special": "physics_lab_LIXA", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_3",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Grate" },
+    "description": "Pat directed me to a strange grate in the wilderness, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "temple_stairs",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "temple_stairs", "om_special": "Strangle Temple", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_4",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Mine" },
+    "description": "Pat directed me to a mine, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mine_entrance",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Amigara mine", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_5",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Castle" },
+    "description": "Pat directed me to a strange castle made of scrap metal, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "exodii_base_x0y0z0",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "exodii_base_x0y0z0", "om_special": "exodii_base", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_7",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Meat" },
+    "description": "Pat directed me to what appears to be a hunk of meat, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "corpse_surface",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "corpse_surface", "om_special": "nether_monster_corpse", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_8",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Glow" },
+    "description": "Pat directed me to the location of a glowing building, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "xedra_rural_church",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "xedra_rural_church", "om_special": "xedra_church_rural", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_9",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Fence" },
+    "description": "Pat directed me to a fence where a merc reported odd creatures, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "morgantown_forest_fence_entry",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "morgantown_forest_fence_entry", "om_special": "xedra_morgantown", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_10",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Cabin" },
+    "description": "Pat directed me to a cabin, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "cabin_3_reverberation_hint",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_3_reverberation_hint", "om_special": "Cabin_3_reverberation_hint", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_11",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: The Sound" },
+    "description": "Pat directed me to a radio tower, thinking there may be something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "radio_tower_reverberation_mp3",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "radio_tower_reverberation_mp3", "om_special": "Radio_Tower_Reverberation_mp3", "reveal_radius": 2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_RECON_12",
+    "type": "mission_definition",
+    "name": { "str": "Pat's Recon: Spirals" },
+    "description": "Pat learned about a mine filled with 'spirals,' and thinks there is something interesting there.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mine_entrance",
+    "difficulty": 5,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mine_entrance", "om_special": "Spiral mine", "reveal_radius": 2 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_PAT_CIRCUIT_SAFARI_RECON",
+    "type": "mission_definition",
+    "name": { "str": "Circuit Safari: Pat's Recon" },
+    "description": "Pat talked to a guy who heard about a guy who saw an Exodii that looked like his friend.  If you're lucky, it'll be a worker you can kill and bring back to Hub 01.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "mx_exodii_crash_big_1_pat" ], "x": 0, "y": 0 } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "mx_exodii_crash_big_1_pat",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;;;;;;;,,,,....",
+        "...,,,,;;;||||;;,,,,,...",
+        "...,;,;;|||||;;;;,,,,...",
+        "...,,;;;;||||||;;,,,,...",
+        "...,;,;|||||||;;;,,,,...",
+        "...,,,,;;||||||;,,,,,...",
+        "...,;,,;;|||||;;,,,,,...",
+        "...,,,;;|||||||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;;;;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "exodii_crash_ground_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "nest_exodii_crash_building_big_1", 30 ],
+            [ "nest_exodii_crash_building_big_2", 10 ],
+            [ "nest_exodii_crash_building_small_1", 40 ],
+            [ "nest_exodii_crash_building_smashed", 20 ]
+          ],
+          "x": [ 6, 10 ],
+          "y": [ 6, 10 ]
+        },
+        { "chunks": [ [ "nest_exodii_scouts", 20 ], [ "nest_exodii_zombies", 5 ] ], "x": [ 7, 14 ], "y": [ 16, 18 ] }
+      ]
+    }
+  }
+]

@@ -762,5 +762,9 @@
     "type": "MIGRATION",
     "id": "xs_gloves_lsurvivor",
     "replace": "xs_gloves_survivor"
+  },
+  {
+    "id": "survivor_mess_kit",
+    "replace": "oil_cooker"
   }
 ]

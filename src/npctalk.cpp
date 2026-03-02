@@ -836,7 +836,7 @@ static std::string training_select_menu( const Character &c, const std::string &
     }
     for( const proficiency_id &p : c.known_proficiencies() ) {
         std::string entry = string_format( "%s: %s", _( "Proficiency" ), p->name() );
-        nmenu.addentry( i, p->is_teachable(), MENU_AUTOASSIGN, entry );
+        nmenu.addentry( i, p->can_learn() && p->is_teachable(), MENU_AUTOASSIGN, entry );
         trainlist.emplace_back( p.c_str() );
         i++;
     }

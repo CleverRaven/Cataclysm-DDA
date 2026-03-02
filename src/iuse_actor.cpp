@@ -2790,8 +2790,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, map *here,
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.all_items_top(
-                                      pocket_type::CONTAINER );
+    std::list<item *> all_items = it.all_holstered_items();
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
         return string_format( _( "Draw %s" ), elem->display_name() );
