@@ -3331,22 +3331,22 @@ void Character::mod_int_bonus( int nint )
 
 void Character::set_str_base( int nstr )
 {
-    str_max = std::min( nstr, character_max_str );
+    str_max = std::min( std::max( 0, nstr ), character_max_str );
 }
 
 void Character::set_dex_base( int ndex )
 {
-    dex_max = std::min( ndex, character_max_dex );
+    dex_max = std::min( std::max( 0, ndex ), character_max_dex );
 }
 
 void Character::set_per_base( int nper )
 {
-    per_max = std::min( nper, character_max_per );
+    per_max = std::min( std::max( 0, nper ), character_max_per );
 }
 
 void Character::set_int_base( int nint )
 {
-    int_max = std::min( nint, character_max_int );
+    int_max = std::min( std::max( 0, nint ), character_max_int );
 }
 
 namespace io

@@ -271,10 +271,10 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         setID( g->assign_npc_id() );
     }
 
-    set_str_base( std::max( s_str, 0 ) );
-    set_dex_base( std::max( s_dex, 0 ) );
-    set_per_base( std::max( s_per, 0 ) );
-    set_int_base( std::max( s_int, 0 ) );
+    set_str_base( s_str );
+    set_dex_base( s_dex );
+    set_per_base( s_per );
+    set_int_base( s_int );
 
     set_body();
     recalc_hp();

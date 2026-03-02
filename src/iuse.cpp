@@ -3419,20 +3419,20 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
                     int modified_stat = 0;
                     /** @EFFECT_STR_MAX increases possible granade str buff */
                     modified_stat = player_character.get_str_base() + rng( 0, player_character.get_str_base() / 2 );
-                    player_character.set_str_base( std::max( player_character.get_str_base(), std::min( 15,
-                                                   modified_stat ) ) );
+                    player_character.set_str_base( std::max( player_character.get_str_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex buff */
                     modified_stat = player_character.get_dex_base() + rng( 0, player_character.get_dex_base() / 2 );
-                    player_character.set_dex_base( std::max( player_character.get_dex_base(), std::min( 15,
-                                                   modified_stat ) ) );
+                    player_character.set_dex_base( std::max( player_character.get_dex_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_INT_MAX increases possible granade int buff */
                     modified_stat = player_character.get_int_base() + rng( 0, player_character.get_int_base() / 2 );
-                    player_character.set_int_base( std::max( player_character.get_int_base(), std::min( 15,
-                                                   modified_stat ) ) );
+                    player_character.set_int_base( std::max( player_character.get_int_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_PER_MAX increases possible granade per buff */
                     modified_stat = player_character.get_per_base() + rng( 0, player_character.get_per_base() / 2 );
-                    player_character.set_per_base( std::max( player_character.get_per_base(), std::min( 15,
-                                                   modified_stat ) ) );
+                    player_character.set_per_base( std::max( player_character.get_per_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     player_character.recalc_hp();
                     for( const bodypart_id &bp : player_character.get_all_body_parts(
                              get_body_part_flags::only_main ) ) {
@@ -3468,17 +3468,17 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
                     person->set_per_base( person->get_per_base() - rng( 0, person->get_per_base() / 2 ) );
                 } else if( player_character.pos_bub() == dest ) {
                     /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                    player_character.set_str_base( player_character.get_str_base() - rng( 0,
-                                                   player_character.get_str_base() / 2 ) );
+                    player_character.set_str_base( player_character.get_str_base()
+                                                   - rng( 0, player_character.get_str_base() / 2 ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                    player_character.set_dex_base( player_character.get_dex_base() - rng( 0,
-                                                   player_character.get_dex_base() / 2 ) );
+                    player_character.set_dex_base( player_character.get_dex_base()
+                                                   - rng( 0, player_character.get_dex_base() / 2 ) );
                     /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                    player_character.set_int_base( player_character.get_int_base() - rng( 0,
-                                                   player_character.get_int_base() / 2 ) );
+                    player_character.set_int_base( player_character.get_int_base()
+                                                   - rng( 0, player_character.get_int_base() / 2 ) );
                     /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                    player_character.set_per_base( player_character.get_per_base() - rng( 0,
-                                                   player_character.get_per_base() / 2 ) );
+                    player_character.set_per_base( player_character.get_per_base()
+                                                   - rng( 0, player_character.get_per_base() / 2 ) );
                     player_character.recalc_hp();
                     for( const bodypart_id &bp : player_character.get_all_body_parts(
                              get_body_part_flags::only_main ) ) {
@@ -7706,8 +7706,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
         if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->get_int()
-            >
-            rng( 20, 35 ) ) {
+            > rng( 20, 35 ) ) {
 
             p->practice( skill_electronics, rng( 5, 20 ) );
             p->practice( skill_fabrication, rng( 5, 20 ) );

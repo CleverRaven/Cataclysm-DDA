@@ -1932,45 +1932,26 @@ static void character_edit_stats_menu( Character &you )
     smenu.addentry( 2, true, 'I', "%s: %d", _( "Base intelligence" ), you.get_int_base() );
     smenu.addentry( 3, true, 'P', "%s: %d", _( "Base perception" ), you.get_per_base() );
     smenu.query();
-    int stat = smenu.ret;
 
-    if( stat >= 0 && stat <= 3 ) {
-        int value = -1;
-        switch( stat ) {
+    int value = -1;
+    if( query_int( value, true, _( "Set the base stat to?" ) ) && value >= 0 ) {
+        switch( smenu.ret ) {
             case 0:
-                value = you.get_str_base();
+                you.set_str_base( value );
                 break;
             case 1:
-                value = you.get_dex_base();
+                you.set_dex_base( value );
                 break;
             case 2:
-                value = you.get_int_base();
+                you.set_int_base( value );
                 break;
             case 3:
-                value = you.get_per_base();
+                you.set_per_base( value );
                 break;
             default:
                 break;
         }
-        if( query_int( value, true, _( "Set the base stat to?" ) ) && value >= 0 ) {
-            switch( stat ) {
-                case 0:
-                    you.set_str_base( value );
-                    break;
-                case 1:
-                    you.set_dex_base( value );
-                    break;
-                case 2:
-                    you.set_int_base( value );
-                    break;
-                case 3:
-                    you.set_per_base( value );
-                    break;
-                default:
-                    break;
-            }
-            you.reset_stats();
-        }
+        you.reset_stats();
     }
 }
 

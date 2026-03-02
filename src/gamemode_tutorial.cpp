@@ -145,7 +145,6 @@ bool tutorial_game::init()
     // middle of the "real" game world
     avatar &player_character = get_avatar();
     player_character.normalize();
-    player_character.reset_stats();
 
     player_character.set_all_parts_hp_to_max();
     player_character.clear_effects();
