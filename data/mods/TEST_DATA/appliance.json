@@ -145,6 +145,45 @@
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
+    "type": "ITEM",
+    "id": "test_high_drain_lamp",
+    "name": { "str": "high-drain lamp" },
+    "description": "A test lamp with high power draw for deterministic deficit testing.",
+    "weight": "2500 g",
+    "material": [ "plastic", "steel" ],
+    "volume": "2 L",
+    "longest_side": "170 cm",
+    "price": "90 USD",
+    "price_postapoc": "5 USD",
+    "symbol": "L",
+    "color": "white",
+    "looks_like": "f_floor_lamp",
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "ap_test_high_drain_lamp",
+    "type": "vehicle_part",
+    "name": { "str": "high-drain lamp" },
+    "item": "test_high_drain_lamp",
+    "categories": [ "lighting" ],
+    "color": "white",
+    "broken_color": "blue",
+    "durability": 20,
+    "description": "A test lamp that draws 1 kW for deterministic deficit testing.",
+    "epower": "-1 kW",
+    "bonus": 200,
+    "damage_modifier": 10,
+    "looks_like": "f_floor_lamp",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "CIRCLE_LIGHT", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
+  },
+  {
     "id": "test_storage_battery",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],

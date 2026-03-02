@@ -5757,16 +5757,19 @@ void vehicle::power_parts( map &here )
         // Scoops need a special case since they consume power during actual use
         for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
         // Rechargers need special case since they consume power on demand
         for( const vpart_reference &vp : get_enabled_parts( "RECHARGE" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
 
         for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part &pt = vp.part();
             if( pt.info().epower < 0_W ) {
                 pt.enabled = false;
+                pt.power_disabled = true;
             }
         }
 
