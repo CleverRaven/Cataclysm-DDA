@@ -179,7 +179,7 @@
     "type": "item_group",
     "container-item": "box_small",
     "on_overflow": "spill",
-    "items": [ { "item": "nail", "charges": [ 23 ] } ]
+    "items": [ { "item": "nail", "count": 23 } ]
   },
   {
     "id": "nail_box_1lb",
@@ -193,7 +193,7 @@
     "type": "item_group",
     "container-item": "box_small",
     "on_overflow": "spill",
-    "items": [ { "item": "nail", "charges": [ 115 ] } ]
+    "items": [ { "item": "nail", "count": 115 } ]
   },
   {
     "id": "nail_box_5lb",
@@ -207,7 +207,7 @@
     "type": "item_group",
     "container-item": "box_small",
     "on_overflow": "spill",
-    "items": [ { "item": "nail", "charges": [ 230 ] } ]
+    "items": [ { "item": "nail", "count": 230 } ]
   },
   {
     "id": "nail_box_10lb",
@@ -221,7 +221,7 @@
     "type": "item_group",
     "container-item": "box_small",
     "on_overflow": "spill",
-    "items": [ { "item": "nail", "charges": [ 345 ] } ]
+    "items": [ { "item": "nail", "count": 345 } ]
   },
   {
     "id": "nail_box_15lb",
