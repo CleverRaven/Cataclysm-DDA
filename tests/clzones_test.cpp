@@ -1883,8 +1883,7 @@ TEST_CASE( "zone_sorting_no_grab_weight_gate",
     // str 6: weight_capacity = 13 + 6*4 = 37 kg.
     // Each boulder is 10 kg.  After picking up 3 (30 kg), the fourth would
     // push carried weight to 40 kg > 37 kg, so the weight gate should block it.
-    dummy.str_max = 6;
-    dummy.str_cur = 6;
+    dummy.set_str_base( 6 );
     dummy.set_str_bonus( 0 );
     const int num_boulders = 5;
 
@@ -1949,8 +1948,7 @@ TEST_CASE( "zone_sorting_drag_weight_gate",
 
     // Low strength so the drag gate triggers at reasonable weights.
     // str 4 -> arm_str ~4, weight_capacity = 13+16 = 29 kg
-    dummy.str_max = 4;
-    dummy.str_cur = 4;
+    dummy.set_str_base( 4 );
     dummy.set_str_bonus( 0 );
 
     const tripoint_bub_ms start_pos( 60, 60, 0 );

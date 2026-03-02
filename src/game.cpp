@@ -7405,7 +7405,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
     // That function call is:
-    // x_in_y(1+u.dex_cur/2, 40)
+    // x_in_y(1+u.get_dex()/2, 40)
     const int magic_number_78 = 78;
 
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&

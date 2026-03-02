@@ -640,7 +640,7 @@ int Character::count_threshold_substitute_traits() const
 
 int Character::get_oxygen_max() const
 {
-    return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * str_cur );
+    return 30 + ( has_bionic( bio_synlungs ) ? 30 : 2 * get_str() );
 }
 
 void Character::randomize_heartrate()
@@ -935,7 +935,7 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     // to check whether laser sights are available
     const int base_distance = 10;
     const float light_limit = 120.0f;
-    bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
+    bool laser_light_available = target_attributes.range <= ( base_distance + get_per() ) * std::max(
                                      1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
     // There are only two kinds of parallaxes, one with zoom and one without. So cache them.
     std::vector<std::optional<int>> parallaxes;
@@ -1394,29 +1394,30 @@ int Character::swim_speed() const
                             ( usable.test( body_part_hand_r ) ? 0.5f : 0.0f );
 
     // base swim speed.
+    int current_str = get_str();
     float swim_speed_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_SWIM_MOD, 1 );
     ret = ( 440 * swim_speed_mult ) + weight_carried() /
           ( 60_gram / swim_speed_mult ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
-        ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
+        ret -= hand_bonus_mult * ( 20 + current_str * 3 );
     }
     /** @EFFECT_STR increases swim speed bonus from PAWS_LARGE */
     if( has_trait( trait_PAWS_LARGE ) ) {
-        ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
+        ret -= hand_bonus_mult * ( 20 + current_str * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
     if( worn_with_flag( flag_FIN, body_part_foot_l ) ||
         worn_with_flag( flag_FIN, body_part_foot_r ) ) {
         if( worn_with_flag( flag_FIN, body_part_foot_l ) &&
             worn_with_flag( flag_FIN, body_part_foot_r ) ) {
-            ret -= ( 15 * str_cur );
+            ret -= ( 15 * current_str );
         } else {
-            ret -= ( 15 * str_cur ) / 2;
+            ret -= ( 15 * current_str ) / 2;
         }
     }
     /** @EFFECT_STR increases swim speed bonus from WEBBED and WEBBED_FEET */
-    float webbing_factor = 60 + str_cur * 5;
+    float webbing_factor = 60 + current_str * 5;
     if( has_flag( json_flag_WEBBED_HANDS ) ) {
         ret -= hand_bonus_mult * webbing_factor * 0.5f;
     }
@@ -1429,7 +1430,7 @@ int Character::swim_speed() const
     /** @EFFECT_STR increases swim speed */
 
     /** @EFFECT_DEX increases swim speed */
-    ret -= str_cur * 6 + dex_cur * 4;
+    ret -= current_str * 6 + get_dex() * 4;
     if( worn_with_flag( flag_FLOTATION ) ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
@@ -3066,11 +3067,11 @@ void Character::reset_stats()
     mod_dodge_bonus( enchantment_cache->modify_value( enchant_vals::mod::DODGE_CHANCE, 0 ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
-    if( str_max >= 16 ) {
+    if( get_str_base() >= 16 ) {
         mod_dodge_bonus( -1 );   // Penalty if we're huge
     }
     /** @EFFECT_STR_MAX below 6 increases Dodge bonus by 1 */
-    else if( str_max <= 5 ) {
+    else if( get_str_base() <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
 
@@ -3299,7 +3300,7 @@ int Character::get_speed() const
 
 int Character::get_arm_str() const
 {
-    return str_cur * get_modifier( character_modifier_limb_str_mod );
+    return get_str() * get_modifier( character_modifier_limb_str_mod );
 }
 
 int Character::get_eff_per() const
@@ -4545,7 +4546,7 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    int noise = ( base + str_cur * shout_multiplier ) * get_limb_score( limb_score_breathing );
+    int noise = ( base + get_str() * shout_multiplier ) * get_limb_score( limb_score_breathing );
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -5917,7 +5918,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                           loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
                 //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-                if( one_in( 1 + dex_cur / 4 ) ) {
+                if( one_in( 1 + get_dex() / 4 ) ) {
                     add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                        hammering_item.tname() );
                     // FIXME: Hardcoded damage type
@@ -6316,10 +6317,10 @@ int Character::get_mutation_visibility_cap( const Character *observed ) const
     // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
     const int dist = rl_dist( pos_bub(), observed->pos_bub() );
     int visibility_cap;
-    if( per_cur <= 1 ) {
+    if( get_per() <= 1 ) {
         visibility_cap = INT_MAX;
     } else {
-        visibility_cap = std::round( dist * dist / 20.0 / ( per_cur - 1 ) );
+        visibility_cap = std::round( dist * dist / 20.0 / ( get_per() - 1 ) );
     }
     return visibility_cap;
 }
@@ -7446,7 +7447,7 @@ bool Character::avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const
     /** @EFFECT_DEX increases chance to avoid traps */
 
     /** @EFFECT_DODGE increases chance to avoid traps */
-    int myroll = dice( 3, round( dex_cur + get_skill_level( skill_dodge ) * 1.5 ) );
+    int myroll = dice( 3, round( get_dex() + get_skill_level( skill_dodge ) * 1.5 ) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
         traproll = dice( 3, tr.get_avoidance() );
@@ -7651,7 +7652,7 @@ float Character::fall_damage_mod() const
     /** @EFFECT_DEX decreases damage from falling */
 
     /** @EFFECT_DODGE decreases damage from falling */
-    float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
+    float dex_dodge = get_dex() / 2.0 + get_skill_level( skill_dodge );
     // Reactions, legwork and footing determine your landing
     dex_dodge *= get_modifier( character_modifier_limb_fall_mod );
     // But prevent it from increasing damage
@@ -7870,12 +7871,13 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
                      static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
-        if( ( str_max - 6 ) / 4 > critter->type->size ) {
+        int strength_base = get_str_base();
+        if( ( strength_base - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos_bub() ); // Chain reaction!
-            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bodypart_id( "torso" ), ( strength_base - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
-        } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
+        } else if( ( strength_base - 6 ) / 4 == critter->type->size ) {
+            critter->apply_damage( this, bodypart_id( "torso" ), ( strength_base - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state( &here );

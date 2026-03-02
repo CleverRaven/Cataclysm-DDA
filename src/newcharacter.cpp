@@ -448,10 +448,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
     world_origin = std::nullopt;
     random_start_location = true;
 
-    str_max = rng( 6, HIGH_STAT - 2 );
-    dex_max = rng( 6, HIGH_STAT - 2 );
-    int_max = rng( 6, HIGH_STAT - 2 );
-    per_max = rng( 6, HIGH_STAT - 2 );
+    set_str_base( rng( 6, HIGH_STAT - 2 ) );
+    set_dex_base( rng( 6, HIGH_STAT - 2 ) );
+    set_int_base( rng( 6, HIGH_STAT - 2 ) );
+    set_per_base( rng( 6, HIGH_STAT - 2 ) );
 
     set_body();
     randomize_hobbies();
@@ -503,23 +503,23 @@ void Character::randomize( const bool random_scenario, bool play_now )
         } else {
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    if( str_max > 5 ) {
-                        str_max--;
+                    if( get_str_base() > 5 ) {
+                        set_str_base( get_str_base() - 1 );
                     }
                     break;
                 case 2:
-                    if( dex_max > 5 ) {
-                        dex_max--;
+                    if( get_dex_base() > 5 ) {
+                        set_dex_base( get_dex_base() - 1 );
                     }
                     break;
                 case 3:
-                    if( int_max > 5 ) {
-                        int_max--;
+                    if( get_int_base() > 5 ) {
+                        set_int_base( get_int_base() - 1 );
                     }
                     break;
                 case 4:
-                    if( per_max > 5 ) {
-                        per_max--;
+                    if( get_per_base() > 5 ) {
+                        set_per_base( get_per_base() - 1 );
                     }
                     break;
             }
@@ -554,16 +554,16 @@ void Character::randomize( const bool random_scenario, bool play_now )
                 if( allow_stats ) {
                     switch( rng( 1, 4 ) ) {
                         case 1:
-                            str_max++;
+                            set_str_base( get_str_base() + 1 );
                             break;
                         case 2:
-                            dex_max++;
+                            set_dex_base( get_dex_base() + 1 );
                             break;
                         case 3:
-                            int_max++;
+                            set_int_base( get_int_base() + 1 );
                             break;
                         case 4:
-                            per_max++;
+                            set_per_base( get_per_base() + 1 );
                             break;
                     }
                     break;

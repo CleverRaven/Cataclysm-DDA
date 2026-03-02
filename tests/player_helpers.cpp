@@ -149,10 +149,10 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_underwater( false );
 
     // Make stats nominal.
-    dummy.str_max = 8;
-    dummy.dex_max = 8;
-    dummy.int_max = 8;
-    dummy.per_max = 8;
+    dummy.set_str_base( 8 );
+    dummy.set_dex_base( 8 );
+    dummy.set_int_base( 8 );
+    dummy.set_per_base( 8 );
     dummy.set_str_bonus( 0 );
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
