@@ -687,13 +687,9 @@ void Character::load( const JsonObject &data )
     Creature::load( data );
 
     // stats
-    data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
-    data.read( "dex_cur", dex_cur );
     data.read( "dex_max", dex_max );
-    data.read( "int_cur", int_cur );
     data.read( "int_max", int_max );
-    data.read( "per_cur", per_cur );
     data.read( "per_max", per_max );
 
     data.read( "str_bonus", str_bonus );
@@ -1369,13 +1365,9 @@ void Character::store( JsonOut &json ) const
     }
 
     // stat
-    json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
     json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
     json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
     json.member( "per_max", per_max );
 
     json.member( "str_bonus", str_bonus );

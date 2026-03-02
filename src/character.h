@@ -532,17 +532,11 @@ class Character : public Creature, public visitable
         bool controlling_vehicle = false;
 
     private:
-        /// @brief Character stats
-        /// @todo Make those protected
+        /// @brief Character base stats
         int str_max;
         int dex_max;
         int int_max;
         int per_max;
-
-        int str_cur;
-        int dex_cur;
-        int int_cur;
-        int per_cur;
 
     public:
         // Used to display pain penalties

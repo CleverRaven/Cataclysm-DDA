@@ -491,13 +491,9 @@ Character::Character() :
 {
     randomize_blood();
     cached_organic_size = 1.0f;
-    str_cur = 8;
     str_max = 8;
-    dex_cur = 8;
     dex_max = 8;
-    int_cur = 8;
     int_max = 8;
-    per_cur = 8;
     per_max = 8;
     set_dodges_left(1);
     blocks_left = 1;
@@ -3074,32 +3070,6 @@ void Character::reset_stats()
     else if( get_str_base() <= 5 ) {
         mod_dodge_bonus( 1 );   // Bonus if we're small
     }
-
-    nv_cached = false;
-
-    // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in effects,
-    // player::suffer(), etc.
-
-    // repopulate the stat fields
-    str_cur = str_max + get_str_bonus();
-    dex_cur = dex_max + get_dex_bonus();
-    per_cur = per_max + get_per_bonus();
-    int_cur = int_max + get_int_bonus();
-
-    // Floor for our stats.  No stat changes should occur after this!
-    if( dex_cur < 0 ) {
-        dex_cur = 0;
-    }
-    if( str_cur < 0 ) {
-        str_cur = 0;
-    }
-    if( per_cur < 0 ) {
-        per_cur = 0;
-    }
-    if( int_cur < 0 ) {
-        int_cur = 0;
-    }
 }
 
 void Character::reset()
@@ -3236,19 +3206,19 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
 // get_stat_bonus() is always just the bonus amount
 int Character::get_str() const
 {
-    return std::min( character_max_str, std::max( 0, get_str_base() + str_bonus ) );
+    return std::min( character_max_str, std::max( 0, get_str_base() + get_str_bonus() ) );
 }
 int Character::get_dex() const
 {
-    return std::min( character_max_dex, std::max( 0, get_dex_base() + dex_bonus ) );
+    return std::min( character_max_dex, std::max( 0, get_dex_base() + get_dex_bonus() ) );
 }
 int Character::get_per() const
 {
-    return std::min( character_max_per, std::max( 0, get_per_base() + per_bonus ) );
+    return std::min( character_max_per, std::max( 0, get_per_base() + get_per_bonus() ) );
 }
 int Character::get_int() const
 {
-    return std::min( character_max_int, std::max( 0, get_int_base() + int_bonus ) );
+    return std::min( character_max_int, std::max( 0, get_int_base() + get_int_bonus() ) );
 }
 
 int Character::get_str_base() const
@@ -3329,66 +3299,54 @@ int Character::ranged_per_mod() const
 void Character::set_str_bonus( int nstr )
 {
     str_bonus = nstr;
-    str_cur = std::max( 0, str_max + str_bonus );
 }
 void Character::set_dex_bonus( int ndex )
 {
     dex_bonus = ndex;
-    dex_cur = std::max( 0, dex_max + dex_bonus );
 }
 void Character::set_per_bonus( int nper )
 {
     per_bonus = nper;
-    per_cur = std::max( 0, per_max + per_bonus );
 }
 void Character::set_int_bonus( int nint )
 {
     int_bonus = nint;
-    int_cur = std::max( 0, int_max + int_bonus );
 }
 void Character::mod_str_bonus( int nstr )
 {
     str_bonus += nstr;
-    str_cur = std::max( 0, str_max + str_bonus );
 }
 void Character::mod_dex_bonus( int ndex )
 {
     dex_bonus += ndex;
-    dex_cur = std::max( 0, dex_max + dex_bonus );
 }
 void Character::mod_per_bonus( int nper )
 {
     per_bonus += nper;
-    per_cur = std::max( 0, per_max + per_bonus );
 }
 void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
-    int_cur = std::max( 0, int_max + int_bonus );
 }
 
 void Character::set_str_base( int nstr )
 {
     str_max = std::min( nstr, character_max_str );
-    str_cur = std::min( std::max( 0, str_max + str_bonus ), character_max_str );
 }
 
 void Character::set_dex_base( int ndex )
 {
     dex_max = std::min( ndex, character_max_dex );
-    dex_cur = std::min( std::max( 0, dex_max + dex_bonus ), character_max_dex );
 }
 
 void Character::set_per_base( int nper )
 {
     per_max = std::min( nper, character_max_per );
-    per_cur = std::min( std::max( 0, per_max + per_bonus ), character_max_per );
 }
 
 void Character::set_int_base( int nint )
 {
     int_max = std::min( nint, character_max_int );
-    int_cur = std::min( std::max( 0, int_max + int_bonus ), character_max_int );
 }
 
 namespace io
@@ -3424,10 +3382,10 @@ std::string Character::activity_level_str( float level ) const
 void Character::reset_bonuses()
 {
     // Reset all bonuses to 0 and multipliers to 1.0
-    str_bonus = 0;
-    dex_bonus = 0;
-    per_bonus = 0;
-    int_bonus = 0;
+    set_str_bonus( 0 );
+    set_dex_bonus( 0 );
+    set_per_bonus( 0 );
+    set_int_bonus( 0 );
 
     Creature::reset_bonuses();
 }
