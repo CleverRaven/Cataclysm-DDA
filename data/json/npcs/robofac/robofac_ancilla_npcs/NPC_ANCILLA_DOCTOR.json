@@ -216,10 +216,7 @@
       {
         "text": "[20 HGC - Install Hub 01 CBM interface]  Twenty HGC to turn me into a cyborg?  Let's do it.",
         "condition": {
-          "and": [
-            { "u_has_items": { "item": "RobofacCoin", "count": 20 } },
-            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
-          ]
+          "and": [ { "u_has_items": { "item": "RobofacCoin", "count": 20 } }, { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } } ]
         },
         "effect": [
           {
