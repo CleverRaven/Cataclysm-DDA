@@ -87,7 +87,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "fake_item",
     "name": { "str": "Infolink: Pat's Transponder (off)", "str_pl": "Infolinks: Pat's Transponder (off)" },
-    "description": "Custom software installed on your Infolink CBM for connecting to Pat's radio frequency.  If you have an integrated AR system CBM, or a compatable AR headset, activating this will put you in constant contact with Pat.  It is currently inactive.  Activate it to turn it on.",
+    "description": "Custom software installed on your Infolink CBM for connecting to Pat's radio frequency.  If you have an integrated AR system CBM, or a compatible AR headset, activating this will put you in constant contact with Pat.  It is currently inactive.  Activate it to turn it on.",
     "use_action": [
       {
         "type": "transform",
@@ -105,7 +105,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "Infolink: Pat's Transponder (on)", "str_pl": "Infolinks: Pat's Transponder (on)" },
-    "description": "Custom software installed on your Infolink CBM for connecting to Pat's radio frequency.  If you have an integrated AR system CBM, or a compatable AR headset, this will put you in constant contact with Pat.  It is currently active.  Activate it to turn it off.",
+    "description": "Custom software installed on your Infolink CBM for connecting to Pat's radio frequency.  If you have an integrated AR system CBM, or a compatible AR headset, this will put you in constant contact with Pat.  It is currently active.  Activate it to turn it off.",
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "use_action": [
       {

@@ -240,7 +240,7 @@
         "effect": { "u_add_var": "robofac_pat_said_no_to_exodii_AR_CBM", "value": "yes" }
       },
       {
-        "text": "Have you heard about the Cybernetic Enhancements Program?  Doc Stevens across the street hooked me up with a cybernetic inferface, believe it or not.",
+        "text": "Have you heard about the Cybernetic Enhancements Program?  Doc Stevens across the street hooked me up with a cybernetic interface, believe it or not.",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01",
         "condition": {
           "and": [
