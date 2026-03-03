@@ -31,6 +31,11 @@ class input_context;
 
 namespace cataimgui
 {
+
+// Stored here so they can be manipulated by debug functions.
+// This should go without saying but you are expected not to modify these outside of pure debug functions.
+extern ImGuiWindowFlags default_cataimgui_window_flags;
+
 struct bounds {
     float x;
     float y;
