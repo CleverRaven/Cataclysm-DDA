@@ -85,6 +85,8 @@
     "color": "blue",
     "move_cost": 8,
     "coverage": 40,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "light_emitted": 5,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "bash": {
@@ -109,6 +111,8 @@
     "color": "magenta",
     "move_cost": 8,
     "coverage": 40,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
     "transforms_into": "t_alien_meadow_shrub_2_harvested",
     "examine_action": "harvest_ter_nectar",
@@ -135,6 +139,8 @@
     "color": "magenta_white",
     "move_cost": 8,
     "coverage": 40,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "HARVESTED" ],
     "transforms_into": "t_alien_meadow_shrub_2",
     "examine_action": "harvested_plant",
@@ -160,6 +166,8 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 40,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 4,
@@ -183,6 +191,8 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "bash": {
       "str_min": 80,
@@ -204,6 +214,8 @@
     "color": "yellow",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "bash": {
       "str_min": 80,
@@ -226,6 +238,8 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "transforms_into": "t_alien_meadow_tree_3_harvested",
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "id": "tree_alien_meadow_tree_3_harv" } ],
@@ -250,6 +264,8 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "examine_action": "harvested_plant",
     "transforms_into": "t_alien_meadow_tree_3",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "HARVESTED" ],
@@ -274,6 +290,8 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "HARVESTED" ],
     "bash": {
       "str_min": 80,
@@ -294,6 +312,8 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 3,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "trap": "tr_alien_tree_trap_roots",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
@@ -306,6 +326,8 @@
     "symbol": "~",
     "color": "green",
     "move_cost": 8,
+    "connect_groups": "ALIENMEADOW",
+    "connects_to": "ALIENMEADOW",
     "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ]
   }
 ]
