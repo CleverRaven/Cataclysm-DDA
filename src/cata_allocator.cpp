@@ -18,6 +18,9 @@
 #ifdef __ANDROID__
 #define MALLOC_USABLE_SIZE_QUALIFIER const
 #endif
+#if defined(__clang__) || defined(__GNUC__)
+#define SNMALLOC_EXPORT __attribute__((visibility("default")))
+#endif
 #include <snmalloc/override/new.cc> // NOLINT(bugprone-suspicious-include)
 #endif
 
