@@ -136,6 +136,8 @@ static const ter_str_id ter_test_t_prying2( "test_t_prying2" );
 static const ter_str_id ter_test_t_prying3( "test_t_prying3" );
 static const ter_str_id ter_test_t_prying4( "test_t_prying4" );
 
+struct bionic;
+
 TEST_CASE( "safecracking", "[activity][safecracking]" )
 {
     avatar &dummy = get_avatar();
