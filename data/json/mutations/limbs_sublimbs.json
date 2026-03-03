@@ -403,7 +403,7 @@
     "name_multiple": "lower feathered arms",
     "parent": "arm_feathers_r",
     "side": "right",
-    "similar_bodypart": "arm_lower_r"
+    "similar_bodypart": "arm_lower_r",
     "opposite": "arm_feathers_lower_l",
     "max_coverage": 45
   },
