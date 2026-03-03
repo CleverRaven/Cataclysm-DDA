@@ -881,6 +881,20 @@
     "difficulty": 4
   },
   {
+    "id": "bio_radio_pat",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Modified Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A wireless communications device that integrates with the ear canal to enable hands-free communication over radio waves.  This one has custom software for communicating with your pal Pat.",
+    "price": "500 USD",
+    "price_postapoc": "10 USD",
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "100 g",
+    "difficulty": 4
+  },
+  {
     "id": "bio_radscrubber",
     "copy-from": "bionic_general_npc_usable",
     "type": "ITEM",

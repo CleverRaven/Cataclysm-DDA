@@ -372,7 +372,13 @@
     "condition": { "and": [ "u_exists", "u_is_avatar" ] },
     "effect": [
       {
-        "if": { "or": [ { "u_has_item": "military_vis_aug_system_on" }, { "u_has_item": "robofac_head_rig_ar_on" } ] },
+        "if": {
+          "or": [
+            { "u_has_item": "military_vis_aug_system_on" },
+            { "u_has_item": "robofac_head_rig_ar_on" },
+            { "and": [ { "u_has_item": "integrated_ar" }, { "u_has_trait": "Hub01_CBM_Interface" } ] }
+          ]
+        },
         "then": [ { "run_eocs": [ "EOC_pat_AR_activate" ] } ]
       }
     ]
@@ -381,7 +387,7 @@
     "type": "effect_on_condition",
     "id": "EOC_pat_AR_activate",
     "condition": { "math": [ "robofac_pat_is_dead == 1" ] },
-    "effect": { "if": { "one_in_chance": 1000 }, "then": { "u_message": "Your earpiece is eerily silent." } },
+    "effect": { "if": { "one_in_chance": 1000 }, "then": { "u_message": "Your comm is eerily silent." } },
     "false_effect": { "run_eocs": [ "EOC_pat_AR_scan" ] }
   },
   {
