@@ -2521,7 +2521,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "pause" );
     ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
     ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
-    ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
     ctxt.register_action( "shift_ne" );
