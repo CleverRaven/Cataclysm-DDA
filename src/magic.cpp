@@ -561,6 +561,16 @@ void spell_type::check_consistency()
             }
         }
 
+        if( ( sp_t.effect_name == "summon" || sp_t.effect_name == "spawn_item" ||
+              sp_t.effect_name == "summon_monster" ) &&
+            !sp_t.spell_tags[spell_flag::PERMANENT] &&
+            !sp_t.spell_tags[spell_flag::PERMANENT_ALL_LEVELS] &&
+            sp_t.max_duration.is_constant() && sp_t.max_duration.constant() == 0 &&
+            sp_t.min_duration.is_constant() && sp_t.min_duration.constant() == 0 ) {
+            debugmsg( "spell %s uses effect \"%s\" but has zero duration without PERMANENT flag",
+                      sp_t.id.c_str(), sp_t.effect_name );
+        }
+
         if( sp_t.exp_for_level_formula_id.has_value() &&
             sp_t.exp_for_level_formula_id.value()->num_params != 1 ) {
             debugmsg( "ERROR: %s exp_for_level_formula_id has params that != 1!", sp_t.id.c_str() );

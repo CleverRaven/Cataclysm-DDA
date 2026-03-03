@@ -73,8 +73,17 @@ bool string_id<effect_on_condition>::is_valid() const
     return effect_on_condition_factory.is_valid( *this );
 }
 
+static std::vector<std::pair<std::string, std::string>> pending_eoc_refs;
+
 void effect_on_conditions::check_consistency()
 {
+    for( const auto &[eoc_str, context] : pending_eoc_refs ) {
+        effect_on_condition_id eid( eoc_str );
+        if( !eid.is_valid() ) {
+            debugmsg( "EOC reference \"%s\" (loaded from %s) does not exist", eoc_str, context );
+        }
+    }
+    pending_eoc_refs.clear();
 }
 
 void effect_on_condition::load( const JsonObject &jo, std::string_view src )
@@ -122,6 +131,8 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
         std::string_view src )
 {
     if( jv.test_string() ) {
+        std::string context = string_format( "%s (%s)", src, jv.get_root_source_path() );
+        pending_eoc_refs.emplace_back( jv.get_string(), std::move( context ) );
         return effect_on_condition_id( jv.get_string() );
     } else if( jv.test_object() ) {
         effect_on_condition inline_eoc;
@@ -530,6 +541,7 @@ const std::vector<effect_on_condition> &effect_on_conditions::get_all()
 void effect_on_conditions::reset()
 {
     effect_on_condition_factory.reset();
+    pending_eoc_refs.clear();
 }
 
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )

@@ -3882,7 +3882,7 @@
     "volume": "140 L",
     "power_armor": true,
     "symbol": "T",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "color": "light_gray",
     "pocket_data": [
       {
