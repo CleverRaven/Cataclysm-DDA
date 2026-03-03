@@ -276,6 +276,8 @@
     "type": "recipe",
     "copy-from": "boots_wsurvivor_nofur",
     "time": "30 h",
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "using": [
       [ "fastener_small", 6 ],
       [ "shoe_rubber", 1 ],
@@ -295,6 +297,8 @@
     "copy-from": "boots_wsurvivor_nofur",
     "difficulty": 8,
     "skills_required": [ "fabrication", 6 ],
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "time": "54 h",
     "using": [
       [ "fastener_small", 8 ],
@@ -456,6 +460,8 @@
     "result": "boots_xssurvivor",
     "type": "recipe",
     "copy-from": "boots_survivor",
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "time": "30 h",
     "using": [
       [ "fastener_small", 6 ],
@@ -614,6 +620,8 @@
     "result": "xs_boots_wsurvivor",
     "type": "recipe",
     "copy-from": "boots_wsurvivor",
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "time": "30 h",
     "using": [
       [ "fastener_small", 6 ],
@@ -633,6 +641,8 @@
     "copy-from": "boots_wsurvivor",
     "difficulty": 8,
     "time": "54 h",
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "using": [
       [ "fastener_small", 8 ],
       [ "shoe_rubber", 2 ],
@@ -651,6 +661,8 @@
     "copy-from": "boots_survivor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 7 ],
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "time": "45 h",
     "using": [
       [ "fastener_small", 8 ],
