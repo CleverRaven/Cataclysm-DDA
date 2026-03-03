@@ -2357,7 +2357,7 @@ static void ShowDemoWindowWidgets(ImGuiDemoWindowData* demo_data)
         ImS64 LLONG_MIN = -9223372036854775807LL - 1;
         ImS64 LLONG_MAX = 9223372036854775807LL;
         ImU64 ULLONG_MAX = (2ULL * 9223372036854775807LL + 1);
-        #endif
+#endif
         const char    s8_zero  = 0,   s8_one  = 1,   s8_fifty  = 50, s8_min  = -128,        s8_max = 127;
         const ImU8    u8_zero  = 0,   u8_one  = 1,   u8_fifty  = 50, u8_min  = 0,           u8_max = 255;
         const short   s16_zero = 0,   s16_one = 1,   s16_fifty = 50, s16_min = -32768,      s16_max = 32767;
@@ -2676,6 +2676,54 @@ static void ShowDemoWindowWidgets(ImGuiDemoWindowData* demo_data)
             }
 
             ImGui::PopItemFlag();
+            ImGui::TreePop();
+        }
+
+        IMGUI_DEMO_MARKER("Widgets/Drag and Drop/Drag to reorder items (api)");
+        if (ImGui::TreeNode("Drag to reorder items (api)"))
+        {
+            HelpMarker("Drag items to reorder them.");
+            static const char* item_names[] = { "Item One", "Item Two", "Item Three", "Item Four", "Item Five" };
+            static bool vertical = true;
+            ImGui::Checkbox("Vertical", &vertical);
+
+            int swap_n = 0;
+            int swap_d = 0;
+            for (int n = 0; n < IM_ARRAYSIZE(item_names); n++)
+            {
+                const char* item = item_names[n];
+                if (vertical)
+                {
+                    ImGui::Selectable(item);
+                }
+                else
+                {
+                    ImGui::Button(item);
+                    if (n + 1 < IM_ARRAYSIZE(item_names))
+                        ImGui::SameLine();
+                }
+
+                // Called after reorderable item. "SomeId" is optional in this simple example, but may be used to
+                // avoid mixing multiple distinct reorderable lists when they exist in same id scope.
+                if (int swap_direction = ImGui::ItemReorder("SomeId", vertical))
+                {
+                    swap_n = n;
+                    swap_d = swap_direction;
+                }
+            }
+
+            // Defer swap after rendering in order to avoid rendering glitches when items of different length are
+            // swapped in a horizontal list.
+            if (swap_d != 0)
+            {
+                const char* item = item_names[swap_n];
+                int next_n = swap_n + swap_d;
+                if (next_n >= 0 && next_n < IM_ARRAYSIZE(item_names))
+                {
+                    item_names[swap_n] = item_names[next_n];
+                    item_names[next_n] = item;
+                }
+            }
             ImGui::TreePop();
         }
 
