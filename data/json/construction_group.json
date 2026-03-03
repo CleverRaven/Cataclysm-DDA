@@ -776,6 +776,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_solar_cooker",
+    "name": "Set Up Solar Cooker"
+  },
+  {
+    "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
   },
@@ -918,6 +923,11 @@
     "type": "construction_group",
     "id": "build_wooden_rack",
     "name": "Build Wooden Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_rack_primitive",
+    "name": "Build Simple Wooden Rack"
   },
   {
     "type": "construction_group",
@@ -1264,6 +1274,21 @@
     "type": "construction_group",
     "id": "place_minifridge",
     "name": "Place Minifridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_mobile_weather_station",
+    "name": "Place Mobile Weather Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_xedra_mobile_weather_station",
+    "name": "Place Mobile Weather Station, Hazardous Environment"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_robofac_mobile_weather_station",
+    "name": "Place Mobile Weather Station, HEW-NRE"
   },
   {
     "type": "construction_group",
@@ -2134,5 +2159,10 @@
     "type": "construction_group",
     "id": "install_glass_onto_window_bars",
     "name": "Install glass onto window with bars"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole_indoor_wooden",
+    "name": "Build a wooden indoor flagpole"
   }
 ]

@@ -380,6 +380,7 @@ void ma_buff::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "persists", persists, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "free_dodges", free_dodges, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
@@ -655,7 +656,7 @@ void finalize_martial_arts()
         // The vector needs both a limb and a contact area, so we can substitute safely
         std::vector<bodypart_str_id> similar_bp;
         for( const bodypart_str_id &bp : vector.limbs ) {
-            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+            for( const bodypart_str_id &similar : bp->get_all_combined_similar_bodyparts() ) {
                 similar_bp.emplace_back( similar );
             }
         }
@@ -664,7 +665,7 @@ void finalize_martial_arts()
 
         std::vector<sub_bodypart_str_id> similar_sbp;
         for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
-            for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+            for( const sub_bodypart_str_id &similar : sbp->get_all_combined_similar_sub_bodyparts() ) {
                 similar_sbp.emplace_back( similar );
             }
         }
@@ -979,6 +980,7 @@ ma_buff::ma_buff()
     max_stacks = 1; // total number of stacks this buff can have
 
     dodges_bonus = 0; // extra dodges, like karate
+    free_dodges = 0; // number of dodges that won't consume stamina
     blocks_bonus = 0; // extra blocks, like karate
 
 }
@@ -1010,8 +1012,11 @@ bool ma_buff::is_valid_character( const Character &u ) const
 
 void ma_buff::apply_character( Character &u ) const
 {
+    // Note: MAs typically have multiple buffs, using a setter here is probably a mistake!
     u.mod_num_dodges_bonus( dodges_bonus );
+    // This uses a setter, but it's actually just mod() because it unnecessarily gets the existing bonus.
     u.set_num_blocks_bonus( u.get_num_blocks_bonus() + blocks_bonus );
+    u.mod_free_dodges( free_dodges );
 }
 
 int ma_buff::hit_bonus( const Character &u ) const
@@ -1109,31 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>dodge</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+                               dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>dodge</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>dodge</info> per stack",
-                               max_stacks ),
-                    dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
+                               dodges_bonus ) + "\n";
+    }
+
+    if( free_dodges > 0 ) {
+        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+                               free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <good>+%s</good> bonus to <info>block</info> for the stack",
-                               "* Will give a <good>+%s</good> bonus to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+                               blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format(
-                    n_gettext( "* Will give a <bad>%s</bad> penalty to <info>block</info> for the stack",
-                               "* Will give a <bad>%s</bad> penalty to <info>block</info> per stack",
-                               max_stacks ),
-                    blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
+                               blocks_bonus ) + "\n";
     }
 
     if( quiet ) {
@@ -1441,9 +1439,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
     // If we have any items that also provide techniques
-    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+    const std::vector<item_location> tech_providing_items = u.cache_get_items_with(
                 json_flag_PROVIDES_TECHNIQUES );
-    for( const item *it : tech_providing_items ) {
+    for( const item_location &it : tech_providing_items ) {
         const std::set<matec_id> &item_techs = it->get_techniques();
         tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
     }
@@ -2124,10 +2122,10 @@ std::string ma_technique::get_description() const
     dump += string_format( _( condition_desc ) ) + "\n";
 
     if( weighting > 1 ) {
-        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+        dump += string_format( _( "* <info>Greater chance</info> to activate: <stat>+%d%%</stat>" ),
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
-        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+        dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%d</stat>" ),
                                std::abs( weighting ) ) + "\n";
     }
 
@@ -2359,7 +2357,8 @@ void ma_details_ui_impl::init_data()
                     buffs_total++;
                     std::vector<std::string> buff_lines =
                         string_split( replace_colors( buff->get_description( passive ) ), '\n' );
-                    buffs_text[title] = buff_lines;
+                    // Merge our accumulated text into the existing one. There might be more than one buff of this type, so we want to display all of them.
+                    buffs_text[title].insert( buffs_text[title].end(), buff_lines.begin(), buff_lines.end() );
                 }
             }
         };

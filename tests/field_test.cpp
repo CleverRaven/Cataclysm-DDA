@@ -51,7 +51,7 @@ static int count_fields( const field_type_str_id &field_type )
 // or dynamically update their own lifetimes.
 TEST_CASE( "acid_field_expiry_on_map", "[field]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
     // place a smoke field
     for( const tripoint_bub_ms &cursor : m.points_on_zlevel() ) {
@@ -111,7 +111,7 @@ static void fire_duration( const std::string &terrain_type, const time_duration 
     CAPTURE( to_string( minimum ) );
     CAPTURE( to_string( maximum ) );
 
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms fire_loc{ 33, 33, 0 };
     map &m = get_map();
     m.ter_set( fire_loc, ter_id( terrain_type ) );
@@ -164,12 +164,12 @@ static int fields_test_turns()
 static void fields_test_setup()
 {
     fields_test_time_before() = calendar::turn;
-    clear_map();
+    clear_map_without_vision();
 }
 static void fields_test_cleanup()
 {
     calendar::turn = fields_test_time_before();
-    clear_map();
+    clear_map_without_vision();
 }
 
 TEST_CASE( "fd_acid_falls_down", "[field]" )

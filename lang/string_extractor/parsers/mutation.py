@@ -68,3 +68,7 @@ def parse_mutation(json, origin):
 
     for enchantment in json.get("enchantments", []):
         parse_enchant(enchantment, origin)
+
+    if "activation_msg" in json:
+        write_text(json["activation_msg"], origin,
+                   comment=f"Activation message of mutation '{name}'")

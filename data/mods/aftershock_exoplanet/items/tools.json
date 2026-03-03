@@ -540,7 +540,7 @@
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
         "need_charges": 1,
-        "need_charges_msg": "The laptop's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -602,7 +602,7 @@
         "msg": "The holosuite comes to life around you.",
         "menu_text": "power on holosuite",
         "need_charges": 1,
-        "need_charges_msg": "The laptop's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],

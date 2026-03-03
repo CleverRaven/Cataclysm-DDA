@@ -74,3 +74,9 @@ Furthermore, mods which are shipped with the game but are not working correctly 
 If the mod otherwise meets inclusion criteria but lacks a curator (i.e. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in the CleverRaven repository.
+
+## Mods that Modify In-Repo Mods
+
+Mods that modify existing in-repo mods can be accepted for inclusion; however they must still meet the general mod criteria. A modmod must change the core mod it's modifying enough to create a new curated experience with a particular goal. Sorcerer, which changes Magiclysm's magic-learning system from finding and reading books to killing monsters and leveling up, with additional bonuses depending on specific bloodlines, is acceptable. A mod that simply removed owlbears and golems from the forests would not be. In addition, modmods must have maintainers or be subject to removal. 
+
+Finally, modmods must be placed in the `rebalance` mod category. 

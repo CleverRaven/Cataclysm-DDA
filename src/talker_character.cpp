@@ -47,6 +47,7 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 struct bionic;
@@ -131,22 +132,22 @@ int talker_character_const::get_artifact_resonance() const
 
 int talker_character_const::str_cur() const
 {
-    return me_chr_const->str_cur;
+    return me_chr_const->get_str();
 }
 
 int talker_character_const::dex_cur() const
 {
-    return me_chr_const->dex_cur;
+    return me_chr_const->get_dex();
 }
 
 int talker_character_const::int_cur() const
 {
-    return me_chr_const->int_cur;
+    return me_chr_const->get_int();
 }
 
 int talker_character_const::per_cur() const
 {
-    return me_chr_const->per_cur;
+    return me_chr_const->get_per();
 }
 
 int talker_character_const::attack_speed() const
@@ -181,22 +182,22 @@ void talker_character::set_pos( tripoint_abs_ms new_pos )
 
 void talker_character::set_str_max( int value )
 {
-    me_chr->str_max = value;
+    me_chr->set_str_base( value );
 }
 
 void talker_character::set_dex_max( int value )
 {
-    me_chr->dex_max = value;
+    me_chr->set_dex_base( value );
 }
 
 void talker_character::set_int_max( int value )
 {
-    me_chr->int_max = value;
+    me_chr->set_int_base( value );
 }
 
 void talker_character::set_per_max( int value )
 {
-    me_chr->per_max = value;
+    me_chr->set_per_base( value );
 }
 
 void talker_character::set_str_bonus( int value )
@@ -226,22 +227,22 @@ void talker_character::set_cash( int value )
 
 int talker_character_const::get_str_max() const
 {
-    return me_chr_const->str_max;
+    return me_chr_const->get_str_base();
 }
 
 int talker_character_const::get_dex_max() const
 {
-    return me_chr_const->dex_max;
+    return me_chr_const->get_dex_base();
 }
 
 int talker_character_const::get_int_max() const
 {
-    return me_chr_const->int_max;
+    return me_chr_const->get_int_base();
 }
 
 int talker_character_const::get_per_max() const
 {
-    return me_chr_const->per_max;
+    return me_chr_const->get_per_base();
 }
 
 int talker_character_const::get_str_bonus() const
@@ -543,6 +544,11 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
+{
+    return me_chr_const->get_limb_score( score, bp );
+}
+
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    const std::string &bp, bool permanent, bool force,
                                    int intensity )
@@ -761,6 +767,16 @@ int talker_character_const::get_instant_thirst() const
     return me_chr_const->get_instant_thirst();
 }
 
+int talker_character_const::get_oxygen() const
+{
+    return me_chr_const->oxygen;
+}
+
+int talker_character_const::get_oxygen_max() const
+{
+    return me_chr_const->get_oxygen_max();
+}
+
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
@@ -893,9 +909,9 @@ bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
 {
     std::vector<int> rad_vals;
-    me_chr_const->cache_visit_items_with( flag, [&]( const item & it ) {
-        if( me_chr_const->is_worn( it ) || me_chr_const->is_wielding( it ) ) {
-            rad_vals.emplace_back( it.irradiation );
+    me_chr_const->cache_visit_items_with( flag, [&]( const item_location & it ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
         }
     } );
     return aggregate( rad_vals, agg_func );
@@ -957,6 +973,11 @@ void talker_character::mod_livestyle( int amount )
 int talker_character_const::morale_cur() const
 {
     return me_chr_const->get_morale_level();
+}
+
+void talker_character::set_oxygen( int value )
+{
+    me_chr->oxygen = std::clamp( value, 0, get_oxygen_max() );
 }
 
 void talker_character::set_fac_relation( const Character *guy, npc_factions::relationship rule,
@@ -1057,6 +1078,11 @@ void talker_character::set_pkill( int amount )
 int talker_character_const::get_stamina() const
 {
     return me_chr_const->get_stamina();
+}
+
+int talker_character_const::get_stamina_max() const
+{
+    return me_chr_const->get_stamina_max();
 }
 
 void talker_character::set_stamina( int amount )
@@ -1404,6 +1430,11 @@ matec_id talker_character_const::get_random_technique( Creature const &t, bool c
                         dodge_counter,
                         block_counter,
                         blacklist ) );
+}
+
+bool talker_character_const::is_in_vehicle() const
+{
+    return get_map().veh_at( me_chr_const->pos_bub() ).has_value();
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,

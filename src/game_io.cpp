@@ -350,7 +350,7 @@ bool game::load( const save_t &name )
                     u.set_save_id( name.decoded_name() );
 
                     if( world_generator->active_world->has_compression_enabled() ) {
-                        std::optional<zzip> z = zzip::load( ( save_file_path + ".zzip" ).get_unrelative_path() );
+                        std::optional<zzip> z = zzip::load( ( save_file_path + zzip_suffix ).get_unrelative_path() );
                         abort = !z.has_value() ||
                         !read_from_zzip_optional( z.value(), save_file_path.get_unrelative_path().filename(),
                         [this]( std::string_view sv ) {
@@ -475,6 +475,9 @@ bool game::load( const save_t &name )
                     effect_on_conditions::load_existing_character( u );
                     // recalculate light level for correctly resuming crafting and disassembly
                     here.build_map_cache( here.get_abs_sub().z() );
+
+                    set_zoom( uistate.tileset_zoom );
+                    set_overmap_zoom( uistate.overmap_tileset_zoom );
                 }
             },
         }
@@ -596,7 +599,7 @@ bool game::save_player_data()
         std::stringstream save;
         serialize_json( save );
         std::filesystem::path save_path = ( playerfile + SAVE_EXTENSION +
-                                            ".zzip" ).get_unrelative_path();
+                                            zzip_suffix ).get_unrelative_path();
         std::filesystem::path tmp_path = save_path;
         tmp_path.concat( ".tmp" ); // NOLINT(cata-u8-path)
         std::optional<zzip> z = zzip::load( save_path );

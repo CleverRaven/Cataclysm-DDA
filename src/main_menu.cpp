@@ -641,13 +641,31 @@ bool main_menu::opening_screen()
     ui.mark_resize();
 
     if( !queued_world_to_load.empty() ) {
-        save_t const &save_to_load = queued_save_id_to_load.empty() ? world_generator->get_world(
-                                         queued_world_to_load )->world_saves.front() : save_t::from_save_id( queued_save_id_to_load );
-        start = main_menu::load_game( queued_world_to_load, save_to_load );
-        queued_world_to_load.clear();
-        queued_save_id_to_load.clear();
-        if( start ) {
-            load_game = true;
+        WORLD *world_to_load{};
+        try {
+            save_t const &save_to_load = [&]() {
+                if( queued_save_id_to_load.empty() ) {
+                    world_to_load = world_generator->get_world( queued_world_to_load );
+                    const std::vector<save_t> &world_saves = world_to_load->world_saves;
+                    if( world_saves.empty() ) {
+                        throw false;
+                    }
+                    return world_saves.front();
+                }
+                return save_t::from_save_id( queued_save_id_to_load );
+            }
+            ();
+            start = main_menu::load_game( queued_world_to_load, save_to_load );
+            queued_world_to_load.clear();
+            queued_save_id_to_load.clear();
+            if( start ) {
+                load_game = true;
+            }
+        } catch( bool has_save ) {
+            load_game = has_save;
+            if( world_to_load ) {
+                popup( _( "%s has no characters to load!" ), world_to_load->world_name );
+            }
         }
     }
 

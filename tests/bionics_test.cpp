@@ -30,6 +30,7 @@ static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
 static const bionic_id bio_fuel_wood( "bio_fuel_wood" );
+static const bionic_id bio_metabolics( "bio_metabolics" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 // Change to some other weapon CBM if bio_surgical_razor is ever removed
 static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
@@ -556,5 +557,81 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         // Run out of fuel
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 125000 );
+    }
+
+    SECTION( "bio_metabolics" ) {
+        bionic &bio = *dummy.find_bionic_by_uid( dummy.add_bionic( bio_metabolics ) ).value();
+
+        // Set stored energy below safe threshold (80%)
+        // There should be no fuel available, can't turn bionic on and no power is produced
+        int kcal_threshold = static_cast<int>( 0.8f * dummy.get_healthy_kcal() );
+        int kcal_bad = kcal_threshold - 1;
+        dummy.set_stored_kcal( kcal_bad );
+        REQUIRE( dummy.get_stored_kcal( ) == kcal_bad );
+        CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Set stored energy 2 kcal above safe threshold. Bionic turns on and produces power
+        int kcal_good = kcal_threshold + 2;
+        dummy.set_stored_kcal( kcal_good );
+        REQUIRE( dummy.get_stored_kcal( ) == kcal_good );
+        CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 1046 );
+        CHECK( dummy.get_stored_kcal( ) == kcal_good - 1 );
+
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 2092 );
+        CHECK( dummy.get_stored_kcal( ) == kcal_good - 2 );
+
+        // Stored energy goes below safe level. Bionic turns off for safety.
+        dummy.suffer();
+        CHECK_FALSE( dummy.deactivate_bionic( bio ) );
+    }
+
+    SECTION( "bio_fuel_cell_gasoline_no_shutdown" ) {
+        bionic &bio = *dummy.find_bionic_by_uid( dummy.add_bionic( bio_fuel_cell_gasoline ) ).value();
+        item_location gasoline_tank = dummy.top_items_loc().front();
+        bio.auto_shutdown = false;
+
+        // There should be no fuel available, can turn bionic on and off but no power is produced
+        CHECK( dummy.get_bionic_fuels( bio.id ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        CHECK( dummy.deactivate_bionic( bio ) );
+        REQUIRE( !dummy.has_power() );
+
+        // Add fuel. Now it turns on and generates power.
+        item gasoline = item( fuel_type_gasoline );
+        gasoline.charges = 2;
+        CHECK( gasoline_tank->can_reload_with( gasoline, true ) );
+        gasoline_tank->put_in( gasoline, pocket_type::CONTAINER );
+        REQUIRE( gasoline_tank->only_item().charges == 2 );
+        CHECK( dummy.activate_bionic( bio ) );
+        CHECK_FALSE( dummy.get_bionic_fuels( bio.id ).empty() );
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 8550 );
+        CHECK( gasoline_tank->only_item().charges == 1 );
+
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 17100 );
+        CHECK( gasoline_tank->empty_container() );
+
+        // Run out of fuel. Bionic stays on and can be deactivated manually.
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 17100 );
+        CHECK( dummy.deactivate_bionic( bio ) );
     }
 }

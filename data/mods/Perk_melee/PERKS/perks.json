@@ -48,6 +48,16 @@
   },
   {
     "type": "mutation",
+    "id": "MELEE_PERK_UNDODGING",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Unyielding" },
+    "description": "You might choose to stop dodging attacks.  Activate to toggle this behavior.",
+    "flags": "MELEE_PERK_MOVING_UNDODGING",
+    "active": true,
+    "enchantments": [ "melee_perk_ench_undodging" ]
+  },
+  {
+    "type": "mutation",
     "id": "MELEE_PERK_RIPOSTE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Counter Strikes" },
@@ -62,15 +72,6 @@
     "description": "You have an extra block attempt per turn.",
     "flags": "MELEE_PERK_BLOCK",
     "enchantments": [ { "values": [ { "value": "BONUS_BLOCK", "add": 1 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "MELEE_PERK_SHRUG_OFF",
-    "copy-from": "MELEE_PERK_BASE",
-    "name": { "str": "Shrug it off" },
-    "description": "Automatically block the first attack that hits you every 15 turns.",
-    "flags": "MELEE_PERK_SHRUG_OFF",
-    "enchantments": [ "melee_perk_ench_shrug_off" ]
   },
   {
     "type": "mutation",

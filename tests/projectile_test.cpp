@@ -52,7 +52,7 @@ static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> 
 
 TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
 
@@ -95,7 +95,7 @@ static npc &liquid_projectiles_setup( Character &player )
 {
     clear_avatar();
     clear_npcs();
-    clear_map();
+    clear_map_without_vision();
 
     arm_shooter( player, itype_boomer_head );
     const tripoint_bub_ms next_to = player.adjacent_tile();

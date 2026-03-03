@@ -1,0 +1,19 @@
+[
+  {
+    "type": "construction",
+    "id": "app_battery_car_assembly",
+    "group": "place_car_battery_assembly",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 3 ] ],
+    "time": "25 m",
+    "components": [ [ [ "battery_car_assembly", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_car_battery_assembly",
+    "name": "Place Car Battery Assembly"
+  }
+]

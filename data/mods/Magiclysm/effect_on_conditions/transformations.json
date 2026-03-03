@@ -23,7 +23,6 @@
                   { "npc_set_flag": "SEMITANGIBLE" },
                   { "npc_set_flag": "UNRESTRICTED" },
                   { "npc_set_flag": "INTANGIBLE_ARMOR" },
-                  { "npc_set_flag": "NO_TAKEOFF" },
                   { "npc_set_flag": "UNBREAKABLE" }
                 ]
               }
@@ -47,7 +46,6 @@
               { "npc_unset_flag": "SEMITANGIBLE" },
               { "npc_unset_flag": "INTANGIBLE_ARMOR" },
               { "npc_unset_flag": "UNRESTRICTED" },
-              { "npc_unset_flag": "NO_TAKEOFF" },
               { "npc_unset_flag": "SHAPESHIFTED_ARMOR" },
               { "npc_unset_flag": "UNBREAKABLE" }
             ]
@@ -77,7 +75,7 @@
                     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
@@ -122,7 +120,7 @@
                     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivated",
                     "condition": { "u_has_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
@@ -191,7 +189,7 @@
                     "id": "EOC_DRUID_SHIFTER_COUGAR_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
@@ -228,7 +226,7 @@
                     "id": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivated",
                     "condition": { "u_has_trait": "DRUID_SHIFTER_COUGAR_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       {
                         "u_message": "Your body shifts and your fur disappears as you return to your humanoid form.",
                         "type": "neutral"
@@ -292,7 +290,7 @@
                     "id": "EOC_DRUID_SHIFTER_DEER_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
@@ -337,7 +335,7 @@
                     "id": "EOC_DRUID_SHIFTER_DEER_FORM_deactivated",
                     "condition": { "u_has_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       {
                         "u_message": "Your body shifts and your fingers separate as you return to your humanoid form.",
                         "type": "neutral"
@@ -406,7 +404,7 @@
                     "id": "EOC_DRUID_SHIFTER_RAVEN_FORM_activated_3",
                     "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       { "math": [ "u_val('mana') -= 50" ] },
                       { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
                       { "math": [ "u_preshift_size = u_val('size')" ] },
@@ -455,7 +453,7 @@
                     "id": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivated",
                     "condition": { "u_has_trait": "DRUID_SHIFTER_RAVEN_FORM_TRAITS" },
                     "effect": [
-                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+                      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "2.5" ] } },
                       {
                         "u_message": "Your body shifts and changes and you return to your humanoid form.",
                         "type": "neutral"

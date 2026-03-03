@@ -1,0 +1,12 @@
+[
+  {
+    "id": "GROUP_ALIEN_MEADOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
+  },
+  {
+    "id": "GROUP_ALIEN_TRAP_TREE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
+  }
+]

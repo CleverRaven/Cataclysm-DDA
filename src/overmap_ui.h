@@ -15,12 +15,12 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
-#include "input_context.h"
 #include "map_scale_constants.h"
 #include "point.h"
 #include "string_id.h"
 
 class ui_adaptor;
+class input_context;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
@@ -107,6 +107,17 @@ void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container
 std::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
                                  bool random = false );
 
+void range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
+                 const std::string &message = "Y;X: MAX RANGE" );
+
+void line_mark(
+    const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes = true,
+    const std::string &message = "R;X: PATH" );
+
+void path_mark(
+    const std::vector<tripoint_abs_omt> &note_pts, bool add_notes = true,
+    const std::string &message = "R;X: PATH" );
+
 void force_quit();
 } // namespace omap
 
@@ -146,11 +157,8 @@ struct overmap_draw_data_t {
     tripoint_abs_omt cursor_pos = tripoint_abs_omt( -1, -1, -1 );
     //the UI adaptor for the overmap; this can keep the overmap displayed while turns are processed
     std::shared_ptr<ui_adaptor> ui;
-    input_context ictxt;
 
-    overmap_draw_data_t() {
-        ictxt = input_context( "OVERMAP" );
-    }
+    overmap_draw_data_t() = default;
 };
 
 #if defined(TILES)
@@ -171,6 +179,7 @@ bool is_generated_omt( const point_abs_omt &omp );
 class overmap_sidebar : public cataimgui::window
 {
         overmap_ui::overmap_draw_data_t &draw_data;
+        const input_context &ictxt;
         //uses input context to print a keybind hint
         void draw_sidebar_text( const std::string_view &original_text, const nc_color &color );
         void print_hint( const std::string &action, nc_color color = c_magenta );
@@ -183,7 +192,7 @@ class overmap_sidebar : public cataimgui::window
     public:
         int width = 0;
         int x_pos = 0;
-        explicit overmap_sidebar( overmap_ui::overmap_draw_data_t &data );
+        overmap_sidebar( overmap_ui::overmap_draw_data_t &data, const input_context &ictxt );
 
         void init();
         void draw_controls() override;

@@ -32,6 +32,6 @@ ifdef LOCALE_DIR
 endif
 
 clean:
-	rm -rf $(MO_DIR)
+	find mo -type d -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
 .PHONY: all list_po list_mo clean

@@ -15,6 +15,7 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -155,6 +156,11 @@ enum class type : int {
     west,
     last
 };
+
+inline auto format_as( type t )
+{
+    return static_cast<std::underlying_type_t<type>>( t );
+}
 
 /** For the purposes of iteration. */
 const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
@@ -587,8 +593,6 @@ struct oter_t {
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }
-
-        bool is_hardcoded() const;
 
         bool is_rotatable() const {
             return type->is_rotatable();

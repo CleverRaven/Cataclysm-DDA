@@ -778,7 +778,7 @@
     "components": "spell_components_druid_bandage",
     "shape": "blast",
     "base_casting_time": 400,
-    "base_energy_cost": 450,
+    "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "min_duration": 48000,
     "max_duration": 720000,

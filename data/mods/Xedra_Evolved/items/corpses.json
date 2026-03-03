@@ -40,6 +40,19 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_bitebot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken bitebot",
+    "category": "other",
+    "description": "A broken bitebot.  Total scrap, but some stuff is still useful.",
+    "material": [ "lc_steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
     "id": "broken_exodii_quad_jotunn",
     "symbol": ",",
     "color": "light_gray",

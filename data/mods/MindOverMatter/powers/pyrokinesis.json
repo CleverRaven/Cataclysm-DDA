@@ -37,7 +37,7 @@
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SPLIT_DAMAGE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "condition": {
+    "target_condition": {
       "or": [
         { "and": [ "npc_is_monster", { "npc_has_effect": "onfire" } ] },
         {

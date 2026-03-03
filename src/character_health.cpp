@@ -61,6 +61,7 @@
 #include "morale.h"
 #include "move_mode.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -162,6 +163,7 @@ static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BIONIC_SHOCKPROOF( "BIONIC_SHOCKPROOF" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -169,7 +171,11 @@ static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_NO_BODY_HEAT( "NO_BODY_HEAT" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
@@ -179,6 +185,8 @@ static const limb_score_id limb_score_vision( "vision" );
 
 static const morale_type morale_cold( "morale_cold" );
 static const morale_type morale_hot( "morale_hot" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
@@ -203,6 +211,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -446,7 +455,7 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // Previously calculated as 2_gram * std::max( 1, get_str() )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
@@ -594,6 +603,50 @@ void Character::calc_discomfort()
     for( const bodypart_id &bp : worn.where_discomfort( *this ) ) {
         if( bp->feels_discomfort ) {
             add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
+    }
+}
+
+void Character::apply_murder_penalties( Creature *victim )
+{
+    Character &player_character = get_player_character();
+    // Currently no support for handling anyone else's murdering
+    cata_assert( this == &player_character );
+    if( !victim || !victim->is_dead_state() || victim->get_killer() != &player_character ) {
+        return; // Nothing to do here
+    }
+    if( player_character.has_trait( trait_PACIFIST ) ) {
+        add_msg( _( "A cold shock of guilt washes over you." ) );
+        player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
+    }
+    if( victim->as_monster() || ( victim->as_npc() && victim->as_npc()->hit_by_player ) ) {
+        int morale_effect = -90;
+        // Just because you like eating people doesn't mean you love killing innocents
+        if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
+            morale_effect = std::min( 0, morale_effect + 50 );
+        } // Pacifists double dip on penalties if they kill an innocent
+        if( player_character.has_trait( trait_PACIFIST ) ) {
+            morale_effect -= 15;
+        }
+        if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
+            player_character.has_flag( json_flag_SAPIOVORE ) ||
+            player_character.has_flag( json_flag_NUMB ) ) {
+            morale_effect = 0;
+        } // only god can juge me
+        if( player_character.has_flag( json_flag_SPIRITUAL ) &&
+            !player_character.has_flag( json_flag_PSYCHOPATH ) &&
+            !player_character.has_flag( json_flag_SAPIOVORE ) &&
+            !player_character.has_flag( json_flag_NUMB ) ) {
+            add_msg( _( "You feel ashamed of your actions." ) );
+            morale_effect -= 10;
+        }
+        cata_assert( morale_effect <= 0 );
+        if( morale_effect == 0 ) {
+            // No morale effect
+        } else if( morale_effect <= -50 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 14_days, 7_days );
+        } else if( morale_effect > -50 && morale_effect < 0 ) {
+            player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
 }
@@ -783,6 +836,9 @@ int Character::get_stored_kcal() const
 
 int Character::kcal_speed_penalty() const
 {
+    if( !needs_food() ) {
+        return 0;
+    }
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
             std::make_pair( character_weight_category::emaciated, -50.f ),
@@ -812,7 +868,7 @@ std::string Character::debug_weary_info() const
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Sleepiness: %d Morale: %d Wgt: %d (BMI %.1f)",
+    return string_format( "Weariness: %d Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Sleepiness: %d Morale: %d Wgt: %d (BMI %.1f)",
                           amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
                           get_stored_kcal(), get_healthy_kcal(), sleepiness, morale, weight, bmi );
 }
@@ -1150,7 +1206,20 @@ void Character::regen( int rate_multiplier )
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
     if( heal_rate > 0.0f ) {
-        healall( roll_remainder( rate_multiplier * heal_rate ) );
+        int healing_apply = roll_remainder( rate_multiplier * heal_rate );
+        if( healing_apply > 0 ) {
+            for( const bodypart_id &healed_part : get_all_body_parts() ) {
+                int part_healing = std::min( healing_apply,
+                                             get_part_hp_max( healed_part ) - get_part_hp_cur( healed_part ) );
+                if( part_healing > 0 ) {
+                    mod_part_healed_total( healed_part, part_healing );
+                    heal( healed_part, part_healing );
+                    // Consume 1 "health" for every Hit Point healed via non-medicine healing.
+                    // Using medicine reduces the ratio of health consumed to damage healed.
+                    mod_daily_health( -part_healing, -200 );
+                }
+            }
+        }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
@@ -1398,6 +1467,9 @@ void Character::update_needs( int rate_multiplier )
                 if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed ) ) {
                     recovered *= .5;
                 }
+                if( has_effect( effect_melatonin ) ) {
+                    recovered *= .8;
+                }
                 mod_sleepiness( -recovered );
 
                 // Sleeping on the ground, no bionic = 1x rest_modifier
@@ -1408,10 +1480,6 @@ void Character::update_needs( int rate_multiplier )
                 // Sleeping on a bed, bionic         = 6x rest_modifier
                 // Sleeping on a comfy bed, bionic   = 9x rest_modifier
                 float rest_modifier = ( has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ? 3 : 1 );
-                // Melatonin supplements also add a flat bonus to recovery speed
-                if( has_effect( effect_melatonin ) ) {
-                    rest_modifier += 1;
-                }
 
                 const int comfort = get_comfort_at( pos_bub() ).comfort;
                 if( comfort >= comfort_data::COMFORT_VERY_COMFORTABLE ) {
@@ -1440,6 +1508,7 @@ void Character::update_needs( int rate_multiplier )
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
+
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
         !lying ) {
         if( !activity ) {
@@ -1449,7 +1518,6 @@ void Character::update_needs( int rate_multiplier )
             g->cancel_activity_query( _( "You're feeling tired." ) );
         }
     }
-
     if( current_stim < 0 ) {
         set_stim( std::min( current_stim + rate_multiplier, 0 ) );
     } else if( current_stim > 0 ) {
@@ -1678,7 +1746,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
-            if( one_in( 50 + int_cur ) ) {
+            if( one_in( 50 + get_int() ) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
@@ -1688,7 +1756,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
-            if( one_in( 100 + int_cur ) ) {
+            if( one_in( 100 + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
         } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
@@ -1733,10 +1801,10 @@ void Character::check_needs_extremes()
             }
             // else you pass out for 20 hours, guaranteed
 
-            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + get_int()) at lethal sleep deprivation)
             // Note: these can coexist with sleepiness-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
 
@@ -1746,7 +1814,7 @@ void Character::check_needs_extremes()
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
-                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
+                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + get_per() ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
@@ -1962,8 +2030,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     // Sufficiently negative rest quality can completely eliminate your healing, but never turn it negative.
     rate_medicine *= 1.0f + std::max( at_rest_quality, -1.0f );
 
-    // increase healing if character has both effects
-    if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
+    // Increase healing if character has both effects on this body part.
+    if( has_effect( effect_bandaged, bp ) && has_effect( effect_disinfected, bp ) ) {
         rate_medicine *= 1.25;
     }
 
@@ -2801,6 +2869,11 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     const map &here = get_map();
 
+    // If we actually know the source, and the source is the player, flag the NPC as being unjustly attacked
+    if( is_npc() && source && source == &get_player_character() && !as_npc()->guaranteed_hostile() ) {
+        as_npc()->hit_by_player = true;
+    }
+
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( body_part_head ) < 25 ||
           get_part_hp_cur( body_part_torso ) < 15 ) ) {
@@ -3145,7 +3218,8 @@ stat_mod Character::get_weight_penalty() const
 {
     stat_mod ret;
     const float bmi = get_bmi_fat();
-    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) * str_max );
+    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) *
+                               get_str_base() );
     ret.dexterity = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
     ret.intelligence = ret.dexterity;
     return ret;

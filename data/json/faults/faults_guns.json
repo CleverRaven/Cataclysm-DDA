@@ -49,6 +49,13 @@
     "flags": [ "OVERHEATED_GUN" ]
   },
   {
+    "id": "fault_overheat_forced_safety",
+    "type": "fault",
+    "name": { "str": "Overheat Protection" },
+    "description": "This weapon will enter a cooling cycle when overheated.",
+    "flags": [ "OVERHEATED_GUN" ]
+  },
+  {
     "id": "fault_fail_to_feed",
     "type": "fault",
     "//": "gun_mechanical_simple can be fixed on the fly",

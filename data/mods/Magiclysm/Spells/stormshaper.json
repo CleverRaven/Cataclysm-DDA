@@ -74,7 +74,7 @@
     "id": "lightning_bolt",
     "type": "SPELL",
     "name": "Lightning Bolt",
-    "description": "The go-to spell for many Stormshapers, this iconic spell does just what you expect: shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
+    "description": "An iconic Stormshaper spell in the popular mind, this iconic spell does just what you expect: shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "ally", "hostile", "ground" ],

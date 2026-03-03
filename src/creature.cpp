@@ -348,6 +348,7 @@ void Creature::reset_bonuses()
 {
     num_blocks = 1;
     num_dodges = 1;
+    num_free_dodges = 0;
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
@@ -416,7 +417,8 @@ bool Creature::is_likely_underwater( const map &here ) const
 {
     return is_underwater() ||
            ( has_flag( mon_flag_AQUATIC ) &&
-             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
+             ( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub( here ) ) ) );
 }
 
 bool Creature::hallucination_die( map *here, Creature *killer )
@@ -827,7 +829,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle diff = units::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -1852,9 +1854,10 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
 
     if( !found ) {
         // If we don't already have it then add a new one
-
         // Now we can make the new effect for application
-        effect e( effect_source( source ), &type, dur, bp.id(), permanent, intensity, calendar::turn );
+
+        time_duration duration = permanent ? std::max( dur, 1_seconds ) : dur;
+        effect e( effect_source( source ), &type, duration, bp.id(), permanent, intensity, calendar::turn );
 
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
@@ -2318,6 +2321,11 @@ int Creature::get_num_blocks() const
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
+}
+
+int Creature::get_num_free_dodges() const
+{
+    return num_free_dodges;
 }
 
 int Creature::get_num_blocks_bonus() const

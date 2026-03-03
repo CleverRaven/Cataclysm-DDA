@@ -93,6 +93,7 @@ static const itype_id itype_test_hacksaw( "test_hacksaw" );
 static const itype_id itype_test_hacksaw_elec( "test_hacksaw_elec" );
 static const itype_id itype_test_halligan( "test_halligan" );
 static const itype_id itype_test_halligan_no_nails( "test_halligan_no_nails" );
+static const itype_id itype_test_lockpick( "test_lockpick" );
 static const itype_id itype_test_oxytorch( "test_oxytorch" );
 static const itype_id itype_test_pipe( "test_pipe" );
 static const itype_id itype_test_rag( "test_rag" );
@@ -143,7 +144,8 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         auto safecracking_setup = [&dummy]( int perception,
         int skill_level, bool has_proficiency ) -> void {
-            dummy.per_max = perception;
+            dummy.set_per_base( perception );
+            dummy.set_per_bonus( 0 );
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
@@ -211,7 +213,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
     SECTION( "safecracking tools test" ) {
         map &here = get_map();
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
 
         tripoint_bub_ms safe;
         dummy.setpos( here, safe + tripoint::east );
@@ -314,7 +316,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         };
 
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
 
         tripoint_bub_ms safe;
         dummy.setpos( here, safe + tripoint::east );
@@ -354,7 +356,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     auto test_monster = [&dummy]( bool mon_shearable ) -> monster & {
         monster *mon;
@@ -376,7 +378,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "player without shearing quality" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             REQUIRE( dummy.max_quality( qual_SHEAR ) <= 0 );
@@ -390,7 +392,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "a tool with shearing quality one" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             dummy.i_add( item( itype_test_shears ) );
@@ -407,7 +409,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "an electric tool with shearing quality three" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             item battery( itype_test_battery_disposable );
@@ -419,7 +421,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( &dummy, elec_shears, dummy.pos_bub() );
+            actor->use( &dummy, elec_shears, &get_map(), dummy.pos_bub() );
 
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
@@ -435,7 +437,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "a non shearable animal" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( false );
 
             dummy.i_add( item( itype_test_shears ) );
@@ -455,7 +457,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             map &here = get_map();
 
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             item battery( itype_test_battery_disposable );
@@ -467,7 +469,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( &dummy, elec_shears, dummy.pos_bub() );
+            actor->use( &dummy, elec_shears, &get_map(), dummy.pos_bub() );
 
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
@@ -506,7 +508,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         GIVEN( "a shearable monster" ) {
 
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             dummy.i_add( item( itype_test_shears ) );
@@ -558,7 +560,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "an previously tied shearable monster" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             dummy.i_add( item( itype_test_shears ) );
@@ -579,7 +581,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
 
         GIVEN( "a previously untied shearable monster" ) {
             clear_avatar();
-            clear_map();
+            clear_map_without_vision();
             monster &mon = test_monster( true );
 
             dummy.i_add( item( itype_test_shears ) );
@@ -622,7 +624,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
     SECTION( "boltcut start checks" ) {
         GIVEN( "a tripoint with nothing" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_str_id::NULL_ID() );
@@ -637,7 +639,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with invalid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_t_dirt );
@@ -652,7 +654,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_boltcut1 );
@@ -667,7 +669,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_boltcut1 );
@@ -682,7 +684,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_boltcut1 );
@@ -701,7 +703,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_boltcut1 );
@@ -722,7 +724,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
     SECTION( "boltcut turn checks" ) {
         GIVEN( "player is in mid activity" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_boltcut3 );
@@ -763,7 +765,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
     SECTION( "boltcut finish checks" ) {
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_boltcut1 );
@@ -782,7 +784,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_boltcut1 );
@@ -801,7 +803,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_boltcut2 );
@@ -820,7 +822,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         }
 
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_boltcut2 );
@@ -886,7 +888,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
     SECTION( "hacksaw start checks" ) {
         GIVEN( "a tripoint with nothing" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_str_id::NULL_ID() );
@@ -901,7 +903,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with invalid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_t_dirt );
@@ -916,7 +918,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_hacksaw1 );
@@ -931,7 +933,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_hacksaw1 );
@@ -946,7 +948,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_hacksaw1 );
@@ -965,7 +967,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_hacksaw1 );
@@ -986,7 +988,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
     SECTION( "hacksaw turn checks" ) {
         GIVEN( "player is in mid activity" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_hacksaw3 );
@@ -1028,7 +1030,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
     SECTION( "hacksaw finish checks" ) {
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_hacksaw1 );
@@ -1047,7 +1049,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_hacksaw1 );
@@ -1066,7 +1068,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_hacksaw2 );
@@ -1085,7 +1087,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         }
 
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_hacksaw2 );
@@ -1152,7 +1154,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
     SECTION( "oxytorch start checks" ) {
         GIVEN( "a tripoint with nothing" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_str_id::NULL_ID() );
@@ -1167,7 +1169,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with invalid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_t_dirt );
@@ -1182,7 +1184,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_oxytorch1 );
@@ -1197,7 +1199,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_oxytorch1 );
@@ -1212,7 +1214,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_oxytorch1 );
@@ -1231,7 +1233,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_oxytorch1 );
@@ -1252,7 +1254,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
     SECTION( "oxytorch turn checks" ) {
         GIVEN( "player is in mid activity" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_oxytorch3 );
@@ -1283,7 +1285,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
     SECTION( "oxytorch finish checks" ) {
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_oxytorch1 );
@@ -1302,7 +1304,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_oxytorch1 );
@@ -1321,7 +1323,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_oxytorch2 );
@@ -1340,7 +1342,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         }
 
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_oxytorch2 );
@@ -1416,7 +1418,7 @@ TEST_CASE( "prying", "[activity][prying]" )
 
     SECTION( "prying time tests" ) {
         GIVEN( "a furniture with prying_nails and duration set to 17 seconds " ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             item_location prying_tool = setup_dummy( true );
@@ -1431,7 +1433,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a terrain without prying_nails" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             item_location prying_tool = setup_dummy( true );
@@ -1449,7 +1451,7 @@ TEST_CASE( "prying", "[activity][prying]" )
 
     SECTION( "prying start checks" ) {
         GIVEN( "a tripoint with nothing" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_str_id::NULL_ID() );
@@ -1464,7 +1466,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with invalid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_t_dirt );
@@ -1479,7 +1481,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying1 );
@@ -1494,7 +1496,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_prying1 );
@@ -1509,7 +1511,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying1 );
@@ -1528,7 +1530,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_prying1 );
@@ -1549,7 +1551,7 @@ TEST_CASE( "prying", "[activity][prying]" )
 
     SECTION( "prying finish checks with prying_nails" ) {
         GIVEN( "a tripoint with valid terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying1 );
@@ -1568,7 +1570,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid furniture" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.furn_set( tripoint_bub_ms::zero, furn_test_f_prying1 );
@@ -1589,7 +1591,7 @@ TEST_CASE( "prying", "[activity][prying]" )
 
     SECTION( "prying finish checks without prying_nails" ) {
         GIVEN( "a tripoint with valid impossible to pry open terrain" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying2 );
@@ -1608,7 +1610,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid terrain with a tool that always opens it" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying2 );
@@ -1627,7 +1629,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with valid terrain that will break" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             const tripoint_bub_ms terrain_pos = dummy.pos_bub() + tripoint::north;
@@ -1663,7 +1665,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         }
 
         GIVEN( "a tripoint with a valid terrain with byproducts" ) {
-            clear_map();
+            clear_map_without_vision();
             clear_avatar();
 
             mp.ter_set( tripoint_bub_ms::zero, ter_test_t_prying1 );
@@ -1729,7 +1731,7 @@ TEST_CASE( "edevice", "[activity][edevice]" )
 {
     avatar dummy;
     dummy.set_skill_level( skill_computer, 1 );
-    clear_map();
+    clear_map_without_vision();
     std::vector<item_location> edevice_locs;
     std::vector<item_location> efile_locs;
     std::vector<item_location> copiable_efile_locs;
@@ -1961,7 +1963,12 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( harvest_activity_actor( p ) ),
     [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().pos_abs() ) ); },
     //player_activity( insert_item_activity_actor() ),
-    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().pos_abs() ) ); },
+    [] {
+        Character *dummy = get_avatar().as_character();
+        dummy->wear_item( item( itype_test_backpack ), false );
+        item_location lockpick_location = dummy->i_add( item( itype_test_lockpick, calendar::turn ) );
+        return player_activity( lockpick_activity_actor::use_item( lockpick_location, get_avatar().pos_abs(), *dummy ) );
+    },
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
@@ -1999,7 +2006,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
 static void cleanup( avatar &dummy )
 {
     dummy.inv->clear();
-    clear_map();
+    clear_map_without_vision();
 
     REQUIRE( dummy.activity.get_distractions().empty() );
     REQUIRE( !dummy.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) );
@@ -2022,7 +2029,7 @@ static void update_cache( map &m )
 TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     set_time_to_day();
     scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();

@@ -9,6 +9,7 @@
 #include <string_view>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include <zstd/zstd.h>
 #include <zstd/common/mem.h>
@@ -658,7 +659,7 @@ static int handle_file_contextual( std::filesystem::path const &input_file )
         throw IDK( input_file );
     }
 
-    world_relative_zzip.concat( ".zzip" );
+    world_relative_zzip.concat( kZzipExt );
     return compress_to( world_root / world_relative_zzip, entry_key, world_root / relative_input,
                         dict );
 }

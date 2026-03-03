@@ -93,7 +93,6 @@ static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
@@ -378,11 +377,6 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "BASE", string_format( _( "Contains: %s" ),
                            get_var( "contained_name" ) ) );
     }
-    if( count_by_charges() && !is_food() && !is_medication() &&
-        parts->test( iteminfo_parts::BASE_AMOUNT ) ) {
-        info.emplace_back( "BASE", _( "Amount: " ), "<num>", iteminfo::no_flags,
-                           charges * batch );
-    }
 }
 
 void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
@@ -478,14 +472,14 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 faults += colorize( fault.first.str() + string_format( " (%d, %d%%)\n", fault.second,
                                     weight_percent ), has_fault( fault.first ) ? c_yellow : c_white );
             }
-            info.emplace_back( "BASE", string_format( "faults: %s", faults ) );
+            info.emplace_back( "BASE", string_format( _( "faults: %s" ), faults ) );
 
             units::mass sum_of_components_weight;
             for( const item_comp &c : get_uncraft_components() ) {
                 sum_of_components_weight += c.type->weight * c.count;
             }
-            info.emplace_back( "BASE", string_format( "weight of uncraft components: %s grams",
-                               to_gram( sum_of_components_weight ) ) );
+            info.emplace_back( "BASE", string_format( _( "weight of uncraft components: %d grams" ),
+                               static_cast<int>( std::round( to_gram( sum_of_components_weight ) ) ) ) );
         }
     }
 }
@@ -834,6 +828,70 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
     insert_separation_line( info );
 }
 
+
+
+static std::string ammo_by_barrel_info( const islot_ammo &ammo )
+{
+    std::string info;
+
+    const units::length small = 150_mm;
+    const units::length medium = 400_mm;
+    const units::length large = 600_mm;
+    const int small_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                 small ).total_damage() ) ;
+    const int medium_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                  medium ).total_damage() ) ;
+    const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                 large ).total_damage() ) ;
+
+    const float small_dispersion = static_cast<int>( ammo.dispersion_considering_length(
+                                       small ) ) / 100.0 ;
+    const float medium_dispersion = static_cast<int>( ammo.dispersion_considering_length(
+                                        medium ) ) / 100.0 ;
+    const float large_dispersion = static_cast<int>( ammo.dispersion_considering_length(
+                                       large ) ) / 100.0 ;
+
+    const bool pellets = ammo.count > 1;
+    const int pellet_count = ammo.count;
+
+    if( small_damage != medium_damage || medium_damage != large_damage ||
+        small_dispersion != medium_dispersion || medium_damage != large_dispersion ) {
+
+        const std::string small_string = string_format( "<info>%d %s</info>",
+                                         convert_length( small ), length_units( small ) );
+        const std::string medium_string = string_format( "<info>%d %s</info>",
+                                          convert_length( medium ), length_units( medium ) );
+        const std::string large_string = string_format( "<info>%d %s</info>",
+                                         convert_length( large ), length_units( large ) );
+        if( pellets ) {
+            const int small_shot_damage =  static_cast<int>( ammo.shot_damage.di_considering_length(
+                                               small ).total_damage() ) * pellet_count ;
+            const int medium_shot_damage =  static_cast<int>( ammo.shot_damage.di_considering_length(
+                                                medium ).total_damage() ) * pellet_count ;
+            const int large_shot_damage =  static_cast<int>( ammo.shot_damage.di_considering_length(
+                                               large ).total_damage() ) * pellet_count ;
+
+            info += string_format( "%s;%s;%s;%s\n", _( "Length" ), _( "Point blank damage" ),
+                                   _( "Total" ), _( "Dispersion" ) );
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+                                   small_string, small_damage, small_shot_damage, small_dispersion );
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+                                   medium_string, medium_damage, medium_shot_damage, medium_dispersion );
+            info += string_format( "%s;<color_c_yellow>%d</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
+                                   large_string, large_damage, large_shot_damage, large_dispersion );
+        } else {
+            info += string_format( "%s;%s;%s\n", _( "Length" ), _( "Damage" ), _( "Dispersion" ) );
+            info += string_format( "<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+                                   small_string, small_damage, small_dispersion );
+            info += string_format( "<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA\n",
+                                   medium_string, medium_damage, medium_dispersion );
+            info += string_format( "<color_c_yellow>%s</color>;<color_c_yellow>%d</color>;<color_c_yellow>%.2f</color> MOA",
+                                   large_string, large_damage, large_dispersion );
+        }
+    }
+    return info;
+}
+
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
@@ -852,21 +910,45 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                ammo_data()->nname( ammo_remaining( ) ) );
         }
 
-        const std::string space = "  ";
-        if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
-                info.emplace_back( "AMMO", _( "Damage: " ), "",
-                                   iteminfo::no_newline, ammo.damage.total_damage() );
+        if( ( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 )
+            ||
+            ( !ammo.shot_damage.empty() && ammo.shot_damage.damage_units.front().amount > 0 ) ) {
+            const int ammo_damage = ammo.damage.total_damage();
+            const bool pellets = ammo.count > 1;
+            const int pellet_count = ammo.count;
+            const int pellet_damage = ammo.shot_damage.total_damage();
+
+            if( parts->test( iteminfo_parts::AMMO_DAMAGE_PELLETS ) && pellets ) {
+                // if shotshell, ammo_damage is your point blank damage, and anything further is pellets x damage of a single pellet
+                info.emplace_back( "AMMO", _( "Point blank damage" ), ": <num>",
+                                   iteminfo::no_flags, ammo_damage );
+                info.emplace_back( "AMMO", "damage_per_pellet", _( "<num> per pellet" ),
+                                   iteminfo::no_newline | iteminfo::no_name, pellet_damage );
+                info.emplace_back( "AMMO", ", ", iteminfo::no_newline );
+                info.emplace_back( "AMMO", "amount_of_pellets", _( "<num> pellets" ),
+                                   iteminfo::no_newline | iteminfo::no_name, pellet_count );
+                info.emplace_back( "AMMO", " = ", iteminfo::no_newline );
+            } else if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
+                info.emplace_back( "AMMO", _( "Ranged damage" ), ": ",
+                                   iteminfo::no_newline );
             }
-        } else if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-            const float multiplier = ammo.damage.empty() ? 1.0f
-                                     : ammo.damage.damage_units.front().unconditional_damage_mult;
+
+            if( parts->test( iteminfo_parts::AMMO_DAMAGE_TOTAL ) ) {
+                info.emplace_back( "AMMO", "final_damage", "<num>", iteminfo::no_name,
+                                   pellets ? ( pellet_damage * pellet_count ) : ammo_damage );
+            }
+        }
+
+        const std::string space = "  ";
+        const float multiplier = ammo.damage.empty() ? 1.0f :
+                                 ammo.damage.damage_units.front().unconditional_damage_mult;
+
+        if( multiplier != 1.0f && parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
             info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal,
-                               multiplier );
+                               iteminfo::is_decimal, multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
-            info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
+            info.emplace_back( "AMMO", _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
             info.emplace_back( "AMMO", _( "Range: " ), "<num>" + space,
@@ -887,47 +969,10 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
             info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
-        if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
-            const units::length small = 150_mm;
-            const units::length medium = 400_mm;
-            const units::length large = 600_mm;
-            const int small_damage = static_cast<int>( ammo.damage.di_considering_length(
-                                         small ).total_damage() );
-            const int medium_damage = static_cast<int>( ammo.damage.di_considering_length(
-                                          medium ).total_damage() );
-            const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
-                                         large ).total_damage() );
-            const int small_dispersion = static_cast<int>( ammo.dispersion_considering_length( small ) );
-            const int medium_dispersion = static_cast<int>( ammo.dispersion_considering_length( medium ) );
-            const int large_dispersion = static_cast<int>( ammo.dispersion_considering_length( large ) );
-            if( small_damage != medium_damage || medium_damage != large_damage ||
-                small_dispersion != medium_dispersion || medium_damage != large_dispersion ) {
-                info.emplace_back( "AMMO", _( "Damage and dispersion by barrel length: " ) );
-                const std::string small_string = string_format( " <info>%d %s</info>: ",
-                                                 convert_length( small ),
-                                                 length_units( small ) );
-                info.emplace_back( "AMMO", small_string, _( " damage = <num>" ), iteminfo::no_newline,
-                                   small_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
-                                   iteminfo::no_name | iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   small_dispersion / 100.0 );
-                const std::string medium_string = string_format( " <info>%d %s</info>: ",
-                                                  convert_length( medium ),
-                                                  length_units( medium ) );
-                info.emplace_back( "AMMO", medium_string, _( " damage = <num>" ), iteminfo::no_newline,
-                                   medium_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
-                                   iteminfo::no_name  | iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   medium_dispersion / 100.0 );
-                const std::string large_string = string_format( " <info>%d %s</info>: ",
-                                                 convert_length( large ),
-                                                 length_units( large ) );
-                info.emplace_back( "AMMO", large_string, _( " damage = <num>" ), iteminfo::no_newline,
-                                   large_damage );
-                info.emplace_back( "AMMO", "", _( " dispersion = <num> MOA" ),
-                                   iteminfo::no_name | iteminfo::is_decimal | iteminfo::lower_is_better,
-                                   large_dispersion / 100.0 );
-            }
+        if( ( ammo.damage.has_damage_by_barrel() || ammo.shot_damage.has_damage_by_barrel() ) &&
+            parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
+            info.emplace_back( "AMMO", _( "Damage and dispersion by barrel length: " ) );
+            info.emplace_back( "AMMO", ammo_by_barrel_info( ammo ), iteminfo::is_table );
         }
     }
 
@@ -948,10 +993,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
-    }
-    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
-        parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
-        fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
         if( ammo.recovery_chance <= 75 ) {
@@ -978,6 +1019,57 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
     }
 }
+
+std::string item::print_compatible_mags_or_flags() const
+{
+    std::string display = _( "<bold>Compatible magazines</bold>:" );
+
+    // check magazines
+    std::set<itype_id> mag_compatible = magazine_compatible();
+    if( !mag_compatible.empty() ) {
+        std::set<std::string> compat;
+        std::string mag_names;
+
+        // if variants are on…
+        if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
+            for( const itype_id &i : mag_compatible ) {
+                const std::set<std::string> all_variant_names = i->all_variant_names();
+                // and magazine actually has variants…
+                if( !all_variant_names.empty() ) {
+                    for( const std::string &variant_name : all_variant_names ) {
+                        // print variant names
+                        compat.insert( variant_name );
+                    }
+                } else {
+                    // otherwise print the name of the magazine itself
+                    compat.insert( item::nname( i ) );
+                }
+            }
+            mag_names = enumerate_as_string( compat );
+        } else {
+            // print just item names if variants are turned off
+            const std::vector<itype_id> compat_sorted = sorted_lex( mag_compatible );
+            mag_names = enumerate_as_string( compat_sorted,
+            []( const itype_id & id ) {
+                return item::nname( id );
+            } );
+        }
+        display += _( "\n<bold>Types</bold>: " ) + mag_names;
+    }
+
+    // check flags
+    const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
+    if( !flag_restrictions.empty() ) {
+        const std::string flag_names = enumerate_as_string( flag_restrictions,
+        []( const flag_id & e ) {
+            return e->name();
+        } );
+        display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
+    }
+
+    return display;
+}
+
 
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
@@ -1071,38 +1163,38 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
-        info.emplace_back( "GUN", colorize( _( "Ranged damage" ), c_bold ) + ": ", iteminfo::no_newline );
     }
 
     if( mod->ammo_required() ) {
         // some names are not shown, so no need to translate them
 
         const int gun_damage = loaded_mod->gun_damage( true, false ).total_damage();
-        int pellet_damage = 0;
-        const bool pellets = curammo->ammo->count > 1;
-        if( parts->test( iteminfo_parts::GUN_DAMAGE_PELLETS ) && pellets ) {
-            pellet_damage = loaded_mod->gun_damage( true, true ).total_damage();
 
+        const bool pellets = curammo->ammo->count > 1;
+        const int pellet_count = curammo->ammo->count;
+        const int pellet_damage = loaded_mod->gun_damage( true, true ).total_damage();
+
+        if( parts->test( iteminfo_parts::GUN_DAMAGE_PELLETS ) && pellets ) {
             // if shotgun, gun_damage is your point blank damage, and anything further is pellets x damage of a single pellet
-            info.emplace_back( "GUN", _( "<bold>Point blank damage:</bold> " ), "<num>", iteminfo::no_flags,
-                               gun_damage );
+            info.emplace_back( "GUN", colorize( _( "Point blank damage" ), c_bold ) + ": ", "<num>",
+                               iteminfo::no_flags, gun_damage );
             info.emplace_back( "GUN", "damage_per_pellet", _( "<num> per pellet" ),
                                iteminfo::no_newline | iteminfo::no_name, pellet_damage );
             info.emplace_back( "GUN", ", ", iteminfo::no_newline );
             info.emplace_back( "GUN", "amount_of_pellets", _( "<num> pellets" ),
-                               iteminfo::no_newline | iteminfo::no_name, curammo->ammo->count );
+                               iteminfo::no_newline | iteminfo::no_name, pellet_count );
             info.emplace_back( "GUN", " = ", iteminfo::no_newline );
-        } else {
-
+        } else if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
+            info.emplace_back( "GUN", colorize( _( "Ranged damage" ), c_bold ) + ": ", iteminfo::no_newline );
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             info.emplace_back( "GUN", "final_damage", "<num>",
                                iteminfo::no_newline | iteminfo::no_name,
-                               pellets ? pellet_damage * curammo->ammo->count : gun_damage );
+                               pellets ? ( pellet_damage * pellet_count ) : gun_damage );
         }
     } else {
-        info.emplace_back( "GUN", "final_damage", "<num>", iteminfo::no_newline | iteminfo::no_name,
+        info.emplace_back( "GUN", _( "Ranged damage" ), ": <num>", iteminfo::no_newline,
                            mod->gun_damage( false ).total_damage() );
     }
     info.back().bNewLine = true;
@@ -1200,9 +1292,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
-        info.emplace_back( "GUN", _( "Reload time: " ),
-                           has_flag( flag_RELOAD_ONE ) ? _( "<num> moves per round" ) :
-                           _( "<num> moves" ),
+        info.emplace_back( "GUN", _( "Reload time: " ), _( "<num> moves" ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
     }
 
@@ -1303,28 +1393,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
         if( uses_magazine() ) {
-            // Keep this identical with tool magazines in item::tool_info
-            const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-            const std::string mag_names = enumerate_as_string( compat_sorted,
-            []( const itype_id & id ) {
-                return item::nname( id );
-            } );
-
-            const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-            const std::string flag_names = enumerate_as_string( flag_restrictions,
-            []( const flag_id & e ) {
-                return e->name();
-            } );
-
-            std::string display = _( "<bold>Compatible magazines</bold>:" );
-            if( !compat_sorted.empty() ) {
-                display += _( "\n<bold>Types</bold>: " ) + mag_names;
-            }
-            if( !flag_restrictions.empty() ) {
-                display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
-            }
-
-            info.emplace_back( "DESCRIPTION", display );
+            info.emplace_back( "DESCRIPTION", print_compatible_mags_or_flags() );
         }
     }
 
@@ -1492,7 +1561,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( iternum != 0 ) {
                 mod_loc_str += "; ";
             }
-            mod_loc_str += string_format( "<bold>%s</bold> %s", elem.second, elem.first.name() );
+            mod_loc_str += string_format( "<bold>%d</bold> %s", elem.second, elem.first.name() );
             iternum++;
         }
         mod_loc_str += ".";
@@ -2631,28 +2700,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
         if( parts->test( iteminfo_parts::TOOL_MAGAZINE_COMPATIBLE ) ) {
             if( uses_magazine() ) {
-                // Keep this identical with gun magazines in item::gun_info
-                const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-                const std::string mag_names = enumerate_as_string( compat_sorted,
-                []( const itype_id & id ) {
-                    return item::nname( id );
-                } );
-
-                const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-                const std::string flag_names = enumerate_as_string( flag_restrictions,
-                []( const flag_id & e ) {
-                    return e->name();
-                } );
-
-                std::string display = _( "<bold>Compatible magazines</bold>:" );
-                if( !compat_sorted.empty() ) {
-                    display += _( "\n<bold>Types</bold>: " ) + mag_names;
-                }
-                if( !flag_restrictions.empty() ) {
-                    display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
-                }
-
-                info.emplace_back( "DESCRIPTION", display );
+                info.emplace_back( "DESCRIPTION", print_compatible_mags_or_flags() );
             }
         }
     } else if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
@@ -4203,6 +4251,19 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
 
         } else if( blockname == "contents" ) {
 
+            const use_function *action = type->get_use( "attach_molle" );
+            if( action ) {
+                const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                                  ( action->get_actor_ptr() );
+                const int size = actor->size;
+                const int vacancies = size - get_contents().get_additional_space_used();
+                insert_separation_line( info );
+                info.emplace_back( "CONTAINER",
+                                   _( "* <bold><info>MOLLE-compatible</info> pouches can be attached to this item</bold>." ) );
+                info.emplace_back( "CONTAINER", _( "Total space: " ), _( "<num>.  " ), iteminfo::no_newline, size );
+                info.emplace_back( "CONTAINER", _( "Spare space: " ), _( "<num>." ), iteminfo::no_flags,
+                                   vacancies );
+            }
             contents.info( info, parts );
             contents_info( info, parts, batch, debug );
 

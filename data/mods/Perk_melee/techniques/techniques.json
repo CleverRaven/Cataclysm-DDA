@@ -235,8 +235,8 @@
       { "stat": "damage", "type": "cut", "scale": 0.2 },
       { "stat": "damage", "type": "stab", "scale": 0.2 }
     ],
-    "messages": [ "You slash at the %s as you dodge", "<npcname> slashes at %s as they dodge" ],
-    "eocs": [ "EOC_PERK_DODGE_RETREAT_MANUAL" ],
+    "messages": [ "You slash at  %s as you dodge", "<npcname> slashes at %s as they dodge" ],
+    "eocs": [ "EOC_PERK_DODGE_RETREAT" ],
     "attack_vectors": [ "vector_null" ]
   },
   {
@@ -284,6 +284,27 @@
       "You cleanly transition from your last attack into a powerful finishing strike against %s",
       "<npcname> cleanly transitions their last attack into a powerful finishing strike against %s"
     ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_perk_poise_parry",
+    "name": "Perfect Parry",
+    "required_char_flags_all": [ "MELEE_PERK_POISE_PARRY" ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "weighting": 10000,
+    "condition": { "math": [ "u_poise == 4" ] },
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.1 },
+      { "stat": "damage", "type": "bash", "scale": 0.02 },
+      { "stat": "damage", "type": "cut", "scale": 0.02 },
+      { "stat": "damage", "type": "stab", "scale": 0.02 }
+    ],
+    "eocs": [ "EOC_STAGGER_ATTACK" ],
+    "description": "A quick stunning counter-attack that triggers on blocks or parries.",
+    "condition_desc": "* Requires a full <info>stance meter</info> to trigger on a successful block or parry",
+    "messages": [ "You throw %s off balance with a perfect parry", "<npcname> throws %s off balance with a parry" ],
     "attack_vectors": [ "vector_null" ]
   }
 ]

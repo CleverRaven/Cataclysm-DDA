@@ -368,7 +368,7 @@ TEST_CASE( "npc-board-player-vehicle" )
         GIVEN( given.first ) {
             npc_boarding_test_data &data = given.second;
             g->place_player( data.player_pos );
-            clear_map();
+            clear_map_without_vision();
             map &here = get_map();
             Character &pc = get_player_character();
 
@@ -456,7 +456,7 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( { 60, 60, 0 } );
 
-    clear_map();
+    clear_map_without_vision();
 
     creature_tracker &creatures = get_creature_tracker();
     Character &player_character = get_player_character();
@@ -575,7 +575,7 @@ TEST_CASE( "npc_can_target_player" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -603,7 +603,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -615,6 +615,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
@@ -643,7 +644,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -655,6 +656,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );

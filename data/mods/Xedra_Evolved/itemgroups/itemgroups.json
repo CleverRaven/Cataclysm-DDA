@@ -504,6 +504,13 @@
     "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
   },
   {
+    "id": "mansion_books",
+    "type": "item_group",
+    "copy-from": "mansion_books",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 5 }, { "group": "nether_sorcery_books", "prob": 3 } ] }
+  },
+  {
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",
@@ -516,7 +523,17 @@
       { "item": "spellbook_hedge_psychic_defense", "prob": 3 },
       { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
       { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 },
-      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 }
+      { "item": "spellbook_hedge_abramelin_the_mage", "prob": 1 },
+      { "item": "spellbook_hedge_book_of_raziel", "prob": 1 }
+    ]
+  },
+  {
+    "id": "nether_sorcery_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cold_damage_over_time", "prob": 1 },
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_summon_kreck_pack", "prob": 1 }
     ]
   },
   {
@@ -558,7 +575,6 @@
     "type": "item_group",
     "id": "wyld_candy_wrapper_wyld_20",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper_wyld",
     "entries": [ { "item": "wyld_candy", "container-item": "null", "count": 20 } ]
   },

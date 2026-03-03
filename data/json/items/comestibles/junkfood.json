@@ -1327,7 +1327,6 @@
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "4 days",
-    "container": "can_food",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 89,

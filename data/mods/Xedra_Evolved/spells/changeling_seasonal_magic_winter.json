@@ -186,7 +186,7 @@
     "magic_type": "xe_fey_seasonal_magick_winter",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
     "valid_targets": [ "hostile", "ally" ],
-    "condition": { "and": [ "npc_is_outside", "is_day" ] },
+    "target_condition": { "and": [ "npc_is_outside", "is_day" ] },
     "teachable": false,
     "skill": "deduction",
     "max_level": 1,

@@ -35,7 +35,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <cuchar>
 #include <cwchar>
 #include <cwctype>
 #include <deque>
@@ -84,6 +83,8 @@
 #include <utility>
 #include <vector>
 #include <flatbuffers/flexbuffers.h>
+#include <fmt/format.h>
+#include <fmt/printf.h>
 
 #if defined(_MSC_VER)
 #   include "platform_win.h"

@@ -54,6 +54,11 @@
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
       },
       {
+        "text": "Tell them about the time you hunted down an Exodii worker for the intercom.",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_circuit_safari" } ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
+      },
+      {
         "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
         "condition": { "math": [ "visited_a_portal_dungeon == 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
@@ -104,10 +109,91 @@
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER"
       },
       {
+        "text": "Recall the quiet farmstead, and the terrible tale of being slowly transformed into a creature made of black glass.",
+        "condition": { "u_has_trait": "NOT_GLASS" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Regale the tale of the glowing church and the otherworldly strings.",
+        "condition": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_1" } ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
+      },
+      {
+        "text": "Tell them a story about the dimension of glowing strings…",
+        "condition": { "math": [ "u_string_dimension_visits >= 1" ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_STRING_DIMENSION"
+      },
+      {
+        "text": "Recall the ruins in the woods, and the small, dish-faced creatures dancing behind the fence.",
+        "condition": { "compare_string": [ "yes", { "u_val": "knows_xedra_field_station_2" } ] },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK"
+      },
+      {
+        "text": "Show them the red mp3 player, and tell them, no, really, it TALKS to you, and is leading you somewhere.  You swear.",
+        "condition": { "u_has_item": "mp3_reverberation" },
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_OK" },
+        "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      },
+      {
         "text": "[LIE] Just make something up.",
         "trial": { "type": "LIE", "difficulty": 15 },
         "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE" },
         "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      }
+    ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_STRING_DIMENSION",
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenaries listen carefully as you begin to tell them about your journey into the dimension of glowing strings…",
+    "responses": [
+      {
+        "text": "Tell them all about the sea of black nothingness and the criss-crossing glowing strings, and hope they believe you.",
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE" },
+        "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      },
+      {
+        "text": "Show them the glowing string as you recall the tale of the other world, proving such things exist.",
+        "condition": { "u_has_item": "inert_glowing_string" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell them about the inverted ziggurat, the strange device underground, and the hypercube it housed.  They have to believe it was the only way home!",
+        "condition": { "math": [ "u_string_dimension_ziggurat_exit >= 1" ] },
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE" },
+        "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      },
+      {
+        "text": "Speak about the inverted ziggurat and show them the hypercube that helped you escape.",
+        "condition": { "u_has_item": "string_dimension_hypercube" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Tell them about the inverted metal ziggurat, the hissing doors, and the mummified zombies.  Show them the otherworldly steel equipment to prove your tale.",
+        "condition": {
+          "or": [
+            { "u_has_item": "string_dimension_partigiana_ixwa" },
+            { "u_has_item": "string_dimension_helmet_conical" },
+            { "u_has_item": "string_dimension_chainmail_suit" },
+            { "u_has_item": "string_dimension_mirror_cuirass" }
+          ]
+        },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
+      },
+      {
+        "text": "Also tell them the story of the domed ruin and its undead, cyborg inhabitants.  It's so crazy it has to be true, right?",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_found_string_dimension_exodii" } ] },
+        "trial": { "type": "PERSUADE", "difficulty": 25 },
+        "success": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE" },
+        "failure": { "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BAD" }
+      },
+      {
+        "text": "Recall the story of the domed ruin, and show them the odd, plastic key you recovered from the walking corpse.",
+        "condition": { "u_has_item": "id_exodii_string_dimension" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       }
     ]
   },

@@ -530,12 +530,13 @@
     "id": "IERDE_NO_KNOCKBACK",
     "name": { "str": "The Mountain Does Not Move" },
     "points": 4,
-    "description": "Though the earth shivers and shakes, the mountain stands tall.  The Ierde is immune to knockback.",
+    "description": "Though the earth shivers and shakes, the mountain stands tall.  The Ierde is immune to knockback and can block attacks from a target of any size.",
     "category": [ "IERDE" ],
     "purifiable": false,
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_STR_BONUS_1", "IERDE_STR_BONUS_2", "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ],
+    "flags": [ "BLOCK_HUGE_ATTACKS" ]
   },
   {
     "type": "mutation",

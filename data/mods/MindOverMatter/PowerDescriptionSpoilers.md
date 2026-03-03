@@ -865,6 +865,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Effects*: Excite air molecules and unleash a flash of light, blinding nearby targets for the power's duration.<br />
 *Prerequisites*: Starting power<br />
 </details>
+<details>
 <summary><h3>Intensify Flames</h3></summary>
 
 *Difficulty*: 1<br />

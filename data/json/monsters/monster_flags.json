@@ -30,6 +30,11 @@
     "//": "Stumbles in its movement"
   },
   {
+    "id": "CLUMSY_ATTACKS",
+    "type": "monster_flag",
+    "//": "Has a chance to fall when attacking"
+  },
+  {
     "id": "WARM",
     "type": "monster_flag",
     "//": "Warm blooded"
@@ -153,6 +158,11 @@
     "id": "TRUESIGHT",
     "type": "monster_flag",
     "//": "Monster can see creatures even when they're invisible"
+  },
+  {
+    "id": "PLANT_BLOOD",
+    "type": "monster_flag",
+    "//": "Monster bleeds sap"
   },
   {
     "id": "PERMANENT_INVISIBILITY",
@@ -403,6 +413,11 @@
     "id": "PUSH_VEH",
     "type": "monster_flag",
     "//": "Monsters that can push vehicles out of their way"
+  },
+  {
+    "id": "UNBREAKABLE_MORALE",
+    "type": "monster_flag",
+    "//": "Monsters that will never run not matter how much damage they suffer"
   },
   {
     "id": "NIGHT_INVISIBILITY",
@@ -656,7 +671,7 @@
   {
     "id": "GUILT_HUMAN",
     "type": "monster_flag",
-    "//": "Warning: Do not use without death_guilt function. This helps count the non-npc human (e.g civilian/futile fighter) kills before player goes numb."
+    "//COMMENT": "Killing this monster counts as murdering an NPC. This is a special case, and does not require a death_function. (The effect is hardcoded)"
   },
   {
     "id": "GUILT_OTHERS",
@@ -678,5 +693,20 @@
     "type": "monster_flag",
     "//": "This monster has significant armor, and it is much harder to pulp it without a proper tool",
     "//2": "Rule of thumb: if monster has something like a spine character wants to break, and it is covered by any armor, use this flag"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_X",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the x dimension, for creatures that exist in fewer than 3"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_Y",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the y dimension, for creatures that exist in fewer than 3"
+  },
+  {
+    "id": "ONE_DIMENSIONAL_Z",
+    "type": "monster_flag",
+    "//": "Monsters that exist in the z dimension, for creatures that exist in fewer than 3"
   }
 ]

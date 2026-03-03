@@ -144,6 +144,10 @@ class item_contents
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        // returns all items contained in holster pockets
+        std::list<item *> all_holstered_items();
+        std::list<const item *> all_holstered_items() const;
+
         // returns all the ablative armor in pockets
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;

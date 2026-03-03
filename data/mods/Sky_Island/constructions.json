@@ -101,6 +101,19 @@
   },
   {
     "type": "construction",
+    "id": "wall_to_wood_wall",
+    "group": "wall_to_wood_wall",
+    "category": "OTHER",
+    "components": [ [ [ "warp_wood_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "WALL" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_wall",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "floor_to_flagstone_floor",
     "group": "floor_to_flagstone_floor",
     "category": "OTHER",
@@ -114,6 +127,19 @@
   },
   {
     "type": "construction",
+    "id": "wall_to_stone_wall",
+    "group": "wall_to_stone_wall",
+    "category": "OTHER",
+    "components": [ [ [ "warp_flagstone_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "WALL" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_rock_wall",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "floor_to_sand_floor",
     "group": "floor_to_sand_floor",
     "category": "OTHER",
@@ -123,6 +149,32 @@
     "pre_flags": [ "FLAT" ],
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_sand",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_flesh_floor",
+    "group": "floor_to_flesh_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_flesh_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_thconc_floor_flesh",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "wall_to_flesh_wall",
+    "group": "wall_to_flesh_wall",
+    "category": "OTHER",
+    "components": [ [ [ "warp_flesh_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "WALL" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_concrete_wall_flesh",
     "activity_level": "NO_EXERCISE"
   },
   {
@@ -332,13 +384,33 @@
   },
   {
     "type": "construction_group",
+    "id": "wall_to_wood_wall",
+    "name": "Warp wall into a wood wall"
+  },
+  {
+    "type": "construction_group",
     "id": "floor_to_flagstone_floor",
     "name": "Warp floor into a worked stone floor"
   },
   {
     "type": "construction_group",
+    "id": "wall_to_stone_wall",
+    "name": "Warp wall into a worked stone wall"
+  },
+  {
+    "type": "construction_group",
     "id": "floor_to_sand_floor",
     "name": "Warp floor into fine sand"
+  },
+  {
+    "type": "construction_group",
+    "id": "floor_to_flesh_floor",
+    "name": "Warp floor into living flesh"
+  },
+  {
+    "type": "construction_group",
+    "id": "wall_to_flesh_wall",
+    "name": "Warp wall into living flesh"
   },
   {
     "type": "construction_group",

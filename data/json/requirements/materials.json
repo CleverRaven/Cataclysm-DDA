@@ -191,12 +191,6 @@
     "components": [ [ [ "string_6", 1 ] ] ]
   },
   {
-    "id": "cvd_diamond",
-    "type": "requirement",
-    "//": "Materials required to apply diamond coating (per 250ml volume)",
-    "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
-  },
-  {
     "id": "autoclave",
     "type": "requirement",
     "//": "Materials required to run one cycle of the furniture autoclave",

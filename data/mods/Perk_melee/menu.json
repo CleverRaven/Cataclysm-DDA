@@ -12,6 +12,7 @@
       { "text": "Tempo Techniques.", "topic": "TALK_MA_PERK_MENU_TEMPO" },
       { "text": "Momentum Techniques.", "topic": "TALK_MA_PERK_MENU_MOMENTUM" },
       { "text": "Insight Techniques.", "topic": "TALK_MA_PERK_MENU_INSIGHT" },
+      { "text": "Defensive Stance Techniques.", "topic": "TALK_MA_PERK_MENU_POISE" },
       { "text": "Standalone Techniques.", "topic": "TALK_MA_PERK_MENU_STANDALONE" },
       { "text": "Help.", "topic": "TALK_MA_PERK_MENU_HELP" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -90,7 +91,7 @@
           },
           { "set_string_var": "MELEE_PERK_TEMPO_ASSAULT", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Combat Tempo I",
+            "set_string_var": "Requires Combat Tempo I and Perfect Tempo",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -112,7 +113,7 @@
           },
           { "set_string_var": "MELEE_PERK_TEMPO_ZONING", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Combat Tempo I",
+            "set_string_var": "Requires Combat Tempo I and Perfect Tempo",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -134,7 +135,7 @@
           },
           { "set_string_var": "MELEE_PERK_DUELIST_COMBO", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Combat Tempo I",
+            "set_string_var": "Requires Combat Tempo I and Perfect Tempo",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -533,6 +534,129 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_POISE",
+    "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_POISE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_POISE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_POISE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_POISE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_POISE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_SHRUG_OFF" } },
+        "text": "Learn [<trait_name:MELEE_PERK_SHRUG_OFF>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_SHRUG_OFF>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_SHRUG_OFF>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_SHRUG_OFF", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires defensive stance",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_POISE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_POISE_RECKLESS" } },
+        "text": "Learn [<trait_name:MELEE_PERK_POISE_RECKLESS>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_POISE_RECKLESS>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_POISE_RECKLESS>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_POISE_RECKLESS", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires defensive stance",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_POISE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_POISE_PARRY" } },
+        "text": "Learn [<trait_name:MELEE_PERK_POISE_PARRY>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_POISE_PARRY>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_POISE_PARRY>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_POISE_PARRY", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires defensive stance",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_POISE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_POISE_FOOTWORK" } },
+        "text": "Learn [<trait_name:MELEE_PERK_POISE_FOOTWORK>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_POISE_FOOTWORK>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_POISE_FOOTWORK>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_POISE_FOOTWORK", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires defensive stance",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_POISE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_POISE_MOUNTAIN" } },
+        "text": "Learn [<trait_name:MELEE_PERK_POISE_MOUNTAIN>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_POISE_MOUNTAIN>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_POISE_MOUNTAIN>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_POISE_MOUNTAIN", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires defensive stance",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_POISE" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      { "text": "Go back", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_MA_PERK_MENU_STANDALONE",
     "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
     "responses": [
@@ -622,6 +746,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "MELEE_PERK_RIPOSTE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_UNDODGING" } },
+        "text": "Learn [<trait_name:MELEE_PERK_UNDODGING>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_UNDODGING>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_UNDODGING>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_UNDODGING", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "No Requirements",
             "target_var": { "context_val": "trait_requirement_description" },

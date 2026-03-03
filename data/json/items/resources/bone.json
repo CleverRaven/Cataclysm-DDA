@@ -20,7 +20,7 @@
     "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 3 },
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
-    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP", "PUNCTURE_VEHICLE_WHEELS" ],
     "into": "meal_bone",
     "recipe": "meal_bone_mill_1_4"
   },
@@ -45,7 +45,7 @@
     "melee_damage": { "bash": 15 },
     "calories": 10436,
     "vitamins": [ [ "calcium", "1561750 mg" ], [ "meat_allergen", 1 ] ],
-    "flags": [ "RAW", "INEDIBLE", "NO_TEMP", "DAMAGE_VEHICLE_WHEELS" ]
+    "flags": [ "RAW", "INEDIBLE", "NO_TEMP", "PUNCTURE_VEHICLE_WHEELS" ]
   },
   {
     "type": "ITEM",
@@ -120,7 +120,7 @@
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
     "category": "other",
     "material": [ "bone" ],
-    "flags": [ "TRADER_AVOID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "PUNCTURE_VEHICLE_WHEELS" ],
     "weight": "10 g",
     "volume": "25 ml",
     "qualities": [ [ "COOK", 1 ] ],
@@ -133,7 +133,7 @@
     "abstract": "skull_abstract",
     "name": { "str": "abstract skull", "//~": "NO_I18N" },
     "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
-    "flags": [ "TRADER_AVOID", "DAMAGE_VEHICLE_WHEELS" ],
+    "flags": [ "TRADER_AVOID", "PUNCTURE_VEHICLE_WHEELS" ],
     "category": "other",
     "weight": "1 kg",
     "volume": "1400 ml",

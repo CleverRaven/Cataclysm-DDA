@@ -280,6 +280,9 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                     hp *= 2;
                 }
 
+                if( damage == 0 ) {
+                    return PF_IMPASSABLE;
+                }
                 return 2 * hp / damage + 8 + 4;
             } else {
                 const vehicle_part &vp = veh->part( part );

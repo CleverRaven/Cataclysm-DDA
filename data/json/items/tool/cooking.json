@@ -873,33 +873,6 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "id": "survivor_mess_kit",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "survivor mess kit" },
-    "description": "A homemade mess kit containing everything you might need for creating post-apocalyptic cuisine.  Powered by a kerosene burner, it is composed of simple yet durable tools and materials.",
-    "weight": "2160 g",
-    "volume": "2500 ml",
-    "longest_side": "24 cm",
-    "price": "20 USD",
-    "price_postapoc": "1 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "steel", "glass" ],
-    "symbol": ";",
-    "color": "brown",
-    "sub": "oil_cooker",
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true },
-      { "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true }
-    ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "charges_per_use": 2,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 1 ] ],
-    "use_action": [ "HEAT_ALL_ITEMS" ],
-    "melee_damage": { "bash": 6 },
-    "tool_ammo": [ "lamp_oil" ]
-  },
-  {
     "id": "teapot",
     "type": "ITEM",
     "category": "tools",
@@ -1143,5 +1116,39 @@
     "countdown_interval": "14 days",
     "revert_to": "sugar",
     "flags": [ "NO_SALVAGE", "WATER_DISSOLVE", "SPAWN_ACTIVE" ]
+  },
+  {
+    "id": "metal_honing_rod",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "honing rod" },
+    "description": "A steel rod with fine grit used to hone the edge of knives.",
+    "weight": "76 g",
+    "volume": "250 ml",
+    "longest_side": "30 cm",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "lc_steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "GRIND", 1 ] ],
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "knife_sharpener_handheld",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "handheld knife sharpener" },
+    "description": "A tool with slots of grits for sharpening knives.",
+    "weight": "180 g",
+    "volume": "150 ml",
+    "longest_side": "20 cm",
+    "price": "18 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "lc_steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "GRIND", 1 ] ],
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

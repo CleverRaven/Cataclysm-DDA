@@ -39,7 +39,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms spot( 61, 60, 0 );
-    clear_map();
+    clear_map_without_vision();
     avatar &shooter = get_avatar();
     g->place_critter_at( pseudo_debug_mon, spot );
     shooter.setpos( here, test_origin );
@@ -73,7 +73,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
     CHECK( spent_moves < expected_upper );
 }
 
-TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
+TEST_CASE( "reload_from_inventory_times", "[reload] [inventory] [balance]" )
 {
     // Build a list of gear loadouts ranked by expected firing speed.
     clear_avatar();

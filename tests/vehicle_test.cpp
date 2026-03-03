@@ -40,6 +40,8 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 
+static const flag_id json_flag_PUNCTURE_VEHICLE_WHEELS( "PUNCTURE_VEHICLE_WHEELS" );
+
 static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
 static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
@@ -70,7 +72,7 @@ static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -112,7 +114,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
@@ -135,7 +137,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -208,7 +210,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
@@ -317,7 +319,7 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
         {    0,    0,    0,    0, 4000 },
         { 1000, 1000, 1000, 1000, 3000 },
         { 2000, 2000, 2000, 2000, 2000 },
-        { 2500, 1500, 2500, 1500, 1500 },
+        { 2500, 1500, 2500, 1660, 1500 },
         { 3999, 3999, 3999, 3999,    1 },
     };
 
@@ -348,7 +350,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     // only the part damage is pseudo-random spread, while total damage should
     // round trip well in integers
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     map &m = get_map();
     Character &u = get_player_character();
@@ -471,7 +473,7 @@ static void connect_power_line( const tripoint_bub_ms &src_pos, const tripoint_b
 
 TEST_CASE( "power_cable_stretch_disconnect" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &player_character = get_player_character();
@@ -609,7 +611,7 @@ static void rack_check( const rack_preset &preset )
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     std::vector<vehicle *> vehs;
@@ -771,7 +773,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -823,7 +825,7 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
 TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -859,7 +861,7 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -903,6 +905,18 @@ static vehicle_part *setup_squish_test_return_wheel( map &here, const tripoint_b
     return vp_wheel;
 }
 
+// wrapper around wheel_damage_chance_vs_item(), but also checks
+// if item has flag needed to damage wheel (part of damage_wheel_on_item() now)
+static double wheel_damage_chance_vs_item_test( const vehicle *veh_ptr, const item &test_item,
+        const vehicle_part *vp_wheel )
+{
+    if( !test_item.has_flag( json_flag_PUNCTURE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+
+    return veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+}
+
 static void run_squish_test( const std::map<itype_id, double> &to_squish,
                              const tripoint_bub_ms &test_point, map &here,
                              vehicle *veh_ptr, vehicle_part *vp_wheel )
@@ -914,7 +928,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
         here.i_clear( test_point );
         const item &test_item = here.add_item_or_charges( test_point, item( test_data.first ) );
         REQUIRE( here.i_at( test_point ).size() == 1 );
-        const double damage_chance = veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+        const double damage_chance = wheel_damage_chance_vs_item_test( veh_ptr, test_item, vp_wheel );
         CAPTURE( test_item.typeId().c_str() );
         CAPTURE( expected_chance );
         CAPTURE( damage_chance );
@@ -924,7 +938,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
 
 TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     const tripoint_bub_ms test_point( 60, 60, 0 );
     REQUIRE( !here.veh_at( test_point ) );

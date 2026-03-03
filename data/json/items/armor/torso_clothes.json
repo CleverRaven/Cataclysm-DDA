@@ -1199,7 +1199,7 @@
     "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -2339,7 +2339,7 @@
         "append": true
       }
     ],
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
       {
@@ -2565,7 +2565,7 @@
     "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
   {
     "id": "bunny_suit_playboy",

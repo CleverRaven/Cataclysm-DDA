@@ -1,0 +1,23 @@
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "//": "Extremely powerful human psions are blacklisted.  Tier 2 are not--ferals can use their ferality to get more powerful than the player can",
+    "monsters": [
+      "mon_feral_scientist_psychic",
+      "mon_feral_security_psychic",
+      "mon_mutant_biokinetic_alpha",
+      "mon_transcendant_alpha_psion",
+      "mon_feral_human_bio3",
+      "mon_feral_human_clair3",
+      "mon_feral_human_electrokin3",
+      "mon_feral_human_photokin3",
+      "mon_feral_human_pyrokin3",
+      "mon_feral_human_telekin3",
+      "mon_feral_human_teep3",
+      "mon_feral_human_porter",
+      "mon_feral_human_porter2",
+      "mon_feral_human_porter3",
+      "mon_feral_human_vita3"
+    ]
+  }
+]

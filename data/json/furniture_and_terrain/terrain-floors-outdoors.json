@@ -24,7 +24,8 @@
     "copy-from": "t_natural_floor_abstract",
     "name": "forest floor",
     "description": "Covered in twigs and lots of brown, decaying leaves.",
-    "looks_like": "t_moss"
+    "looks_like": "t_moss",
+    "extend": { "flags": [ "PLOWABLE" ] }
   },
   {
     "type": "terrain",

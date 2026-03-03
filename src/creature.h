@@ -29,6 +29,7 @@
 #include "math_parser_diag_value.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -51,7 +52,6 @@ class monster;
 class nc_color;
 class npc;
 class talker;
-class translation;
 
 namespace enchant_vals
 {
@@ -742,6 +742,7 @@ class Creature : public viewer
          */
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
+        virtual int get_num_free_dodges() const;
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
@@ -1024,7 +1025,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_player( const translation &msg, Args &&... args ) const {
-            return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_player( const game_message_params &params, const char *const msg,
@@ -1048,7 +1049,8 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg.translated(),
+                                      std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_if_npc( const std::string &/*msg*/ ) const {}
@@ -1066,7 +1068,7 @@ class Creature : public viewer
         }
         template<typename ...Args>
         void add_msg_if_npc( const translation &msg, Args &&... args ) const {
-            return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_if_npc( const game_message_params &params, const char *const msg,
@@ -1090,7 +1092,7 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
@@ -1118,8 +1120,9 @@ class Creature : public viewer
         template<typename ...Args>
         void add_msg_player_or_npc( const translation &player_msg, const translation &npc_msg,
                                     Args &&... args ) const {
-            return add_msg_player_or_npc( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_msg.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_npc( const game_message_params &params, const char *const player_msg,
@@ -1145,8 +1148,9 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_msg, std::forward<Args>( args )... ) );
+            return add_msg_player_or_npc( params, string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_msg.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
@@ -1174,8 +1178,9 @@ class Creature : public viewer
         template<typename ...Args>
         void add_msg_player_or_say( const translation &player_msg, const translation &npc_speech,
                                     Args &&... args ) const {
-            return add_msg_player_or_say( string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_speech.translated(), std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
         void add_msg_player_or_say( const game_message_params &params, const char *const player_msg,
@@ -1201,8 +1206,9 @@ class Creature : public viewer
             if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
-                                          string_format( npc_speech, std::forward<Args>( args )... ) );
+            return add_msg_player_or_say( params, string_format( player_msg.translated(),
+                                          std::forward<Args>( args )... ),
+                                          string_format( npc_speech.translated(), std::forward<Args>( args )... ) );
         }
 
         virtual std::vector<std::string> extended_description() const = 0;
@@ -1254,6 +1260,8 @@ class Creature : public viewer
 
         int num_blocks = 0; // base number of blocks/dodges per turn
         int num_dodges = 0;
+        // Total number of free dodges available per turn. Only available as "bonus".
+        int num_free_dodges = 0;
         int num_blocks_bonus = 0; // bonus ""
         int num_dodges_bonus = 0;
 

@@ -20,7 +20,7 @@
     "loudness": 0,
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 98,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "effects": [ "NON_FOULING" ],
     "melee_damage": { "bash": 7 }
   },
   {

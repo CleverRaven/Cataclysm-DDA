@@ -201,6 +201,7 @@ struct bionic {
         char        invlet  = 'a';
         bool        powered = false;
         bool        show_sprite = true;
+        bool        auto_shutdown = true;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
 

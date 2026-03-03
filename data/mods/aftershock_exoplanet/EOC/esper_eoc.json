@@ -214,7 +214,13 @@
         { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
       ]
     },
-    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent') += rand(4) / 24" ] } ],
+    "effect": [
+      {
+        "math": [
+          "u_proficiency('prof_concentration_basic', 'format': 'percent') += ( ( rand(4) / 24) * game_option('PROFICIENCY_TRAINING_SPEED') )"
+        ]
+      }
+    ],
     "//": "adds 0% - 0.16% experience per run",
     "false_effect": {
       "run_eocs": [
@@ -226,7 +232,13 @@
               { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
             ]
           },
-          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent') += rand(4) / 48" ] } ],
+          "effect": [
+            {
+              "math": [
+                "u_proficiency('prof_concentration_intermediate', 'format': 'percent') += ( ( rand(4) / 48) * game_option('PROFICIENCY_TRAINING_SPEED') )"
+              ]
+            }
+          ],
           "false_effect": {
             "run_eocs": [
               {
@@ -237,7 +249,13 @@
                     { "math": [ "u_vitamin('vitamin_afs_maintained_powers') > 0" ] }
                   ]
                 },
-                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent') += rand(4) / 96" ] } ]
+                "effect": [
+                  {
+                    "math": [
+                      "u_proficiency('prof_concentration_master', 'format': 'percent') += ( ( rand(4) / 96 ) * game_option('PROFICIENCY_TRAINING_SPEED') )"
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -267,7 +285,11 @@
     "effect": [
       { "u_message": "Your concentration breaks!", "type": "bad" },
       { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] },
-      { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += (35 * u_latest_channeled_power_difficulty)" ] }
+      {
+        "math": [
+          "u_skill_exp('metaphysics', 'format': 'raw') += (35 * u_latest_channeled_power_difficulty * game_option('SKILL_TRAINING_SPEED'))"
+        ]
+      }
     ],
     "false_effect": [
       {
@@ -388,7 +410,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
-    "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw') += 150 * u_latest_channeled_power_difficulty" ] } ]
+    "effect": [
+      {
+        "math": [
+          "u_skill_exp('metaphysics', 'format': 'raw') += 150 * u_latest_channeled_power_difficulty * game_option('SKILL_TRAINING_SPEED')"
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

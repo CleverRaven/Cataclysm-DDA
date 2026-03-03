@@ -18,7 +18,7 @@
       "msg": "You activate your %s.",
       "target": "afs_magellan_suit_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -109,7 +109,7 @@
       "msg": "You activate your %s.",
       "target": "afs_frontier_cryo_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -197,7 +197,7 @@
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -267,7 +267,7 @@
       "msg": "You activate your %s.",
       "target": "afs_combat_cryo_on_xl",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -317,7 +317,7 @@
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
       "need_charges": 5,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "warmth": 20,
     "environmental_protection": 10,

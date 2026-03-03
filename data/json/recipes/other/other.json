@@ -43,6 +43,14 @@
     "components": [ [ [ "cardboard", 10 ] ] ]
   },
   {
+    "result": "deck_of_tarot_cards",
+    "copy-from": "deck_of_cards_deck_of_cards_makeshift",
+    "variant": "makeshift",
+    "type": "recipe",
+    "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
+    "components": [ [ [ "cardboard", 10 ] ] ]
+  },
+  {
     "result": "outfit_storage",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

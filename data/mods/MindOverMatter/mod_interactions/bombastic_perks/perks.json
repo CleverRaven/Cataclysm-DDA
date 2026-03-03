@@ -25,7 +25,12 @@
     "purifiable": false,
     "valid": false,
     "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep, or perhaps your wakeful meditations have made the process of sleeping more efficient.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
-    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_biokin_metabolism_enhance" } },
+        "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -77,6 +82,15 @@
     "description": "Your Premonition ability has developed to such a level that you can sense movement around you even when you sleep.",
     "active": true,
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_mind_cry",
+    "name": { "str": "Mindcry" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your telepathic powers can sometimes go out of control when you're hurt.  You have a 1% chance to let out a Psychic Scream if you take damage when you have 10 or more pain."
   },
   {
     "//": "Playstyle perks begin here",

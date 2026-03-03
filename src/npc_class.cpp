@@ -268,6 +268,8 @@ void npc_class::load( const JsonObject &jo, std::string_view )
               shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
               shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, SHOPKEEPER_WHITELIST, shop_whitelist_id,
+              shopkeeper_whitelist_id::NULL_ID() );
     optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
@@ -396,6 +398,15 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
         return null_blacklist;
     }
     return shop_blacklist_id.obj();
+}
+
+const shopkeeper_whitelist &npc_class::get_shopkeeper_whitelist() const
+{
+    if( shop_whitelist_id.is_null() ) {
+        shopkeeper_whitelist static const null_whitelist;
+        return null_whitelist;
+    }
+    return shop_whitelist_id.obj();
 }
 
 faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const

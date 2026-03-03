@@ -152,7 +152,7 @@ satisfied:
 
 - The `player_activity::moves_left` is decreased in `do_turn`
 
-- The the activity is stopped in `do_turn`  (see 'Termination' above)
+- The activity is stopped in `do_turn`  (see 'Termination' above)
 
 For example, `move_items_activity_actor::do_turn` will either move as
 many items as possible given the character's current moves or, if there

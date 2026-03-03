@@ -632,7 +632,11 @@
     ],
     "death_drops": {
       "subtype": "collection",
-      "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_druid_death_drops", "prob": 100 } ]
+      "items": [
+        { "group": "enchanted_combat_items", "prob": 30 },
+        { "item": "rune_druid_nature_staff", "prob": 15 },
+        { "group": "mon_feral_druid_death_drops", "prob": 100 }
+      ]
     },
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1179,52 +1183,6 @@
     "extend": {
       "special_attacks": [
         {
-          "id": "feral_technomancer_summon_mage_blade",
-          "type": "spell",
-          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
-          "cooldown": 40,
-          "condition": {
-            "and": [
-              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_effect": "maimed_arm" } }
-            ]
-          },
-          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
-        },
-        {
-          "id": "feral_technomancer_summon_mage_armor",
-          "type": "spell",
-          "spell_data": { "id": "feral_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
-          "cooldown": 40,
-          "condition": {
-            "and": [
-              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_effect": "maimed_arm" } }
-            ]
-          },
-          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
-        },
-        {
-          "type": "monster_attack",
-          "attack_type": "melee",
-          "id": "feral_technomancer_mageblade_attack",
-          "cooldown": 2,
-          "move_cost": 100,
-          "accuracy": 5,
-          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 20 } ],
-          "condition": { "and": [ { "u_has_effect": "effect_feral_technomancer_mage_blade" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
-          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
-          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
-          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
-          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
-          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
-          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
-        },
-        {
           "id": "feral_technomancer_lase",
           "type": "spell",
           "spell_data": { "id": "feral_laze", "min_level": 2 },
@@ -1265,52 +1223,6 @@
     },
     "extend": {
       "special_attacks": [
-        {
-          "id": "feral_high_technomancer_summon_mage_blade",
-          "type": "spell",
-          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
-          "cooldown": 40,
-          "condition": {
-            "and": [
-              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_effect": "maimed_arm" } }
-            ]
-          },
-          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
-        },
-        {
-          "id": "feral_high_technomancer_summon_mage_armor",
-          "type": "spell",
-          "spell_data": { "id": "feral_high_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
-          "cooldown": 40,
-          "condition": {
-            "and": [
-              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "not": { "u_has_effect": "maimed_arm" } }
-            ]
-          },
-          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
-        },
-        {
-          "type": "monster_attack",
-          "attack_type": "melee",
-          "id": "feral_high_technomancer_mageblade_attack",
-          "cooldown": 2,
-          "move_cost": 100,
-          "accuracy": 5,
-          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 32 } ],
-          "condition": { "and": [ { "u_has_effect": "effect_feral_technomancer_mage_blade" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
-          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
-          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
-          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
-          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
-          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
-          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
-        },
         {
           "id": "feral_high_technomancer_laze",
           "type": "spell",

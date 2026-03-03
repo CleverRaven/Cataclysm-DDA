@@ -4,6 +4,7 @@
 #include <array>
 #include <fstream>
 #include <optional>
+#include <set>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -31,6 +32,7 @@
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -134,6 +136,21 @@ void diary::open_summary_page()
     add_to_change_list( string_format( _( "It is currently %s." ), season_name ) );
     add_to_change_list( string_format( _( "%s will last for %d more days." ), season_name,
                                        to_days<int>( calendar::season_length() ) - day_of_season<int>( calendar::turn ) ) );
+    add_to_change_list( "" );
+    auto snippets = get_avatar().get_snippets();
+    if( snippets.empty() ) {
+        add_to_change_list( _( "You haven't learned anything about the world." ) );
+        return;
+    }
+
+    add_to_change_list( string_format( _( "Lore: %1$d entries" ), snippets.size() ) );
+    for( const auto &elem : snippets ) {
+        const std::optional<translation> name = SNIPPET.get_name_by_id( elem );
+        const std::optional<translation> desc = SNIPPET.get_snippet_by_id( elem );
+        if( name.has_value() && desc.has_value() && !name->empty() && !desc->empty() ) {
+            add_to_change_list( name->translated(), desc->translated() );
+        }
+    }
 }
 
 template<typename Container, typename Fn>
@@ -146,7 +163,7 @@ void diary::changes( Container diary_page::* member, Fn &&get_entry,
     if( !currpage ) {
         return;
     }
-    size_t heading_index;
+    size_t heading_index{};
     int count = 0;
     for( const auto &elem : currpage->*member ) {
         const diary_entry_opt entry = get_entry( elem, prevpage );
@@ -375,9 +392,9 @@ void diary::stat_changes()
         const int prev = prevpage ? prevpage->*std::get<2>( stat ) : -1;
         const int curr = currpage->*std::get<2>( stat );
         if( !prevpage || prev == curr ) {
-            add_to_change_list( string_format( std::get<0>( stat ), curr ) );
+            add_to_change_list( string_format( std::get<0>( stat ).translated(), curr ) );
         } else {
-            add_to_change_list( string_format( std::get<1>( stat ), prev, curr ) );
+            add_to_change_list( string_format( std::get<1>( stat ).translated(), prev, curr ) );
         }
     }
     if( !flag ) {
@@ -446,6 +463,14 @@ std::string diary::get_page_text()
         return get_page_ptr()->m_text;
     }
     return "";
+}
+
+std::string diary::get_desc_or_page_text( int desc )
+{
+    if( get_page_ptr()->is_summary() ) {
+        return get_desc_map()[desc];
+    }
+    return get_page_text();
 }
 
 std::string diary::get_head_text( bool is_summary )

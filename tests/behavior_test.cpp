@@ -171,7 +171,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 // Make assertions about loaded behaviors.
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
-    clear_map();
+    clear_map_without_vision();
     calendar::turn = calendar::start_of_cataclysm;
     behavior::tree npc_needs;
     npc_needs.add( &behavior_node_t_npc_needs.obj() );
@@ -235,7 +235,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
 
@@ -275,7 +275,7 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth", monster_location );
 
@@ -329,7 +329,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_flesh_only", monster_location );
 
@@ -388,7 +388,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
 {
     // tests a monster with the ABSORB_ITEMS ability but NOT the SPLIT ability
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_absorb_only", monster_location );
 

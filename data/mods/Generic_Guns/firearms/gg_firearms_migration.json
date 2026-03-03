@@ -451,7 +451,8 @@
       "bigun",
       "mossberg_590m",
       "USAS_12",
-      "m1014"
+      "m1014",
+      "benelli_m4"
     ],
     "type": "MIGRATION",
     "replace": "shot_tactical"

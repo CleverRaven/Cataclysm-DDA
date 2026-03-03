@@ -196,6 +196,13 @@
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_mesmerize') / 2), 1) )" ] }
   },
   {
+    "id": "telepathic_blast_knack",
+    "copy-from": "telepathic_blast",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_blast') / 2), 1) )" ] }
+  },
+  {
     "id": "telepathic_animal_mind_control_knack",
     "copy-from": "telepathic_animal_mind_control",
     "type": "SPELL",
@@ -208,6 +215,13 @@
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_invisibility') / 2), 1) )" ] }
+  },
+  {
+    "id": "telepathic_blast_radius_knack",
+    "copy-from": "telepathic_blast_radius",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('telepathic_blast_radius') / 2), 1) )" ] }
   },
   {
     "id": "vita_health_power_knack",
@@ -236,5 +250,12 @@
     "type": "SPELL",
     "spell_class": "PSYCHIC_KNACK",
     "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('vita_cure_disease') / 2), 1) )" ] }
+  },
+  {
+    "id": "vita_banish_illness_knack",
+    "copy-from": "vita_banish_illness",
+    "type": "SPELL",
+    "spell_class": "PSYCHIC_KNACK",
+    "difficulty": { "math": [ "ceil(max( (u_spell_difficulty('vita_banish_illness') / 2), 1) )" ] }
   }
 ]

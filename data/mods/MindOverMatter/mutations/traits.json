@@ -361,5 +361,16 @@
     "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_CBM_INTERFACE",
+    "name": { "str": "Tonallichicahualizmeya" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
   }
 ]

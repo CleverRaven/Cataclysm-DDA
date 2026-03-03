@@ -1,7 +1,6 @@
 [
   {
     "om_terrain": "house_31",
-    "//": "used by lab basements.",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",

@@ -1314,7 +1314,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", to_translation( "Basic" ) );
+        result.emplace_back( "Menu_Sound_Test", to_translation( "Menu_Sound_Test" ) );
     }
     return result;
 }
@@ -2829,14 +2829,6 @@ void options_manager::add_options_world_default()
              false
            );
     } );
-
-    add_empty_line();
-
-    add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
-         to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
-    "story_teller"
-       );
 
     add_empty_line();
 

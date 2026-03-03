@@ -104,7 +104,6 @@
       { "trait": "BLOODHASTE", "prob": 100 },
       { "trait": "MAGICFORBLOOD", "prob": 100 },
       { "trait": "HYPNOTIC_GAZE", "prob": 100 },
-      { "trait": "BLOODBANK", "prob": 100 },
       { "trait": "VAMPIRE_COMMAND_BEAST", "prob": 100 },
       { "trait": "VAMPIRE_EARTH_SLUMBER", "prob": 100 },
       { "trait": "VAMPIRE_CARDIO_BONUS", "prob": 100 },

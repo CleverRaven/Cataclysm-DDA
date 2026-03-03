@@ -59,6 +59,7 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "grab_strength": 40,
     "special_attacks": [
+      [ "PARROT", 400 ],
       { "id": "grab", "cooldown": { "math": [ "5 + rand(10)" ] } },
       { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
@@ -125,6 +126,8 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi", "delay": "1 s" } ],
     "grab_strength": 30,
     "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
       { "id": "grab", "cooldown": { "math": [ "5 + rand(10)" ] } },
       { "id": "bite_humanoid", "cooldown": { "math": [ "2 + rand(4)" ] } },
       {
@@ -183,6 +186,7 @@
     "emit_fields": [ { "emit_id": "emit_anti_psi_void", "delay": "1 s" } ],
     "grab_strength": 50,
     "special_attacks": [
+      [ "PARROT", 400 ],
       { "id": "ranged_pull", "range": 3, "cooldown": { "math": [ "2 + rand(4)" ] }, "no_adjacent": true },
       { "id": "grab_drag", "cooldown": { "math": [ "2 + rand(4)" ] } },
       { "id": "drag_followup" },

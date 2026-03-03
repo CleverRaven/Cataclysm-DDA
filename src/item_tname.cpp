@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <iomanip>
 #include <iterator>
 #include <memory>
@@ -346,7 +347,9 @@ std::string ethereal( item const &it, unsigned int /* quantity */,
                       segment_bitset const &/* segments */ )
 {
     if( it.ethereal ) {
-        return string_format( _( " (%s turns)" ), it.get_var( "ethereal", 0 ) );
+        const time_duration turns = time_duration::from_turns(
+                                        std::lround( it.get_var( "ethereal", 0.0 ) ) );
+        return string_format( _( " (%s)" ), to_string( turns, true ) );
     }
     return {};
 }

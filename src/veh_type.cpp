@@ -156,6 +156,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
     { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
     { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
+    { "MWS", VPFLAG_MWS },
+    { "ADVANCED_MWS", VPFLAG_ADVANCED_MWS },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;

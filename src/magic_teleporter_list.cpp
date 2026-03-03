@@ -18,6 +18,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "imgui/imgui.h"
+#include "input_popup.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -26,7 +27,6 @@
 #include "output.h"
 #include "panels.h"
 #include "point.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -35,15 +35,10 @@ static const efftype_id effect_ignore_fall_damage( "ignore_fall_damage" );
 
 static bool popup_string( std::string &result, std::string &title )
 {
-    string_input_popup popup;
-    popup.title( title );
-    popup.text( "" ).only_digits( false );
-    popup.query();
-    if( popup.canceled() ) {
-        return false;
-    }
-    result = popup.text();
-    return true;
+    string_input_popup_imgui popup( -1 );
+    popup.set_label( title );
+    result = popup.query();
+    return !popup.cancelled();
 }
 
 bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms & )

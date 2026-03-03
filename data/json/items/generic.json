@@ -684,25 +684,17 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "usb_drive_nano",
-    "symbol": ",",
-    "color": "white",
+    "copy-from": "usb_drive",
     "name": { "str": "secured USB drive" },
-    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get run over by a truck and be fine.",
-    "price": "100 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
-    "weight": "55 g",
-    "volume": "45 ml",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
+    "description": "A USB thumb drive.  Useful for holding software.  This one seems like it could get run over by a truck and be fine."
   },
   {
     "type": "ITEM",
-    "id": "train_data",
+    "id": "nano_fabricator_encryption_code",
     "copy-from": "usb_drive_nano",
-    "name": { "str_sp": "laboratory shipping records" },
-    "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
+    "name": { "str_sp": "nano-fabricator licensing USB" },
+    "description": "Some type of advanced data storage device, filled with credentials and licenses to operate the nano-fabricator.",
     "price": "100 USD",
     "price_postapoc": "0 cent"
   },
@@ -1452,6 +1444,21 @@
     "name": { "str": "broken exterminatron" },
     "category": "other",
     "description": "A broken Hub 01 exterminatron.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_robofac_hound",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken Hub 01 HOUND" },
+    "category": "other",
+    "description": "A broken Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
@@ -4050,5 +4057,19 @@
     "weight": "230 g",
     "volume": "100 ml",
     "longest_side": "5 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "exodii_chop_shop_head",
+    "name": { "str_sp": "broken robot head" },
+    "weight": "1400 g",
+    "volume": "1400 ml",
+    "color": "red",
+    "symbol": "@",
+    "description": "The metal head and partial neck of some sort of robot.  Its rectangular orifices are stained by what appears to be a mix of old blood and oil.  A frayed metal spinal cord of wires and tubes hangs from the neck.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel", "aluminum", "copper" ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

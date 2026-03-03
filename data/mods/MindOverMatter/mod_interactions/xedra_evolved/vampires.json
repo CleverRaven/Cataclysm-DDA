@@ -25,10 +25,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_BANISH_ILLNESS_XE_VAMPIRISM_RESULT",
-    "condition": {
-      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
-      "difficulty": 17
-    },
+    "condition": { "math": [ "vita_banish_illness_equation() >= 17" ] },
     "effect": [
       {
         "if": { "not": { "u_has_trait": "VAMPIRE" } },

@@ -62,7 +62,6 @@
 
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
-static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -92,6 +91,7 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
@@ -843,9 +843,8 @@ void vehicle::start_engines( map &here, Character *driver, const bool take_contr
         driver->add_msg_if_player( _( "You take control of the %s." ), name );
     }
     if( !autodrive && driver ) {
-        driver->assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
-        driver->activity.relative_placement = starting_engine_position - driver->pos_bub();
-        driver->activity.values.push_back( take_control );
+        driver->assign_activity( start_engines_activity_actor( start_time,
+                                 starting_engine_position - driver->pos_bub(), take_control ) );
     }
     refresh( );
 }
@@ -901,7 +900,8 @@ void vehicle::honk_horn( map &here ) const
 void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
@@ -1295,7 +1295,9 @@ bool vehicle::can_close( int part_index, Character &who )
                 if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
-                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
+                if( parts[partID].has_fake &&
+                    parts[partID].fake_part_at < static_cast<int>( parts.size() ) &&
+                    parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -1577,6 +1579,29 @@ void vehicle::use_dishwasher( map &here, int p )
     }
 }
 
+void vehicle::use_mws( map &here, int p )
+{
+    vehicle_part &vp = parts[p];
+    vehicle_stack items = get_items( vp );
+
+    if( vp.enabled ) {
+        vp.enabled = false;
+        add_msg( m_bad,
+                 _( "You switch off the sensor array before it is finished its recording." ) );
+    } else {
+        vp.enabled = true;
+        //check if an internal timer is there already, if not, add one
+        if( items.empty() ) {
+            add_item( here, vp, item( itype_mws_weather_data_incomplete, calendar::turn_zero ) );
+        }
+        for( item &n : items ) {
+            n.set_age( 0_turns );
+        }
+        add_msg( m_good,
+                 _( "The printer whirs and the instruments start to spin as you switch on the sensor array." ) );
+    }
+}
+
 void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_ms &pos )
 {
     if( parts[part].is_broken() || parts[part].removed ) {
@@ -1651,12 +1676,17 @@ static void pickup_furniture_for_carry( map &here, vehicle_part &part )
     const furn_str_id picked_up_furn = here.furn( *selected_tile )->id;
 
     const Character &you = get_player_character();
-    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist();
+    // FURNITURE_LIFT_ASSIST gives 5 bonus strength for the lift check
+    const int part_lifting_bonus = part.info().has_flag( "FURNITURE_LIFT_ASSIST" ) ? 5 : 0;
+    const int lifting_str_available = you.get_lift_str() + you.get_lift_assist() + part_lifting_bonus;
+
+    // This handles cranes, the actual "LIFT" quality, and all that. Sure, you can boom crane a freezer onto the back of a truck. Why not.
+    const bool crane_lift = you.best_nearby_lifting_assist() >= picked_up_furn->mass;
 
     if( picked_up_furn->move_str_req < 0 ) {
         add_msg( _( "That furniture can't be moved." ) );
         return;
-    } else if( picked_up_furn->move_str_req > lifting_str_available ) {
+    } else if( !crane_lift && picked_up_furn->move_str_req > lifting_str_available ) {
         if( you.get_lift_assist() > 0 ) {
             add_msg( string_format( _( "Even working together, you are unable to lift the %s." ),
                                     picked_up_furn->name() ) );
@@ -2031,17 +2061,24 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .on_submit( [this] { display_effects(); } );
     }
 
-    if( is_locked && controls_here ) {
+    if( ( is_locked || has_security_working( *here ) ) && controls_here ) {
         if( player_inside ) {
+            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
+            const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
+            const time_duration required_time = 6000_seconds / skill;
+            const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
+            std::string description = _( "Attempt to hotwire the car using a screwdriver." );
+            description += "\n";
+            description += _( "Time to complete: " );
+            description += time_string;
+
             menu.add( _( "Hotwire" ) )
             .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
-            .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
+            .desc( description )
             .skip_locked_check()
             .hotkey( "HOTWIRE" )
-            .on_submit( [this] {
-                ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-                const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
-                const int moves = to_moves<int>( 6000_seconds / skill );
+            .on_submit( [this, required_time] {
+                const int moves = to_moves<int>( required_time );
                 const tripoint_abs_ms target = pos_abs() + coord_translate( parts[0].mount );
                 const hotwire_car_activity_actor hotwire_act( moves, target );
                 get_player_character().assign_activity( hotwire_act );
@@ -2105,7 +2142,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                     g->setremoteveh( nullptr );
                 } );
             } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
-                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                menu.add( engine_on ? colorize( _( "Turn off the engine" ), c_pink ) : _( "Turn on the engine" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
                 .on_submit( [this, here] {
@@ -2357,6 +2394,17 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                   : _( "Activate the dishwasher (1.5 hours)" ) )
         .hotkey( "TOGGLE_DISHWASHER" )
         .on_submit( [this, dw_idx, here] { use_dishwasher( *here, dw_idx ); } );
+    }
+
+    const std::optional<vpart_reference> vp_mws = vp.avail_part_with_feature( "MWS" );
+    //mobile weather station
+    if( vp_mws ) {
+        const size_t dw_idx = vp_mws->part_index();
+        menu.add( vp_mws->part().enabled
+                  ? _( "Deactivate the sensor array" )
+                  : _( "Activate the recording subroutine (1 hour)" ) )
+        .hotkey( "TOGGLE_MWS" )
+        .on_submit( [this, dw_idx, here] { use_mws( *here, dw_idx ); } );
     }
 
     const std::optional<vpart_reference> vp_cargo = vp.cargo();

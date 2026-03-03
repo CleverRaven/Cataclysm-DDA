@@ -67,6 +67,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_CAN_DIG,
             mon_flag_CAN_OPEN_DOORS,
             mon_flag_CLIMBS,
+            mon_flag_CLUMSY_ATTACKS,
             mon_flag_COMBAT_MOUNT,
             mon_flag_CONSOLE_DESPAWN,
             mon_flag_CONVERSATION,
@@ -128,6 +129,9 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_NO_BREED,
             mon_flag_NO_FUNG_DMG,
             mon_flag_NO_NECRO,
+            mon_flag_ONE_DIMENSIONAL_X,
+            mon_flag_ONE_DIMENSIONAL_Y,
+            mon_flag_ONE_DIMENSIONAL_Z,
             mon_flag_PACIFIST,
             mon_flag_PARALYZEVENOM,
             mon_flag_PATH_AVOID_DANGER,
@@ -139,6 +143,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
             mon_flag_PHOTOPHOBIC,
+            mon_flag_PLANT_BLOOD,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
@@ -168,6 +173,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SWIMS,
             mon_flag_TEEP_IMMUNE,
             mon_flag_TRUESIGHT,
+            mon_flag_UNBREAKABLE_MORALE,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
             mon_flag_WARM,
@@ -199,6 +205,7 @@ void set_mon_flag_ids()
     mon_flag_CAN_DIG = mon_flag_id( "CAN_DIG" );
     mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
     mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
+    mon_flag_CLUMSY_ATTACKS = mon_flag_id( "CLUMSY_ATTACKS" );
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
     mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
@@ -260,6 +267,9 @@ void set_mon_flag_ids()
     mon_flag_NO_BREED = mon_flag_id( "NO_BREED" );
     mon_flag_NO_FUNG_DMG = mon_flag_id( "NO_FUNG_DMG" );
     mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
+    mon_flag_ONE_DIMENSIONAL_X = mon_flag_id( "ONE_DIMENSIONAL_X" );
+    mon_flag_ONE_DIMENSIONAL_Y = mon_flag_id( "ONE_DIMENSIONAL_Y" );
+    mon_flag_ONE_DIMENSIONAL_Z = mon_flag_id( "ONE_DIMENSIONAL_Z" );
     mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
     mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
     mon_flag_PATH_AVOID_DANGER = mon_flag_id( "PATH_AVOID_DANGER" );
@@ -271,6 +281,7 @@ void set_mon_flag_ids()
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
     mon_flag_PHOTOPHOBIC = mon_flag_id( "PHOTOPHOBIC" );
+    mon_flag_PLANT_BLOOD = mon_flag_id( "PLANT_BLOOD" );
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
@@ -298,6 +309,7 @@ void set_mon_flag_ids()
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
     mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
     mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
+    mon_flag_UNBREAKABLE_MORALE = mon_flag_id( "UNBREAKABLE_MORALE" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
     mon_flag_WARM = mon_flag_id( "WARM" );
@@ -448,7 +460,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_veggy ) || has_flag( mon_flag_PLANT_BLOOD ) ) {
         return fd_blood_veggy;
     }
     if( made_of( material_iflesh ) ) {

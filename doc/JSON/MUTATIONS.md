@@ -120,7 +120,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
-  "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
+  "provided_qualities": { "BUTCHER": 4, "HAMMER": 1 }, // Tool qualities that are granted by this mutation
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
@@ -153,7 +153,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
       "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
       "max_bravery": 10,                               //
       "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
-      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to an NPC with -6 (being lower than the
       "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
       "max_altruism": 10,                              // numbers except 2, 3, and 4.)
     }
@@ -212,6 +212,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
+  "stamina": true,                               // If true, activated mutation consumes `cost` stamina. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation

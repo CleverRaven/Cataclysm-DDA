@@ -281,7 +281,7 @@ This adds some nice variability if you want the nest's spawn location to shift a
       ]
 ```
 
-A NPC example:
+An NPC example:
 
 ```
 "place_nested": [ { "chunks": [ [ "SEER_Brigitte_LaCroix_spawn", 20 ], [ "null", 80 ] ], "x": 18, "y": 6 } ]

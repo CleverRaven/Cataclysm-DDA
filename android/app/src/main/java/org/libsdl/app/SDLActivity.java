@@ -245,13 +245,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
      * It can be overridden by derived classes.
      */
     protected String getMainSharedObject() {
-        String library;
-        String[] libraries = SDLActivity.mSingleton.getLibraries();
-        if (libraries.length > 0) {
-            library = "lib" + libraries[libraries.length - 1] + ".so";
-        } else {
-            library = "libmain.so";
-        }
+        String library = "libmain.so";
         return getContext().getApplicationInfo().nativeLibraryDir + "/" + library;
     }
 
@@ -273,14 +267,14 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
      */
     protected String[] getLibraries() {
         return new String[] {
+            "main", // Always load main first so allocators can be overridden.
             "c++_shared",
             "hidapi",
             "SDL2",
             "SDL2_image",
             "SDL2_mixer",
             // "SDL2_net",
-            "SDL2_ttf",
-            "main"
+            "SDL2_ttf"
         };
     }
 

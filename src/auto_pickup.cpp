@@ -43,6 +43,7 @@
 #include "ui_manager.h"
 #include "uilist.h"
 #include "units.h"
+#include "worldfactory.h"
 
 using namespace auto_pickup;
 
@@ -252,12 +253,23 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
 drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint_bub_ms &location )
 {
+    bool picking_up_itype_id = true;
+    itype_id picking_up_last_itype_id = itype_id::NULL_ID();
     drop_locations result;
     const map_cursor map_location = map_cursor( location );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {
         item *item_entry = &*stack;
+
+        if( item_entry->typeId() != picking_up_last_itype_id ) {
+            picking_up_itype_id = false;
+            picking_up_last_itype_id = item_entry->typeId();
+        } else if( !picking_up_itype_id ) {
+            // Don't bother checking if we didn't pick up the last item that had this itype_id
+            continue;
+        }
+
         // do not auto pickup owned containers or items
         if( !get_option<bool>( "AUTO_PICKUP_OWNED" ) &&
             item_entry->is_owned_by( get_player_character() ) ) {
@@ -281,8 +293,10 @@ drop_locations auto_pickup::select_items(
             }
             int it_count = 0; // TODO: factor in auto pickup max_quantity here
             item_location it_location = item_location( map_location, item_entry );
+            picking_up_itype_id = true;
             result.emplace_back( std::make_pair( it_location, it_count ) );
         } else if( is_container || item_entry->ammo_capacity( ammo_battery ) ) {
+            picking_up_itype_id = true; // Always check containers or tools with batteries
             item_location container_location = item_location( map_location, item_entry );
             for( const item_location &add_item : get_autopickup_items( container_location ) ) {
                 int it_count = 0; // TODO: factor in auto pickup max_quantity here
@@ -880,7 +894,7 @@ bool player_settings::save( const bool bCharacter )
         savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
         const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
-        const cata_path player_save_zzip = player_save + ".zzip";
+        const cata_path player_save_zzip = player_save + zzip_suffix;
         //Character not saved yet.
         if( !file_exist( player_save ) || !file_exist( player_save_zzip ) ) {
             return true;

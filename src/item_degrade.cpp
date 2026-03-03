@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <iterator>
@@ -262,6 +263,13 @@ float item::damage_adjusted_armor_resist( float value, const damage_type_id &dmg
 
 void item::set_damage( int qty )
 {
+    const int target_damage = std::clamp( qty, degradation_, max_damage() );
+    const int delta = target_damage - damage_;
+    mod_damage( delta );
+}
+
+void item::force_set_damage( int qty )
+{
     damage_ = std::clamp( qty, degradation_, max_damage() );
 }
 
@@ -272,7 +280,8 @@ void item::set_degradation( int qty )
     } else {
         degradation_ = 0;
     }
-    set_damage( damage_ );
+    // maybe should use set_damage() instead, but we trust damage is set before the degradation
+    force_set_damage( damage_ );
 }
 
 std::string item::degradation_symbol() const
@@ -391,9 +400,11 @@ void item::set_random_fault_of_type( const std::string &fault_type, bool force, 
 
 }
 
-void item::remove_fault( const fault_id &fault_id )
+bool item::remove_fault( const fault_id &fault_id )
 {
+    size_t count = faults.size();
     faults.erase( fault_id );
+    return count != faults.size();
 }
 
 void item::remove_single_fault_of_type( const std::string &fault_type )
@@ -466,9 +477,18 @@ void item::set_rot( time_duration val )
 void item::randomize_rot()
 {
     if( is_comestible() && get_comestible()->spoils > 0_turns ) {
+        const time_duration age_from_zero = calendar::turn - calendar::start_of_cataclysm;
+        const time_duration cap = get_shelf_life() * 2;
+        time_duration base_rot = std::min( age_from_zero, cap );
         const double x_input = rng_float( 0.0, 1.0 );
         const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2.0 * x_input );
-        set_rot( get_shelf_life() * k_rot );
+        time_duration extra = get_shelf_life() * 0.25 * k_rot;
+        set_rot( std::min( base_rot + extra, cap ) );
+        // Applied historical rot up to now, future rot calculations should
+        // continue from the current turn (unless this is a processing result).
+        if( !has_flag( flag_PROCESSING_RESULT ) ) {
+            last_temp_check = calendar::turn;
+        }
     }
 
     for( item_pocket *pocket : contents.get_container_pockets() ) {
@@ -833,7 +853,7 @@ bool item::mod_damage( int qty )
     } else {
         const int dmg_before = damage_;
         const bool destroy = ( damage_ + qty ) > max_damage();
-        set_damage( damage_ + qty );
+        force_set_damage( damage_ + qty );
 
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
@@ -841,7 +861,9 @@ bool item::mod_damage( int qty )
 
         // TODO: think about better way to telling the game what faults should be applied when
         if( qty > 0 ) {
-            set_random_fault_of_type( "mechanical_damage" );
+            for( int i = 0; i <= qty; i += itype::damage_scale ) {
+                set_random_fault_of_type( "mechanical_damage" );
+            }
         }
 
         return destroy;

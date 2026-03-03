@@ -567,6 +567,42 @@
   },
   {
     "type": "construction",
+    "id": "app_mobile_weather_station",
+    "group": "place_mobile_weather_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "mobile_weather_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xedra_mobile_weather_station",
+    "group": "place_xedra_mobile_weather_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "xedra_mobile_weather_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_robofac_mobile_weather_station",
+    "group": "place_robofac_mobile_weather_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [ [ [ "robofac_mobile_weather_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_nitrogen_generator",
     "group": "place_nitrogen_generator",
     "category": "APPLIANCE",

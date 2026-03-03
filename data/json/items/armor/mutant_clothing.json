@@ -1,0 +1,30 @@
+[
+  {
+    "id": "horseshoes_wearable",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "pair of horseshoes" },
+    "description": "A pair of U-shaped bands of iron fitted onto the horse's hooves to protect them from wear, or onto your own hooves, if you have them.",
+    "weight": "1876 g",
+    "volume": "2000 ml",
+    "longest_side": "35 cm",
+    "price": "80 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "mc_steel" ],
+    "symbol": "u",
+    "color": "light_gray",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "armor": [
+      {
+        "covers": [ "hoof_r", "hoof_l" ],
+        "specifically_covers": [ "hoof_sole_r", "hoof_sole_l" ],
+        "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 10 } ],
+        "encumbrance": 0,
+        "coverage": 50,
+        "rigid_layer_only": true
+      }
+    ],
+    "melee_damage": { "bash": 8 },
+    "flags": [ "MUTATED_ANATOMY_ONLY", "DURABLE_MELEE" ]
+  }
+]

@@ -64,7 +64,7 @@ struct field_immunity_data {
 
 struct field_effect {
     efftype_id id;
-    std::vector<std::pair<efftype_id, mod_id>> src;
+    std::vector<std::pair<efftype_id, mod_id>> src; // NOLINT(cata-serialize)
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
@@ -93,6 +93,8 @@ struct field_effect {
         return effect( effect_source::empty(), &id.obj(), get_duration(), bp, false, intensity,
                        start_time );
     }
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct field_intensity_level {

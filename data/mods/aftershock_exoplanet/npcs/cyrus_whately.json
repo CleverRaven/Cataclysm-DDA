@@ -193,7 +193,7 @@
     "type": "mission_definition",
     "name": "A-Mi-go, You-go find me some brains",
     "description": "Find 6 living brains in jars.",
-    "//": "Sometime consider changing the end effect of this item and making the test site it's own quest.",
+    "//": "Sometime consider changing the end effect of this item and making the test site its own quest.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 8,
     "value": 0,

@@ -116,6 +116,7 @@ static const ter_str_id ter_t_dirtfloor( "t_dirtfloor" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_dirtmoundfloor( "t_dirtmoundfloor" );
 static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_forestfloor( "t_forestfloor" );
 static const ter_str_id ter_t_golf_hole( "t_golf_hole" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
@@ -1305,7 +1306,7 @@ void sfx::do_ambient()
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
-// vehicle turrets) or a NPC.
+// vehicle turrets) or an NPC.
 void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 {
     if( test_mode ) {
@@ -1390,7 +1391,7 @@ void sfx::generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bu
     if( test_mode ) {
         return;
     }
-    // If creating a new thread for each invocation is to much, we have to consider a thread
+    // If creating a new thread for each invocation is too much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
     try {
@@ -1805,6 +1806,7 @@ void sfx::do_footstep()
             ter_t_railroad_track_d_on_tie,
             ter_t_railroad_tie_d1,
             ter_t_railroad_tie_d2,
+            ter_t_forestfloor,
         };
         static const std::set<ter_str_id> metal = {
             ter_t_ov_smreb_cage,

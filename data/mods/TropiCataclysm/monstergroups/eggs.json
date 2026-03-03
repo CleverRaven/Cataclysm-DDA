@@ -3,21 +3,7 @@
     "id": "GROUP_EGG_CONSTRICTOR",
     "type": "monstergroup",
     "default": "mon_anaconda",
-    "monsters": [
-      { "monster": "mon_anaconda", "weight": 2 },
-      { "monster": "mon_python", "weight": 1 },
-      { "monster": "mon_boa", "weight": 2 }
-    ]
-  },
-  {
-    "id": "GROUP_EGG_LIZARD",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_beaded_lizard" } ]
-  },
-  {
-    "id": "GROUP_EGG_MONITOR",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_monitor_lizard" } ]
+    "monsters": [ { "monster": "mon_anaconda", "weight": 2 }, { "monster": "mon_boa", "weight": 2 } ]
   },
   {
     "id": "GROUP_EGG_IGUANA",
@@ -28,11 +14,6 @@
     "id": "GROUP_EGG_TURTLE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_turtle" } ]
-  },
-  {
-    "id": "GROUP_EGG_SNAPPER",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_turtle_snapper" } ]
   },
   {
     "id": "GROUP_EGG_TORTOISE",
@@ -48,11 +29,6 @@
     "id": "GROUP_EGG_FUNGUS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fungaloid_saproling" } ]
-  },
-  {
-    "id": "GROUP_EGG_SALAMANDER",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_axolotl" } ]
   },
   {
     "id": "GROUP_EGG_TADFISH",

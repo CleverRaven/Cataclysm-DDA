@@ -127,7 +127,7 @@
         "menu_text": "Turn on",
         "msg": "You turn the radio on.",
         "need_charges": 1,
-        "need_charges_msg": "It's dead."
+        "need_charges_msg": "The batteries are dead."
       }
     ],
     "pocket_data": [
@@ -185,6 +185,60 @@
     ],
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "pat_earpiece",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "transponder earpiece (off)", "str_pl": "transponder earpieces (off)" },
+    "description": "An earpiece with an inline transponder and two small cables custom-fit for AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  Active it to switch it on, or to call Pat.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "price": "20 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "plastic" ],
+    "material_thickness": 1,
+    "armor": [ { "coverage": 10, "covers": "head", "specifically_covers": [ "head_ear_l" ] } ],
+    "symbol": ";",
+    "color": "green",
+    "flags": [ "ELECTRONIC", "OVERSIZE", "POWERARMOR_COMPATIBLE", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
+    "use_action": [
+      {
+        "type": "transform",
+        "menu_text": "Connect to Pat's system and start transmitting data",
+        "msg": "You switch on the transponder.",
+        "target": "pat_earpiece_on"
+      },
+      {
+        "type": "effect_on_conditions",
+        "description": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
+      }
+    ],
+    "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_advanced_AR_activate" ] },
+    "faults": [ { "fault_group": "electronic_general" } ]
+  },
+  {
+    "id": "pat_earpiece_on",
+    "copy-from": "pat_earpiece",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "transponder earpiece (on)", "str_pl": "transponder earpieces (on)" },
+    "description": "An earpiece with an inline transponder and two small cables custom-fit for AR headsets.  If you have a compatible headset and it is switched on, Pat can keep track of you and communicate via radio.  It is currently active.  Active it to switch it off, or to call Pat.",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "use_action": [
+      {
+        "type": "transform",
+        "menu_text": "Disconnect from Pat's system and stop transmitting data",
+        "msg": "You switch off the transponder.",
+        "target": "pat_earpiece"
+      },
+      {
+        "type": "effect_on_conditions",
+        "description": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
+      }
+    ]
   },
   {
     "id": "remotevehcontrol",

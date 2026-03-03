@@ -38,6 +38,6 @@
       { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_minimum_requirements_pyrokinesis", "required": true }
     ],
-    "components": [ [ [ "matrix_crystal_pyrokinesis", 1 ] ] ]
+    "components": [ [ [ "matrix_crystal_pyrokinesis", 1 ], [ "matrix_crystal_pyrokinesis_artifact", 1 ] ] ]
   }
 ]
