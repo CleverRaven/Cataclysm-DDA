@@ -5842,15 +5842,25 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
             return dist_a < dist_b ? a : b;
         }
     };
+    const bool use_grab_routing = has_grabbed_single_tile_vehicle( who, here );
+
     route_t shortest_route;
     for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
-        who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
-            return is_dangerous_tile( p );
-        } );
+        route_t route;
+        if( use_grab_routing ) {
+            route = route_with_grab( here, who, pathfinding_target::point( p ),
+            [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        } else {
+            route = here.route( who.pos_bub(), pathfinding_target::point( p ),
+            who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        }
         if( route.empty() ) {
             continue; // no route
         }
