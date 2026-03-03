@@ -1780,5 +1780,25 @@
     "mend_rate": 0,
     "ugliness_mandatory": 10,
     "stat_hp_mods": { "str_mod": 0 }
+  },
+  {
+    "id": "torso_basic_bionic_P1",
+    "type": "body_part",
+    "name": "basic cyberframe",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "bionic torso" },
+    "heading": "bionic torso",
+    "hp_bar_ui_text": "TORSO",
+    "encumbrance_text": "Frame is under abnormal load. Resolve immediately.",
+    "encumbrance_threshold": 20,
+    "main_part": "torso_basic_bionic_P1",
+    "connected_to": "head",
+    "drench_capacity": 0,
+    "base_hp": 80,
+    "env_protection": 1,
+    "mend_rate": 0,
+    "stat_hp_mods": 0,
+    "power_efficiency": 1000,
+    "bionic_slots": 100,
+    "no_power_effect": "no_power_torso"
   }
 ]
