@@ -350,7 +350,7 @@
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
-    "flags": "HERBIVORE_DIET",
+    "flags": [ "HERBIVORE_DIET" ],
     "enchantments": [
       {
         "values": [
