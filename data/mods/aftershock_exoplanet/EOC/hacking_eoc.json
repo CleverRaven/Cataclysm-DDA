@@ -49,11 +49,11 @@
           { "condition": { "math": [ "n_quality('HACK') > 0" ] }, "flags": "HACK_NO_CHARGE" },
           {
             "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost_bionic < u_val('power')" ] } ] },
-            "flags": "USES_BIONIC_POWER"
+            "flags": [ "USES_BIONIC_POWER" ]
           },
           {
             "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost < n_val('power')" ] } ] },
-            "excluded_flags": "USES_BIONIC_POWER",
+            "excluded_flags": [ "USES_BIONIC_POWER" ],
             "uses_energy": true
           }
         ],
@@ -87,7 +87,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "excluded_flags": "USES_BIONIC_POWER", "uses_energy": true } ],
+        "search_data": [ { "flags": [ "ACTIVE_HACK_TOOL" ], "excluded_flags": [ "USES_BIONIC_POWER" ], "uses_energy": true } ],
         "true_eocs": [
           {
             "id": "EOC_hack_item_power_consume_found_item",

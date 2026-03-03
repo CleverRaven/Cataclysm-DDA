@@ -3508,7 +3508,7 @@
     "price": "20 USD",
     "price_postapoc": "10 USD",
     "symbol": "[",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "volume": "600 ml",
     "weight": "300 g",
     "flags": [ "VARSIZE" ],
