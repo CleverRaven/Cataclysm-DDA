@@ -644,7 +644,7 @@
         "condition": { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] }
       },
       {
-        "text": "Honestly, Pat, I don't even known what to say about this place, yet. [ALPHA TEST LABYRINTH]",
+        "text": "Honestly, Pat, I don't even known what to say about this place, yet.  [ALPHA TEST LABYRINTH]",
         "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_labyrinth",
         "condition": { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
       },

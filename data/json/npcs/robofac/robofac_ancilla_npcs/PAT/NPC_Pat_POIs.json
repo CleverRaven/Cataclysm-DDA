@@ -151,8 +151,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ],
-      "yes": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat ta' <pat_robo_nickname>.  Is that a fahkin' CASTLE? Holy shit.  What the fahk kinda' world are we livin' in?  Anyway, get in there and bring me back a sword!  Ovah.\"",
-      "no": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat heah.  Is that a fahkin' CASTLE?  What the fahk kinda' world are we livin' in?  Anyway, get in there and bring me back a sword!  Ovah.\""
+      "yes": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat ta' <pat_robo_nickname>.  Is that a fahkin' CASTLE?  Holy shit.  What the fahk kinda' world are we livin' in?  Anyway, get in there and bring me back a sword!  Ovah.\"",
+      "no": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat heah.  Is that a fahkin' CASTLE?  Holy shit.  What the fahk kinda' world are we livin' in?  Anyway, get in there and bring me back a sword!  Ovah.\""
     },
     "responses": [
       {
