@@ -213,6 +213,7 @@
     "heading_multiple": "feathered arms",
     "main_part": "arm_feathers_l",
     "opposite_part": "arm_feathers_r",
+    "side": "left",
     "hit_size": 15,
     "env_protection": 2,
     "drench_capacity": 1800,
@@ -244,7 +245,7 @@
     "opposite_part": "arm_feathers_l",
     "windage_effect": "winded_arm_r",
     "limb_type": "arm",
-    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.18 ], [ "block", 0.8 ], [ "swim", 0.2 ] ],
+    "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.12 ], [ "block", 0.8 ], [ "swim", 0.2 ] ],
     "sub_parts": [ "arm_feathers_shoulder_r", "arm_feathers_upper_r", "arm_feathers_elbow_r", "arm_feathers_lower_r" ],
     "similar_bodypart": "arm_r"
   },
