@@ -11,11 +11,11 @@
 #include <vector>
 
 #include "calendar.h"
-#include "character.h"
 #include "game_constants.h"
 #include "translation.h"
 #include "type_id.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
 class item;
