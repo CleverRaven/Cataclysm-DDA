@@ -72,7 +72,7 @@
       {
         "encumbrance": 10,
         "volume_encumber_modifier": 0.25,
-        "coverage": 1000,
+        "coverage": 100,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
