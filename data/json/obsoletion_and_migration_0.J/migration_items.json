@@ -501,12 +501,12 @@
   {
     "type": "MIGRATION",
     "id": "xl_h20survivor_jumpsuit",
-    "replace": "xl_survivor_jumpsuit"
+    "replace": "xlsurvivor_jumpsuit"
   },
   {
     "type": "MIGRATION",
     "id": "xs_h20survivor_jumpsuit",
-    "replace": "xs_survivor_jumpsuit"
+    "replace": "xssurvivor_jumpsuit"
   },
   {
     "type": "MIGRATION",
@@ -531,12 +531,12 @@
   {
     "type": "MIGRATION",
     "id": "xl_h20survivor_jumpsuit_light",
-    "replace": "xl_survivor_jumpsuit"
+    "replace": "xlsurvivor_jumpsuit"
   },
   {
     "type": "MIGRATION",
     "id": "xs_h20survivor_jumpsuit_light",
-    "replace": "xs_survivor_jumpsuit"
+    "replace": "xssurvivor_jumpsuit"
   },
   {
     "type": "MIGRATION",
@@ -681,12 +681,12 @@
   {
     "type": "MIGRATION",
     "id": "xl_hood_lsurvivor",
-    "replace": "xl_hood_survivor"
+    "replace": "hood_xlsurvivor"
   },
   {
     "type": "MIGRATION",
     "id": "xs_hood_lsurvivor",
-    "replace": "xs_hood_survivor"
+    "replace": "hood_xssurvivor"
   },
   {
     "type": "MIGRATION",
@@ -696,12 +696,12 @@
   {
     "type": "MIGRATION",
     "id": "xl_hood_fsurvivor",
-    "replace": "xl_hood_survivor"
+    "replace": "hood_xlsurvivor"
   },
   {
     "type": "MIGRATION",
     "id": "xs_hood_fsurvivor",
-    "replace": "xs_hood_survivor"
+    "replace": "hood_xssurvivor"
   },
   {
     "type": "MIGRATION",
