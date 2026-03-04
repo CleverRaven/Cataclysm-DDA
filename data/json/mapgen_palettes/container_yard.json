@@ -1171,7 +1171,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "light_bulb", "chance": 95, "repeat": [ 45, 55 ] } }
+      "item": { " ": { "item": "light_bulb", "chance": 95, "repeat": [ 45, 55 ] } }
     }
   },
   {
@@ -1180,7 +1180,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "long_extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
+      "item": { " ": { "item": "long_extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -1189,7 +1189,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
+      "item": { " ": { "item": "extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -1198,7 +1198,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "clothes_hanger", "chance": 95, "repeat": [ 40, 50 ] } }
+      "item": { " ": { "item": "clothes_hanger", "chance": 95, "repeat": [ 40, 50 ] } }
     }
   },
   {
