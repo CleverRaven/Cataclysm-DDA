@@ -3094,15 +3094,21 @@ Open a menu, that allow to select one of multiple options
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
-| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) or inline EOCs| list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
-| "names" | optional | array of strings or [variable objects](#variable-object) | name of the option, that would be shown on the list; amount of names should be equal amount of EoCs |
-| "descriptions" | optional | array of strings or [variable objects](#variable-object) | description of the options, that would be shown on the list; amount of descriptions should be equal amount of EoCs |
-| "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs |
+| "run_eoc_selector" | **mandatory** | eoc_selector_data | Object, that contain all the data for each separate option; See description of each value below |
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` |
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out |
 | "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur |
 | "hilight_disabled" | optional | boolean | if true, the option, that fail their check, would still be navigateable, meaning you can highlight it and read it's description. If `allow_cancel` is true, picking it would be considered same as quitting |
-| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; can be either a [variable object](#variable-object), or an [inline variable](#inline-variables); `expects_vars` condition can be used to ensure every variable exist before the EoC is run |
+
+Values of eoc_selector_data:
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "eocs" | **mandatory** | array of strings or [variable objects](#variable-object) or inline EOCs | list of EoCs, that will be run when this option is picked; conditions of the listed EoCs would be checked, and if at least one of eocs has it's condition failing, entire option will be grayed out |
+| "name" | **mandatory** | string or [variable objects](#variable-object) | name of the option, that would be shown on the list |
+| "description" | optional | string or [variable objects](#variable-object) | description of the options, that would be shown on the list |
+| "keys" | optional | string of single character | a character, that would be used as a shortcut to pick each EoC |
+| "variables" | optional | array of pairs of `"variable_name": "variable"` | variables, that would be passed to the EoCs; can be either a [variable object](#variable-object), or an [inline variable](#inline-variables); `expects_vars` condition can be used to ensure every variable exist before the EoC is run |
+
 ##### Valid talkers:
 
 | Avatar | NPC | Monster | Furniture | Item | Vehicle |
@@ -3112,18 +3118,35 @@ Open a menu, that allow to select one of multiple options
 ##### Examples
 you can pick one of four options from `Choose your destiny` list;
 ```jsonc
-{
-  "run_eoc_selector": [ "EOC_OPTION_1", "EOC_OPTION_2", "EOC_OPTION_3", "EOC_OPTION_4" ],
-  "names": [ "Option 1", "Option 2", "Option 3", "Option 4" ],
-  "keys": [ "a", "b", "1", "2" ],
-  "title": "Choose your destiny",
-  "descriptions": [
-    "Gives you something good",
-    "Gives you something bad",
-    "Gives you twice as good",
-    "Gives you twice as bad, but condition is not met, so you can't pick it up"
-  ]
-}
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_showcase",
+    "effect": {
+      "run_eoc_selector": [
+        { "eocs": [ "EOC_OPTION_1" ], "name": "Option 1", "key": "a", "description": "Gives you something good" },
+        { "eocs": [ "EOC_OPTION_2" ], "name": "Option 2", "key": "b", "description": "Gives you something bad" },
+        {
+          "eocs": [ "EOC_OPTION_1", "EOC_OPTION_1" ],
+          "name": "<randomly_picked_name_of_option_3>",
+          "key": "1",
+          "description": "Gives you twice as good, <context_val:yay>"
+        },
+        {
+          "eocs": [ "EOC_OPTION_4" ],
+          "name": "Option 4",
+          "key": "2",
+          "description": "Gives you twice as bad, but condition is not met, so you can't pick it up"
+        },
+        {
+          "eocs": [ "EOC_OPTION_5" ],
+          "name": "Option 5",
+          "key": "c",
+          "variables": [ { "some_value_option_5_needs": 25, "some_another_value_option_5_needs": "foobar" } ],
+          "description": "Passes some variables to EOC_OPTION_5"
+        }
+      ],
+      "title": "Choose your destiny"
+    }
 ```
 
 ## Character effects
