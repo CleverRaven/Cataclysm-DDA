@@ -89,7 +89,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 12,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE", "MUTANT_ANATOMY_ONLY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE", "MUTATED_ANATOMY_ONLY" ],
     "armor": [
       {
         "covers": [ "hoof_l", "hoof_r" ],
@@ -130,6 +130,10 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "faux fur winter survivor boots (pair)" },
+    "weight": "1760 g",
+    "volume": "3500 ml",
+    "price_postapoc": "60 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather_treated", "vinyl", "faux_fur", "hc_steel" ],
     "symbol": "[",
     "looks_like": "boots_fur",
@@ -203,7 +207,6 @@
     "description": "Custom boots of treated leather, sealed with polymer coating and lined with fur.  Warm and acid-proof with steel toes for protection.",
     "weight": "1760 g",
     "volume": "3500 ml",
-    "price": "240 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather_treated", "vinyl", "fur", "hc_steel" ],
