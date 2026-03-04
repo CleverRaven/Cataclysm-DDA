@@ -136,7 +136,7 @@ void Skill::reset()
 
 void Skill::check_consistency()
 {
-    for( auto &skill : skills )  {
+    for( Skill &skill : skills )  {
         auto rt = skill._required_traits.begin();
         while( rt != skill._required_traits.end() ) {
             auto current = rt++;
@@ -297,14 +297,14 @@ skill_id Skill::random_skill()
 
 bool Skill::can_chr_use( Character &chr ) const
 {
-    for( auto tid : _required_traits ) {
+    for( std::string tid : _required_traits ) {
         if( !chr.has_trait( trait_id( tid ) ) ) {
             return false;
         }
     }
 
-    if( _allowed_traits.size() > 0 ) {
-        for( auto tid : _allowed_traits ) {
+    if( !_allowed_traits.empty() ) {
+        for( std::string tid : _allowed_traits ) {
             if( chr.has_trait( trait_id( tid ) ) ) {
                 return true;
             }
