@@ -2540,7 +2540,7 @@
     "leads_to": [ "RUMINANT" ],
     "points": -3,
     "vitamin_cost": 160,
-    "flags": "HERBIVORE_DIET"
+    "flags": [ "HERBIVORE_DIET" ]
   },
   {
     "type": "mutation",

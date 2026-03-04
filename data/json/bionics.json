@@ -563,7 +563,7 @@
   {
     "id": "bio_eye_enhancer",
     "type": "bionic",
-    "name": { "str": "Occular Amplifiers" },
+    "name": { "str": "Ocular Amplifiers" },
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception while powered.  However, you suffer penalties while unpowered.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "enchantments": [
