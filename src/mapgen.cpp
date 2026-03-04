@@ -891,10 +891,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
                 oter_id omt = overmap_buffer.ter( omt_point );
                 if( omt->has_flag( oter_flags::pp_generate_riot_damage ) && !omt->has_flag( oter_flags::road ) ) {
-                    GENERATOR_riot_damage( *this, omt_point, false );
+                    // Currently, do nothing, until riot damage is made more robust.
+                    // GENERATOR_riot_damage( *this, omt_point, false );
                 } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
                     // HACK: Hardcode running only certain sub-generators on roads
-                    GENERATOR_riot_damage( *this, omt_point, true );
+                    // Currently, do nothing, until riot damage is made more robust.
+                    // GENERATOR_riot_damage( *this, omt_point, true );
                 }
                 if( omt->has_flag( oter_flags::pp_generate_ruined ) && !omt->has_flag( oter_flags::road ) ) {
                     GENERATOR_aftershock_ruin( *this, omt_point );
