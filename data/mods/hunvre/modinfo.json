@@ -7,6 +7,7 @@
     "description": "A sci-fi, claustrophobic spin on DDA.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "path": "json/"
+    "path": "json/",
+    "loading_images": [ "hunvre_loading_screen.png" ]
   }
 ]
