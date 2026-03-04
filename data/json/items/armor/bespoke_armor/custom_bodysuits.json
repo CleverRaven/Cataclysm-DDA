@@ -468,7 +468,7 @@
     "//3": "Canvas is waterproofed (waxed, etc) cotton at 1.6 g/cm^3, thickness of 0.05 cm leaves us with 1338 grams.",
     "//4": "0.05 cm canvas pockets weigh about 75 grams total.",
     "//5": "Totalled up this is 8726 grams, rounded up to 8800 to account for clasps, zippers, etc.",
-    "volume": "7500 ml",
+    "volume": "8200 ml",
     "price_postapoc": "75 USD",
     "material": [ "cotton", "fur", "canvas" ],
     "symbol": "[",
