@@ -1516,7 +1516,7 @@
     "valid": false,
     "enchantments": [
       {
-        "condition": { "u_has_wielded_with_ammotype": "arrow" },
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
         "values": [
           { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
           { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
