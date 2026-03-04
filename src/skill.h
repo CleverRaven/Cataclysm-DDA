@@ -52,8 +52,8 @@ class Skill
         bool _teachable = true;
         bool _obsolete = false;
         bool consumes_focus = true;
-        std::set<std::string> _required_traits;
-        std::set<std::string> _allowed_traits;
+        std::set<std::string> _requires_all_traits;
+        std::set<std::string> _requires_any_traits;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );

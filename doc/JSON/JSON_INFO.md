@@ -2565,8 +2565,10 @@ it is present to help catch errors.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
-| `required_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
-| `allowed_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+| `requires_all_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
+| `requires_any_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+
+If neither `requires_all_traits` or `requires_any_traits` are defined, the skill will always display in the character tab
 
 ### Speed Description
 

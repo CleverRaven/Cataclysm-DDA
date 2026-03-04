@@ -137,21 +137,21 @@ void Skill::reset()
 void Skill::check_consistency()
 {
     for( Skill &skill : skills )  {
-        auto rt = skill._required_traits.begin();
-        while( rt != skill._required_traits.end() ) {
+        auto rt = skill._requires_all_traits.begin();
+        while( rt != skill._requires_all_traits.end() ) {
             auto current = rt++;
             if( !trait_id( *current ).is_valid() ) {
                 debugmsg( "trait %s does not exist", current->c_str() );
-                rt = skill._required_traits.erase( current );
+                rt = skill._requires_all_traits.erase( current );
             }
         }
 
-        rt = skill._allowed_traits.begin();
-        while( rt != skill._allowed_traits.end() ) {
+        rt = skill._requires_any_traits.begin();
+        while( rt != skill._requires_any_traits.end() ) {
             auto current = rt++;
             if( !trait_id( *current ).is_valid() ) {
                 debugmsg( "trait %s does not exist", current->c_str() );
-                rt = skill._allowed_traits.erase( current );
+                rt = skill._requires_any_traits.erase( current );
             }
         }
     }
@@ -213,8 +213,8 @@ void Skill::load_skill( const JsonObject &jsobj )
     sk._level_descriptions_practice = level_descriptions_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
     sk._teachable = jsobj.get_bool( "teachable", true );
-    sk._required_traits = jsobj.get_tags( "required_traits" );
-    sk._allowed_traits = jsobj.get_tags( "allowed_traits" );
+    sk._requires_all_traits = jsobj.get_tags( "requires_all_traits" );
+    sk._requires_any_traits = jsobj.get_tags( "requires_any_traits" );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -297,14 +297,14 @@ skill_id Skill::random_skill()
 
 bool Skill::can_chr_use( Character &chr ) const
 {
-    for( std::string tid : _required_traits ) {
+    for( std::string tid : _requires_all_traits ) {
         if( !chr.has_trait( trait_id( tid ) ) ) {
             return false;
         }
     }
 
-    if( !_allowed_traits.empty() ) {
-        for( std::string tid : _allowed_traits ) {
+    if( !_requires_any_traits.empty() ) {
+        for( std::string tid : _requires_any_traits ) {
             if( chr.has_trait( trait_id( tid ) ) ) {
                 return true;
             }
