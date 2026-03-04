@@ -1872,7 +1872,10 @@
         "text": "Gain [<trait_name:perk_yeoman>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_yeoman>", "target_var": { "context_val": "trait_name" } },
-          { "set_string_var": "<trait_description:perk_yeoman>", "target_var": { "context_val": "trait_description" } },
+          {
+            "set_string_var": "<trait_description:perk_yeoman>",
+            "target_var": { "context_val": "trait_description" }
+          },
           { "set_string_var": "perk_yeoman", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires archery 8",
