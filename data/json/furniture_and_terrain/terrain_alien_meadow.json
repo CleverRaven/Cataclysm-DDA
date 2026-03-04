@@ -326,8 +326,6 @@
     "symbol": "~",
     "color": "green",
     "move_cost": 8,
-    "connect_groups": "ALIENMEADOW",
-    "connects_to": "ALIENMEADOW",
     "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ]
   }
 ]
