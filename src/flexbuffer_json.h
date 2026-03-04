@@ -224,6 +224,7 @@ class JsonValue : Json
         using Json::throw_error;
         using Json::throw_error_after;
         using Json::string_error;
+        using Json::get_root_source_path;
 
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise

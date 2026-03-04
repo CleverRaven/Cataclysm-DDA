@@ -310,6 +310,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },
@@ -686,6 +687,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },
@@ -890,6 +892,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },

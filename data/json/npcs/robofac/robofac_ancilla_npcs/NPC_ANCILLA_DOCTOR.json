@@ -102,7 +102,8 @@
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
-            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
           ]
         }
       },
@@ -165,7 +166,8 @@
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
-            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
           ]
         }
       },
@@ -193,7 +195,11 @@
         "text": "Actually, I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
         "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
         "condition": {
-          "and": [ { "math": [ "hub01_promised_cbm_reward == 1" ] }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ]
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
+          ]
         }
       },
       {
@@ -209,7 +215,9 @@
       },
       {
         "text": "[20 HGC - Install Hub 01 CBM interface]  Twenty HGC to turn me into a cyborg?  Let's do it.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 20 } },
+        "condition": {
+          "and": [ { "u_has_items": { "item": "RobofacCoin", "count": 20 } }, { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } } ]
+        },
         "effect": [
           {
             "if": { "u_has_trait": "CBM_Interface" },

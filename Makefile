@@ -976,8 +976,8 @@ ifeq ($(MSYS2),1)
   DEFINES += -DMSYS2 -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-CFLAGS += $(C_STD) $(WARNINGS)
-CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
+CFLAGS += $(C_STD) $(WARNINGS) -fvisibility=hidden
+CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS) -fvisibility=hidden
 
 # Enumerations of all the source files and headers.
 ifeq ($(HEADERPOPULARITY), 1)
