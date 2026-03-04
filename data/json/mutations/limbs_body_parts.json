@@ -213,6 +213,7 @@
     "heading_multiple": "feathered arms",
     "main_part": "arm_feathers_l",
     "opposite_part": "arm_feathers_r",
+    "connected_to": "torso",
     "side": "left",
     "hit_size": 15,
     "env_protection": 2,
@@ -229,7 +230,7 @@
     "base_hp": 60,
     "stat_hp_mods": { "str_mod": 2 },
     "smash_efficiency": 0.4,
-    "ugliness": -2,
+    "ugliness": 2,
     "ugliness_mandatory": 1,
     "sub_parts": [ "arm_feathers_shoulder_l", "arm_feathers_upper_l", "arm_feathers_elbow_l", "arm_feathers_lower_l" ],
     "similar_bodypart": "arm_l"
