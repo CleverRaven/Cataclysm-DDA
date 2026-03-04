@@ -18,7 +18,6 @@
       [ "clasps", 8 ],
       [ "fastener_small", 5 ]
     ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -41,8 +40,7 @@
       [ "fastener_large", 1 ],
       [ "clasps", 8 ],
       [ "fastener_small", 5 ]
-    ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+    ]
   },
   {
     "result": "xl_wsurvivor_jumpsuit_nofur",
@@ -58,8 +56,7 @@
       [ "fastener_large", 1 ],
       [ "clasps", 10 ],
       [ "fastener_small", 5 ]
-    ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+    ]
   },
   {
     "result": "lsurvivor_jumpsuit",
@@ -247,7 +244,6 @@
       [ "clasps", 8 ],
       [ "fastener_small", 5 ]
     ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
