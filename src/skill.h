@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "game_constants.h"
 #include "translation.h"
 #include "type_id.h"
@@ -51,6 +52,8 @@ class Skill
         bool _teachable = true;
         bool _obsolete = false;
         bool consumes_focus = true;
+        std::set<std::string> _required_traits;
+        std::set<std::string> _allowed_traits;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
@@ -60,6 +63,10 @@ class Skill
 
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
+        static void check_consistency();
+
+        static std::vector<const Skill *> get_skills_for_chr_display(
+            Character &chr, std::function<bool ( const Skill &, const Skill & )> pred );
 
         static std::vector<const Skill *> get_skills_sorted_by(
             std::function<bool ( const Skill &, const Skill & )> pred );
@@ -122,6 +129,7 @@ class Skill
             return consumes_focus;
         }
 
+        bool can_chr_use( Character &chr ) const;
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
         std::string get_level_description( int skill_lvl, bool practical ) const;
