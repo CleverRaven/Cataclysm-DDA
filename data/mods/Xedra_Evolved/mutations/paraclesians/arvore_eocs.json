@@ -957,12 +957,12 @@
     "false_effect": [
       {
         "math": [
-          "_damage_lower_bound = ( 25 + (n_spell_count('school': 'ARVORE') * 2.6) + (n_skill('gramarye') * 3.4) ) * ( ( n_val('intelligence') + 10) / 20 )  )"
+          "_damage_lower_bound = ( 25 + (n_spell_count('school': 'ARVORE') * 2.6) + (n_skill('gramarye') * 3.4) ) * scaling_factor(n_val('intelligence') )"
         ]
       },
       {
         "math": [
-          "_damage_upper_bound = ( 25 + (n_spell_count('school': 'ARVORE') * 5.6) + (n_skill('gramarye') * 7.1) ) * ( ( n_val('intelligence') + 10) / 20 )  )"
+          "_damage_upper_bound = ( 25 + (n_spell_count('school': 'ARVORE') * 5.6) + (n_skill('gramarye') * 7.1) ) * scaling_factor(n_val('intelligence') )"
         ]
       },
       { "math": [ "u_arvore_turn_into_tree_damage", "=", "rng(_damage_lower_bound, _damage_upper_bound)" ] },
