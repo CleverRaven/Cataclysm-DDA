@@ -1019,17 +1019,25 @@ static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offs
     wipe_map_terrain();
     overmap_buffer.spawn_monster( project_to<coords::sm>( monster_pos ) );
 
-    CAPTURE( overmap_buffer.ter( project_to<coords::omt>( monster_pos ) ) );
-    CAPTURE( test_player.pos_abs() );
-    tripoint_bub_ms player_next_step = test_player.pos_bub() + walk_direction;
-    CAPTURE( here.ter( player_next_step ) );
-    CAPTURE( here.furn( player_next_step ) );
-    CAPTURE( here.tr_at( player_next_step ) );
-    CAPTURE( here.move_cost( player_next_step ) );
-    Creature *tgt_monster = get_creature_tracker().creature_at( here.get_bub( monster_pos ) );
+    // place_critter_around() uses radius=1, so if the exact tile was blocked
+    // during the map shift the monster may have materialized up to 1 tile away.
+    // Search by type instead of exact position.
+    tripoint_bub_ms expected_local = here.get_bub( monster_pos );
+    CAPTURE( expected_local );
+    CAPTURE( here.ter( expected_local ) );
+    CAPTURE( here.furn( expected_local ) );
+    CAPTURE( here.move_cost( expected_local ) );
+    monster *tgt_monster = nullptr;
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.type->id == id ) {
+            tgt_monster = &critter;
+            break;
+        }
+    }
     REQUIRE( tgt_monster != nullptr );
-    REQUIRE( tgt_monster->is_monster() );
-    REQUIRE( tgt_monster->as_monster()->type->id == id );
+    tripoint_bub_ms actual_local = here.get_bub( tgt_monster->pos_abs() );
+    CAPTURE( actual_local );
+    CHECK( square_dist( actual_local, expected_local ) <= 1 );
     CHECK( nullptr == overmap_buffer.entity_at( monster_pos ) );
 }
 
