@@ -2301,7 +2301,7 @@
     "name": { "str_sp": "Hub 01 XM-LEG (on)" },
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
-    "use_action": [ { "type": "transform", "msg": "You deactive your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" } ],
+    "use_action": [ { "type": "transform", "msg": "You deactivate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" } ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmleg"
   },
@@ -2396,7 +2396,7 @@
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "category": "armor",
     "name": { "str_sp": "Hub 01 XM-BACK (off)" },
-    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along the back of your shoulders, your spine, and upper waist, with anchoring pins implanted deep into your joints and bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment at the lower back.  When powered, your frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absord brecoil.  Unpowered, it is a significant burden.  Activate it to toggle power.",
+    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along the back of your shoulders, your spine, and upper waist, with anchoring pins implanted deep into your joints and bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment at the lower back.  When powered, your frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absorb recoil.  Unpowered, it is a significant burden.  Activate it to toggle power.",
     "weight": "1600 g",
     "volume": "5000 ml",
     "price": "0 cent",
@@ -2457,7 +2457,7 @@
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "torso" ] } ],
     "use_action": [
-      { "type": "transform", "msg": "You deactive your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback" }
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback" }
     ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmback"
