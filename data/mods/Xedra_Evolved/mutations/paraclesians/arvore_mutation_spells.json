@@ -890,12 +890,8 @@
     "min_range": 1,
     "teachable": false,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 350,
-    "final_energy_cost": 200,
-    "energy_increment": -25,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -5,
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * -1.1) + (u_skill('gramarye') * -1.5) ), 75)" ] },
+    "base_energy_cost": { "math": [ "max( (350 + (u_spell_count('school': 'ARVORE') * -1.8) + (u_skill('gramarye') * -3) ), 200)" ] },
     "learn_spells": { "arvore_roots_spell": 8, "arvore_create_living_tent_spell": 10, "arvore_summon_floral_boat": 16 }
   },
   {
@@ -916,12 +912,8 @@
     "min_range": 1,
     "max_range": 1,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 500,
-    "final_energy_cost": 250,
-    "energy_increment": -20,
-    "base_casting_time": 12000,
-    "final_casting_time": 1500,
-    "casting_time_increment": -150,
+    "base_casting_time": { "math": [ "max( (12000 + (u_spell_count('school': 'ARVORE') * -305.1) + (u_skill('gramarye') * -561.8) ), 1500)" ] },
+    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'ARVORE') * -10.9) + (u_skill('gramarye') * -15.6) ), 250)" ] },
     "learn_spells": { "arvore_summon_floral_boat": 8 }
   },
   {
