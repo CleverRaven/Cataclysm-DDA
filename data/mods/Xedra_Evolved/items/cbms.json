@@ -130,6 +130,16 @@
     "difficulty": 0
   },
   {
+    "id": "xe_bio_dataslot_muay_thai",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Datacore: Muay Thai", "str_pl": "Datacores: Muay Thai" },
+    "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
+    "price": "1 kUSD 500 USD",
+    "difficulty": 0
+  },
+  {
     "id": "xe_bio_dataslot_helicopter_pilot",
     "copy-from": "bionic_general",
     "type": "ITEM",

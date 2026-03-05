@@ -87,6 +87,17 @@
     "learned_proficiencies": [ "prof_parkour" ]
   },
   {
+    "id": "xe_bio_dataslot_muay_thai",
+    "type": "bionic",
+    "name": { "str": "Datacore: Muay Thai" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "description": "A brain implant that grants the knowledge of Muay Thai martial arts.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 3 ] ],
+    "known_ma_styles": [ "style_muay_thai" ]
+  },
+  {
     "id": "xe_bio_dataslot_helicopter_pilot",
     "type": "bionic",
     "name": { "str": "Datacore: Helicopter Pilot" },
