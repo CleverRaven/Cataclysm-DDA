@@ -2849,7 +2849,8 @@
       "nested_mask_fsurvivor",
       "nested_mask_fsurvivor",
       "nested_mask_hsurvivor",
-      "nested_mask_lsurvivor"
+      "nested_mask_lsurvivor",
+      "nested_mask_h20survivor"
     ],
     "difficulty": 6
   },
