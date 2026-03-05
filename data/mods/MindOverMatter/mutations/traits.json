@@ -277,11 +277,11 @@
     "purifiable": false,
     "enchantments": [
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
       },
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
       }
     ]
