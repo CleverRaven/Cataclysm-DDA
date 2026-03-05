@@ -12,7 +12,7 @@
       {
         "id": "ak47",
         "name": { "str": "AKM" },
-        "description": "Arguably the most mass-produced firearm ever made, the AKM has cemented itself in history, and a few country flags.  Designed after WW2, it was meant to replace the PPSh-41's role, but soon became the main infantry rifle.  While many believe it is a copy of the German StG-44, it more resembles an M1 Garand in operation.  Despite it's age, it still sees plenty of use in conflicts today."
+        "description": "First produced in 1959, the AKM has cemented itself in history as the popular successor to its older brother, the AK-47, making improvements such as reduced weight and increased reliability.  Despite its age, it still sees plenty of use in conflicts up until the Cataclysm."
       }
     ],
     "weight": "3402 g",
@@ -43,7 +43,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "SKS rifle" },
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "First produced by the Soviets in 1949, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
     "variant_type": "gun",
     "variants": [
       {
@@ -141,7 +141,7 @@
     "subtypes": [ "GUN" ],
     "copy-from": "gun_base_762_semi_rifle",
     "name": { "str": "American AK rifle" },
-    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  It features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the larger, more potent ammo.",
+    "description": "This American AK Rifle is natively chambered for 7.62x39mm ammo.  It features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the larger, more potent ammo.",
     "variant_type": "gun",
     "variants": [
       {
