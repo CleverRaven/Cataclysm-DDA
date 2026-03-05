@@ -2301,7 +2301,9 @@
     "name": { "str_sp": "Hub 01 XM-LEG (on)" },
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
-    "use_action": [ { "type": "transform", "msg": "You deactivate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" } ],
+    "use_action": [
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" }
+    ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmleg"
   },
