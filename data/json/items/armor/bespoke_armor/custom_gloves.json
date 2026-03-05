@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "survivor gloves (pair)" },
+    "name": { "str_sp": "handmade hazard gloves (pair)" },
     "description": "A pair of tough canvas gloves sealed with rubber.  Overall flexibility is lowered, but this makes them quite resistant to chemical hazards.",
     "weight": "230 g",
     "volume": "350 ml",
@@ -34,7 +34,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_survivor",
-    "name": { "str_sp": "survivor gloves (pair)" },
+    "name": { "str_sp": "handmade hazard gloves (pair)" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -43,7 +43,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_survivor",
-    "name": { "str_sp": "survivor gloves (pair)" },
+    "name": { "str_sp": "handmade hazard gloves (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -52,7 +52,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade winter gauntlets (pair)" },
     "description": "Handmade waterproof gloves made of a durably woven cotton lined with fur and a canvas outer layer  Restrictive, warm, and tough.",
     "weight": "300 g",
     "volume": "500 ml",
@@ -83,7 +83,7 @@
     "id": "xl_gloves_wsurvivor",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade winter gauntlets (pair)" },
     "copy-from": "gloves_wsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -93,7 +93,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_wsurvivor",
-    "name": { "str_sp": "winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade winter gauntlets (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -101,7 +101,7 @@
     "id": "gloves_wsurvivor_nofur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "faux fur winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade faux fur winter gauntlets (pair)" },
     "description": "Handmade waterproof gloves made of a durably woven cotton lined with faux fur and a canvas outer layer  Restrictive, warm, and tough.",
     "weight": "300 g",
     "volume": "500 ml",
@@ -132,7 +132,7 @@
     "id": "xl_gloves_wsurvivor_nofur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "faux fur winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade faux fur winter gauntlets (pair)" },
     "copy-from": "gloves_wsurvivor_nofur",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -142,7 +142,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "gloves_wsurvivor_nofur",
-    "name": { "str_sp": "faux fur winter survivor gloves (pair)" },
+    "name": { "str_sp": "handmade faux fur winter gauntlets (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
