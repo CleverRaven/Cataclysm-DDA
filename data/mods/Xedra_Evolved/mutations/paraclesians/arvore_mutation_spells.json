@@ -1210,8 +1210,16 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "max_level": 15,
-    "min_range": { "math": [ "(3 + (u_spell_level('arvore_turn_into_tree') * 1.2) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_range": 70,
+    "min_range": {
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('perception') ) ), 35)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('perception') ) ), 35)"
+      ]
+    },
     "magic_type": "xedra_arvore_magick",
     "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('gramarye') * -2.9) ), 100)" ] },
     "base_energy_cost": { "math": [ "max( (1750 + (u_spell_count('school': 'ARVORE') * 27.4) + (u_skill('gramarye') * -38.1) ), 850)" ] },
@@ -1259,17 +1267,17 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING",
     "min_aoe": {
-      "math": [ "( (u_spell_level('arvore_damage_zombies_heal_living') * 1.1) + 2.5) * scaling_factor(u_val('intelligence') )" ]
+      "math": [
+        "min( ( (2.5 + (u_spell_count('school': 'ARVORE') * 0.65) + (u_skill('gramarye') * 1.1) ) * scaling_factor(u_val('intelligence') ) ), 25)"
+      ]
     },
     "max_aoe": {
-      "math": [ "( (u_spell_level('arvore_damage_zombies_heal_living') * 1.1) + 2.5) * scaling_factor(u_val('intelligence') )" ]
+      "math": [
+        "min( ( (2.5 + (u_spell_count('school': 'ARVORE') * 0.65) + (u_skill('gramarye') * 1.1) ) * scaling_factor(u_val('intelligence') ) ), 25)"
+      ]
     },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 2200,
-    "final_energy_cost": 1500,
-    "energy_increment": -55,
-    "base_casting_time": 350,
-    "final_casting_time": 100,
-    "casting_time_increment": -15
+    "base_casting_time": { "math": [ "max( (350 + (u_spell_count('school': 'ARVORE') * 6.3) + (u_skill('gramarye') * -8.6) ), 100)" ] },
+    "base_energy_cost": { "math": [ "max( (2200 + (u_spell_count('school': 'ARVORE') * 25.6) + (u_skill('gramarye') * -37.9) ), 1500)" ] }
   }
 ]
