@@ -3,7 +3,11 @@
     "id": "scientist_xe_base_CBM_harvest",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 80 }, { "group": "Zomborg_CBM_harvest_utility", "prob": 1 }, { "item": "xe_bio_data_shunt", "prob": 4 } ]
+    "entries": [
+      { "item": "null", "prob": 80 },
+      { "group": "Zomborg_CBM_harvest_utility", "prob": 1 },
+      { "item": "xe_bio_data_shunt", "prob": 4 }
+    ]
   },
   {
     "id": "scientist_xe_base_CBM_power_harvest",
