@@ -22,13 +22,13 @@
     "carry_override": "NC_ANCILLA_BARKEEP_carry",
     "weapon_override": "NC_ANCILLA_BARKEEP_wield",
     "shopkeeper_item_group": [
-      { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true }
+      { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true },
       {
         "group": "NC_ANCILLA_DOCTOR_bionics",
         "rigid": true,
         "strict": true,
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
-      },
+      }
     ],
     "shopkeeper_price_rules": [
       { "group": "NC_ANCILLA_DOCTOR_stock", "premium": 2.0 },
