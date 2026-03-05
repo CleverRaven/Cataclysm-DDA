@@ -52,7 +52,7 @@
     "type": "recipe",
     "name": "treesung wooden chair",
     "id": "create_chair_wood_treesung",
-    "description": "Use your magick to turn treesung wood into a chair.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>300 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a chair.\n\nYou must know <color_yellow>5 Arvore spells</color> and have at least <color_yellow>300 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -71,7 +71,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_CHAIR_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wooden chair all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -100,7 +100,7 @@
     "type": "recipe",
     "name": "treesung wooden wardrobe",
     "id": "create_wardrobe_wood_treesung",
-    "description": "Use your magick to turn treesung wood into a wardrobe.\n\nYou must have <color_yellow>Treesinging level 6</color> and at least <color_yellow>750 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a wardrobe.\n\nYou must know <color_yellow>8 Arvore spells</color> and have at least <color_yellow>750 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -119,7 +119,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_WARDROBE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 8" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wardrobe all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -148,7 +148,7 @@
     "type": "recipe",
     "name": "treesung wooden table",
     "id": "create_table_wood_treesung",
-    "description": "Use your magick to turn treesung wood into a table.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>400 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a table.\n\nYou must know <color_yellow>6 Arvore spells</color> and have at least <color_yellow>400 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -167,7 +167,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_TABLE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a table all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -196,7 +196,7 @@
     "type": "recipe",
     "name": "treesung wooden bed frame",
     "id": "create_bedframe_wood_treesung",
-    "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -215,7 +215,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_BEDFRAME_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a bed frame all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -244,7 +244,7 @@
     "type": "recipe",
     "name": "verdant helm",
     "id": "create_verdant_helm",
-    "description": "Use your magick to turn treesung wood into a helmet made of living wood.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a helmet made of living wood.\n\nYou must know <color_yellow>7 Arvore spells</color> and have at least <color_yellow>500 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -264,7 +264,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_HELM_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 7" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a helmet all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -293,7 +293,7 @@
     "type": "recipe",
     "name": "verdant helm",
     "id": "create_verdant_cuirass",
-    "description": "Use your magick to turn treesung wood into a cuirass made of living wood.\n\nYou must have <color_yellow>Treesinging level 8</color> and at least <color_yellow>950 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a cuirass made of living wood.\n\nYou must know <color_yellow>10 Arvore spells</color> and have at least <color_yellow>950 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -313,7 +313,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CUIRASS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 8" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 10" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cuirass all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -342,7 +342,7 @@
     "type": "recipe",
     "name": "verdant gauntlets",
     "id": "create_verdant_gauntlets",
-    "description": "Use your magick to turn treesung wood into a set of gauntlets made of living wood.\n\nYou must have <color_yellow>Treesinging level 7</color> and at least <color_yellow>850 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a set of gauntlets made of living wood.\n\nYou must know <color_yellow>9 Arvore spells</color> and have at least <color_yellow>850 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -362,7 +362,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_GAUNTLETS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 7" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 9" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of gauntlets all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -391,7 +391,7 @@
     "type": "recipe",
     "name": "verdant leg guards",
     "id": "create_verdant_leg_guards",
-    "description": "Use your magick to turn treesung wood into a set of leg guards made of living wood.\n\nYou must have <color_yellow>Treesinging level 8</color> and at least <color_yellow>850 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a set of leg guards made of living wood.\n\nYou must know have <color_yellow>10 Arvore spells</color> and have at least <color_yellow>850 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -411,7 +411,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_LEG_GUARDS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 8" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 10" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of leg guards all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -440,7 +440,7 @@
     "type": "recipe",
     "name": "verdant boots",
     "id": "create_verdant_boots",
-    "description": "Use your magick to turn treesung wood into a set of boots made of living wood.\n\nYou must have <color_yellow>Treesinging level 6</color> and at least <color_yellow>750 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a set of boots made of living wood.\n\nYou must know <color_yellow>8 Arvore spells</color> and have at least <color_yellow>750 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -460,7 +460,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_BOOTS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 8" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of boots all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -489,7 +489,7 @@
     "type": "recipe",
     "name": "verdant cloak",
     "id": "create_verdant_cloak",
-    "description": "Use your magick to turn treesung wood into a cloak made of living wood and leaves.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a cloak made of living wood and leaves.\n\nYou must know <color_yellow>7 Arvore spells</color> and have at least <color_yellow>500 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -509,7 +509,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CLOAK_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 7" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cloak all made of a living leaves woven together with thin branches, as though it had grown that way in the depths of the forest.",
@@ -538,7 +538,7 @@
     "type": "recipe",
     "name": "treesung shortbow",
     "id": "create_shortbow_treesung",
-    "description": "Use your magick to turn treesung wood into a self bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a self bow made of living wood and a thin vine.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>350 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -558,7 +558,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_SHORTBOW_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a bow all made of a single piece of wood with a thin vine for a string, as though it had grown that way in the depths of the forest.",
@@ -587,7 +587,7 @@
     "type": "recipe",
     "name": "treesung greatbow",
     "id": "create_greatbow_treesung",
-    "description": "Use your magick to turn treesung wood into an enormous bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>600 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into an enormous bow made of living wood and a thin vine.\n\nYou must know <color_yellow>6 Arvore spells</color> and have at least <color_yellow>600 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -607,7 +607,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_GREATBOW_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold an enormous bow all made of a single piece of wood with a thin vine for a string, as though it had grown that way in the depths of the forest.",
@@ -636,7 +636,7 @@
     "type": "recipe",
     "name": "treesung arrows",
     "id": "create_arrow_treesung",
-    "description": "Use your magick to turn treesung wood into a set of arrows made of living wood fletched with leaves.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>400 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a set of arrows made of living wood fletched with leaves.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>400 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -656,7 +656,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_ARROWS_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of arrows fletched with leaves, as though they had grown that way in the depths of the forest.",
@@ -685,7 +685,7 @@
     "type": "recipe",
     "name": "treesung spear",
     "id": "create_spear_treesung",
-    "description": "Use your magick to turn treesung wood into a spear made of living wood.\n\nYou must have <color_yellow>Treesinging level 1</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a spear made of living wood.\n\nYou must know <color_yellow>3 Arvore spells</color> and have at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -705,7 +705,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_SPEAR_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 3" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a spear all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -734,7 +734,7 @@
     "type": "recipe",
     "name": "treesung long spear",
     "id": "create_pike_treesung",
-    "description": "Use your magick to turn treesung wood into a long spear made of living wood.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a long spear made of living wood.\n\nYou must know <color_yellow>5 Arvore spells</color> and have at least <color_yellow>350 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -754,7 +754,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_PIKE_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a long spear all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -783,7 +783,7 @@
     "type": "recipe",
     "name": "treesung mace",
     "id": "create_mace_treesung",
-    "description": "Use your magick to turn treesung wood into a heavy mace made of living wood.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a heavy mace made of living wood.\n\nYou must know <color_yellow>5 Arvore spells</color> and have at least <color_yellow>350 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -803,7 +803,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_MACE_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a mace all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -832,7 +832,7 @@
     "type": "recipe",
     "name": "treesung quarterstaff",
     "id": "create_q_staff_treesung",
-    "description": "Use your magick to turn treesung wood into a quarterstaff made of living wood.\n\nYou must have <color_yellow>Treesinging level 1</color> and at least <color_yellow>150 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a quarterstaff made of living wood.\n\nYou must know <color_yellow>3 Arvore spells</color> and have at least <color_yellow>150 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -852,7 +852,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_Q_STAFF_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 3" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a quarterstaff all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -881,7 +881,7 @@
     "type": "recipe",
     "name": "treesung warhammer",
     "id": "create_warhammer_treesung",
-    "description": "Use your magick to turn treesung wood into a heavy warhammer made of living wood.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>400 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a heavy warhammer made of living wood.\n\nYou must know <color_yellow>6 Arvore spells</color> and have at least <color_yellow>400 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -901,7 +901,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_WARHAMMER_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a warhammer all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -930,7 +930,7 @@
     "type": "recipe",
     "name": "treesung sword-spear",
     "id": "create_naginata_treesung",
-    "description": "Use your magick to turn treesung wood into a long spear crowned with a blade made of living wood.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a long spear crowned with a blade made of living wood.\n\nYou must know <color_yellow>7 Arvore spells</color> and have at least <color_yellow>500 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -950,7 +950,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_NAGINATA_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 7" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a long staff with a sword blade at the end all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
@@ -979,7 +979,7 @@
     "type": "recipe",
     "name": "treesung baselard",
     "id": "create_baselard_treesung",
-    "description": "Use your magick to turn treesung wood into a large knife made of living wood.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "description": "Use your magick to turn treesung wood into a large knife made of living wood.\n\nYou must know <color_yellow>4 Arvore spells</color> and have at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -999,7 +999,7 @@
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_BASELARD_TREESUNG_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "condition": { "math": [ "u_spell_count('school': 'ARVORE') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a large knife all made of a single piece of wood, as though it had grown that way in the depths of the forest.",

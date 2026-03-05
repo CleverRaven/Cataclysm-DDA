@@ -933,24 +933,28 @@
     "shape": "blast",
     "damage_type": "bash",
     "min_range": {
-      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) )" ]
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
     },
     "max_range": {
-      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) )" ]
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('intelligence') ) ), 35)"
+      ]
     },
     "min_aoe": {
-      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('gramarye') * 0.45) ) * scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
     },
     "max_aoe": {
-      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) )" ]
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('gramarye') * 0.45) ) * scaling_factor(u_val('intelligence') ) ), 20)"
+      ]
     },
     "magic_type": "xedra_arvore_magick",
-    "base_casting_time": 100,
-    "final_casting_time": 35,
-    "casting_time_increment": -4,
-    "base_energy_cost": 150,
-    "final_energy_cost": 75,
-    "energy_increment": -5,
+    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'ARVORE') * -1.9) + (u_skill('gramarye') * -2.5) ), 35)" ] },
+    "base_energy_cost": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * -2.8) + (u_skill('gramarye') * -4.2) ), 50)" ] },
     "learn_spells": { "arvore_roots_spell": 6 }
   },
   {
@@ -969,21 +973,69 @@
     "effect_str": "effect_hungry_roots",
     "shape": "blast",
     "damage_type": "bash",
-    "min_range": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.65) + 2) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_range": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.65) + 2) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_aoe": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.25) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_aoe": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.25) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_dot": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.1) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_dot": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.1) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_duration": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 50) + 300) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 100) + 1000) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_range": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.4) + (u_skill('gramarye') * 0.65) ) * scaling_factor(u_val('perception') ) ), 40)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.4) + (u_skill('gramarye') * 0.65) ) * scaling_factor(u_val('perception') ) ), 40)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( (0 + (u_spell_count('school': 'ARVORE') * 0.08) + (u_skill('gramarye') * 0.15) ) * scaling_factor(u_val('perception') ) ), 3)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (0 + (u_spell_count('school': 'ARVORE') * 0.08) + (u_skill('gramarye') * 0.15) ) * scaling_factor(u_val('perception') ) ), 3)"
+      ]
+    },
+    "min_dot": { "math": [ "min( (0.15 + (u_spell_count('school': 'ARVORE') * 0.04) + (u_skill('gramarye') * 0.08) ), 3)" ] },
+    "max_dot": { "math": [ "min( (0.15 + (u_spell_count('school': 'ARVORE') * 0.04) + (u_skill('gramarye') * 0.08) ), 3)" ] },
+    "min_duration": {
+      "math": [
+        "( 150 + (u_spell_count('school': 'ARVORE') * 55) + (u_skill('gramarye') * 112) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 680 + (u_spell_count('school': 'ARVORE') * 105) + (u_skill('gramarye') * 252) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
     "magic_type": "xedra_arvore_magick",
-    "base_casting_time": 150,
-    "final_casting_time": 50,
-    "casting_time_increment": -4,
-    "base_energy_cost": 225,
-    "final_energy_cost": 125,
-    "energy_increment": -5
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * -2.2) + (u_skill('gramarye') * -3.1) ), 50)" ] },
+    "base_energy_cost": { "math": [ "max( (225 + (u_spell_count('school': 'ARVORE') * -2.2) + (u_skill('gramarye') * -3.1) ), 125)" ] }
+  },
+  {
+    "id": "paraclesian_spell_dodge_bonus_arvore",
+    "type": "SPELL",
+    "name": "The Wind Blows, the Willow Bends",
+    "description": "Like the flitting wind or the flexible willow, the spell allows you to avoid attacks much more easily.  It has <color_yellow>reduced effects</color> when on artificial terrain.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "skill": "gramarye",
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "difficulty": 5,
+    "min_duration": {
+      "math": [
+        "( 20485 + (u_spell_count('school': 'ARVORE') * 6712) + (u_skill('gramarye') * 9785) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 39855 + (u_spell_count('school': 'ARVORE') * 10235) + (u_skill('gramarye') * 21853) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "magic_type": "xedra_arvore_magick",
+    "base_energy_cost": { "math": [ "max( (600 + (u_spell_count('school': 'ARVORE') * -4.8) + (u_skill('gramarye') * -6.7) ), 400)" ] },
+    "base_casting_time": 150
   },
   {
     "id": "arvore_perennial_rebirth_spell",
@@ -1019,12 +1071,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_OVERGROWTH",
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 1500,
-    "final_energy_cost": 750,
-    "energy_increment": -35,
-    "base_casting_time": 500,
-    "final_casting_time": 250,
-    "casting_time_increment": -8,
+    "base_casting_time": { "math": [ "max( (500 + (u_spell_count('school': 'ARVORE') * -8.2) + (u_skill('gramarye') * -12.6) ), 250)" ] },
+    "base_energy_cost": { "math": [ "max( (1500 + (u_spell_count('school': 'ARVORE') * -19.7) + (u_skill('gramarye') * -28.9) ), 750)" ] },
     "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_turn_into_tree": 9, "arvore_damage_zombies_heal_living": 12 }
   },
   {
@@ -1042,20 +1090,31 @@
     "difficulty": 9,
     "spell_class": "ARVORE",
     "damage_type": "biological",
-    "min_aoe": { "math": [ "( ( (u_spell_level('arvore_cause_decay') * 0.8) + 3) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_aoe": { "math": [ "( ( (u_spell_level('arvore_cause_decay') * 0.8) + 3) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_dot": 1,
-    "max_dot": 5,
-    "dot_increment": 0.2,
-    "min_duration": { "math": [ "( ( (u_spell_level('arvore_cause_decay') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_duration": { "math": [ "( ( (u_spell_level('arvore_cause_decay') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_aoe": {
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('perception') ) ), 25)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.8) ) * scaling_factor(u_val('perception') ) ), 25)"
+      ]
+    },
+    "min_dot": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.18) + (u_skill('gramarye') * 0.25) ), 6)" ] },
+    "max_dot": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.18) + (u_skill('gramarye') * 0.25) ), 6)" ] },
+    "min_duration": {
+      "math": [
+        "( 482 + (u_spell_count('school': 'ARVORE') * 75) + (u_skill('gramarye') * 258) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 2842 + (u_spell_count('school': 'ARVORE') * 210) + (u_skill('gramarye') * 458) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 1000,
-    "final_energy_cost": 500,
-    "energy_increment": -20,
-    "base_casting_time": 150,
-    "final_casting_time": 75,
-    "casting_time_increment": -2,
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('gramarye') * -4.5) ), 75)" ] },
+    "base_energy_cost": { "math": [ "max( (1000 + (u_spell_count('school': 'ARVORE') * -25.9) + (u_skill('gramarye') * -31.3) ), 500)" ] },
     "learn_spells": { "arvore_damage_zombies_heal_living": 7 }
   },
   {
@@ -1075,34 +1134,8 @@
     "teachable": false,
     "max_level": 15,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 250,
-    "energy_increment": -5,
-    "final_energy_cost": 80,
-    "base_casting_time": 100,
-    "casting_time_increment": -1,
-    "final_casting_time": 80
-  },
-  {
-    "id": "arvore_traverse_the_wilds_real",
-    "type": "SPELL",
-    "name": { "str": "Traverse the Wilds Real", "//~": "NO_I18N" },
-    "description": {
-      "str": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves tree to tree, stepping into an adjacent tree and then stepping out of another one within the spell's range.",
-      "//~": "NO_I18N"
-    },
-    "message": "",
-    "valid_targets": [ "ground", "ally", "hostile" ],
-    "skill": "gramarye",
-    "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
-    "effect": "short_range_teleport",
-    "shape": "blast",
-    "max_level": 15,
-    "min_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
-    }
+    "base_casting_time": { "math": [ "max( (250 + (u_spell_count('school': 'ARVORE') * 4.1) + (u_skill('gramarye') * -6.8) ), 125)" ] },
+    "base_energy_cost": { "math": [ "max( (250 + (u_spell_count('school': 'ARVORE') * 5.3) + (u_skill('gramarye') * -7.6) ), 80)" ] }
   },
   {
     "id": "arvore_forest_translocate",
@@ -1141,7 +1174,9 @@
     "magic_type": "xedra_arvore_magick",
     "min_range": 1,
     "base_energy_cost": 0,
-    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('arvore_forest_translocate') * 108000), 180000)" ] }
+    "base_casting_time": {
+      "math": [ "max( (2880000 + (u_spell_count('school': 'ARVORE') * 59341) + (u_skill('gramarye') * -98963) ), 180000)" ]
+    }
   },
   {
     "id": "arvore_forest_translocate_attune_real",
@@ -1178,12 +1213,8 @@
     "min_range": { "math": [ "(3 + (u_spell_level('arvore_turn_into_tree') * 1.2) * (scaling_factor(u_val('perception') ) ) )" ] },
     "max_range": 70,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 1750,
-    "energy_increment": -50,
-    "final_energy_cost": 850,
-    "base_casting_time": 200,
-    "casting_time_increment": -5,
-    "final_casting_time": 100,
+    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('gramarye') * -2.9) ), 100)" ] },
+    "base_energy_cost": { "math": [ "max( (1750 + (u_spell_count('school': 'ARVORE') * 27.4) + (u_skill('gramarye') * -38.1) ), 850)" ] },
     "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
   },
   {
@@ -1198,8 +1229,16 @@
     "shape": "blast",
     "spell_class": "ARVORE",
     "teachable": false,
-    "min_damage": { "math": [ "(25 + (u_arvore_turn_into_tree_spell_level * 5)) * u_arvore_turn_into_tree_intelligence" ] },
-    "max_damage": { "math": [ "(100 + (u_arvore_turn_into_tree_spell_level * 15)) * u_arvore_turn_into_tree_intelligence" ] },
+    "min_damage": {
+      "math": [
+        "( 25 + (u_arvore_turn_into_tree_spell_count * 2.6) + (u_arvore_turn_into_tree_gramarye_level * 3.4) ) * u_arvore_turn_into_tree_intelligence"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( 100 + (u_arvore_turn_into_tree_spell_count * 5.6) + (u_arvore_turn_into_tree_gramarye_level * 7.1) ) * u_arvore_turn_into_tree_intelligence"
+      ]
+    },
     "min_range": 0,
     "max_range": 0,
     "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
