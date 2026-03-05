@@ -2373,11 +2373,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
+                    const bool use_grab_routing =
+                        has_grabbed_single_tile_vehicle( player_character, here );
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
-                        destination_preview =
-                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        if( use_grab_routing ) {
+                            destination_preview = route_with_grab( here, player_character,
+                                                                   pathfinding_target::point( auto_travel_destination ),
+                                                                   player_character.get_path_avoid() );
+                        } else {
+                            destination_preview =
+                                here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        }
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );

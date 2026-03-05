@@ -1,3 +1,4 @@
+#include <climits>
 #include <functional>
 #include <initializer_list>
 #include <optional>
@@ -2071,3 +2072,140 @@ TEST_CASE( "zone_sorting_drag_weight_gate",
     CHECK( in_cart + carried + at_source == num_boulders );
     CHECK( at_source > 0 );
 }
+
+static void build_open_area( map &here, const tripoint_bub_ms &center, int radius = 15 )
+{
+    for( int x = center.x() - radius; x <= center.x() + radius; x++ ) {
+        for( int y = center.y() - radius; y <= center.y() + radius; y++ ) {
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_t_floor );
+        }
+    }
+}
+
+static vehicle *setup_grabbed_cart( avatar &dummy, map &here,
+                                    const tripoint_bub_ms &player_pos,
+                                    const tripoint_rel_ms &grab_dir )
+{
+    dummy.setpos( here, player_pos );
+    dummy.clear_destination();
+
+    const tripoint_bub_ms cart_pos = player_pos + grab_dir;
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      cart_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, grab_dir );
+    REQUIRE( dummy.get_grab_type() == object_type::VEHICLE );
+    REQUIRE( cart->get_points().size() == 1 );
+    return cart;
+}
+
+TEST_CASE( "route_with_grab_strength_gating",
+           "[zones][pathfinding][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms dest_pos( 60, 70, 0 );
+
+    build_open_area( here, tripoint_bub_ms( 60, 65, 0 ) );
+
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::south );
+
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    const int low_str = 4;
+    dummy.set_str_base( low_str );
+    dummy.set_str_bonus( 0 );
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 200; i++ ) {
+        if( !cargo->vehicle().add_item( here, cargo->part(),
+                                        item( itype_test_heavy_boulder ) ) ) {
+            break;
+        }
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int drag_req = cart->drag_str_req_at( here, start_pos + tripoint::south );
+    CAPTURE( drag_req );
+    CAPTURE( dummy.get_arm_str() );
+    REQUIRE( drag_req > dummy.get_arm_str() );
+
+    dummy.setpos( here, start_pos + tripoint::north );
+    dummy.setpos( here, start_pos );
+    CHECK( zone_sorting::route_length( dummy, dest_pos ) == INT_MAX );
+
+    dummy.set_str_base( 20 );
+    dummy.set_str_bonus( 0 );
+    REQUIRE( dummy.get_arm_str() >= drag_req );
+
+    dummy.setpos( here, start_pos + tripoint::north );
+    dummy.setpos( here, start_pos );
+    CHECK( zone_sorting::route_length( dummy, dest_pos ) != INT_MAX );
+}
+
+TEST_CASE( "route_cache_invalidation_on_mass_change",
+           "[zones][pathfinding][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms dest_pos( 60, 70, 0 );
+
+    build_open_area( here, tripoint_bub_ms( 60, 65, 0 ) );
+
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::south );
+
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int len_before = zone_sorting::route_length( dummy, dest_pos );
+    CHECK( len_before != INT_MAX );
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 200; i++ ) {
+        if( !cargo->vehicle().add_item( here, cargo->part(),
+                                        item( itype_test_heavy_boulder ) ) ) {
+            break;
+        }
+    }
+
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+
+    const int drag_req = cart->drag_str_req_at( here, cart_pos );
+    CAPTURE( drag_req );
+    CAPTURE( dummy.get_arm_str() );
+    REQUIRE( drag_req > dummy.get_arm_str() );
+
+    const int len_after = zone_sorting::route_length( dummy, dest_pos );
+    CHECK( len_after == INT_MAX );
+}
+
