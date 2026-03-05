@@ -4736,8 +4736,8 @@
     "ugliness": 2,
     "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
     "wet_protection": [
-      { "part": "arm_l", "neutral": 50 },
-      { "part": "arm_r", "neutral": 50 },
+      { "part": "arm_feathers_l", "neutral": 50 },
+      { "part": "arm_feathers_r", "neutral": 50 },
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
