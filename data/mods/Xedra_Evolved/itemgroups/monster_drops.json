@@ -263,6 +263,17 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_scientist_death_drops",
+    "copy-from": "mon_zombie_scientist_death_drops",
+    "extend": {
+      "entries": [
+        { "item": "xe_datacores", "prob": 3 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
     "id": "harddrugs",
     "copy-from": "harddrugs",
     "subtype": "distribution",
@@ -696,6 +707,7 @@
         "prob": 10
       },
       { "group": "infantry_common_gear" },
+      { "group": "xe_datacores", "prob": 5 },
       {
         "distribution": [
           { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 80 },
