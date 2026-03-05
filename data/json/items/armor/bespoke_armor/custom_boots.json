@@ -130,6 +130,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "handmade faux fur hazard boots (pair)" },
+    "description": "Custom boots of treated leather, sealed with polymer coating and lined with faux fur.  Warm and acid-proof with steel toes for protection.",
     "weight": "1760 g",
     "volume": "3500 ml",
     "price_postapoc": "60 USD",
