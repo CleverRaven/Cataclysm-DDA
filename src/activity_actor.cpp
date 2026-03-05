@@ -13540,7 +13540,16 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( picked_up_this_pass ) {
             int dest_dist = INT_MAX;
             for( const tripoint_abs_ms &dest : dropoff_coords ) {
-                dest_dist = std::min( dest_dist, square_dist( abspos, dest ) );
+                if( square_dist( abspos, dest ) <= 1 ) {
+                    dest_dist = 0;
+                    break;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( dest );
+                if( !here.inbounds( dest_bub ) ) {
+                    continue;
+                }
+                const int rd = zone_sorting::route_length( you, dest_bub );
+                dest_dist = std::min( dest_dist, rd );
             }
 
             // Pre-fetch cart cargo for per-item volume check
@@ -13550,8 +13559,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 batch_cart_vp = here.veh_at( cart_pos ).cargo();
             }
 
-            // Build distance-sorted candidates, mirroring THINK's filters
-            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            // Build distance-sorted candidates using A* route distances.
+            // Pre-sort by Chebyshev (lower bound on route distance) and use it
+            // as a cheap filter before expensive A* calls.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_presorted;
             for( const tripoint_abs_ms &candidate : coord_set ) {
                 if( candidate == src ) {
                     continue;
@@ -13567,11 +13578,39 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                                                         zone_sorting::ignore_contents( you, candidate ) ) ) {
                     continue;
                 }
-                const int cand_dist = square_dist( abspos, candidate );
-                if( cand_dist >= dest_dist ) {
+                const int cheb = square_dist( abspos, candidate );
+                if( cheb >= dest_dist ) {
+                    // Chebyshev is a lower bound on route distance, so this
+                    // candidate can't possibly be closer than the destination.
                     continue;
                 }
-                batch_candidates.emplace_back( cand_dist, candidate );
+                batch_presorted.emplace_back( cheb, candidate );
+            }
+            std::sort( batch_presorted.begin(), batch_presorted.end(),
+                       []( const std::pair<int, tripoint_abs_ms> &a,
+            const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+
+            // Compute actual A* route distances for survivors.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            for( const auto &[cheb, candidate] : batch_presorted ) {
+                if( cheb <= 1 ) {
+                    // Adjacent -- no pathfinding needed.
+                    batch_candidates.emplace_back( 0, candidate );
+                    continue;
+                }
+                const tripoint_bub_ms cand_bub = here.get_bub( candidate );
+                const int rdist = zone_sorting::route_length( you, cand_bub );
+                if( rdist == INT_MAX ) {
+                    unreachable_sources.emplace( candidate );
+                    continue;
+                }
+                if( rdist >= dest_dist ) {
+                    // Closer by Chebyshev but not by actual route distance.
+                    continue;
+                }
+                batch_candidates.emplace_back( rdist, candidate );
             }
             std::sort( batch_candidates.begin(), batch_candidates.end(),
                        []( const std::pair<int, tripoint_abs_ms> &a,

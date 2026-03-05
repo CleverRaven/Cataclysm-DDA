@@ -20,6 +20,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "debug.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "horde_entity.h"
@@ -989,7 +990,6 @@ static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offs
     overmap_buffer.spawn_monster( monster_pos, id );
     REQUIRE( nullptr != overmap_buffer.entity_at( monster_pos ) );
 
-    tripoint_bub_ms monster_location;
     // move player toward monster, triggering map shifts
     int num_steps = 0;
     while( !here.inbounds( monster_pos ) ) {
@@ -1014,11 +1014,12 @@ static void walk_toward_monster_off_the_map( tripoint_abs_omt origin, point offs
         }
         g->cleanup_dead();
     }
+
+    // Retry materialization in case placement failed due to terrain.
+    wipe_map_terrain();
+    overmap_buffer.spawn_monster( project_to<coords::sm>( monster_pos ) );
+
     CAPTURE( overmap_buffer.ter( project_to<coords::omt>( monster_pos ) ) );
-    CAPTURE( here.ter( monster_location ) );
-    CAPTURE( here.furn( monster_location ) );
-    CAPTURE( here.tr_at( monster_location ) );
-    CAPTURE( here.move_cost( monster_location ) );
     CAPTURE( test_player.pos_abs() );
     tripoint_bub_ms player_next_step = test_player.pos_bub() + walk_direction;
     CAPTURE( here.ter( player_next_step ) );
@@ -1087,34 +1088,96 @@ TEST_CASE( "monsters_appear_on_map_as_expected", "[monster][map][hordes]" )
     // This clear_area call is very expensive, so just do it once for all the related
     // tests and space them out far enough apart to avoid interfering with each other.
     clear_area( origin + point::north_west * 18, origin + point::south_east * 18 );
-    // The goal of the variations here is to catch edge cases concerning direction of movement or
-    // which quadrant of an OMT the monster is on.
+    // One horizontal + one vertical direction per quadrant to catch edge cases
+    // concerning direction of movement or which quadrant of an OMT the monster is on.
     tripoint_abs_omt origin_nw = origin + point::north_west * 9;
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::east );
-    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::west );
-    walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::north );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_nw, point( 6, 6 ), point::south );
 
     tripoint_abs_omt origin_ne = origin + point::north_east * 9;
-    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::east );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::west );
-    walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::north );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_ne, point( 18, 6 ), point::south );
 
     tripoint_abs_omt origin_sw = origin + point::south_west * 9;
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::east );
-    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::west );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::north );
-    walk_toward_monster_off_the_map( origin_sw, point( 6, 18 ), point::south );
 
     tripoint_abs_omt origin_se = origin + point::south_east * 9;
-    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::east );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::west );
+    clear_creatures();
     walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::north );
-    walk_toward_monster_off_the_map( origin_se, point( 18, 18 ), point::south );
+}
 
-    // Also because of the clearing overhead, sneak this similar test in.
+TEST_CASE( "dormant_monsters_materialize_correctly", "[monster][map][hordes]" )
+{
+    tripoint_abs_omt origin{ 90, 90, 0 };
+    clear_area( origin + point::north_west * 18, origin + point::south_east * 18 );
     dormant_monsters_spawn_correctly( origin );
+}
+
+TEST_CASE( "failed_horde_placement_preserves_entity", "[monster][hordes]" )
+{
+    clear_map_and_put_player_underground();
+    map &here = get_map();
+
+    tripoint_bub_ms local_pos{ 60, 60, 0 };
+    tripoint_abs_ms abs_pos = here.get_abs( local_pos );
+    tripoint_abs_sm submap_pos = project_to<coords::sm>( abs_pos );
+
+    SECTION( "lightweight entity preserved on placement failure" ) {
+        // Block center + radius 1 so placement exhausts all candidates.
+        for( const tripoint_bub_ms &p : here.points_in_radius( local_pos, 1 ) ) {
+            here.ter_set( p, ter_t_palisade );
+        }
+        overmap_buffer.spawn_monster( abs_pos, mon_test_zombie );
+        horde_entity *entity = overmap_buffer.entity_at( abs_pos );
+        REQUIRE( entity != nullptr );
+        REQUIRE( entity->monster_data == nullptr );
+
+        overmap_buffer.spawn_monster( submap_pos );
+        CHECK( overmap_buffer.entity_at( abs_pos ) != nullptr );
+
+        // Unblock and retry.
+        for( const tripoint_bub_ms &p : here.points_in_radius( local_pos, 1 ) ) {
+            here.ter_set( p, ter_t_grass );
+        }
+        overmap_buffer.spawn_monster( submap_pos );
+        CHECK( overmap_buffer.entity_at( abs_pos ) == nullptr );
+        CHECK( get_creature_tracker().creature_at<monster>( abs_pos ) != nullptr );
+    }
+
+    SECTION( "heavyweight entity preserved on placement failure" ) {
+        // Place and despawn to create a heavyweight horde entity.
+        here.ter_set( local_pos, ter_t_grass );
+        monster *live = g->place_critter_at( mon_test_zombie, local_pos );
+        REQUIRE( live != nullptr );
+        g->despawn_monster( *live );
+        horde_entity *entity = overmap_buffer.entity_at( abs_pos );
+        REQUIRE( entity != nullptr );
+        REQUIRE( entity->monster_data != nullptr );
+
+        // Block center with another monster so critter_tracker::add fails.
+        monster *blocker = g->place_critter_at( mon_test_zombie, local_pos );
+        REQUIRE( blocker != nullptr );
+
+        capture_debugmsg_during( [&submap_pos]() {
+            overmap_buffer.spawn_monster( submap_pos );
+        } );
+        CHECK( overmap_buffer.entity_at( abs_pos ) != nullptr );
+
+        // Remove blocker and retry.
+        g->remove_zombie( *blocker );
+        overmap_buffer.spawn_monster( submap_pos );
+        CHECK( overmap_buffer.entity_at( abs_pos ) == nullptr );
+        CHECK( get_creature_tracker().creature_at<monster>( abs_pos ) != nullptr );
+    }
 }
 
 TEST_CASE( "obstacles_placed_on_map_are_present_in_overmap", "[map][hordes]" )
