@@ -429,6 +429,20 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] }
       },
       {
+        "text": "Let's talk about when we lost contact earlier…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LOST_SIGNAL",
+        "condition": {
+          "or": [
+            { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_spider_dimension == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+          ]
+        }
+      },
+      {
         "text": "Just came by to chat.",
         "topic": "TALK_ROBOFAC_MERC_PAT_MORALE_CHAT",
         "condition": {
@@ -603,6 +617,44 @@
     ],
     "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
     "responses": [ { "text": "[Have a chat then say goodbye]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LOST_SIGNAL",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, I was tryin' to ping ya' for a while.  What happened?",
+    "responses": [
+      {
+        "text": "I was standing in a bit of water during a portal storm, and next thing I know, I found myself in some sort of field?  Stretched as far as the eye could see.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_highlands",
+        "condition": { "math": [ "robofac_pat_lost_signal_highlands == 1" ] }
+      },
+      {
+        "text": "I got tangled up in these webs, and then all of a sudden I'm in some sort of cavern, with the biggest spider I've ever seen.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_spider_dimension",
+        "condition": { "math": [ "robofac_pat_lost_signal_spider_dimension == 1" ] }
+      },
+      {
+        "text": "I was standing on the roof of that cabin in a portal storm, when everything just…  it's like I was in a world of just, cabins.  Forever.  Repeating themselves.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_cabin_reverb",
+        "condition": { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] }
+      },
+      {
+        "text": "I was standing up on a radio tower during a portal storm, when everything just…  I don't really know, it's like I fell.  But then there were radio towers.  Forever.  Repeating themselves.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_radiosphere",
+        "condition": { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] }
+      },
+      {
+        "text": "Honestly, Pat, I don't even known what to say about this place, yet.  [ALPHA TEST LABYRINTH]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_labyrinth",
+        "condition": { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+      },
+      {
+        "text": "You know that glowing string I was carrying around?  It started moving in the portal storm, and then I was in this…  place.  It's hard to describe.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_string_dimension",
+        "condition": { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] }
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GEAR_MENU",
