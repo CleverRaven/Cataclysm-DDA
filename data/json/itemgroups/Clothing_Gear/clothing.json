@@ -3911,7 +3911,7 @@
   {
     "id": "shirts_womens",
     "type": "item_group",
-    "//": "womens shirts",
+    "//": "women's shirts",
     "subtype": "distribution",
     "items": [ { "item": "halter_top", "prob": 30 }, { "item": "tank_top", "prob": 15 }, { "item": "camisole", "prob": 15 } ]
   },
@@ -3933,7 +3933,7 @@
   {
     "id": "underwear_womens",
     "type": "item_group",
-    "//": "womens underwear.",
+    "//": "women's underwear.",
     "subtype": "distribution",
     "items": [
       { "item": "boy_shorts", "prob": 30 },
@@ -3957,7 +3957,7 @@
   {
     "id": "underwear_mens",
     "type": "item_group",
-    "//": "mens underwear.",
+    "//": "men's underwear.",
     "subtype": "distribution",
     "items": [
       { "item": "boxer_briefs", "prob": 30 },
@@ -4014,7 +4014,7 @@
   {
     "id": "pants_womens",
     "type": "item_group",
-    "//": "womens pants and leg coverings for domestic locations.",
+    "//": "women's pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [
       { "item": "nanoskirt", "prob": 1 },
@@ -4027,7 +4027,7 @@
   {
     "id": "pants_mens",
     "type": "item_group",
-    "//": "mens pants and leg coverings for domestic locations.",
+    "//": "men's pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [ { "item": "kilt", "prob": 50 }, { "item": "kilt_leather", "prob": 25 } ]
   },
@@ -4060,7 +4060,7 @@
   {
     "id": "gloves_womens",
     "type": "item_group",
-    "//": "womens gloves and mittens for domestic locations.",
+    "//": "women's gloves and mittens for domestic locations.",
     "subtype": "distribution",
     "items": [ { "item": "long_glove_white", "prob": 5 } ]
   },
@@ -4437,7 +4437,7 @@
   {
     "id": "shoes_womens",
     "type": "item_group",
-    "//": "womens only shoes",
+    "//": "women's only shoes",
     "subtype": "distribution",
     "items": [ { "item": "heels", "prob": 100 } ]
   },
@@ -4615,7 +4615,7 @@
   {
     "id": "accesories_personal_womens",
     "type": "item_group",
-    "//": "womens personal accessories",
+    "//": "women's personal accessories",
     "subtype": "distribution",
     "items": [
       { "group": "accesories_personal_womens_child", "prob": 380 },
@@ -4634,7 +4634,7 @@
   {
     "id": "accesories_personal_womens_child",
     "type": "item_group",
-    "//": "womens personal accessories that do not contain the adult-specific ones",
+    "//": "women's personal accessories that do not contain the adult-specific ones",
     "subtype": "distribution",
     "items": [
       { "item": "hairpin", "prob": 90 },
