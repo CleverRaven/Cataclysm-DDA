@@ -90,27 +90,27 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "AK-47 rifle" },
-    "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
+    "description": "A Civilian-legal clone of the AK-47 with no ability to fire full-auto.  Despite it lacking that ability, it is still a reliable and useful rifle even if it has much rarer ammo than the more common AR-15 platform.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "aksemi_vska",
         "name": { "str": "Century Arms VSKA" },
-        "description": "This one is a VSKA, manufactured in the USA by Century Arms.",
+        "description": "This specific model is a VSKA, manufactured in the USA by Century Arms.",
         "weight": 16,
         "append": true
       },
       {
         "id": "aksemi_wasr",
         "name": { "str": "Century Arms WASR-10" },
-        "description": "This one is a WASR-10, imported by Century Arms.",
+        "description": "This specific model is a WASR-10, imported by Century Arms.",
         "weight": 8,
         "append": true
       },
       {
         "id": "aksemi_zpap",
         "name": { "str": "Zastava ZPAP M70" },
-        "description": "This one is a ZPAP M70, imported by Zastava.",
+        "description": "This specific model is a ZPAP M70, imported by Zastava.",
         "weight": 5,
         "append": true
       }
@@ -141,13 +141,13 @@
     "subtypes": [ "GUN" ],
     "copy-from": "gun_base_762_semi_rifle",
     "name": { "str": "American AK rifle" },
-    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
+    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  It features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the larger, more potent ammo.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mk47",
         "name": { "str": "Mk47 Mutant rifle" },
-        "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo."
+        "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  It features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the larger, more potent ammo."
       }
     ],
     "weight": "2540 g",
