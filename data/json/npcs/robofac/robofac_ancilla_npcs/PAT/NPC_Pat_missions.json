@@ -124,7 +124,7 @@
   {
     "id": "MISSION_ROBOFAC_PAT_OUTTA_TOWN",
     "type": "mission_definition",
-    "name": { "str": "Outta Town Farm Supply" },
+    "name": { "str": "Outta Town Fahm Supply" },
     "description": "Pat said that maybe I can find fertilizer at a farm supply store.  I guess I could check it out?",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "farm_supply_1",
@@ -194,7 +194,7 @@
   {
     "id": "MISSION_ROBOFAC_PAT_LUMBERMILL",
     "type": "mission_definition",
-    "name": { "str": "A lumbermill" },
+    "name": { "str": "A lumbahmill" },
     "description": "Pat gave me directions to a lumbermill to get supplies for the traders.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "lumbermill_1_1_ocu_north",

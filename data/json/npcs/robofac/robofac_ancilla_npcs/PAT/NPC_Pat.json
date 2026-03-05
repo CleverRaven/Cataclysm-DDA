@@ -861,7 +861,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
     "type": "talk_topic",
-    "dynamic_line": "Lemme see heah… Well, hole-lee shit, fuck yeah it'll work!  That thing's probably got a radio built in, yeah?  In that case, just get a radio and a tablet for me, for parts.",
+    "dynamic_line": "Lemme see heah… Well, hole-lee shit, fahk yeah it'll work!  That thing's probably got a radio built in, yeah?  In that case, just get a radio and a tablet for me, for parts.",
     "responses": [
       {
         "text": "I like it.  I'll find a two-way radio and an E-ink tablet PC.",
@@ -907,7 +907,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.",
+    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fahkin' good advice and info.",
     "responses": [ { "text": "Sounds great.  Guess we'll talk soon.", "topic": "TALK_DONE" } ]
   },
   {
@@ -934,7 +934,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
       "yes": "&The radio is silent for a moment, then Pat chirps back in, laughing.  \"Yeah, right.  Come by heah sometime and show me your integrated toastah, and maybe I'll believe ya'.\"",
-      "no": "&Pat stares at you for a second, and then starts to laugh.  \"Oh, yah?  Well, no kiddin' huh?  If it wasn't for the whole end'a'the'world thing, I'd call ya' crazy, but this freakin' world keeps gettin' weirder by the day… wait, wait, wait, nah.  You're fuckin' with me, right?  Almost had me!\""
+      "no": "&Pat stares at you for a second, and then starts to laugh.  \"Oh, yah?  Well, no kiddin' huh?  If it wasn't for the whole end'a'the'world thing, I'd call ya' crazy, but this freakin' world keeps gettin' weirder by the day… wait, wait, wait, nah.  You're fahkin' with me, right?  Almost had me!\""
     },
     "responses": [
       {
@@ -1393,7 +1393,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
     "type": "talk_topic",
-    "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
+    "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fahkin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
     "responses": [ { "text": "Wicked.  Guess we'll talk soon, Pat.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
