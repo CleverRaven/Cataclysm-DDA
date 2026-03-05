@@ -1593,7 +1593,7 @@
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Hub 01 XM-BACK" },
-    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, a powered, implanted exoskeleton for the true frontier cyborg.  A metal frame attaches to the back and neck via anchoring pins driven deep into flesh and bone.  Internal anchors and electronic interfaces couple the device to one's muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment on the lower back.  When powered, the frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving one's ability to throw and absord recoil.  Unpowered, it is very encumbering.",
+    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, a powered, implanted exoskeleton for the true frontier cyborg.  A metal frame attaches to the back and neck via anchoring pins driven deep into flesh and bone.  Internal anchors and electronic interfaces couple the device to one's muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment on the lower back.  When powered, the frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving one's ability to throw and absorb recoil.  Unpowered, it is very encumbering.",
     "price": "45 kUSD 500 USD",
     "price_postapoc": "500 USD",
     "difficulty": 9
