@@ -21,7 +21,15 @@
     "worn_override": "NC_ANCILLA_DOCTOR_worn",
     "carry_override": "NC_ANCILLA_BARKEEP_carry",
     "weapon_override": "NC_ANCILLA_BARKEEP_wield",
-    "shopkeeper_item_group": [ { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true } ],
+    "shopkeeper_item_group": [
+      { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true }
+      {
+        "group": "NC_ANCILLA_DOCTOR_bionics",
+        "rigid": true,
+        "strict": true,
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+      },
+    ],
     "shopkeeper_price_rules": [
       { "group": "NC_ANCILLA_DOCTOR_stock", "premium": 2.0 },
       { "group": "NC_ANCILLA_DOCTOR_EXPENSIVE_ITEMS", "premium": 6.0 },
@@ -58,6 +66,16 @@
       { "item": "saline", "prob": 100, "count": [ 1, 2 ] },
       { "group": "drugs_emergency", "prob": 100, "count": [ 4, 6 ] },
       { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_DOCTOR_bionics",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bio_robofac_xmleg", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_robofac_xmarm", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_robofac_xmback", "prob": 100, "count": [ 1, 2 ] }
     ]
   },
   {
