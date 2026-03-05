@@ -91,7 +91,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "FN SCAR-L" },
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .556 NATO round.",
+    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight 5.56 NATO round.",
     "ascii_picture": "scar-L",
     "weight": "3490 g",
     "volume": "4957 ml",
