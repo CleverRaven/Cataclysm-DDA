@@ -622,7 +622,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "double-barreled shotgun" },
-    "description": "Called a boomstick by one, but a double-barreled shotgun by most others, having its barrels arranged side-by-side.  It consists of little more than 2 barrels, a striker to hit the shell, and a wooden stock",
+    "description": "The classic double-barreled shotgun, with the barrels arranged side-by-side.  It consists of little more than 2 barrels, a striker to hit the shell, and a wooden stock",
     "//": "Based on a CZ-USA Redhead 26in 12ga 3in ou",
     "variant_type": "gun",
     "variants": [
