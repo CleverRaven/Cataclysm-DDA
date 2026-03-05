@@ -7606,11 +7606,21 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         for( const recipe * const &r : get_avatar().get_learned_recipes().in_category(
                  crafting_category_CC_FOOD ) ) {
             if( multicooked_subcats.count( r->subcategory ) > 0 ) {
-                dishes.push_back( r );
-                const bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                          crafting_inv, r->get_component_filter() );
+                std::vector<const recipe *> recipes_to_add;
+                if( r->is_nested() ) {
+                    for( const recipe_id &rid : r->nested_category_data ) {
+                        recipes_to_add.push_back( &rid.obj() );
+                    }
+                } else {
+                    recipes_to_add.push_back( r );
+                }
 
-                dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
+                for( const recipe * const &rec : recipes_to_add ) {
+                    dishes.push_back( rec );
+                    const bool can_make = rec->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, rec->get_component_filter() );
+                    dmenu.addentry( counter++, can_make, -1, rec->result_name( /*decorated=*/true ) );
+                }
             }
         }
 
