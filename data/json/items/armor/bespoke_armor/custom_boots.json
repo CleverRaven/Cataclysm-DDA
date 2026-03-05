@@ -4,7 +4,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "survivor boots (pair)" },
+    "name": { "str_sp": "handmade hazard boots (pair)" },
     "description": "Custom boots of treated leather sealed with polymer coating.  Tough and acid-proof with steel toes for extra safety.",
     "weight": "1330 g",
     "volume": "2500 ml",
@@ -59,7 +59,7 @@
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_survivor",
     "proportional": { "weight": 1.4, "volume": 1.4 },
-    "name": { "str_sp": "survivor boots (pair)" },
+    "name": { "str_sp": "handmade hazard boots (pair)" },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
@@ -67,7 +67,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_survivor",
-    "name": { "str_sp": "survivor boots (pair)" },
+    "name": { "str_sp": "handmade hazard boots (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -76,7 +76,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "survivor hoofboots (pair)" },
+    "name": { "str_sp": "handmade hazard hoof boots (pair)" },
     "description": "Custom boots of treated leather sealed with polymer coating, specially tailored for mutant hoof-feet.  Tough and acid-proof with steel toes to give them some extra kick.",
     "weight": "1330 g",
     "volume": "2500 ml",
@@ -129,7 +129,7 @@
     "id": "boots_wsurvivor_nofur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "faux fur winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade faux fur hazard boots (pair)" },
     "weight": "1760 g",
     "volume": "3500 ml",
     "price_postapoc": "60 USD",
@@ -185,7 +185,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_wsurvivor_nofur",
-    "name": { "str_sp": "faux fur winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade faux fur hazard boots (pair)" },
     "proportional": { "weight": 1.3, "volume": 1.3 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -194,7 +194,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_wsurvivor_nofur",
-    "name": { "str_sp": "faux fur winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade faux fur hazard boots (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
@@ -203,7 +203,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str_sp": "winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade winterized hazard boots (pair)" },
     "description": "Custom boots of treated leather, sealed with polymer coating and lined with fur.  Warm and acid-proof with steel toes for protection.",
     "weight": "1760 g",
     "volume": "3500 ml",
@@ -259,7 +259,7 @@
     "id": "xl_boots_wsurvivor",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str_sp": "winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade winterized hazard boots (pair)" },
     "copy-from": "boots_wsurvivor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -269,7 +269,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "boots_wsurvivor",
-    "name": { "str_sp": "winter survivor boots (pair)" },
+    "name": { "str_sp": "handmade winterized hazard boots (pair)" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
