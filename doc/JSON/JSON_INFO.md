@@ -2535,15 +2535,17 @@ it is present to help catch errors.
     { "level": 2, "description": "foo" },
     { "level": 3, "description": "bar" },
     { "level": 4, "description": "xyz" }
-],
-"level_descriptions_practice": [
-    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
-    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
-    { "level": 2, "description": "foo" },
-    { "level": 3, "description": "bar" },
-    { "level": 4, "description": "xyz" }
-],
-  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+  ],
+  "level_descriptions_practice": [
+      { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+      { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+      { "level": 2, "description": "foo" },
+      { "level": 3, "description": "bar" },
+      { "level": 4, "description": "xyz" }
+  ],
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ],
+  "required_traits": [ "THINSKIN", "HORNS" ],
+  "allowed_traits": [ "PAWS", "SKIN_DARK" ]
 }
 ```
 
@@ -2563,6 +2565,10 @@ it is present to help catch errors.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
+| `requires_all_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
+| `requires_any_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+
+If neither `requires_all_traits` or `requires_any_traits` are defined, the skill will always display in the character tab
 
 ### Speed Description
 
