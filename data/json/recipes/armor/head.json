@@ -1084,7 +1084,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_leather_patchwork", 2 ], [ "vinylizing_standard", 22 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ], [ "vinylizing_standard", 22 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -1097,7 +1097,7 @@
     "type": "recipe",
     "copy-from": "hood_survivor",
     "time": "6 h",
-    "using": [ [ "sewing_leather_patchwork", 2 ], [ "vinylizing_standard", 18 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ], [ "vinylizing_standard", 18 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -1164,7 +1164,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "9 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_leather_patchwork", 3 ], [ "vinylizing_standard", 30 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 3 ], [ "vinylizing_standard", 30 ] ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
