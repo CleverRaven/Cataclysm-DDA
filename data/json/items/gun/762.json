@@ -43,7 +43,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "SKS rifle" },
-    "description": "First produced by the Soviets in 1949, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "First produced by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil, and deployable integrated bayonet, this gun maintains immense popularity.",
     "variant_type": "gun",
     "variants": [
       {
