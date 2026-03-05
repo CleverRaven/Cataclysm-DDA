@@ -2386,7 +2386,9 @@
     "name": { "str_sp": "Hub 01 XM-ARM (on)" },
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
-    "use_action": [ { "type": "transform", "msg": "You deactivate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm" } ],
+    "use_action": [
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm" }
+    ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmarm"
   },
