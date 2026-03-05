@@ -5,6 +5,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "armored duffel bag" },
     "description": "A standard duffel bag with added armor so that it won't get torn up by zombies.  While even bulkier, it is sturdier.",
+    "//": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "weight": "1000 g",
     "volume": "7875 ml",
     "price": "240 USD",
@@ -71,7 +72,7 @@
     "armor": [
       {
         "encumbrance": 10,
-        "volume_encumber_modifier": 0.25,
+        "volume_encumber_modifier": 0.24,
         "coverage": 100,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
@@ -84,6 +85,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "armored dry duffel bag" },
     "description": "A modified large watertight duffel bag with added armor so that zombies don't tear it up.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
+    "//": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "weight": "1400 g",
     "volume": "10800 ml",
     "price": "300 USD",
@@ -164,6 +166,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "armored backpack" },
     "description": "A medium backpack armored with leather and fabric to make it resistant to being torn up by zombies.  Bulkier, but sturdier.",
+    "//": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "weight": "600 g",
     "volume": "5250 ml",
     "price": "240 USD",
@@ -175,7 +178,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "30 L",
+        "max_contains_volume": "25 L",
         "max_contains_weight": "32 kg",
         "max_item_length": "50 cm",
         "magazine_well": "5 L",
@@ -244,7 +247,7 @@
     "armor": [
       {
         "encumbrance": 6,
-        "volume_encumber_modifier": 0.2,
+        "volume_encumber_modifier": 0.18,
         "coverage": 60,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
@@ -257,6 +260,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "armored rucksack" },
     "description": "A large rucksack armored with leather and fabric to make it resistant to being torn up by zombies.  Bulkier, but sturdier.",
+    "//": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "weight": "800 g",
     "volume": "10 L",
     "price": "240 USD",
@@ -354,7 +358,7 @@
     "armor": [
       {
         "encumbrance": 15,
-        "volume_encumber_modifier": 0.2,
+        "volume_encumber_modifier": 0.18,
         "coverage": 80,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
@@ -367,6 +371,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "armored runner pack" },
     "description": "A small backpack armored with leather and fabric to make it resistant to being torn up by zombies.  Bulkier, but sturdier.",
+    "//": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "weight": "440 g",
     "volume": "4200 ml",
     "price": "240 USD",
@@ -378,7 +383,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "8 L",
+        "max_contains_volume": "7 L",
         "max_contains_weight": "16 kg",
         "max_item_length": "40 cm",
         "magazine_well": "4 L",
@@ -391,8 +396,8 @@
     "armor": [
       {
         "encumbrance": 3,
-        "volume_encumber_modifier": 0.15,
-        "coverage": 60,
+        "volume_encumber_modifier": 0.13,
+        "coverage": 45,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
@@ -403,6 +408,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "//": "custom-made, but the design is inspired by GVANCA Waterproof Dry Bag Backpack and Lee Valley Waterproof Dry Bag Backpack",
+    "//1": "Slightly lower encumbrance per volume as the base item is much more encumbering.  At max storage it still is more encumbering than the original item, but the difference is smaller than when empty.",
     "name": { "str": "armored dry bag" },
     "description": "A reinforced waterproof backpack.  It's sturdier than before, but a little bulkier.",
     "weight": "620 g",
@@ -487,8 +493,8 @@
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
     "armor": [
       {
-        "encumbrance": 6,
-        "volume_encumber_modifier": 0.2,
+        "encumbrance": 7,
+        "volume_encumber_modifier": 0.18,
         "coverage": 80,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
