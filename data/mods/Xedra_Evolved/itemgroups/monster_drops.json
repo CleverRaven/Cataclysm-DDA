@@ -266,11 +266,7 @@
     "subtype": "collection",
     "id": "mon_zombie_scientist_death_drops",
     "copy-from": "mon_zombie_scientist_death_drops",
-    "extend": {
-      "entries": [
-        { "item": "xe_datacores", "prob": 3 }
-      ]
-    }
+    "extend": { "entries": [ { "item": "xe_datacores", "prob": 3 } ] }
   },
   {
     "type": "item_group",
