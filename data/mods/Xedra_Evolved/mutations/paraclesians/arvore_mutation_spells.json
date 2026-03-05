@@ -267,7 +267,7 @@
     "name": { "str": "Arvore Thorns Damage", "//~": "NO_I18N" },
     "description": { "str": "Sometimes, when an enemy punches your thorns, they hurt themselves.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "attack",
     "shape": "blast",
     "min_damage": 1,
@@ -283,7 +283,7 @@
     "name": "Commune with Nature",
     "description": "You concentrate on nature around you and commune with it, improving your health and calming the nearby wildlife.  This spell may only be cast outdoors in natural surroundings.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "spell_class": "ARVORE",
     "teachable": false,
     "effect": "effect_on_condition",
@@ -294,15 +294,15 @@
     "difficulty": 4,
     "base_casting_time": 12000,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'ARVORE') * -8.2) + (u_skill('deduction') * -11) ), 250)" ] },
+    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'ARVORE') * -8.2) + (u_skill('gramarye') * -11) ), 250)" ] },
     "min_duration": {
       "math": [
-        "( 22845 + (u_spell_count('school': 'ARVORE') * 2548) + (u_skill('deduction') * 8165) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 22845 + (u_spell_count('school': 'ARVORE') * 2548) + (u_skill('gramarye') * 8165) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     },
     "max_duration": {
       "math": [
-        "( 49285 + (u_spell_count('school': 'ARVORE') * 5942) + (u_skill('deduction') * 14953) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 49285 + (u_spell_count('school': 'ARVORE') * 5942) + (u_skill('gramarye') * 14953) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     },
     "learn_spells": { "arvore_summon_preservation_container": 6 }
@@ -313,7 +313,7 @@
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into a plant, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_GOBLIN_FRUIT",
     "shape": "blast",
@@ -322,9 +322,9 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": 15,
     "difficulty": 8,
-    "base_casting_time": { "math": [ "max( (180000 + (u_spell_count('school': 'ARVORE') * -986) + (u_skill('deduction') * -3185) ), 6000)" ] },
+    "base_casting_time": { "math": [ "max( (180000 + (u_spell_count('school': 'ARVORE') * -986) + (u_skill('gramarye') * -3185) ), 6000)" ] },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (450 + (u_spell_count('school': 'ARVORE') * -4.2) + (u_skill('deduction') * -6) ), 350)" ] }
+    "base_energy_cost": { "math": [ "max( (450 + (u_spell_count('school': 'ARVORE') * -4.2) + (u_skill('gramarye') * -6) ), 350)" ] }
   },
   {
     "id": "arvore_tree_singing_spell",
@@ -333,7 +333,7 @@
     "description": "Using your voice and your magic, bring forth living wood from a tree to provide resources without harming the forest.",
     "message": "You close your eyes and sing to the trees.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "spell_class": "ARVORE",
     "teachable": false,
     "difficulty": 6,
@@ -342,8 +342,8 @@
     "effect_str": "EOC_ARVORE_TREE_SINGING",
     "shape": "blast",
     "magic_type": "xedra_arvore_magick",
-    "base_casting_time": { "math": [ "max( (360000 + (u_spell_count('school': 'ARVORE') * -1280) + (u_skill('deduction') * -6842) ), 18000)" ] },
-    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -15.7) + (u_skill('deduction') * -23) ), 500)" ] },
+    "base_casting_time": { "math": [ "max( (360000 + (u_spell_count('school': 'ARVORE') * -1280) + (u_skill('gramarye') * -6842) ), 18000)" ] },
+    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -15.7) + (u_skill('gramarye') * -23) ), 500)" ] },
     "learn_spells": { "arvore_create_living_tent_spell": 4, "arvore_summon_floral_boat": 10 }
   },
   {
@@ -352,7 +352,7 @@
     "name": "Verdant Infusion",
     "description": "You draw on your own connection to nature and infuse some of its power into one of your allies, healing them for a small amount and increasing their overall health.",
     "valid_targets": [ "ally" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "attack",
     "effect_str": "arvore_verdant_infusion",
     "shape": "blast",
@@ -364,22 +364,22 @@
     "min_damage": -1,
     "max_damage": {
       "math": [
-        "( -1 + (u_spell_count('school': 'ARVORE') * -0.05) + (u_skill('deduction') * -0.2) ) * scaling_factor(u_val('perception') )"
+        "( -1 + (u_spell_count('school': 'ARVORE') * -0.05) + (u_skill('gramarye') * -0.2) ) * scaling_factor(u_val('perception') )"
       ]
     },
-    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('deduction') * 0.75) ), 20)" ] },
-    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('deduction') * 0.75) ), 20)" ] },
+    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.75) ), 20)" ] },
+    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.75) ), 20)" ] },
     "base_casting_time": 6000,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (750 + (u_spell_count('school': 'ARVORE') * -7.2) + (u_skill('deduction') * -11.3) ), 500)" ] },
+    "base_energy_cost": { "math": [ "max( (750 + (u_spell_count('school': 'ARVORE') * -7.2) + (u_skill('gramarye') * -11.3) ), 500)" ] },
     "min_duration": {
       "math": [
-        "( 18642 + (u_spell_count('school': 'ARVORE') * 8341) + (u_skill('deduction') * 20571) ) * scaling_factor(u_val('perception') )"
+        "( 18642 + (u_spell_count('school': 'ARVORE') * 8341) + (u_skill('gramarye') * 20571) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "max_duration": {
       "math": [
-        "( 39821 + (u_spell_count('school': 'ARVORE') * 19531) + (u_skill('deduction') * 48531 ) * scaling_factor(u_val('perception') )"
+        "( 39821 + (u_spell_count('school': 'ARVORE') * 19531) + (u_skill('gramarye') * 48531 ) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "learn_spells": { "arvore_summon_preservation_container": 9, "arvore_turn_into_tree": 18 }
@@ -390,7 +390,7 @@
     "name": "Roots Crack the Foundation",
     "description": "Roots can grow through even concrete given time.  With this spell, you can compress that time into a single instant to shatter walls or rip doors off their hinges.",
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "effect": "bash",
     "shape": "cone",
@@ -400,21 +400,19 @@
     "difficulty": 7,
     "min_damage": {
       "math": [
-        "( (u_spell_count('school': 'ARVORE') * 0.75) + (u_skill('deduction') * 1.5) ) * scaling_factor(u_val('perception') )"
+        "( (u_spell_count('school': 'ARVORE') * 0.75) + (u_skill('gramarye') * 1.5) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "max_damage": {
-      "math": [
-        "( (u_spell_count('school': 'ARVORE') * 2.5) + (u_skill('deduction') * 4.5) ) * scaling_factor(u_val('perception') )"
-      ]
+      "math": [ "( (u_spell_count('school': 'ARVORE') * 2.5) + (u_skill('gramarye') * 4.5) ) * scaling_factor(u_val('perception') )" ]
     },
-    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('deduction') * 0.25) ), 8)" ] },
-    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('deduction') * 0.25) ), 8)" ] },
-    "min_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 0.35) + (u_skill('deduction') * 0.6) ), 55)" ] },
-    "max_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 0.35) + (u_skill('deduction') * 0.6) ), 55)" ] },
+    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.2) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "min_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 0.35) + (u_skill('gramarye') * 0.6) ), 55)" ] },
+    "max_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 0.35) + (u_skill('gramarye') * 0.6) ), 55)" ] },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (450 + (u_spell_count('school': 'ARVORE') * -2) + (u_skill('deduction') * -4.8) ), 250)" ] },
-    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * -0.6) + (u_skill('deduction') * -1.4) ), 100)" ] },
+    "base_energy_cost": { "math": [ "max( (450 + (u_spell_count('school': 'ARVORE') * -2) + (u_skill('gramarye') * -4.8) ), 250)" ] },
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * -0.6) + (u_skill('gramarye') * -1.4) ), 100)" ] },
     "learn_spells": { "arvore_roots_spell": 7 }
   },
   {
@@ -424,7 +422,7 @@
     "description": "A lesser wood spirit is summoned to support you.",
     "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 15,
     "difficulty": 3,
     "spell_class": "ARVORE",
@@ -432,20 +430,20 @@
     "effect": "summon",
     "effect_str": "GROUP_GENIUS_ARVORE_LESSER",
     "shape": "blast",
-    "min_damage": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.16) + (u_skill('deduction') * 0.25) ), 8)" ] },
-    "max_damage": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.16) + (u_skill('deduction') * 0.25) ), 8)" ] },
-    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.22) + (u_skill('deduction') * 0.4) ), 15)" ] },
-    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.22) + (u_skill('deduction') * 0.4) ), 15)" ] },
+    "min_damage": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.16) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "max_damage": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.16) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.22) + (u_skill('gramarye') * 0.4) ), 15)" ] },
+    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.22) + (u_skill('gramarye') * 0.4) ), 15)" ] },
     "min_aoe": 2,
     "max_aoe": 2,
     "min_duration": {
       "math": [
-        "( 22845 + (u_spell_count('school': 'ARVORE') * 2548) + (u_skill('deduction') * 8165) ) * scaling_factor(u_val('perception') )"
+        "( 22845 + (u_spell_count('school': 'ARVORE') * 2548) + (u_skill('gramarye') * 8165) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "max_duration": {
       "math": [
-        "( 49285 + (u_spell_count('school': 'ARVORE') * 5942) + (u_skill('deduction') * 14953) ) * scaling_factor(u_val('perception') )"
+        "( 49285 + (u_spell_count('school': 'ARVORE') * 5942) + (u_skill('gramarye') * 14953) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "magic_type": "xedra_arvore_magick",
@@ -462,13 +460,13 @@
     "difficulty": 4,
     "spell_class": "ARVORE",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
     "shape": "blast",
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -7.8) + (u_skill('deduction') * -12.5) ), 300)" ] },
-    "base_casting_time": { "math": [ "max( (6000 + (u_spell_count('school': 'ARVORE') * -85.8) + (u_skill('deduction') * -127.6) ), 1500)" ] },
+    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -7.8) + (u_skill('gramarye') * -12.5) ), 300)" ] },
+    "base_casting_time": { "math": [ "max( (6000 + (u_spell_count('school': 'ARVORE') * -85.8) + (u_skill('gramarye') * -127.6) ), 1500)" ] },
     "learn_spells": { "arvore_create_living_tent_spell": 6, "arvore_summon_floral_boat": 12 }
   },
   {
@@ -488,12 +486,12 @@
     "max_damage": 1,
     "min_duration": {
       "math": [
-        "( 51840000 + (u_spell_count('school': 'ARVORE') * 1224000) + (u_skill('deduction') * 4590000) ) * scaling_factor(u_val('perception') )"
+        "( 51840000 + (u_spell_count('school': 'ARVORE') * 1224000) + (u_skill('gramarye') * 4590000) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "max_duration": {
       "math": [
-        "( 51840000 + (u_spell_count('school': 'ARVORE') * 30240000) + (u_skill('deduction') * 7560000) ) * scaling_factor(u_val('perception') )"
+        "( 51840000 + (u_spell_count('school': 'ARVORE') * 30240000) + (u_skill('gramarye') * 7560000) ) * scaling_factor(u_val('perception') )"
       ]
     },
     "magic_type": "xedra_arvore_magick"
@@ -505,7 +503,7 @@
     "description": "Trees require water but will still drown if submerged.  This spell allows the Arvore to create a floral boat with the help of a nearby tree, letting them travel safely across water.\n\nYou must be standing <color_yellow>next to a tree</color> and <color_yellow>near the water</color> for the spell to be effective.",
     "message": "",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
@@ -515,8 +513,8 @@
     "teachable": false,
     "max_level": 15,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (1000 + (u_spell_count('school': 'ARVORE') * -12.8) + (u_skill('deduction') * -25.5) ), 600)" ] },
-    "base_casting_time": { "math": [ "max( (3000 + (u_spell_count('school': 'ARVORE') * -35.5) + (u_skill('deduction') * -78) ), 100)" ] }
+    "base_energy_cost": { "math": [ "max( (1000 + (u_spell_count('school': 'ARVORE') * -12.8) + (u_skill('gramarye') * -25.5) ), 600)" ] },
+    "base_casting_time": { "math": [ "max( (3000 + (u_spell_count('school': 'ARVORE') * -35.5) + (u_skill('gramarye') * -78) ), 100)" ] }
   },
   {
     "id": "arvore_summon_floral_boat_real",
@@ -525,7 +523,7 @@
     "description": { "str": "The actual spell to summon the boat.  If you have it, it's a bug.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DURATION" ],
     "effect": "summon_vehicle",
     "effect_str": "arvore_floral_boat",
@@ -534,12 +532,12 @@
     "max_range": 8,
     "min_duration": {
       "math": [
-        "( 42815 + (u_spell_count('school': 'ARVORE') * 5681) + (u_skill('deduction') * 11583) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 42815 + (u_spell_count('school': 'ARVORE') * 5681) + (u_skill('gramarye') * 11583) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     },
     "max_duration": {
       "math": [
-        "( 88165 + (u_spell_count('school': 'ARVORE') * 18735) + (u_skill('deduction') * 34825) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 88165 + (u_spell_count('school': 'ARVORE') * 18735) + (u_skill('gramarye') * 34825) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     }
   },
@@ -549,7 +547,7 @@
     "name": "Briarwall",
     "description": "Call up thick briars and thorns, either in a line to form a wall or an arc to trap an enemy.  They will grow to full size in moments.",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_BRIARS_SELECTOR",
@@ -559,8 +557,8 @@
     "magic_type": "xedra_arvore_magick",
     "spell_class": "ARVORE",
     "difficulty": 5,
-    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('deduction') * -4.5) ), 75)" ] },
-    "base_energy_cost": { "math": [ "max( (550 + (u_spell_count('school': 'ARVORE') * 9.8) + (u_skill('deduction') * -15.2) ), 250)" ] },
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('gramarye') * -4.5) ), 75)" ] },
+    "base_energy_cost": { "math": [ "max( (550 + (u_spell_count('school': 'ARVORE') * 9.8) + (u_skill('gramarye') * -15.2) ), 250)" ] },
     "learn_spells": { "arvore_roots_spell": 8, "arvore_tree_singing_spell": 12 }
   },
   {
@@ -572,7 +570,7 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "ground", "hostile" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "ter_transform",
     "effect_str": "ter_arvore_summoned_brambles",
     "shape": "cone",
@@ -580,10 +578,10 @@
     "teachable": false,
     "flags": [ "SILENT", "NO_PROJECTILE" ],
     "max_level": 15,
-    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.41) + (u_skill('deduction') * 0.65) ), 15)" ] },
-    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.41) + (u_skill('deduction') * 0.65) ), 15)" ] },
-    "min_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 1) + (u_skill('deduction') * 2.5) ), 80)" ] },
-    "max_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 1) + (u_skill('deduction') * 2.5) ), 80)" ] }
+    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.41) + (u_skill('gramarye') * 0.65) ), 15)" ] },
+    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'ARVORE') * 0.41) + (u_skill('gramarye') * 0.65) ), 15)" ] },
+    "min_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 1) + (u_skill('gramarye') * 2.5) ), 80)" ] },
+    "max_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'ARVORE') * 1) + (u_skill('gramarye') * 2.5) ), 80)" ] }
   },
   {
     "id": "arvore_summon_briars_line",
@@ -594,7 +592,7 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "ground", "hostile" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "effect": "ter_transform",
     "effect_str": "ter_arvore_summoned_brambles",
     "shape": "line",
@@ -602,8 +600,8 @@
     "teachable": false,
     "flags": [ "SILENT", "NO_PROJECTILE" ],
     "max_level": 15,
-    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'ARVORE') * 0.78) + (u_skill('deduction') * 1.1) ), 25)" ] },
-    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'ARVORE') * 0.78) + (u_skill('deduction') * 1.1) ), 25)" ] }
+    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'ARVORE') * 0.78) + (u_skill('gramarye') * 1.1) ), 25)" ] },
+    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'ARVORE') * 0.78) + (u_skill('gramarye') * 1.1) ), 25)" ] }
   },
   {
     "id": "arvore_anti_plant_spell",
@@ -614,7 +612,7 @@
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "difficulty": 4,
     "effect": "attack",
     "extra_effects": [ { "id": "arvore_anti_plant_spell_fungicide" } ],
@@ -622,24 +620,51 @@
     "shape": "blast",
     "spell_class": "ARVORE",
     "teachable": false,
-    "min_damage": { "math": [ "(10 + (u_spell_level('arvore_anti_plant_spell') * 2.5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_damage": { "math": [ "(15 + (u_spell_level('arvore_anti_plant_spell') * 5.5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_dot": 1,
-    "max_dot": 3,
-    "dot_increment": 0.1,
-    "min_duration": { "math": [ "(200 + (u_spell_level('arvore_anti_plant_spell') * 150) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_duration": { "math": [ "(1000 + (u_spell_level('arvore_anti_plant_spell') * 350) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "min_range": { "math": [ "(2 + (u_spell_level('arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_range": 70,
-    "min_aoe": { "math": [ "(0 + (u_spell_level('arvore_anti_plant_spell') * 0.25) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_aoe": 8,
+    "min_damage": {
+      "math": [
+        "( 10 + (u_spell_count('school': 'ARVORE') * 1.5) + (u_skill('gramarye') * 2.1) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( 15 + (u_spell_count('school': 'ARVORE') * 3.2) + (u_skill('gramarye') * 4.8) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "min_dot": { "math": [ "min( (0.25 + (u_spell_count('school': 'ARVORE') * 0.05) + (u_skill('gramarye') * 0.1) ), 3)" ] },
+    "max_dot": { "math": [ "min( (0.25 + (u_spell_count('school': 'ARVORE') * 0.05) + (u_skill('gramarye') * 0.1) ), 3)" ] },
+    "min_duration": {
+      "math": [
+        "( 221 + (u_spell_count('school': 'ARVORE') * 152) + (u_skill('gramarye') * 329) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 1085 + (u_spell_count('school': 'ARVORE') * 371) + (u_skill('gramarye') * 685) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.65) + (u_skill('gramarye') * 1.2) ) * scaling_factor(u_val('perception') ) ), 70)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.65) + (u_skill('gramarye') * 1.2) ) * scaling_factor(u_val('perception') ) ), 70)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( (0 + (u_spell_count('school': 'ARVORE') * 0.15) + (u_skill('gramarye') * 0.4) ) * scaling_factor(u_val('perception') ) ), 10)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (0 + (u_spell_count('school': 'ARVORE') * 0.15) + (u_skill('gramarye') * 0.4) ) * scaling_factor(u_val('perception') ) ), 10)"
+      ]
+    },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 400,
-    "final_energy_cost": 150,
-    "energy_increment": -10,
-    "base_casting_time": 200,
-    "final_casting_time": 100,
-    "casting_time_increment": -5,
+    "base_energy_cost": { "math": [ "max( (400 + (u_spell_count('school': 'ARVORE') * 6.1) + (u_skill('gramarye') * -8.5) ), 150)" ] },
+    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'ARVORE') * 2.1) + (u_skill('gramarye') * -5.5) ), 100)" ] },
     "learn_spells": { "arvore_turn_into_tree": 15 }
   },
   {
@@ -654,17 +679,25 @@
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "PLANT", "FUNGUS", "LEECH_PLANT", "ARVORE" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "difficulty": 4,
     "effect": "ter_transform",
     "effect_str": "ter_arvore_fungicide",
     "shape": "blast",
     "spell_class": "ARVORE",
     "teachable": false,
-    "min_range": { "math": [ "(2 + (u_spell_level('arvore_anti_plant_spell') * 1.5) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_range": 70,
     "max_range": 70,
-    "min_aoe": { "math": [ "(1 + (u_spell_level('arvore_anti_plant_spell') * 0.5) * (scaling_factor(u_val('perception') ) ) )" ] },
-    "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_anti_plant_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ] }
+    "min_aoe": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.3) + (u_skill('gramarye') * 0.75) ) * scaling_factor(u_val('perception') ) ), 20)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (2 + (u_spell_count('school': 'ARVORE') * 0.3) + (u_skill('gramarye') * 0.75) ) * scaling_factor(u_val('perception') ) ), 20)"
+      ]
+    }
   },
   {
     "id": "arvore_vine_drag_spell",
@@ -687,7 +720,7 @@
     "description": "You can greatly speed plant growth.  Grass can grow from seed in moments, crops can be brought to ripeness, and even young trees will reach their full bloom.",
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 15,
     "shape": "blast",
     "difficulty": 2,
@@ -697,12 +730,8 @@
     "magic_type": "xedra_arvore_magick",
     "spell_class": "ARVORE",
     "teachable": false,
-    "base_energy_cost": 1000,
-    "final_energy_cost": 500,
-    "energy_increment": -40,
-    "base_casting_time": 6000,
-    "final_casting_time": 1500,
-    "casting_time_increment": -225,
+    "base_energy_cost": { "math": [ "max( (1000 + (u_spell_count('school': 'ARVORE') * 10.4) + (u_skill('gramarye') * -22.8) ), 500)" ] },
+    "base_casting_time": { "math": [ "max( (6000 + (u_spell_count('school': 'ARVORE') * -85.8) + (u_skill('gramarye') * -127.6) ), 1500)" ] },
     "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10, "arvore_nurture_the_green_aoe": 14 }
   },
   {
@@ -714,21 +743,25 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 15,
     "shape": "blast",
     "difficulty": 9,
     "effect": "ter_transform",
     "effect_str": "ter_arvore_plant_growth",
-    "min_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
-    "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "min_aoe": {
+      "math": [
+        "min( ( (1 + (u_spell_count('school': 'ARVORE') * 0.15) + (u_skill('gramarye') * 0.4) ) * scaling_factor(u_val('perception') ) ), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( (1 + (u_spell_count('school': 'ARVORE') * 0.15) + (u_skill('gramarye') * 0.4) ) * scaling_factor(u_val('perception') ) ), 15)"
+      ]
+    },
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 4000,
-    "final_energy_cost": 2500,
-    "energy_increment": -50,
-    "base_casting_time": 720000,
-    "final_casting_time": 360000,
-    "casting_time_increment": -15000
+    "base_casting_time": { "math": [ "max( (720000 + (u_spell_count('school': 'ARVORE') * -2315) + (u_skill('gramarye') * -16103) ), 360000)" ] },
+    "base_energy_cost": { "math": [ "max( (4000 + (u_spell_count('school': 'ARVORE') * 83.4) + (u_skill('gramarye') * -143.1) ), 2500)" ] }
   },
   {
     "id": "arvore_growing_wood_walls",
@@ -737,7 +770,7 @@
     "description": "In natural surroundings, you can create structures out of living wood--walls, floors, doors, and roofs all together.",
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 15,
     "shape": "blast",
     "difficulty": 6,
@@ -745,13 +778,9 @@
     "teachable": false,
     "effect": "effect_on_condition",
     "effect_str": "EOC_GROWING_WOOD_WALLS_SELECTOR",
-    "base_casting_time": 30000,
-    "final_casting_time": 12000,
-    "casting_time_increment": -900,
     "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": 600,
-    "final_energy_cost": 350,
-    "energy_increment": -15,
+    "base_casting_time": { "math": [ "max( (30000 + (u_spell_count('school': 'ARVORE') * -762) + (u_skill('gramarye') * -1315) ), 12000)" ] },
+    "base_energy_cost": { "math": [ "max( (600 + (u_spell_count('school': 'ARVORE') * 8.5) + (u_skill('gramarye') * -18.4) ), 350)" ] },
     "learn_spells": { "arvore_tree_singing_spell": 6, "arvore_create_living_tent_spell": 8, "arvore_turn_into_tree": 12 }
   },
   {
@@ -761,7 +790,7 @@
     "description": { "str": "The walls part of the Forest Offers Shelter spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "flags": [ "SILENT" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 20,
     "difficulty": 6,
     "effect": "effect_on_condition",
@@ -796,7 +825,7 @@
     "description": { "str": "The floor part of the Forest Offers Shelter spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "flags": [ "SILENT" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 20,
     "difficulty": 6,
     "effect": "ter_transform",
@@ -816,7 +845,7 @@
     },
     "flags": [ "SILENT" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 20,
     "difficulty": 6,
     "effect": "ter_transform",
@@ -833,7 +862,7 @@
     "description": { "str": "The doors part of the Forest Offers Shelter spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "flags": [ "SILENT" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 20,
     "difficulty": 6,
     "effect": "ter_transform",
@@ -851,7 +880,7 @@
     "message": "The soil churns as thick vines burst forth and shoots toward the sky.",
     "flags": [ "VERBAL", "SOMATIC" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "spell_class": "ARVORE",
     "max_level": 15,
     "difficulty": 3,
@@ -876,7 +905,7 @@
     "description": "When outside on diggable ground, create a small structure of wood near the Arvore, offering shelter against the elements.",
     "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
     "valid_targets": [ "ground" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 15,
     "difficulty": 5,
     "teachable": false,
@@ -903,7 +932,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "difficulty": 1,
     "spell_class": "ARVORE",
@@ -940,7 +969,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "VERBAL", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "difficulty": 3,
     "spell_class": "ARVORE",
@@ -971,7 +1000,7 @@
     "description": "Bind your soul to the heart of the forest, rebirthing yourself if you should die.  You may only perform this in thick forests or at an arvore altar, you may be reborn no more than once in a lunar month.",
     "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "spell_class": "ARVORE",
     "effect": "effect_on_condition",
@@ -991,7 +1020,7 @@
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "spell_class": "ARVORE",
     "shape": "blast",
     "difficulty": 8,
@@ -1013,7 +1042,7 @@
     "description": "Even the mightiest tree returns to soil in the end.  The Arvore may channel this natural process into an area around themselves, infecting everyone within with the energies of rot.\n\n<color_yellow>This spell is indiscriminate</color> and <color_red>should not be used near allies</color>.",
     "flags": [ "SOMATIC", "NO_PROJECTILE", "RANDOM_DURATION", "VERBAL" ],
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "teachable": false,
     "effect": "attack",
     "shape": "blast",
@@ -1044,7 +1073,7 @@
     "description": "Roots grow together and so forests are connected.  The Arvore may use this connection to quickly transport themselves tree to tree, stepping into an adjacent tree and then stepping out of another one within the spell's range.",
     "message": "",
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
@@ -1071,7 +1100,7 @@
     },
     "message": "",
     "valid_targets": [ "ground", "ally", "hostile" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
     "effect": "short_range_teleport",
     "shape": "blast",
@@ -1091,7 +1120,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ARVORE",
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC" ],
     "difficulty": 9,
     "max_level": 15,
@@ -1110,7 +1139,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "ARVORE",
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
     "difficulty": 1,
     "max_level": 1,
@@ -1130,7 +1159,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "ARVORE",
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
     "difficulty": 1,
     "max_level": 1,
@@ -1145,7 +1174,7 @@
     "name": "Verdant Imprisonment",
     "description": "The ultimate expression of nature's power, you can turn your target into a tree that might have stood for a century or more.  It works best on an already-weakened target, and does not work at all on non-organic targets.",
     "valid_targets": [ "hostile" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_VERDANT_IMPRISONMENT",
@@ -1171,7 +1200,7 @@
     "name": { "str": "Verdant Imprisonment Self", "//~": "NO_I18N" },
     "description": { "str": "This is the banishment that the target casts on themselves.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
-    "skill": "deduction",
+    "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
     "effect": "banishment",
     "shape": "blast",
@@ -1192,7 +1221,7 @@
     "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "IGNORE_WALLS" ],
     "valid_targets": [ "hostile", "ally" ],
     "max_level": 15,
-    "skill": "deduction",
+    "skill": "gramarye",
     "spell_class": "ARVORE",
     "shape": "blast",
     "difficulty": 10,
