@@ -94,7 +94,7 @@
     "copy-from": "bionic_general",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "str": "Datacore: Lockpicking", "str_pl": "Datacores: Lockpicking" },
+    "name": { "str": "Datacore: Lockpicking", "str_pl": "Datacores: Lockpicking" },
     "description": "A data core designed to provide a specific proficiency level of knowledge to its user as long as it's installed.  Requires an installed data shunt to use.",
     "price": "4 kUSD 500 USD",
     "difficulty": 0
