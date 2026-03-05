@@ -3028,7 +3028,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "handmade protective handwear",
+    "name": "handmade protective gloves",
     "description": "Recipes related to various sizes and types of durable gloves specialized for tasks like acid resistance or cold weather.",
     "skill_used": "tailor",
     "nested_category_data": [ "nested_gloves_survivor", "nested_gloves_wsurvivor" ],
