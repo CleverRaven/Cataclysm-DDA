@@ -455,10 +455,10 @@ TEST_CASE( "widgets_showing_avatar_stats_with_color_for_normal_value", "[widget]
     clear_avatar();
 
     SECTION( "base stats str / dex / int / per" ) {
-        ava.str_max = 8;
-        ava.dex_max = 8;
-        ava.int_max = 8;
-        ava.per_max = 8;
+        ava.set_str_base( 8 );
+        ava.set_dex_base( 8 );
+        ava.set_int_base( 8 );
+        ava.set_per_base( 8 );
 
         CHECK( str_w.layout( ava ) == "STR: <color_c_white>8</color>" );
         CHECK( dex_w.layout( ava ) == "DEX: <color_c_white>8</color>" );
@@ -468,7 +468,7 @@ TEST_CASE( "widgets_showing_avatar_stats_with_color_for_normal_value", "[widget]
 
     SECTION( "stats above or below their normal level" ) {
         // Normal base STR is 8, always shown in white
-        ava.str_max = 8;
+        ava.set_str_base( 8 );
         CHECK( str_w.layout( ava ) == "STR: <color_c_white>8</color>" );
         // Reduced STR, due to pain or something
         ava.set_str_bonus( -1 );
@@ -1680,10 +1680,10 @@ TEST_CASE( "layout_widgets_in_columns", "[widget][layout][columns]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.str_max = 8;
-    ava.dex_max = 8;
-    ava.int_max = 8;
-    ava.per_max = 8;
+    ava.set_str_base( 8 );
+    ava.set_dex_base( 8 );
+    ava.set_int_base( 8 );
+    ava.set_per_base( 8 );
     ava.movecounter = 50;
     ava.set_focus( 120 );
     ava.set_speed_base( 100 );
@@ -2779,7 +2779,7 @@ TEST_CASE( "widgets_using_custom_vars", "[widget]" )
 
     SECTION( "dynamic range" ) {
         widget dynamic_range_w = widget_test_custom_var_dynamic_range.obj();
-        ava.str_max = 8;
+        ava.set_str_base( 8 );
 
         GIVEN( "value within normal range" ) {
             ava.set_str_bonus( 0 );

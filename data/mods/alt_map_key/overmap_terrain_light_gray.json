@@ -964,6 +964,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "farm_horse_track_1", "farm_horse_track_2" ],
+    "copy-from": "farm_horse_track_1",
+    "name": "track",
+    "sym": "-",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_1" ],
+    "copy-from": "farm_horse_track_large_1",
+    "name": "track",
+    "sym": "┌",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_2" ],
+    "copy-from": "farm_horse_track_large_2",
+    "name": "track",
+    "sym": "┐",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_3" ],
+    "copy-from": "farm_horse_track_large_3",
+    "name": "track",
+    "sym": "└",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_4" ],
+    "copy-from": "farm_horse_track_large_4",
+    "name": "track",
+    "sym": "┘",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "billboard_0", "billboard_1", "billboard_2" ],
     "copy-from": "billboard_0",
     "name": "billboard",

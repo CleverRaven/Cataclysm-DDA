@@ -531,18 +531,14 @@ class Character : public Creature, public visitable
         /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
-        /// @brief Character stats
-        /// @todo Make those protected
+    private:
+        /// @brief Character base stats
         int str_max;
         int dex_max;
         int int_max;
         int per_max;
 
-        int str_cur;
-        int dex_cur;
-        int int_cur;
-        int per_cur;
-
+    public:
         // Used to display pain penalties
         int ppen_str;
         int ppen_dex;
@@ -640,6 +636,11 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        void set_str_base( int nstr );
+        void set_dex_base( int ndex );
+        void set_per_base( int nper );
+        void set_int_base( int nint );
 
         /** Setters for stats shared with other creatures */
         using Creature::mod_speed_bonus;

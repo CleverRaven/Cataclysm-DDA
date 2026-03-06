@@ -30,8 +30,10 @@ jobs:
         ref: '${{ github.event.pull_request.head.sha }}'
         persist-credentials: false
 
-    - name: install LLVM 19
-      run: sudo apt install llvm-19-dev clang-19 libclang-19-dev cmake
+    - name: install dependencies
+      run: |
+        sudo apt install llvm-19-dev clang-19 libclang-19-dev cmake
+        pip install PyGithub
 
     - name: checkout IWYU repository
       id: iwyu-checkout
@@ -84,13 +86,12 @@ jobs:
           .
         make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
 
-    - name: run IWYU and apply fixes
+    - name: run IWYU and post suggestions
+      if: ${{ always() }}
+      env:
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+        GH_TOKEN: ${{ github.token }}
       run: |
         export PATH="${PWD}/iwyu-build/bin:${PWD}/include-what-you-use-src:${PATH}"
         python build-scripts/ci-iwyu-suggest.py
-
-    - name: 'suggester / IWYU'
-      uses: reviewdog/action-suggester@aa38384ceb608d00f84b4690cacc83a5aba307ff # v1
-      if: ${{ always() }}
-      with:
-        tool_name: 'IWYU'

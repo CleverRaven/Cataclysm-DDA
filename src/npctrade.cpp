@@ -151,7 +151,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    int const int_diff = seller.int_cur - buyer.int_cur;
+    int const int_diff = seller.get_int() - buyer.get_int();
     double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
     double const soc_adj = price_adjustment( round( seller.get_skill_level( skill_speech ) -
                            buyer.get_skill_level( skill_speech ) ) );

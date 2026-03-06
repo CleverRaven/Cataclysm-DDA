@@ -245,7 +245,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     /** @ARM_STR increases chance of damaging your melee weapon (NEGATIVE) */
 
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
-    const float stat_factor = dex_cur / 2.0f
+    const float stat_factor = get_dex() / 2.0f
                               + get_skill_level( skill_melee )
                               + ( 64.0f / std::max( get_arm_str(), 4 ) );
 
@@ -1168,7 +1168,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     /** @EFFECT_DEX increases chance for critical hits */
 
     /** @EFFECT_PER increases chance for critical hits */
-    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * get_dex() + ( 0.02 * get_per() ) );
 
     /** @EFFECT_BASHING increases critical chance with bashing weapons */
     /** @EFFECT_CUTTING increases critical chance with cutting weapons */
@@ -1557,8 +1557,8 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
 
     // don't apply disarming techniques to someone without a weapon
     // TODO: these are the stat requirements for tec_disarm
-    // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
-    // dice(p->dex_cur + p->get_skill_level("melee"),   10))
+    // dice(   get_dex() +    get_skill_level("unarmed"),  8) >
+    // dice(p->get_dex() + p->get_skill_level("melee"),   10))
     if( tec_id->disarms && !t.has_weapon() ) {
         add_msg_debug( debugmode::DF_MELEE,
                        "Disarming technique against unarmed opponent, attack discarded" );
@@ -2730,7 +2730,7 @@ int Character::attack_speed( const item &weap ) const
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
-    const int dexbonus = dex_cur / 2;
+    const int dexbonus = get_dex() / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );

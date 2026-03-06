@@ -1944,7 +1944,7 @@ bool map::can_move_furniture( const tripoint_bub_ms &pos, Character *you ) const
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    int adjusted_str = you->str_cur;
+    int adjusted_str = you->get_str();
     if( you->is_mounted() ) {
         auto *mons = you->mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
@@ -11084,6 +11084,10 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
         !this->has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::DangerousTrap;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && !this->has_vehicle_floor( p ) ) {
+        cur_value |= PathfindingFlag::Air;
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {

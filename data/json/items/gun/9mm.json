@@ -348,7 +348,7 @@
     "longest_side": "248 mm",
     "barrel_length": "100 mm",
     "price": "1 kUSD",
-    "material": "steel",
+    "material": [ "steel" ],
     "dispersion": 420,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
@@ -375,7 +375,7 @@
     "longest_side": "312 mm",
     "barrel_length": "140 mm",
     "price": "1 kUSD 300 USD",
-    "material": "steel",
+    "material": [ "steel" ],
     "dispersion": 450,
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "flags": [ "RELOAD_ONE" ],
