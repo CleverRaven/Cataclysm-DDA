@@ -287,10 +287,7 @@
     "required_event": "avatar_enters_omt",
     "condition": { "u_has_effect": "effect_electrokin_hacking_interface" },
     "effect": [
-      { "u_message": "The EoC is firing" },
-      {
-        "run_eocs": [ "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ]
-      }
+      { "run_eocs": [ "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE_REMOVE_ITEM", "EOC_ELECTROKIN_HACKING_INTERFACE_SWITCHER" ] }
     ]
   },
   {
