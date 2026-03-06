@@ -339,7 +339,7 @@
     "side": "left",
     "similar_bodypart": "arm_upper_l",
     "opposite": "arm_feathers_upper_r",
-    "max_coverage": 30
+    "max_coverage": 35
   },
   {
     "type": "sub_body_part",
@@ -383,7 +383,7 @@
     "side": "right",
     "similar_bodypart": "arm_upper_r",
     "opposite": "arm_feathers_upper_l",
-    "max_coverage": 30
+    "max_coverage": 35
   },
   {
     "type": "sub_body_part",
