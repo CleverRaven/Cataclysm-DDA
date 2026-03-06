@@ -176,7 +176,7 @@
     "material": [ "oil" ],
     "charges": 1,
     "phase": "liquid",
-    "flags": "ANIMAL_PRODUCT"
+    "flags": [ "ANIMAL_PRODUCT" ]
   },
   {
     "type": "ITEM",

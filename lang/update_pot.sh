@@ -18,6 +18,7 @@ xgettext --default-domain="cataclysm-dda" \
          --sort-by-file \
          --output="lang/po/base.pot" \
          --keyword="_" \
+         --keyword="_fmt" \
          --keyword="pgettext:1c,2" \
          --keyword="n_gettext:1,2" \
          --keyword="npgettext:1c,2,3" \
@@ -42,7 +43,17 @@ if ! lang/extract_json_strings.py \
         -i data \
         -i data/json \
         -i data/mods \
+        -i data/mods/DinoMod \
+        -i data/mods/My_Sweet_Cataclysm \
+        -i data/mods/translate-dialogue \
+        -i data/mods/CrazyCataclysm \
+        -i data/mods/TropiCataclysm \
+        -i data/mods/MA \
+        -i data/mods/desert_region \
+        -i data/mods/railroads \
+        -i data/mods/Limb_WIP \
         -x data/mods/TEST_DATA \
+        -x data/mods/Standard_Combat_Tests \
         -x data/json/debug \
         -X data/json/effects_on_condition/example_eocs.json \
         -X data/json/furniture_and_terrain/terrain-regional-pseudo.json \

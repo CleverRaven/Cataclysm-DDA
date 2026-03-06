@@ -77,8 +77,6 @@ enum action_id : int {
 
     // Viewport movement actions and related
     /**@{*/
-    /** Toggle memorized tiles being shown */
-    ACTION_TOGGLE_MAP_MEMORY,
     /** Center the viewport on character */
     ACTION_CENTER,
     /** Move viewport north */
@@ -298,6 +296,9 @@ enum action_id : int {
     ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
+    /** Exports save archive and game report for github bug reports. No associated hotkey. */
+    ACTION_EXPORT_BUG_REPORT_ARCHIVE,
+
     // Debug Functions
     /**@{*/
     /** Toggle full-screen mode */
@@ -314,7 +315,7 @@ enum action_id : int {
     ACTION_ZOOM_OUT,
     /** Zoom view out */
     ACTION_ZOOM_IN,
-    /** Open the action menu */
+    /** Open the the action menu */
     ACTION_ACTIONMENU,
     /** Open the item uses menu */
     ACTION_ITEMACTION,
@@ -353,6 +354,8 @@ enum action_id : int {
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
+    /** Interact with the current or nearby tile */
+    ACTION_INTERACT,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/
@@ -602,6 +605,17 @@ point_rel_ms get_delta_from_movement_action( action_id act, iso_rotate rot );
  * @returns action_id ID of action requested by user at menu.
  */
 action_id handle_action_menu( map &here );
+
+/**
+ * Show a context-sensitive action menu for a specific tile.
+ *
+ * If only one action is possible, it is returned immediately.
+ * If multiple actions are possible, a menu is shown.
+ *
+ * @param pos The tile to perform actions on.
+ * @returns action_id ID of action requested by user, or ACTION_NULL.
+ */
+action_id handle_interact( map &here, const tripoint_bub_ms &pos );
 
 /**
  * Show in-game main menu

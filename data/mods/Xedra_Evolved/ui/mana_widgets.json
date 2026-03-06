@@ -1,0 +1,71 @@
+[
+  {
+    "//": "Maximum mana points, in light blue color.",
+    "id": "xe_max_mana_num",
+    "type": "widget",
+    "label": "Max Mana",
+    "style": "number",
+    "var": "max_mana",
+    "colors": [ "c_pink" ]
+  },
+  {
+    "//": "Base widget for other mana widgets to copy-from.  Sets var and colors.",
+    "id": "xe_mana_base",
+    "type": "widget",
+    "var": "mana",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_pink" ]
+  },
+  {
+    "//": "Current number of mana points, with color.",
+    "id": "xe_mana_num",
+    "type": "widget",
+    "copy-from": "xe_mana_base",
+    "label": "Mana",
+    "style": "number"
+  },
+  {
+    "//": "Wide bar-graph of current mana level, using the default 'bucket' fill.",
+    "id": "xe_mana_graph",
+    "type": "widget",
+    "copy-from": "xe_mana_base",
+    "label": "Mana",
+    "style": "graph",
+    "width": 25,
+    "symbols": ".-=#",
+    "fill": "bucket"
+  },
+  {
+    "//": "Like the mana graph, but using a 'pool' fill.",
+    "id": "xe_mana_pool",
+    "type": "widget",
+    "copy-from": "xe_mana_graph",
+    "fill": "pool"
+  },
+  {
+    "//": "Both current and maximum mana numbers, side by side",
+    "id": "xe_current_max_mana_nums_layout",
+    "type": "widget",
+    "label": "Xedra Current/Max Mana",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "xe_mana_num", "xe_max_mana_num" ]
+  },
+  {
+    "//": "Bar graph of current mana, with 'bucket' fill.",
+    "id": "xe_mana_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Xedra Mana Graph",
+    "arrange": "columns",
+    "widgets": [ "xe_mana_graph" ]
+  },
+  {
+    "//": "Bar graph of current mana, with 'pool' fill.",
+    "id": "xe_mana_pool_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Xedra Mana Pool",
+    "arrange": "columns",
+    "widgets": [ "xe_mana_pool" ]
+  }
+]

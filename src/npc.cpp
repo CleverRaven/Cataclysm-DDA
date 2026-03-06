@@ -239,10 +239,6 @@ npc::npc()
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
-    str_max = 0;
-    dex_max = 0;
-    int_max = 0;
-    per_max = 0;
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -275,14 +271,10 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         setID( g->assign_npc_id() );
     }
 
-    str_cur = std::max( s_str, 0 );
-    str_max = std::max( s_str, 0 );
-    dex_cur = std::max( s_dex, 0 );
-    dex_max = std::max( s_dex, 0 );
-    per_cur = std::max( s_per, 0 );
-    per_max = std::max( s_per, 0 );
-    int_cur = std::max( s_int, 0 );
-    int_max = std::max( s_int, 0 );
+    set_str_base( s_str );
+    set_dex_base( s_dex );
+    set_per_base( s_per );
+    set_int_base( s_int );
 
     set_body();
     recalc_hp();
@@ -331,6 +323,26 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
     }
     if( jsobj.has_string( "temp_suffix" ) ) {
         jsobj.read( "temp_suffix", tem.temp_suffix );
+    }
+    std::set allowed_attitudes = {
+        NPCATT_NULL,
+        NPCATT_TALK,
+        NPCATT_FOLLOW,
+        NPCATT_LEAD,
+        NPCATT_WAIT,
+        NPCATT_MUG,
+        NPCATT_WAIT_FOR_LEAVE,
+        NPCATT_KILL,
+        NPCATT_FLEE,
+        NPCATT_HEAL
+    };
+    const npc_attitude to_set = static_cast<npc_attitude>( jsobj.get_int( "attitude" ) );
+    if( allowed_attitudes.count( to_set ) > 0 ) {
+        guy.set_attitude( to_set );
+    } else {
+        debugmsg( "NPC class %s has invalid attitude enum %d", guy.idz.c_str(),
+                  static_cast<int>( to_set ) );
+        guy.set_attitude( NPCATT_NULL );
     }
     guy.set_attitude( static_cast<npc_attitude>( jsobj.get_int( "attitude" ) ) );
     guy.mission = static_cast<npc_mission>( jsobj.get_int( "mission" ) );
@@ -596,10 +608,10 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     randomize_height();
     // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
     set_base_age( rng( 18, 55 ) );
-    str_max = dice( 4, 3 );
-    dex_max = dice( 4, 3 );
-    int_max = dice( 4, 3 );
-    per_max = dice( 4, 3 );
+    int str_base = dice( 4, 3 );
+    int dex_base = dice( 4, 3 );
+    int int_base = dice( 4, 3 );
+    int per_base = dice( 4, 3 );
 
     if( tem_id.is_valid() ) {
         const npc_template &tem = tem_id.obj();
@@ -610,16 +622,16 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
             personality.altruism = tem.personality->altruism;
         }
         if( tem.str.has_value() ) {
-            str_max = tem.str.value();
+            str_base = tem.str.value();
         }
         if( tem.dex.has_value() ) {
-            dex_max = tem.dex.value();
+            dex_base = tem.dex.value();
         }
         if( tem.intl.has_value() ) {
-            int_max = tem.intl.value();
+            int_base = tem.intl.value();
         }
         if( tem.per.has_value() ) {
-            per_max = tem.per.value();
+            per_base = tem.per.value();
         }
         if( tem.height.has_value() ) {
             set_base_height( tem.height.value() );
@@ -636,10 +648,10 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         myclass = type;
     }
 
-    str_max += myclass->roll_strength();
-    dex_max += myclass->roll_dexterity();
-    int_max += myclass->roll_intelligence();
-    per_max += myclass->roll_perception();
+    set_str_base( str_base + myclass->roll_strength() );
+    set_dex_base( dex_base + myclass->roll_dexterity() );
+    set_int_base( int_base + myclass->roll_intelligence() );
+    set_per_base( per_base + myclass->roll_perception() );
 
     personality.aggression += myclass->roll_aggression();
     personality.bravery += myclass->roll_bravery();
@@ -669,6 +681,9 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
                             0.2, 5.0 );
     set_stored_kcal( weight_percent * get_healthy_kcal() );
+    if( !needs_food() ) {
+        set_stored_kcal( get_healthy_kcal() );
+    }
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -1300,16 +1315,16 @@ void npc::starting_weapon( const npc_class_id &type )
             //You should be able to wield your starting weapon
             if( !meets_stat_requirements( *weapon ) ) {
                 if( weapon->get_min_str() > get_str() ) {
-                    str_max = weapon->get_min_str();
+                    set_str_base( weapon->get_min_str() );
                 }
                 if( weapon->type->min_dex > get_dex() ) {
-                    dex_max = weapon->type->min_dex;
+                    set_dex_base( weapon->type->min_dex );
                 }
                 if( weapon->type->min_int > get_int() ) {
-                    int_max = weapon->type->min_int;
+                    set_int_base( weapon->type->min_int );
                 }
                 if( weapon->type->min_per > get_per() ) {
-                    per_max = weapon->type->min_per;
+                    set_per_base( weapon->type->min_per );
                 }
             }
         }
@@ -1671,7 +1686,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    npc_values.fear += ( you.str_max / 4 ) - 2;
+    npc_values.fear += ( you.get_str_base() / 4 ) - 2;
 
     // is your health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
@@ -1898,9 +1913,9 @@ void npc::decide_needs()
     needrank[need_weapon] = evaluate_weapon( weap );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    cache_visit_items_with( "is_food", &item::is_food, [&]( const item & it ) {
-        needrank[ need_food ] += nutrition_for( it ) / 4.0;
-        needrank[ need_drink ] += it.get_comestible()->quench / 4.0;
+    cache_visit_items_with( "is_food", &item::is_food, [&]( const item_location & it ) {
+        needrank[ need_food ] += nutrition_for( *it ) / 4.0;
+        needrank[ need_drink ] += it->get_comestible()->quench / 4.0;
     } );
     needs.clear();
     size_t j;
@@ -2067,6 +2082,16 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 
     if( it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "Will not buy filthy items" ) );
+    }
+
+    if( myclass->has_whitelist() ) {
+        const shopkeeper_whitelist &wl = myclass->get_shopkeeper_whitelist();
+        icg_entry const *wl_icg = myclass->get_shopkeeper_whitelist().matches( it, *this );
+        if( wl_icg != nullptr ) {
+            return ret_val<void>::make_success();
+        } else {
+            return ret_val<void>::make_failure( wl.message.translated() );
+        }
     }
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
@@ -3162,7 +3187,7 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_LEGACY_4:
         case NPCATT_LEGACY_5:
         case NPCATT_LEGACY_6:
-            return _( "NPC Legacy Attitude" );
+            return _( "ERROR!  Legacy Attitude" );
         default:
             break;
     }

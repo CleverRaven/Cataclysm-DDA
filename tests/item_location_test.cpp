@@ -24,7 +24,7 @@ static const itype_id itype_tshirt( "tshirt" );
 
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
     tripoint_bub_ms pos( 60, 60, 0 );
     m.i_clear( pos );
@@ -61,7 +61,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
 
 TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
     tripoint_bub_ms pos( 60, 60, 0 );
     m.i_clear( pos );

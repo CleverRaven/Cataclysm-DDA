@@ -251,7 +251,6 @@
     "volume": "250 ml",
     "color": "cyan",
     "addiction_type": "alcohol",
-    "use_action": [ "ALCOHOL_WEAK" ],
     "stim": -4,
     "spoils_in": "1 days",
     "container": "cup_plastic",
@@ -267,7 +266,7 @@
     "price_postapoc": "1 USD",
     "material": [ "water", "alcohol" ],
     "phase": "liquid",
-    "flags": [ "MELTS", "NO_AUTO_CONSUME" ],
+    "flags": [ "MELTS", "NO_AUTO_CONSUME", "ALCOHOL_WEAK" ],
     "vitamins": [  ]
   },
   {

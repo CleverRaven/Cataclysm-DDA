@@ -20,6 +20,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -154,7 +155,13 @@ static const vitamin_id vitamin_redcells( "redcells" );
 static void eff_fun_onfire( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_heat, rng( intense, intense * 2 ) ) );
+    u.deal_damage( it.get_source().resolve_creature(), it.get_bp(), damage_instance( damage_heat,
+                   rng( intense, intense * 2 ) ) );
+    if( u.is_limb_broken( it.get_bp() ) ) {
+        // Set effect to be cleaned up during effect processing instead of endlessly burning broken limb.
+        // TODO: Transfer damage towards core instead? (e.g. broken feet --> try legs, if broken --> try torso etc)
+        it.set_duration( 0_turns );
+    }
 }
 static void eff_fun_spores( Character &u, effect &it )
 {
@@ -245,7 +252,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
                 ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
+                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.get_str(),
                                 1 ) ); // can't be healthy
             }
             break;
@@ -384,7 +391,7 @@ static void eff_fun_bleed( Character &u, effect &it )
             // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
             // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
             const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
-                                                  suffer_string,
+                                                  suffer_string.translated(),
                                                   blood_str, body_part_name( bp ) ) : _( "You lose some blood." );
             // display the final message
             u.add_msg_player_or_npc( m_bad,
@@ -450,7 +457,7 @@ static void eff_fun_hallu( Character &u, effect &it )
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
-            int loudness = 20 + u.str_cur - u.int_cur;
+            int loudness = 20 + u.get_str() - u.get_int();
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
             sounds::sound( u.pos_bub(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),

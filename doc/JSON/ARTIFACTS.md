@@ -92,6 +92,7 @@ The various ways this artifact can charge and use charges.
 - **lunar** This artifact takes 'time' amount of time to recharge, only recharges at night time.
 - **full_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the full moon
 - **new_moon** This artifact takes 'time' amount of time to recharge, only recharges on the nights of the new moon
+- **forest** This artifact takes 'time' amount of time to recharge, only recharges in a wooded area (forest, thick forest, and swamp tiles) and character is both outside and not in a city.
 
 #### recharge_conditions
 
@@ -104,8 +105,8 @@ The various ways this artifact can charge and use charges.
 As the names suggest, these are *passive* benefits/penalties to having the artifact (i.e. always present without activating the artifact's abilities).  **Add** values add or subtract from existing scores, and **mult** values multiply them.  A multiply value of -1 is -100% and a multiply of 2.5 is +250%. These are entered as a list of possible 'abilities' the artifact could get. It does not by default get all these abilities, rather when it spawns it selects from the list provided.
 
 - **weight:** the weight of this value in the list, to be chosen randomly
-- **min_value:** the minimum possible value for this value type. for add must be an integer, for mult it can be a float
-- **max_value:** the maximum possible value for this value type. for add must be an integer, for mult it can be a float
+- **min_value:** the minimum possible value for this value type
+- **max_value:** the maximum possible value for this value type
 - **type:** the type of enchantment value. see MAGIC.md for detailed documentation on enchantment values
 - **increment:** the increment that is used for the power multiplier
 - **power_per_increment:** the power value per increment

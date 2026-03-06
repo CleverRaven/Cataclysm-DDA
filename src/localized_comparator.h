@@ -42,7 +42,6 @@ struct localized_comparator {
     }
 
     bool operator()( const std::string &, const std::string & ) const;
-    bool operator()( const std::wstring &, const std::wstring & ) const;
     bool operator()( const translation &, const translation & ) const;
 
     template<typename Head, typename... Tail, size_t... Ints>

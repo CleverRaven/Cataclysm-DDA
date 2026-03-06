@@ -30,51 +30,51 @@
   {
     "id": "CHOP_TREES",
     "type": "LOOT_ZONE",
-    "name": "Chop Trees",
+    "name": "Work: Chop Trees",
     "display_field": "fd_chop_trees_zone",
-    "description": "Designate an area to chop down trees."
+    "description": "Designate a zone to chop down trees."
   },
   {
     "id": "CONSTRUCTION_BLUEPRINT",
     "type": "LOOT_ZONE",
-    "name": "Construction: Blueprint",
+    "name": "Work: Construction Blueprint",
     "display_field": "fd_construction_blueprint_zone",
-    "description": "Designate a blueprint zone for construction."
+    "description": "Designate a zone to build a construction on each tile."
   },
   {
     "id": "DISASSEMBLE",
     "type": "LOOT_ZONE",
-    "name": "Disassembly Work",
+    "name": "Work: Disassembly",
     "display_field": "fd_disassembly_work_zone",
     "description": "Items in this zone are marked for disassembly."
   },
   {
     "id": "FARM_PLOT",
     "type": "LOOT_ZONE",
-    "name": "Farm: Plot",
+    "name": "Work: Farm Plot",
     "display_field": "fd_farm_plot_zone",
-    "description": "Designate a farm plot for tilling and planting."
+    "description": "Designate a farm zone for tilling, planting, fertilizing, and harvesting a seed type."
   },
   {
     "id": "FISHING_SPOT",
     "type": "LOOT_ZONE",
-    "name": "Fishing Spot",
+    "name": "Work: Fishing Spot",
     "display_field": "fd_fishing_spot_zone",
-    "description": "Designate an area to fish from."
+    "description": "Designate a zone to fish from."
   },
   {
     "id": "MINING",
     "type": "LOOT_ZONE",
-    "name": "Mine Terrain",
+    "name": "Work: Mine Terrain",
     "display_field": "fd_mine_terrain_zone",
-    "description": "Designate an area to mine."
+    "description": "Designate a zone to mine."
   },
   {
     "id": "MOPPING",
     "type": "LOOT_ZONE",
-    "name": "Mop Tile",
+    "name": "Work: Mop Tile",
     "display_field": "fd_mop_tile_zone",
-    "description": "Designate an area to mop clean."
+    "description": "Designate a zone to mop tiles clean."
   },
   {
     "id": "NO_AUTO_PICKUP",
@@ -128,9 +128,9 @@
   {
     "id": "VEHICLE_DECONSTRUCT",
     "type": "LOOT_ZONE",
-    "name": "Vehicle Deconstruct Zone",
+    "name": "Work: Vehicle Deconstruct",
     "display_field": "fd_vehicle_deconstruct_zone",
-    "description": "Any vehicles in this area are marked for deconstruction."
+    "description": "Any vehicles in this zone are marked for deconstruction."
   },
   {
     "id": "VEHICLE_PATROL",
@@ -142,14 +142,14 @@
   {
     "id": "VEHICLE_REPAIR",
     "type": "LOOT_ZONE",
-    "name": "Vehicle Repair Zone",
+    "name": "Work: Vehicle Repair",
     "display_field": "fd_vehicle_repair_zone",
-    "description": "Any vehicles in this area are marked for repair work."
+    "description": "Any vehicles in this zone are marked for repair work."
   },
   {
     "id": "STUDY_ZONE",
     "type": "LOOT_ZONE",
-    "name": "Study Zone",
+    "name": "Work: Study",
     "display_field": "fd_study_zone",
     "description": "NPCs will find and read books from this zone until no more books can be learned from."
   }

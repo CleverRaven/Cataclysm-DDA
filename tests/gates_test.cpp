@@ -22,7 +22,7 @@ static const ter_str_id ter_t_window_no_curtains_open( "t_window_no_curtains_ope
 TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
@@ -54,7 +54,7 @@ TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
 TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
@@ -82,7 +82,7 @@ TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
 TEST_CASE( "doors_and_windows_should_make_whoosh_sound", "[gates]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     sounds::reset_sounds();
 
@@ -152,7 +152,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
     map &here = get_map();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 

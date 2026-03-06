@@ -9,6 +9,7 @@
 #include <string_view>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include <zstd/zstd.h>
 #include <zstd/common/mem.h>

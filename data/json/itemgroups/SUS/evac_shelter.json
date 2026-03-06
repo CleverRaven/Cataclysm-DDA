@@ -111,8 +111,8 @@
           },
           {
             "collection": [
-              { "item": "can_beans", "count": [ 8, 12 ], "prob": 50 },
-              { "item": "can_tomato", "count": [ 8, 12 ], "prob": 40 },
+              { "group": "beans_in_can", "count": [ 8, 12 ], "prob": 50 },
+              { "group": "tomatoes_in_can", "count": [ 8, 12 ], "prob": 40 },
               { "item": "soup_chicken", "count": [ 8, 12 ], "prob": 20 },
               { "item": "can_opener", "prob": 90 }
             ],
@@ -181,8 +181,8 @@
           },
           {
             "collection": [
-              { "item": "can_beans", "count": [ 1, 2 ], "prob": 10 },
-              { "item": "can_tomato", "count": [ 1, 2 ], "prob": 5 },
+              { "group": "beans_in_can", "count": [ 1, 2 ], "prob": 10 },
+              { "group": "tomatoes_in_can", "count": [ 1, 2 ], "prob": 5 },
               { "item": "soup_chicken", "count": [ 1, 2 ], "prob": 2 },
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },

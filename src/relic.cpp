@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <initializer_list>
 #include <string>
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -16,6 +18,8 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
+#include "omdata.h"
+#include "overmapbuffer.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
@@ -62,6 +66,7 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::FULL_MOON: return "full_moon";
         case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
+        case relic_recharge_type::FOREST: return "forest";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -108,6 +113,11 @@ void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const st
 void relic_procgen_data::finalize_all()
 {
     relic_procgen_data_factory.finalize();
+}
+
+void relic_procgen_data::check_consistency()
+{
+    relic_procgen_data_factory.check();
 }
 
 relic::~relic() = default;
@@ -192,7 +202,7 @@ void relic_procgen_data::load( const JsonObject &jo, std::string_view )
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
-        relic_procgen_data::enchantment_value_passive<int> val;
+        relic_procgen_data::enchantment_value_passive<float> val;
         val.load( jo_inner );
 
         passive_add_procgen_values.add( val, weight );
@@ -241,6 +251,24 @@ void relic_procgen_data::load( const JsonObject &jo, std::string_view )
         charge.load( jo_inner );
 
         charge_values.add( charge, weight );
+    }
+}
+
+void relic_procgen_data::check() const
+{
+    const std::vector<spell_type> &spells = spell_type::get_all();
+    for( const weighted_int_list<enchantment_active> &l : {
+             passive_hit_you, passive_hit_me, active_procgen_values
+         } ) {
+        for( const std::pair<enchantment_active, int> &e : l ) {
+            auto it = std::find_if( spells.begin(), spells.end(), [&]( const auto & st ) {
+                return st.id == e.first.activated_spell;
+            } );
+            if( it == spells.end() ) {
+                debugmsg( "Invalid spell id %s in active_procgen_values for preset %s",
+                          e.first.activated_spell.str(), id.str() );
+            }
+        }
     }
 }
 
@@ -516,6 +544,14 @@ static bool can_recharge_lunar( const item &it, Character *carrier, const tripoi
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
+// checks if the relic is in the appropriate location to be able to recharge from being in a forest.
+static bool can_recharge_forest( const tripoint_bub_ms &pos )
+{
+    const tripoint_abs_omt omt_were_at = project_to<coords::omt>( get_map().get_abs( pos ) );
+    return get_map().is_outside( pos ) && overmap_buffer.ter( omt_were_at )->is_wooded() &&
+           !overmap_buffer.is_in_city( omt_were_at );
+}
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -568,6 +604,12 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
         case relic_recharge_type::SOLAR_CLOUDY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier < 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::FOREST: {
+            if( can_recharge_forest( pos ) ) {
                 charge.accumulate_charge( parent );
             }
             return;
@@ -649,9 +691,9 @@ int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
-    for( const std::pair<relic_procgen_data::enchantment_value_passive<int>, int>
+    for( const std::pair<relic_procgen_data::enchantment_value_passive<float>, int>
          &add_val_passive : passive_add_procgen_values ) {
-        int val = ench.get_value_add( add_val_passive.first.type );
+        float val = ench.get_value_add( add_val_passive.first.type );
         if( val != 0 ) {
             power += static_cast<float>( add_val_passive.first.power_per_increment ) /
                      static_cast<float>( add_val_passive.first.increment ) * val;
@@ -724,10 +766,10 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 break;
             }
             case relic_procgen_data::type::passive_enchantment_add: {
-                const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
+                const relic_procgen_data::enchantment_value_passive<float> *add = passive_add_procgen_values.pick();
                 if( add != nullptr ) {
                     enchant_cache ench;
-                    int value = rng( add->min_value, add->max_value );
+                    float value = rng_float( add->min_value, add->max_value );
                     if( value == 0 ) {
                         break;
                     }

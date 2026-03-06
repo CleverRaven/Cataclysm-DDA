@@ -37,6 +37,7 @@
     "type": "region_settings_city",
     "id": "default_aftershock",
     "copy-from": "default",
+    "name_snippet": "<afs_city>",
     "shop_radius": 30,
     "shop_sigma": 80,
     "park_radius": 20,
@@ -82,7 +83,7 @@
     "base_pressure": 1015.0,
     "base_wind": 9.0,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50,
+    "base_wind_season_variation": 0,
     "weather_white_list": [ "clear", "sunny", "cloudy", "afs_whiteout", "afs_thunder", "afs_lightning", "afs_flurries", "afs_snowing" ]
   },
   {

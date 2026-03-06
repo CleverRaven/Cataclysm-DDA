@@ -27,12 +27,7 @@
     "ugliness": 1,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their horns!",
-      "chance": 20,
-      "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "integrated_armor": [ "integrated_horns_small" ]
   },
   {
     "type": "mutation",
@@ -48,12 +43,7 @@
     "visibility": 8,
     "ugliness": 2,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You headbutt %s with your curled horns!",
-      "attack_text_npc": "%1$s headbutts %2$s with their curled horns!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 14 }
-    }
+    "integrated_armor": [ "integrated_horns_curled" ]
   },
   {
     "type": "mutation",
@@ -69,12 +59,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You stab %s with your pointed horns!",
-      "attack_text_npc": "%1$s stabs %2$s with their pointed horns!",
-      "chance": 22,
-      "base_damage": { "damage_type": "stab", "amount": 24 }
-    }
+    "integrated_armor": [ "integrated_horns_pointed" ]
   },
   {
     "type": "mutation",
@@ -90,12 +75,7 @@
     "ugliness": 3,
     "allow_soft_gear": true,
     "restricts_gear": [ "head_crown" ],
-    "attacks": {
-      "attack_text_u": "You butt %s with your antlers!",
-      "attack_text_npc": "%1$s butts %2$s with their antlers!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_antlers" ]
   },
   {
     "type": "mutation",
@@ -304,9 +284,8 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -322,7 +301,17 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 4,
-    "ugliness": 5
+    "ugliness": 5,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_insect_good_l" },
+          { "gain": "arm_insect_good_r" },
+          { "gain": "insect_hand_l" },
+          { "gain": "insect_hand_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -381,7 +370,7 @@
     "type": "mutation",
     "id": "CRUSTACEAN_CLAW",
     "name": { "str": "Giant Pincer" },
-    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
+    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It's really not good at being a human hand, but you can use it in melee combat to deal massive damage.",
     "category": [ "CRUSTACEAN" ],
     "types": [ "HANDS" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
@@ -392,7 +381,7 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "integrated_armor": [ "integrated_giant_pincer" ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -442,12 +431,7 @@
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "restricts_gear": [ "foot_toes_l", "foot_toes_r" ],
-    "attacks": {
-      "attack_text_u": "You slash %s with one of your talons!",
-      "attack_text_npc": "%1$s slashes %2$s with one of their talons!",
-      "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "integrated_armor": [ "integrated_toe_talons" ]
   },
   {
     "type": "mutation",
@@ -605,23 +589,34 @@
     "prereqs": [ "WINGS_STUB" ],
     "points": 1,
     "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You begin buzzing your wings.",
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 4,
     "flags": [ "WINGS_1" ],
+    "cost": 115,
+    "stamina": true,
+    "time": "1 s",
     "restricts_gear": [ "torso" ],
-    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
+    "active_flags": [ "ONE_STORY_FALL", "MUSCLE_VEH_BOOST" ],
+    "//": "We apply WINGS_INSECT_active as a mutation because there are sound penalties with custom messages hard-coded to its id.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ],
+        "mutations": [ "WINGS_INSECT_active" ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "WINGS_INSECT_active",
-    "copy-from": "WINGS_INSECT",
     "name": { "str": "Insect Wings (Buzzing)" },
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "valid": false,
-    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
-    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 },
-    "enchantments": [ "ench_wings_insect_active" ]
+    "points": 0,
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -652,7 +647,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -670,13 +665,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You whap %s with your tail!",
-      "attack_text_npc": "%1$s whaps %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 8 }
-    },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_thick" } ] } ]
   },
   {
     "type": "mutation",
@@ -692,13 +681,7 @@
     "ugliness": 2,
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
-    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You club %s with your tail!",
-      "attack_text_npc": "%1$s clubs %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 18 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_club" } ] } ]
   },
   {
     "type": "mutation",
@@ -716,29 +699,24 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "attacks": {
-      "attack_text_u": "You sting %s with your tail!",
-      "attack_text_npc": "%1$s stings %2$s with their tail!",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 20 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_scorpion" } ] } ]
   },
   {
     "type": "mutation",
     "id": "TAIL_FLUFFY",
     "name": { "str": "Fluffy Tail" },
-    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge higher.  Prevents wearing non-fabric pants.",
     "category": [ "LUPINE" ],
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "points": 1,
     "vitamin_cost": 130,
+    "ugliness": 2,
     "visibility": 7,
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_fluffy" } ] } ]
   },
   {
     "type": "mutation",
@@ -755,7 +733,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_bovine" } ] } ]
   },
   {
     "type": "mutation",
@@ -772,7 +750,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_raptor" } ] } ]
   },
   {
     "type": "mutation",
@@ -789,8 +767,8 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ] } ],
-    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ]
+    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_finned" } ] } ]
   },
   {
     "type": "mutation",
@@ -807,7 +785,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_rat" } ] } ]
   },
   {
     "type": "mutation",
@@ -896,15 +874,15 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "bodytemp_modifiers": [ 25, 50 ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your large feet!",
-      "attack_text_npc": "%1$s kicks %2$s with their large feet!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 1.5 }
-    },
-    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_l" }, { "gain": "animal_paw_rabbit_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -960,7 +938,11 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_l" }, { "gain": "animal_paw_r" } ]
+      }
     ],
     "triggers": [
       [
@@ -1008,13 +990,12 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "hoof_l" }, { "gain": "hoof_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -1032,6 +1013,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_SHORT_LEAP" ]
   },
   {
@@ -1049,6 +1032,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 6000,
     "activated_eocs": [ "EOC_CRUSHING_LEAP" ]
   },
   {
@@ -1103,10 +1088,18 @@
     "ugliness": 2,
     "flags": [ "TOUGH_FEET" ],
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2500,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
-    "restricts_gear": [ "foot_l", "foot_r" ]
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "avian_talon_l" }, { "gain": "avian_talon_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",

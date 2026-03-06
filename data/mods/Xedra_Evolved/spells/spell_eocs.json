@@ -165,6 +165,22 @@
       }
     ],
     "false_effect": [
+      { "math": [ "u_hp('karma_arm_up_r') += 150" ] },
+      { "math": [ "u_hp('karma_arm_up_l') += 150" ] },
+      { "math": [ "u_hp('karma_arm_lw_r') += 150" ] },
+      { "math": [ "u_hp('karma_arm_lw_l') += 150" ] },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_lw_l" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_lw_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_l" },
       { "u_lose_trait": "karma_arms" },
       { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
     ]

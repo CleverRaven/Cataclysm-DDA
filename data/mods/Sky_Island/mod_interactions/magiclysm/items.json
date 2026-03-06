@@ -1,0 +1,20 @@
+[
+  {
+    "id": "warp_druid_wood_floor_tokens",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "category": "other",
+    "name": { "str_sp": "sapwood-floor tokens" },
+    "description": "A group of small squares of living wood, rough and unpolished.  You can use them to transform a section of flooring into living wood.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 50,
+    "stack_size": 50,
+    "looks_like": "seed_wild_herbs",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "veggy" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "ammo_type": "components"
+  }
+]

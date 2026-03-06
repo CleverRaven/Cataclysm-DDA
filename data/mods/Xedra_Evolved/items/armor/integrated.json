@@ -274,7 +274,6 @@
     "material": [ "mut_wood" ],
     "symbol": ",",
     "color": "green",
-    "to_hit": 1,
     "flags": [ "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
     "armor": [
       {
@@ -512,7 +511,6 @@
     "category": "clothing",
     "name": { "str": "water pocket" },
     "description": "Your skin is capable of .",
-    "to_hit": -1,
     "material": [ "fae_flesh" ],
     "symbol": ")",
     "color": "blue",
@@ -787,35 +785,6 @@
     "qualities": [ [ "HACK", 3 ] ]
   },
   {
-    "id": "integrated_bloodbank",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str_sp": "organic bloodbank" },
-    "description": "You can vaguely sense this organ… somewhere in your body.",
-    "volume": "1 ml",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
-    "symbol": "x",
-    "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "5500 g",
-        "material_restriction": [ "hblood" ],
-        "moves": 120,
-        "rigid": false,
-        "volume_encumber_modifier": 0.3,
-        "spoil_multiplier": 0.3
-      }
-    ],
-    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
-  },
-  {
     "id": "integrated_claws_werewolf",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -1077,7 +1046,7 @@
         "msg": "The fruit's melody fills your mind.",
         "type": "transform",
         "need_charges": 0,
-        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on github."
+        "need_charges_msg": "Something is preventing this fruit from working.  Please report it on GitHub."
       }
     ],
     "charges_per_use": 0,

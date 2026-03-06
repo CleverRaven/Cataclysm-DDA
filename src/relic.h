@@ -108,7 +108,7 @@ class relic_procgen_data
     private:
 
         weighted_int_list<relic_charge_template> charge_values;
-        weighted_int_list<enchantment_value_passive<int>> passive_add_procgen_values;
+        weighted_int_list<enchantment_value_passive<float>> passive_add_procgen_values;
         weighted_int_list<enchantment_value_passive<float>> passive_mult_procgen_values;
         weighted_int_list<enchantment_active> passive_hit_you;
         weighted_int_list<enchantment_active> passive_hit_me;
@@ -132,9 +132,11 @@ class relic_procgen_data
         static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         static void finalize_all();
+        static void check_consistency();
         static void reset();
         void load( const JsonObject &jo, std::string_view = {} );
         void deserialize( const JsonObject &jobj );
+        void check() const;
 };
 
 enum class relic_has : int {
@@ -152,6 +154,7 @@ enum class relic_recharge_type : int {
     NEW_MOON,
     SOLAR_SUNNY,
     SOLAR_CLOUDY,
+    FOREST,
     NUM
 };
 

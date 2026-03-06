@@ -625,14 +625,17 @@
     "id": "EOC_PORTAL_DIMENSION_TRAVEL",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
-        "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" }
-      },
-      {
-        "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
-        "then": { "run_eocs": "EOC_PORTAL_RADIOSPHERE" }
+        "if": { "u_has_item": "inert_glowing_string" },
+        "then": { "run_eocs": "EOC_PORTAL_STRING_DIMENSION" },
+        "else": [
+          { "u_location_variable": { "context_val": "loc" } },
+          {
+            "if": { "map_terrain_with_flag": "SHALLOW_WATER", "loc": { "context_val": "loc" } },
+            "then": { "run_eocs": "EOC_PORTAL_HIGHLANDS" },
+            "else": { "run_eocs": [ "EOC_REVERBERATION_ENTER" ] }
+          }
+        ]
       }
     ]
   },
@@ -672,81 +675,6 @@
       },
       { "give_achievement": "achievement_reach_highlands" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_RADIOSPHERE",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
-    "effect": [
-      {
-        "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
-        "then": [
-          { "u_add_effect": "blind", "duration": 0 },
-          {
-            "u_travel_to_dimension": "radiosphere",
-            "npc_travel_radius": 0,
-            "region_type": "radiosphere",
-            "npc_travel_filter": "none",
-            "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
-            "success_message": "Your surroundings warp and fold before reforming into a dark industrial area."
-          },
-          {
-            "u_location_variable": { "context_val": "nearest_floor" },
-            "terrain": "t_ladder_down",
-            "target_max_radius": 60,
-            "min_radius": 0,
-            "max_radius": 0
-          },
-          { "u_teleport": { "context_val": "nearest_floor" } },
-          { "custom_light_level": 10, "length": "9999 days", "key": "radiosphere_lights_off" },
-          { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
-          { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] },
-          { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" },
-          { "math": [ "u_ire -= 5" ] }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_RADIOSPHERE_RETURN",
-    "effect": [
-      { "u_add_effect": "blind", "duration": 0 },
-      {
-        "u_travel_to_dimension": "",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "Nothing seems to change.",
-        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
-      },
-      {
-        "u_location_variable": { "context_val": "nearest_radio_tower_floor" },
-        "target_params": { "om_terrain": "radio_tower_top", "z": 6 },
-        "terrain": "t_ladder_down",
-        "target_max_radius": 60,
-        "min_radius": 0,
-        "max_radius": 0
-      },
-      { "u_location_variable": { "context_val": "ground" }, "z_override": true, "z_adjust": 0 },
-      {
-        "if": { "math": [ "has_var(_nearest_radio_tower_floor)" ] },
-        "then": { "u_teleport": { "context_val": "nearest_radio_tower_floor" }, "fail_message": "", "success_message": "" },
-        "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
-      },
-      { "clear_dimension": "radiosphere" },
-      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true },
-      { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS",
-    "//": "bring the light back.",
-    "global": true,
-    "recurrence": "30 seconds",
-    "condition": { "not": { "current_dimension": "radiosphere" } },
-    "deactivate_condition": { "not": { "current_dimension": "radiosphere" } },
-    "effect": [ { "alter_timed_events": "radiosphere_lights_off" } ]
   },
   {
     "type": "effect_on_condition",

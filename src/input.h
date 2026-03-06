@@ -179,14 +179,89 @@ constexpr int JOY_28 = 28;
 constexpr int JOY_29 = 29;
 constexpr int JOY_30 = 30;
 
-constexpr int JOY_LEFT      = 256 + 1;
-constexpr int JOY_RIGHT     = 256 + 2;
-constexpr int JOY_UP        = 256 + 3;
-constexpr int JOY_DOWN      = 256 + 4;
-constexpr int JOY_RIGHTUP   = 256 + 5;
-constexpr int JOY_RIGHTDOWN = 256 + 6;
-constexpr int JOY_LEFTUP    = 256 + 7;
-constexpr int JOY_LEFTDOWN  = 256 + 8;
+constexpr int JOY_LS_LEFT      = 256 + 1;
+constexpr int JOY_LS_RIGHT     = 256 + 2;
+constexpr int JOY_LS_UP        = 256 + 3;
+constexpr int JOY_LS_DOWN      = 256 + 4;
+constexpr int JOY_LS_UP_RIGHT   = 256 + 5;
+constexpr int JOY_LS_DOWN_RIGHT = 256 + 6;
+constexpr int JOY_LS_UP_LEFT    = 256 + 7;
+constexpr int JOY_LS_DOWN_LEFT  = 256 + 8;
+
+constexpr int JOY_RS_LEFT      = 256 + 9;
+constexpr int JOY_RS_RIGHT     = 256 + 10;
+constexpr int JOY_RS_UP        = 256 + 11;
+constexpr int JOY_RS_DOWN      = 256 + 12;
+constexpr int JOY_RS_UP_RIGHT   = 256 + 13;
+constexpr int JOY_RS_DOWN_RIGHT = 256 + 14;
+constexpr int JOY_RS_UP_LEFT    = 256 + 15;
+constexpr int JOY_RS_DOWN_LEFT  = 256 + 16;
+
+// Named gamepad buttons (SDL controller mapping)
+// Face buttons (SDL: A=0, B=1, X=2, Y=3)
+constexpr int JOY_A  = 256 + 32;
+constexpr int JOY_B  = 256 + 33;
+constexpr int JOY_X  = 256 + 34;
+constexpr int JOY_Y  = 256 + 35;
+
+// Shoulder buttons
+constexpr int JOY_LB = 256 + 36;  // Left bumper (ALT modifier)
+constexpr int JOY_RB = 256 + 37;  // Right bumper
+
+// Triggers
+constexpr int JOY_LT = 256 + 38;  // Left trigger
+constexpr int JOY_RT = 256 + 39;  // Right trigger (move confirm)
+
+// Stick clicks
+constexpr int JOY_LS = 256 + 40;  // Left stick click
+constexpr int JOY_RS = 256 + 41;  // Right stick click
+
+// D-pad (for gameplay actions, not menu navigation)
+constexpr int JOY_UP    = 256 + 42;
+constexpr int JOY_DOWN  = 256 + 43;
+constexpr int JOY_LEFT  = 256 + 44;
+constexpr int JOY_RIGHT = 256 + 45;
+
+// Start/Back
+constexpr int JOY_START = 256 + 46;
+constexpr int JOY_BACK  = 256 + 47;
+
+// ALT variants (when LB is held)
+constexpr int JOY_ALT_A  = 256 + 48;
+constexpr int JOY_ALT_B  = 256 + 49;
+constexpr int JOY_ALT_X  = 256 + 50;
+constexpr int JOY_ALT_Y  = 256 + 51;
+constexpr int JOY_ALT_RB = 256 + 52;
+constexpr int JOY_ALT_LB = 256 + 53;
+constexpr int JOY_ALT_RT = 256 + 55;
+constexpr int JOY_ALT_LS = 256 + 56;
+constexpr int JOY_ALT_RS = 256 + 57;
+constexpr int JOY_ALT_UP    = 256 + 58;
+constexpr int JOY_ALT_DOWN  = 256 + 59;
+constexpr int JOY_ALT_LEFT  = 256 + 60;
+constexpr int JOY_ALT_RIGHT = 256 + 61;
+constexpr int JOY_ALT_START = 256 + 62;
+constexpr int JOY_ALT_BACK  = 256 + 63;
+
+// Left radial menu
+constexpr int JOY_L_RADIAL_N  = 256 + 64;
+constexpr int JOY_L_RADIAL_NE = 256 + 65;
+constexpr int JOY_L_RADIAL_E  = 256 + 66;
+constexpr int JOY_L_RADIAL_SE = 256 + 67;
+constexpr int JOY_L_RADIAL_S  = 256 + 68;
+constexpr int JOY_L_RADIAL_SW = 256 + 69;
+constexpr int JOY_L_RADIAL_W  = 256 + 70;
+constexpr int JOY_L_RADIAL_NW = 256 + 71;
+
+// Right radial menu
+constexpr int JOY_R_RADIAL_N  = 256 + 72;
+constexpr int JOY_R_RADIAL_NE = 256 + 73;
+constexpr int JOY_R_RADIAL_E  = 256 + 74;
+constexpr int JOY_R_RADIAL_SE = 256 + 75;
+constexpr int JOY_R_RADIAL_S  = 256 + 76;
+constexpr int JOY_R_RADIAL_SW = 256 + 77;
+constexpr int JOY_R_RADIAL_W  = 256 + 78;
+constexpr int JOY_R_RADIAL_NW = 256 + 79;
 
 
 /**

@@ -773,7 +773,21 @@
     "category": [ "ARVORE" ],
     "purifiable": false,
     "types": [ "STR" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": 5 } ] },
+      {
+        "condition": {
+          "and": [
+            "u_is_outside",
+            { "u_has_trait": "THRESH_ARVORE" },
+            {
+              "or": [ { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_trail" }, { "u_at_om_location": "forest_thick" } ]
+            }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_xe_blocking_huge_attacks", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

@@ -722,15 +722,16 @@
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
     "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
-    "weight": "1000 g",
-    "volume": "960 ml",
-    "longest_side": "276 mm",
-    "price": "5 USD",
-    "price_postapoc": "5 USD",
+    "weight": "889 g",
+    "volume": "1085 ml",
+    "longest_side": "29 cm",
+    "price": "0 USD",
+    "price_postapoc": "4 USD",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
+    "//COMMENT": "The moves action cost should always be at least 100 (one full second) so that the molotov can properly know who's throwing it. See iuse::molotov_lit() for more details.",
     "use_action": {
       "need_wielding": true,
       "target": "molotov_lit",
@@ -747,22 +748,68 @@
     "id": "molotov_lit",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "category": "weapons",
-    "name": { "str": "Molotov cocktail" },
+    "copy-from": "molotov",
     "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
-    "weight": "1000 g",
-    "volume": "960 ml",
-    "longest_side": "276 mm",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
-    "tick_action": [ "MOLOTOV_LIT" ],
+    "use_action": { "type": "explosion", "explosion": { "power": 0 }, "effects": [ "MOLOTOV" ] },
+    "//": [
+      "2% chance per turn of going out harmlessly.",
+      "This is necessary to prevent a player from lighting a ton of molotovs and stuffing them in their backpack until pulling them out 6 weeks later."
+    ],
+    "tick_action": [ { "type": "transform", "ammo_scale": 0, "target": "molotov", "chance": 2, "msg": "Your lit Molotov goes out." } ],
     "light": 15,
-    "flags": [ "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "DESTROY_ON_CHARGE_USE", "SPAWN_ACTIVE" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [
+      "TRADER_AVOID",
+      "NPC_THROW_NOW",
+      "NO_REPAIR",
+      "WATER_EXTINGUISH",
+      "DESTROY_ON_CHARGE_USE",
+      "SPAWN_ACTIVE",
+      "ACT_ON_RANGED_HIT"
+    ]
+  },
+  {
+    "id": "gelled_molotov",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "molotov",
+    "name": { "str": "gelled Molotov" },
+    "description": "An older brother of the generic Molotov cocktail, this wicked beverage uses thickened gasoline or straight napalm.  It, surprisingly, does not make for a fire of much higher temperature, but what it does is make the burning mixture ever more sticky.",
+    "price_postapoc": "6 USD",
+    "use_action": {
+      "need_wielding": true,
+      "target": "gelled_molotov_lit",
+      "msg": "You light the gelled Molotov!",
+      "moves": 250,
+      "need_fire": 1,
+      "menu_text": "Light rag",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "gelled_molotov_lit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "gelled_molotov",
+    "light": 15,
+    "use_action": { "type": "explosion", "explosion": { "power": 0 }, "effects": [ "GELLED_MOLOTOV" ] },
+    "tick_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "target": "gelled_molotov",
+        "chance": 2,
+        "msg": "Your lit gelled Molotov goes out."
+      }
+    ],
+    "flags": [
+      "TRADER_AVOID",
+      "NPC_THROW_NOW",
+      "NO_REPAIR",
+      "WATER_EXTINGUISH",
+      "DESTROY_ON_CHARGE_USE",
+      "SPAWN_ACTIVE",
+      "ACT_ON_RANGED_HIT"
+    ]
   },
   {
     "id": "scrambler",

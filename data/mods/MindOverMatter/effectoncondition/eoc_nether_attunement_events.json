@@ -45,7 +45,7 @@
                         "y": 100
                       }
                     },
-                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ]
+                    "effect": [ { "run_eocs": [ "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD", "EOC_XE_RAISE_ATTUNEMENT_NETHER_SORCERY_INTERACTION" ] } ]
                   }
                 ]
               }
@@ -65,7 +65,7 @@
                         "y": 100
                       }
                     },
-                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
+                    "effect": [ { "run_eocs": [ "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD", "EOC_XE_RAISE_ATTUNEMENT_NETHER_SORCERY_INTERACTION" ] } ]
                   }
                 ]
               }

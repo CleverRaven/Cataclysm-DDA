@@ -25,7 +25,7 @@ Your bug report has to include:
 Your bug report may include:
 
 - Screenshot(s) as some things are best explained visually
-- Save file (e.g. link to a dropbox upload)
+- Save file (e.g. link to a Dropbox upload)
 
 Bonus points for:
 

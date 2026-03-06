@@ -212,7 +212,7 @@
     "spell_class": "VITAKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "TOUCH_REQUIRED", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -491,7 +491,7 @@
     "spell_class": "VITAKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "TOUCH_REQUIRED", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
@@ -578,7 +578,7 @@
   {
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
-    "name": { "str": "[Ψ]Blood Purge Remove Mutagens", "//~": "NO_I18N" },
+    "name": { "str": "[Ψ]Blood Purge Additional Purging", "//~": "NO_I18N" },
     "description": {
       "str": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
       "//~": "NO_I18N"
@@ -586,7 +586,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect_str": "EOC_VITAKIN_BLOOD_PURGE",
     "shape": "blast"
   },
   {
@@ -686,7 +686,7 @@
     "spell_class": "VITAKINETIC",
     "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "SILENT", "TOUCH_REQUIRED", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",

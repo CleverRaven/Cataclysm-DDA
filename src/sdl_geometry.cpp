@@ -51,6 +51,8 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
     tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
     alt_surf.reset();
 
+    SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
+
     // Test to make sure color modulation is supported by renderer
     bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
     if( !tex_enable ) {
@@ -65,6 +67,7 @@ void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, con
 {
     if( tex ) {
         SetTextureColorMod( tex, color.r, color.g, color.b );
+        SDL_SetTextureAlphaMod( tex.get(), color.a );
         RenderCopy( renderer, tex, nullptr, &rect );
     } else {
         DefaultGeometryRenderer::rect( renderer, rect, color );

@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_nether_resonance_consequences",
+    "//": "Deliberately not visible in character tab. 1 Intensity = 1 resonance, clears at 600 per hour",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 20000,
+    "int_dur_factor": "6 s",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARTIFACT_RESONANCE",
+            "add": { "math": [ "u_effect_intensity('effect_xe_nether_resonance_consequences')" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_nether_sorcery_cold_damage_over_time",
+    "name": [ "Ebon Bindings" ],
+    "desc": [ "You cannot move!" ],
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_MOVE" ]
+  }
+]

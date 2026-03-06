@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <utility>
 
+#include <stdint.h>
+
 #include "coordinates.h"
 #include "map_scale_constants.h"
 #include "mdarray.h"
@@ -15,7 +17,7 @@
 
 // IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 
 struct level_cache {
     public:

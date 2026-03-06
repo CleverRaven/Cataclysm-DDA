@@ -202,5 +202,16 @@
       [ "wheel_slick", 25 ],
       [ "wheel", 50 ]
     ]
+  },
+  {
+    "id": "wheels_no_wood",
+    "type": "item_group",
+    "items": [
+      [ "wheel_motorbike", 25 ],
+      [ "wheel_wide_or", 25 ],
+      [ "wheel_motorbike_or", 25 ],
+      [ "wheel_slick", 25 ],
+      [ "wheel", 50 ]
+    ]
   }
 ]

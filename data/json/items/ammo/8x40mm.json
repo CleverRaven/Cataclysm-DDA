@@ -76,8 +76,7 @@
       ]
     },
     "dispersion": 75,
-    "recoil": 2200,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recoil": 2200
   },
   {
     "id": "8mm_jhp",

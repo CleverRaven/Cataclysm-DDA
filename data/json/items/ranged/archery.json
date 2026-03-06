@@ -318,7 +318,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "reload_noise_volume": 3,
     "loudness": 8,
     "skill": "archery",
@@ -371,7 +370,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 8,
     "ammo": [ "arrow" ],
@@ -422,7 +420,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -513,7 +510,6 @@
       "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 12,
     "ammo": [ "arrow" ],
@@ -569,7 +565,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "min_strength": 10,
@@ -622,7 +617,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -678,7 +672,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -775,7 +768,6 @@
       "FRAGILE_MELEE",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 9,
     "ammo": [ "arrow" ],
@@ -887,7 +879,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 15,
     "ammo": [ "arrow" ],
@@ -931,7 +922,6 @@
       "WATERPROOF_GUN",
       "NEVER_JAMS"
     ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 8,
     "ammo": [ "arrow" ],

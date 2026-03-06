@@ -1,0 +1,102 @@
+[
+  {
+    "id": "bio_inventor_mana_kj_penalty_switch",
+    "type": "bionic",
+    "name": { "str": "Cyberarcanic Interference Inverter" },
+    "description": "Mana and electricity interfere with each other while inside the same thing.  By thoroughly inverting the polarities you switched the interference, prioritizing your inner mana capacity instead of your electrical supply.",
+    "occupied_bodyparts": [
+      [ "torso", 4 ],
+      [ "leg_l", 1 ],
+      [ "leg_r", 1 ],
+      [ "foot_l", 1 ],
+      [ "foot_r", 1 ],
+      [ "head", 1 ],
+      [ "mouth", 1 ],
+      [ "arm_l", 1 ],
+      [ "arm_r", 1 ],
+      [ "hand_l", 1 ],
+      [ "hand_r", 1 ]
+    ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BIONIC_MANA_PENALTY", "multiply": -1 },
+          { "value": "BIONIC_POWER", "add": { "math": [ "u_val('mana') * -1000000" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bio_inventor_calorie_storage",
+    "type": "bionic",
+    "name": { "str": "Calorie Etherealization System" },
+    "description": "The best place to store calories is inside your own body.  Unfortunately, caloric oversaturation causes issues that impede this perfect storage.  Thanks to magnets, orbital tragectories and your own ingenuity, your calories are now close to you and will be consumed as needed without penalties.  The process is imperfect and the orbit can't be maintained without power, but nothing preserves calories this well.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "act_cost": "10 kJ",
+    "react_cost": "100 J",
+    "time": "10 s",
+    "activated_eocs": [ "EOC_bio_inventor_calorie_storage_activated" ],
+    "deactivated_eocs": [ "EOC_bio_inventor_calorie_storage_deactivated" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ]
+  },
+  {
+    "id": "bio_inventor_creative_fuel",
+    "type": "bionic",
+    "name": { "str": "Creative-Electric Converter" },
+    "description": "Blood is fuel?  More like everything is fuel.  This device drains your very creativity to produce power for your bionics.  It's somehow simultaneously among your best and worst ideas.",
+    "occupied_bodyparts": [ [ "head", 4 ] ],
+    "activated_eocs": [ "EOC_inventor_creative_fuel" ],
+    "//": "The activation cost is required for the bionic to be a non-toggled active, as creativity isn't a fuel item.",
+    "act_cost": "1 J",
+    "flags": [ "BIONIC_FUEL_SOURCE" ]
+  },
+  {
+    "id": "bio_inventor_book_burn_boost",
+    "type": "bionic",
+    "name": { "str": "Book Burner's Buddy" },
+    "description": "Probably the most selfish thing you ever made, constantly burning countless pieces of written media for fleeting knowledge.  You might think it is worth the price, but the false knowledge this so-called buddy fills you with will leave little room to learn anything else, coercing you to burn books further and forevermore for a simulacrum of smarts.",
+    "occupied_bodyparts": [ [ "torso", 6 ] ],
+    "act_cost": "15 kJ",
+    "activated_eocs": [ "EOC_bio_inventor_book_burn_boost_activated" ],
+    "//": "When an option to boost all skills at once will exist, convert the skill boosts below to it.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "READING_EXP", "add": { "math": [ "(u_effect_intensity('effect_burned_books') * -20) -20" ] } },
+          {
+            "value": "LEARNING_FOCUS",
+            "add": { "math": [ "(u_effect_intensity('effect_burned_books') * -20) - 20" ] }
+          }
+        ]
+      },
+      { "skills": [ { "value": "deduction", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "speech", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "computer", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "firstaid", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "mechanics", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "traps", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "driving", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "swimming", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "fabrication", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "cooking", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "tailor", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "survival", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "electronics", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "archery", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "gun", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "launcher", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "pistol", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "rifle", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "shotgun", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "smg", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "throw", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "melee", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "bashing", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "cutting", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "dodge", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "stabbing", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "unarmed", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] },
+      { "skills": [ { "value": "chemistry", "add": { "math": [ "u_effect_intensity('effect_burned_books')" ] } } ] }
+    ]
+  }
+]

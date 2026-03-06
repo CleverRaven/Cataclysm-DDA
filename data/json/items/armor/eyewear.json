@@ -233,7 +233,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "glass goggles" },
-    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
+    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from much physical harm, but can keep some hazardous chemicals out.",
     "weight": "90 g",
     "volume": "250 ml",
     "price": "10 USD",
@@ -243,9 +243,9 @@
     "looks_like": "glasses_safety",
     "color": "light_cyan",
     "material_thickness": 1,
-    "environmental_protection": 1,
+    "environmental_protection": 2,
     "flags": [ "WATER_FRIENDLY", "FRAGILE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "encumbrance": 5, "coverage": 98, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_ski",
@@ -532,6 +532,38 @@
         "name": { "str_sp": "reading transition aviators" },
         "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
         "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "goggles_chem",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "chemical goggles" },
+    "description": "A pair of chemical splash goggles designed to protect your eyes from liquids, dust, and debris.  Small vents help reduce fogging and improve breathability without compromising environmental protection.",
+    "weight": "354 g",
+    "volume": "500 ml",
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "OUTER" ],
+    "environmental_protection": 6,
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "plastic", "covered_by_mat": 95, "thickness": 1.4 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 6,
+        "rigid_layer_only": true,
+        "breathability": "POOR"
       }
     ]
   }

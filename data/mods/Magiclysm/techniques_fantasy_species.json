@@ -1,6 +1,17 @@
 [
   {
     "type": "technique",
+    "id": "tech_wing_slap",
+    "name": "Wing Slap",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You slap %s with your wings", "<npcname> slaps %s with their wings" ],
+    "description": "A slap of the wings.",
+    "attack_vectors": [ "vector_wing_slap" ],
+    "flat_bonuses": [ { "stat": "movecost", "scale": 20 } ]
+  },
+  {
+    "type": "technique",
     "id": "FANGS_BITE_GOBLIN",
     "name": "Goblin Bite",
     "melee_allowed": true,

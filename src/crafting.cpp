@@ -85,7 +85,6 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
-static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
@@ -975,7 +974,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
     } else {
         // set flag to craft
         craft_in_world.get_item()->set_var( "crafter", name );
-        assign_activity( ACT_MULTIPLE_CRAFT );
+        assign_activity( multi_craft_activity_actor() );
     }
 
     // Morale penalties happen on start, to penalize crafting speed during the craft.
@@ -1162,9 +1161,9 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
-    total_skill_modifiers += int_cur / 4.0f;
+    total_skill_modifiers += get_int() / 4.0f;
     add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
-                   total_skill_modifiers, int_cur / 4.f );
+                   total_skill_modifiers, get_int() / 4.f );
 
     // Missing proficiencies penalize skill level
     for( const recipe_proficiency &recip : making.proficiencies ) {
@@ -1937,7 +1936,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                                                               &is_food, &remove_raw]( const inventory_source & inv_source,
         const itype_id & ingredient_type, const int &count ) {
             std::string text;
-            int available;
+            int available = 0;
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
@@ -2905,7 +2904,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + int_cur;
+    int skill_sides = 16 + get_int();
 
     int diff_dice = dis.difficulty;
     int diff_sides = 24; // 16 + 8 (default intelligence)
@@ -3260,7 +3259,7 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
 
                 selected = item_selection.ret;
                 if( selected == 0 ) {
-                    assign_activity( ACT_MULTIPLE_CRAFT );
+                    assign_activity( multi_craft_activity_actor() );
                 }
             } while( selected >= 1 );
         }

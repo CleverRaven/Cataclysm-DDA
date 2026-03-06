@@ -38,7 +38,8 @@ static void clear_game_drag( const ter_id &terrain )
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
-    player_character.str_cur = 8;
+    player_character.set_str_base( 8 );
+    player_character.set_str_bonus( 0 );
 
     build_test_map( terrain );
 

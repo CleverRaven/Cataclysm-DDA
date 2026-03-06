@@ -381,7 +381,7 @@
     "name": [ "Extra Senses" ],
     "desc": [ "Somehow you can feel any motion around with your spine." ],
     "apply_message": "You feel unusual sensation in your spine.",
-    "remove_message": "The sensation in your spine gone.",
+    "remove_message": "The sensation in your spine is gone.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [

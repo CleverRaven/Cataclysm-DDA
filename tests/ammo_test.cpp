@@ -1,6 +1,7 @@
 #include <set>
 #include <string>
 
+#include "ammo.h"
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "damage.h"
@@ -13,6 +14,7 @@
 static const ammotype ammo_762( "762" );
 static const ammotype ammo_9mm( "9mm" );
 static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_tape( "tape" );
 
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_44army( "44army" );
@@ -46,6 +48,7 @@ static const itype_id itype_light_battery_cell( "light_battery_cell" );
 static const itype_id itype_m1911( "m1911" );
 static const itype_id itype_magazine_battery_medium_mod( "magazine_battery_medium_mod" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_misc_repairkit( "misc_repairkit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_nailgun( "nailgun" );
 static const itype_id itype_needle_bone( "needle_bone" );
@@ -243,6 +246,40 @@ TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
     }
 }
 
+TEST_CASE( "ammo_type_and_sort_name", "[ammo][ammo_type][ammo_sort_name]" )
+{
+    SECTION( "ammo items report their ammo type" ) {
+        item ammo_round( itype_9mm );
+        CHECK( ammo_round.ammo_type() == ammo_9mm );
+        CHECK( ammo_round.ammo_sort_name() == ammo_9mm->name() );
+    }
+
+    SECTION( "tools with USES_NEARBY_AMMO report the nearby ammo type" ) {
+        item repairkit( itype_misc_repairkit );
+        CHECK( repairkit.ammo_type() == ammo_tape );
+        CHECK( repairkit.ammo_sort_name() == ammo_tape->name() );
+    }
+
+    SECTION( "items without ammo types return empty sort names" ) {
+        item flashlight( itype_flashlight );
+        CHECK( flashlight.ammo_type() == ammotype::NULL_ID() );
+        CHECK( flashlight.ammo_sort_name().empty() );
+    }
+}
+
+TEST_CASE( "common_ammo_default", "[ammo][common_ammo_default]" )
+{
+    item gun( itype_ak47 );
+    CHECK( gun.common_ammo_default().is_null() );
+
+    item mag( itype_akmag10 );
+    REQUIRE( gun.put_in( mag, pocket_type::MAGAZINE_WELL ).success() );
+    REQUIRE( gun.magazine_current() != nullptr );
+
+    CHECK_FALSE( gun.common_ammo_default().is_null() );
+    CHECK( gun.common_ammo_default() == mag.ammo_default() );
+}
+
 TEST_CASE( "barrel_test", "[ammo][weapon]" )
 {
     SECTION( "basic ammo and barrel length test" ) {
@@ -317,4 +354,3 @@ TEST_CASE( "battery_energy_test", "[ammo][energy][item]" )
     }
 
 }
-

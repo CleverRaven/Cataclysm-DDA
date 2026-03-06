@@ -7,5 +7,10 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability, you gain the ability to enhance your dodge capabilities."
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "NO_TRACE_YET_I_WISH_active",
+    "remove": true
   }
 ]

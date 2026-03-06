@@ -926,89 +926,6 @@
     "using": [ [ "sewing_standard", 80 ], [ "tailoring_leather_patchwork", 12 ], [ "fastener_large", 1 ] ]
   },
   {
-    "result": "duster_survivor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 5 ],
-    "time": "12 h 10 m",
-    "autolearn": true,
-    "using": [ [ "sewing_kevlar", 135 ], [ "tailoring_canvas_patchwork", 19 ], [ "tailoring_kevlar_fabric", 50 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 75 ], [ "sheet_kevlar_patchwork", 75 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 135 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
-  },
-  {
-    "result": "xs_duster_survivor",
-    "type": "recipe",
-    "copy-from": "duster_survivor",
-    "time": "12 h 10 m",
-    "using": [ [ "sewing_kevlar", 101 ], [ "tailoring_canvas_patchwork", 14 ], [ "tailoring_kevlar_fabric", 40 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "xs_duster", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 70 ], [ "sheet_kevlar_patchwork", 70 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 101 ] ]
-    ]
-  },
-  {
-    "result": "xl_duster_survivor",
-    "type": "recipe",
-    "copy-from": "duster_survivor",
-    "time": "13 h 40 m",
-    "using": [ [ "sewing_kevlar", 175 ], [ "tailoring_canvas_patchwork", 26 ], [ "tailoring_kevlar_fabric", 75 ] ],
-    "components": [
-      [ [ "coat_rain", 2 ] ],
-      [ [ "xl_duster", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 80 ], [ "sheet_kevlar_patchwork", 80 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 200 ] ]
-    ]
-  },
-  {
     "result": "flotation_vest_ms",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2095,58 +2012,6 @@
     "components": [ [ [ "duster_leather", 1 ] ] ]
   },
   {
-    "result": "sleeveless_duster_survivor",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "id_suffix": "from_duster_survivor",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "skill_used": "tailor",
-    "time": "6 m",
-    "autolearn": true,
-    "byproducts": [ [ "cotton_patchwork", 8 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "duster_survivor", 1 ] ] ]
-  },
-  {
-    "result": "sleeveless_duster_survivor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor duster is the exception with the premade wearable items.",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 5 ],
-    "time": "10 h 20 m",
-    "autolearn": true,
-    "using": [ [ "sewing_kevlar", 75 ], [ "tailoring_kevlar_fabric", 20 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [ [ "duster", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 75 ], [ "sheet_kevlar_patchwork", 75 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 115 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
-  },
-  {
     "result": "sleeveless_trenchcoat",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -2286,58 +2151,6 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_closures" }
     ]
-  },
-  {
-    "result": "sleeveless_trenchcoat_survivor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 5 ],
-    "time": "11 h 45 m",
-    "autolearn": true,
-    "using": [ [ "sewing_kevlar", 75 ], [ "tailoring_kevlar_fabric", 20 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 75 ], [ "sheet_kevlar_patchwork", 75 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 85 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ]
-  },
-  {
-    "result": "sleeveless_trenchcoat_survivor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "from_trenchcoat_survivor",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "skill_used": "tailor",
-    "time": "6 m",
-    "autolearn": true,
-    "byproducts": [ [ "cotton_patchwork", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
   },
   {
     "result": "sleeveless_tunic",
@@ -2621,41 +2434,6 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_closures" }
-    ]
-  },
-  {
-    "result": "trenchcoat_survivor",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 5 ],
-    "time": "10 h 30 m",
-    "autolearn": true,
-    "using": [ [ "sewing_kevlar", 75 ], [ "tailoring_kevlar_fabric", 60 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [ [ "trenchcoat", 1 ] ],
-      [ [ "stab_vest", 1 ], [ "sheet_kevlar", 75 ], [ "sheet_kevlar_patchwork", 75 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 100 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
     ]
   },
   {

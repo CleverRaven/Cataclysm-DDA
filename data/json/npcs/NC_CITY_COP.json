@@ -198,7 +198,6 @@
     "type": "item_group",
     "id": "xanax_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "xanax", "container-item": "null", "count": 10 } ]
   },
@@ -206,7 +205,6 @@
     "type": "item_group",
     "id": "prozac_bottle_plastic_pill_prescription_15",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "prozac", "container-item": "null", "count": 15 } ]
   },
@@ -214,7 +212,6 @@
     "type": "item_group",
     "id": "diazepam_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "diazepam", "container-item": "null", "count": 10 } ]
   },
@@ -222,7 +219,6 @@
     "type": "item_group",
     "id": "coke_bag_zipper_8",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "coke", "container-item": "null", "count": 8 } ]
   },
@@ -230,7 +226,6 @@
     "type": "item_group",
     "id": "crack_bag_zipper_4",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "crack", "container-item": "null", "count": 4 } ]
   }

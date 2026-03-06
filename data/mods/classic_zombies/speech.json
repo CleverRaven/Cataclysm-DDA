@@ -1,0 +1,38 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "wheezing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "moaning.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "gargling.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "growling.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "grunting.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_cunning" ],
+    "sound": "gasping.",
+    "volume": 5
+  }
+]

@@ -541,5 +541,58 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
     "upgrades": { "age_grow": 330, "into": "mon_fear_deer" },
     "extend": { "flags": [ "TEEP_IMMUNE" ] }
+  },
+  {
+    "id": "mon_wild_rabbit_blinker",
+    "type": "MONSTER",
+    "name": { "str": "hopalong" },
+    "description": "A brown-coated cottontail rabbit, with a fluffy white tail.  Its small size and docile nature makes it easy prey for predators, at least the ones that can catch it.  You can't tell which one of the two cottontail species from the region this is.  You can tell there's something different about it, though, when it suddenly vanishes and reappears nearby.",
+    "copy-from": "mon_rabbit_base",
+    "looks_like": "mon_rabbit",
+    "weight": "1200 g",
+    "reproduction": {
+      "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_WILD_RABBIT_BLINKER_BABIES" },
+      "baby_count": 5,
+      "baby_timer": 28
+    },
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": { "math": [ "1 + rand(2)" ] },
+        "move_cost": 50,
+        "allow_no_target": true,
+        "max_range": 6,
+        "message": "%1$s vanishes and reappears elsewhere!",
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+      },
+      {
+        "id": "psi_rabbit_blinker_blinking",
+        "type": "spell",
+        "spell_data": { "id": "teleport_blink_monster", "min_level": 10 },
+        "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s vanishes and reappears elsewhere!"
+      }
+    ]
+  },
+  {
+    "id": "mon_wild_rabbit_blinker_baby",
+    "type": "MONSTER",
+    "name": { "str": "hopalong kit" },
+    "description": "A tiny and very cute hopalong kit.",
+    "copy-from": "mon_rabbit_baby_base",
+    "looks_like": "mon_rabbit_baby",
+    "upgrades": { "age_grow": 23, "into": "mon_wild_rabbit" },
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": { "math": [ "10 + rand(20)" ] },
+        "move_cost": 50,
+        "allow_no_target": true,
+        "max_range": 4,
+        "message": "%1$s vanishes and reappears elsewhere!",
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+      }
+    ]
   }
 ]

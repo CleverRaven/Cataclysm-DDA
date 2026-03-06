@@ -43,7 +43,7 @@
           "EOC_PYROKIN_CAUTERIZE_LEFT_LEG",
           "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG",
           "EOC_PYROKIN_CAUTERIZE_BODY",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_MOM_NO_EFFECT"
         ],
         "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso", "Nevermind." ],
         "keys": [ "1", "2", "3", "4", "5", "6", "7" ],
@@ -609,7 +609,7 @@
           "EOC_SPELL_PYROKIN_SUMMON_HEAT_3",
           "EOC_SPELL_PYROKIN_SUMMON_HEAT_4",
           "EOC_SPELL_PYROKIN_BANISH_HEAT",
-          "EOC_PORTAL_NULL_AWAKENING"
+          "EOC_MOM_NO_EFFECT"
         ],
         "names": [
           "Minor thermogenesis",

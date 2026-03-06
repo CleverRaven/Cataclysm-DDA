@@ -146,6 +146,12 @@ float incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
+float incident_moonlight( const weather_type_id &wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, moon_light_at( t ) * wtype->light_multiplier +
+                            wtype->light_modifier );
+}
+
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sun_irradiance( t ) * wtype->sun_multiplier );
@@ -470,6 +476,11 @@ void handle_weather_effects( const weather_type_id &w )
         }
     }
     glare( w );
+
+    for( Creature &c : g->all_creatures() ) {
+        here.maybe_apply_field_effect( w->passive_effect, c );
+    }
+
     get_weather().lightning_active = false;
 }
 
@@ -906,14 +917,39 @@ static bool has_sunlight_access( const tripoint_bub_ms &pos )
         const bool should_check_above = pnt_above.z() < OVERMAP_HEIGHT;
         // If checking above would take us outside of game bounds, just assume that it's all open air up there.
         const bool transparent_roof = should_check_above ?
-                                      here.is_outside( pnt_above ) && here.has_flag_ter( "TRANSPARENT", pnt_above ) :
+                                      here.has_flag_ter( "NO_FLOOR", pnt_above ) || here.has_flag_ter( "TRANSPARENT_FLOOR", pnt_above ) :
                                       true;
-        if( !here.is_outside( checked_pnt ) || !transparent_roof ) {
+        if( !here.is_outside( checked_pnt ) && !transparent_roof ) {
             return false;
         }
         checked_pnt = pnt_above;
     }
     return true;
+}
+
+bool can_creature_see_sky( const Creature &target )
+{
+    map &here = get_map();
+    const tripoint_bub_ms pos = target.pos_bub( here );
+    if( has_sunlight_access( pos ) ) {
+        return true;
+    }
+
+    std::array<direction, 8> adjacentDir = {
+        direction::NORTH, direction::NORTHEAST, direction::EAST,
+        direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
+        direction::WEST, direction::NORTHWEST
+    };
+    for( direction &elem : adjacentDir ) {
+        tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
+
+        // Don't check adjacent sky lights to save CPU cycles.
+        if( here.inbounds( pos + apos ) && here.is_outside( pos + apos ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )

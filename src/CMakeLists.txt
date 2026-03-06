@@ -13,7 +13,24 @@ if (WIN32)
             OBJECT_DEPENDS "${RSRC_RC_DEP}")
 endif ()
 
-file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB CATACLYSM_DDA_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/cata_allocator_c.c)
+
+if (MSVC)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/mapgen.cpp
+        PROPERTIES COMPILE_OPTIONS "/bigobj"
+    )
+endif()
+
+if (NOT WARN_STALE_DATA)
+    set_source_files_properties(
+        ${CMAKE_CURRENT_SOURCE_DIR}/flexbuffer_cache.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/options.cpp
+        PROPERTIES COMPILE_DEFINITIONS NO_STALE_DATA_WARN
+    )
+endif()
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
@@ -81,7 +98,7 @@ if (TILES)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PUBLIC
-            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+            "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/pch/main-pch.hpp>")
     endif ()
     if (LOCALIZE)
         target_include_directories(cataclysm-tiles-common PUBLIC
@@ -137,6 +154,7 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC setupapi.lib)
         if (SOUND)
             target_link_libraries(cataclysm-tiles-common PUBLIC shlwapi.lib)
+            target_link_libraries(cataclysm-tiles-common PUBLIC dwrite.lib)
         endif()
         if (BACKTRACE)
             target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp.lib)
@@ -170,7 +188,6 @@ if (CURSES)
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-
     target_link_libraries(cataclysm-common PUBLIC third-party)
 
     if (WIN32)

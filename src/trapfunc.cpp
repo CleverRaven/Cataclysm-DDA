@@ -25,6 +25,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "messages.h"
@@ -54,6 +55,7 @@ static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -145,6 +147,87 @@ bool trapfunc::bubble( const tripoint_bub_ms &p, Creature *c, item * )
     }
     sounds::sound( p, 18, sounds::sound_t::alarm, _( "Pop!" ), false, "trap", "bubble_wrap" );
     get_map().remove_trap( p );
+    return true;
+}
+
+bool trapfunc::thin_ice( const tripoint_bub_ms &p, Creature *c, item * )
+{
+    map &here = get_map();
+
+    if( c == nullptr ) {
+        return false;
+    }
+    // tiny animals aren't affected specially
+    if( c->get_size() == creature_size::tiny ) {
+        return false;
+    }
+
+    if( !c->is_avatar() ) {
+        monster *mon = dynamic_cast<monster *>( c );
+        if( mon && ( mon->has_flag( mon_flag_AQUATIC ) || mon->has_flag( mon_flag_FLIES ) ) ) {
+            return false;
+        }
+    }
+
+    // If this tile has an original terrain recorded (from a phase change),
+    // restore that instead of blindly switching to water based on ice flags.
+    if( here.has_original_terrain_at( p ) ) {
+        const ter_id orig = here.get_original_terrain_at( p );
+        here.ter_set( p, orig );
+        here.remove_trap( p );
+    } else if( here.ter( p ).obj().bash->ter_set ) {
+        here.ter_set( p, here.ter( p ).obj().bash->ter_set );
+        here.remove_trap( p );
+    } else {
+        return false;
+    }
+    // Apply appropriate effects depending on what the restored terrain is.
+    Character *you = dynamic_cast<Character *>( c );
+    if( you != nullptr ) {
+        const ter_t &cur = here.ter( p ).obj();
+        if( cur.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
+            you->set_underwater( true );
+            g->water_affect_items( *you );
+            you->add_msg_if_player( m_bad, _( "You are underwater and struggling to stay afloat!" ) );
+        } else if( cur.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) {
+            g->water_affect_items( *you );
+            you->add_msg_if_player( m_bad, _( "You're wet and cold from the water." ) );
+        }
+    }
+
+    return true;
+}
+
+bool trapfunc::thick_ice( const tripoint_bub_ms &, Creature *c, item * )
+{
+    if( c == nullptr ) {
+        return false;
+    }
+    // tiny animals aren't affected specially
+    if( c->get_size() == creature_size::tiny ) {
+        return false;
+    }
+
+    if( !c->is_avatar() ) {
+        monster *mon = dynamic_cast<monster *>( c );
+        if( mon && ( mon->has_flag( mon_flag_AQUATIC ) || mon->has_flag( mon_flag_FLIES ) ) ) {
+            return false;
+        }
+    }
+
+    // Basic chance: 1 in 4 to fall (downed), otherwise stumble.
+    if( one_in( 4 ) ) {
+        c->add_msg_player_or_npc( m_bad, _( "You slip on the thick ice and fall down!" ),
+                                  _( "<npcname> slips on the thick ice and falls down!" ) );
+        c->add_effect( effect_downed, 1_turns );
+        // Losing extra moves when falling
+        c->mod_moves( -static_cast<int>( c->get_speed() * 2 ) );
+    } else {
+        c->add_msg_player_or_npc( m_warning, _( "You stumble on the thick ice." ),
+                                  _( "<npcname> stumbles on the thick ice." ) );
+        c->mod_moves( -static_cast<int>( c->get_speed() / 2 ) );
+    }
+
     return true;
 }
 
@@ -430,7 +513,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
         } else {
-            z->stumble();
+            z->stumble_involuntary();
         }
         if( rng( 0, 10 ) > z->get_dodge() ) {
             z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_pure, rng( 1,
@@ -452,7 +535,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
         }
         if( !you->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
-            if( rng( 5, 20 ) > you->dex_cur ) {
+            if( rng( 5, 20 ) > you->get_dex() ) {
                 you->hurtall( rng( 1, 4 ), nullptr );
             }
         }
@@ -575,7 +658,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
-            shots = ( one_in( 8 ) || one_in( 20 - you->str_max ) ? 2 : 1 );
+            shots = ( one_in( 8 ) || one_in( 20 - you->get_str_base() ) ? 2 : 1 );
             if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
@@ -1249,7 +1332,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
     const int throwing_skill_level = round( you.get_skill_level( skill_throw ) );
-    const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
+    const int roll = rng( throwing_skill_level, throwing_skill_level + you.get_str() + you.get_dex() );
     map &here = get_map();
     if( roll < diff ) {
         you.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
@@ -1670,6 +1753,8 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "pit", trapfunc::pit },
             { "pit_spikes", trapfunc::pit_spikes },
             { "pit_glass", trapfunc::pit_glass },
+            { "thick_ice", trapfunc::thick_ice },
+            { "thin_ice", trapfunc::thin_ice },
             { "lava", trapfunc::lava },
             { "boobytrap", trapfunc::boobytrap },
             { "temple_flood", trapfunc::temple_flood },

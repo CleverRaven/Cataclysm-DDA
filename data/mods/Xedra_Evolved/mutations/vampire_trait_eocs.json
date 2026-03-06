@@ -48,6 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
+      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -264,6 +265,10 @@
           { "npc_assign_activity": "ACT_VAMPIRE_DRINKING_BLOOD", "duration": "3 seconds" },
           { "message": "You are drinking from an NPC.", "type": "debug" },
           {
+            "if": { "and": [ { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ] },
+            "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
+          },
+          {
             "if": { "or": [ { "math": [ "u_vitamin('blood') <= -40000" ] }, { "math": [ "u_vitamin('redcells') <= -40000" ] } ] },
             "then": "u_die"
           }
@@ -292,6 +297,12 @@
               {
                 "if": { "or": [ { "u_has_species": "CHANGELING" }, { "u_has_species": "HOMULLUS" }, { "u_has_trait": "FAE_CREATURE" } ] },
                 "then": [ { "math": [ "n_vampire_just_drank_fae_blood = 1" ] } ]
+              },
+              {
+                "if": {
+                  "and": [ "u_is_npc", { "u_has_worn_with_flag": "WARDING_SYMBOL" }, { "npc_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" } ]
+                },
+                "then": [ { "npc_message": "The holy symbol they wear burns you!", "type": "bad" }, { "math": [ "n_pain() += rng(10,15)" ] } ]
               },
               { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN_IN_COMBAT", "alpha_talker": "npc", "time_in_future": 2 },
               { "u_add_effect": "effect_vampire_drunk_from_in_combat", "duration": "48 hours" },
@@ -429,7 +440,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
@@ -442,16 +453,16 @@
       "math": [
         "u_vitamin('human_blood_vitamin')",
         ">=",
-        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 9000) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 18000)"
+        "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
       ]
     },
     "effect": [
       {
         "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD_UPGRADE" },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 32600" ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin') = 13500" ] },
         "else": {
           "if": { "u_has_trait": "VAMPIRE_STORE_MORE_BLOOD" },
-          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 14600" ] },
+          "then": { "math": [ "u_vitamin('human_blood_vitamin') = 7900" ] },
           "else": { "math": [ "u_vitamin('human_blood_vitamin') = 5600" ] }
         }
       }
@@ -535,7 +546,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
-    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": true } ]
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on GitHub.", "popup": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -766,7 +777,7 @@
             "id": "EOC_EYEGLEAM_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] },
               { "u_add_effect": "eyegleam", "duration": "PERMANENT" },
               { "u_message": "Your eyes gleam red momentarily as they drink in all available light.", "type": "good" },
@@ -886,7 +897,7 @@
             "id": "EOC_VAMPIRIC_STRENGTH_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_strength", "duration": "PERMANENT" },
               {
@@ -981,7 +992,7 @@
             "id": "EOC_VAMPIRIC_RESILIENCE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 150" ] },
               { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
               {
@@ -1117,7 +1128,7 @@
             "id": "EOC_COAGULANTWEAVE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 500" ] },
               { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
               { "u_lose_effect": "bleed", "target_part": "ALL" },
@@ -1278,7 +1289,7 @@
             "id": "EOC_VAMPIRIC_DODGE_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 250" ] },
               { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
               {
@@ -1373,7 +1384,7 @@
             "id": "EOC_VAMPIRIC_STEALTH_BONUS_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 100" ] },
               { "u_add_effect": "effect_vampiric_stealth_bonus", "duration": "PERMANENT" },
               {
@@ -1526,7 +1537,7 @@
             "id": "EOC_VAMPIRE_BEAST_CLAWS_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 125" ] },
               { "u_add_trait": "VAMPIRE_BEAST_CLAWS_active" },
               {
@@ -1795,7 +1806,7 @@
             "id": "EOC_VAMPIRE_RENDING_TEETH_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.75" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 200" ] },
               { "u_add_trait": "VAMPIRE_RENDING_TEETH_active" },
               {
@@ -1959,7 +1970,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -2030,7 +2041,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
@@ -2087,7 +2098,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_SHADOW_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
@@ -2194,6 +2205,67 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TIER_5_REMOVE_MORALS",
+    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
+    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VEGAN" },
+        "then": [
+          { "u_lose_trait": "VEGAN" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "A wave of crimson drowns your empathy for lesser beings.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "SPIRITUAL" },
+        "then": [
+          { "u_lose_trait": "SPIRITUAL" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "There are no wonders and nothing beyond sight, only the thirst and how you will sate it.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "PACIFIST" },
+        "then": [
+          { "u_lose_trait": "PACIFIST" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "Your disdain for violence melts as you drink your fill.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "then": [
+          { "u_add_trait": "PSYCHOPATH" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "The blood in your mouth makes you realise that anything that isn't blood isn't worth caring about.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      { "math": [ "u_shed_morality++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal",
     "//": "Check if the vampire is underweight or lower for their size category.  If yes, consume some blood to increase their calories.  Conversion rate of 1 blood vitamin to 5 calories, in 500 calories chunks.",
     "//2": "95000 Kcal is within the normal range for a medium-sized character for both short and tall.  This value is then multiplied or divided to account for the player's size category.  The following EOCs are listed according to the code's check order.",
@@ -2274,7 +2346,7 @@
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_MIST_FORM" },
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.5" ] } },
               {
                 "if": { "u_has_trait": "VAMPIRE_FORM_UPGRADE" },
                 "then": { "math": [ "u_vitamin('human_blood_vitamin') -= 400" ] },
@@ -2456,7 +2528,7 @@
             "id": "EOC_BLIND_THE_SUN_activated_2",
             "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 0" ] },
             "effect": [
-              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.25 },
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "1.25" ] } },
               { "math": [ "u_vitamin('human_blood_vitamin') -= 1000" ] },
               { "u_add_effect": "vampire_blind_the_sun", "duration": "PERMANENT" },
               {
@@ -2865,7 +2937,7 @@
     "id": "EOC_VAMPIRE_INVISIBLE_IN_DARK",
     "condition": { "not": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun" } } ] } },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": { "math": [ "0.25" ] } },
       { "math": [ "u_vitamin('human_blood_vitamin') -= 300" ] },
       {
         "u_add_effect": "effect_vampire_invisible_in_dark",
@@ -2957,7 +3029,6 @@
           "BLOODHASTE",
           "MAGICFORBLOOD",
           "HYPNOTIC_GAZE",
-          "BLOODBANK",
           "VAMPIRE_COMMAND_BEAST",
           "VAMPIRE_EARTH_SLUMBER",
           "VAMPIRE_CARDIO_BONUS",
@@ -2988,7 +3059,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ANATHEMA_MIND_CHAOS",
-    "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If if cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
+    "//": "Checks the variable every time the player drinks vampire blood with the weakness.  If the effect triggers, it gives a random mental negative.  If it cannot give one, it gives a negative effect for a while.  If the effect doesn't trigger, it increments the variable.",
     "//2": "It doesn't give nyctophobia and pyromania for obvious reasons.",
     "condition": { "x_in_y_chance": { "x": { "math": [ "u_counter_anathema_mind_chaos" ] }, "y": 100 } },
     "effect": [
@@ -3095,7 +3166,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a Github bug report.",
+        "u_message": "You're not a mentor, so you're not supposed to see this.  Please open a GitHub bug report.",
         "type": "popup"
       }
     ]
@@ -3105,8 +3176,16 @@
     "id": "EOC_VAMPIRE_UNHOLY_DEVASTATION_BONUSES",
     "eoc_type": "EVENT",
     "required_event": "character_smashes_tile",
-    "condition": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
-    "effect": [ { "u_add_effect": "effect_vampire_unholy_devastation", "duration": 2 } ]
+    "condition": {
+      "and": [ { "u_has_effect": "effect_vampiric_strength" }, { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_vampire_unholy_devastation",
+        "duration": 2,
+        "intensity": { "math": [ "u_effect_intensity('effect_vampire_unholy_devastation') + 1" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

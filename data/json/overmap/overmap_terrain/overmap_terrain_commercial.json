@@ -178,8 +178,7 @@
       "office_tower_2_b2_roof",
       "office_tower_2_b3_roof",
       "office_tower_collapse_a1",
-      "office_tower_collapse_b_a1",
-      "office_tower_2_a1_tower_lab"
+      "office_tower_collapse_b_a1"
     ],
     "name": "office tower",
     "vision_levels": "large_city_building",
@@ -241,15 +240,6 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "office_tower_open_air_corner",
-    "vision_levels": "roof_or_air",
-    "see_cost": "none",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
   },
   {
     "type": "overmap_terrain",

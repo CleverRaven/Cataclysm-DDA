@@ -6,9 +6,11 @@
 #include <climits>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -63,6 +65,11 @@ enum body_part : int {
     bp_foot_r,
     num_bp
 };
+
+inline auto format_as( body_part bp )
+{
+    return static_cast<std::underlying_type_t<body_part>>( bp );
+}
 
 template<>
 struct enum_traits<body_part> {
@@ -177,6 +184,16 @@ struct bp_onhit_effect {
     void load( const JsonObject &jo );
 };
 
+struct bp_qualities_provided {
+
+    quality_id quality;
+    int level;
+    // 0-1, if limb HP is below this percentage, it is deactivated
+    float disable_percent = 0;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
@@ -217,6 +234,8 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        std::vector<bp_qualities_provided> qualities;
 
         // Effect to trigger on being winded
         efftype_id windage_effect;
@@ -301,7 +320,7 @@ struct body_part_type {
 
         // These limbs should be covered by armor covering this limb (1:1 coverage)
         // TODO: Coverage/Encumbrance multiplier
-        std::vector<bodypart_str_id> similar_bodyparts;
+        std::optional<bodypart_str_id> similar_bodypart;
 
         weighted_int_list<bp_wounds> potential_wounds;
 
@@ -366,6 +385,8 @@ struct body_part_type {
         // this version just pairs normal body parts
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
+
+        std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
 };
 
 struct layer_details {
@@ -487,8 +508,10 @@ class bodypart
 
         std::vector<wound> get_wounds() const;
 
-        void add_wound( wound &wd );
+        void add_wound( const wound &wd );
         void add_wound( wound_type_id wd );
+        bool has_wound( wound_type_id wd ) const;
+        void remove_wound( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;

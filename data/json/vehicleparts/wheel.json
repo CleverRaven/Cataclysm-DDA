@@ -173,32 +173,35 @@
     "variants": [ { "symbols": "=", "symbols_broken": "x" } ]
   },
   {
+    "//COMMENT2": "Roughly based on https://www.wirtgen-group.com/ocs/en-us/hamm/hd-10c-vv-15820-p/",
     "id": "roller_drum",
     "type": "vehicle_part",
     "item": "hd_steel_drum",
-    "description": "A large cylinder fashioned out of thick plates of hardened steel, normally found on road rollers.  Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
+    "description": "A large cylinder fashioned out of plates of hardened steel, normally found on road rollers.  Its massive weight is meant to, slowly, roll over asphalt and other surfaces, levelling them out.",
     "location": "center",
     "categories": [ "movement" ],
     "color": "light_red",
-    "durability": 7500,
+    "durability": 750,
     "damage_modifier": 500,
     "breaks_into": [
       { "item": "mc_steel_lump", "count": [ 25, 75 ] },
       { "item": "mc_steel_chunk", "count": [ 30, 90 ] },
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
-    "rolling_resistance": 0.125,
+    "//COMMENT": "I can't find any SAE data on rolling drums so this is just an arbitrary high value so the road roller stops going ONE HUNDRED FUCKING MILES PER HOUR. (It now goes *20*)",
+    "rolling_resistance": 2.5,
     "//": "really big steel drum, assuming 100 cm of weld per quadrant of damage.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
-    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE" ],
-    "wheel_offroad_rating": 0.1,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
-    "contact_area": 400,
-    "damage_reduction": { "all": 280 },
+    "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE", "NO_INSTALL_PLAYER" ],
+    "wheel_offroad_rating": 0.01,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 10 ] },
+    "//COMMENT3": "Wow! I have no idea how to calculate this, and I don't think anyone else does. So I've simply scaled it to be larger relative to the largest wheel (the armored wheel).",
+    "contact_area": 1200,
+    "damage_reduction": { "all": 20 },
     "variants": [ { "symbols": "B", "symbols_broken": "E" } ]
   },
   {

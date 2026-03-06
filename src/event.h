@@ -73,8 +73,6 @@ enum class event_type : int {
     crosses_mutation_threshold,
     crosses_mycus_threshold,
     cuts_tree,
-    dermatik_eggs_hatch,
-    dermatik_eggs_injected,
     destroys_triffid_grove,
     dies_from_asthma_attack,
     dies_from_drug_overdose,
@@ -85,6 +83,7 @@ enum class event_type : int {
     dies_of_starvation,
     dies_of_thirst,
     digs_into_lava,
+    dimension_travel,
     disarms_nuke,
     eats_sewage,
     evolves_mutation,
@@ -193,7 +192,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 107,
+static_assert( static_cast<int>( event_type::num_event_types ) == 106,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -570,12 +569,6 @@ template<>
 struct event_spec<event_type::cuts_tree> : event_spec_character {};
 
 template<>
-struct event_spec<event_type::dermatik_eggs_hatch> : event_spec_character {};
-
-template<>
-struct event_spec<event_type::dermatik_eggs_injected> : event_spec_character {};
-
-template<>
 struct event_spec<event_type::destroys_triffid_grove> : event_spec_empty {};
 
 template<>
@@ -610,6 +603,16 @@ struct event_spec<event_type::dies_of_thirst> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::digs_into_lava> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::dimension_travel> {
+    static constexpr std::array<event_field, 3> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "from_dimension", cata_variant_type::string },
+            { "to_dimension", cata_variant_type::string },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::disarms_nuke> : event_spec_empty {};

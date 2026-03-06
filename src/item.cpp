@@ -4130,7 +4130,7 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
         return true; //destroy fake mill
     }
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::mill_finalize( get_avatar(), pos ); //activate effects when timers goes to zero
+        iexamine::mill_finalize( get_avatar(), here, pos ); //activate effects when timers goes to zero
         return true; //destroy fake mill item
     }
 
@@ -4147,7 +4147,7 @@ bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoin
     }
 
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
+        iexamine::on_smoke_out( here, pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 

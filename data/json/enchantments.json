@@ -45,6 +45,12 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_FREE_DODGES",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FREE_DODGES", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
@@ -291,14 +297,6 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
-  },
-  {
-    "id": "ench_wings_insect_active",
-    "type": "enchantment",
-    "name": { "str": "Insect Wings (Buzzing)" },
-    "description": "Your rapidly buzzing wings propel you with extra speed.",
-    "condition": "ALWAYS",
-    "values": [ { "value": "REGEN_STAMINA", "add": -110 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
   },
   {
     "id": "ench_quadruped_movement_full",

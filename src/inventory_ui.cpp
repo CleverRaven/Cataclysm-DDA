@@ -58,7 +58,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -246,14 +245,8 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) const {
-        std::string string_to_format;
-        if( compact ) {
-            string_to_format = _( "%s/%s : %s/%s : max %s" );
-        } else {
-            string_to_format = _( "(remains %s, %s) max length %s" );
-        }
-        return string_format( string_to_format,
+    std::string to_formatted_string() const {
+        return string_format( _( "(remains %s, %s) max length %s" ),
                               unit_to_string( total_capacity - actual_capacity, true, true ),
                               unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
                               unit_to_string( max_containable_length, true ) );
@@ -326,12 +319,12 @@ std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimo
 {
     switch( mode ) {
         case inventory_selector::uimode::hierarchy:
-            return "hierarchy";
+            return translate_marker_context( "inventory ui mode", "hierarchy" );
         case inventory_selector::uimode::last:
         case inventory_selector::uimode::categories:
             break;
     }
-    return "categories";
+    return translate_marker_context( "inventory ui mode", "categories" );
 }
 } // namespace io
 
@@ -383,12 +376,16 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_hordes", overmap_show_hordes );
     json.member( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
-    json.member( "vmenu_show_items", vmenu_show_items );
-    json.member( "list_item_sort", list_item_sort );
+    json.member( "vmenu_tab", vmenu_tab );
+    json.member( "vmenu_item_sort", vmenu_item_sort );
+    json.member( "vmenu_monster_sort", vmenu_monster_sort );
+    json.member( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
+    json.member( "list_monster_filter_active", list_monster_filter_active );
+    json.member( "list_terfurn_filter_active", list_terfurn_filter_active );
     json.member( "construction_filter", construction_filter );
     json.member( "last_construction", last_construction );
     json.member( "construction_tab", construction_tab );
@@ -403,6 +400,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
     json.member( "overmap_fast_travel", overmap_fast_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
+    json.member( "tileset_zoom", tileset_zoom );
+    json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -422,6 +421,8 @@ void uistatedata::serialize( JsonOut &json ) const
 
     json.member( "overmap_sidebar_uistate" );
     overmap_sidebar_state.serialize( json );
+    json.member( "consume_menu_uistate" );
+    consume_uistate.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -470,6 +471,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_revealed_omts", overmap_show_revealed_omts );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "consume_menu_uistate", consume_uistate );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "expanded_recipes", expanded_recipes );
@@ -481,6 +483,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
     jo.read( "overmap_fast_travel", overmap_fast_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
+    jo.read( "tileset_zoom", tileset_zoom );
+    jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
@@ -498,18 +502,16 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_oxygen", distraction_oxygen );
     jo.read( "distraction_withdrawal", distraction_withdrawal );
     jo.read( "numpad_navigation", numpad_navigation );
-
-    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
-        // This is an old save: 1 means view items, 2 means view monsters,
-        // -1 means uninitialized
-        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
-    }
-
-    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "vmenu_tab", vmenu_tab );
+    jo.read( "vmenu_item_sort", vmenu_item_sort );
+    jo.read( "vmenu_monster_sort", vmenu_monster_sort );
+    jo.read( "vmenu_terfurn_sort", vmenu_terfurn_sort );
     jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
+    jo.read( "list_monster_filter_active", list_monster_filter_active );
+    jo.read( "list_terfurn_filter_active", list_terfurn_filter_active );
 
     jo.read( "construction_filter", construction_filter );
     jo.read( "last_construction", last_construction );
@@ -522,7 +524,7 @@ void uistatedata::deserialize( const JsonObject &jo )
             v.push_back( line );
         }
     }
-    // fetch list_item settings from input_history
+    // fetch surroundings menu settings from input_history
     if( !gethistory( "item_filter" ).empty() ) {
         list_item_filter = gethistory( "item_filter" ).back();
     }
@@ -531,6 +533,12 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
     if( !gethistory( "list_item_priority" ).empty() ) {
         list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+    if( !gethistory( "monster_filter" ).empty() ) {
+        monster_filter = gethistory( "monster_filter" ).back();
+    }
+    if( !gethistory( "terfurn_filter" ).empty() ) {
+        terfurn_filter = gethistory( "terfurn_filter" ).back();
     }
 
     jo.read( "lastreload", lastreload );
@@ -708,15 +716,8 @@ inventory_selector_preset::inventory_selector_preset()
     } ) );
 }
 
-bool inventory_selector_preset::is_shown( const item_location &loc ) const
+bool inventory_selector_preset::is_shown( const item_location & ) const
 {
-    if( loc->is_gunmod() ) {
-        item_location parent = loc.parent_item();
-        const bool installed = parent && parent->is_gun();
-        if( installed && !loc->type->gunmod->is_visible_when_installed ) {
-            return false;
-        }
-    }
     return true;
 }
 
@@ -812,7 +813,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
                         total_capacity_weight,
                         max_containable_length
                     };
-                    std::string formatted_string = container_data.to_formatted_string( false );
+                    std::string formatted_string = container_data.to_formatted_string();
 
                     text = text + string_format( " %s", formatted_string );
                 }
@@ -1641,18 +1642,6 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     return res;
 }
 
-void inventory_column::assign_custom_invlet( int cur_idx, std::string_view pickup_chars )
-{
-    for( inventory_entry &elem : entries ) {
-        elem.custom_invlet =
-            static_cast<uint8_t>(
-                cur_idx < static_cast<int>( pickup_chars.size() ) ?
-                pickup_chars[cur_idx] : '\0'
-            );
-        cur_idx++;
-    }
-}
-
 int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
@@ -1670,7 +1659,12 @@ int inventory_column::reassign_custom_invlets( int cur_idx, std::string_view pic
     for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            assign_custom_invlet( cur_idx, pickup_chars );
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
+            cur_idx++;
         }
     }
     return cur_idx;
@@ -2721,7 +2715,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                                                            other_spaces[i].first->is_restricted()
                                                          );
                     other_space_strings.push_back( string_format( "%s %s%s", str1, str2,
-                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
+                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%d)", other_spaces_copies[i] ) : "" ) )
                                                  );
                 }
                 if( other_spaces_display_truncated ) {
@@ -2920,7 +2914,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop, // extra stops to align with the max-space printing version
         header_stats_tab_stop,
         header_stats_tab_stop
@@ -2952,7 +2946,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop,
         " | ",
         colorize( _( "Max: " ), color_label ),
@@ -3304,7 +3298,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
                      string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                                    _( io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
@@ -3953,23 +3947,6 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                 }
             }
         }
-    }
-}
-
-void ammo_inventory_selector::reassign_custom_invlets()
-{
-    bool use_num_invlet = uistate.numpad_navigation ? false : true;
-    // funky bug: if you press any another allowed button (like `>` to show content), this invlet is lost and replaced with this button you just pressed!
-    const char last_key = inp_mngr.get_previously_pressed_key();
-    // 0 is eaten by some magic, then our last_key appear, then and later on are numbers if numpad_navigation is off
-    const std::string invlet_set = std::string( "0" )
-                                   + last_key
-                                   + ( use_num_invlet ? "123456789" : "" );
-    int i = 0;
-    for( inventory_column *elem : columns ) {
-        elem->prepare_paging();
-        elem->assign_custom_invlet( i, invlet_set );
-        ++i;
     }
 }
 

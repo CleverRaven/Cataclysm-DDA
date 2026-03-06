@@ -18,6 +18,14 @@
         "max_charges": { "range": [ 1, 6 ], "power": 25 },
         "recharge_type": "lunar",
         "time": [ "2 h", "3 h" ]
+      },
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 6 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 6 ], "power": 25 },
+        "recharge_type": "forest",
+        "time": [ "2 h", "3 h" ]
       }
     ],
     "active_procgen_values": [

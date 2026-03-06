@@ -304,5 +304,19 @@
       "next_weather",
       { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_eldritch_ire",
+    "recurrence": [ "6 hours", "12 hours" ],
+    "condition": { "u_has_trait": "ELDRITCH_IRE" },
+    "effect": [
+      { "u_location_variable": { "context_val": "zombie_horde_target_scen" } },
+      {
+        "signal_hordes": { "context_val": "zombie_horde_target_scen" },
+        "signal_power": { "math": [ "7000 + 1000" ] }
+      },
+      { "u_message": "The air shudders with a foreboding presence.  They know where you are." }
+    ]
   }
 ]
