@@ -153,7 +153,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     limited_area_claim = jsobj.get_bool( "limited_area_claim", false );
     load_relations( jsobj );
-    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
+    optional( jsobj, false, "mon_faction", mon_faction, mfaction_str_id::NULL_ID() );
     optional( jsobj, false, "epilogues", epilogue_data );
 }
 
@@ -465,6 +465,11 @@ faction_price_rule const *faction::get_price_rules( item const &it, npc const &g
         return &*el;
     }
     return nullptr;
+}
+
+bool faction::guaranteed_hostile_to_player() const
+{
+    return likes_u < -10;
 }
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
