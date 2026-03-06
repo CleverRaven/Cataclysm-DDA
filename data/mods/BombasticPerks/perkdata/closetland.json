@@ -85,11 +85,12 @@
           ]
         }
       },
+      { "if": "u_is_outside", "then": { "math": [ "u_closetland_perk_nearby_walls = 0" ] } },
       {
         "if": {
           "and": [
             { "math": [ "u_closetland_perk_nearby_walls >= 5" ] },
-            { "math": [ "(u_closetland_perk_nearby_walls + u_closetland_perk_nearby_furniture)  == 5" ] },
+            { "math": [ "(u_closetland_perk_nearby_walls + u_closetland_perk_nearby_furniture)  == 7" ] },
             { "math": [ "u_closetland_perk_nearby_doors == 1" ] }
           ]
         },
