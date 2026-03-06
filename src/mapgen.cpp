@@ -4149,8 +4149,9 @@ class jmapgen_nested : public jmapgen_piece
         {
             private:
                 std::unordered_map<direction, cata::flat_set<std::pair<std::string, ot_match_type>>> neighbors;
+                bool only_require_one = false;
             public:
-                explicit neighbor_oter_check( const JsonObject &jsi ) {
+                void deserialize( const JsonObject &jsi ) {
                     for( direction dir : all_enum_values<direction>() ) {
                         std::string location = io::enum_to_string( dir );
                         cata::flat_set<std::pair<std::string, ot_match_type>> dir_neighbors;
@@ -4164,7 +4165,7 @@ class jmapgen_nested : public jmapgen_piece
                                     JsonObject jo = entry.get_object();
                                     dir_neighbor.first = jo.get_string( "om_terrain" );
                                     dir_neighbor.second = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                                          ot_match_type::contains );
+                                                          ot_match_type::type );
                                 }
                                 dir_neighbors.insert( dir_neighbor );
                             }
@@ -4180,6 +4181,35 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &context ) const {
+                    for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
+                         neighbors ) {
+                        const direction dir = p.first;
+                        const cata::flat_set<std::pair<std::string, ot_match_type>> &allowed_neighbors = p.second;
+                        if( allowed_neighbors.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor omts for direction %s but none are specified",
+                                      context,
+                                      io::enum_to_string<direction>( dir ) );
+                        }
+                        for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
+                            if( allowed_neighbor.second == ot_match_type::exact &&
+                                !oter_str_id( allowed_neighbor.first ).is_valid() ) {
+                                debugmsg( "Nested placement in %s requires invalid overmap terrain id %s",
+                                          context, allowed_neighbor.first );
+                            }
+                            if( allowed_neighbor.second == ot_match_type::type &&
+                                !oter_type_str_id( allowed_neighbor.first ).is_valid() ) {
+                                debugmsg( "Nested placement in %s requires invalid overmap terrain type id %s",
+                                          context, allowed_neighbor.first );
+                            }
+                        }
+                    }
+                }
+
+                void set_any() {
+                    only_require_one = true;
+                }
+
                 bool test( const mapgendata &dat ) const {
                     for( const std::pair<const direction, cata::flat_set<std::pair<std::string, ot_match_type>>> &p :
                          neighbors ) {
@@ -4188,17 +4218,26 @@ class jmapgen_nested : public jmapgen_piece
 
                         cata_assert( !allowed_neighbors.empty() );
 
-                        bool this_direction_matches = false;
-                        for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
-                            this_direction_matches |=
-                                is_ot_match( allowed_neighbor.first, dat.neighbor_at( dir ).id(),
-                                             allowed_neighbor.second );
-                        }
-                        if( !this_direction_matches ) {
-                            return false;
+                        if( only_require_one ) {
+                            return true;
+                            for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
+                                if( is_ot_match( allowed_neighbor.first, dat.neighbor_at( dir ).id(), allowed_neighbor.second ) ) {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            bool this_direction_matches = false;
+                            for( const std::pair<std::string, ot_match_type> &allowed_neighbor : allowed_neighbors ) {
+                                this_direction_matches |=
+                                    is_ot_match( allowed_neighbor.first, dat.neighbor_at( dir ).id(),
+                                                 allowed_neighbor.second );
+                            }
+                            if( !this_direction_matches ) {
+                                return false;
+                            }
                         }
                     }
-                    return true;
+                    return !only_require_one;
                 }
         };
 
@@ -4206,8 +4245,9 @@ class jmapgen_nested : public jmapgen_piece
         {
             private:
                 std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
+                bool only_require_one = false;
             public:
-                explicit neighbor_join_check( const JsonObject &jsi ) {
+                void deserialize( const JsonObject &jsi ) {
                     for( cube_direction dir : all_enum_values<cube_direction>() ) {
                         cata::flat_set<std::string> dir_neighbors =
                             jsi.get_tags<std::string, cata::flat_set<std::string>>(
@@ -4218,35 +4258,56 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                void check( std::string_view, const mapgen_parameters & ) const {
-                    // TODO: check join ids are valid
+                void set_any() {
+                    only_require_one = true;
                 }
 
-                bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
-                         neighbors ) {
+                void check( const std::string &context ) const {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p : neighbors ) {
                         const cube_direction dir = p.first;
                         const cata::flat_set<std::string> &allowed_joins = p.second;
-
-                        cata_assert( !allowed_joins.empty() );
-
-                        bool this_direction_has_join = false;
-                        for( const std::string &allowed_join : allowed_joins ) {
-                            this_direction_has_join |= dat.has_join( dir, allowed_join );
+                        if( allowed_joins.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor joins for direction %s but none are specified",
+                                      context, io::enum_to_string<cube_direction>( dir ) );
                         }
-                        if( !this_direction_has_join ) {
-                            return false;
-                        }
+                        //TODO: Valid join ids aren't maintained outside of individual mutables right now
                     }
+                }
+
+                bool test( const mapgendata &/*dat*/ ) const {
                     return true;
+                    //for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p : neighbors ) {
+                    //    const cube_direction dir = p.first;
+                    //    const cata::flat_set<std::string> &allowed_joins = p.second;
+                    //
+                    //    if( only_require_one ) {
+                    //        return true;
+                    //        for( const std::string &allowed_join : allowed_joins ) {
+                    //            if( dat.has_join( dir, allowed_join ) ) {
+                    //                return true;
+                    //            }
+                    //        }
+                    //    } else {
+                    //        bool this_direction_has_join = false;
+                    //        for( const std::string &allowed_join : allowed_joins ) {
+                    //            this_direction_has_join |= dat.has_join( dir, allowed_join );
+                    //        }
+                    //        if( !this_direction_has_join ) {
+                    //            return false;
+                    //        }
+                    //    }
+                    //}
+                    //return !only_require_one;
                 }
         };
+
         class neighbor_flag_check
         {
             private:
                 std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
             public:
-                explicit neighbor_flag_check( const JsonObject &jsi ) {
+                bool only_require_one = false;
+                void deserialize( const JsonObject &jsi )  {
                     for( direction dir : all_enum_values<direction>() ) {
                         cata::flat_set<oter_flags> dir_neighbors;
                         std::string location = io::enum_to_string( dir );
@@ -4257,39 +4318,13 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( const mapgendata &dat ) const {
-                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p :
-                         neighbors ) {
+                void check( const std::string &context ) const {
+                    for( const std::pair<const direction, cata::flat_set<oter_flags>> &p : neighbors ) {
                         const direction dir = p.first;
                         const cata::flat_set<oter_flags> &allowed_flags = p.second;
-
-                        cata_assert( !allowed_flags.empty() );
-
-                        bool this_direction_has_flag = false;
-                        for( const oter_flags &allowed_flag : allowed_flags ) {
-                            this_direction_has_flag |=
-                                dat.neighbor_at( dir )->has_flag( allowed_flag );
-                        }
-                        if( !this_direction_has_flag ) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-        };
-        // TO DO: Remove this and replace it with a smarter logical syntax for neighbor_join_check and neighbor_flag_check
-        class neighbor_flag_any_check
-        {
-            private:
-                std::unordered_map<direction, cata::flat_set<oter_flags>> neighbors;
-            public:
-                explicit neighbor_flag_any_check( const JsonObject &jsi ) {
-                    for( direction dir : all_enum_values<direction>() ) {
-                        cata::flat_set<oter_flags> dir_neighbors;
-                        std::string location = io::enum_to_string( dir );
-                        optional( jsi, false, location, dir_neighbors );
-                        if( !dir_neighbors.empty() ) {
-                            neighbors[dir] = std::move( dir_neighbors );
+                        if( allowed_flags.empty() ) {
+                            debugmsg( "Nested placement in %s requires specific neighbor flags for direction %s but none are specified",
+                                      context, io::enum_to_string<direction>( dir ) );
                         }
                     }
                 }
@@ -4300,23 +4335,42 @@ class jmapgen_nested : public jmapgen_piece
                         const direction dir = p.first;
                         const cata::flat_set<oter_flags> &allowed_flags = p.second;
 
-                        cata_assert( !allowed_flags.empty() );
-
-                        for( const oter_flags &allowed_flag : allowed_flags ) {
-                            if( dat.neighbor_at( dir )->has_flag( allowed_flag ) ) {
-                                return true;
+                        if( only_require_one ) {
+                            return true;
+                            for( const oter_flags &allowed_flag : allowed_flags ) {
+                                if( dat.neighbor_at( dir )->has_flag( allowed_flag ) ) {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            bool this_direction_has_flag = false;
+                            for( const oter_flags &allowed_flag : allowed_flags ) {
+                                this_direction_has_flag |=
+                                    dat.neighbor_at( dir )->has_flag( allowed_flag );
+                            }
+                            if( !this_direction_has_flag ) {
+                                return false;
                             }
                         }
                     }
-                    return neighbors.empty();
+                    return !only_require_one;
                 }
         };
+
+        class neighbor_flag_any_check : public neighbor_flag_check
+        {
+            public:
+                neighbor_flag_any_check() : neighbor_flag_check() {
+                    only_require_one = true;
+                }
+        };
+
         class predecessor_oter_check
         {
             private:
                 cata::flat_set<std::pair<std::string, ot_match_type>> allowed_predecessors;
             public:
-                explicit predecessor_oter_check( const JsonArray &jarr ) {
+                void deserialize( const JsonArray &jarr ) {
                     for( const JsonValue entry : jarr ) {
                         std::pair<std::string, ot_match_type> allowed_predecessor;
                         if( entry.test_string() ) {
@@ -4332,6 +4386,24 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
+                void check( const std::string &context ) const {
+                    if( allowed_predecessors.empty() ) {
+                        debugmsg( "Nested placement in %s requires specific predecessors but none are specified", context );
+                    }
+                    for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
+                        if( allowed_predecessor.second == ot_match_type::exact &&
+                            !oter_str_id( allowed_predecessor.first ).is_valid() ) {
+                            debugmsg( "Nested placement in %s requires invalid overmap terrain id %s", context,
+                                      allowed_predecessor.first );
+                        }
+                        if( allowed_predecessor.second == ot_match_type::type &&
+                            !oter_type_str_id( allowed_predecessor.first ).is_valid() ) {
+                            debugmsg( "Nested placement in %s requires invalid overmap terrain type id %s", context,
+                                      allowed_predecessor.first );
+                        }
+                    }
+                }
+
                 bool test( const mapgendata &dat ) const {
                     const std::vector<oter_id> predecessors = dat.get_predecessors();
                     for( const std::pair<std::string, ot_match_type> &allowed_predecessor : allowed_predecessors ) {
@@ -4341,40 +4413,87 @@ class jmapgen_nested : public jmapgen_piece
                             }
                         }
                     }
-                    return allowed_predecessors.empty();
+                    return false;
                 }
         };
+
         class correct_z_level_check
         {
             private:
                 std::unordered_set<int> required_z;
             public:
-                explicit correct_z_level_check( const JsonArray &jarr ) {
+                void deserialize( const JsonArray &jarr ) {
                     for( const JsonValue entry : jarr ) {
                         required_z.emplace( entry.get_int() );
                     }
+                    for( const int &z : required_z ) {
+                        if( z > OVERMAP_DEPTH || z < -OVERMAP_DEPTH ) {
+                            jarr.throw_error( string_format( "z level %d is outside the region defined depth limits", z ) );
+                        }
+                    }
                 }
+
                 bool test( const mapgendata &dat ) const {
-                    return required_z.empty() || required_z.count( dat.zlevel() ) == 1;
+                    return required_z.count( dat.zlevel() ) == 1;
                 }
         };
 
-    public:
+        std::optional<neighbor_oter_check> neighbor_oters;
+        std::optional<neighbor_oter_check> neighbor_oters_any;
+        std::optional<neighbor_join_check> neighbor_joins;
+        std::optional<neighbor_join_check> neighbor_joins_any;
+        std::optional<neighbor_flag_check> neighbor_flags;
+        std::optional<neighbor_flag_any_check> neighbor_flags_any;
+        std::optional<predecessor_oter_check> predecessors;
+        std::optional<correct_z_level_check> correct_z_level;
+
+        template<typename T>
+        void check_checks_helper( const std::optional<T> &check, const std::string &context ) const {
+            if( !!check ) {
+                check->check( context );
+            }
+        };
+
+        void check_checks( const std::string &context ) const {
+            check_checks_helper( neighbor_oters, context );
+            check_checks_helper( neighbor_oters_any, context );
+            check_checks_helper( neighbor_joins, context );
+            check_checks_helper( neighbor_joins_any, context );
+            check_checks_helper( neighbor_flags, context );
+            check_checks_helper( neighbor_flags_any, context );
+            check_checks_helper( predecessors, context );
+        }
+
+        template<typename T>
+        bool use_entries_helper( const std::optional<T> &check, const mapgendata &dat ) const {
+            return !check || check->test( dat );
+        };
+
+        bool use_entries( const mapgendata &dat ) const {
+            return use_entries_helper( neighbor_oters, dat ) && use_entries_helper( neighbor_oters_any, dat ) &&
+                   use_entries_helper( neighbor_joins, dat ) && use_entries_helper( neighbor_joins_any, dat ) &&
+                   use_entries_helper( neighbor_flags, dat ) && use_entries_helper( neighbor_flags_any, dat ) &&
+                   use_entries_helper( predecessors, dat ) && use_entries_helper( correct_z_level, dat );
+        }
+
         weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> entries;
         weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> else_entries;
-        neighbor_oter_check neighbor_oters;
-        neighbor_join_check neighbor_joins;
-        neighbor_flag_check neighbor_flags;
-        neighbor_flag_any_check neighbor_flags_any;
-        predecessor_oter_check predecessors;
-        correct_z_level_check correct_z_level;
-        jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ )
-            : neighbor_oters( jsi.get_object( "neighbors" ) )
-            , neighbor_joins( jsi.get_object( "joins" ) )
-            , neighbor_flags( jsi.get_object( "flags" ) )
-            , neighbor_flags_any( jsi.get_object( "flags_any" ) )
-            , predecessors( jsi.get_array( "predecessors" ) )
-            , correct_z_level( jsi.get_array( "check_z" ) ) {
+    public:
+        jmapgen_nested( const JsonObject &jsi, std::string_view/*context*/ ) {
+            optional( jsi, false, "neighbors", neighbor_oters );
+            optional( jsi, false, "neighbors_any", neighbor_oters_any );
+            if( !!neighbor_oters_any ) {
+                neighbor_oters_any->set_any();
+            }
+            optional( jsi, false, "joins", neighbor_joins );
+            optional( jsi, false, "joins_any", neighbor_joins_any );
+            if( !!neighbor_joins_any ) {
+                neighbor_joins_any->set_any();
+            }
+            optional( jsi, false, "flags", neighbor_flags );
+            optional( jsi, false, "flags_any", neighbor_flags_any );
+            optional( jsi, false, "predecessors", predecessors );
+            optional( jsi, false, "check_z", correct_z_level );
             if( jsi.has_member( "chunks" ) ) {
                 entries.load( jsi.get_member( "chunks" ), 100 );
             }
@@ -4412,12 +4531,7 @@ class jmapgen_nested : public jmapgen_piece
         }
         const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
-            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
-                neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
-                return entries;
-            } else {
-                return else_entries;
-            }
+            return use_entries( dat ) ? entries : else_entries;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &context ) const override {
@@ -4455,7 +4569,6 @@ class jmapgen_nested : public jmapgen_piece
             for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : entries ) {
                 p.first.check( oter_name, parameters );
             }
-            neighbor_joins.check( oter_name, parameters );
 
             // Check whether any of the nests can attempt to place stuff out of
             // bounds
@@ -4477,6 +4590,8 @@ class jmapgen_nested : public jmapgen_piece
             for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &p : else_entries ) {
                 add_coords_from( p.first );
             }
+
+            check_checks( oter_name );
 
             point max_relative;
             nested_mapgen_id offending_nest_x;
