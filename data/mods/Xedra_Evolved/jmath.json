@@ -125,7 +125,7 @@
     "type": "jmath_function",
     "id": "xe_fey_elemental_magick_arvore_exp_per_cast",
     "num_args": 0,
-    "return": "(u_val('focus_effective') / 100 ) * (xe_fey_elemental_magick_base_xp_rate() ) * (u_arvore_is_in_forest == 1 ? 1.6667 : 1) * (u_arvore_is_in_wilderness == 1 ? 1.6667 : 1)"
+    "return": "0"
   },
   {
     "type": "jmath_function",
@@ -187,7 +187,7 @@
     "type": "jmath_function",
     "id": "paraclesian_passive_spell_exp",
     "num_args": 1,
-    "return": "u_skill('deduction') * 100 + _0"
+    "return": "u_skill('deduction') * 500 + _0"
   },
   {
     "type": "jmath_function",
