@@ -432,12 +432,7 @@
     "type": "enchantment",
     "id": "ENCH_TEST_ALT_ARMS",
     "condition": "ALWAYS",
-    "modified_bodyparts": [
-      { "lose": "arm_l" },
-      { "gain": "test_alt_arm_l" },
-      { "lose": "arm_r" },
-      { "gain": "test_alt_arm_r" }
-    ]
+    "modified_bodyparts": [ { "lose": "arm_l" }, { "gain": "test_alt_arm_l" }, { "lose": "arm_r" }, { "gain": "test_alt_arm_r" } ]
   },
   {
     "type": "enchantment",
