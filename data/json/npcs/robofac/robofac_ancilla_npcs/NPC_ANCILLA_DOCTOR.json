@@ -168,7 +168,11 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_SERVICES",
     "type": "talk_topic",
-    "dynamic_line": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  We are also accepting applications for the cutting-edge Hub 01 Cybernetic Enhancements Program, if you're interested.",
+    "dynamic_line": {
+      "u_has_trait": "Hub01_CBM_Interface",
+      "yes": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  As you know, I'm also the field coordinator for the Cubernetic Enhanements Program.  Cool, huh?  Anyway, since you already have an interface, I can install, remove, and repair cybernetics.  The Hub has promised to sometimes provide supplies, so keep an eye on my stock.",
+      "no": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  We are also accepting applications for the cutting-edge Hub 01 Cybernetic Enhancements Program, if you're interested."
+    },
     "responses": [
       {
         "text": "What?!  Seriously?  Cybernetics?  Tell me more!",
@@ -431,7 +435,89 @@
         "effect": "bionic_remove_allies",
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
-      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
+      {
+        "text": "I need one of my cybernetics repaired…",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
+        "condition": { "not": { "npc_has_effect": "currently_busy" } }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_ANCILLA_DOCTOR" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
+    "dynamic_line": "What do you need?  Repairing cybernetics isn't cheap, but I guess it's cheaper than replacing them.  We're talking at least 10 HGC for a simple repair.  Also, make sure you unload anything or remove any mods you want to keep.\"  The doc then gently pats the AutoDoc.  \"Doc Junior here will tear up anything you leave in during the repair.",
+    "responses": [
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-ARM cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmarm" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmarm" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-LEG cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmleg" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmleg" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-BACK cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmback" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmback" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmback_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmback_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmback" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      { "text": "Actually, can you help me with something else?", "topic": "TALK_ANCILLA_DOCTOR_BIONICS" }
     ]
   },
   {
