@@ -1508,6 +1508,27 @@
   },
   {
     "type": "mutation",
+    "id": "perk_yeoman",
+    "name": { "str": "Yeoman" },
+    "description": "In a world of guns, you were born to string a bow.  With such weapons you draw back further, increasing damage and range, and your arrows strike true with unerring accuracy.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [
+          { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+          { "value": "RANGE", "add": 6 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_secret_closet_storage",
     "name": { "str": "Closetland" },
     "description": "When you were little you remember thinking that your closet was a portal to a secret realm and if you just knew the way to open the path, you could find your way through to another world.  Well, you've found the way.\n\nWhen in a closet (walls on all sides except for one closed door), activate this perk to transport you to a secret realm.  Deactivate this perk to transport you back to your entrance point.",
