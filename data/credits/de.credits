@@ -1,6 +1,45 @@
 # Zeilen, die länger als 78 Zeichen sind, werden automatisch umgebrochen.
 # Die folgende Zeile dient als Referenz
 ##############################################################################
+(<color_cyan>0.I</color>):</color>
+<color_white>Ursprünglicher Autor:</color>    <color_white>Projektmanager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>im Ruhestand</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Besonderer Dank an:</color>
+<color_yellow>Standing-Storm</color> - Ersteller und Maintainer des enormen 'Mind over Matter' Mod, sowie zahlreicher Beiträge zu anderen Mods.
+<color_yellow>Maleclypse</color> - Xedra Evolved Maintainer und Merger, mit über 2,000 Merges in diesem Zyklus!!!!
+<color_yellow>GuardianDll</color> - Zusammenführen, unspezifische JSON- und C++-Änderungen, Auswendiglernen und Zitieren von Dokumentationen für alle Beteiligten. „Ich kann mich nicht daran erinnern, so viele PRs gemacht zu haben, was zum Teufel?“ – GuardianDll
+<color_yellow>RenechCDDA</color> - Verbesserung der NPC-Fraktionen, des Basislagers und der Fahrzeuge.
+<color_yellow>Procyonae</color> - Danke für eine enorme Menge an Pull Requests für die Infrastruktur und für die unglaublich guten Verbesserungen der Kartengenerierung. 
+<color_yellow>PatrikLundell</color> - Eine absurde Menge an Bugfixes und wichtige Sicherheitsänderung der Kartengenerierung, der Tripoint Infrastruktur und anderer kritischer Systeme.
+<color_yellow>Holli</color> -  Für die engagierte Arbeit rund um Waffen und alles, was damit zu tun hat.
+<color_yellow>b3brodie</color> - Umfangreiche Infrastrukturunterstützung für Zaubersprüche, die sowohl Mods als auch das Basisspiel verbessert.
+<color_yellow>Milopetilo</color> - Großartige Arbeit bei der Erstellung der neuen Karte, den Parametern für die Erstellung bestehender Karten, der Überarbeitung von Artikelgruppen und vielem mehr.
+<color_yellow>ShnitzelX2</color> - Elektronische Speicherung von Elementen und Bereinigung von 10 Jahren technischer Schulden durch Verschieben von Elementen, die mit generic_factory geladen werden sollen.
+<color_yellow>alef</color> - Kümmert sich darum das Spiel sich Bauen lässt, damit wir aktiv weiterentwickelt und Spielen können.
+<color_yellow>John Candlebury</color> - Aftershock. Wusstest du, dass du jetzt in Aftershock ein riesiges Raumschiff besitzen und fliegen kannst? Ja.
+<color_yellow>katemonster33</color> - Mit ImGuI und ImTui das Spiel im Sturm erobert. Gibt uns die Benutzeroberfläche, die wir uns schon immer gewünscht haben.
+<color_yellow>Daniel Brooks 'db48x'</color> - Für die grundlegende Arbeit an unseren schönen neuen ImGui-Fenstern.
+<color_yellow>moxian</color> - Kritische Arbeiten an der Build- und IWYU-Infrastruktur. Diese haben das Leben jedes Entwicklers einfacher gemacht.
+<color_yellow>akrieger</color> - Weiterhin Verbesserungen der Spielgeschwindigkeit, Aufrechterhaltung der CI und Schutz der Festplatten vor Sky Islands-Spielen mit komprimierten Speicherständen.
+<color_yellow>SariusSkelrets</color> - Erweiterung und Überarbeitung der Vampir-Inhalte von Xedra Evolved.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color> und <color_yellow>mqrause</color>.
+
+<color_white>Besonderer Dank für die künstlerischen Beiträge:</color>
+<color_yellow>hoasd1</color> - Mit den meisten Beiträgen zum Tileset in diesem Zyklus entschied er sich, stilvoll in den Sonnenuntergang zu reiten. Wir wünschen ihm viel Glück für seine Zukunft, aber Ultica wird für immer von seiner Arbeit geprägt sein!
+<color_yellow>gettingusedto</color> - MSX+ Schwergewicht und rundum nette Person. Wir haben uns daran gewöhnt (hehe), dich hier zu sehen!
+
+<color_white>Eine vollständige Liste der Mitwirkenden finden Du unter:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> wird unter <color_white>CC-BY-SA 3.0</color> veröffentlicht:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+
+******************************************************************************
+
 (<color_cyan>0.H</color>):</color>
 <color_white>Ursprünglicher Autor:</color>    <color_white>Projektmanager:</color>
 <color_yellow>Whales</color> (<color_dark_gray>im Ruhestand</color>)    <color_yellow>KevinGranade</color>
@@ -176,7 +215,7 @@
 <color_white>Besonderen Dank an (<color_cyan>0.9</color>):</color>
 <color_yellow>TheDarklingWolf</color> - Für das Kreieren von Cataclysm:DDA, so wie wir es kennen.
 <color_yellow>Narc</color> - Für das Einrichten des automatischen Jenkins Build-Bots.
-<color_yellow>yobbobanana</color> - Für die Arbeit als Verbindungsperson zwischen den Übersetzern und GitHub.
+<color_yellow>yobbobanana</color> - Für die Zusammenarbeit als Verbindungsstelle zwischen Übersetzern und GitHub.
 <color_yellow>Angela 'Rivet' Graves</color> - Ständiger Schöpfer von Cataclysm Inhalt.
 
 ******************************************************************************
