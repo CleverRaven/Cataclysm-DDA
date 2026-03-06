@@ -100,7 +100,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "small tool battery", "str_pl": "small tool batteries" },
-    "description": "A light battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
+    "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
     "//": "Li-ion 18V LXT BL1815N",
     "ascii_picture": "heavy_battery_cell",
     "weight": "350 g",
