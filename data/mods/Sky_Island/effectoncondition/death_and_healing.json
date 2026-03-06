@@ -1,0 +1,194 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_youdied",
+    "//": "This EOC is called when the player dies.  Before anything else happens, it checks if the player has a lifeshield mote.  If so, it warps you home safe and sound, counting as neither a loss nor a victory, and all your stuff comes with you.  Otherwise, it moves on to other death checks below.",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_item": "warphome" },
+    "effect": [
+      "u_prevent_death",
+      { "run_eocs": [ "EOC_homewardmote", "EOC_healall" ] },
+      {
+        "u_message": "Moments before your last breath leaves your body, the mote of warp essence on you jolts with a brilliant energy.  Its thin filament immediately snaps tight, reeling you home faster than you can process what it was that just saved your life.  The mote is spent, but you arrive home alive and well.",
+        "popup": true
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_deathconfirmed" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_deathconfirmed",
+    "//": "The player's death is now confirmed and not protected.  The true effect is when you die on the island, and the false effect is when you die out in the world.  Both make you incorporeal, which saves you from damage but also makes you drop all items behind, then heal you slightly to prevent death.",
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      "u_prevent_death",
+      { "u_add_effect": "downed", "duration": 1 },
+      { "u_add_effect": "incorporeal", "duration": 500 },
+      { "run_eocs": [ "EOC_death_heal" ] },
+      {
+        "u_message": "You died at home?  What's the matter with you?  Stop this.  You are restored.  The powers that be have made you temporarily incorporeal, in case you were stuck in a deadly loop.",
+        "popup": true
+      }
+    ],
+    "false_effect": [
+      "u_prevent_death",
+      { "u_add_effect": "incorporeal", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1 },
+      { "run_eocs": [ "EOC_death_heal" ] },
+      { "u_spawn_item": "corpse_painful" },
+      { "math": [ "raidslost++" ] },
+      { "if": { "mod_is_loaded": "bombastic_perks" }, "then": { "clear_dimension": "dimension_perk_closetland" } },
+      { "run_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
+      {
+        "u_message": "You feel the icy grip of death begin to take you, and the world whirls and rushes past.  Reality bends and at the peak of your last mortal moment, something snags you and hauls you through space and time.  Your mind has been preserved, at cost, and your body is not far behind.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEAL_NEWBIE",
+    "//": "Runs when using the HEAL function from the Heart of the Island.  Runs a checklist.  If you're under a certain amount of won raids, it heals you for free.  If you're over and you have 4 warp shards, it takes those and heals you.  If you can't pay, it does nothing.",
+    "condition": { "math": [ "islandrank == 0" ] },
+    "effect": [
+      { "run_eocs": [ "EOC_healall" ] },
+      {
+        "u_message": "The island's grace heals you at no charge.\nThis effect will only be free until you have survived 10 expeditions.",
+        "popup": true
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "u_has_items": { "item": "warptoken", "count": 4 } },
+        "then": [
+          {
+            "u_message": "The warp shards you were holding dissipate into a mist and swirl in tiny vortices around your body.  The price is paid, and you are healed.",
+            "popup": true
+          },
+          { "run_eocs": [ "EOC_healall" ] },
+          { "u_consume_item": "warptoken", "count": 4 }
+        ],
+        "else": [ { "u_message": "You must have the required payment on your person to be healed.", "popup": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healall",
+    "//": "Just a simple EOC to bring all your HP to full, while not addressing most other health factors.  Can only be used at home.",
+    "condition": { "not": { "u_has_trait": "awayfromhome" } },
+    "effect": [
+      {
+        "u_message": "Your body mends itself in the blink of an eye.  Underlying health issues may persist, but your structural integrity is restored."
+      },
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "run_eocs": [ "EOC_healextras" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "The effect is wasted and you don't feel any better.  You have to be in your sanctuary to be healed by this!"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healextras",
+    "//": "Clears up various conditions beyond just your hp.  Should cover most diseases and infections, prevent extreme thirst and starvation, wipe pain, and even cure a few edge cases like being covered in acid.",
+    "effect": [
+      { "math": [ "u_calories() = max( u_calories(), 9000)" ] },
+      { "math": [ "u_val('thirst') = min( u_val('thirst'), 800)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
+      { "math": [ "u_val('pkill') = 0" ] },
+      { "math": [ "u_oxygen() = u_oxygen_max()" ] },
+      { "math": [ "u_val('stamina') = u_val('stamina_max')" ] },
+      { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
+      {
+        "u_lose_effect": [
+          "irradiated",
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed",
+          "fungus",
+          "dermatik",
+          "bloodworms",
+          "paincysts",
+          "brainworms",
+          "tapeworm",
+          "blind",
+          "poison",
+          "venom_dmg",
+          "venom_weaken",
+          "stung",
+          "badpoison",
+          "foodpoison",
+          "paralyzepoison",
+          "tetanus",
+          "rat_bite_fever",
+          "infected",
+          "asthma",
+          "common_cold",
+          "flu",
+          "pre_flu",
+          "pre_common_cold",
+          "VITRIFYING"
+        ]
+      },
+      { "alter_timed_events": "vitrified_farm_escape_key" },
+      {
+        "run_eocs": [ "EOC_FIX_MAGICLYSM_PROBLEMS", "EOC_FIX_MIND_OVER_MATTER_PROBLEMS", "EOC_FIX_XEDRA_EVOLVED_PROBLEMS" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MAGICLYSM_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_MIND_OVER_MATTER_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_XEDRA_EVOLVED_PROBLEMS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_death_heal",
+    "//": "This is the heal that is called when you die to make sure you have enough health to not-die.  It also lowers your hunger and thirst slightly if they're above an extreme limit.  Finally it sets your sub-parts to full health since they will otherwise get totally ruined and don't seem to have any natural way to heal.",
+    "effect": [ { "math": [ "u_hp('ALL') = 999" ] }, { "math": [ "u_hp('ALL_MAJOR') = 15" ] }, { "run_eocs": [ "EOC_healextras" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_heal",
+    "//": "Similar to the death heal, but only increases health, never reduces it.  This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died.  To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized.  This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
+    "effect": [
+      { "math": [ "u_hp('torso') = max( u_hp('torso'), 15)" ] },
+      { "math": [ "u_hp('head') = max( u_hp('head'), 15)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_hp('arm_l'), 15)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_hp('arm_r'), 15)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 15)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 15)" ] }
+    ]
+  }
+]
