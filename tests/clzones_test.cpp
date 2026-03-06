@@ -2156,6 +2156,9 @@ TEST_CASE( "route_with_grab_strength_gating",
     dummy.setpos( here, start_pos + tripoint::north );
     dummy.setpos( here, start_pos );
     CHECK( zone_sorting::route_length( dummy, dest_pos ) != INT_MAX );
+
+    dummy.grab( object_type::NONE );
+    clear_map_without_vision();
 }
 
 TEST_CASE( "route_cache_invalidation_on_mass_change",
@@ -2207,5 +2210,9 @@ TEST_CASE( "route_cache_invalidation_on_mass_change",
 
     const int len_after = zone_sorting::route_length( dummy, dest_pos );
     CHECK( len_after == INT_MAX );
+
+    dummy.grab( object_type::NONE );
+    zone_manager::get_manager().clear();
+    clear_map_without_vision();
 }
 

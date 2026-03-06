@@ -11086,6 +11086,10 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
         cur_value |= PathfindingFlag::DangerousTrap;
     }
 
+    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && !this->has_vehicle_floor( p ) ) {
+        cur_value |= PathfindingFlag::Air;
+    }
+
     if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
         cur_value |= PathfindingFlag::GoesUp;
     }
