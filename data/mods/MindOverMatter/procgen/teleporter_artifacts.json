@@ -13,6 +13,10 @@
       }
     ],
     "active_procgen_values": [
+      { "weight": 100, "spell_id": "MoM_AEA_BLINK", "base_power": 250, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_AOE_SLOW", "base_power": 400, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_DISTANT_TELEPORT", "base_power": 850, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_REALITY_TEMPORARY_TEAR", "base_power": 450, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_NETHER_ATTUNEMENT", "base_power": -100, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_STAMINA_EMPTY", "base_power": -250, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_VOMIT", "base_power": -50, "ench_has": "WIELD" },
