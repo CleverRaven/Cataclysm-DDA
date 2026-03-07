@@ -1744,6 +1744,22 @@ void weather_manager::serialize_all( JsonOut &json )
     if( weather.forced_temperature ) {
         json.member( "forced_temperature", units::to_fahrenheit( *weather.forced_temperature ) );
     }
+    if( !weather.snow_depth_map.empty() ) {
+        json.member( "snow_depth" );
+        json.start_array();
+        for( const auto &pair : weather.snow_depth_map ) {
+            if( pair.second.depth_mm > 0.001 ) {
+                json.start_object();
+                json.member( "x", pair.first.x() );
+                json.member( "y", pair.first.y() );
+                json.member( "z", pair.first.z() );
+                json.member( "depth_mm", pair.second.depth_mm );
+                json.member( "last_update", pair.second.last_update );
+                json.end_object();
+            }
+        }
+        json.end_array();
+    }
     json.end_object();
 }
 
@@ -1763,6 +1779,16 @@ void weather_manager::unserialize_all( const JsonObject &w )
         get_weather().forced_temperature = units::from_fahrenheit( read_forced_temp );
     } else {
         get_weather().forced_temperature.reset();
+    }
+    get_weather().snow_depth_map.clear();
+    if( w.has_array( "snow_depth" ) ) {
+        for( const JsonObject &entry : w.get_array( "snow_depth" ) ) {
+            tripoint_abs_omt pos( entry.get_int( "x" ), entry.get_int( "y" ), entry.get_int( "z" ) );
+            omt_snow_state state;
+            entry.read( "depth_mm", state.depth_mm );
+            entry.read( "last_update", state.last_update );
+            get_weather().snow_depth_map[pos] = state;
+        }
     }
 }
 

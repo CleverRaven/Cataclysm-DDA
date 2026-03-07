@@ -1084,6 +1084,10 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
+        // Returns true if precipitation cannot reach this tile (roof, floor, or
+        // vehicle with ROOF/OPAQUE above). Uses floor_cache at z+1 when valid,
+        // falls back to direct terrain/furniture/vehicle checks otherwise.
+        bool is_roofed( const tripoint_bub_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).
@@ -2532,6 +2536,9 @@ class tinymap : private map
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );
+        }
+        bool is_roofed( const tripoint_omt_ms &p ) const {
+            return map::is_roofed( rebase_bub( p ) );
         }
         int get_radiation( const tripoint_omt_ms &p ) const {
             return map::get_radiation( rebase_bub( p ) );

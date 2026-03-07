@@ -6117,6 +6117,15 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         run_cost_effect_add( 10, _( "Roots" ) );
     }
 
+    // Snow depth movement penalty (outdoor, unroofed tiles only)
+    if( here.is_outside( pos_bub() ) && !here.is_roofed( pos_bub() ) ) {
+        const double snow_mm = get_weather().get_snow_depth_mm( pos_abs_omt() );
+        if( snow_mm >= 50 ) {
+            const int penalty = snow_mm >= 300 ? 100 : ( snow_mm >= 150 ? 50 : 25 );
+            run_cost_effect_add( penalty, _( "Snow" ) );
+        }
+    }
+
     run_cost_effect_add( enchantment_cache->get_value_add( enchant_vals::mod::MOVE_COST ),
                          _( "Enchantments" ) );
     run_cost_effect_mul( std::max( 0.01,
