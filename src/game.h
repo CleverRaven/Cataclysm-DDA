@@ -84,6 +84,7 @@ class monster;
 class npc;
 class npc_template;
 class overmap;
+class power_network_manager;
 class save_t;
 class scenario;
 class scent_map;
@@ -1147,6 +1148,7 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+        pimpl<power_network_manager> power_networks_ptr;
 
         map &m; // NOLINT(cata-serialize)
         // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
@@ -1171,6 +1173,7 @@ class game
         queued_eocs queued_global_effect_on_conditions;
 
         spell_events &spell_events_subscriber();
+        power_network_manager &power_networks();
 
         pimpl<creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr; // NOLINT(cata-serialize)

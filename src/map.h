@@ -770,6 +770,12 @@ class map
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings,
                         PathfindingFlags p_special ) const;
+        // Catches up renewable generation (solar/wind/water) for off-map vehicles
+        // that are connected to in-bubble grids via cables.
+        void resolve_off_map_grid_generation();
+        // Re-enables appliance parts that were disabled by power_parts() deficit
+        // when the connected grid actually has battery charge available.
+        void resolve_appliance_grid_power();
     public:
 
         // Vehicles: Common to 2D and 3D
