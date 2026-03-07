@@ -186,6 +186,28 @@ double coverage_eval( const_dialogue const &d, char scope, std::vector<diag_valu
     return d.const_actor( is_beta( scope ) )->coverage_at( bp );
 }
 
+double consumption_count_eval( const_dialogue const &d, char scope,
+                               std::vector<diag_value> const &params,
+                               diag_kwargs const &kwargs )
+{
+    const Character *ch = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( !ch ) {
+        throw math::runtime_error( "consumption_count() requires a character" );
+    }
+    const itype_id target_id( params[0].str( d ) );
+    diag_value hours_val = kwargs.kwarg_or( "hours" );
+    const time_duration window = hours_val.is_empty()
+                                 ? 48_hours
+                                 : time_duration::from_hours( hours_val.dbl( d ) );
+    int count = 0;
+    for( const consumption_event &event : ch->consumption_history ) {
+        if( event.time > calendar::turn - window && event.type_id == target_id ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
 double distance_eval( const_dialogue const &d, char /* scope */,
                       std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
@@ -1725,6 +1747,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "charge_count", { "un", 1, charge_count_eval } },
+    { "consumption_count", { "un", 1, consumption_count_eval, {}, { "hours" } } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
     { "degradation", { "un", 0, degradation_eval, degradation_ass } },

@@ -141,7 +141,17 @@
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
     "fun": -1,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "consumption_effect_on_conditions": [
+      {
+        "id": "EOC_BUTTER_NAUSEA",
+        "condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3" ] },
+        "effect": [
+          { "u_add_effect": "nausea", "duration": "10 minutes" },
+          { "u_message": "Ugh, you've been eating too much butter\u2026", "type": "bad" }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
