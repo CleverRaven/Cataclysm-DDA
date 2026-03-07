@@ -7,23 +7,31 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "30 h",
+    "time": "80 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_cotton_patchwork", 170 ],
-      [ "tailoring_canvas_patchwork", 20 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fauxfur", 20 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
-    ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_furriery" },
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quilting" }
+    ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 170 ], [ "sheet_cotton_patchwork", 170 ] ],
+      [ [ "sheet_canvas", 20 ], [ "sheet_canvas_patchwork", 20 ] ],
+      [ [ "sheet_faux_fur", 20 ], [ "sheet_faux_fur_patchwork", 20 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 300 ] ],
+      [ [ "thread", 750 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -31,15 +39,23 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
-    "time": "25 h",
-    "using": [
-      [ "tailoring_cotton_patchwork", 130 ],
-      [ "tailoring_canvas_patchwork", 16 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fauxfur", 16 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
+    "time": "64 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 130 ], [ "sheet_cotton_patchwork", 130 ] ],
+      [ [ "sheet_canvas", 16 ], [ "sheet_canvas_patchwork", 16 ] ],
+      [ [ "sheet_faux_fur", 16 ], [ "sheet_faux_fur_patchwork", 16 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 250 ] ],
+      [ [ "thread", 600 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -47,15 +63,23 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
-    "time": "40 h 30 m",
-    "using": [
-      [ "tailoring_cotton_patchwork", 220 ],
-      [ "tailoring_canvas_patchwork", 25 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fauxfur", 25 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "fastener_small", 5 ]
+    "time": "100 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 220 ], [ "sheet_cotton_patchwork", 220 ] ],
+      [ [ "sheet_canvas", 25 ], [ "sheet_canvas_patchwork", 25 ] ],
+      [ [ "sheet_faux_fur", 25 ], [ "sheet_faux_fur_patchwork", 25 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 400 ] ],
+      [ [ "thread", 1000 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "snapfastener_steel", 10 ] ]
     ]
   },
   {
@@ -66,49 +90,73 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "20 h",
+    "time": "60 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_felt_patchwork", 80 ],
-      [ "tailoring_nomex_patchwork", 40 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
-    ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_quilting" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_articulation" }
+    ],
+    "qualities": [
+      { "id": "SEW", "level": 2 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_felt", 80 ], [ "sheet_felt_patchwork", 80 ] ],
+      [ [ "sheet_nomex", 40 ], [ "sheet_nomex_patchwork", 40 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 200 ] ],
+      [ [ "thread_nomex", 200 ] ],
+      [ [ "thread", 300 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
     "result": "xs_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
-    "time": "18 h",
-    "using": [
-      [ "tailoring_felt_patchwork", 72 ],
-      [ "tailoring_nomex_patchwork", 36 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
+    "time": "48 h",
+    "qualities": [
+      { "id": "SEW", "level": 2 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_felt", 64 ], [ "sheet_felt_patchwork", 64 ] ],
+      [ [ "sheet_nomex", 32 ], [ "sheet_nomex_patchwork", 32 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 160 ] ],
+      [ [ "thread_nomex", 160 ] ],
+      [ [ "thread", 240 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
     "result": "xl_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
-    "time": "30 h",
-    "using": [
-      [ "tailoring_felt_patchwork", 100 ],
-      [ "tailoring_nomex_patchwork", 50 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "fastener_small", 5 ]
+    "time": "80 h",
+    "qualities": [
+      { "id": "SEW", "level": 2 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_felt", 110 ], [ "sheet_felt_patchwork", 110 ] ],
+      [ [ "sheet_nomex", 55 ], [ "sheet_nomex_patchwork", 55 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 280 ] ],
+      [ [ "thread_nomex", 280 ] ],
+      [ [ "thread", 400 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "snapfastener_steel", 10 ] ]
     ]
   },
   {
@@ -119,20 +167,27 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "27 h",
+    "time": "75 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_kevlar_fabric", 190 ],
-      [ "tailoring_nylon_patchwork", 60 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
-    ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_quilting" }
+    ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 190 ], [ "sheet_kevlar_patchwork", 190 ] ],
+      [ [ "sheet_nylon", 60 ], [ "sheet_nomex_patchwork", 60 ] ],
+      [ [ "thread_kevlar", 1200 ] ],
+      [ [ "thread_canvas", 300 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -140,13 +195,20 @@
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "24 h",
-    "using": [
-      [ "tailoring_kevlar_fabric", 175 ],
-      [ "tailoring_nylon_patchwork", 50 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
+    "time": "60 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 170 ], [ "sheet_kevlar_patchwork", 170 ] ],
+      [ [ "sheet_nylon", 55 ], [ "sheet_nomex_patchwork", 55 ] ],
+      [ [ "thread_kevlar", 1000 ] ],
+      [ [ "thread_canvas", 250 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -154,13 +216,20 @@
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "33 h 30 m",
-    "using": [
-      [ "tailoring_kevlar_fabric", 230 ],
-      [ "tailoring_nylon_patchwork", 75 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "fastener_small", 5 ]
+    "time": "90 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 240 ], [ "sheet_kevlar_patchwork", 240 ] ],
+      [ [ "sheet_nylon", 75 ], [ "sheet_nomex_patchwork", 75 ] ],
+      [ [ "thread_kevlar", 1450 ] ],
+      [ [ "thread_canvas", 400 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "snapfastener_steel", 10 ] ]
     ]
   },
   {
@@ -172,17 +241,9 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "chemistry", 2 ],
-    "time": "32 h",
+    "time": "80 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_kevlar_fabric", 190 ],
-      [ "tailoring_canvas_patchwork", 60 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "vinylizing_standard", 240 ],
-      [ "fastener_small", 5 ]
-    ],
+    "using": [ [ "fastener_small", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_articulation" },
@@ -191,6 +252,21 @@
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 190 ], [ "sheet_kevlar_patchwork", 190 ] ],
+      [ [ "sheet_canvas", 60 ], [ "sheet_canvas_patchwork", 60 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_kevlar", 1200 ] ],
+      [ [ "thread_canvas", 300 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -198,15 +274,22 @@
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "28 h",
-    "using": [
-      [ "tailoring_kevlar_fabric", 175 ],
-      [ "tailoring_canvas_patchwork", 50 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "vinylizing_standard", 220 ],
-      [ "fastener_small", 5 ]
+    "time": "64 h",
+    "using": [ [ "vinylizing_standard", 220 ] ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 170 ], [ "sheet_kevlar_patchwork", 170 ] ],
+      [ [ "sheet_canvas", 55 ], [ "sheet_canvas_patchwork", 55 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_kevlar", 1000 ] ],
+      [ [ "thread_canvas", 250 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -214,15 +297,22 @@
     "type": "recipe",
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "42 h 30 m",
-    "using": [
-      [ "tailoring_kevlar_fabric", 230 ],
-      [ "tailoring_canvas_patchwork", 75 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 12 ],
-      [ "vinylizing_standard", 270 ],
-      [ "fastener_small", 5 ]
+    "time": "100 h",
+    "using": [ [ "vinylizing_standard", 300 ] ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_kevlar", 240 ], [ "sheet_kevlar_patchwork", 240 ] ],
+      [ [ "sheet_canvas", 75 ], [ "sheet_canvas_patchwork", 75 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_kevlar", 1450 ] ],
+      [ [ "thread_canvas", 400 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "snapfastener_steel", 10 ] ]
     ]
   },
   {
@@ -233,23 +323,31 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "30 h",
+    "time": "80 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_cotton_patchwork", 170 ],
-      [ "tailoring_canvas_patchwork", 20 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fur", 20 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
-    ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_furriery" },
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quilting" }
+    ],
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 170 ], [ "sheet_cotton_patchwork", 170 ] ],
+      [ [ "sheet_canvas", 20 ], [ "sheet_canvas_patchwork", 20 ] ],
+      [ [ "sheet_fur", 20 ], [ "sheet_fur_patchwork", 20 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 300 ] ],
+      [ [ "thread", 750 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -257,15 +355,23 @@
     "type": "recipe",
     "copy-from": "wsurvivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "10 h",
-    "using": [
-      [ "tailoring_cotton_patchwork", 130 ],
-      [ "tailoring_canvas_patchwork", 16 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fur", 16 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 8 ],
-      [ "fastener_small", 5 ]
+    "time": "64 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 130 ], [ "sheet_cotton_patchwork", 130 ] ],
+      [ [ "sheet_canvas", 16 ], [ "sheet_canvas_patchwork", 16 ] ],
+      [ [ "sheet_fur", 16 ], [ "sheet_fur_patchwork", 16 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 250 ] ],
+      [ [ "thread", 500 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 8 ] ]
     ]
   },
   {
@@ -273,15 +379,23 @@
     "type": "recipe",
     "copy-from": "wsurvivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "40 h 30 m",
-    "using": [
-      [ "tailoring_cotton_patchwork", 220 ],
-      [ "tailoring_canvas_patchwork", 25 ],
-      [ "tailoring_nylon_patchwork", 6 ],
-      [ "fabric_fur", 25 ],
-      [ "fastener_large", 1 ],
-      [ "clasps", 10 ],
-      [ "fastener_small", 5 ]
+    "time": "100 h",
+    "qualities": [
+      { "id": "SEW", "level": 3 },
+      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sheet_cotton", 220 ], [ "sheet_cotton_patchwork", 220 ] ],
+      [ [ "sheet_canvas", 25 ], [ "sheet_canvas_patchwork", 25 ] ],
+      [ [ "sheet_fur", 25 ], [ "sheet_fur_patchwork", 25 ] ],
+      [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
+      [ [ "thread_canvas", 400 ] ],
+      [ [ "thread", 1000 ] ],
+      [ [ "zipper_short_plastic", 6 ] ],
+      [ [ "zipper_long_plastic", 2 ] ],
+      [ [ "snapfastener_steel", 10 ] ]
     ]
   },
   {
