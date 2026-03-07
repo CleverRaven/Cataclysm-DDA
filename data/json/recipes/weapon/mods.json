@@ -1276,5 +1276,22 @@
     "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 150 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "byproducts": [ [ "scrap_aluminum", 3 ] ],
     "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "result": "barrel_threading",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "gun", 3 ] ],
+    "time": "1 h",
+    "book_learn": [ [ "mag_guns", 5 ], [ "mag_pistol", 5 ], [ "manual_gun", 5 ], [ "manual_pistol", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "FILE", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 40 ] ] ],
+    "//": "Scrap is used for a thread protector cap to shield the newly-cut threads when no muzzle device is attached.",
+    "components": [ [ [ "scrap", 1 ] ] ]
   }
 ]
