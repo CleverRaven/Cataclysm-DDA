@@ -60,8 +60,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "20000 ml",
-        "max_contains_weight": "20000 g",
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "10000 g",
         "max_item_length": "50 cm",
         "rigid": true
       }
