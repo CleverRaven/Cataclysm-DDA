@@ -1,0 +1,53 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "stratoscomm_console_main",
+    "dynamic_line": "&UNSTN NODE S/N 478392-AX\n*************************************************\n*  STANDBY  STANDBY  STANDBY  STANDBY  STANDBY  *\n*************************************************\nONLINE\n\n>",
+    "responses": [
+      { "text": "Prepare the interference packet", "topic": "stratoscomm_hack_packet_ship", "effect": "" },
+      { "text": "Pair transmitters", "topic": "stratoscomm_pair_transmitters", "effect": "" },
+      { "text": "Configure remote access", "topic": "stratoscomm_configure_remote_access", "effect": "" },
+      { "text": "Shut down.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "stratoscomm_hack_packet_ship",
+    "dynamic_line": ">1.zptk\n\n  Ready to transmit.  Confirm.",
+    "speaker_effect": [  ],
+    "responses": [
+      { "text": "Transmit", "topic": "TALK_DONE", "effect": "u_add_effect EOC_STRATOSCOMM_PACKET_TRANSMITTED" },
+      { "text": "Return to main menu", "topic": "stratoscomm_console_main", "effect": "" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "stratoscomm_pair_transmitters",
+    "dynamic_line": "Manual pairing required:",
+    "responses": [
+      {
+        "text": "You don't know the connection codes for any other stratoscomm stations.  Return to main menu.",
+        "topic": "stratoscomm_console_main",
+        "effect": ""
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "stratoscomm_configure_remote_access",
+    "dynamic_line": "&Forbidden.\n\n>",
+    "responses": [
+      { "text": "Try to bypass the security restrictions.", "topic": "TALK_DONE", "effect": "" },
+      { "text": "Return to main menu", "topic": "stratoscomm_console_main", "effect": "" }
+    ]
+  },
+  {
+    "id": "hack_packet_ship_warning_fatal",
+    "type": "talk_topic",
+    "dynamic_line": "You take a moment to reflect before sending the interference signal.  You havent set up a fallbacks of any kinds, there's no secondary relays to confuse the transmission origin, you dont know if the Firelight is above you right now, you'll send the hack as a wide broadcast because you dont know where the packet ship is, hell you are even standing right beneath the transmission tower.  If anyone in UICA notices, and they probably will, you are as good as dead.",
+    "responses": [
+      { "text": "Send the signal anyway.", "topic": "TALK_DONE", "effect": "" },
+      { "text": "On second thought, maybe not.", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "AG_survey_mission",
+    "type": "mission_definition",
+    "name": { "str": "Surface Survey" },
+    "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_NULL",
+    "description": "Plant the surveying spike at the designated location and transmit the data using the encrypted uplink.",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "afs_tunnel_nesw",
+        "om_terrain_match_type": "EXACT",
+        "reveal_radius": 2,
+        "random": true,
+        "z": -1,
+        "search_range": 1800
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [ "AG_survey_1" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "AG_survey_mission",
+      "yes": "Not in the mood for a talk, sorry.",
+      "no": {
+        "gendered_line": "You find a survey ship captain arguing with a small group of salvors.  He breaks from the argument to address you as you approach.  \"Finally a spacer with some nerve! Not like these COWARDS and rats!  He shouts, making a sweeping gesture at the group.  \"What do you think mate?  I've got a survey spike that needs to be set up planetside, and I'm offering 6K for whoever does it.  Not all bad for a brief stop in the surface right?",
+        "relevant_genders": [ "npc" ]
+      }
+    },
+    "responses": [
+      {
+        "text": "Yeah sure I'll do it, where do you need it?",
+        "condition": { "not": { "u_has_mission": "AG_shuttle_mission" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "truefalsetext": {
+          "condition": { "not": { "u_has_mission": "AG_survey_mission" } },
+          "true": "Not for me, thanks.",
+          "false": "Maybe some other day."
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "AG_survey_accept",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "BKGR_EARTH",
+      "yes": "&\"See!  Now thats some true frontier spirit!  And from an earthling no less!  I like you already, we gonna be great partners you and me.\"  He sets you up with a drink while his crew prepares the survey spike \"… lets swap encrypted comms, message me with those once you have the spike data.\"",
+      "no": "See!  Now thats some true frontier spirit!  I like you already, we gonna be great partners you and me.\"  He sets you up with a drink while his crew prepares the survey spike \"… lets swap encrypted comms, message me with those once you have the spike data."
+    }
+  }
+]

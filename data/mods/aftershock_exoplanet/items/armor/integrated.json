@@ -1,0 +1,27 @@
+[
+  {
+    "id": "integated_storeroom",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "remote storeroom" },
+    "description": "A storage unit concealed within Port Augustmoon's superstructure.",
+    "volume": "10 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "80 kg",
+        "moves": 10000,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
+  }
+]
