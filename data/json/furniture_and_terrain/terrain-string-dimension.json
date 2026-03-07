@@ -158,6 +158,25 @@
     }
   },
   {
+    "type": "terrain",
+    "id": "t_string_gates_mech_control_inert",
+    "name": "rotary lever",
+    "description": "A heavy-duty metal lever with two settings, each marked by an alien symbol.  Toggling it back and forth does nothing.",
+    "symbol": "6",
+    "color": "cyan_red",
+    "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
     "type": "gate",
     "id": "t_string_gates_mech_control",
     "door": "t_door_metal_locked",
