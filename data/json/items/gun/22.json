@@ -12,7 +12,7 @@
       {
         "id": "marlin_9a",
         "name": { "str": "Marlin 39A rifle" },
-        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil."
+        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it only fires the weak .22 round, it is still highly accurate and has essentially no recoil."
       }
     ],
     "ascii_picture": "marlin_39a",
@@ -54,7 +54,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": ".22 pipe rifle" },
-    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "description": "A homemade rifle.  While it is simply a pipe attached to a stock, with a hammer to strike the single round it holds, this single-shot rifle can still kill.",
     "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
     "volume": "1610 ml",
@@ -82,13 +82,13 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "varmint rifle" },
-    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
+    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular rifle among civilian shooters.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_1022",
         "name": { "str": "Ruger 10/22 rifle" },
-        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
+        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's still perfectly capable of killing."
       }
     ],
     "ascii_picture": "ruger1022",
@@ -142,7 +142,7 @@
       {
         "id": "ruger_1022_auto",
         "name": { "str": "full-auto Ruger 10/22 rifle" },
-        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective while still being controllable"
       }
     ],
     "price_postapoc": "15 USD",

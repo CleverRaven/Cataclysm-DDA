@@ -1338,7 +1338,7 @@
     "id": "major-general",
     "name": "Major General",
     "requirement": [ "achievement_reach_military_bunker", "achievement_reach_military_base" ],
-    "description": "You worked your way up through the ranks from a no-name private to a big shot Major General, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
+    "description": "You worked your way up through the ranks from a no-name private to a big shot major general, respected and decorated.  On the downside, years of desk duty have left your shooting skills rusty, and all the medals in the world won't protect you now.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
@@ -1875,7 +1875,7 @@
   {
     "type": "profession",
     "id": "seal_sniper",
-    "name": "Navy SEAL Marksmen",
+    "name": "Navy SEAL Marksman",
     "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 8,
@@ -1937,7 +1937,7 @@
     "id": "seal",
     "name": "Navy SEAL",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday,' and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "npc_background": "BG_survival_story_SOLDIER",
     "points": 8,
     "proficiencies": [
@@ -2850,7 +2850,6 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "swimming" }
     ],
-    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
   },
   {
     "type": "profession",
@@ -7673,7 +7672,7 @@
     "id": "assassin",
     "name": "Assassin",
     "requirement": "achievement_kill_100_monsters",
-    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, — you are all alone now.",
     "npc_background": "BG_survival_story_CRIMINAL",
     "points": 6,
     "skills": [
@@ -7826,7 +7825,6 @@
       { "level": 2, "name": "throw" },
       { "level": 2, "name": "speech" }
     ],
-    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
       "both": {
         "entries": [
