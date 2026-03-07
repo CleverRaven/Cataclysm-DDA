@@ -3945,7 +3945,9 @@
     "points": 2,
     "active": true,
     "cost": 0,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "//": "Also allows you to break down normally indigestible triffid fiber 3x as quickly.",
+    "vitamin_rates": [ [ "triffid_fiber", 3600 ] ]
   },
   {
     "type": "mutation",
@@ -3959,7 +3961,9 @@
     "points": 3,
     "active": true,
     "cost": 0,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "//": "Also allows you to break down normally indigestible triffid fiber 5x as quickly.",
+    "vitamin_rates": [ [ "triffid_fiber", 1800 ] ]
   },
   {
     "type": "mutation",
