@@ -63,6 +63,7 @@
     "color": "white",
     "warmth": 10,
     "material_thickness": 0.1,
+    "use_action": [ "TOWEL" ],
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
