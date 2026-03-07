@@ -1,0 +1,75 @@
+[
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_shower",
+    "furniture": { "1": "f_shower_retractable", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_bed",
+    "furniture": { "1": "f_bed_retractable", "2": "f_bed" }
+  },
+  {
+    "type": "palette",
+    "id": "micro_apartment_palette_null",
+    "furniture": { "1": "f_null", "2": "f_null" }
+  },
+  {
+    "type": "palette",
+    "id": "base",
+    "terrain": {
+      "#": "t_concrete_wall",
+      "3": "t_floor_container",
+      "+": "t_door_c",
+      ".": "t_concrete_light",
+      "$": "t_wall_control",
+      "%": "t_ret_furn_target",
+      "i": "t_metal_railing",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "0": "t_open_air",
+      "-": "t_door_metal_c"
+    },
+    "furniture": { "4": "f_dumpster", "T": "f_table", "=": "f_utility_shelf", "h": "f_chair", "c": "f_counter" },
+    "items": {
+      "L": [ { "item": "locker_gym", "chance": 50, "repeat": 3 } ],
+      "3": [ { "item": "locker_gym", "chance": 50, "repeat": 3 }, { "item": "oneirosis_countermeasures", "chance": 5 } ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "restaurant_palette_hunvre",
+    "palettes": [ "base" ],
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_carpet_green", 1 ], [ "t_carpet_red", 1 ], [ "t_carpet_yellow", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      ".": "t_concrete",
+      "1": "t_concrete",
+      "2": "t_concrete",
+      "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "C": "t_concrete",
+      "c": "t_concrete",
+      "d": "t_concrete",
+      "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "=": "t_concrete",
+      "f": "t_concrete"
+    },
+    "furniture": {
+      "d": "f_dumpster",
+      "1": "f_oven",
+      "2": "f_deep_fryer",
+      "t": "f_barstool",
+      "h": "f_chair",
+      "C": "f_counter",
+      "c": "f_counter_gate_c",
+      "=": "f_warehouse_shelf",
+      "f": "f_freezer"
+    }
+  }
+]

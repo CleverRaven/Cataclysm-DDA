@@ -1,0 +1,220 @@
+[
+  {
+    "type": "city_building",
+    "id": "store_unit_z1",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "store_unit_north" } ],
+    "flags": [ "LIGHTHOUSE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "store_unit",
+    "name": "store unit",
+    "sym": "^",
+    "color": "light_green",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_FUEL" ]
+  },
+  {
+    "om_terrain": [ "store_unit" ],
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "###########  ###########",
+        "#                      #",
+        "#                      #",
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "########################"
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [ { "chunks": [ "24x24_stores_straight", "24x24_stores_cross" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_cross",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_e" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 13,
+          "y": 0,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_w" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_e" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_w" ]
+        },
+        { "chunks": [ "24x24_stores_south" ], "x": 0, "y": 0, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 23, "y": 11, "flags": { "east": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_door_v" ], "x": 0, "y": 11, "flags": { "west": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 22, "y": 11, "flags": { "east": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 0, "y": 11, "flags": { "west": [ "ROAD" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_s" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w", "11x11_restaurant_s" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_w", "11x11_restaurant_s" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w", "11x11_restaurant_s" ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_straight",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "###########  ###########",
+        "###########  ###########",
+        "###########  ###########",
+        "###########  ###########",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "#         #  #         #",
+        "########################"
+      ],
+      "palettes": [ "base" ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 0,
+          "y": 0,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_e" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_n", "11x11_restaurant_e", "11x11_restaurant_w" ],
+          "x": 13,
+          "y": 0,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_n", "11x11_restaurant_w" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_w", "11x11_restaurant_e" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_e" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_w", "11x11_restaurant_e" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_w" ]
+        },
+        { "chunks": [ "24x24_stores_straight_south" ], "x": 0, "y": 0, "flags": { "south": [ "ROAD" ] } },
+        { "chunks": [ "2x2_door_h" ], "x": 11, "y": 23, "flags": { "south": [ "SIDEWALK" ] } },
+        { "chunks": [ "2x2_walkway" ], "x": 11, "y": 22, "flags": { "south": [ "ROAD" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "24x24_stores_straight_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [
+        {
+          "chunks": [ "11x11_restaurant_e", "11x11_restaurant_s" ],
+          "x": 0,
+          "y": 13,
+          "flags": { "west": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_e", "11x11_restaurant_w", "11x11_restaurant_s" ]
+        },
+        {
+          "chunks": [ "11x11_restaurant_w", "11x11_restaurant_s" ],
+          "x": 13,
+          "y": 13,
+          "flags": { "east": [ "ROAD" ] },
+          "else_chunks": [ "11x11_restaurant_e", "11x11_restaurant_w", "11x11_restaurant_s" ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

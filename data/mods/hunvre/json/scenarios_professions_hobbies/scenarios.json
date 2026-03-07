@@ -1,0 +1,16 @@
+[
+  {
+    "type": "scenario",
+    "id": "lonely_dawn",
+    "name": "Lonely Dawn",
+    "points": 0,
+    "description": "You wake up alone.",
+    "start_name": "Lonely Dawn",
+    "allowed_locs": [ "sloc_road_lighthouse", "sloc_space_hunvre" ],
+    "reveal_locale": true,
+    "distance_initial_visibility": 0,
+    "flags": [ "LONE_START" ],
+    "start_of_cataclysm": { "hour": 0, "day": 0, "season": "spring", "year": 0 },
+    "start_of_game": { "hour": 0, "day": 0, "season": "spring", "year": 0 }
+  }
+]

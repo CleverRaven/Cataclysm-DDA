@@ -1,0 +1,26 @@
+[
+  {
+    "id": "smart_phone_diffraction",
+    "copy-from": "smart_phone",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "diffraction smartphone" },
+    "description": "A popular, fancy smartphone.  Capable of taking photos with its integrated camera and illuminating an area with its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
+    "//": "stats from samsung galaxy s24",
+    "weight": "233 g",
+    "volume": "111 ml",
+    "longest_side": "15 cm",
+    "price": "1299 USD",
+    "price_postapoc": "1 USD",
+    "looks_like": "cell_phone",
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Interact with stuff",
+        "effect_on_conditions": [ "EOC_INTERACT_AIRLOCK" ]
+      }
+    ]
+  }
+]
