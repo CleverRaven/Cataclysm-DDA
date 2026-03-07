@@ -260,7 +260,7 @@
       { "item": "two_way_radio", "prob": 10 },
       { "item": "electric_lantern", "prob": 2 },
       { "item": "flashlight", "prob": 25 },
-      { "item": "medium_battery_cell", "charges": 56,  "prob": 5 },
+      { "item": "medium_battery_cell", "charges": 56, "prob": 5 },
       { "item": "jacket_evac", "prob": 30 },
       { "item": "emer_blanket", "prob": 30 }
     ]
