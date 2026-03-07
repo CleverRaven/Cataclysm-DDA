@@ -11,7 +11,7 @@
       { "item": "emer_blanket", "prob": 75 },
       { "group": "gasmask_bag_full", "prob": 2 },
       { "item": "flashlight", "prob": 50 },
-      { "item": "light_battery_cell", "prob": 10 },
+      { "item": "medium_battery_cell", "charges": 56, "prob": 10 },
       { "item": "lighter", "prob": 20, "charges": [ 60, 100 ] },
       { "item": "whistle", "prob": 70 },
       { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },

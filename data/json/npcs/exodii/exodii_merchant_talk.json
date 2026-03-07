@@ -130,20 +130,32 @@
     "id": "TALK_EXODII_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_effect": "u_exodii_interaction_timer_short",
-      "yes": [
-        "Back in a blink and a whiff, eh?",
-        { "gendered_line": "Forgot sommat?", "relevant_genders": [ "u" ] },
-        "Ah, a returnin', an I'm ken."
-      ],
+      "u_has_bionics": "bio_robofac_xmarm",
+      "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
       "no": {
-        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
-        "yes": [
-          "&\"And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
-          "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
-          "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
-        ],
-        "no": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and raises its hand in a surprisingly natural motion of greeting.  A gravelly voice resonates from unseen speakers in the steel frame.  Its tone is bizarrely normal, in complete contrast with everything else around you.  \"Oy, you ain't dead.  Lookin' t'trade?\"  The accent sounds vaguely British, but not familiar; like a terrible imitation of Cockney."
+        "u_has_bionics": "bio_robofac_xmleg",
+        "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
+        "no": {
+          "u_has_bionics": "bio_robofac_xmback",
+          "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
+          "no": {
+            "u_has_effect": "u_exodii_interaction_timer_short",
+            "yes": [
+              "Back in a blink and a whiff, eh?",
+              { "gendered_line": "Forgot sommat?", "relevant_genders": [ "u" ] },
+              "Ah, a returnin', an I'm ken."
+            ],
+            "no": {
+              "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
+              "yes": [
+                "&\"And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
+                "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
+                "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
+              ],
+              "no": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and raises its hand in a surprisingly natural motion of greeting.  A gravelly voice resonates from unseen speakers in the steel frame.  Its tone is bizarrely normal, in complete contrast with everything else around you.  \"Oy, you ain't dead.  Lookin' t'trade?\"  The accent sounds vaguely British, but not familiar; like a terrible imitation of Cockney."
+            }
+          }
+        }
       }
     },
     "speaker_effect": [
@@ -170,40 +182,100 @@
     ],
     "responses": [
       {
+        "text": "What's going on?",
+        "topic": "TALK_EXODII_MERCHANT_Hates_Hub_Cyborgs",
+        "condition": {
+          "or": [
+            { "u_has_bionics": "bio_robofac_xmarm" },
+            { "u_has_bionics": "bio_robofac_xmleg" },
+            { "u_has_bionics": "bio_robofac_xmback" }
+          ]
+        }
+      },
+      {
         "text": "Who are you?  What is this place?",
         "topic": "TALK_EXODII_MERCHANT_New",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        },
         "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
       {
         "text": "What've you got for trade?",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        }
       },
       {
         "text": "Actually, I wanted to talk.",
         "topic": "TALK_EXODII_MERCHANT_Talk",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        }
       },
       {
         "text": "Can you do something for me?",
         "topic": "TALK_EXODII_MERCHANT_DoSomething",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        }
       },
       {
         "text": "I'm here to talk about a job.",
         "topic": "TALK_EXODII_MERCHANT_TalkJob",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        }
       },
       {
         "text": "Hell no, I'm out of here.",
-        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Just popping in to say hi.  See you later, alligator.",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
@@ -211,7 +283,10 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) < time('1 d')" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
+            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing"
@@ -221,7 +296,10 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) > time('1 d')" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
+            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete"
@@ -237,7 +315,10 @@
                 { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
                 { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } }
               ]
-            }
+            },
+            { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue"
@@ -1769,6 +1850,21 @@
       },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hates_Hub_Cyborgs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "We've had some tech and some workers go missing, and we've heard from a few trade partners that a certain bunker is offering stolen cybernetics.  Your bionics.  You didn't get them from around here.  You've got two minutes to get out of here.  You are not welcome here.  Got it?",
+      "str": "Shinies an' stompers missin', an' escoltin' a bunker offerin' stolen steelies.  Thine steelies.  Ne.  Ye ain't tassed from around here.  Ye've two minutes to traipse out o'here.  Ken it."
+    },
+    "responses": [
+      {
+        "text": "Two minutes to get out of here?  Ah, shit.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": "EOC_EXODII_HATES_YOU", "time_in_future": [ "100 seconds", "140 seconds" ] }
+      }
     ]
   }
 ]

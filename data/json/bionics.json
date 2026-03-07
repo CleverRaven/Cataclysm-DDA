@@ -1658,5 +1658,66 @@
         "values": [ { "value": "THROW_STR", "multiply": 0.5 }, { "value": "THROW_DAMAGE", "multiply": 0.25 } ]
       }
     ]
+  },
+  {
+    "id": "bio_robofac_xmleg",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-LEG" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered by swappable battery packs, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 30kg of extra weight.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR"
+    ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmleg" ]
+  },
+  {
+    "id": "bio_robofac_xmarm",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-ARM" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "WINGS_BIRD",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "WINGS_BAT",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE"
+    ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmarm" ]
+  },
+  {
+    "id": "bio_robofac_xmback",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-BACK" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your frame is exceptionally stable, increasing carry weight by 35% and modestly improving absorbed recoil and throwing ability.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "torso", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK", "INSECT_RESERVOIR" ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmback" ]
   }
 ]

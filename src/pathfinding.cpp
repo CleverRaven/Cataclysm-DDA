@@ -556,6 +556,21 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
                 }
             }
 
+            // Bare NO_FLOOR tiles without a trap: try to climb down, then close.
+            if( settings.avoid_traps && ( p_special & PathfindingFlag::Air ) ) {
+                tripoint_bub_ms below( p + tripoint::below );
+                if( valid_move( p, below, false, true ) ) {
+                    if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
+                        path_data_layer &layer_below = pf.get_layer( p.z() - 1 );
+                        pf.add_point( layer_below.gscore[parent_index] + 10,
+                                      layer_below.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                                      cur, below );
+                    }
+                }
+                layer.closed[index] = true;
+                continue;
+            }
+
             pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
         }
 

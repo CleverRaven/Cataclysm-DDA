@@ -79,15 +79,21 @@ jobs:
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
               console.log("The PR ID artifact does not contain a pull request number.")
             } else {
-              try {
-                github.rest.issues.removeLabel({
+              const { data: labels } = await github.rest.issues.listLabelsOnIssue({
+                issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const labelName = '${{ steps.setLabel.outputs.label }}';
+              if (labels.some(l => l.name === labelName)) {
+                await github.rest.issues.removeLabel({
                   issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  name: '${{ steps.setLabel.outputs.label }}'
-                })
-              } catch (e) {
-                console.log(e)
+                  name: labelName
+                });
+              } else {
+                console.log(`Label "${labelName}" not present on PR, skipping removal.`);
               }
             }
             
