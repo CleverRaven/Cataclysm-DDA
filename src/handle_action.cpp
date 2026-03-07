@@ -1848,9 +1848,20 @@ static void open_movement_mode_menu()
 
     for( size_t i = 0; i < modes.size(); ++i ) {
         const move_mode_id &curr = modes[i];
+
+        std::string label = curr->name();
+
+        const float required_moves = player_character.move_mode_switch_cost(
+                                         player_character.current_movement_mode(), curr );
+        const float required_seconds = required_moves / player_character.get_speed();
+
+        if( required_seconds > 0 ) {
+            label += string_format( _( " (%.2f s)" ), required_seconds );
+        }
+
         as_m.entries.emplace_back( static_cast<int>( i ), player_character.can_switch_to( curr ),
                                    curr->letter(),
-                                   curr->name() );
+                                   label );
     }
     as_m.entries.emplace_back( cycle,
                                player_character.can_switch_to( player_character.current_movement_mode()->cycle() ),
@@ -2327,7 +2338,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CYCLE_MOVE:
-            player_character.cycle_move_mode();
+            player_character.cycle_move_mode_skip_prone();
             break;
 
         case ACTION_CYCLE_MOVE_REVERSE:

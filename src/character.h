@@ -1051,6 +1051,7 @@ class Character : public Creature, public visitable
         void make_clatter_sound() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
+        float move_mode_switch_cost( const move_mode_id &old_mode, const move_mode_id &new_mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
