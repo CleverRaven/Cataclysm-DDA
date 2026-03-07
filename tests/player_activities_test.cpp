@@ -52,6 +52,7 @@ static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
@@ -134,6 +135,8 @@ static const ter_str_id ter_test_t_prying1( "test_t_prying1" );
 static const ter_str_id ter_test_t_prying2( "test_t_prying2" );
 static const ter_str_id ter_test_t_prying3( "test_t_prying3" );
 static const ter_str_id ter_test_t_prying4( "test_t_prying4" );
+
+struct bionic;
 
 TEST_CASE( "safecracking", "[activity][safecracking]" )
 {
@@ -255,7 +258,11 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player has a stethoscope" ) {
             dummy.clear_worn();
             dummy.remove_weapon();
+            dummy.add_bionic( bio_power_storage );
+            dummy.set_power_level( dummy.get_max_power_level() );
             dummy.add_bionic( bio_ears );
+            std::optional<bionic *> bio_opt = dummy.find_bionic_by_type( bio_ears );
+            dummy.activate_bionic( **bio_opt );
             here.furn_set( safe, furn_f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
             REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
