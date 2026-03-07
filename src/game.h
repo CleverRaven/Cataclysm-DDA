@@ -170,7 +170,7 @@ bool cleanup_at_end();
 // NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
-        friend class editmap;
+        friend class editmap_ui;
         friend class main_menu;
         friend class exosuit_interact;
         friend class swap_map;

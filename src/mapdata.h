@@ -648,6 +648,7 @@ struct map_data_common_t {
         }
 
         int symbol() const;
+        std::string symbol_str() const;
         nc_color color() const;
 
         const harvest_id &get_harvest() const;
