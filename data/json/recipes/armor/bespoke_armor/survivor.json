@@ -305,7 +305,7 @@
     "components": [
       [ [ "sheet_cotton", 170 ], [ "sheet_cotton_patchwork", 170 ] ],
       [ [ "sheet_canvas", 20 ], [ "sheet_canvas_patchwork", 20 ] ],
-      [ [ "sheet_fur", 20 ], [ "sheet_fur_patchwork", 20 ] ],
+      [ [ "tanned_pelt", 20 ], [ "sheet_fur_patchwork", 20 ] ],
       [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
       [ [ "thread_canvas", 300 ] ],
       [ [ "thread", 750 ] ],
@@ -329,7 +329,7 @@
     "components": [
       [ [ "sheet_cotton", 130 ], [ "sheet_cotton_patchwork", 130 ] ],
       [ [ "sheet_canvas", 16 ], [ "sheet_canvas_patchwork", 16 ] ],
-      [ [ "sheet_fur", 16 ], [ "sheet_fur_patchwork", 16 ] ],
+      [ [ "tanned_pelt", 16 ], [ "sheet_fur_patchwork", 16 ] ],
       [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
       [ [ "thread_canvas", 250 ] ],
       [ [ "thread", 500 ] ],
@@ -353,7 +353,7 @@
     "components": [
       [ [ "sheet_cotton", 220 ], [ "sheet_cotton_patchwork", 220 ] ],
       [ [ "sheet_canvas", 25 ], [ "sheet_canvas_patchwork", 25 ] ],
-      [ [ "sheet_fur", 25 ], [ "sheet_fur_patchwork", 25 ] ],
+      [ [ "tanned_pelt", 25 ], [ "sheet_fur_patchwork", 25 ] ],
       [ [ "sheet_nylon", 5 ], [ "sheet_nylon_patchwork", 5 ] ],
       [ [ "thread_canvas", 400 ] ],
       [ [ "thread", 1000 ] ],
