@@ -4726,7 +4726,7 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.",
     "category": [ "RAPTOR", "BIRD" ],
     "changes_to": [ "WINGS_BIRD" ],
     "points": 2,
@@ -4734,13 +4734,11 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 2,
-    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 50 },
-      { "part": "arm_r", "neutral": 50 },
-      { "part": "hand_l", "neutral": 10 },
-      { "part": "hand_r", "neutral": 10 }
+    "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_feathers_l" }, { "gain": "arm_feathers_r" } ]
+      }
     ]
   },
   {
