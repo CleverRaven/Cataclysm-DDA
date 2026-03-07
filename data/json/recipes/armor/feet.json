@@ -277,7 +277,7 @@
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_faux_fur_patchwork", 3 ], [ "sheet_faux_fur", 3 ] ],
       [ [ "sheet_leather", 3 ], [ "tanned_hide", 3 ], [ "sheet_leather_patchwork", 3 ] ],
-      [ [ [ "thread_canvas", 50 ] ] ]
+      [ [ "thread_canvas", 50 ] ]
     ]
   },
   {
@@ -305,7 +305,7 @@
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_faux_fur_patchwork", 3 ], [ "sheet_faux_fur", 3 ] ],
       [ [ "sheet_leather", 3 ], [ "tanned_hide", 3 ], [ "sheet_leather_patchwork", 3 ] ],
-      [ [ [ "thread_canvas", 45 ] ] ]
+      [ [ "thread_canvas", 45 ] ]
     ]
   },
   {
@@ -336,7 +336,7 @@
       [ [ "buckle_steel", 6 ], [ "snapfastener_steel", 12 ] ],
       [ [ "sheet_faux_fur_patchwork", 4 ], [ "sheet_faux_fur", 4 ] ],
       [ [ "sheet_leather", 4 ], [ "tanned_hide", 4 ], [ "sheet_leather_patchwork", 4 ] ],
-      [ [ [ "thread_canvas", 60 ] ] ]
+      [ [ "thread_canvas", 60 ] ]
     ]
   },
   {
@@ -489,7 +489,7 @@
       [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 15, "LIST" ] ],
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_leather", 6 ], [ "tanned_hide", 6 ], [ "sheet_leather_patchwork", 6 ] ],
-      [ [ [ "thread_canvas", 50 ] ] ]
+      [ [ "thread_canvas", 50 ] ]
     ]
   },
   {
@@ -516,7 +516,7 @@
       [ [ "wax_any", 3, "LIST" ], [ "any_tallow", 15, "LIST" ] ],
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_leather", 5 ], [ "tanned_hide", 5 ], [ "sheet_leather_patchwork", 5 ] ],
-      [ [ [ "thread_canvas", 45 ] ] ]
+      [ [ "thread_canvas", 45 ] ]
     ]
   },
   {
@@ -560,7 +560,7 @@
       [ [ "wax_any", 4, "LIST" ], [ "any_tallow", 20, "LIST" ] ],
       [ [ "buckle_steel", 6 ], [ "snapfastener_steel", 12 ] ],
       [ [ "sheet_leather", 8 ], [ "tanned_hide", 8 ], [ "sheet_leather_patchwork", 8 ] ],
-      [ [ [ "thread_canvas", 60 ] ] ]
+      [ [ "thread_canvas", 60 ] ]
     ]
   },
   {
@@ -676,7 +676,7 @@
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "sheet_leather", 3 ], [ "tanned_hide", 3 ], [ "sheet_leather_patchwork", 3 ] ],
-      [ [ [ "thread_canvas", 50 ] ] ]
+      [ [ "thread_canvas", 50 ] ]
     ]
   },
   {
@@ -705,7 +705,7 @@
       [ [ "buckle_steel", 4 ], [ "snapfastener_steel", 8 ] ],
       [ [ "sheet_fur_patchwork", 3 ], [ "tanned_pelt", 3 ] ],
       [ [ "sheet_leather", 3 ], [ "tanned_hide", 3 ], [ "sheet_leather_patchwork", 3 ] ],
-      [ [ [ "thread_canvas", 45 ] ] ]
+      [ [ "thread_canvas", 45 ] ]
     ]
   },
   {
@@ -734,7 +734,7 @@
       [ [ "buckle_steel", 6 ], [ "snapfastener_steel", 12 ] ],
       [ [ "sheet_fur_patchwork", 4 ], [ "tanned_pelt", 4 ] ],
       [ [ "sheet_leather", 4 ], [ "tanned_hide", 4 ], [ "sheet_leather_patchwork", 4 ] ],
-      [ [ [ "thread_canvas", 60 ] ] ]
+      [ [ "thread_canvas", 60 ] ]
     ]
   },
   {
@@ -763,7 +763,7 @@
       [ [ "wax_any", 4, "LIST" ], [ "any_tallow", 20, "LIST" ] ],
       [ [ "buckle_steel", 6 ], [ "snapfastener_steel", 12 ] ],
       [ [ "sheet_leather", 8 ], [ "tanned_hide", 8 ], [ "sheet_leather_patchwork", 8 ] ],
-      [ [ [ "thread_canvas", 60 ] ] ]
+      [ [ "thread_canvas", 60 ] ]
     ]
   },
   {
