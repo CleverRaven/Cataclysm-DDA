@@ -56,6 +56,7 @@
     "material": [ "anomaly" ],
     "symbol": "[",
     "volume": "500 ml",
+    "longest_side": "8 cm",
     "weight": "0 g",
     "pocket_data": [
       {
@@ -63,6 +64,8 @@
         "max_contains_volume": "10000 ml",
         "max_contains_weight": "10000 g",
         "max_item_length": "50 cm",
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.5,
         "rigid": true
       }
     ],
