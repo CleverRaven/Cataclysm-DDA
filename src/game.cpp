@@ -2163,7 +2163,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 // Default menu border color is different, this matches the border of the item info window.
                 action_menu.border_color = BORDER_COLOR;
 
-                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos, oThisItem.typeId() );
                 data.without_getch = true;
 
                 ui = std::make_unique<ui_adaptor>();

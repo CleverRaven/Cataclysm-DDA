@@ -225,6 +225,7 @@ class uistatedata
         int vmenu_monster_sort = 0;
         int vmenu_terfurn_sort = 0;
         std::set<itype_id> read_items;
+        std::set<itype_id> expanded_recipe_displays;
 
         // These five aren't serialized because deserialize can extract them
         // from the history

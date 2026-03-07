@@ -20,7 +20,7 @@ class iteminfo_window : public cataimgui::window
         cataimgui::bounds get_bounds() override;
 
     private:
-        item_info_data data;
+        item_info_data &data;
         point pos;
         int width;
         int height;

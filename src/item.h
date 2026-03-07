@@ -369,6 +369,8 @@ class item : public visitable
         bool is_estorable_exclusive() const;
         bool is_browsed() const;
         void set_browsed( bool browsed );
+        bool is_recipe_display_extended() const;
+        void set_recipe_display_expanded( bool browsed );
         /** @return if item can be copied as an e-file */
         bool is_ecopiable() const;
         /** @return if all contained e - files are browsed, or if this item is browsed */
