@@ -126,7 +126,7 @@ void diary::open_summary_page()
     add_to_change_list( get_diary_time_str( calendar::turn, time_acc() ) );
     add_to_change_list( "" );
     add_to_change_list( _( "You have survived:" ) );
-    add_to_change_list( get_diary_time_since_str( calendar::turn - calendar::start_of_cataclysm,
+    add_to_change_list( get_diary_time_since_str( calendar::time_since_cataclysm(),
                         time_acc(), false ) );
     add_to_change_list( _( "You have been playing for:" ) );
     add_to_change_list( get_diary_time_since_str( calendar::turn - calendar::start_of_game,

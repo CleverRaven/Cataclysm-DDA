@@ -1223,7 +1223,7 @@ double time_since_eval( const_dialogue const &d, char /* scope */,
     if( val.is_str() ) {
         std::string const &val_str = val.str( d );
         if( val_str == "cataclysm" ) {
-            ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
+            ret = to_turns<double>( calendar::time_since_cataclysm() );
         } else if( val_str == "midnight" ) {
             ret = to_turns<double>( time_past_midnight( calendar::turn ) );
         } else if( val_str == "noon" ) {
