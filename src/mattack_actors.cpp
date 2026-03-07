@@ -1459,6 +1459,11 @@ void polymorph_special::load_internal( const JsonObject &jo, const std::string &
     optional( jo, was_loaded, "poly_keep_speed", keep_speed, true );
     optional( jo, was_loaded, "poly_keep_hp", keep_hp, true );
     optional( jo, was_loaded, "poly_keep_anger", keep_anger, true );
+
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
 }
 
 bool polymorph_special::call( monster &z ) const

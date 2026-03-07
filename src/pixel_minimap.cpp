@@ -32,6 +32,7 @@
 #include "math_defines.h"
 #include "mdarray.h"
 #include "monster.h"
+#include "mtype.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "type_id.h"
@@ -106,7 +107,8 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
         //faction status (attacking or tracking) determines if red highlights get applied to creature
         const monster_attitude matt = m->attitude( &get_player_character() );
 
-        if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
+        if( ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) &&
+            !m->has_flag( mon_flag_APPEARS_NEUTRAL ) ) {
             const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
             result = adjust_color_brightness( mix_colors( result, red_pixel, mixture ), flicker );
         }
