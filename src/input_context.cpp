@@ -188,11 +188,8 @@ void input_context_stack_impl::push( std::shared_ptr<input_context_handle> const
     stack.push_back( context );
 }
 
-#if defined(__ANDROID__) || defined(TILES)
 input_context_stack_impl input_context::input_context_stack;
-#endif
 
-#if defined(__ANDROID__)
 void input_context::register_manual_key( manual_key mk )
 {
     // Prevent duplicates
@@ -214,7 +211,6 @@ void input_context::register_manual_key( int key, const std::string text )
 
     registered_manual_keys.push_back( manual_key( key, text ) );
 }
-#endif
 
 void input_context::register_action( const std::string &action_descriptor )
 {

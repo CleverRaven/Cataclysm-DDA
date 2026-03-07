@@ -227,7 +227,7 @@ void avatar::power_mutations()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     for( const auto &p : passive ) {
         ctxt.register_manual_key( cached_mutations[p].key, p.obj().name() );
     }
