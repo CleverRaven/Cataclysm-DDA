@@ -4784,6 +4784,76 @@
     ]
   },
   {
+    "id": "SKYISLAND_merchant_stall",
+    "type": "mission_definition",
+    "name": "Construct: Merchant Stall",
+    "description": "Completing this mission will instantly enhance your home island.\n\nCraft a Jangling Pouch from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Merchant Stall.  Build a structure where merchants from…somewhere…can come to your island and offer their wares to you.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_climatecontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_merchant_stall" },
+        {
+          "u_message": "You can't be the only person this is happening to, right?  Maybe there's a way to let others visit you, take time away from their islands to trade supplies or gear.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Infrastructure: Merchant Stall.  Build a structure where merchants from…elsewhere…can come to your island and offer their wares to you.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_merchant_stall = 1" ] },
+        { "u_forget_recipe": "buildkey_merchant_stall" },
+        { "run_eocs": "EOC_skyisland_build_merchant_stall" },
+        { "u_message": "Construction complete.  Merchants can now visit your island.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_merchant_stall",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Jangling Pouch" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Merchant Stall.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "gold" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_merchant_stall",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "platinum_ring", 1 ] ],
+      [ [ "money_fifty", 10 ] ],
+      [ [ "money_hundred", 5 ] ],
+      [ [ "gift_card", 5 ] ],
+      [ [ "gold_ring", 2 ] ],
+      [ [ "silver_ring", 3 ] ],
+      [ [ "copper_ring", 4 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_security1",
     "type": "mission_definition",
     "name": "Upgrade: Security Alpha",

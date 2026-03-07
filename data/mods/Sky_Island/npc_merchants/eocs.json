@@ -1,0 +1,81 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS",
+    "condition": { "and": [ { "one_in_chance": 7 } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_SKY_ISLAND_RANDOM_MERCHANTS_EXODII_CBM_MERCHANT", 1 ],
+          [ "EOC_SKY_ISLAND_RANDOM_MERCHANTS_HUMAN_AMMO_MERCHANT", 1 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_EXODII_CBM_MERCHANT",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_exodii_merchant_add",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_exodii_merchant_add",
+    "object": { "place_npcs": [ { "class": "si_exodii_cbm_merchant", "x": 12, "y": 10, "unique_id": "si_exodii_cbm_merchant" } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_HUMAN_AMMO_MERCHANT",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_human_ammo_merchant_add",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_human_ammo_merchant_add",
+    "object": { "place_npcs": [ { "class": "si_human_ammo_merchant", "x": 12, "y": 10, "unique_id": "si_human_ammo_merchant" } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_LEAVE",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_exodii_merchant_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "mapgen_update": "nest_sky_island_ammo_merchant_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_exodii_merchant_remove",
+    "object": { "remove_npcs": [ { "class": "si_exodii_cbm_merchant", "x": 12, "y": 10, "unique_id": "si_exodii_cbm_merchant" } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_ammo_merchant_remove",
+    "object": { "remove_npcs": [ { "class": "si_human_ammo_merchant", "x": 12, "y": 10, "unique_id": "si_human_ammo_merchant" } ] }
+  }
+]

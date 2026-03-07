@@ -1,0 +1,77 @@
+[
+  {
+    "type": "npc",
+    "id": "si_human_ammo_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_SKY_ISLAND_EXODII_CBM_MERCHANT",
+    "name_unique": "Andras",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SI_HUMAN_AMMO_MERCHANT",
+    "faction": "sky_island_traders",
+    "personality": { "aggression": -4, "bravery": -1, "collector": 6, "altruism": -1 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SKY_ISLAND_HUMAN_AMMO_MERCHANT",
+    "name": { "str": "Human Ammo Merchant" },
+    "job_description": "I sell people ammo in exchange for ammo.",
+    "traits": [
+      { "trait": "hair_messy", "variant": "red" },
+      { "trait": "eye_color", "variant": "blue" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "OPTIMIST" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 5 ] },
+    "bonus_int": { "rng": [ 0, 4 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "shopkeeper_item_group": [
+      { "group": "EXODII_CBM_Store_Tier1", "rigid": true },
+      { "group": "EXODII_CBM_Store_tier1_extra", "rigid": true },
+      { "group": "EXODII_CBM_Store_Tier2", "rigid": true },
+      {
+        "group": "EXODII_CBM_Store_Tier3",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 3" ] }
+      },
+      {
+        "group": "EXODII_CBM_Store_Tier4",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 4" ] }
+      }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_whitelist": "si_human_ammo_merchant_whitelist",
+    "weapon_override": "si_human_ammo_merchant_wield",
+    "carry_override": "si_human_ammo_merchant_carried",
+    "worn_override": "si_human_ammo_merchant_worn",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": 10 }
+    ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "si_human_ammo_merchant_whitelist",
+    "message": "<npcname> consults their book and says, \"We in ploom dælath, freond.\".",
+    "//~": "This is 'We deal in lead, friend'--ploom is from plwm, the Welsh word for lead, and dælath and freond are both from Old English.",
+    "entries": [ { "category": "ammo" } ]
+  }
+]
