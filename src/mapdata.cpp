@@ -724,11 +724,6 @@ int map_data_common_t::symbol() const
     return symbol_[season_of_year( calendar::turn )];
 }
 
-std::string map_data_common_t::symbol_str() const
-{
-    return std::string() + static_cast<char>( symbol() );
-}
-
 nc_color map_data_common_t::color() const
 {
     return color_[season_of_year( calendar::turn )];

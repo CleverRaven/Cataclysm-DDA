@@ -147,11 +147,11 @@ struct editmap_uistate {
 
     editmap_brush brush;
 
-    editmap_mode mode;
-    bool advanced_info_toggle;
-    bool blink;
-    bool run_post_process;
-    bool fast_scroll;
+    editmap_mode mode = editmap_mode::EMM_DRAWING;
+    bool advanced_info_toggle = false;
+    bool blink = false;
+    bool run_post_process = false;
+    bool fast_scroll = false;
 
     std::array<bool, SELECTABLE_ACTIONS> selected; // NOLINT(cata-serialize)
     tinymap *tmpmap_ptr = nullptr; // NOLINT(cata-serialize)

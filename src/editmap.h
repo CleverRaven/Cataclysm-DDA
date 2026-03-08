@@ -97,7 +97,7 @@ class editmap_ui : public cataimgui::window
         void draw_current_point_info();
         void draw_select_menu();
         // draw a colored symbol followed by a space and another string `info`
-        void draw_symbol_and_info( nc_color symbol_color, const std::string_view &symbol,
+        void draw_symbol_and_info( nc_color symbol_color, int symbol,
                                    nc_color draw_color, const std::string_view &info );
         /*
          * Move point 'editmap.target' via keystroke.
@@ -136,25 +136,25 @@ class editmap_ui : public cataimgui::window
 */
 struct editmap_brush {
     // the first selected point
-    tripoint_bub_ms origin;
+    tripoint_bub_ms origin = tripoint_bub_ms::invalid;
     // the second selected point
-    tripoint_bub_ms target;
+    tripoint_bub_ms target = tripoint_bub_ms::invalid;
 
     ter_id selected_terrain;
     furn_id selected_furniture;
     trap_id selected_trap;
     field_type_id selected_field;
-    int selected_radiation;
+    int selected_radiation = 0;
 
-    bool drawing_terrain;
-    bool drawing_furniture;
-    bool drawing_trap;
-    bool drawing_field;
-    bool drawing_radiation;
+    bool drawing_terrain = false;
+    bool drawing_furniture = false;
+    bool drawing_trap = false;
+    bool drawing_field = false;
+    bool drawing_radiation = false;
 
-    int selected_field_intensity;
+    int selected_field_intensity = 1;
 
-    editmap_shapetype shape_basic_brush;
+    editmap_shapetype shape_basic_brush = editmap_shapetype::editmap_point;
 
     std::vector<tripoint_bub_ms> brush_points; // NOLINT(cata-serialize)
 
@@ -162,7 +162,7 @@ struct editmap_brush {
     template <typename T_t>
     std::optional<int_id<T_t>> select_feature();
     std::optional<field_type_id> select_field();
-    int select_radiation();
+    int select_radiation() const;
 
     /*
      * Interactively select, resize, and move the list of target coordinates

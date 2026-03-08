@@ -89,7 +89,7 @@ std::string enum_to_string<editmap_shapetype>( editmap_shapetype data )
         case editmap_shapetype::editmap_circle: return _("Circle");
             // *INDENT-ON*
         default:
-            cata_fatal( "Invalid based_on_type in enum_to_string" );
+            cata_fatal( "Invalid editmap_shapetype in enum_to_string" );
     }
 }
 template<>
@@ -107,7 +107,7 @@ std::string enum_to_string<editmap_action>( editmap_action data )
         case editmap_action::SELECT_RADIATION: return _("SELECT_RADIATION");
             // *INDENT-ON*
         default:
-            cata_fatal( "Invalid based_on_type in enum_to_string" );
+            cata_fatal( "Invalid editmap_action in enum_to_string" );
     }
 }
 template<>
@@ -323,7 +323,6 @@ input_context editmap_ui::setup_input_context()
 
     ctxt.register_action( "EDITMAP_EDIT_ITEMS" );
     ctxt.register_action( "EDITMAP_EDIT_OVERMAP" );
-    ctxt.register_action( "EDITMAP_SHOW_ALL" ); // Only supported for curses
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     // Needed for timeout to be useful
@@ -348,7 +347,7 @@ template <typename T_t, typename T_id>
 void brush_set_feature( editmap_brush &brush, T_id &brush_selected, bool &brush_enabled )
 {
     std::optional<T_id> selected_ter = brush.select_feature<T_t>();
-    if( !!selected_ter ) {
+    if( selected_ter.has_value() ) {
         brush_selected = *selected_ter;
         if( !brush_enabled ) {
             brush_enabled = true;
@@ -367,6 +366,9 @@ void editmap_ui::handle_action()
     if( brush.shape_basic_brush == editmap_point ) {
         brush.origin = brush.target;
     }
+
+    brush.update_brush_points();
+
     std::string action;
 
     editmap_state.blink = true;
@@ -389,7 +391,7 @@ void editmap_ui::handle_action()
 
         ui_manager::redraw();
 
-        action = ictxt.handle_input( 1 );
+        action = ictxt.handle_input( 33 );
 
         std::optional<editmap_action> selected_action;
         for( int i = 0; i < SELECTABLE_ACTIONS; i++ ) {
@@ -679,26 +681,26 @@ void editmap_ui::draw_current_point_info()
                                                     here.get_abs( current_origin ).to_string() ) );
     */
     ImGui::Separator();
-    draw_symbol_and_info( terrain_type.color(), terrain_type.symbol_str(), draw_color,
+    draw_symbol_and_info( terrain_type.color(), terrain_type.symbol(), draw_color,
                           string_format( _( " Terrain: %s (#%d); move cost %d" ),
                                          terrain_type.id.str(), t.to_i(), terrain_type.movecost ) );
 
     const furn_id &f = here.furn( current_point );
     if( f.to_i() > 0 ) {
-        draw_symbol_and_info( furniture_type.color(), furniture_type.symbol_str(), draw_color,
+        draw_symbol_and_info( furniture_type.color(), furniture_type.symbol(), draw_color,
                               string_format( _( " Furniture: %s (#%d); move cost %d; move strength %d" ),
                                              furniture_type.id.str(), f.to_i(), furniture_type.movecost, furniture_type.move_str_req ) );
     }
 
     const trap &cur_trap = here.tr_at( current_point );
     if( !cur_trap.is_null() ) {
-        draw_symbol_and_info( cur_trap.color, std::string() + static_cast<char>( cur_trap.sym ), draw_color,
+        draw_symbol_and_info( cur_trap.color, cur_trap.sym, draw_color,
                               string_format( _( "Trap: %s (#%d)" ), cur_trap.id.str(), cur_trap.loadid.to_i() ) );
     }
 
     for( auto &fld : here.get_field( current_point ) ) {
         const field_entry &cur = fld.second;
-        draw_symbol_and_info( cur.color(), cur.symbol(), draw_color,
+        draw_symbol_and_info( cur.color(), cur.symbol().front(), draw_color,
                               string_format( _( "Field: %s (#%d); Intensity: %d (%s); Age: %d" ),
                                              cur.get_field_type().id().str(), cur.get_field_type().to_i(),
                                              cur.get_field_intensity(), cur.name(), to_turns<int>( cur.get_field_age() ) ) );
@@ -1421,7 +1423,7 @@ void editmap_ui::mapgen_preview( const real_coords &tc, oter_id previewed_omt ) 
 
     editmap_state.tmpmap_ptr = nullptr;
     // original om_ter wasn't changed, restore it
-    if( changed_oter_id ) {
+    if( !changed_oter_id ) {
         overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     cleartmpmap( tmpmap );
@@ -1609,20 +1611,20 @@ void editmap_brush::serialize( JsonOut &json ) const
 
 void editmap_brush::deserialize( const JsonObject &jo )
 {
-    mandatory( jo, false, "origin", origin );
-    mandatory( jo, false, "target", target );
-    mandatory( jo, false, "selected_terrain", selected_terrain );
-    mandatory( jo, false, "selected_furniture", selected_furniture );
-    mandatory( jo, false, "selected_trap", selected_trap );
-    mandatory( jo, false, "selected_field", selected_field );
-    mandatory( jo, false, "selected_radiation", selected_radiation );
-    mandatory( jo, false, "drawing_terrain", drawing_terrain );
-    mandatory( jo, false, "drawing_furniture", drawing_furniture );
-    mandatory( jo, false, "drawing_trap", drawing_trap );
-    mandatory( jo, false, "drawing_field", drawing_field );
-    mandatory( jo, false, "drawing_radiation", drawing_radiation );
-    mandatory( jo, false, "selected_field_intensity", selected_field_intensity );
-    mandatory( jo, false, "shape_basic_brush", shape_basic_brush );
+    jo.read( "origin", origin );
+    jo.read( "target", target );
+    jo.read( "selected_terrain", selected_terrain );
+    jo.read( "selected_furniture", selected_furniture );
+    jo.read( "selected_trap", selected_trap );
+    jo.read( "selected_field", selected_field );
+    jo.read( "selected_radiation", selected_radiation );
+    jo.read( "drawing_terrain", drawing_terrain );
+    jo.read( "drawing_furniture", drawing_furniture );
+    jo.read( "drawing_trap", drawing_trap );
+    jo.read( "drawing_field", drawing_field );
+    jo.read( "drawing_radiation", drawing_radiation );
+    jo.read( "selected_field_intensity", selected_field_intensity );
+    jo.read( "shape_basic_brush", shape_basic_brush );
 }
 
 void editmap_uistate::serialize( JsonOut &json ) const
@@ -1639,18 +1641,18 @@ void editmap_uistate::serialize( JsonOut &json ) const
 
 void editmap_uistate::deserialize( const JsonObject &jo )
 {
-    mandatory( jo, false, "brush", brush );
-    mandatory( jo, false, "mode", mode );
-    mandatory( jo, false, "advanced_info_toggle", advanced_info_toggle );
-    mandatory( jo, false, "blink", blink );
-    mandatory( jo, false, "run_post_process", run_post_process );
-    mandatory( jo, false, "fast_scroll", fast_scroll );
+    jo.read( "brush", brush );
+    jo.read( "mode", mode );
+    jo.read( "advanced_info_toggle", advanced_info_toggle );
+    jo.read( "blink", blink );
+    jo.read( "run_post_process", run_post_process );
+    jo.read( "fast_scroll", fast_scroll );
 }
 
-void editmap_ui::draw_symbol_and_info( nc_color symbol_color, const std::string_view &symbol,
+void editmap_ui::draw_symbol_and_info( nc_color symbol_color, int symbol,
                                        nc_color draw_color, const std::string_view &info )
 {
-    cataimgui::TextColoredParagraph( symbol_color, symbol );
+    cataimgui::TextColoredParagraph( symbol_color, std::string() + static_cast<char>( symbol ) );
     cataimgui::TextColoredParagraph( draw_color, string_format( _( " %s" ), info ) );
     ImGui::NewLine();
 }
@@ -1674,9 +1676,13 @@ std::optional<field_type_id> editmap_brush::select_field()
             femenu.addentry( string_format( _( "%d: %s" ), i, intensity_level.name.translated() ) );
         }
 
-        const int current_field_intensity = selected_field_intensity;
-        femenu.entries[current_field_intensity].text_color = c_cyan;
-        femenu.selected = current_field_intensity > 0 ? current_field_intensity : 0;
+        if( selected_field_intensity >= static_cast<int>( selected_field->intensity_levels.size() ) ) {
+            selected_field_intensity = 1;
+        }
+        if( selected_field_intensity > 0 ) {
+            femenu.entries[selected_field_intensity - 1].text_color = c_cyan;
+            femenu.selected = selected_field_intensity - 1;
+        }
 
         femenu.query();
         if( femenu.ret >= 0 ) {
@@ -1688,10 +1694,12 @@ std::optional<field_type_id> editmap_brush::select_field()
     return selected_field_opt;
 }
 
-int editmap_brush::select_radiation()
+int editmap_brush::select_radiation() const
 {
-    int selected_radiation = 0;
-    query_int( selected_radiation, true, "Select radiation value:" );
+    int new_radiation = 0;
+    if( query_int( new_radiation, true, "Select radiation value:" ) ) {
+        return new_radiation;
+    }
     return selected_radiation;
 }
 

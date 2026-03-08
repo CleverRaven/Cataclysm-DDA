@@ -471,7 +471,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "hide_entries_override", hide_entries_override );
 
     //TODO: remove in 0.J
-    bool migrate_editmap_nsa_viewmode;
+    bool migrate_editmap_nsa_viewmode = false;
     jo.read( "editmap_nsa_viewmode", migrate_editmap_nsa_viewmode );
 
     jo.read( "overmap_blinking", overmap_blinking );
