@@ -480,6 +480,291 @@
   },
   {
     "type": "MIGRATION",
+    "id": "fsurvivor_jumpsuit",
+    "replace": "lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_fsurvivor_jumpsuit",
+    "replace": "xl_lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_fsurvivor_jumpsuit",
+    "replace": "xs_lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "h20survivor_jumpsuit",
+    "replace": "survivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_h20survivor_jumpsuit",
+    "replace": "xlsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_h20survivor_jumpsuit",
+    "replace": "xssurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "thick_h20survivor_jumpsuit",
+    "replace": "hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_thick_h20survivor_jumpsuit",
+    "replace": "xl_hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_thick_h20survivor_jumpsuit",
+    "replace": "xs_hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "h20survivor_jumpsuit_light",
+    "replace": "survivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_h20survivor_jumpsuit_light",
+    "replace": "xlsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_h20survivor_jumpsuit_light",
+    "replace": "xssurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_h20survivor",
+    "replace": "wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor",
+    "replace": "xl_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor",
+    "replace": "xs_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_h20survivor_thick",
+    "replace": "wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor_thick",
+    "replace": "xl_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor_thick",
+    "replace": "xs_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_light",
+    "replace": "wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor_light",
+    "replace": "xl_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor_light",
+    "replace": "xs_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor",
+    "replace": "wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor",
+    "replace": "xl_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor",
+    "replace": "xs_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_thick",
+    "replace": "wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor_thick",
+    "replace": "xl_wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor_thick",
+    "replace": "xs_wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_light",
+    "replace": "wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor_light",
+    "replace": "xl_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor_light",
+    "replace": "xs_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor",
+    "replace": "wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor",
+    "replace": "xl_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor",
+    "replace": "xs_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor_thick",
+    "replace": "wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor_thick",
+    "replace": "xl_wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor_thick",
+    "replace": "xs_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor_light",
+    "replace": "wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor_light",
+    "replace": "xl_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor_light",
+    "replace": "xs_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_lsurvivor",
+    "replace": "hood_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_lsurvivor",
+    "replace": "hood_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_lsurvivor",
+    "replace": "hood_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_fsurvivor",
+    "replace": "wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_fsurvivor",
+    "replace": "hood_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_fsurvivor",
+    "replace": "hood_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_fsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_fsurvivor",
+    "replace": "boots_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_fsurvivor",
+    "replace": "boots_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_fsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_fsurvivor",
+    "replace": "xl_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_fsurvivor",
+    "replace": "xs_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_lsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_lsurvivor",
+    "replace": "boots_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_lsurvivor",
+    "replace": "boots_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_lsurvivor",
+    "replace": "gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_lsurvivor",
+    "replace": "xl_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_lsurvivor",
+    "replace": "xs_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
     "id": "survivor_mess_kit",
     "replace": "oil_cooker"
   }

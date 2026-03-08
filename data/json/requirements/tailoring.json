@@ -75,6 +75,13 @@
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
+    "id": "vinylizing_standard",
+    "type": "requirement",
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "//": "Coating clothing in vinyl or equivalent, such as Flex Seal analogues.  This version involves melting and adhering flexible plastic.  5 sq cm / 5 grams.",
+    "components": [ [ [ "plastic_sheet_small", 1 ] ], [ [ "glue_strong", 4 ] ] ]
+  },
+  {
     "id": "armor_paper",
     "type": "requirement",
     "//": "Joining multiple sheets of paper together using duct tape, per 19 g of paper.  Time needed is 2 minutes per unit.",
