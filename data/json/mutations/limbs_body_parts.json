@@ -372,7 +372,16 @@
     "limb_type": "arm",
     "limb_scores": [ [ "grip", 0 ], [ "manip", 0 ], [ "lift", 0 ], [ "reaction", 0.05 ], [ "block", 0.25 ], [ "crawl", 0.05 ] ],
     "techniques": [ "VINE_LIMB_WHIP", "VINE_LIMB_TRIP" ],
-    "flags": [ "IGNORE_TEMP", "ALWAYS_BLOCK", "HEAL_OVERRIDE", "MEND_LIMB", "LIMB_UPPER", "NONSTANDARD_BLOCK" ],
+    "flags": [
+      "IGNORE_TEMP",
+      "ALWAYS_BLOCK",
+      "NO_LIMB_FIRST_AID",
+      "NON_FLESH_LIMB",
+      "HEAL_OVERRIDE",
+      "MEND_LIMB",
+      "LIMB_UPPER",
+      "NONSTANDARD_BLOCK"
+    ],
     "side": "right",
     "sub_parts": [ "vine_sublimb_ur" ],
     "feels_discomfort": false,
@@ -403,7 +412,16 @@
     "connected_to": "torso",
     "limb_type": "arm",
     "opposite_part": "vine_limb_upper_r",
-    "flags": [ "IGNORE_TEMP", "ALWAYS_BLOCK", "MEND_LIMB", "LIMB_UPPER", "NONSTANDARD_BLOCK" ],
+    "flags": [
+      "IGNORE_TEMP",
+      "ALWAYS_BLOCK",
+      "NO_LIMB_FIRST_AID",
+      "NON_FLESH_LIMB",
+      "HEAL_OVERRIDE",
+      "MEND_LIMB",
+      "LIMB_UPPER",
+      "NONSTANDARD_BLOCK"
+    ],
     "side": "left",
     "sub_parts": [ "vine_sublimb_ul" ]
   },
@@ -424,7 +442,16 @@
     "limb_type": "arm",
     "opposite_part": "vine_limb_lower_l",
     "side": "right",
-    "flags": [ "IGNORE_TEMP", "ALWAYS_BLOCK", "MEND_LIMB", "LIMB_LOWER", "NONSTANDARD_BLOCK" ],
+    "flags": [
+      "IGNORE_TEMP",
+      "ALWAYS_BLOCK",
+      "NO_LIMB_FIRST_AID",
+      "NON_FLESH_LIMB",
+      "HEAL_OVERRIDE",
+      "MEND_LIMB",
+      "LIMB_LOWER",
+      "NONSTANDARD_BLOCK"
+    ],
     "sub_parts": [ "vine_sublimb_lr" ]
   },
   {
@@ -444,7 +471,15 @@
     "limb_type": "arm",
     "opposite_part": "vine_limb_lower_r",
     "side": "left",
-    "flags": [ "IGNORE_TEMP", "ALWAYS_BLOCK", "MEND_LIMB", "LIMB_LOWER", "NONSTANDARD_BLOCK" ],
+    "flags": [
+      "ALWAYS_BLOCK",
+      "NO_LIMB_FIRST_AID",
+      "NON_FLESH_LIMB",
+      "HEAL_OVERRIDE",
+      "MEND_LIMB",
+      "LIMB_LOWER",
+      "NONSTANDARD_BLOCK"
+    ],
     "sub_parts": [ "vine_sublimb_ll" ]
   },
   {
