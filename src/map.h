@@ -1084,8 +1084,10 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
-        // Returns true if precipitation cannot reach this tile (roof, floor, or
-        // vehicle with ROOF/OPAQUE above). Uses floor_cache at z+1 when valid,
+        // Returns true if precipitation cannot reach this tile. Walks upward
+        // through z-levels looking for any blocking surface: solid floor,
+        // TRANSPARENT_FLOOR (glass/ramps/grates), NO_FLOOR_WATER, SUN_ROOF_ABOVE
+        // furniture, or vehicle with ROOF/OPAQUE. Uses floor_cache when valid,
         // falls back to direct terrain/furniture/vehicle checks otherwise.
         bool is_roofed( const tripoint_bub_ms &p ) const;
         /**

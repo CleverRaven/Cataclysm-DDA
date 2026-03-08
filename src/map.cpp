@@ -3478,52 +3478,65 @@ bool map::is_roofed( const tripoint_bub_ms &p ) const
     if( !inbounds( p ) ) {
         return false;
     }
-    if( p.z() < 0 ) {
-        return true;
-    }
-    if( p.z() + 1 > OVERMAP_HEIGHT ) {
-        return false;
-    }
 
-    const tripoint_bub_ms p_above = p + tripoint::above;
-    const level_cache *cache_above = get_cache_lazy( p_above.z() );
+    // Walk upward through z-levels looking for any surface that blocks
+    // precipitation. The first blocking surface found means this tile is roofed.
+    for( int z = p.z() + 1; z <= OVERMAP_HEIGHT; ++z ) {
+        const tripoint_bub_ms check_pos( p.x(), p.y(), z );
+        const level_cache *cache = get_cache_lazy( z );
 
-    // Fast path: use floor_cache at z+1 when it exists and is clean
-    if( cache_above && !cache_above->floor_cache_dirty ) {
-        if( cache_above->floor_cache[p_above.x()][p_above.y()] ) {
+        // Fast path: use floor_cache when it exists and is clean
+        if( cache && !cache->floor_cache_dirty ) {
+            if( cache->floor_cache[p.x()][p.y()] ) {
+                return true;
+            }
+            // Transparent floors (glass, ramps, grates) are marked as "no floor"
+            // in floor_cache but are physical surfaces that block precipitation
+            if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
+                return true;
+            }
+            // Water surfaces absorb precipitation before it reaches tiles below
+            if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
+                return true;
+            }
+            continue;
+        }
+
+        // Fallback: direct terrain/furniture/vehicle checks when cache is
+        // missing or dirty. Mirrors build_floor_cache semantics.
+
+        // TRANSPARENT_FLOOR checked first: blocks precipitation even when
+        // combined with vertical-transition flags like GOES_DOWN
+        if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
             return true;
         }
-        // Glass floors are marked as "no floor" in floor_cache but block precipitation
-        if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, p_above ) ) {
+
+        const bool no_floor = has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, check_pos );
+        const bool goes_down = has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, check_pos );
+
+        if( !no_floor && !goes_down ) {
             return true;
         }
-        return false;
-    }
 
-    // Fallback: direct terrain/furniture/vehicle checks when cache is missing or dirty.
-    // Mirrors build_floor_cache semantics (map.cpp:10038-10050).
-    const bool no_floor = has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p_above );
-    const bool no_floor_water = has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p_above );
-    const bool goes_down = has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p_above );
-
-    if( !no_floor && !no_floor_water && !goes_down ) {
-        // Solid floor or glass floor above - roofed. Glass (TRANSPARENT_FLOOR) is
-        // marked as no-floor in floor_cache, but it blocks precipitation.
-        return true;
-    }
-
-    // SUN_ROOF_ABOVE on furniture at current z overrides no-floor above
-    // (matching build_floor_cache which checks below_submap furniture)
-    if( has_flag_furn( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE, p ) ) {
-        return true;
-    }
-
-    // Check for vehicle roof/opaque parts above
-    const optional_vpart_position vp = veh_at( p_above );
-    if( vp ) {
-        if( vp->part_with_feature( VPFLAG_ROOF, false ) ||
-            vp->part_with_feature( VPFLAG_OPAQUE, false ) ) {
+        if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
             return true;
+        }
+
+        // SUN_ROOF_ABOVE on furniture at z-1 overrides no-floor at z
+        // (matching build_floor_cache which checks below_submap furniture)
+        const tripoint_bub_ms below_pos( p.x(), p.y(), z - 1 );
+        if( inbounds( below_pos ) &&
+            has_flag_furn( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE, below_pos ) ) {
+            return true;
+        }
+
+        // Check for vehicle roof/opaque parts at this level
+        const optional_vpart_position vp = veh_at( check_pos );
+        if( vp ) {
+            if( vp->part_with_feature( VPFLAG_ROOF, false ) ||
+                vp->part_with_feature( VPFLAG_OPAQUE, false ) ) {
+                return true;
+            }
         }
     }
 
