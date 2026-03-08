@@ -143,7 +143,6 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
-static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_NO_LIMB_FIRST_AID( "NO_LIMB_FIRST_AID" );
 static const json_character_flag
