@@ -426,7 +426,7 @@
     "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] } ] },
     "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
-      { "stat": "bash", "scale": -3 },
+      { "stat": "damage", "type": "bash", "scale": -3 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
