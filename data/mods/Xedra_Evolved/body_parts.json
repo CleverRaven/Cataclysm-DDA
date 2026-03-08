@@ -25,12 +25,14 @@
       [ "swim", 0.1 ],
       [ "crawl", 0.3 ]
     ],
-    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "ALWAYS_HEAL", "HEAL_OVERRIDE", "NO_LIMB_FIRST_AID", "NON_FLESH_LIMB" ],
     "side": "right",
     "sub_parts": [ "karma_hand" ],
     "drench_capacity": 0,
     "is_limb": true,
     "base_hp": 100,
+    "heal_bonus": 5,
+    "mend_rate": 1000,
     "smash_efficiency": 1.5,
     "smash_message": "You elbow-smash the %s.",
     "effects_on_hit": [
@@ -206,7 +208,7 @@
     "hit_difficulty": 0.95,
     "limb_type": "tail",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.35 ], [ "balance", 0.7 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
-    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "ALWAYS_HEAL", "HEAL_OVERRIDE", "NO_LIMB_FIRST_AID", "NON_FLESH_LIMB" ],
     "side": "right",
     "sub_parts": [ "devil_tail_tip" ],
     "unarmed_damage": [
@@ -218,6 +220,8 @@
     "drench_capacity": 0,
     "is_limb": true,
     "base_hp": 100,
+    "heal_bonus": 5,
+    "mend_rate": 1000,
     "smash_efficiency": 1.5,
     "smash_message": "You smash %s with your tail!"
   },
