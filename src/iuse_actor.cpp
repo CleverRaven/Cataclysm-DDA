@@ -143,8 +143,8 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
-static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+static const json_character_flag json_flag_NO_LIMB_FIRST_AID( "NO_LIMB_FIRST_AID" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
@@ -3820,8 +3820,8 @@ static bodypart_id pick_part_to_heal(
             return healed_part;
         }
 
-        if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
-            add_msg( m_info, _( "You can't use first aid on a bionic limb." ) );
+        if( healed_part->has_flag( json_flag_NO_LIMB_FIRST_AID ) ) {
+            add_msg( m_info, _( "You can't use first aid on that limb." ) );
             continue;
         }
 
