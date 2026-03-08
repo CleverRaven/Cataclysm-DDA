@@ -94,6 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // clear_mutations() removes traits but does not rebuild bodypart topology.
     // Rebuild anatomy now so tests see baseline human limbs (e.g. feet, not talons).
     dummy.set_body();
+    dummy.tally_organic_size();
     dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 
@@ -168,6 +169,8 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Final stored_kcal sync after all attribute resets.
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    // Recompute hp_max now that stats, body, and kcal are all finalized.
+    dummy.recalc_hp();
 }
 
 void arm_shooter( Character &shooter, const itype_id &gun_type,
