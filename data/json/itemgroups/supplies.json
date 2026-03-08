@@ -886,6 +886,7 @@
       [ "v8_combustion", 10 ],
       [ "veh_tools_workshop", 1 ],
       [ "welder", 1 ],
+      [ "welding_papr_helmet", 1 ],
       { "item": "soldering_iron", "prob": 1 },
       { "item": "soldering_iron_portable", "prob": 1, "charges": [ 0, 50 ] },
       [ "veh_tools_kitchen", 1 ],
