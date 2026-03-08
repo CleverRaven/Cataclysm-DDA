@@ -94,5 +94,18 @@
     ],
     "description": "150% damage, 120% move, attack multiple enemies, crit only, min 4 melee",
     "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_SALAMANDER_WING_BUFFET",
+    "name": "Wing Buffet",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "skill_requirements": [ { "name": "gramarye", "level": 3 } ],
+    "messages": [ "You buffet %s with your burning wings", "<npcname> buffets %s with their burning wings" ],
+    "description": "A slap of the wings.",
+    "attack_vectors": [ "vector_salamander_wing_slap" ],
+    "flat_bonuses": [ { "stat": "damage", "type": "heat", "scaling-stat": "gramarye", "scale": 1 }, { "stat": "movecost", "scale": 20 } ]
   }
 ]
