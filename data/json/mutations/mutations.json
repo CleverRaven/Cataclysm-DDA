@@ -6911,12 +6911,15 @@
     "ugliness": 5,
     "flags": [ "VINE_RAPPEL" ],
     "encumbrance_always": [ [ "torso", 10 ] ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
       }
     ]
   },
@@ -6940,12 +6943,15 @@
     "ugliness": 6,
     "flags": [ "VINE_RAPPEL" ],
     "spawn_item": { "type": "vine_30", "message": "You detach a vine from your body." },
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
       }
     ]
   },
