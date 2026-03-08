@@ -7,7 +7,7 @@
     "unarmed_allowed": true,
     "messages": [ "You slap %s with your wings", "<npcname> slaps %s with their wings" ],
     "description": "A slap of the wings.",
-    "attack_vectors": [ "vector_wing_slap" ],
+    "attack_vectors": [ "vector_ravenfolk_wing_slap" ],
     "flat_bonuses": [ { "stat": "movecost", "scale": 20 } ]
   },
   {
