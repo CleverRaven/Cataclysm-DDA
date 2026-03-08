@@ -6922,11 +6922,11 @@
         ]
       },
       {
-        "condition": { "and": [ { "math": [ "vine_limb_upper_r > 15" ] }, { "math": [ "vine_limb_lower_r > 15" ] } ] },
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_r') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_r') > 15" ] } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       },
       {
-        "condition": { "and": [ { "math": [ "vine_limb_upper_l > 15" ] }, { "math": [ "vine_limb_lower_l > 15" ] } ] },
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_l') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_l') > 15" ] } ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
