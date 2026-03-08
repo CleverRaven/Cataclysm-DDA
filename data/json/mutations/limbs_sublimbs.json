@@ -562,7 +562,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "vine_limb_upper_r",
-    "side": "left",
+    "side": "right",
     "opposite": "vine_sublimb_ul",
     "name_multiple": "vines",
     "name": "vine"
@@ -582,7 +582,7 @@
     "type": "sub_body_part",
     "max_coverage": 100,
     "parent": "vine_limb_lower_r",
-    "side": "left",
+    "side": "right",
     "opposite": "vine_sublimb_ll",
     "name_multiple": "vines",
     "name": "vine"

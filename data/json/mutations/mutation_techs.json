@@ -403,6 +403,19 @@
   },
   {
     "type": "technique",
+    "id": "VINE_LIMB_WHIP",
+    "name": "Vine whip",
+    "messages": [ "You whip %s with your vines", "<npcname> whips %s with their vines" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_vine_limb" ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "VINE_LIMB_TRIP",
     "name": "Vine trip",
     "messages": [ "Your vines snake around %s and knock them down", "<npcname> knocks down %s with their vines" ],
@@ -413,6 +426,7 @@
     "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] } ] },
     "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
+      { "stat": "bash", "scale": -3 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
