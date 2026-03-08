@@ -6919,7 +6919,8 @@
           { "gain": "vine_limb_upper_l" },
           { "gain": "vine_limb_lower_r" },
           { "gain": "vine_limb_lower_l" }
-        ]
+        ],
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },
@@ -6951,7 +6952,8 @@
           { "gain": "vine_limb_upper_l" },
           { "gain": "vine_limb_lower_r" },
           { "gain": "vine_limb_lower_l" }
-        ]
+        ],
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },
