@@ -380,6 +380,7 @@
     "env_protection": 15,
     "is_limb": true,
     "base_hp": 50,
+    "health_limit": 10,
     "heal_bonus": 1,
     "mend_rate": 5,
     "smash_efficiency": 1.5,
