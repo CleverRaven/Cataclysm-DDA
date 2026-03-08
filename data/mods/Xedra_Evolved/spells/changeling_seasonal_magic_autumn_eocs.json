@@ -5,12 +5,12 @@
     "effect": [
       {
         "math": [
-          "u_spell_low_duration = ( ( ( 5.62 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.85) + (u_skill('deduction') * 2.53) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+          "u_spell_low_duration = ( ( ( 5.62 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.85) + (u_skill('gramarye') * 2.53) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
         ]
       },
       {
         "math": [
-          "u_spell_high_duration = ( ( ( 12.35 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3.85) + (u_skill('deduction') * 4.98) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+          "u_spell_high_duration = ( ( ( 12.35 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3.85) + (u_skill('gramarye') * 4.98) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
         ]
       },
       {
@@ -72,7 +72,7 @@
             "math": [
               "u_val('morale')",
               "-=",
-              "(25 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2) + (u_skill('deduction') * 4) ) ) * global_what_is_the_season == 1 ? 0.5 : 1"
+              "(25 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2) + (u_skill('gramarye') * 4) ) ) * global_what_is_the_season == 1 ? 0.5 : 1"
             ]
           },
           { "u_add_effect": "effect_changeling_autumn_scare_animals", "duration": "5 minutes" }
@@ -94,12 +94,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('deduction') * 153.71) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
+              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('gramarye') * 153.71) ) ) * (global_what_is_the_season == 1 ? 0.6 : 1)"
             ]
           },
           {
             "math": [
-              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('deduction') * 398.52) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
+              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('gramarye') * 398.52) ) ) * (global_what_is_the_season == 1 ? 0.4 : 1)"
             ]
           }
         ]
