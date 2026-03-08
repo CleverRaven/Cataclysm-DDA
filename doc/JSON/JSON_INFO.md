@@ -1068,7 +1068,7 @@ reference at least one body part or sub body part.
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
 | `windage_effect`       | (_optional_) Effect applied to the limb when out of stamina.
 | `no_power_effect`      | (_optional_) Effect applied to the limb if a bionic limb is out of power.
-| `power_efficiency`     | (_optional_) Power usage of bionic limbs
+| `power_efficiency`     | (_optional_) Power usage of bionic limbs, measured in joules per stamina
 | `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
 | `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
