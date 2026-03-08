@@ -1060,11 +1060,15 @@ reference at least one body part or sub body part.
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
+| `feels_discomfort`     | (_optional ) Whether the limb will suffer from chafing if rigid armor is worn directly on it (default: `true`)
 | `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated.
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `windage_effect`       | (_optional_) Effect applied to the limb when out of stamina.
+| `no_power_effect`      | (_optional_) Effect applied to the limb if a bionic limb is out of power.
+| `power_efficiency`     | (_optional_) Power usage of bionic limbs
 | `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
 | `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
