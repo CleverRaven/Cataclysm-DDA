@@ -10,6 +10,7 @@
 #include <exception>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <random>
 #include <string>
@@ -52,6 +53,7 @@
 #include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
@@ -265,6 +267,21 @@ struct CataListener : Catch::TestEventListenerBase {
             }
             Messages::clear_messages();
         }
+    }
+
+    void testCaseEnded( Catch::TestCaseStats const &testCaseStats ) override {
+        TestEventListenerBase::testCaseEnded( testCaseStats );
+        if( !needs_game ) {
+            return;
+        }
+        // Reset lightweight global state that tests commonly modify without
+        // restoring.  Expensive operations like clear_map() stay manual.
+        calendar::turn = calendar::turn_zero;
+        weather_manager &weather = get_weather();
+        weather.weather_override = WEATHER_NULL;
+        weather.windspeed_override.reset();
+        weather.set_nextweather( calendar::turn );
+        weather.clear_temp_cache();
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
