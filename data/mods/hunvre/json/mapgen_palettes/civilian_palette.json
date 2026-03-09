@@ -48,28 +48,42 @@
     },
     "terrain": {
       "_": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-      ".": "t_concrete",
-      "1": "t_concrete",
-      "2": "t_concrete",
-      "t": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-      "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-      "C": "t_concrete",
-      "c": "t_concrete",
-      "d": "t_concrete",
       "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-      "=": "t_concrete",
-      "f": "t_concrete"
+      "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "g": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+      "b": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
     },
     "furniture": {
-      "d": "f_dumpster",
-      "1": "f_oven",
-      "2": "f_deep_fryer",
-      "t": "f_barstool",
-      "h": "f_chair",
+      "j": "f_sink",
+      "D": "f_dishwasher",
+      "E": "f_fridge",
+      "F": "f_heavy_duty_fridge",
+      "f": "f_freezer",
+      "O": "f_oven",
+      "o": "f_deep_fryer",
+      "A": "f_dumpster",
+      "a": "f_trashcan",
       "C": "f_counter",
       "c": "f_counter_gate_c",
-      "=": "f_warehouse_shelf",
-      "f": "f_freezer"
+      "d": "f_cupboard",
+      "T": "f_table",
+      "h": "f_chair",
+      "e": "f_barstool",
+      "g": "f_stool",
+      "b": "f_bench",
+      "=": "f_rack",
+      "H": "f_warehouse_shelf"
+    },
+    "items": {
+      "j": { "item": "SUS_kitchen_sink" },
+      "C": [ { "item": "any_crepe", "chance": 50 }, { "item": "kitchen_nonfood", "repeat": 10 } ],
+      "d": { "item": "kitchen_nonfood", "repeat": 10 },
+      "=": [ { "item": "crepe_ingredients", "repeat": 10 }, { "item": "crepe_filling_ingredients", "repeat": 10 } ],
+      "H": [ { "item": "crepe_ingredients", "repeat": 10 }, { "item": "crepe_filling_ingredients", "repeat": 10 } ],
+      "E": [ { "item": "crepe_ingredients", "repeat": 10 }, { "item": "crepe_filling_ingredients", "repeat": 10 } ],
+      "F": [ { "item": "crepe_ingredients", "repeat": 10 }, { "item": "crepe_filling_ingredients", "repeat": 10 } ],
+      "f": [ { "item": "crepe_ingredients", "repeat": 10 }, { "item": "crepe_filling_ingredients", "repeat": 10 } ]
     }
   }
 ]
