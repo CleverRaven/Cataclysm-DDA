@@ -3,17 +3,19 @@
     "type": "martial_art",
     "id": "xe_ma_style_arvore_elemental",
     "name": { "str": "Lashing Bough" },
-    "description": "This style of combat emulates the storm-whipped branches, entangling vines, concealing leaves, and stone-breaking roots of the depths of the forest.  Its attacks are also capable of inflicting poisons on your enemies.  It may not be used with weapons.  Some attacks are more effective, or only effective, on natural terrain.",
+    "description": "This style of combat emulates the storm-whipped branches, entangling vines, concealing leaves, and stone-breaking roots of the depths of the forest.  Its attacks are also capable of inflicting poisons on your enemies.  It may not be used with weapons, though the Bloodthorne Druids have adapted it their heartwhips.  Some attacks are more effective, or only effective, on natural terrain.",
     "initiate": [ "You open yourself up to the power of nature.", "%s stands tall like a mighty oak." ],
-    "learn_difficulty": 9,
-    "primary_skill": "unarmed",
-    "nonstandard_block": 4,
+    "learn_difficulty": 5,
+    "primary_skill": "gramarye",
+    "arm_block": 2,
+    "nonstandard_block": 3,
     "onpause_buffs": [
       {
         "id": "xe_ma_buff_arvore_taking_root",
         "name": "Taking Root",
         "description": "Planting yourself like the mighty tree, you prepare to endure an onslaught.\n\n+1 bonus block, +1.0 bash armor, +0.5 cut/stab armor per gramarye skill level.\nLasts 3 turns.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
         "melee_allowed": true,
         "max_stacks": 1,
         "buff_duration": 3,
@@ -21,19 +23,48 @@
         "flat_bonuses": [ { "stat": "armor", "type": "bash", "scaling-stat": "gramarye", "scale": 1 } ]
       }
     ],
+    "ondodge_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_dodge",
+        "name": "Reed in the Wind",
+        "description": "Bending like the supple reed, you prepare to strike back.\n\n+3 crit chance per gramarye skill level.\nLasts 3 turns, max 2 stacks.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 3,
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 3.0 } ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_block",
+        "name": "Grasping Brambles Defense",
+        "description": "Like thick brambles slowing a forester, you prepare to strike after a block.\n\n+3 crit chance per gramarye skill level.\nLasts 3 turns, max 2 stacks.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 3,
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 3.0 } ]
+      }
+    ],
+    "ongethit_buffs": [  ],
     "oncrit_buffs": [
       {
         "id": "xe_ma_buff_arvore_burrowing_ivy",
         "name": "Burrowing Ivy",
         "description": "Ivy does not destroy a wall all at once, but patiently over the years.\n\n+0.5 biological damage per gramarye skill level.\nLasts 4 turns.",
-        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
         "melee_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 4,
-        "flat_bonuses": [ { "stat": "damage", "type": "biologial", "scaling-stat": "gramarye", "scale": 0.5 } ]
+        "max_stacks": 2,
+        "buff_duration": 3,
+        "flat_bonuses": [ { "stat": "damage", "type": "biological", "scaling-stat": "gramarye", "scale": 0.5 } ]
       }
     ],
-    "techniques": [ "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE" ]
+    "techniques": [ "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE", "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE" ],
+    "weapons": [ "heartvine_whip" ]
   },
   {
     "type": "technique",
@@ -43,15 +74,42 @@
       "As you strike %s, roots burst from the ground around them",
       "<npcname> hits %s and roots burst from the ground around them"
     ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 4 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "attack_vectors": [ "vector_punch", "vector_kick" ],
+    "melee_allowed": true,
+    "attack_vectors": [ "vector_null" ],
     "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
     "tech_effects": [ { "id": "effect_hungry_roots", "chance": 100, "duration": 10, "on_damage": true } ],
     "flat_bonuses": [
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
+    "name": "Beneath the Falling Tree",
+    "messages": [ "You punch through %s's armor with a mighty blow", "<npcname> punches through %s's armor with a mighty blow" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 }, { "name": "gramarye", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "attack_vectors": [ "vector_punch", "vector_kick" ],
+    "eoc": [ "EOC_TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "gramarye", "scale": 0.75 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "gramarye", "scale": 0.75 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
+    "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+    "effect": [
+      { "math": [ "n_xe_ma_arvore_gramarye_skill = u_skill('gramarye')" ] },
+      { "npc_add_effect": "effect_xe_ma_arvore_beneath_falling_tree_armor_reduction", "duration": 4 }
     ]
   }
 ]

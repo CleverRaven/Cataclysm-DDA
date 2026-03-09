@@ -1,0 +1,17 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_ma_arvore_beneath_falling_tree_armor_reduction",
+    "name": [ "Fallen Tree" ],
+    "desc": [ "Your armor has been reduced." ],
+    "rating": "bad",
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "0.75 * u_xe_ma_arvore_gramarye_skill" ] } },
+          { "type": "cut", "add": { "math": [ "0.75 * u_xe_ma_arvore_gramarye_skill" ] } }
+        ]
+      }
+    ]
+  }
+]
