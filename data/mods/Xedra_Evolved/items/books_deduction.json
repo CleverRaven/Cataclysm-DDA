@@ -150,8 +150,7 @@
     "condition": { "and": [ { "math": [ "u_proficiency('prof_lucid_dreaming') < 100" ] }, { "math": [ "u_jung < 5" ] } ] },
     "effect": [
       { "u_assign_activity": "ACT_READING_BOOK_JUNG", "duration": "2 hours" },
-      { "u_message": "You begin reading about dreams and the subconscious.", "type": "good" },
-      { "math": [ "u_jung += 1" ] }
+      { "u_message": "You begin reading about dreams and the subconscious.", "type": "good" }
     ],
     "false_effect": [ { "u_message": "You've learned everything you can from this book.", "type": "good" } ]
   },
