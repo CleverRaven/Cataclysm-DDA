@@ -577,7 +577,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, true ) ) {
+    if( !is_adjacent( &t, false ) ) {
         return false;
     }
 
@@ -1027,8 +1027,20 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
+bool Character::can_reach_attack( const Creature &target ) const
+{
+    if( pos_bub().z() != target.pos_bub().z() ) {
+        return false;
+    }
+    return true;
+}
+
 void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
 {
+    if( this->pos_bub().z() != p.z() ) {
+        debugmsg( "%s tried to reach attack across z-level", disp_name() );
+        return;
+    }
     static const matec_id no_technique_id( "" );
     matec_id force_technique = no_technique_id;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */

@@ -754,6 +754,9 @@ void avatar_action::autoattack( avatar &you, map &m )
         if( reach == 1 && !you.is_adjacent( c, true ) ) {
             return true;
         }
+        if( !you.can_reach_attack( *c ) ) { // target on different z-level
+            return true;
+        }
         if( !c->is_npc() ) {
             return false;
         }
