@@ -1,5 +1,57 @@
 [
   {
-    
+    "type": "martial_art",
+    "id": "xe_ma_style_arvore_elemental",
+    "name": { "str": "Lashing Bough" },
+    "description": "This style of combat emulates the storm-whipped branches, entangling vines, concealing leaves, and stone-breaking roots of the depths of the forest.  Its attacks are also capable of inflicting poisons on your enemies.  It may not be used with weapons.  Some attacks are more effective, or only effective, on natural terrain.",
+    "initiate": [ "You open yourself up to the power of nature.", "%s stands tall like a mighty oak." ],
+    "learn_difficulty": 9,
+    "primary_skill": "unarmed",
+    "nonstandard_block": 4,
+    "onpause_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_taking_root",
+        "name": "Taking Root",
+        "description": "Planting yourself like the mighty tree, you prepare to endure an onslaught.\n\n+1 bonus block, +1.0 bash armor, +0.5 cut/stab armor per gramarye skill level.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 3,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ { "stat": "armor", "type": "bash", "scaling-stat": "gramarye", "scale": 1 } ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_burrowing_ivy",
+        "name": "Burrowing Ivy",
+        "description": "Ivy does not ddestroy a wall all at once, but patiently over the years.\n\n+0.5 biological damage per gramarye skill level.\nLasts 4 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 4,
+        "flat_bonuses": [ { "stat": "damage", "type": "biologial", "scaling-stat": "gramarye", "scale": 0.5 } ]
+      }
+    ],
+    "techniques": [ "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE",
+    "name": "Entangling Strike",
+    "messages": [
+      "As you strike %s, roots burst from the ground around them",
+      "<npcname> hits %s and roots burst from the ground around them"
+    ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "attack_vectors": [ "vector_punch", "vector_kick" ],
+    "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+    "tech_effects": [ { "id": "effect_hungry_roots", "chance": 100, "duration": 10, "on_damage": true } ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]
