@@ -198,6 +198,11 @@ Add `MUTATED_ANATOMY_ONLY` flag for gear that can only be worn by mutants
 Add PLANT_BLOOD monster flag, apply to defender of the wood in XE
 Add parabolic solar cooker -- a deployable, fuel-free cooking heat source
 Add drag feasibility and weight gates to zone sort batching
+Pat uses dialogue instead of pop-up messages
+Simplified Rubik's mission option dialogue
+Made nail amounts more realistic
+Ancilla doc can repair cybernetics
+Hub 01 cyborgs are not welcome at the Exodii castle
 
 
 
@@ -442,6 +447,13 @@ Pat can comment on Circuit Safari and cyborg players
 New stories to tell at the Ancilla bar
 The Exodii Hunter, a CBM merchant, will visit the Ancilla bar
 Hub 01 CBM interface and AutoDoc overhaul
+Pat can use Hub 01 Infolink & AR system
+Update nail making(camp-specific recipes)
+10 more shipping container varieties (119 total)
+Hub 01 cybernetics: XM-ARM, -LEG, and -BACK
+Move Feathered Arms to limbs
+Welding PAPR helmet and half-face PAPR mask
+Make vines limbs
 
 
 ## Interface:
@@ -595,6 +607,11 @@ Add deprioritize components of a recipe to the crafting menu
 Holster iuse just list items in pockets that are flagged as holsters
 Add goodbye option to Smokes' conversation hub
 Add the ability to whitelist the contents of a pocket
+Show total/spare sapce of MOLLE item in item info.
+Remove ability to toggle map memory from the players control
+Filter item info body part display by viewing character's anatomy
+Fixes some spelling and punctuation errors
+debug map editor ImGui conversion
 
 
 ## Mods:
@@ -1069,6 +1086,17 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 New Mod Megacity.
 [Mods]  Multiple mods have added supernatural means of blocking attacks from monsters more than 2 sizes up from the PC 
 [XE] Tier 5 vampires are predators who have extinguished all feeling from their hearts.
+[Magiclysm] Give Ravenfolk wings in addition to arms
+[MoM] Add `Tonallichicahualizmeya` trait for the `Cuāuhpilli Special Forces` profession
+[MoM] Telekinetic huge attack blocking
+[Sky Island] No HUB01 chop shop in sky island
+[Xedra Evolved] Elemental magic rework:  Arvore
+Master archer playstyle perk for Bombastic Perks
+[Magiclysm] Make the Longing slightly more lenient
+[MoM] Turn teleportation crystals into artifacts
+[Xedra Evolved] Move changelings to the `gramarye` skill for their powers
+[Sky Island] Portal storms only happen in the raid dimension
+[MoM] Add String dimension to "in nether" conditions
 
 
 
@@ -1212,6 +1240,10 @@ Clothing is subject to more considerations when sustaining damage from unarmed a
 Stat boost CBMs require power
 Blocking costs Stamina
 Can't block attacks from creatures two sizes greater than you
+bat ears are less ugly, and conflict with other ears
+Being poisoned penalizes your health
+Easier lying to Rubik about selling the warehouse to Hub 01
+The evil dev removes your favorite survivor item
 
 
 ## Bugfixes:
@@ -1676,6 +1708,32 @@ Fix sub_body_part string extractor crash on copy-from objects
 Add missing bounds checks for fake_part_at in vehicle damage and door closing
 Fix TextColoredParagraph breaking words mid-character
 Fix nondeterministic mutable overmap special placement
+fix visual glitches with a few mutations
+Respect external settings for character stat limits
+Fix flaky hunger test caused by stored_kcal/height desync in clear_character
+Hub01_CBM_Interface and NO_CBM_INSTALLATION cancel each other
+No CBM interface if you can't have CBMs
+Fix silent monster loss during horde materialization
+Fix zone sort batching ignoring walls when picking detour targets
+Fix flaky dormant monster materialization test
+Fix flaky liquid_projectiles_applies_effect test
+calculate the encumbrance of attached molle compatible pouch correctly
+Fix zone sorting and auto-move hangs when dragging a shopping cart
+Fix multicooker crashes when using nested recipe
+[MoM] Fix VERDANT HAND working when you can't use psi
+ondiment bottles so they spawn sealed in supermarkets.
+Digging up graves takes a very, very long time
+Fix nested mapgen areas silently overwriting parent furniture
+Fix main pathfinder routing through open air on upper floors
+Fix flaky vehicle ramp test
+LIXA fall EOC triggers properly if you step on tile instead of examine it
+[MoM] Fix Hacking Interface
+Fixes the battery spawns in the evac shelter and makes them useful again.
+[Bombastic Paths] Require minimum 5 walls for Closetland/Closetland Paths
+Fix segfault in scent_map::update after failed out-of-bounds teleport
+Fix all remaining light_battery_cell spawns to medium_battery_cell
+Fix non-deterministic hp_max in test helper clear_character()
+[Magiclysm] Rework ravenfolk attack vector
 
 
 ## Performance:
@@ -1919,6 +1977,15 @@ Add IWYU suggested fixes to PRs via reviewdog
 Skip test labeler for non-PR and cancelled workflow runs
 Fix CI skip-detection job references, test Makefile parallel safety, and test tag syntax
 Update vendored Catch2 to v2.13.10
+Fix overmap determinism test failure from static city init
+Converts various materials and flags entries from strings to arrays
+Add consistency checks for dangling references and fix existing ones
+Traits can control skill display
+Fix test labeler failing on nonexistent label removal
+Use suggestion blocks for IWYU review comments
+Add --rng-seed-fuzz flag to rerun tests with varying RNG seeds
+Fix test labeler skipping PRs from fork master branches
+Fix flaky Damage_type_effectiveness_vs_monster_resistance test
 
 
 ## Build:
