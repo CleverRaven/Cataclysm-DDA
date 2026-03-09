@@ -25,7 +25,7 @@
       {
         "id": "xe_ma_buff_arvore_burrowing_ivy",
         "name": "Burrowing Ivy",
-        "description": "Ivy does not ddestroy a wall all at once, but patiently over the years.\n\n+0.5 biological damage per gramarye skill level.\nLasts 4 turns.",
+        "description": "Ivy does not destroy a wall all at once, but patiently over the years.\n\n+0.5 biological damage per gramarye skill level.\nLasts 4 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "melee_allowed": true,
         "max_stacks": 1,
