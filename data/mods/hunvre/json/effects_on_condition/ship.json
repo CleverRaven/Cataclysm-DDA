@@ -52,5 +52,20 @@
         { "u_message": "The lights turn back on." }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_talk_spawn",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": { "open_dialogue": { "topic": "talk_spawn" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_teleport_to_bed",
+    "effect": [
+      { "u_location_variable": { "context_val": "bed" }, "target_params": { "om_terrain": "hab_unit", "z": 0 } },
+      { "u_teleport": { "context_val": "bed" }, "force": true }
+    ]
   }
 ]
