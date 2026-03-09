@@ -440,6 +440,8 @@
       },
       [ "clamp", 10 ],
       [ "goggles_welding", 80 ],
+      [ "welding_papr_helmet", 40 ],
+      { "group": "papr_kit", "prob": 20 },
       [ "thread_cutting_set", 40 ],
       { "item": "graphite", "prob": 40, "charges": [ 50, 12500 ] }
     ]
@@ -798,6 +800,7 @@
       [ "xacto", 4 ],
       { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "papr_kit", "prob": 5 },
+      [ "papr_half_mask", 5 ],
       { "group": "cotton_ball_bag_full", "prob": 2 },
       { "group": "box_of_batteries_random", "prob": 25 },
       { "group": "ammo_heavy_batteries_full", "prob": 25 },
@@ -863,6 +866,8 @@
       { "group": "duct_tape_roll_part", "prob": 8 },
       { "item": "misc_repairkit", "prob": 15 },
       { "item": "welder", "prob": 10 },
+      { "group": "papr_kit", "prob": 5 },
+      [ "welding_papr_helmet", 5 ],
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [

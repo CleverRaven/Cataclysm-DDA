@@ -4674,7 +4674,9 @@ trait_id Character::random_good_trait()
 trait_id Character::random_bad_trait()
 {
     return get_random_trait( [this]( const mutation_branch & mb ) {
-        return mb.points < 0 && ( mb.chargen_allow_npc || is_avatar() );
+        return mb.points < 0 &&
+               ( ( !is_avatar() && mb.chargen_allow_npc ) ||
+                 ( is_avatar() && mb.random_start_allowed ) );
     } );
 }
 

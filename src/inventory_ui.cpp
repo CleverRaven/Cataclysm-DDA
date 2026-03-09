@@ -367,7 +367,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
     json.member( "unload_auto_contain", unload_auto_contain );
     json.member( "hide_entries_override", hide_entries_override );
-    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
     json.member( "overmap_show_map_notes", overmap_show_map_notes );
@@ -423,6 +422,8 @@ void uistatedata::serialize( JsonOut &json ) const
     overmap_sidebar_state.serialize( json );
     json.member( "consume_menu_uistate" );
     consume_uistate.serialize( json );
+    json.member( "editmap_uistate" );
+    editmap_state.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -462,7 +463,11 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
     jo.read( "unload_auto_contain", unload_auto_contain );
     jo.read( "hide_entries_override", hide_entries_override );
-    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+
+    //TODO: remove in 0.J
+    bool migrate_editmap_nsa_viewmode = false;
+    jo.read( "editmap_nsa_viewmode", migrate_editmap_nsa_viewmode );
+
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
     jo.read( "overmap_show_map_notes", overmap_show_map_notes );
@@ -486,6 +491,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "tileset_zoom", tileset_zoom );
     jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
+    jo.read( "editmap_uistate", editmap_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
