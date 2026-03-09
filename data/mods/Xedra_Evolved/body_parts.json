@@ -341,7 +341,7 @@
     "limb_type": "wing",
     "opposite_part": "salamander_wing_r",
     "side": "left",
-    "sub_parts": [ "karma_hand" ]
+    "sub_parts": [ "salamander_wing_subpart_l" ]
   },
   {
     "id": "salamander_wing_subpart_l",
