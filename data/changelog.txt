@@ -447,12 +447,7 @@ Pat can comment on Circuit Safari and cyborg players
 New stories to tell at the Ancilla bar
 The Exodii Hunter, a CBM merchant, will visit the Ancilla bar
 Hub 01 CBM interface and AutoDoc overhaul
-Pat can use Hub 01 Infolink & AR system
-Update nail making(camp-specific recipes)
-10 more shipping container varieties (119 total)
 Hub 01 cybernetics: XM-ARM, -LEG, and -BACK
-Move Feathered Arms to limbs
-Welding PAPR helmet and half-face PAPR mask
 Make vines limbs
 
 
@@ -604,13 +599,10 @@ Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
 Add missing components to view priority from crafting menu
 Add deprioritize components of a recipe to the crafting menu
-Holster iuse just list items in pockets that are flagged as holsters
-Add goodbye option to Smokes' conversation hub
 Add the ability to whitelist the contents of a pocket
 Show total/spare sapce of MOLLE item in item info.
 Remove ability to toggle map memory from the players control
 Filter item info body part display by viewing character's anatomy
-Fixes some spelling and punctuation errors
 debug map editor ImGui conversion
 
 
@@ -1086,17 +1078,8 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 New Mod Megacity.
 [Mods]  Multiple mods have added supernatural means of blocking attacks from monsters more than 2 sizes up from the PC 
 [XE] Tier 5 vampires are predators who have extinguished all feeling from their hearts.
-[Magiclysm] Give Ravenfolk wings in addition to arms
-[MoM] Add `Tonallichicahualizmeya` trait for the `Cuāuhpilli Special Forces` profession
-[MoM] Telekinetic huge attack blocking
-[Sky Island] No HUB01 chop shop in sky island
-[Xedra Evolved] Elemental magic rework:  Arvore
+[Xedra Evolved] `gramarye` skill for Fae powers replaces Deduction for Fae themed characters
 Master archer playstyle perk for Bombastic Perks
-[Magiclysm] Make the Longing slightly more lenient
-[MoM] Turn teleportation crystals into artifacts
-[Xedra Evolved] Move changelings to the `gramarye` skill for their powers
-[Sky Island] Portal storms only happen in the raid dimension
-[MoM] Add String dimension to "in nether" conditions
 
 
 
@@ -1240,10 +1223,8 @@ Clothing is subject to more considerations when sustaining damage from unarmed a
 Stat boost CBMs require power
 Blocking costs Stamina
 Can't block attacks from creatures two sizes greater than you
-bat ears are less ugly, and conflict with other ears
 Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
-The evil dev removes your favorite survivor item
 
 
 ## Bugfixes:
@@ -1711,7 +1692,6 @@ Fix nondeterministic mutable overmap special placement
 fix visual glitches with a few mutations
 Respect external settings for character stat limits
 Fix flaky hunger test caused by stored_kcal/height desync in clear_character
-Hub01_CBM_Interface and NO_CBM_INSTALLATION cancel each other
 No CBM interface if you can't have CBMs
 Fix silent monster loss during horde materialization
 Fix zone sort batching ignoring walls when picking detour targets
@@ -1720,20 +1700,12 @@ Fix flaky liquid_projectiles_applies_effect test
 calculate the encumbrance of attached molle compatible pouch correctly
 Fix zone sorting and auto-move hangs when dragging a shopping cart
 Fix multicooker crashes when using nested recipe
-[MoM] Fix VERDANT HAND working when you can't use psi
-ondiment bottles so they spawn sealed in supermarkets.
-Digging up graves takes a very, very long time
-Fix nested mapgen areas silently overwriting parent furniture
+condiment bottles so they spawn sealed in supermarkets.
 Fix main pathfinder routing through open air on upper floors
 Fix flaky vehicle ramp test
 LIXA fall EOC triggers properly if you step on tile instead of examine it
-[MoM] Fix Hacking Interface
-Fixes the battery spawns in the evac shelter and makes them useful again.
-[Bombastic Paths] Require minimum 5 walls for Closetland/Closetland Paths
 Fix segfault in scent_map::update after failed out-of-bounds teleport
-Fix all remaining light_battery_cell spawns to medium_battery_cell
 Fix non-deterministic hp_max in test helper clear_character()
-[Magiclysm] Rework ravenfolk attack vector
 
 
 ## Performance:
