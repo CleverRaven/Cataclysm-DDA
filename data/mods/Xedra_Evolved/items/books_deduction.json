@@ -121,6 +121,59 @@
     "read_fun": -7
   },
   {
+    "id": "book_jung_man_and_his_symbols",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Man and his Symbols by Jung", "str_pl": "copies of Man and his Symbols by Jung" },
+    "description": "The landmark text about the inner workings of the unconscious mind—from the symbolism that unlocks the meaning of our dreams to their effect on our waking lives and artistic impulses—featuring more than a hundred images that break down Carl Jung’s revolutionary ideas.",
+    "//": "When possible, this should be a book.  There is currently no way to hook EOCs to reading a certain book.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "effect_on_conditions", "description": "Read the book.", "effect_on_conditions": [ "EOC_READ_BOOK_SYMBOLS" ] },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BOOK_SYMBOLS",
+    "condition": { "math": [ "u_skill('deduction') >= 3" ] },
+    "effect": [ { "run_eocs": [ "EOC_READ_BOOK_SYMBOLS_REAL" ] } ],
+    "false_effect": [ { "u_message": "You read the landmark book on dreaming and it's nature.  You feel like there is something more hidden in the text pertinent to this post Cataclysm world.", "type": "good" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_BOOK_SYMBOLS_REAL",
+    "condition": { "and": [ { "math": [ "u_proficiency('prof_lucid_dreaming') < 100" ] }, { "math": [ "u_jung < 5" ] } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_READING_BOOK_JUNG", "duration": "2 hours" },
+      { "u_message": "You begin reading about dreams and the subconscious.", "type": "good" },
+      { "math": [ "u_jung += 1" ] }
+    ],
+    "false_effect": [ { "u_message": "You've learned everything you can from this book.", "type": "good" } ]
+  },
+  {
+    "id": "ACT_READING_BOOK_JUNG",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "reading",
+    "based_on": "time",
+    "can_resume": true,
+    "rooted": true,
+    "completion_eoc": "EOC_PROFICIENCY_FROM_BOOK_JUNG"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PROFICIENCY_FROM_BOOK_JUNG",
+    "effect": [
+      { "math": [ "u_jung += 1" ] },
+      { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 1" ] }
+    ]
+  },
+  {
     "id": "book_deduction_lies",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
