@@ -278,7 +278,7 @@ struct CataListener : Catch::TestEventListenerBase {
         // restoring.  Expensive operations like clear_map() stay manual.
         calendar::turn = calendar::turn_zero;
         weather_manager &weather = get_weather();
-        weather.weather_override = WEATHER_NULL;
+        weather.weather_override = WEATHER_NULL; // NOLINT(cata-tests-must-restore-global-state)
         weather.windspeed_override.reset();
         weather.set_nextweather( calendar::turn );
         weather.clear_temp_cache();
