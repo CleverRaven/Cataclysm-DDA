@@ -3,7 +3,8 @@
     "type": "enchantment",
     "id": "ench_salamander_wings_flame",
     "condition": "ALWAYS",
-    "values": [ { "value": "LUMINATION", "add": 150 } ]
+    "values": [ { "value": "LUMINATION", "add": 150 } ],
+    "modified_bodyparts": [ { "gain": "salamander_wing_r" }, { "gain": "salamander_wing_l" } ]
   },
   {
     "type": "enchantment",
