@@ -200,7 +200,6 @@ Add parabolic solar cooker -- a deployable, fuel-free cooking heat source
 Add drag feasibility and weight gates to zone sort batching
 Pat uses dialogue instead of pop-up messages
 Simplified Rubik's mission option dialogue
-Made nail amounts more realistic
 Ancilla doc can repair cybernetics
 Hub 01 cyborgs are not welcome at the Exodii castle
 
