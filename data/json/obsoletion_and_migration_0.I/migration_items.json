@@ -2180,7 +2180,7 @@
   {
     "id": "stillsuit",
     "type": "MIGRATION",
-    "replace": "h20survivor_jumpsuit"
+    "replace": "wetsuit"
   },
   {
     "id": "m1911-460",

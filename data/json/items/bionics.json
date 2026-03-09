@@ -422,7 +422,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Occular Amplifiers CBM" },
+    "name": { "str": "Ocular Amplifiers CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of occult amplifiers which greatly enhance the user's vision, granting a +2 bonus to perception.",
     "price": "8 kUSD",

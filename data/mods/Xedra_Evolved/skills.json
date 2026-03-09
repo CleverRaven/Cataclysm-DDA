@@ -44,6 +44,6 @@
     "time_to_attack": { "min_time": 60, "base_time": 200, "time_reduction_per_level": 14 },
     "display_category": "display_interaction",
     "sort_rank": 26750,
-    "requires_any_traits": [ "ARVORE" ]
+    "requires_any_traits": [ "ARVORE", "CHANGELING_MAGIC" ]
   }
 ]

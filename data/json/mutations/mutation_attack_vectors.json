@@ -49,6 +49,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_vine_limb",
+    "limbs": [ "vine_limb_upper_r", "vine_limb_upper_l", "vine_limb_lower_r", "vine_limb_lower_l" ],
+    "contact_area": [ "vine_sublimb_ul", "vine_sublimb_ul", "vine_sublimb_lr", "vine_sublimb_ll" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_hoof_kick",
     "limbs": [ "hoof_l", "hoof_r" ],
     "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ],
