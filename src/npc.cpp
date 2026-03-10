@@ -1575,23 +1575,56 @@ static void choose_best_MA_style( npc *you )
 
 bool npc::wield( item &it )
 {
-    // dont unwield if you already wield the item
     if( is_wielding( it ) ) {
         return true;
     }
-    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded item
-    if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
-        stow_item( *get_wielded_item() );
-    }
-    if( !Character::wield( it ) ) {
-        return false;
-    }
-    if( get_wielded_item() ) {
-        // add_msg_if_player_sees does no internal npc name replacement
-        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
-                                get_wielded_item()->tname() );
+
+    item extracted;
+
+    item_location wielded = get_wielded_item();
+    if( has_wield_conflicts( it ) ) {
+        if( wielded && wielded->has_item( it ) ) {
+            // Item is inside the wielded container. Check wieldability
+            // before extracting - once extracted, reinsertion is not
+            // guaranteed (container may be stowed into a different pocket).
+            if( !can_wield( it ).success() ) {
+                return false;
+            }
+            // Compute retrieval cost while we still have the container
+            // reference. Uses item_retrieve_cost for skill-scaled draw
+            // speed, matching wield_contents semantics.
+            int retrieve_mv = item_retrieve_cost( it, *wielded );
+            extracted = it;
+            wielded->remove_item( it );
+            stow_item( *get_wielded_item() );
+            if( !Character::wield( extracted, retrieve_mv ) ) {
+                // can_wield passed above, so this should not happen.
+                // If it does, put the item into inventory or drop it.
+                map &here = get_map();
+                if( can_stash( extracted ) ) {
+                    i_add( extracted, true, nullptr, nullptr, true, false );
+                } else {
+                    here.add_item_or_charges( pos_bub( here ), extracted );
+                }
+                return false;
+            }
+        } else {
+            stow_item( *get_wielded_item() );
+            if( !Character::wield( it ) ) {
+                return false;
+            }
+        }
+    } else {
+        if( !Character::wield( it ) ) {
+            return false;
+        }
     }
 
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info,
+                                replace_with_npc_name( _( "<npcname> wields a %s." ) ),
+                                get_wielded_item()->tname() );
+    }
     choose_best_MA_style( this );
     invalidate_range_cache();
     return true;

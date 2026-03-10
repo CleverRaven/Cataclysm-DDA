@@ -695,7 +695,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     REQUIRE( hostile.get_wielded_item().get_item()->is_gun() );
 }
 
-TEST_CASE( "npc_ignores_weapons_inside_wielded_item", "[npc_ai]" )
+TEST_CASE( "npc_extracts_weapon_from_wielded_container", "[npc_ai]" )
 {
     g->faction_manager_ptr->create_if_needed();
 
@@ -731,13 +731,17 @@ TEST_CASE( "npc_ignores_weapons_inside_wielded_item", "[npc_ai]" )
     hostile.regen_ai_cache();
     CHECK( hostile.danger_assessment() > 1.0f );
 
-    // The NPC should NOT select the bat from inside the wielded backpack.
-    // evaluate_best_weapon returns &weap (the weapon itself) when nothing
-    // better is found, so check that best IS the weapon, not something inside it
+    // evaluate_best_weapon should find the bat inside the backpack
     item *best = hostile.evaluate_best_weapon();
     item_location wielded = hostile.get_wielded_item();
-    CHECK( best == wielded.get_item() );
+    CHECK( best != wielded.get_item() );
+    CHECK( best->typeId() == itype_bat );
 
-    // wield_better_weapon should not trigger a debugmsg
+    // wield_better_weapon should extract the bat and wield it
     hostile.wield_better_weapon();
+    REQUIRE( hostile.get_wielded_item() );
+    CHECK( hostile.get_wielded_item()->typeId() == itype_bat );
+
+    // The backpack should no longer be wielded
+    CHECK( hostile.get_wielded_item()->typeId() != itype_debug_backpack );
 }

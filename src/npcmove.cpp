@@ -4198,12 +4198,12 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
-        // The wielded weapon is already evaluated above. Skip it and its
-        // contents here - we can't extract items from inside it without
-        // stowing it first, and npc::wield() has no logic for that.
-        // TODO: teach npc::wield() to stow the weapon first, then remove this
         if( node == &weap ) {
-            return VisitResponse::SKIP;
+            // Weapon is already evaluated above with danger multiplier.
+            // Return NEXT to visit its contents (items inside containers
+            // that might be better weapons). CONTAINER pockets only -
+            // gun mags/mods are in non-CONTAINER pockets, not visited.
+            return VisitResponse::NEXT;
         }
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
