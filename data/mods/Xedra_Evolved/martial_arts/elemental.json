@@ -60,7 +60,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "max_stacks": 1,
-        "buff_duration": 3,
+        "buff_duration": 4,
         "flat_bonuses": [
           { "stat": "block", "scaling-stat": "unarmed", "scale": 0.75 },
           { "stat": "block_effectiveness", "scaling-stat": "gramarye", "scale": 1 }
@@ -154,6 +154,7 @@
     "name": "Beneath the Falling Tree",
     "messages": [ "You punch through %s's armor with a mighty blow", "<npcname> punches through %s's armor with a mighty blow" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 }, { "name": "gramarye", "level": 5 } ],
+    "weighting": 2,
     "unarmed_allowed": true,
     "crit_ok": true,
     "attack_vectors": [ "vector_punch", "vector_kick" ],
