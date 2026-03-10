@@ -64,6 +64,11 @@ struct disp_overmap_cache {
         const std::string &get_val() const {
             return _om_wgt_str;
         }
+
+        // Mark the cache as stale so it will be rebuilt on next access.
+        void invalidate() {
+            _center = tripoint_abs_omt::invalid;
+        }
 };
 
 struct disp_bodygraph_cache {
@@ -207,6 +212,9 @@ std::string weight_string( const Character &u );
 // Functions returning colorized string
 // gets the string that describes your health
 std::string health_string( const Character &u );
+
+// Force the overmap widget cache to rebuild on next access.
+void invalidate_overmap_cache();
 } // namespace display
 
 #endif // CATA_SRC_DISPLAY_H

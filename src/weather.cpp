@@ -469,9 +469,9 @@ void handle_weather_effects( const weather_type_id &w )
         }
         here.decay_fields_and_scent( decay_time );
         // Coarse correction to get us back to previously intended soaking rate.
-        const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR,
-                                   target.pos_bub() + tripoint::above );
-        if( calendar::once_every( 6_seconds ) && is_creature_outside( target ) && no_roof_above ) {
+        // Precipitation is vertical - only roofs/floors block it, not walls.
+        // is_roofed() walks upward through all z-levels for a complete check.
+        if( calendar::once_every( 6_seconds ) && !here.is_roofed( target.pos_bub() ) ) {
             wet_character( target, wetness );
         }
     }
