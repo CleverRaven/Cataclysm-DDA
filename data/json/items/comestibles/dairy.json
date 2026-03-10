@@ -140,7 +140,7 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -10,
+    "fun": -7,
     "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
