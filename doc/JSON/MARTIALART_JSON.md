@@ -129,7 +129,7 @@ Techniques are special attacks performed while using a given MA style.  These ar
   "unarmed_allowed": true,               // Can an unarmed character use this technique
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ],    // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed
   "melee_allowed": true,                 // Means that ANY melee weapon can be used, NOT just the MAs weapons
-  "powerful_knockback": true,            //
+  "powerful_knockback": true,            // Currently not hooked up to code
   "skill_requirements": [ { "name": "melee", "level": 3 } ],    // Skills and their minimum levels required to use this technique. Can be any skill
   "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],    // Minimum weapon damage required to use this technique. Can be any damage type
   "required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
