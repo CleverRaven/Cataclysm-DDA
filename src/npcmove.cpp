@@ -4198,6 +4198,13 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
+        if( node == &weap ) {
+            // Weapon is already evaluated above with danger multiplier.
+            // Return NEXT to visit its contents (items inside containers
+            // that might be better weapons). CONTAINER pockets only -
+            // gun mags/mods are in non-CONTAINER pockets, not visited.
+            return VisitResponse::NEXT;
+        }
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
