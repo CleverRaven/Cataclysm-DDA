@@ -662,6 +662,46 @@
     "name": "right terminus"
   },
   {
+    "id": "vine_sublimb_ur",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_upper_r",
+    "side": "right",
+    "opposite": "vine_sublimb_ul",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_ul",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_upper_l",
+    "side": "left",
+    "opposite": "vine_sublimb_ur",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_lr",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_lower_r",
+    "side": "right",
+    "opposite": "vine_sublimb_ll",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_ll",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_lower_l",
+    "side": "left",
+    "opposite": "vine_sublimb_lr",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
     "max_coverage": 25,

@@ -83,6 +83,11 @@ disp_overmap_cache::disp_overmap_cache()
     _width = 0;
 }
 
+void display::invalidate_overmap_cache()
+{
+    disp_om_cache.invalidate();
+}
+
 disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
     _var = var;

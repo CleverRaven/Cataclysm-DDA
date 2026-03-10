@@ -170,8 +170,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_VINES2( "VINES2" );
-static const trait_id trait_VINES3( "VINES3" );
 
 static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
 
@@ -2422,14 +2420,6 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             ret.add_damage( damage_bash, u.get_str() / 3.0f + 1.0f, 0, 1.0f, num_attacks );
         }
 
-        return ret;
-    }
-
-    if( id == trait_VINES2 || id == trait_VINES3 ) {
-        const int num_attacks = id == trait_VINES2 ? 2 : 3;
-        /** @EFFECT_STR increases damage with VINES* */
-        damage_instance ret;
-        ret.add_damage( damage_bash, u.get_str() / 2.0f, 0, 1.0f, num_attacks );
         return ret;
     }
 

@@ -19,6 +19,7 @@
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "display.h"
 #include "effect.h"
 #include "game.h"
 #include "game_constants.h"
@@ -1812,6 +1813,8 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
             overmap_buffer.set_seen( ava_pos + offset, om_vision_level::full );
         }
     }
+    // Terrain changed, so the overmap widget cache is stale.
+    display::invalidate_overmap_cache();
 }
 
 TEST_CASE( "multi-line_overmap_text_widget", "[widget][overmap]" )
