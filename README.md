@@ -64,7 +64,7 @@ We also have the following build guides:
 Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
 Special thanks to the contributors, including but not limited to, people below:
 <a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
