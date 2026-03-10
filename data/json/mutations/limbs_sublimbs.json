@@ -600,7 +600,7 @@
   {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 30,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_sole_r",
@@ -610,7 +610,7 @@
   {
     "id": "hoof_wall_l",
     "type": "sub_body_part",
-    "max_coverage": 35,
+    "max_coverage": 40,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_wall_r",
@@ -620,7 +620,7 @@
   {
     "id": "hoof_fetlock_l",
     "type": "sub_body_part",
-    "max_coverage": 20,
+    "max_coverage": 30,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_fetlock_r",
@@ -630,7 +630,7 @@
   {
     "id": "hoof_sole_r",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 30,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_sole_l",
@@ -640,7 +640,7 @@
   {
     "id": "hoof_wall_r",
     "type": "sub_body_part",
-    "max_coverage": 35,
+    "max_coverage": 40,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_wall_l",
@@ -650,7 +650,7 @@
   {
     "id": "hoof_fetlock_r",
     "type": "sub_body_part",
-    "max_coverage": 20,
+    "max_coverage": 30,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_fetlock_l",
