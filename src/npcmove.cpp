@@ -4198,6 +4198,13 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
+        // The wielded weapon is already evaluated above. Skip it and its
+        // contents here - we can't extract items from inside it without
+        // stowing it first, and npc::wield() has no logic for that.
+        // TODO: teach npc::wield() to stow the weapon first, then remove this
+        if( node == &weap ) {
+            return VisitResponse::SKIP;
+        }
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()

@@ -34,6 +34,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "pocket_type.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -692,4 +693,51 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 
     CAPTURE( hostile.get_wielded_item().get_item()->tname() );
     REQUIRE( hostile.get_wielded_item().get_item()->is_gun() );
+}
+
+TEST_CASE( "npc_ignores_weapons_inside_wielded_item", "[npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    point five_tiles_south = {0, 5};
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.set_body();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
+
+    // Wield a non-melee container with a melee weapon inside
+    item backpack( itype_debug_backpack );
+    backpack.force_insert_item( item( itype_bat ), pocket_type::CONTAINER );
+    REQUIRE( !backpack.empty() );
+    hostile.set_wielded_item( backpack );
+    REQUIRE( hostile.get_wielded_item() );
+    REQUIRE( !hostile.get_wielded_item()->is_melee() );
+
+    // Trigger danger awareness so the NPC considers switching weapons
+    arm_shooter( player_character, itype_M24 );
+    hostile.regen_ai_cache();
+    CHECK( hostile.danger_assessment() > 1.0f );
+
+    // The NPC should NOT select the bat from inside the wielded backpack.
+    // evaluate_best_weapon returns &weap (the weapon itself) when nothing
+    // better is found, so check that best IS the weapon, not something inside it
+    item *best = hostile.evaluate_best_weapon();
+    item_location wielded = hostile.get_wielded_item();
+    CHECK( best == wielded.get_item() );
+
+    // wield_better_weapon should not trigger a debugmsg
+    hostile.wield_better_weapon();
 }
