@@ -14,6 +14,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -47,6 +48,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
+#include "stats_tracker.h"
 #include "stomach.h"
 #include "talker.h"
 #include "translations.h"
@@ -56,6 +58,8 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+class event_statistic;
 
 /*
 General guidelines for writing dialogue functions
@@ -128,6 +132,18 @@ double option_eval( const_dialogue const &d, char /* scope */,
                     std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
     return get_option<float>( params[0].str( d ), true );
+}
+
+double event_statistic_eval( const_dialogue const &d, char /* scope */,
+                             std::vector<diag_value> const &params,
+                             diag_kwargs const & /* kwargs */ )
+{
+    string_id<event_statistic> stat_id( params[0].str( d ) );
+    if( !stat_id.is_valid() ) {
+        throw math::runtime_error( R"(Unknown event_statistic "%s")", stat_id.str() );
+    }
+    cata_variant val = get_stats().value_of( stat_id );
+    return diag_value( val ).dbl( d );
 }
 
 double addiction_intensity_eval( const_dialogue const &d, char scope,
@@ -1735,6 +1751,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "event_statistic", { "g", 1, event_statistic_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
