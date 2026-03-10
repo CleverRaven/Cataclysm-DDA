@@ -33,19 +33,21 @@
         "melee_allowed": true,
         "max_stacks": 1,
         "buff_duration": 3,
+        "forbidden_buffs_all": [ "xe_ma_buff_arvore_block" ],
         "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 3.0 } ]
       }
     ],
     "onblock_buffs": [
       {
         "id": "xe_ma_buff_arvore_block",
-        "name": "Grasping Brambles Defense",
+        "name": "Grasping Brambles",
         "description": "Like thick brambles slowing a forester, you prepare to strike after a block.\n\n+3 crit chance per gramarye skill level.\nLasts 3 turns, max 2 stacks.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
         "max_stacks": 1,
         "buff_duration": 3,
+        "forbidden_buffs_all": [ "xe_ma_buff_arvore_dodge" ],
         "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 3.0 } ]
       }
     ],
