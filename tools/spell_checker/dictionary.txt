@@ -113,11 +113,7 @@ Akron
 AKS
 al
 Al
-Al Lae
-Al Lagadeg
-Al Loaeg
-Al Louarn
-Al Loued
+Al
 alamosaurus
 Alan
 Alara
@@ -187,33 +183,7 @@ Amor
 amt
 Amur
 Amy
-An Andrev
-An Aod
-An Arvor
-An Dall
-An Danteg
-An Deniel
-An Draen
-An Drean
-An Duigoù
-An Eost
-An Eozen
-An Eskob
-An Habask
-An Hegarat
-An Heliaz
-An Henañv
-An Hir
-An Ivineg
-An Nedeleg
-An Noac'h
-An Normant
-An Olier
-An Ozhac'h
-An Toudig
-An Touz
-An Traoñ
-An Troadeg
+An
 Anáhuac
 ananassa
 Anatolia
@@ -227,6 +197,7 @@ Andorran
 Andover
 Andre
 Andrea
+Andrev
 Andrev
 Andrew
 Anduril
@@ -284,6 +255,7 @@ Anugitâ
 Anush
 anzu
 Ao
+Aod
 Aodren
 Aodrenel
 AoE
@@ -316,91 +288,8 @@ aquacultural
 Aquidneck
 aquilops
 Aquinnah
+Ar
 AR
-Ar Bailh
-Ar Balc'h
-Ar Barzh
-Ar Beleg
-Ar Berr
-Ar Beskont
-Ar Bihan
-Ar Bonizeg
-Ar Boser
-Ar Boulc'h
-Ar Bourc'hiz
-Ar Brizh
-Ar Bronneg
-Ar C'halvez
-Ar C'hamm
-Ar C'helleg
-Ar C'hlec'h
-Ar C'hloareg
-Ar C'hoant
-Ar C'homm
-Ar C'horneg
-Ar C'horoller
-Ar C'horr
-Ar C'hozh
-Ar C'hozhiliz
-Ar C'hozhmao
-Ar C'hraz
-Ar C'hrenn
-Ar C'hreñv
-Ar C'hromm
-Ar Falc'her
-Ar Flemm
-Ar Foll
-Ar Gareg
-Ar Garzh
-Ar Gelleg
-Ar Gevell
-Ar Gonideg
-Ar Gwenn
-Ar Gwiader
-Ar Gwilherm
-Ar Gwilhoù
-Ar Gwilhouz
-Ar Jezekael
-Ar Manac'h
-Ar Mañson
-Ar Maokaer
-Ar Marc'hadour
-Ar Marc'heg
-Ar Meliner
-Ar Menn
-Ar Merdi
-Ar Merer
-Ar Merien
-Ar Mestr
-Ar Meud
-Ar Meur
-Ar Mevel
-Ar Moal
-Ar Mogn
-Ar Moulleg
-Ar Pasker
-Ar Paveg
-Ar Pelleter
-Ar Pengwenn
-Ar Penneg
-Ar Peñseg
-Ar Pichon
-Ar Porzh
-Ar Prad
-Ar Ragenez
-Ar Roc'h
-Ar Roue
-Ar Roz
-Ar Sanker
-Ar Saout
-Ar Saoz
-Ar Senechal
-Ar Serjant
-Ar Skouarneg
-Ar Stêr
-Ar Strat
-Ar Taleg
-Ar Yonkour
 Arabella
 Arabian
 Arabic
@@ -460,6 +349,7 @@ artisanals
 Arturo
 Artus
 Arukh
+Arvor
 arvore
 Arwen
 ARX
@@ -631,9 +521,11 @@ Bahamian
 Bahman
 Bahrainian
 Baikonur
+Bailh
 Bakelite
 baklavas
 Balakrishnan
+Balc'h
 Balfour
 balisong
 balisongs
@@ -679,6 +571,7 @@ Barry
 barstool
 Bart
 baryonix
+Barzh
 basecamp
 basecamps
 baselard
@@ -730,6 +623,7 @@ Belarusian
 belcher
 belchers
 Belchertown
+Beleg
 Belgian
 Belgic
 Belizean
@@ -755,6 +649,7 @@ benzodiazepine
 benzos
 benzoylmethylecgonine
 Beowulf
+Bêr
 Berakhot
 Berc'hed
 Beretta
@@ -766,11 +661,13 @@ Berkeley
 Berkley
 Bermuda
 Bernardston
+Berr
 Berrehar
 Berrehoug
 berserkergang
 berserking
 Bervaz
+Beskont
 Besse
 Bessemer
 Bester
@@ -799,6 +696,7 @@ Bianchi
 Bienkowski
 biggun
 bigpack
+Bihan
 Bikkurim
 Bili
 Billerica
@@ -937,6 +835,7 @@ bonelike
 boneplate
 Bonespear
 Bonespears
+Bonizeg
 bookstrap
 bookstraps
 boomered
@@ -955,6 +854,7 @@ Borichenkos
 Boris
 bork
 Bosch
+Boser
 Bosnian
 Boston
 bot
@@ -962,6 +862,8 @@ Bothorell
 Botswanian
 Botticelli
 boudin
+Boulc'h
+Bourc'hiz
 Bourgogne
 Bourguignon
 bowhunter
@@ -1026,6 +928,7 @@ Bristol
 Britain
 British
 Brivael
+Brizh
 bro
 broadhead
 Broadway
@@ -1038,6 +941,7 @@ Brogyaga
 Brogyeki
 bronchodilator
 bronchospasm
+Bronneg
 Bronwenn
 Brookfield
 Brookline
@@ -1104,6 +1008,23 @@ buzzcut
 BX
 bzzt
 bzzz
+C'halvez
+C'hamm
+C'helleg
+C'hlec'h
+C'hloareg
+C'hoant
+C'homm
+C'horneg
+C'horoller
+C'horr
+C'hozh
+C'hozhiliz
+C'hozhmao
+C'hraz
+C'hrenn
+C'hreñv
+C'hromm
 C'hwerv
 C'hwiban
 c'mon
@@ -1587,6 +1508,7 @@ Dai
 Daime
 DaiZoom
 Dakota
+Dall
 Dallas
 Dalton
 dambreaker
@@ -1599,6 +1521,7 @@ Dania
 Daniel
 Danielle
 Danny
+Danteg
 Danvers
 Danya
 dao
@@ -1675,6 +1598,7 @@ demisexuality
 denarii
 denatonium
 Denez
+Deniel
 Deniela
 Denis
 Dennis
@@ -1827,6 +1751,7 @@ Dr
 Draco
 Dracula
 Dracut
+Draen
 draggers
 dragonail
 dragonails
@@ -1852,6 +1777,7 @@ dreamsmiths
 dreamstuff
 dreamt
 Dreamwalker
+Drean
 Dresden
 Dreyfus
 DRM
@@ -1872,6 +1798,7 @@ DSA
 Dubliner
 Dudley
 Duhring
+Duigoù
 dulcis
 Dumas
 dumbass
@@ -2042,6 +1969,8 @@ eolocanth
 eolocanths
 eoraptor
 eoraptors
+Eost
+Eozen
 Eozenez
 EPA
 épée
@@ -2081,6 +2010,7 @@ ESCA
 escalier
 Escher
 Esfandiary
+Eskob
 Eskrima
 espatier
 espatiers
@@ -2182,6 +2112,7 @@ Fairbairn
 Fairhaven
 FAL
 Fala
+Falc'her
 falcarius
 falcata
 Falmouth
@@ -2311,6 +2242,7 @@ Flavio
 FLDSMDFR
 flechette
 flechettes
+Flemm
 flensing
 fleshborg
 fleshborgs
@@ -2343,6 +2275,7 @@ FN
 foamcrete
 foie
 Foily
+Foll
 Folsom
 fona
 Fonzie
@@ -2485,6 +2418,7 @@ gardenling
 gardenlings
 Garder
 Gardner
+Gareg
 Gargantua
 garghoul
 garghouls
@@ -2496,6 +2430,7 @@ garous
 Garrity
 Garry
 Gary
+Garzh
 Gaskell
 gasmask
 gasmasks
@@ -2518,6 +2453,7 @@ Gehinnom
 geiger
 Gekkota
 gelato
+Gelleg
 Gemini
 gen
 Gen
@@ -2543,6 +2479,7 @@ Germans
 Gestae
 geta
 Getenok
+Gevell
 Gevuina
 Ghanaian
 ghast
@@ -2617,6 +2554,7 @@ Golemancy
 golfball
 goliath
 goliaths
+Gonideg
 Gonzales
 goops
 goopy
@@ -2768,6 +2706,7 @@ Gwendal
 Gwenegan
 Gwenina
 Gwenn
+Gwenn
 Gwennyn
 Gwenola
 Gwenole
@@ -2778,8 +2717,12 @@ Gwenvred
 Gwern
 Gwezh
 Gwezheneg
+Gwiader
 Gwilcher
 Gwilherm
+Gwilherm
+Gwilhoù
+Gwilhouz
 Gwinian
 Gwion
 Gwioñvarc'h
@@ -2789,6 +2732,7 @@ Gymnocladus
 Gyurza
 HAADF
 Haba
+Habask
 Haber
 hackPRO
 hacktivist
@@ -2908,6 +2852,7 @@ Hebrew
 Hebrides
 HEDP
 heelys
+Hegarat
 Hegarenn
 Hegel
 heh
@@ -2924,6 +2869,7 @@ Helena
 Helgouarc'h
 heli
 Heliand
+Heliaz
 Hellenism
 Hellenist
 Helliand
@@ -2939,6 +2885,7 @@ Hemeri
 hemolymph
 hemostatics
 hemovore
+Henañv
 Hendelson
 Heodez
 Herbert
@@ -2982,6 +2929,7 @@ Hingham
 Hinkle
 Hinsdale
 hippocastanum
+Hir
 Hiranyakesin
 Hispanic
 Historia
@@ -3314,6 +3262,7 @@ ITAS
 Ithaca
 IV
 Ivi
+Ivineg
 Ivona
 IWI
 IX
@@ -3385,6 +3334,7 @@ Jew
 jewelboxes
 Jewish
 Jews
+Jezekael
 Jezekela
 JHP
 JHVH
@@ -3739,10 +3689,12 @@ Lacey
 Lachesis
 LaCroix
 lactofermentation
+Lae
 Laemanctus
 Laevateinn
 Laevateinns
 Lagad
+Lagadeg
 Lagomorpha
 Lagrange
 lahmacun
@@ -3932,6 +3884,7 @@ LMGs
 LMOE
 loadout
 loadouts
+Loaeg
 lobotomizer
 lobotomizers
 lobsterman
@@ -3974,7 +3927,9 @@ Lottie
 Lou
 Louan
 Louarn
+Louarn
 Louboutin
+Loued
 Louie
 Louisa
 Louisiana
@@ -4136,6 +4091,7 @@ Malo
 Malsumis
 Maltese
 Malus
+Manac'h
 Manafusion
 Manatouched
 Manatricity
@@ -4163,6 +4119,7 @@ Mannwurst
 Mannwursts
 manoomin
 Mansfield
+Mañson
 manti
 Manu
 Manurhin
@@ -4172,11 +4129,14 @@ manwiches
 Maodan
 Maodez
 Maogann
+Maokaer
 Maori
 Māori
 mapgen
 maracuya
 Marblehead
+Marc'hadour
+Marc'heg
 Marconi
 Marcuse
 Marduk
@@ -4304,6 +4264,7 @@ Melchizedek
 melee
 Melen
 Melian
+Meliner
 Melissus
 Melitzanosalata
 Mell
@@ -4320,6 +4281,7 @@ menemen
 Menez
 Meng
 Mengi
+Menn
 menpo
 Mentos
 Menzoberranzan
@@ -4327,8 +4289,11 @@ merc
 merch
 Merck
 mercs
+Merdi
 Mereg
+Merer
 Mériadec
+Merien
 Merriam
 Merrimac
 Mertensia
@@ -4340,6 +4305,7 @@ Mesoamerican
 Mesoamericas
 mesopic
 Mesopotamian
+Mestr
 meta
 metalcutting
 metallics
@@ -4358,7 +4324,10 @@ Methuen
 Methusalah
 Metig
 Metzia
+Meud
+Meur
 MEUSOC
+Mevel
 Meven
 Mevena
 Mewenn
@@ -4492,6 +4461,7 @@ mmm
 mo
 Mo
 moabosaurus
+Moal
 moar
 mobbings
 Mobius
@@ -4501,6 +4471,7 @@ modded
 modding
 Moed
 Moezan
+Mogn
 mohawk
 mohawks
 Mohegan
@@ -4586,6 +4557,7 @@ motorhead
 motorpool
 motorsports
 moulinet
+Moulleg
 Mourchida
 mouthgear
 movesets
@@ -4754,6 +4726,7 @@ Ned
 Nedarim
 nedcolbertia
 Nedeleg
+Nedeleg
 Nedelouann
 Needham
 needlelike
@@ -4867,6 +4840,7 @@ nitrox
 Niven
 Nixon
 NMR
+Noac'h
 Noan
 Nobel
 nodachi
@@ -4896,6 +4870,7 @@ Nordic
 nords
 Norea
 Norfolk
+Normant
 normie
 norovirus
 Norse
@@ -4986,6 +4961,7 @@ Oklahoma
 Olaf
 Olam
 Olcott
+Olier
 Olier
 olieribos
 Oliver
@@ -5115,6 +5091,7 @@ oxygenator
 Oyasama
 oz
 Oz
+Ozhac'h
 Pablo
 pachira
 pachycephalosaurus
@@ -5187,6 +5164,7 @@ partygoers
 parvas
 Pask
 Paskell
+Pasker
 Paskweten
 passcode
 passionfruit
@@ -5198,6 +5176,7 @@ Patrick
 Paul
 pauldrons
 Paulus
+Paveg
 pawpads
 Paxton
 Payne
@@ -5219,15 +5198,19 @@ pecorino
 pedipalps
 Pedro
 pekmez
+Pelleter
 pelmeni
 Pembroke
 Pencak
 penetrator
 penetrators
+Pengwenn
 Penkaled
+Penneg
 Pennsylvania
 Pennywise
 Penobscot
+Peñseg
 pentaceratops
 Pentapanic
 Pentapanics
@@ -5295,6 +5278,7 @@ Piby
 Picarelli
 Picatinny
 Picchu
+Pichon
 pickelhaube
 pickelhauben
 pickhead
@@ -5398,6 +5382,7 @@ porrifolius
 Portland
 portmaster
 Portuguese
+Porzh
 pos
 Posteg
 posteriori
@@ -5423,6 +5408,7 @@ PPKs
 PPQ
 PPSh
 PR
+Prad
 Prado
 Pragnâ
 Prasna
@@ -5561,6 +5547,7 @@ radiophile
 radula
 Rafalen
 rafflesias
+Ragenez
 raggiana
 Ragnarok
 railgun
@@ -5765,6 +5752,7 @@ robogun
 roboguns
 robotfindscatan
 robotfindskitten
+Roc'h
 Rocco
 Rochester
 Rockbolt
@@ -5815,6 +5803,7 @@ Ross
 Roswell
 rothe
 Roudod
+Roue
 rougarou
 Rourke
 Rouz
@@ -5827,6 +5816,7 @@ Roy
 royale
 Royalston
 Royce
+Roz
 Rozenn
 RPG
 RPGs
@@ -5932,11 +5922,14 @@ Sangha
 Sanhedrin
 Sanitron
 Sankaracharya
+Sanker
 Sankhyayana
 Sanskrit
 Santa
 Santo
 Santos
+Saout
+Saoz
 sapiens
 Sapiovore
 Sapra
@@ -6069,6 +6062,7 @@ Semin
 semirural
 semitangible
 Semper
+Senechal
 Senegalese
 senet
 sensei
@@ -6080,6 +6074,7 @@ Serdyukov
 serendipnol
 serendipnols
 serialed
+Serjant
 Serra
 Serrano
 serrulata
@@ -6292,6 +6287,7 @@ skitterbot
 skitterbots
 Sklerijenn
 Sklyarov
+Skouarneg
 SKS
 skullgun
 skullguns
@@ -6505,6 +6501,7 @@ stenonychosaurus
 STENs
 Stephen
 Stephenson
+Stêr
 Steren
 Steve
 Steven
@@ -6564,6 +6561,7 @@ stovetops
 Str
 STR
 Stranglethorns
+Strat
 strategize
 stratoscomm
 streetfighter
@@ -6736,6 +6734,7 @@ Takayama
 takedown
 takedowns
 Talavakâra
+Taleg
 tallit
 Tallman
 Talmud
@@ -6988,7 +6987,9 @@ torvosaurus
 totipotent
 Toto
 töttchen
+Toudig
 tourmalines
+Touz
 Tov
 Tovarishch
 Townsend
@@ -7018,6 +7019,7 @@ translocators
 transplanar
 transubstantiated
 Transylvania
+Traoñ
 travelpack
 travelpacks
 Travers
@@ -7060,6 +7062,7 @@ Tripitaka
 Trismegistus
 Tristana
 Trixie
+Troadeg
 Trofica
 troglobite
 troglobites
@@ -7292,6 +7295,7 @@ Uzi
 Vaccinium
 Vachellia
 Vader
+Vadezour
 Vafthrúdnismál
 Vagrakkhedika
 Väinämöinen
@@ -7322,6 +7326,7 @@ var
 varanid
 Varanus
 Vargas
+Vari
 Vâsishtha
 Vâta
 vatforged
@@ -7693,9 +7698,9 @@ Yakov
 yandere
 yankee
 Yann
-Yann-Bêr
-Yann-Vadezour
-Yann-Vari
+Yann
+Yann
+Yann
 Yannez
 Yannig
 yari
@@ -7731,6 +7736,7 @@ Yochai
 Yoda
 Yom
 Yoma
+Yonkour
 yoroi
 Yoruba
 Yosef
