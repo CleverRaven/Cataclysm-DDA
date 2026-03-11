@@ -3,7 +3,7 @@
     "abstract": "mon_euzhvil",
     "type": "MONSTER",
     "name": { "str": "abstract euzhvil" },
-    "description": "Abstract euzhvil. If you see this it's a bug.",
+    "description": "Abstract euzhvil.  If you see this it's a bug.",
     "symbol": "E",
     "color": "red",
     "categories": [ "NULL" ],
