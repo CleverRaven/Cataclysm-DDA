@@ -118,7 +118,7 @@
     "type": "technique",
     "id": "TECH_XE_MA_ARVORE_VENOM_ATTACK",
     "name": "Nightshade's Touch",
-    "messages": [ "As you strike %s, you infuse them with noxious magicks.", "<npcname> hits %s." ],
+    "messages": [ "As you strike %s, you infuse them with the essence of nightshade.", "<npcname> hits %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
