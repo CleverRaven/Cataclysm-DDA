@@ -5,6 +5,6 @@
     "name": [ "Falling Tree" ],
     "desc": [ "Your armor has been reduced." ],
     "rating": "bad",
-    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 0.66666 } ] } ]
+    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 0.4 } ] } ]
   }
 ]
