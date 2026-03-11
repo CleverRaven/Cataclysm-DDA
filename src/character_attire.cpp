@@ -58,8 +58,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
-static const flag_id json_flag_ROBOFAC_LENS_ACCESSORY( "ROBOFAC_LENS_ACCESSORY" );
-static const flag_id json_flag_ROBOFAC_LENS_HELMET( "ROBOFAC_LENS_HELMET" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
 static const material_id material_acidchitin( "acidchitin" );
