@@ -105,7 +105,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "melee_allowed": true,
-    "attack_vectors": [ "vector_null" ],
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
     "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
     "condition_desc": "Must be outdoors and your opponent must be on diggable ground.",
     "tech_effects": [ { "id": "effect_hungry_roots", "chance": 100, "duration": 10, "on_damage": true } ],
@@ -123,7 +123,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "melee_allowed": true,
-    "attack_vectors": [ "vector_null" ],
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
     "required_buffs_any": [ "xe_ma_buff_arvore_block", "xe_ma_buff_arvore_block_increase" ],
     "eocs": [
       {
@@ -148,7 +148,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "melee_allowed": true,
-    "attack_vectors": [ "vector_null" ],
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
     "condition": { "or": [ { "u_has_trait": "VINES3" }, { "u_has_wielded_with_flag": "MAGIC_FOCUS" } ] },
     "condition_desc": "Must have Writhing Vines active or be wielding a heartvine whip",
     "disarms": true
@@ -163,7 +163,7 @@
     "crit_ok": true,
     "melee_allowed": true,
     "block_counter": true,
-    "attack_vectors": [ "vector_null" ],
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
     "eocs": [ "EOC_TECH_XE_MA_ARVORE_COUNTER_TRIP" ],
     "condition": {
       "and": [
@@ -195,7 +195,7 @@
     "weighting": 2,
     "unarmed_allowed": true,
     "crit_ok": true,
-    "attack_vectors": [ "vector_punch", "vector_kick" ],
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes" ],
     "required_buffs_any": [ "xe_ma_buff_arvore_burrowing_ivy" ],
     "eocs": [ "EOC_TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE" ],
     "flat_bonuses": [

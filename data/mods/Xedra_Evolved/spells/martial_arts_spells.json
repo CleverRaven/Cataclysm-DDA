@@ -14,9 +14,9 @@
     "magic_type": "xedra_arvore_magick",
     "spell_class": "ARVORE",
     "skill": "gramarye",
-    "min_dot": { "math": [ "0.3 * n_has_arvore_jagged_claw_out" ] },
-    "max_dot": { "math": [ "0.3 * n_has_arvore_jagged_claw_out" ] },
-    "min_duration": { "math": [ "800 * n_has_arvore_jagged_claw_out" ] },
-    "max_duration": { "math": [ "2000 * n_has_arvore_jagged_claw_out" ] }
+    "min_dot": { "math": [ "0.3 * u_has_arvore_jagged_claw_out" ] },
+    "max_dot": { "math": [ "0.3 * u_has_arvore_jagged_claw_out" ] },
+    "min_duration": { "math": [ "800 * u_has_arvore_jagged_claw_out" ] },
+    "max_duration": { "math": [ "2000 * u_has_arvore_jagged_claw_out" ] }
   }
 ]
