@@ -17,9 +17,11 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_drive( "drive" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gramarye( "gramarye" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
+static const skill_id skill_metaphysics( "metaphysics" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -74,7 +76,9 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
         std::make_pair( "launcher", SKILL_LAUNCHER ),
         std::make_pair( "drive", SKILL_DRIVE ),
         std::make_pair( "firstaid", SKILL_FIRSTAID ),
-        std::make_pair( "spellcraft", SKILL_SPELLCRAFT )
+        std::make_pair( "spellcraft", SKILL_SPELLCRAFT ),
+        std::make_pair( "metaphysics", SKILL_METAPHYSICS),
+        std::make_pair( "gramarye", SKILL_GRAMARYE )
     }
 };
 
@@ -142,6 +146,8 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
         std::make_pair( SKILL_DRIVE, translate_marker( "driving" ) ),
         std::make_pair( SKILL_FIRSTAID, translate_marker( "health care" ) ),
         std::make_pair( SKILL_SPELLCRAFT, translate_marker( "spellcraft" ) ),
+        std::make_pair( SKILL_METAPHYSICS, translate_marker( "metaphysics" ) ),
+        std::make_pair( SKILL_GRAMARYE, translate_marker( "gramarye" ) ),
     }
 };
 
@@ -384,6 +390,12 @@ float effect_scaling::get( const Character &u ) const
             break;
         case SKILL_SPELLCRAFT:
             bonus = scale * u.get_skill_level( skill_spellcraft );
+            break;
+        case SKILL_METAPHYSICS:
+            bonus = scale * u.get_skill_level( skill_metaphysics );
+            break;
+        case SKILL_GRAMARYE:
+            bonus = scale * u.get_skill_level( skill_gramarye );
             break;
         case STAT_NULL:
             bonus = scale;
