@@ -3,18 +3,23 @@ AAA
 AAC
 AAR
 AB
+Abalan
 Abanaderly
 abaya
 abayas
 Abbie
 Abby
 ABC
-Abdul
 Abdu'l
+Abdul
+Abegile
 Abelard
 Abenaki
 Aberystwyth
+Abgrall
+Abherve
 Abington
+Abiven
 abra
 Abraham
 Abrahamic
@@ -58,6 +63,9 @@ Adventist
 AE
 aegises
 Aeglidae
+Ael
+Aela
+Aelia
 Aelita
 aerarium
 aeroctinae
@@ -71,8 +79,8 @@ aetherically
 aetherspeaker
 aetherspeakers
 Afrinagân
-Afro
 afro
+Afro
 Agawam
 agender
 aggadic
@@ -80,11 +88,13 @@ Agila
 Agni
 Agnus
 Agra
+Ahez
 ahh
 ahistorical
 ahold
 Aiden
 Aimee
+Aina
 airhorn
 airjack
 airjacks
@@ -101,10 +111,16 @@ Akká
 AKM
 Akron
 AKS
-Al
 al
+Al
+Al Lae
+Al Lagadeg
+Al Loaeg
+Al Louarn
+Al Loued
 alamosaurus
 Alan
+Alara
 Alaskan
 alates
 Albanian
@@ -112,6 +128,8 @@ Albert
 Alberta
 albertonykus
 albertosaurus
+Albin
+Albina
 albuterol
 alchemies
 Alcott
@@ -127,6 +145,7 @@ Alfred
 Algerian
 Alhazred
 Alice
+Alis
 alleghaniensis
 Allen
 Allfather
@@ -138,9 +157,11 @@ Almeida
 alnico
 Alnus
 Alonso
+Alouarn
 alquerque
 alt
 alumentum
+Alwena
 Alžbeta
 Amad
 Amalekites
@@ -166,6 +187,33 @@ Amor
 amt
 Amur
 Amy
+An Andrev
+An Aod
+An Arvor
+An Dall
+An Danteg
+An Deniel
+An Draen
+An Drean
+An Duigoù
+An Eost
+An Eozen
+An Eskob
+An Habask
+An Hegarat
+An Heliaz
+An Henañv
+An Hir
+An Ivineg
+An Nedeleg
+An Noac'h
+An Normant
+An Olier
+An Ozhac'h
+An Toudig
+An Touz
+An Traoñ
+An Troadeg
 Anáhuac
 ananassa
 Anatolia
@@ -179,6 +227,7 @@ Andorran
 Andover
 Andre
 Andrea
+Andrev
 Andrew
 Anduril
 Andy
@@ -208,9 +257,11 @@ Ann
 Annaliese
 Anne
 Annie
+Annwenn
 Anolis
 anomurans
 anonymizing
+Ansker
 Anson
 Antarctica
 antarvasa
@@ -233,7 +284,14 @@ Anugitâ
 Anush
 anzu
 Ao
+Aodren
+Aodrenel
 AoE
+Aofred
+Aotred
+Aouregan
+Aourell
+Aourgen
 AP
 Apastamba
 Âpastamba
@@ -259,6 +317,90 @@ Aquidneck
 aquilops
 Aquinnah
 AR
+Ar Bailh
+Ar Balc'h
+Ar Barzh
+Ar Beleg
+Ar Berr
+Ar Beskont
+Ar Bihan
+Ar Bonizeg
+Ar Boser
+Ar Boulc'h
+Ar Bourc'hiz
+Ar Brizh
+Ar Bronneg
+Ar C'halvez
+Ar C'hamm
+Ar C'helleg
+Ar C'hlec'h
+Ar C'hloareg
+Ar C'hoant
+Ar C'homm
+Ar C'horneg
+Ar C'horoller
+Ar C'horr
+Ar C'hozh
+Ar C'hozhiliz
+Ar C'hozhmao
+Ar C'hraz
+Ar C'hrenn
+Ar C'hreñv
+Ar C'hromm
+Ar Falc'her
+Ar Flemm
+Ar Foll
+Ar Gareg
+Ar Garzh
+Ar Gelleg
+Ar Gevell
+Ar Gonideg
+Ar Gwenn
+Ar Gwiader
+Ar Gwilherm
+Ar Gwilhoù
+Ar Gwilhouz
+Ar Jezekael
+Ar Manac'h
+Ar Mañson
+Ar Maokaer
+Ar Marc'hadour
+Ar Marc'heg
+Ar Meliner
+Ar Menn
+Ar Merdi
+Ar Merer
+Ar Merien
+Ar Mestr
+Ar Meud
+Ar Meur
+Ar Mevel
+Ar Moal
+Ar Mogn
+Ar Moulleg
+Ar Pasker
+Ar Paveg
+Ar Pelleter
+Ar Pengwenn
+Ar Penneg
+Ar Peñseg
+Ar Pichon
+Ar Porzh
+Ar Prad
+Ar Ragenez
+Ar Roc'h
+Ar Roue
+Ar Roz
+Ar Sanker
+Ar Saout
+Ar Saoz
+Ar Senechal
+Ar Serjant
+Ar Skouarneg
+Ar Stêr
+Ar Strat
+Ar Taleg
+Ar Yonkour
 Arabella
 Arabian
 Arabic
@@ -281,6 +423,8 @@ arcology
 Arduino
 Aretha
 arg
+Argan
+Argantael
 Argentinian
 argh
 args
@@ -293,6 +437,8 @@ Arkady
 Arle
 Arlington
 Armageddon
+Armel
+Armelle
 armeniaca
 Armenian
 armguard
@@ -312,10 +458,16 @@ arthropodology
 Arthur
 artisanals
 Arturo
+Artus
 Arukh
 arvore
+Arwen
 ARX
 Aryas
+Arzhel
+Arzhela
+Arzhur
+Arzhura
 Asatro
 Asatru
 ASCII
@@ -407,6 +559,8 @@ Autoweek
 aux
 Ava
 ave
+Avel
+Avela
 avellana
 avellanita
 aventail
@@ -421,6 +575,9 @@ Avodah
 avoidant
 Avon
 aw
+Awel
+Awen
+Awena
 aww
 axedwarf
 axedwarves
@@ -430,11 +587,17 @@ Ayer
 ayran
 ayuh
 AZ
+Aza
+Azell
+Azenor
 Azerbaijanian
+Aziliz
+Azou
 Aztec
 Aztecs
 Aztlan
 Aztlani
+b'Av
 Baal
 Babadook
 Babar
@@ -461,10 +624,10 @@ Bahá
 Baha'i
 Bahá'í
 Baha'is
-Bahamanian
-Bahamian
 Baha'u'llah
 Bahá'u'lláh
+Bahamanian
+Bahamian
 Bahman
 Bahrainian
 Baikonur
@@ -488,6 +651,7 @@ bannermen
 Baphomet
 Baptiste
 Barbadian
+Barban
 Barbara
 Barbaran
 barbute
@@ -536,7 +700,6 @@ Battlehammer
 batts
 Baudhâyana
 Baudrillard
-b'Av
 Bava
 Baxter
 BB
@@ -576,10 +739,12 @@ Bellevue
 Bellingham
 Bellsystem
 Belmont
+Beltram
 benchlike
 benchtop
 Benelli
 Bengal
+Beniga
 Beninian
 Benji
 Bennett
@@ -591,6 +756,7 @@ benzos
 benzoylmethylecgonine
 Beowulf
 Berakhot
+Berc'hed
 Beretta
 Berettas
 Bergmann
@@ -600,8 +766,11 @@ Berkeley
 Berkley
 Bermuda
 Bernardston
+Berrehar
+Berrehoug
 berserkergang
 berserking
+Bervaz
 Besse
 Bessemer
 Bester
@@ -611,6 +780,7 @@ Betsey
 Bette
 Betty
 Betula
+Beuzega
 Beverly
 bevor
 BFG
@@ -630,6 +800,7 @@ Bienkowski
 biggun
 bigpack
 Bikkurim
+Bili
 Billerica
 bindles
 binocs
@@ -684,6 +855,7 @@ bipods
 birchbark
 birchbarks
 bismol
+Bizouarn
 Blackhawk
 blackpowder
 blackpowders
@@ -694,10 +866,13 @@ Blacky
 bladderwrack
 bladelike
 bladesmithing
+Blaeza
 blam
 Blandford
 blech
 bleedingly
+Bleiz
+Bleuzen
 BLK
 blodplättar
 blodplättars
@@ -729,6 +904,8 @@ boardable
 Boba
 bobburger
 bobburgers
+Bodmael
+Bodvael
 bodybag
 bodycam
 bodyglove
@@ -781,6 +958,7 @@ Bosch
 Bosnian
 Boston
 bot
+Bothorell
 Botswanian
 Botticelli
 boudin
@@ -809,6 +987,7 @@ Bram
 Brandon
 Brandspojt
 Brandspojts
+Branwenn
 Brazilian
 breacher
 breachhead
@@ -822,12 +1001,21 @@ Breece
 Breedlove
 Bren
 Brenda
+Brendana
 Breton
 Brett
+Brevalaer
 brewable
+Brewal
+Brewen
 Brewster
 Brhadaranyaka
+Briag
+Briaga
+Briant
 Bridgewater
+Brieg
+Briend
 Brigit
 Brigitte
 Brihaspati
@@ -837,10 +1025,12 @@ brined
 Bristol
 Britain
 British
+Brivael
 bro
 broadhead
 Broadway
 brobdingnagian
+Broc'han
 Brockton
 Brodie
 Brody
@@ -848,10 +1038,12 @@ Brogyaga
 Brogyeki
 bronchodilator
 bronchospasm
+Bronwenn
 Brookfield
 Brookline
 Brooklyn
 Broomhandle
+Broudig
 Bruce
 Brügger
 Bruneian
@@ -871,6 +1063,8 @@ Buddhism
 Buddhist
 Buddhists
 Budgetball
+Budig
+Budog
 bufo
 bufos
 bugfixes
@@ -910,6 +1104,9 @@ buzzcut
 BX
 bzzt
 bzzz
+C'hwerv
+C'hwiban
+c'mon
 Cabanillas
 Cabron
 cadabra
@@ -1008,13 +1205,14 @@ cataphract
 Catarina
 Catherwood
 Catholics
+Catwalon
 Caucasian
 CB
 CBM
 CBMs
 CBRN
-CC
 cc
+CC
 CCP
 CCTV
 CCW
@@ -1062,6 +1260,8 @@ Chappaquiddick
 Charlemont
 Charles
 Charlestown
+Charleza
+Charlota
 Charlton
 Chasidic
 chasmosaurus
@@ -1111,8 +1311,8 @@ chk
 Chloe
 Cho
 chode
-chokeberry
 chokeberries
+chokeberry
 chokepoints
 Chol
 chonker
@@ -1163,6 +1363,7 @@ cleansuits
 clearcrete
 clearcutter
 Clearwater
+Cleden
 Clemens
 Cleo
 Cleopatra
@@ -1180,10 +1381,9 @@ Clymer
 cm
 CMES
 CMMG
-c'mon
-CO
-Co
 co
+Co
+CO
 Cobray
 Cody
 coelophysis
@@ -1230,6 +1430,7 @@ constabulario
 Constantine
 ContraPoints
 Conway
+Conwoion
 cooldown
 Cooley
 Copacabana
@@ -1372,13 +1573,15 @@ Cyrus
 CZ
 Czechoslovak
 Czechoslovakia
-DA
 da
+DA
 Dabrowski
 Dacian
 Dâdistân
 Daewoo
+Dafne
 dagnabbit
+Dagorn
 Dahila
 Dai
 Daime
@@ -1398,8 +1601,8 @@ Danielle
 Danny
 Danvers
 Danya
-Dao
 dao
+Dao
 Dar
 Dara
 Darcy
@@ -1433,8 +1636,8 @@ deadland
 deadlands
 deadzone
 dealmaking
-DeathCam
 deathcam
+DeathCam
 deathmobile
 deathrattle
 debatably
@@ -1471,6 +1674,8 @@ Demir
 demisexuality
 denarii
 denatonium
+Denez
+Deniela
 Denis
 Dennis
 dentata
@@ -1483,11 +1688,14 @@ dept
 der
 derandomization
 deregulations
+Derien
 dermatik
 dermatiks
 Dernier
+Derog
 Derrida
 derring
+Derwell
 Descartes
 descript
 desilo
@@ -1506,23 +1714,21 @@ Dhammapada
 dhampir
 dhampirs
 dharmachakra
-diaspora
-dichloroisocyanurate
-didn
 Dharmasastra
 dhyâna
 di
 Diamant
 Diane
 Dianne
+diaspora
+dichloroisocyanurate
 dickass
 Dickinson
 Didascalia
+didn
 Diego
 Diemaco
 dieselpunk
-direhound
-direhounds
 diggable
 Dighton
 DigiMart
@@ -1547,6 +1753,9 @@ dionaea
 dionaeas
 Dionne
 dipshit
+direhound
+direhounds
+Direzon
 disanimate
 discernable
 discoes
@@ -1574,6 +1783,7 @@ DMRs
 DMSO
 DNA
 dō
+Doare
 Dobbs
 Dodecagram
 dodgeball
@@ -1587,10 +1797,13 @@ dollkin
 dolm
 dolmas
 domestica
+Dominig
+don'tcha
+Donasian
 Donatello
 donburi
 döner
-don'tcha
+Donval
 doomseer
 doorstopper
 doot
@@ -1670,6 +1883,7 @@ Duncan
 dunderfuck
 Dunn
 Dunstable
+Dunvel
 Dustbowl
 dustbunny
 dustings
@@ -1706,19 +1920,22 @@ Ebola
 ebook
 eboshi
 EBR
+Ebrel
 eCash
 Eckankar
-Eco
 eco
+Eco
 ecoterrorist
 Ecuadorian
-ED
 Ed
+ED
 edamame
 Edda
 Eddie
 Eddit
 Eden
+Edern
+Edernez
 Edgartown
 Edison
 Edmonton
@@ -1727,10 +1944,13 @@ edmontosaurus
 Edmund
 Edward
 EEGs
+Efflamm
+Eflama
 eggsac
 Egremont
 Egyptian
 Egyptians
+Ehouarn
 Eiffel
 eigenspectre
 eigenspectres
@@ -1753,7 +1973,11 @@ electromagnetics
 electromancy
 electronoetic
 electroreceptors
+Elen
 elephantry
+Elfenn
+Eliaz
+Elibouban
 Elish
 Elizabeth
 Elle
@@ -1762,12 +1986,14 @@ Ellie
 Ellington
 Elmer
 Elmo
+Elouan
 Elsa
 elsewheres
 Elton
 elven
 elvenkind
 Elvira
+Elwina
 Ely
 elytra
 Emanuel
@@ -1789,6 +2015,7 @@ Ender
 endochitin
 Endsville
 Endymion
+Eneour
 Enfield
 enflamed
 EngD
@@ -1797,22 +2024,25 @@ ENIAC
 enjoyability
 Enki
 Enoch
+Enora
 Enosh
 enspelled
 entree
 entrees
 Enuma
+Envel
 envenomations
 EnviroCom
 EOC
 EOCs
 EOD
-eolocanth
-eolocanths
 eolambia
 eolambias
+eolocanth
+eolocanths
 eoraptor
 eoraptors
+Eozenez
 EPA
 épée
 épées
@@ -1821,6 +2051,7 @@ epicuticle
 epicuticles
 eppies
 Equus
+Erel
 Ereshkigal
 ergometer
 ergometers
@@ -1831,17 +2062,21 @@ Ericsson
 Erin
 Erith
 Eritrean
+Erle
+Ernod
 Ernst
 eructor
 eructors
 Eruvin
 Erving
+Erwan
+Erwana
 Erymanthian
 ESAPI
 ESBI
 Esbit
-ESC
 Esc
+ESC
 ESCA
 escalier
 Escher
@@ -1958,6 +2193,7 @@ familiaris
 famuli
 fanfictions
 Fanorona
+Fant
 FAQ
 faraday
 Faravahar
@@ -1975,6 +2211,7 @@ Fatuus
 faultline
 fauxben
 fauxfeathers
+Favenneg
 favorited
 Fawkes
 FBI
@@ -1984,6 +2221,8 @@ feaver
 feavers
 Feb
 February
+Feliks
+Felisia
 Felton
 FEMA
 femboy
@@ -1992,6 +2231,7 @@ Feng
 fentanyl
 ferals
 Fereidoun
+Ferelleg
 Fergus
 fermionic
 ferraiolo
@@ -2007,8 +2247,11 @@ Fijian
 filenames
 fileset
 filesets
+Fili
+Filipa
 Filipino
 filk
+Filomena
 fimbriated
 Findlay
 Fingerhack
@@ -2036,9 +2279,12 @@ fisherwoman
 fishfolk
 fishlike
 Fisk
+Fitamant
 Fitchburg
 Fitzgerald
 flagration
+flailer
+flailers
 flamberge
 flamberges
 Flamebreath
@@ -2058,10 +2304,9 @@ flatbread
 FlatCoin
 FlatCoins
 flatjaw
-flailer
-flailers
 flatlander
 flatlanders
+Flatrez
 Flavio
 FLDSMDFR
 flechette
@@ -2079,8 +2324,10 @@ fletching
 flightworthy
 flim
 flintknapping
+Floc'h
 flockshot
 floorplan
+Florael
 Florida
 Florunner
 fluffernutter
@@ -2132,6 +2379,8 @@ Foxborough
 Fp
 fps
 fracking
+Fragan
+Fragana
 Fragaria
 framebuffer
 Framingham
@@ -2146,7 +2395,10 @@ Frankensteinian
 Frankensteins
 Frankie
 Franky
+Frañsez
+Frañseza
 Franz
+Fraval
 Fred
 Frederic
 Frederick
@@ -2176,8 +2428,8 @@ frostnipped
 frostrimed
 frybread
 FSP
-Ft
 ft
+Ft
 FTL
 FTX
 fu
@@ -2189,6 +2441,7 @@ Fudoki
 Fuji
 fulleroclathrate
 fullscreen
+Fulup
 fumarolic
 fungalizing
 fungaloid
@@ -2201,15 +2454,17 @@ fursuit
 fusillies
 fusilly
 fwoosh
-GA
 ga
+GA
 Gabonese
 gadol
 Gaelic
 gah
 Gâhs
 Gaia
+Gaiben
 Gainesville
+Gaiwin
 galeae
 Galfrizowich
 Gallagher
@@ -2220,6 +2475,7 @@ gambesons
 Gambian
 Gameover
 gameplay
+Ganael
 gangbangers
 Gao
 gaptoothed
@@ -2257,13 +2513,14 @@ gauzes
 Gavin
 ge
 gearwork
+Gegon
 Gehinnom
 geiger
 Gekkota
 gelato
 Gemini
-Gen
 gen
+Gen
 genderfluid
 genderqueer
 genecraft
@@ -2272,6 +2529,7 @@ genemoded
 Genghis
 genset
 gensets
+Genver
 Geoffrey
 geokinesis
 George
@@ -2279,10 +2537,12 @@ Georgetown
 Georgian
 geospatial
 Gerald
+Gereg
 Germaine
 Germans
 Gestae
 geta
+Getenok
 Gevuina
 Ghanaian
 ghast
@@ -2302,14 +2562,17 @@ giftshop
 giganotosaurus
 Gigi
 Gila
+Gildas
 Ginza
-Gita
+Gireg
 gita
-GitHub
+Gita
 github
+GitHub
 Gittin
 Gitxsan
 Giza
+Gladez
 gladii
 gladius
 glaives
@@ -2323,12 +2586,14 @@ glitchiness
 glitching
 GLM
 GLMs
+Gloagen
 Glock
 Glocks
 gloopy
 Glooscap
 Gloria
 Gloucester
+Gloutroñ
 glowstick
 glowsticks
 glowy
@@ -2364,15 +2629,25 @@ goto
 Gottingen
 gouache
 Gough
+Goulc'hen
+Goulwena
+Gourkuñv
+Gourlaouen
+Gourmaelon
+Gourmelen
+Gourvez
+Gourvil
+Goustan
 gouts
+Gouzien
 gov
 gozu
 gozus
 GPMG
 GPNVG
 GPS
-GR
 gr
+GR
 graboid
 graboids
 Gracie
@@ -2380,6 +2655,8 @@ gracken
 grackens
 Grafton
 Grainville
+Grall
+Gralon
 grampa
 granatum
 Granby
@@ -2413,6 +2690,7 @@ Greenland
 greenways
 Greer
 Greg
+Gregor
 Gregory
 Grenadian
 Greta
@@ -2437,12 +2715,16 @@ guapotes
 Guatemalan
 guayacan
 gubbins
+Guenael
+Guenole
 Guglielmo
 Guiana
+Guillian
 guilts
 Guin
 Guinean
 Guinness
+Guiraac
 guls
 Gümanik
 Gumps
@@ -2461,6 +2743,10 @@ gunsmithing
 gunsmoke
 Guodian
 gurkha
+Gurloes
+Gurvana
+Gurvand
+Gurwal
 Gus
 Gustaf
 Gustav
@@ -2468,6 +2754,35 @@ Gustavo
 gutskin
 guvnah
 Guyanese
+Gwaz
+Gwegan
+Gwegen
+Gwelaouen
+Gweltaz
+Gweltazen
+Gwenael
+Gwenaela
+Gwenaëlle
+Gwenc'hlan
+Gwendal
+Gwenegan
+Gwenina
+Gwenn
+Gwennyn
+Gwenola
+Gwenole
+Gwenou
+Gwenvael
+Gwenvaela
+Gwenvred
+Gwern
+Gwezh
+Gwezheneg
+Gwilcher
+Gwilherm
+Gwinian
+Gwion
+Gwioñvarc'h
 Gy
 Gyges
 Gymnocladus
@@ -2481,14 +2796,16 @@ Hadith
 Hadley
 hadoken
 hadrosaurus
+Hael
+Haelwenn
 haematopoiesis
 hafted
 Haggadah
 haha
-Hai
 hai
-Haitian
+Hai
 Hairsuit
+Haitian
 hakama
 halakhic
 halazone
@@ -2509,6 +2826,7 @@ hammerfist
 hammerhand
 hammerspace
 HaMoed
+Hamon
 Hampden
 Hampshire
 Hancock
@@ -2590,6 +2908,7 @@ Hebrew
 Hebrides
 HEDP
 heelys
+Hegarenn
 Hegel
 heh
 Heian
@@ -2602,6 +2921,7 @@ heister
 Hel
 Helen
 Helena
+Helgouarc'h
 heli
 Heliand
 Hellenism
@@ -2611,20 +2931,27 @@ hellmouth
 Hellraiser
 hellscape
 hellspawn
+Helouri
 helpdesk
 Helsing
 HEMA
+Hemeri
 hemolymph
 hemostatics
 hemovore
 Hendelson
+Heodez
 Herbert
 herbology
+Herledan
 Hermanos
 Hermes
 Hermeticum
 Herrera
 Herstal
+Herve
+Hervea
+Hervioù
 Heschel
 Hesiod
 hesperosaurus
@@ -2672,13 +2999,15 @@ HMS
 HMTD
 hnefatafl
 Hobbes
-hobblebush
 hobbleberries
 hobbleberry
+hobblebush
 hoc
 Hockomock
 hodag
 hodags
+Hoel
+Hoela
 Hoffman
 Hofstadter
 hogtoad
@@ -2745,6 +3074,8 @@ hotkeys
 hotties
 hotwire
 hotwiring
+Houardon
+Houarneva
 housecat
 Houston
 hoverboarding
@@ -2755,8 +3086,8 @@ Hoyle
 HP
 HPBT
 HPs
-HR
 hr
+HR
 hridaya
 hrm
 hrs
@@ -2787,6 +3118,7 @@ hunllef
 Huntington
 Huntz
 Hunvre
+Huon
 hurly
 Hutchinson
 Huxley
@@ -2820,7 +3152,14 @@ hypogaea
 hypovolemic
 Hypsiphrone
 Hz
+I'd
+I'll
+I'm
+I've
+Iael
 Iain
+Iañ
+Iana
 IAR
 IC
 Icarus
@@ -2837,7 +3176,6 @@ ichthys
 ick
 iconical
 ICs
-I'd
 idolators
 IDW
 IDWs
@@ -2846,18 +3184,20 @@ IEDs
 IEEE
 Ierda
 Ierde
+If'n
 IFAK
 IFF
-If'n
+Ifig
 Ignus
 Igor
 II
 III
 IIIA
 Ikea
-I'll
+Ilan
 illinoinensis
-I'm
+Iltud
+Iltuda
 Ima
 imager
 imagers
@@ -2891,6 +3231,7 @@ infosec
 Inglis
 Ingram
 inhalative
+Inizan
 injectable
 innawood
 InnerVision
@@ -2919,7 +3260,10 @@ intro
 introspectionist
 Inuit
 invlets
+Ioañ
 IOTV
+Iouen
+Iouna
 IP
 Ipade
 Ipadê
@@ -2969,9 +3313,11 @@ Italiana
 ITAS
 Ithaca
 IV
-I've
+Ivi
+Ivona
 IWI
 IX
+Izabel
 Izchak
 Izhevsk
 Izzy
@@ -2983,12 +3329,17 @@ Jacksonville
 Jacob
 Jacques
 Jadir
+Jafrez
+Jagu
 Jain
 Jaina
 Jainism
 Jainist
 Jaiva
+Jak
 Jake
+Jaketa
+Jakez
 Jakobson
 jalapeno
 Jamaican
@@ -3001,6 +3352,8 @@ Janeiro
 Janice
 Janine
 January
+Jaoua
+Jaouen
 Japanese
 Jason
 Jax
@@ -3009,12 +3362,14 @@ JCP
 Jedi
 Jeff
 Jefferson
+Jegou
 Jehovah
 Jemisin
 Jen
 Jenkins
 Jennie
 Jennings
+Jenovefa
 Jeremiah
 Jerome
 jerrypack
@@ -3022,6 +3377,7 @@ jerrypacks
 Jerusalem
 Jesse
 Jessie
+Jestin
 Jesus
 jetpack
 jetpacks
@@ -3029,21 +3385,26 @@ Jew
 jewelboxes
 Jewish
 Jews
+Jezekela
 JHP
 JHVH
-Ji
 ji
+Ji
 jian
+Jili
 Jim
 Jimbob
 Jing
 jirts
 jittering
 Joab
+Joakim
 Joanne
+Joannic
 Joddit
-Joe
 joe
+Joe
+Joela
 joes
 Johansen
 Johnson
@@ -3056,6 +3417,7 @@ Jonah
 Jonas
 Jonathan
 Jones
+Jord
 Jordanian
 jorts
 Jose
@@ -3076,8 +3438,10 @@ Judaica
 Judaism
 Judea
 Judean
+Judikael
 Judith
 Juglans
+Jukondin
 Jules
 Julian
 Julie
@@ -3086,6 +3450,7 @@ jumpstart
 June
 Jünger
 junglefowl
+Jungomarc'h
 Juniperus
 junkfood
 Jupiter
@@ -3095,11 +3460,22 @@ Jurgensen
 Justina
 Justo
 Justus
+Juvad
+K'iche
+Kabon
 Kabura
 kabuto
 kabutos
 Kaczynski
 Kadambawa
+Kadeg
+Kadioù
+Kadored
+Kadoudal
+Kadour
+Kadvael
+Kaelig
+Kaer
 Kafka
 Kaharingan
 Kai
@@ -3114,63 +3490,88 @@ kalimotxo
 kaluptic
 Kama
 Kamma
+Kampion
 kampuch
 kampuches
 kanabō
 Kandas
 Kandel
+Kaneved
+Kanevedenn
 Kangyur
 kannushi
 Kansas
 Kant
 kantele
 kanteles
+Kaourantina
+Kaourintin
 Kaplan
+Karadeg
 karambit
 karambits
 kariginu
+Karioù
 karita
 Karo
 karsk
 karting
+Karv
 kasaya
 kasayas
 Kasey
 kastane
+Kastell
+Kastreg
 Kata
-Katan
 katan
+Katan
 katana
 katar
 katars
+Katell
 Katha
 Katherine
 Katty
 Katyusha
 Kâu
 Kaushîtaki
+Kavanez
 Kazakhstani
 kcal
 kcalories
+Ke
 Keach
 Keaton
 Kebra
+Kefeleg
 keffiyehs
+Keginer
 keikogi
+Keineg
 Kel
+Kelen
 Kells
 kelvinist
 kelvinists
+Kemener
+Kemere
 Kemeticism
 Kemetist
 Kemp
 Kena
 Kendall
+Kenkiz
 Kennedy
 Kenny
+Kentel
 Kentucky
 Kenyan
 kerblam
+Kere
+Keridwenn
+Kerlann
+Kerrian
 Kertzer
 Ketokhila
 Ketubah
@@ -3196,7 +3597,6 @@ khopesh
 khopeshes
 Khorat
 KIA
-K'iche
 kickboard
 kickboards
 kickboxer
@@ -3206,6 +3606,7 @@ Kierkegaard
 Kiernan
 Kiki
 Kilayim
+Kilheroù
 kilij
 kilijes
 Killophant
@@ -3216,6 +3617,7 @@ kinbot
 kinderling
 kinderlings
 Kingston
+Kinioù
 Kinney
 Kipling
 kippah
@@ -3232,6 +3634,7 @@ kittels
 kiymali
 kJ
 Klapaucius
+Klervi
 klompen
 km
 Knapp
@@ -3248,28 +3651,42 @@ knowers
 knowium
 knuckleball
 Knuth
+Koad
 koans
 Kobe
 Koch
 Koda
 Kodokan
+Kogan
 Kohanim
 Kohler
 koi
 koji
 Kojiki
+Kokilh
+Kolaig
+Kolkanap
+Kollina
+Kombod
 kombu
 komodo
 kompot
+Konan
+Kongar
 Kool
 Kops
+Korbell
 Kord
 Korean
 Koreana
 Korne
+Korneli
 kosmoceratops
 Kostas
 kote
+Kougar
+Koulm
+Koupaia
 Kovar
 kPa
 krabgek
@@ -3287,7 +3704,9 @@ krills
 krises
 Krishna
 KRISS
+Kristell
 Kristi
+Kristoc'h
 kronosaurus
 Kropotkin
 KSG
@@ -3323,6 +3742,7 @@ lactofermentation
 Laemanctus
 Laevateinn
 Laevateinns
+Lagad
 Lagomorpha
 Lagrange
 lahmacun
@@ -3345,10 +3765,15 @@ Landough
 landrover
 landshark
 Landstreicher
+Landwenn
 Lanesborough
 Lankan
+Lann
+Lanwenn
 Lao
 Laotian
+Laouen
+Laouenan
 Laozi
 Lapua
 Laredo
@@ -3406,6 +3831,7 @@ lemactos
 LeMat
 Lemmon
 lemure
+Lenai
 Lenin
 Leninism
 Lenny
@@ -3424,6 +3850,7 @@ Leroy
 lessers
 Lester
 Lestrade
+Levenez
 Leverett
 levergun
 leverguns
@@ -3436,6 +3863,7 @@ Lexi
 Lexington
 Leyden
 leylines
+Lezou
 LFN
 LGBT
 LGR
@@ -3472,8 +3900,8 @@ Lilit
 lilypad
 Lima
 limbed
-limnology
 limnological
+limnology
 Lincoln
 Linda
 Lindbergh
@@ -3493,6 +3921,7 @@ Liza
 lizardfolk
 lizardlike
 lizardman
+Lizenn
 Ljósálfar
 LLC
 Llywelyn
@@ -3515,10 +3944,17 @@ lockpicking
 lockpicks
 locs
 Locutus
+Loeiz
+Loeiza
+Loen
+Loeva
 Loew
+Loig
+Loiz
 Loki
 lokiceratops
 lolita
+Lomig
 London
 longarm
 longbowmen
@@ -3533,17 +3969,23 @@ lorekeeper
 Lorence
 Lorentz
 Los
+Losouarn
 Lottie
 Lou
+Louan
+Louarn
+Louboutin
 Louie
 Louisa
 Louisiana
 Louiston
 Louisville
 Louverture
+Louwenn
 Lovecraft
 Lovecraftian
 Lowell
+Lowen
 lowtop
 LR
 LSD
@@ -3561,6 +4003,7 @@ Ludwig
 Luger
 Lughnasadh
 Luigi
+Lukaz
 Luke
 Luliya
 lulo
@@ -3573,6 +4016,8 @@ Lunenburg
 lunes
 Luo
 Lupercalian
+Lupita
+Lusia
 lutefisk
 Luther
 Lutheran
@@ -3616,18 +4061,27 @@ macuahuitl
 macuahuitls
 maculata
 Madagascan
+Madalenn
 madaniyyih
 Maddy
+Madeg
 Madeira
 Madeline
+Maden
+Madenn
 Mâdhyandina
 Madison
 Madisonville
-MAG
-Mag
+Mael
+Maela
+Maeleg
 mag
+Mag
+MAG
 Maga
+Magadur
 Magellan
+Mager
 mages
 Mageshield
 Maggie
@@ -3656,6 +4110,7 @@ Maine
 Mainog
 Mair
 Maitrayani
+Maiwenn
 Maj
 Makarov
 Makayla
@@ -3672,10 +4127,12 @@ Malaysian
 Malden
 Maldivian
 Maldonado
+Malgorn
 Malian
 malignalitaloptereosis
 Malignance
 Mallick
+Malo
 Malsumis
 Maltese
 Malus
@@ -3712,6 +4169,9 @@ Manurhin
 Mânûskihar
 manwich
 manwiches
+Maodan
+Maodez
+Maogann
 Maori
 Māori
 mapgen
@@ -3720,10 +4180,12 @@ Marblehead
 Marconi
 Marcuse
 Marduk
+Margaid
 Margaret
 Marie
 marilandica
 Marion
+Marivon
 Markia
 Marlborough
 Marley
@@ -3744,6 +4206,8 @@ Marxism
 Mary
 Maryland
 Marzanna
+Marzhin
+Marzhina
 mascarpone
 Mashpee
 Masri
@@ -3761,6 +4225,7 @@ matchhead
 materiel
 MatheMAX
 Matheson
+Matilin
 Matricaria
 Matrioshka
 matryoshka
@@ -3784,6 +4249,8 @@ Mayfield
 mayfieldi
 Mayhaps
 Maynard
+Mazhe
+Mazheva
 McCaffordy
 McDowell
 McFarland
@@ -3794,8 +4261,8 @@ McMahon
 McMillan
 MCS
 MCX
-MD
 md
+MD
 MDF
 MDRX
 mealgrub
@@ -3835,9 +4302,12 @@ Meizhen
 Melchior
 Melchizedek
 melee
+Melen
 Melian
 Melissus
 Melitzanosalata
+Mell
+Meloar
 Melony
 Melrose
 memes
@@ -3847,7 +4317,9 @@ Mendez
 Mendon
 Menelik
 menemen
+Menez
 Meng
+Mengi
 menpo
 Mentos
 Menzoberranzan
@@ -3855,9 +4327,12 @@ merc
 merch
 Merck
 mercs
+Mereg
+Mériadec
 Merriam
 Merrimac
 Mertensia
+Merwen
 mesenterium
 Meskwaki
 Mesoamerica
@@ -3881,12 +4356,16 @@ Methodist
 methothexazole
 Methuen
 Methusalah
+Metig
 Metzia
 MEUSOC
+Meven
+Mevena
+Mewenn
 Mexican
 MGL
-MIA
 Mia
+MIA
 Miami
 micellular
 Michael
@@ -3929,13 +4408,17 @@ midwest
 midwestern
 might've
 migo
+Mikael
+Mikaela
 Mikagura
 Mikhail
 Miki
 Milan
 Miley
 Milford
+Milin
 Milinda
+Milio
 milkfat
 Milkor
 Millbury
@@ -3977,6 +4460,7 @@ mino
 minotaur
 mins
 Mintonette
+Mioseg
 Miriam
 Mirkwood
 mirrorshades
@@ -4005,15 +4489,18 @@ mL
 mm
 MMA
 mmm
-Mo
 mo
+Mo
 moabosaurus
 moar
 mobbings
 Mobius
+Modan
+Modana
 modded
 modding
 Moed
+Moezan
 mohawk
 mohawks
 Mohegan
@@ -4056,6 +4543,7 @@ moonflowers
 Moosek
 Moraceae
 Morales
+Morana
 Moravian
 Mord
 Moreau
@@ -4078,6 +4566,10 @@ mortis
 Morto
 Morton
 Morus
+Morvan
+Morvanen
+Morwena
+Morzhell
 mosaicus
 mosaicuses
 mosasaurus
@@ -4107,10 +4599,10 @@ Mozilla
 MP
 MPET
 mph
-MR
 Mr
-MRAD
+MR
 mrad
+MRAD
 MRE
 MREs
 MRI
@@ -4154,11 +4646,12 @@ musculoskeletal
 Muslim
 Muslims
 Muspelhiem
-Mustela
 must've
+Mustela
 mutagenically
 mutagenicity
 mutus
+Muzelleg
 muzzleloaders
 MVAS
 mW
@@ -4190,8 +4683,8 @@ namele
 Namibian
 Nana
 Nani
-nannyberry
 nannyberries
+nannyberry
 nano
 nanobots
 nanocompound
@@ -4260,6 +4753,8 @@ nectivore
 Ned
 Nedarim
 nedcolbertia
+Nedeleg
+Nedelouann
 Needham
 needlelike
 Needletip
@@ -4269,8 +4764,8 @@ Neha
 Nellie
 NEMA
 Nemo
-Neo
 neo
+Neo
 Neondorthall
 neotenic
 neotheropod
@@ -4308,8 +4803,12 @@ neutrite
 neutrites
 Nevada
 Nevaeh
+Nevena
+Nevenou
+Neventer
 neverending
 nevermind
+Nevez
 Newbury
 Newburyport
 Newfoundland
@@ -4348,6 +4847,7 @@ Nihon
 NIJ
 Niklaus
 Nikolai
+Nikolaz
 Niles
 nimbelemnite
 nimbelemnites
@@ -4356,6 +4856,7 @@ Nina
 Ninhursag
 ninjutsu
 niño
+Ninog
 Nipâta
 niqab
 niqabs
@@ -4366,12 +4867,15 @@ nitrox
 Niven
 Nixon
 NMR
+Noan
 Nobel
 nodachi
 nodosaurus
+Noela
 noetically
 Nogueira
 noir
+Nolwen
 nom
 Nomex
 nonbinary
@@ -4431,23 +4935,29 @@ numbnut
 numpad
 nums
 Nunez
+Nuz
 NV
 NVG
 NVGs
 NW
 NY
 Nyâyis
+O'Brian
+O'Connor
+o'lantern
+o'lanterns
+O'Reilly
 OA
 Oakham
 Oakland
 Oakley
+Oan
+Oanez
 Oates
 Obrez
-O'Brian
 obscura
 Oceania
 oceanside
-O'Connor
 Oct
 Octavia
 octo
@@ -4475,9 +4985,8 @@ Okinawan
 Oklahoma
 Olaf
 Olam
-o'lantern
-o'lanterns
 Olcott
+Olier
 olieribos
 Oliver
 Olivia
@@ -4487,6 +4996,7 @@ Olympian
 Olympic
 Olympics
 Omani
+Omnez
 omni
 Omnicellular
 OMTs
@@ -4494,6 +5004,7 @@ onboard
 Ondua
 Onduine
 oneirosis
+Onen
 onesie
 onesies
 onigiri
@@ -4512,9 +5023,9 @@ ophanims
 orc
 orcs
 ordinator
-O'Reilly
 Oreo
 orgs
+Orguen
 orichalcum
 Orinoco
 Orion
@@ -4526,19 +5037,18 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
-ouroboros
 Orpheus
 Orphic
 Orson
 Orwell
 oryctodromeus
-OS
 os
+OS
 Osashizu
 OSB
 Osborne
-Oscar
 oscar
+Oscar
 oscars
 Oscillococcinum
 OSHA
@@ -4564,6 +5074,7 @@ Otten
 Ötzi
 OU
 Ouija
+ouroboros
 outdoorsman
 ovata
 Ovcharka
@@ -4602,8 +5113,8 @@ oxy
 oxycodone
 oxygenator
 Oyasama
-Oz
 oz
+Oz
 Pablo
 pachira
 pachycephalosaurus
@@ -4614,6 +5125,8 @@ Packstone
 pacu
 pacus
 Pâda
+Paderna
+Padriga
 Pahlavi
 paintballs
 Pakistani
@@ -4636,6 +5149,9 @@ panoplosaurus
 Panopticonic
 pansexual
 Pao
+Paogamm
+Paol
+Paola
 Paolo
 papalomeh
 papalotl
@@ -4669,6 +5185,9 @@ parotoid
 partygoer
 partygoers
 parvas
+Pask
+Paskell
+Paskweten
 passcode
 passionfruit
 Pastafarian
@@ -4691,8 +5210,8 @@ PD
 PDCurses
 PDW
 PDWs
-Peabody
 Pe'ah
+Peabody
 peanutbutter
 pearlescent
 Pearlman
@@ -4705,6 +5224,7 @@ Pembroke
 Pencak
 penetrator
 penetrators
+Penkaled
 Pennsylvania
 Pennywise
 Penobscot
@@ -4716,15 +5236,20 @@ Pentecostal
 Pepeha
 Pepperell
 pepto
+Peran
 Percy
+Perenez
 perforators
 periapta
 periaptas
+Perioù
 peripheric
+Perlezennn
 permadeath
 permutator
 permutators
 perplexion
+Perrot
 Perseus
 Persian
 persica
@@ -4739,6 +5264,7 @@ petpack
 petpacks
 Petri
 petrichor
+Petrok
 peytral
 PF
 pfft
@@ -4828,16 +5354,18 @@ PLC
 pleco
 plecos
 pleistocene
+Plezou
 plink
 plinker
 plinking
+Plouzenneg
 plushie
 plushies
 Pluto
 Plymouth
 Plympton
-PM
 pm
+PM
 PMC
 pocketless
 podling
@@ -4871,6 +5399,7 @@ Portland
 portmaster
 Portuguese
 pos
+Posteg
 posteriori
 posthuman
 Potamotrygonidae
@@ -4905,6 +5434,7 @@ precisionist
 Precolumbian
 precombined
 predatorially
+Predena
 premade
 premeasured
 premotion
@@ -4916,11 +5446,14 @@ preppers
 Presbyterians
 Pressin
 prev
+Prijañ
+Prijant
 Princeton
 Principia
 priori
 pritchel
 Pritchett
+Privela
 Priya
 Prochilodontidae
 Produkt
@@ -5013,8 +5546,9 @@ quillbags
 Quincy
 Quinn
 Quixote
-Quran
 Qur'an
+Quran
+R'lyeh
 Rabba
 racecar
 Rachel
@@ -5025,6 +5559,7 @@ radiobeacon
 radiogenic
 radiophile
 radula
+Rafalen
 rafflesias
 raggiana
 Ragnarok
@@ -5052,6 +5587,7 @@ Ramses
 Ranade
 Randall
 Randolph
+Rann
 Raoul
 rashguard
 rashy
@@ -5177,6 +5713,7 @@ rhytidome
 rhytidomes
 Rhyzaea
 RI
+Riagad
 ribboner
 ribbonlike
 Rican
@@ -5191,6 +5728,7 @@ Rico
 rideable
 rideshare
 ridgeback
+Rieg
 Riesling
 riftwalker
 riftwalkers
@@ -5201,13 +5739,17 @@ Riley
 rinded
 Ringworld
 Rio
+Rioù
 Ripley
 Risali
 riverstone
+Rivod
 RivOS
 Rivtech
+Riwal
+Riwan
+Riwanon
 Rizzo
-R'lyeh
 RMB
 RMES
 roadheader
@@ -5253,10 +5795,15 @@ Romano
 Romans
 Rome
 Romero
+Ronan
+Ronana
 roncone
+Roniant
 rōnin
 Roosevelt
+Roparz
 ropemaking
+Roperzh
 Rosa
 Rosaceae
 Roscoe
@@ -5267,8 +5814,10 @@ Rosner
 Ross
 Roswell
 rothe
+Roudod
 rougarou
 Rourke
+Rouz
 Rowe
 Rowland
 Rowley
@@ -5278,6 +5827,7 @@ Roy
 royale
 Royalston
 Royce
+Rozenn
 RPG
 RPGs
 RPK
@@ -5290,6 +5840,7 @@ rubbles
 Rubik
 rubra
 Ruckers
+Rudalt
 Rudolph
 Rudra
 Rudy
@@ -5306,6 +5857,7 @@ Russell
 Russian
 Rutland
 Ruttenberg
+Ruvona
 RV
 RVs
 Rwandan
@@ -5314,6 +5866,7 @@ Rycon
 Ryder
 Ryu
 ryūsei
+s'mores
 SA
 sabalo
 sabalos
@@ -5333,13 +5886,17 @@ safepoint
 safewords
 Safinatun
 Sagrada
+Saig
 saintess
 Saipan
 SAKO
+Salaun
+Salaün
 salca
 Salem
 Salisbury
 Salix
+Salomon
 saltpan
 Salus
 Salvadoran
@@ -5361,6 +5918,7 @@ Samoyeds
 Samuel
 Samuels
 Samurais
+Samzun
 Sanatsugâtîya
 Sanchez
 sanctacaris
@@ -5417,6 +5975,7 @@ saurulophus
 sautee
 sauteed
 Sauvignon
+Savidan
 savoiardi
 sawblade
 sawblades
@@ -5497,13 +6056,15 @@ seedshaper
 seedshapers
 Seekonk
 Seelie
+Segal
 segmentata
 Segway
 Seinerweisen
+Seite
 seldomly
+selfie
 selkie
 selkies
-selfie
 Semin
 semirural
 semitangible
@@ -5522,6 +6083,9 @@ serialed
 Serra
 Serrano
 serrulata
+Servan
+Servane
+Sesil
 Seth
 Seuss
 Seward
@@ -5530,6 +6094,9 @@ seweranhas
 Sextus
 Seychellois
 Seyfert
+Sezaig
+Sezneg
+Sezni
 SF
 SFC
 Shabbat
@@ -5552,8 +6119,8 @@ shamshir
 shamshirs
 Shan
 Shane
-Shang
 shang
+Shang
 Shania
 shanking
 shantak
@@ -5561,9 +6128,9 @@ Shaolin
 shapechangers
 shapeshift
 shapeshifted
+shapeshifter
 shapeshifting
 shapeshifts
-shapeshifter
 Shardspray
 Shardstorm
 sharksuit
@@ -5646,8 +6213,8 @@ Shotpistol
 Shotpistols
 shotshell
 shotshells
-shoulderblades
 should've
+shoulderblades
 Shrewsbury
 shriekling
 shrieklings
@@ -5723,6 +6290,7 @@ skillset
 Skinfolds
 skitterbot
 skitterbots
+Sklerijenn
 Sklyarov
 SKS
 skullgun
@@ -5758,7 +6326,6 @@ SMLE
 smokable
 smoothbores
 smoots
-s'mores
 SMR
 Smythe
 snakelet
@@ -5771,20 +6338,26 @@ snotgobblers
 snuggie
 snuggies
 snuggly
+Soaig
+Soaz
 socketed
 socketing
 SOCOM
+Soen
 Soergelia
 SOF
 softcovers
+Soizic
 sōjutsu
 Sokoban
 Solaris
 solarpunk
 solarpunks
 solderless
+Solen
 solera
 Soloveitchik
+Solveig
 Somali
 Somerville
 sommat
@@ -5898,8 +6471,8 @@ Sridhar
 Srila
 Srimad
 SSh
-ST
 St
+ST
 stablization
 stackable
 Stan
@@ -5925,13 +6498,14 @@ stegoceras
 stegosaurusfindsrobot
 Steinbeck
 Stella
-STEN
 Sten
+STEN
 Stenio
 stenonychosaurus
 STENs
 Stephen
 Stephenson
+Steren
 Steve
 Steven
 Stevens
@@ -5987,8 +6561,8 @@ stormwind
 Stoughton
 stovetop
 stovetops
-STR
 Str
+STR
 Stranglethorns
 strategize
 stratoscomm
@@ -6047,6 +6621,8 @@ Sukhâvati
 Suki
 Sukkot
 sulfoxide
+Suliac
+Sulien
 Sullivan
 Sumerian
 Summerfield
@@ -6088,8 +6664,8 @@ surveiling
 survivalcraft
 Susan
 Sutrakritânga
-Sutras
 sutras
+Sutras
 Sutro
 Sutta
 Sutta'a
@@ -6099,6 +6675,7 @@ Suttas
 Sutton
 SUV
 SUVs
+Suzana
 Suzanne
 Suzuki
 SVD
@@ -6136,11 +6713,12 @@ sysadmin
 Taanit
 tabi
 tabula
-TAC
 tac
+TAC
 tachycardiac
 Tacoma
 tacticool
+Tadeg
 tadfish
 taegeuk
 taekwondo
@@ -6165,11 +6743,13 @@ Talmudic
 TALONs
 talwar
 talwars
+Talwin
 tambaqui
 tambaquis
 Tamsyn
 Tanakh
 Tanfoglio
+Tangi
 tangler
 tanglers
 tanglevine
@@ -6178,11 +6758,13 @@ tankbot
 tankette
 tankettes
 Tankylosaurus
+Tano
 Tanzanian
 Tao
 Taoism
 Taoist
 Taonga
+Taran
 Tarango
 TARDIS
 Tarkov
@@ -6205,8 +6787,9 @@ taze
 tazed
 Tazmania
 Te
-TEC
+Tebaod
 Tec
+TEC
 tech
 technomancer
 technomancers
@@ -6216,6 +6799,8 @@ Techworld
 teflon
 Tegh
 tegmental
+Tegoneg
+Teila
 Tekeli
 telecom
 telefragged
@@ -6236,6 +6821,7 @@ teleports
 Telushkin
 temaki
 Templeton
+Tenenan
 Tengriism
 Tengyur
 Tenmile
@@ -6247,6 +6833,7 @@ Tepper
 tequini
 teravolt
 teravolts
+Tereza
 tergitol
 terraforming
 terranean
@@ -6275,14 +6862,15 @@ thaumaturges
 thawb
 thawbs
 THC
+Thelo
 themself
 Theo
 Theodore
 theologist
 there'd
 there'll
-Theresa
 there've
+Theresa
 therizinosaurus
 thermite
 thermobaric
@@ -6323,6 +6911,7 @@ Thursday
 thyreophoran
 Tiamat
 Tibetan
+Tifen
 Tiffynie
 TIG
 Tikanga
@@ -6331,6 +6920,7 @@ tiktaalik
 tilapia
 tilapias
 tileset
+Tili
 Tilly
 tilmàtli
 Tim
@@ -6354,8 +6944,10 @@ titani
 titanis
 titanochelon
 titanochelons
+Tivizio
 tlatoani
 TNT
+Tobiaz
 Toby
 tock
 toco
@@ -6369,6 +6961,7 @@ Tolkien
 Tolland
 Tolstoy
 Tomas
+Tomaz
 Tomean
 Tommy
 tonalpohualli
@@ -6437,12 +7030,14 @@ treehouse
 treesing
 treesinging
 treesung
+Treger
 tremens
 Tremorsense
 trenchcoat
 trenchcoats
 trenchgun
 trenchguns
+Trever
 tri
 triband
 tribesperson
@@ -6455,6 +7050,7 @@ Trichodactylidae
 triclopean
 trifacet
 trifacets
+Trifin
 triglav
 trilaser
 trilasers
@@ -6462,6 +7058,7 @@ Trimorphic
 tripcore
 Tripitaka
 Trismegistus
+Tristana
 Trixie
 Trofica
 troglobite
@@ -6490,11 +7087,16 @@ tsundere
 tsurugi
 TT
 TTF
+Tual
+Tuala
 tubings
 tucunaré
 tucunarés
+Tudi
 Tuesday
 Tuesdays
+Tujen
+Tumed
 tumescences
 Tunguska
 Tunisian
@@ -6567,8 +7169,8 @@ Umbanda
 umble
 umm
 ummm
-UN
 un
+UN
 unaged
 unbothered
 unbreachable
@@ -6599,6 +7201,7 @@ unfoldable
 ungraspable
 unhindering
 unhomogenized
+Uniac
 Unicode
 unitard
 unitards
@@ -6658,14 +7261,16 @@ Upton
 ur
 Uranus
 urgh
+Urien
 Ursula
 Uruguayan
+Urwaz
+us'n
 USA
 USB
 USC
 USD
 USMC
-us'n
 USP
 USS
 USSR
@@ -6727,6 +7332,7 @@ Ve
 Vedanta
 Vedas
 Veeblefetzers
+Vefa
 Vegas
 veggy
 Vektor
@@ -6770,6 +7376,7 @@ Vihara
 VII
 VIII
 vikeys
+Viktor
 Vili
 Villeneuve
 Vin
@@ -6780,10 +7387,13 @@ vineling
 vinelings
 vineweaver
 vineweavers
+Vinvela
 viny
+Vio
 VIPs
 Virginia
 virginica
+Virjinia
 vis
 Vishnu
 Visparad
@@ -6899,6 +7509,7 @@ Weiss
 wellbeing
 Wellesley
 Wellfleet
+Wembrit
 Wendell
 Wenham
 Werner
@@ -6917,14 +7528,14 @@ WETCODEs
 wetworks
 Weymouth
 whakapapa
-whatcha
 what'd
-Whateley
-Whately
 what'll
 what're
-whattya
 what've
+whatcha
+Whateley
+Whately
+whattya
 wheatberries
 Wheater
 where'd
@@ -6985,6 +7596,7 @@ Winkler
 Winnie
 Winston
 Winthrop
+Wiomarc'h
 WIP
 wireframe
 wirelessly
@@ -7042,8 +7654,8 @@ wyrmlings
 wyrms
 xanax
 XD
-XEDRA
 Xedra
+XEDRA
 xenobiologist
 xenobiology
 xenology
@@ -7071,12 +7683,21 @@ xxx
 XXXIII
 XXXL
 xxxx
+y'know
+y'see
 yacare
 Yahya
 Yajna
+Yakob
 Yakov
 yandere
 yankee
+Yann
+Yann-Bêr
+Yann-Vadezour
+Yann-Vari
+Yannez
+Yannig
 yari
 yark
 yarker
@@ -7098,14 +7719,14 @@ yelman
 Yemenis
 Yevamot
 Yevgeny
-Yi
 yi
+Yi
 Yibbum
 Yiddish
 Ying
 Yisrael
-y'know
 Ymir
+Yoan
 Yochai
 Yoda
 Yom
@@ -7114,8 +7735,11 @@ yoroi
 Yoruba
 Yosef
 Yoshimi
+Youen
+Youn
 Younce
 youngs
+Younne
 yourselfer
 YouTube
 YouTubers
@@ -7124,7 +7748,6 @@ yoyos
 yr
 Yrax
 yrs
-y'see
 Yu
 yugg
 Yuggoth
@@ -7133,6 +7756,8 @@ Yugo
 Yugoslavia
 Yujin
 yukata
+Yulizh
+Yuna
 Yuni
 Yusuke
 Zachary
