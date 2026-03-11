@@ -175,6 +175,7 @@ static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
 static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_morgantown" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_portal( "HEW_printout_data_portal" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
 static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
@@ -182,6 +183,8 @@ static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data
 static const itype_id
 itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
+static const itype_id
+itype_HEW_printout_data_void_spider_lair( "HEW_printout_data_void_spider_lair" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_mws_monster_corpse_weather_data( "mws_monster_corpse_weather_data" );
@@ -257,6 +260,7 @@ static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
+static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -1940,7 +1944,7 @@ bool map::can_move_furniture( const tripoint_bub_ms &pos, Character *you ) const
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    int adjusted_str = you->str_cur;
+    int adjusted_str = you->get_str();
     if( you->is_mounted() ) {
         auto *mons = you->mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
@@ -3467,6 +3471,76 @@ bool map::is_outside( const tripoint_bub_ms &p ) const
 
     const auto &outside_cache = get_cache_ref( p.z() ).outside_cache;
     return outside_cache[p.x()][p.y()];
+}
+
+bool map::is_roofed( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    // Walk upward through z-levels looking for any surface that blocks
+    // precipitation. The first blocking surface found means this tile is roofed.
+    for( int z = p.z() + 1; z <= OVERMAP_HEIGHT; ++z ) {
+        const tripoint_bub_ms check_pos( p.x(), p.y(), z );
+        const level_cache *cache = get_cache_lazy( z );
+
+        // Fast path: use floor_cache when it exists and is clean
+        if( cache && !cache->floor_cache_dirty ) {
+            if( cache->floor_cache[p.x()][p.y()] ) {
+                return true;
+            }
+            // Transparent floors (glass, ramps, grates) are marked as "no floor"
+            // in floor_cache but are physical surfaces that block precipitation
+            if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
+                return true;
+            }
+            // Water surfaces absorb precipitation before it reaches tiles below
+            if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
+                return true;
+            }
+            continue;
+        }
+
+        // Fallback: direct terrain/furniture/vehicle checks when cache is
+        // missing or dirty. Mirrors build_floor_cache semantics.
+
+        // TRANSPARENT_FLOOR checked first: blocks precipitation even when
+        // combined with vertical-transition flags like GOES_DOWN
+        if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
+            return true;
+        }
+
+        const bool no_floor = has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, check_pos );
+        const bool goes_down = has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, check_pos );
+
+        if( !no_floor && !goes_down ) {
+            return true;
+        }
+
+        if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
+            return true;
+        }
+
+        // SUN_ROOF_ABOVE on furniture at z-1 overrides no-floor at z
+        // (matching build_floor_cache which checks below_submap furniture)
+        const tripoint_bub_ms below_pos( p.x(), p.y(), z - 1 );
+        if( inbounds( below_pos ) &&
+            has_flag_furn( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE, below_pos ) ) {
+            return true;
+        }
+
+        // Check for vehicle roof/opaque parts at this level
+        const optional_vpart_position vp = veh_at( check_pos );
+        if( vp ) {
+            if( vp->part_with_feature( VPFLAG_ROOF, false ) ||
+                vp->part_with_feature( VPFLAG_OPAQUE, false ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool map::is_last_ter_wall( const bool no_furn, const point_bub_ms &p,
@@ -5821,6 +5895,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
             if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
                 const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
+                const tripoint_bub_ms veh_position_bub = cur_veh.pos_bub( here );
+                bool portal_nearby = false;
+                for( const tripoint_bub_ms &p : points_in_radius( veh_position_bub, 50 ) ) {
+                    if( here.tr_at( p ).id == tr_portal ) {
+                        portal_nearby = true;
+                        break;
+                    }
+                }
                 const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position,
                         "unvitrified_orchard", 10, false );
                 const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a",
@@ -5853,6 +5935,11 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "mine_spiral_finale_s", 10, false );
                 const tripoint_abs_omt closest_string_dimension = overmap_buffer.find_closest( veh_position,
                         "string_dimension_crossroads", 10, false );
+                const tripoint_abs_omt closest_void_spider_lair = overmap_buffer.find_closest( veh_position,
+                        "void_spider_lair", 10, false );
+                if( portal_nearby ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
+                }
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5899,6 +5986,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_string_dimension ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_string_dimension, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_void_spider_lair ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_void_spider_lair, calendar::turn_zero ) );
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
@@ -6611,6 +6701,21 @@ partial_con *map::partial_con_at( const tripoint_bub_ms &p )
 
 void map::partial_con_remove( const tripoint_bub_ms &p )
 {
+    partial_con_remove_impl( p );
+    memory_cache_dec_set_dirty( p, true );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( *this, p ) ) {
+        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
+    }
+}
+
+void map::partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p )
+{
+    partial_con_remove_impl( p );
+}
+
+void map::partial_con_remove_impl( const tripoint_bub_ms &p )
+{
     if( !inbounds( p ) ) {
         return;
     }
@@ -6621,11 +6726,6 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
         return;
     }
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
-    memory_cache_dec_set_dirty( p, true );
-    avatar &player_character = get_avatar();
-    if( player_character.sees( *this, p ) ) {
-        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
-    }
 }
 
 void map::partial_con_set( const tripoint_bub_ms &p, const partial_con &con )
@@ -11054,6 +11154,10 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
         !this->has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::DangerousTrap;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && !this->has_vehicle_floor( p ) ) {
+        cur_value |= PathfindingFlag::Air;
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {

@@ -43,6 +43,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
+        { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
         { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
       ]
     },
@@ -75,7 +76,12 @@
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
-      "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+      "and": [
+        { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
     },
     "tech_effects": [
       {
@@ -116,11 +122,9 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -212,11 +216,176 @@
     ],
     "attack_vectors": [ "vector_bite" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BEAR_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A bear bite.",
+    "attack_vectors": [ "vector_bear_bite" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_LUPINE_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A lupine bite.",
+    "attack_vectors": [ "vector_lupine_bite" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_REPTILE_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A reptilian bite.",
+    "attack_vectors": [ "vector_reptile_bite" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_RODENT_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rodent bite.",
+    "attack_vectors": [ "vector_rodent_bite" ],
+    "condition": { "u_has_trait": "INCISORS" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_RABBIT_BITE",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": { "u_has_trait": "INCISORS" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_RABBIT_BITE_GRABBED",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s" ],
+    "description": "A rabbit bite.",
+    "attack_vectors": [ "vector_rabbit_bite" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INCISORS" },
+        {
+          "or": [
+            { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+            { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+            { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+          ]
+        }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_PECK",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_PECK_GRABBED",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "condition": {
+      "or": [
+        { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+        { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -234,14 +403,63 @@
   },
   {
     "type": "technique",
+    "id": "VINE_LIMB_WHIP",
+    "name": "Vine whip",
+    "messages": [ "You whip %s with your vines", "<npcname> whips %s with their vines" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_vine_limb" ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VINE_LIMB_TRIP",
+    "name": "Vine trip",
+    "messages": [ "Your vines snake around %s and knock them down", "<npcname> knocks down %s with their vines" ],
+    "weighting": -2,
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_vine_limb" ],
+    "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] } ] },
+    "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": -3 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_ANIMAL_FOOT_KICK",
+    "//": "This is just a kick for animal feet with no special characteristics",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "description": "A basic kick",
+    "attack_vectors": [ "vector_digitigrade_paws", "vector_knee", "vector_shin" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_AVIAN_KICK",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You slash %s with your talons", "<npcname> slashes %s with their talons" ],
+    "description": "A bird kick",
+    "attack_vectors": [ "vector_avian_talons", "vector_avian_talons_rear" ]
+  },
+  {
+    "type": "technique",
     "id": "HOOVES_KICK",
     "name": "Hoof Kick",
-    "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": -4,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
@@ -261,12 +479,10 @@
     "type": "technique",
     "id": "HOOVES_KICK_AGAINST_LARGE",
     "name": "Hoof Kick",
-    "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": -4,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
@@ -288,9 +504,9 @@
     "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": 0,
+    "weighting": 2,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "knockback_dist": 1,
     "condition": {
       "and": [
@@ -314,9 +530,9 @@
     "melee_allowed": true,
     "messages": [ "You kick %s with your hooves", "<npcname> kicks %s with their hooves" ],
     "unarmed_allowed": true,
-    "weighting": 0,
+    "weighting": 2,
     "reach_ok": false,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": {
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
@@ -337,36 +553,17 @@
     "id": "HOOVES_KICK_CRIT",
     "name": "Critical Hoof Kick",
     "melee_allowed": true,
-    "messages": [ "You deliver a wicked kick to %s with your hooves", "<npcname> delivers a kick to %s with their hooves" ],
+    "messages": [ "You kick %s with your hooves, knocking them down.", "<npcname> kick %s with their hooves, knocking them down." ],
     "unarmed_allowed": true,
     "reach_ok": false,
     "crit_tec": true,
     "down_dur": 2,
     "knockback_dist": 1,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
+    "attack_vectors": [ "vector_hoof_kick" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "HOOVES_KICK_CRIT_AGAINST_LARGE",
-    "name": "Critical Hoof Kick",
-    "melee_allowed": true,
-    "messages": [ "You deliver a wicked kick to %s with your hooves", "<npcname> delivers a kick to %s with their hooves" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_foot_toes", "vector_foot_sole", "vector_foot_heel" ],
-    "condition": { "math": [ "u_val('size') < n_val('size')" ] },
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
@@ -461,11 +658,11 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -521,26 +718,6 @@
   },
   {
     "type": "technique",
-    "id": "SMALL_HORNS_RAM_CRIT",
-    "name": "Small Horns Ram Crit",
-    "melee_allowed": true,
-    "messages": [ "You slam into %s with your horns", "<npcname> slams into %s with their horns" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_headbutt" ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 2.2 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.12 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.5 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
     "id": "CURLED_HORNS_BASH",
     "name": "Curled Horns Bash",
     "melee_allowed": true,
@@ -583,24 +760,6 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.33 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "CURLED_HORNS_BASH_CRIT",
-    "name": "Curled Horns Bash Crit",
-    "melee_allowed": true,
-    "messages": [ "You slam into %s with your curled horns", "<npcname> slams into %s with their curled horns" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_headbutt" ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -654,24 +813,6 @@
     ]
   },
   {
-    "type": "technique",
-    "id": "POINTED_HORNS_STAB_CRIT",
-    "name": "Pointed Horns Stab Crit",
-    "melee_allowed": true,
-    "messages": [ "You viciously stab %s with your horns", "<npcname> viciously stabs %s with their horns" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_headbutt" ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
     "//": "Scaling on these three is 75% of normal because it's explicitly a weaker attack",
     "type": "technique",
     "id": "ANTLERS_BASH",
@@ -716,24 +857,6 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "ANTLERS_BASH_CRIT",
-    "name": "Antlers Bash Crit",
-    "melee_allowed": true,
-    "messages": [ "You slam into %s with your antlers", "<npcname> slams into %s with their antlers" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_headbutt" ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -792,9 +915,9 @@
     "crit_tec": true,
     "attack_vectors": [ "vector_tail_sting" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -861,28 +984,9 @@
     "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] }, { "not": { "npc_has_flag": "STUMBLES" } } ] },
     "knockback_dist": 1,
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "TAIL_THICK_BASH_CRIT_VS_LARGE",
-    "name": "Thick Tail Bash Crit Vs. Large",
-    "melee_allowed": true,
-    "messages": [ "You slam %s with your tail", "<npcname> slams %s with their tail" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_tail_thick" ],
-    "condition": { "not": { "npc_has_flag": "STUMBLES" } },
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -901,9 +1005,9 @@
     "knockback_dist": 1,
     "down_dur": 2,
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 3.3 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.375 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.6 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
@@ -1001,7 +1105,6 @@
         { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
       ]
     },
-    "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
@@ -1023,28 +1126,9 @@
     "attack_vectors": [ "vector_tail_club" ],
     "condition": { "math": [ "u_val('size') >= n_val('size')" ] },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "TAIL_CLUB_BASH_CRIT_VS_LARGE",
-    "name": "Critical Club Tail Bash",
-    "melee_allowed": true,
-    "messages": [ "You brutally smash %s with your club tail", "<npcname> brutally smashes %s with their club tail" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "vector_tail_club" ],
-    "condition": { "math": [ "u_val('size') < n_val('size')" ] },
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.5 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]

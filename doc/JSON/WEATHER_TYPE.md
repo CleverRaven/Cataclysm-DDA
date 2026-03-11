@@ -43,6 +43,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "color": "c_yellow",
     "map_color": "h_yellow",
     "sym": "%",
+    "sun_sym": "⛈️",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,

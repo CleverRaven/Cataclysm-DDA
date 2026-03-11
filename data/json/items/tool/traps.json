@@ -38,7 +38,7 @@
     "longest_side": "80 cm",
     "price": "15 USD",
     "price_postapoc": "5 USD",
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "flags": [ "SINGLE_USE" ],

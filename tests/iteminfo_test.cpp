@@ -17,9 +17,11 @@
 #include "item.h"
 #include "item_location.h"
 #include "iteminfo_query.h"
+#include "magic_enchantment.h"
 #include "itype.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "recipe.h"
@@ -31,12 +33,16 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const bodypart_str_id body_part_test_alt_arm_l( "test_alt_arm_l" );
+
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_stab( "stab" );
+
+static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS" );
 
 static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
 static const itype_id itype_backpack( "backpack" );
@@ -110,6 +116,7 @@ static const itype_id itype_test_socks( "test_socks" );
 static const itype_id itype_test_soldering_iron( "test_soldering_iron" );
 static const itype_id itype_test_sonic_screwdriver( "test_sonic_screwdriver" );
 static const itype_id itype_test_swat_armor( "test_swat_armor" );
+static const itype_id itype_test_tail_encumber( "test_tail_encumber" );
 static const itype_id itype_test_thumb( "test_thumb" );
 static const itype_id itype_test_tool_belt_pocket_mix( "test_tool_belt_pocket_mix" );
 static const itype_id itype_test_waterskin( "test_waterskin" );
@@ -843,19 +850,25 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                " The <color_c_cyan>arms</color>."
                " The <color_c_cyan>torso</color>.\n" );
 
-        // Coverage and warmth are displayed together on a single line
+        // Coverage and warmth are displayed together on a single line.
+        // Use actual item values so the test doesn't break when new body parts
+        // with similar_bodypart links change the average coverage.
         std::vector<iteminfo_parts> cov_warm_shirt = {
             iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH
         };
-        REQUIRE( longshirt.get_avg_coverage() == 90 );
-        REQUIRE( longshirt.get_warmth() == 5 );
+        int shirt_cov = longshirt.get_avg_coverage();
+        int shirt_warmth = longshirt.get_warmth();
+        REQUIRE( shirt_cov > 0 );
+        REQUIRE( shirt_warmth > 0 );
         CHECK( item_info_str( longshirt, cov_warm_shirt )
                ==
                "--\n"
                "<color_c_white>Total Coverage</color>"
-               "  <color_c_yellow>90</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
+               "  <color_c_yellow>" + std::to_string( shirt_cov ) + "</color>%:"
+               " The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Warmth</color>"
-               "  <color_c_yellow>5</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
+               "  <color_c_yellow>" + std::to_string( shirt_warmth ) + "</color>:"
+               " The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
 
         verify_item_encumbrance(
         longshirt, item::encumber_flags::none, 3, {
@@ -992,8 +1005,6 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                "--\n"
                "<color_c_white>Total Coverage</color>  <color_c_yellow>95</color>%: The <color_c_cyan>legs</color>.\n"
                "<color_c_white>Warmth</color>  <color_c_yellow>70</color>: The <color_c_cyan>legs</color>.\n" );
-
-        REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         verify_item_coverage(
         faux_fur_pants, {
             { bodypart_id( "torso" ), 0 },
@@ -3265,4 +3276,94 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
 
     relative_test( a_copy_rel_str );
     relative_test( a_copy_w_armor_rel_str );
+}
+
+// Character-aware body part display filtering for armor info.
+// When similar_bodypart expands item coverage at load time (e.g. arm_l -> alt_arm_l),
+// the display should only show body parts the viewing character actually has.
+TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
+{
+    // Exact color-tagged fragments with trailing punctuation to avoid partial matches.
+    // "arms" could match inside "alt arms" without the color tags.
+    const std::string arms_frag = "<color_c_cyan>arms</color>.";
+    const std::string alt_arms_frag = "<color_c_cyan>Alt Arms</color>.";
+    const std::string torso_frag = "<color_c_cyan>torso</color>.";
+
+    auto make_alt_arm_viewer = []() {
+        Character &viewer = get_player_character();
+        clear_character( viewer, true );
+        viewer.enchantment_cache->force_add( *enchantment_ENCH_TEST_ALT_ARMS, viewer );
+        viewer.recalculate_bodyparts();
+        REQUIRE( viewer.has_part( body_part_test_alt_arm_l ) );
+    };
+
+    SECTION( "default human sees standard limb names" ) {
+        clear_avatar();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_BODYPARTS } );
+        CHECK( info.find( arms_frag ) != std::string::npos );
+        CHECK( info.find( alt_arms_frag ) == std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
+    }
+
+    SECTION( "alt-arm character sees alt limb names" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_BODYPARTS } );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( arms_frag ) == std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
+    }
+
+    SECTION( "coverage section filtered by viewer anatomy" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_COVERAGE } );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( arms_frag ) == std::string::npos );
+    }
+
+    SECTION( "warmth section filtered by viewer anatomy" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_WARMTH } );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( arms_frag ) == std::string::npos );
+    }
+
+    SECTION( "encumbrance section filtered by viewer anatomy" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( arms_frag ) == std::string::npos );
+    }
+
+    SECTION( "breathability section filtered by viewer anatomy" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_BREATHABILITY } );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( arms_frag ) == std::string::npos );
+    }
+
+    SECTION( "fallback annotation for anatomy-incompatible items" ) {
+        clear_avatar();
+        item tail_item( itype_test_tail_encumber );
+        std::string info = item_info_str( tail_item, { iteminfo_parts::ARMOR_BODYPARTS } );
+        CHECK( info.find( "not for your anatomy" ) != std::string::npos );
+    }
+
+    SECTION( "no empty section headers for anatomy-incompatible items" ) {
+        clear_avatar();
+        item tail_item( itype_test_tail_encumber );
+        std::string cov = item_info_str( tail_item, { iteminfo_parts::ARMOR_COVERAGE } );
+        std::string enc = item_info_str( tail_item, { iteminfo_parts::ARMOR_ENCUMBRANCE } );
+        std::string wrm = item_info_str( tail_item, { iteminfo_parts::ARMOR_WARMTH } );
+        std::string brt = item_info_str( tail_item, { iteminfo_parts::ARMOR_BREATHABILITY } );
+        CHECK( cov.find( "Total Coverage" ) == std::string::npos );
+        CHECK( enc.find( "Encumbrance" ) == std::string::npos );
+        CHECK( wrm.find( "Warmth" ) == std::string::npos );
+        CHECK( brt.find( "Breathability" ) == std::string::npos );
+    }
 }

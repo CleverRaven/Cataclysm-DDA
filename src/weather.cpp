@@ -146,6 +146,12 @@ float incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
+float incident_moonlight( const weather_type_id &wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, moon_light_at( t ) * wtype->light_multiplier +
+                            wtype->light_modifier );
+}
+
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sun_irradiance( t ) * wtype->sun_multiplier );
@@ -463,9 +469,9 @@ void handle_weather_effects( const weather_type_id &w )
         }
         here.decay_fields_and_scent( decay_time );
         // Coarse correction to get us back to previously intended soaking rate.
-        const bool no_roof_above = here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR,
-                                   target.pos_bub() + tripoint::above );
-        if( calendar::once_every( 6_seconds ) && is_creature_outside( target ) && no_roof_above ) {
+        // Precipitation is vertical - only roofs/floors block it, not walls.
+        // is_roofed() walks upward through all z-levels for a complete check.
+        if( calendar::once_every( 6_seconds ) && !here.is_roofed( target.pos_bub() ) ) {
             wet_character( target, wetness );
         }
     }
@@ -919,6 +925,31 @@ static bool has_sunlight_access( const tripoint_bub_ms &pos )
         checked_pnt = pnt_above;
     }
     return true;
+}
+
+bool can_creature_see_sky( const Creature &target )
+{
+    map &here = get_map();
+    const tripoint_bub_ms pos = target.pos_bub( here );
+    if( has_sunlight_access( pos ) ) {
+        return true;
+    }
+
+    std::array<direction, 8> adjacentDir = {
+        direction::NORTH, direction::NORTHEAST, direction::EAST,
+        direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
+        direction::WEST, direction::NORTHWEST
+    };
+    for( direction &elem : adjacentDir ) {
+        tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
+
+        // Don't check adjacent sky lights to save CPU cycles.
+        if( here.inbounds( pos + apos ) && here.is_outside( pos + apos ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it )

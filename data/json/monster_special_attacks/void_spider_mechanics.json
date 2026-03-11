@@ -28,7 +28,7 @@
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 0,
-    "flags": [ "UNDODGEABLE" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "action": "eocs",
     "eocs": [ "EOC_SPIDER_DIMENSION_TELEPORT" ]
   },

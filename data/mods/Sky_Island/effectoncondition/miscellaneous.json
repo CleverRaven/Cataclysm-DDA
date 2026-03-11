@@ -1,0 +1,144 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultysafeguard",
+    "//": "This EOC gets called after a teleport is initialized but before it is finished.  It basically just checks if you're running an older save or somehow missed the difficulty assignment.",
+    "condition": { "math": [ "has_set_difficulty == 0" ] },
+    "effect": [
+      {
+        "u_message": "You haven't selected a difficulty.  This could be because you're playing an old save.\n\nYour current difficulty has been set to Normal.  In this setting, you will have 4 hours in every expedition to reach the exit and leave safely.  After this, warp sickness sets in and applies heavy debuffs until you exit.  After 6 hours, warp disintegration begins, and you will rapidly lose health until you exit or die.",
+        "popup": true
+      },
+      { "run_eocs": [ "EOC_difficultycheck" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_warp_begins",
+    "//": "This EOC is triggered when the Warper scenario begins.  It initializes a few variables, and memorizes your spawn location for resurrection just in case you somehow die before using the warp obelisk.  Also learns your spell for emergencies.",
+    "effect": [
+      {
+        "u_message": "Welcome to Sky Islands.\n\nSpeak to the Heart of the Island to get your bearings, accept missions, manage upgrades, change your difficulty settings, and more.",
+        "popup": true
+      },
+      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      { "run_eocs": "EOC_difficulty_DEFAULTS" },
+      { "math": [ "currentpulselength = sicknessintervals" ] },
+      { "math": [ "timeawayfromhome = 0" ] },
+      { "math": [ "raidstotal = 0" ] },
+      { "math": [ "raidswon = 0" ] },
+      { "math": [ "raidslost = 0" ] },
+      { "math": [ "islandrank = 0" ] },
+      { "math": [ "missionswon = 0" ] },
+      { "math": [ "slaughterswon = 0" ] },
+      { "math": [ "hardmissions = 0" ] },
+      { "math": [ "hardermissions = 0" ] },
+      { "math": [ "hardestmissions = 0" ] },
+      { "math": [ "scoutingdistancetargets = 0" ] },
+      { "math": [ "scoutingdistancelanding = 0" ] },
+      { "math": [ "missiondistancemax = 30" ] },
+      { "math": [ "missiondistancemin = 5" ] },
+      { "math": [ "exfildistancemax = 35" ] },
+      { "math": [ "exfildistancemin = 10" ] },
+      { "math": [ "invistime = 60" ] },
+      { "math": [ "bonusexits = 0" ] },
+      { "math": [ "versionupdate = 1" ] },
+      { "math": [ "slaughterunlocked = 0" ] },
+      { "math": [ "bonusmissions = 0" ] },
+      { "math": [ "bonuspulses = 0" ] },
+      { "math": [ "longerraids = 0" ] },
+      { "math": [ "basementsunlocked = 0" ] },
+      { "math": [ "roofsunlocked = 0" ] },
+      { "math": [ "labsunlocked = 0" ] },
+      { "math": [ "goingtolabs = 0" ] },
+      { "math": [ "skyisland_build_base = 0" ] },
+      { "math": [ "skyisland_build_bigroom = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_versioncheck",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.  UPDATE THE NUMBER IN THE CONDITION BELOW AS VERSIONS UPDATE, THAT'S WHAT DETERMINES WHAT THE OFFICIAL CURRENT VERSION OF THIS MOD IS.",
+    "condition": { "math": [ "versionupdate != 1" ] },
+    "effect": [
+      { "u_message": "Your save was last used with an older version of Sky Island.  Attempting to update…", "popup": true },
+      {
+        "if": { "not": { "u_has_trait": "awayfromhome" } },
+        "then": [ { "run_eocs": "EOC_skyisland_versionupdate" } ],
+        "else": [
+          {
+            "u_message": "Error.  Update not applied.\n\nReason: Cannot update while on expedition.  Return home, save and close your game, and try loading this save again.",
+            "popup": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_versionupdate",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "//": "On loading a game, checks if the save was made using an old version of this mod.  If so, tries to update it with the necessary new items and variables.",
+    "condition": { "math": [ "versionupdate != 1" ] },
+    "effect": [
+      {
+        "if": { "math": [ "versionupdate < 1" ] },
+        "then": [
+          {
+            "u_message": "Your save was made with a pre-Milestone 1 version of Sky Island, which means it lacks upgrades and the Heart of the Island.  Attempting to update…",
+            "popup": true
+          },
+          { "run_eocs": "EOC_difficultycheck" },
+          { "run_eocs": "EOC_memorize_island" },
+          {
+            "mapgen_update": "mx_skyisland_solidstoneoverride",
+            "target_var": { "global_val": "OM_island_subcenter" }
+          },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subnw" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subn" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subne" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subw" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_sube" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subsw" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subs" } },
+          { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subse" } },
+          { "math": [ "versionupdate = 1" ] },
+          { "math": [ "missiondistancemax = 30" ] },
+          { "math": [ "missiondistancemin = 5" ] },
+          { "math": [ "exfildistancemax = 35" ] },
+          { "math": [ "exfildistancemin = 10" ] },
+          { "math": [ "invistime = 60" ] },
+          { "u_spawn_item": "warp_folded_heart", "count": 1 },
+          {
+            "u_message": "Milestone 1 applied.  You have been given a Heartseed.  Activate it while on your island to create the new Heart of the Island.  Interact with the Heart to access new upgrade options.",
+            "popup": true
+          },
+          {
+            "if": { "math": [ "raidswon > 0" ] },
+            "then": [
+              { "math": [ "owed_material_tokens = 50 * raidswon" ] },
+              {
+                "u_spawn_item": "warptoken_material",
+                "count": { "global_val": "owed_material_tokens", "default": 50 }
+              },
+              {
+                "u_message": "You have been retroactively awarded <global_val:owed_material_tokens> material tokens for your past successful expeditions.",
+                "popup": true
+              },
+              { "math": [ "backpaid_raids = raidswon" ] }
+            ]
+          },
+          {
+            "u_message": "The stat stone, healing salve, difficulty adjuster, and similar items are removed.  These options are instead accessed by speaking to the Heart of the Island.\n\nWarped bags and quickheals are obsolete.  If you already have any, they can still be used, or salvaged for a refund of warp shards.\n\nAny further changes are documented in the patch notes.",
+            "popup": true
+          }
+        ],
+        "else": [ { "u_message": "Your save is post-Milestone 1.  Skipping update 1…", "popup": true } ]
+      },
+      { "u_message": "Your save should be up to date now.", "popup": true }
+    ]
+  }
+]

@@ -239,7 +239,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::exact ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ), ot_match_type::exact ) );
 
         // Does not exactly match if rotation differs
         // NOLINTNEXTLINE(cata-ot-match)
@@ -261,7 +261,7 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
         // Does not match if base type does not match
         // NOLINTNEXTLINE(cata-ot-match)
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::type ) );
         // NOLINTNEXTLINE(cata-ot-match)
         CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
     }
@@ -269,15 +269,16 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
     SECTION( "prefix match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::prefix ) );
 
         // Prefix matches when an underscore separator exists
-        CHECK( is_ot_match( "central", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "forest", oter_id( "forest_thick" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "underground", oter_id( "underground_sub_station" ), ot_match_type::prefix ) );
 
         // Prefix itself may contain underscores
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
-        CHECK( is_ot_match( "central_lab_train", oter_id( "central_lab_train_depot" ),
+        CHECK( is_ot_match( "sewer_end", oter_id( "sewer_end_north" ), ot_match_type::prefix ) );
+        CHECK( is_ot_match( "test_forest_very", oter_id( "test_forest_very_thick" ),
                             ot_match_type::prefix ) );
 
         // Prefix does not match without an underscore separator
@@ -285,28 +286,29 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         CHECK_FALSE( is_ot_match( "fore", oter_id( "forest_thick" ), ot_match_type::prefix ) );
 
         // Prefix does not match the middle or end
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::prefix ) );
-        CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
+        CHECK_FALSE( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::prefix ) );
     }
 
     SECTION( "contains match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "central_lab", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "forest_thick", oter_id( "forest_thick" ),
+                            ot_match_type::contains ) );
 
         // Matches the beginning/middle/end of an underscore-delimited id
-        CHECK( is_ot_match( "central", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "stairs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewer", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sub", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "station", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Matches the beginning/middle/end without undercores as well
-        CHECK( is_ot_match( "cent", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "ral_lab", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "_lab_", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
-        CHECK( is_ot_match( "airs", oter_id( "central_lab_stairs" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "sewe", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "er_su", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "_sub_", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
+        CHECK( is_ot_match( "tion", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
 
         // Does not match if substring is not contained
-        CHECK_FALSE( is_ot_match( "forest", oter_id( "central_lab" ), ot_match_type::contains ) );
+        CHECK_FALSE( is_ot_match( "forest", oter_id( "sewer_sub_station" ), ot_match_type::contains ) );
         CHECK_FALSE( is_ot_match( "forestry", oter_id( "forest" ), ot_match_type::contains ) );
     }
 }
@@ -783,4 +785,72 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
         CHECK( bounds.back() == pos + p.second );
     }
 
+}
+
+TEST_CASE( "overmap_generation_is_deterministic", "[overmap]" )
+{
+    // Verify that overmap generation produces identical results when the RNG
+    // engine starts from the same state.  Catches stale distribution cache
+    // bugs and any other hidden nondeterminism in the generation pipeline.
+
+    // NOLINTNEXTLINE(cata-determinism)
+    const cata_default_random_engine saved_engine = rng_get_engine();
+
+    map &main_map = get_map();
+    const point_abs_om origin = project_to<coords::om>( main_map.get_abs_sub().xy() );
+
+    // Generate a 2x2 cluster of overmaps (origin + 3 neighbors).
+    const std::vector<point_abs_om> cluster = closest_points_first( origin, 0, 1 );
+
+    constexpr int runs = 3;
+    std::vector<std::vector<oter_id>> snapshots( runs );
+
+    for( int run = 0; run < runs; ++run ) {
+        overmap_buffer.clear();
+        rng_get_engine() = saved_engine;
+
+        // Touch all overmaps in the cluster to trigger generation.
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt = project_to<coords::omt>( om );
+            overmap_buffer.ter( { omt, 0 } );
+        }
+
+        // Snapshot every z=0 tile across the cluster.
+        std::vector<oter_id> &snap = snapshots[run];
+        snap.reserve( cluster.size() * OMAPX * OMAPY );
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt_start = project_to<coords::omt>( om );
+            const point_abs_omt omt_end = omt_start + point::south_east * OMAPX;
+            for( int y = omt_start.y(); y < omt_end.y(); ++y ) {
+                for( int x = omt_start.x(); x < omt_end.x(); ++x ) {
+                    snap.push_back( overmap_buffer.ter( { point_abs_omt( x, y ), 0 } ) );
+                }
+            }
+        }
+    }
+
+    // Compare each run against the first.
+    for( int run = 1; run < runs; ++run ) {
+        REQUIRE( snapshots[run].size() == snapshots[0].size() );
+        bool match = true;
+        for( size_t i = 0; i < snapshots[0].size(); ++i ) {
+            if( snapshots[run][i] != snapshots[0][i] ) {
+                // Report the first mismatch with tile coordinates.
+                const int tiles_per_om = OMAPX * OMAPY;
+                const int om_idx = static_cast<int>( i ) / tiles_per_om;
+                const int local = static_cast<int>( i ) % tiles_per_om;
+                const int y = local / OMAPX;
+                const int x = local % OMAPX;
+                CAPTURE( run, om_idx, x, y );
+                CAPTURE( snapshots[0][i]->id );
+                CAPTURE( snapshots[run][i]->id );
+                FAIL( "overmap terrain mismatch between run 0 and run " << run );
+                match = false;
+                break;
+            }
+        }
+        if( match ) {
+            SUCCEED( "run " << run << " matches run 0" );
+        }
+    }
 }

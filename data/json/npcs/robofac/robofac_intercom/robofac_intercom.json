@@ -341,6 +341,7 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_accepted_robofac_intercom_mws_4" } ] },
             {
               "or": [
+                { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_vitrified", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_exodii", "count": 1 } },
@@ -355,7 +356,8 @@
                 { "u_has_items": { "item": "HEW_printout_data_cabin_reverb", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_cabin_reverb_dimension", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_barricaded_church", "count": 1 } },
-                { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } }
+                { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } }
               ]
             }
           ]
@@ -490,6 +492,89 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS"
+      },
+      {
+        "text": "I have information about a warehouse full of inter-dimensional Exodii tech.  Are you interested?",
+        "condition": {
+          "and": [
+            { "math": [ "hub01_knows_exodii == 1" ] },
+            { "not": { "math": [ "hub01_bought_exodii_warehouse == 1" ] } },
+            {
+              "or": [
+                { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+                { "math": [ "warehouse_was_found == 1" ] },
+                { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] },
+                { "math": [ "u_rebooted_locator == 1" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE"
+      },
+      {
+        "text": "I have information about a warehouse full of exotic tech.  Are you interested?",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "hub01_knows_exodii == 1" ] } },
+            { "not": { "math": [ "hub01_bought_exodii_warehouse == 1" ] } },
+            {
+              "or": [
+                { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+                { "math": [ "warehouse_was_found == 1" ] },
+                { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] },
+                { "math": [ "u_rebooted_locator == 1" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRODUCE_EXODII_VIA_WAREHOUSE"
+      },
+      {
+        "text": "Any news on the Exodii warehouse?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] },
+            { "math": [ "hub01_promised_warehouse_info != 1" ] },
+            { "math": [ "hub01_stole_warehouse == 1" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4a"
+      },
+      {
+        "text": "Any news on the Exodii warehouse?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] },
+            { "math": [ "hub01_promised_warehouse_info == 1" ] },
+            { "math": [ "hub01_stole_warehouse == 1" ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4b"
+      },
+      {
+        "text": "Any news on the Exodii warehouse?",
+        "condition": { "and": [ { "math": [ "has_var(u_timer_hub_waiting_on_warehouse)" ] }, { "math": [ "hub01_stole_warehouse != 1" ] } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4c"
+      },
+      {
+        "text": "You mentioned that the Exodii I brought you would be useful for some kind of technology.  Any news on that?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_autodoc)" ] },
+            { "math": [ "hub01_told_u_about_warehouse_autodoc != 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_A"
+      },
+      {
+        "text": "Any news on that Exodii surgical-thing?",
+        "condition": {
+          "and": [
+            { "math": [ "has_var(u_timer_hub_waiting_on_autodoc)" ] },
+            { "math": [ "hub01_told_u_about_warehouse_autodoc == 1" ] }
+          ]
+        },
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B"
       },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
@@ -1101,5 +1186,369 @@
       "No. Come back after <restock_time_point>."
     ],
     "responses": [ { "text": "Right…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRODUCE_EXODII_VIA_WAREHOUSE",
+    "type": "talk_topic",
+    "dynamic_line": "What kind of exotic tech?  I'll need more information than that to even consider payment.",
+    "responses": [
+      {
+        "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
+        "effect": [ { "u_add_faction_trust": 1 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
+      },
+      {
+        "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting, and they seem to have a preference for large firearms, swords, and spears.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
+      },
+      {
+        "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.  From what I understand, they are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+        "effect": [ { "u_add_faction_trust": 2 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
+      },
+      {
+        "text": "It's a warehouse owned by a race of inter-dimensional beings who call themselves the Exodii.  They're… robots?  Cyborgs?  More metal than man in my opinion.  They use automated machinery to do their fighting and heavy lifting, and they seem to have a preference for large firearms, swords, and spears.  They do understand English to a certain extent, but when talking they use a strange dialect they like to call Anglic.  From what I understand, they are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "hub01_knows_exodii = 1" ] } ]
+      },
+      { "text": "Actually, nevermind.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent for a long moment, before a different voice replies:  \"If this warehouse is indeed full of inter-dimensional cyborg technology, we would be willing to pay generously for its location.\"",
+    "responses": [
+      {
+        "text": "I can give you the coordinates, for a price.",
+        "condition": {
+          "or": [
+            { "math": [ "warehouse_was_found == 1" ] },
+            { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2a"
+      },
+      {
+        "text": "I'll give you the coordinates free of charge - consider it part of our ongoing professional relationship.",
+        "condition": {
+          "or": [
+            { "math": [ "warehouse_was_found == 1" ] },
+            { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] }
+          ]
+        },
+        "effect": [ { "u_add_faction_trust": 3 }, { "math": [ "hub01_bought_exodii_warehouse = 1" ] } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
+      },
+      { "text": "Actually, nevermind.  I don't know where it is.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2a",
+    "type": "talk_topic",
+    "dynamic_line": "Very well.  We are prepared to offer 5 HGCs, which is generous, given that this is a considerable risk.",
+    "responses": [
+      {
+        "text": "Deal!  5 HGCs in exchange for the coordinates.",
+        "effect": [
+          { "u_add_faction_trust": 1 },
+          { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
+      },
+      {
+        "text": "I don't need any coins, but I'd like you to tell me about the tech you find inside.",
+        "effect": [
+          { "u_add_faction_trust": 1 },
+          { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+          { "math": [ "hub01_promised_warehouse_info = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
+      },
+      {
+        "text": "I want 10 HGCs.",
+        "trial": { "type": "PERSUADE", "difficulty": 20 },
+        "success": {
+          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+          "effect": [
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 10 }
+          ]
+        },
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
+      },
+      {
+        "text": "I want 5 HGCs and information on the tech you find.",
+        "trial": { "type": "PERSUADE", "difficulty": 20 },
+        "success": {
+          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+          "effect": [
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 5 },
+            { "math": [ "hub01_promised_warehouse_info = 1" ] }
+          ]
+        },
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
+      },
+      {
+        "text": "I want 10 HGCs and information on the tech you find.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": {
+          "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+          "effect": [
+            { "u_add_faction_trust": 1 },
+            { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+            { "u_spawn_item": "RobofacCoin", "count": 10 },
+            { "math": [ "hub01_promised_warehouse_info = 1" ] }
+          ]
+        },
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_2b",
+    "type": "talk_topic",
+    "dynamic_line": "We can only offer you 5 HGCs.  Alternatively, we could give you information on the tech once it's recovered, if that is more interesting to you.",
+    "responses": [
+      {
+        "text": "Deal!  5 HGCs in exchange for the coordinates.",
+        "effect": [
+          { "u_add_faction_trust": 1 },
+          { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
+      },
+      {
+        "text": "Deal!  Information on the tech in exchange for the coordinates.",
+        "effect": [
+          { "u_add_faction_trust": 1 },
+          { "math": [ "hub01_bought_exodii_warehouse = 1" ] },
+          { "math": [ "hub01_promised_warehouse_info = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_3",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  We will scout the area and send a team to recover the materials.  We will dispatch the team immediately, but it will take a full day until we have any more information.  We thank you for your contributions to the future of humanity.",
+    "responses": [
+      {
+        "text": "Nice doing business with you.",
+        "condition": { "or": [ { "math": [ "warehouse_was_found == 1" ] }, { "math": [ "u_rebooted_locator == 1" ] } ] },
+        "effect": [
+          { "u_add_faction_trust": -3 },
+          { "math": [ "hub01_and_exodii_found_warehouse = 1" ] },
+          { "math": [ "u_timer_hub_waiting_on_warehouse = time('now')" ] },
+          { "u_add_var": "dialogue_hub_u_waiting_on_warehouse", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "Nice doing business with you.",
+        "condition": {
+          "and": [ { "not": { "math": [ "warehouse_was_found == 1" ] } }, { "not": { "math": [ "u_rebooted_locator == 1" ] } } ]
+        },
+        "effect": [
+          { "u_add_faction_trust": 1 },
+          { "math": [ "hub01_stole_warehouse = 1" ] },
+          { "math": [ "u_timer_hub_waiting_on_warehouse = time('now')" ] },
+          { "u_add_var": "dialogue_hub_u_waiting_on_warehouse", "value": "yes" },
+          { "mapgen_update": "exo_warehouse_1_robofac_looted", "om_terrain": "exo_warehouse_1" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4a",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ],
+      "yes": "Indeed, we have found the warehouse, and as you promised, it is full of exotic technology.  Your services are appreciated.",
+      "no": "The recovery process is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Glad to hear it.",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
+          { "u_lose_var": "timer_hub_waiting_on_warehouse" },
+          { "math": [ "hub01_told_u_about_warehouse = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4b",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ],
+      "yes": "Indeed, we have found the warehouse, and as you promised, it is full of exotic technology.  As promised, we have additional details on the contents.  We have discovered components for what appears to be some sort of surgical robot.  We are currently reverse engineering it in an attempt to understand it better.  If we have needs of your services in these efforts - and we very well may - we'll be sure to let you know.",
+      "no": "The recovery process is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Great.  I'll check in later about helping out, if I can.",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" },
+          { "u_lose_var": "timer_hub_waiting_on_warehouse" },
+          { "math": [ "hub01_told_u_about_warehouse = 1" ] },
+          { "math": [ "hub01_told_u_about_warehouse_autodoc = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_EXODII_WAREHOUSE_4c",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ],
+      "yes": "Indeed, but curiously, these \"Exodii\" beat us there.  We were not able to recover the contents of the warehouse.  We hope your future intel will be more complete.",
+      "no": "The recovery process is still ongoing."
+    },
+    "responses": [
+      {
+        "text": "Right.",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_warehouse) >= time('1 d')" ] },
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_warehouse" }, { "u_lose_var": "timer_hub_waiting_on_warehouse" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll check in later.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_A",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ],
+      "yes": "&The intercom clicks off and there is a long moment of silence, before it clicks back on again with a new person on the other end.  \"Yes, hello.  Right.  Yes.  Indeed, the technology we recovered was instrumental in developing new medical technology we are making available for our contractors, like yourself.  You can find a new, public medical suite across the street, in the old basement of the weather station - you should be able to find the stairs just inside the entrance.  Please feel free to make use of its services.\"",
+      "no": {
+        "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('12 d')" ],
+        "yes": "Our newest project will be ready for field testing within the week.  We suggest checking back regularly.",
+        "no": {
+          "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('7 d')" ],
+          "yes": "This project is ongoing, but is advancing quickly.  We expect research to be done in a matter of weeks.",
+          "no": "The project is ongoing, and we expect it will take weeks or months until it is ready for testing.  We suggest you check back in next week."
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "A new medical facility across the street, in the basement?  I guess I can go check it out.",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+        "effect": [ { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" }, { "u_lose_var": "timer_hub_waiting_on_autodoc" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) < time('14 d')" ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ],
+      "yes": "&The intercom clicks off and there is a long moment of silence, before it clicks back on again with a new person on the other end.  \"Yes, hello.  Right.  Yes.  Indeed, we have been able to reconstruct the automatic medical device, and due to your efforts, and the efforts of other contractors and Hub scientists, we were able to reverse engineer the cybernetic implants the Exodii make use of.  You can find a new, public medical suite across the street, in the old basement of the weather station - you should be able to find the stairs just inside the entrance.  Please feel free to make use of its services.  As previously discussed, we would like to invite you to join our new program, where select mercenaries will be allowed to field test new cybernetic enhancements.  Doctor Stevens at the facility will give you more information.  In fact, as a reward for your service, we are prepared to install some very useful cybernetic enhancements that we developed as a part of these efforts.\"",
+      "no": {
+        "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('12 d')" ],
+        "yes": "Our newest project will be ready for field testing within days.  We suggest checking back regularly.",
+        "no": {
+          "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('7 d')" ],
+          "yes": "We expect the surgical suite to be ready in approximately one week.",
+          "no": "The project is ongoing, and we expect it will take weeks or months until it is ready for testing.  We suggest you check back in next week."
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "Actually, I'm familiar with these cybernetics.  I already have an interface installed by the Exodii.",
+        "condition": {
+          "and": [ { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] }, { "u_has_trait": "CBM_Interface" } ]
+        },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B_EXODII_INTERFACE"
+      },
+      {
+        "text": "Cybernetics?  What do you mean by that?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+            { "not": { "u_has_trait": "CBM_Interface" } }
+          ]
+        },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_EXODI_INTERCOM_AUTODOC_B_CYBERNETICS_INFO"
+      },
+      {
+        "text": "I guess I can go check the new medical facility out.  Across the street in the basement, right?",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) >= time('14 d')" ] },
+        "effect": [
+          { "u_lose_var": "dialogue_hub_u_waiting_on_autodoc" },
+          { "u_lose_var": "timer_hub_waiting_on_autodoc" },
+          { "math": [ "hub01_promised_cbm_reward = 1" ] }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "condition": { "math": [ "time_since(u_timer_hub_waiting_on_autodoc) < time('14 d')" ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B_EXODII_INTERFACE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent for a long moment, then it clicks off, then back on, with the same voice as before:  \"Interesting.  We'll inform Doc Stevens.  We would be willing to pay you to study this device, whether you wish to participate in the field testing units or not.  Unfortunately, based on our research, this Exodii technology was a complete dead end, with no room for improvement, and it carries significant risks, including cancer and increased risk of internal bleeding.  Our improved interface is completely safe and will be of great benefit to u- to mankind.  To boot, it will remain compatible with whatever bionic modules we can continue to recover from the Exodii.  We suggest you have Doc Stevens swap it out immediately.\"",
+    "responses": [
+      {
+        "text": "I'll keep that in mind, and maybe I'll check out the new facility.  Across the street in the basement, right?",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODI_INTERCOM_AUTODOC_B_CYBERNETICS_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "The Exodii made their \"workers\" out of human beings, each implanted with a computer-brain interface.  This allows to interface with electronic bionic modules, including things like integrated toolsets, rangefinders, and radios.  Unfortunately, the Exodii interfaces are not particularly advanced or safe, and come with serious cancer risks, among other problems.  Our improved interface is completely safe and will be of great benefit to u- to mankind.  To boot, it will remain compatible with whatever bionic modules we can continue to recover from the Exodii.",
+    "responses": [
+      {
+        "text": "I'll keep that in mind, and maybe I'll check out the new facility.  Across the street in the basement, right?",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
   }
 ]

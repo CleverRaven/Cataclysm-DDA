@@ -887,7 +887,7 @@
       { "fuel": 1, "smoke": 1, "burn": 0.06 }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2, "cut": 1.25, "acid": 3, "heat": 1, "bullet": 1 },
+    "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 1, "bullet": 1 },
     "repair_difficulty": 3
   },
   {
@@ -911,7 +911,7 @@
       { "fuel": 1, "smoke": 1, "burn": 0.04 },
       { "fuel": 1, "smoke": 1, "burn": 0.06 }
     ],
-    "resist": { "bash": 2, "cut": 2, "acid": 4, "heat": 1, "bullet": 2 },
+    "resist": { "bash": 2, "cut": 2, "acid": 4, "heat": 1, "bullet": 1 },
     "repair_difficulty": 3
   },
   {

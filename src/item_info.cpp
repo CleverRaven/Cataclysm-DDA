@@ -1658,6 +1658,10 @@ bool item::armor_full_protection_info( std::vector<iteminfo> &info,
             return ret;
         }
 
+        const Character &viewer = get_player_character();
+        body_part_set viewer_parts;
+        viewer_parts.fill( viewer.get_all_body_parts() );
+
         for( const armor_portion_data &p : t->sub_data ) {
             if( divider_needed ) {
                 insert_separation_line( info );
@@ -1668,17 +1672,23 @@ bool item::armor_full_protection_info( std::vector<iteminfo> &info,
             covered.begin(), []( sub_bodypart_str_id a ) {
                 return a.id();
             } );
+            erase_if( covered, [&viewer_parts]( const sub_bodypart_id & sbp ) {
+                return !viewer_parts.test( sbp->parent );
+            } );
+            if( covered.empty() ) {
+                continue;
+            }
+            // pick representative before consolidate() which mutates the vector
+            sub_bodypart_id representative = covered.front();
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
             std::string coverage = _( "<bold>Protection for</bold>:" );
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
             info.emplace_back( "DESCRIPTION", coverage );
-
-            // the following function need one representative sub limb from which to query data
-            armor_material_info( info, parts, 0, false, *p.sub_coverage.begin() );
-            armor_attribute_info( info, parts, 0, false, *p.sub_coverage.begin() );
-            armor_protection_info( info, parts, 0, false, *p.sub_coverage.begin() );
+            armor_material_info( info, parts, 0, false, representative );
+            armor_attribute_info( info, parts, 0, false, representative );
+            armor_protection_info( info, parts, 0, false, representative );
             ret = true;
             divider_needed = true;
         }
@@ -2003,12 +2013,31 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     const bool show_bodygraph = get_option<bool>( "ITEM_BODYGRAPH" ) &&
                                 parts->test( iteminfo_parts::ARMOR_BODYGRAPH );
 
+    // Filter displayed body parts to the viewing character's actual anatomy.
+    // A human sees "arms", a feathered-arm mutant sees "feathered arms", etc.
+    const Character &viewer = get_player_character();
+    body_part_set viewer_parts;
+    viewer_parts.fill( viewer.get_all_body_parts() );
+    body_part_set display_parts = covered_parts.make_intersection( viewer_parts );
+    bool has_display_parts = display_parts.any();
+
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
         std::vector<sub_bodypart_id> covered = get_covered_sub_body_parts();
+        erase_if( covered, [&viewer_parts]( const sub_bodypart_id & sbp ) {
+            return !viewer_parts.test( sbp->parent );
+        } );
         std::string coverage = _( "<bold>Covers</bold>:" );
 
-        if( !covered.empty() ) {
+        if( covered.empty() && covers_anything ) {
+            // Viewer has none of the covered parts -- show unfiltered with annotation
+            covered = get_covered_sub_body_parts();
+            std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
+            for( const translation &entry : to_print ) {
+                coverage += string_format( _( " The <info>%s</info>." ), entry );
+            }
+            coverage += _( " <color_c_light_gray>(not for your anatomy)</color>" );
+        } else if( !covered.empty() ) {
             std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
@@ -2061,11 +2090,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                 if( !covered.empty() ) {
                     std::vector<sub_bodypart_id> covered_vec( covered.begin(), covered.end() );
-                    std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered_vec );
-                    for( const translation &entry : to_print ) {
-                        coverage += string_format( _( " The <info>%s</info>." ), entry );
+                    erase_if( covered_vec, [&viewer_parts]( const sub_bodypart_id & sbp ) {
+                        return !viewer_parts.test( sbp->parent );
+                    } );
+                    if( !covered_vec.empty() ) {
+                        std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered_vec );
+                        for( const translation &entry : to_print ) {
+                            coverage += string_format( _( " The <info>%s</info>." ), entry );
+                        }
+                        info.emplace_back( "ARMOR", coverage );
                     }
-                    info.emplace_back( "ARMOR", coverage );
                 }
             }
         }
@@ -2089,6 +2123,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         }
                     }
                 }
+                erase_if( covered, [&viewer_parts]( const sub_bodypart_id & sbp ) {
+                    return !viewer_parts.test( sbp->parent );
+                } );
                 if( !covered.empty() ) {
                     std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
                     for( const translation &entry : to_print ) {
@@ -2100,9 +2137,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
+    if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && has_display_parts ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
+        for( const bodypart_str_id &bp : display_parts ) {
             const armor_portion_data *portion = portion_for_bodypart( bp );
             if( portion ) {
                 limb_groups[portion->coverage].emplace_back( bp );
@@ -2126,14 +2163,14 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
+    if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && has_display_parts ) {
         std::map<armor_encumb_data, std::vector<bodypart_id>> limb_groups;
-        const Character &c = get_player_character();
 
         armor_encumb_header_info( *this, info );
-        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            armor_encumb_data encumbrance( get_encumber( c, bp, item::encumber_flags::assume_empty ),
-                                           get_encumber( c, bp ), get_encumber( c, bp, item::encumber_flags::assume_full ) );
+        for( const bodypart_str_id &bp : display_parts ) {
+            armor_encumb_data encumbrance( get_encumber( viewer, bp, item::encumber_flags::assume_empty ),
+                                           get_encumber( viewer, bp ),
+                                           get_encumber( viewer, bp, item::encumber_flags::assume_full ) );
 
             limb_groups[encumbrance].emplace_back( bp );
         }
@@ -2174,10 +2211,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
-        // TODO: Make this less inflexible on anatomy
+    if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && has_display_parts ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
+        for( const bodypart_str_id &bp : display_parts ) {
             limb_groups[get_warmth( bp )].emplace_back( bp );
         }
         // keep on one line if only 1 entry
@@ -2197,10 +2233,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_BREATHABILITY ) && covers_anything ) {
-
+    if( parts->test( iteminfo_parts::ARMOR_BREATHABILITY ) && has_display_parts ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
+        for( const bodypart_str_id &bp : display_parts ) {
             const armor_portion_data *portion = portion_for_bodypart( bp );
             if( portion ) {
                 limb_groups[portion->breathability].emplace_back( bp );
@@ -4251,6 +4286,19 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
 
         } else if( blockname == "contents" ) {
 
+            const use_function *action = type->get_use( "attach_molle" );
+            if( action ) {
+                const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                                  ( action->get_actor_ptr() );
+                const int size = actor->size;
+                const int vacancies = size - get_contents().get_additional_space_used();
+                insert_separation_line( info );
+                info.emplace_back( "CONTAINER",
+                                   _( "* <bold><info>MOLLE-compatible</info> pouches can be attached to this item</bold>." ) );
+                info.emplace_back( "CONTAINER", _( "Total space: " ), _( "<num>.  " ), iteminfo::no_newline, size );
+                info.emplace_back( "CONTAINER", _( "Spare space: " ), _( "<num>." ), iteminfo::no_flags,
+                                   vacancies );
+            }
             contents.info( info, parts );
             contents_info( info, parts, batch, debug );
 

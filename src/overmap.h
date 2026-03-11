@@ -891,8 +891,6 @@ class overmap
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town,
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
-                        const std::string &prefix, int train_odds );
         void place_ravines();
 
         // Connection laying

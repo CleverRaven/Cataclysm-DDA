@@ -212,6 +212,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```INTANGIBLE_ARMOR``` The armor provides no protection on any covered body part, as thought it had a coverage of 0%. 
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
+- ```MUTATED_ANATOMY_ONLY``` For gear designed only for players with non-standard bodyparts.  Prevents normal humans from wearing the item
 - ```MUTE``` Makes the player mute.
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
@@ -315,13 +316,15 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 - ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
+- ```BIONIC_LIMB``` This bodypart is mechanical and thus cannot bleed or cause pain when hit. 
 - ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations.
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
 - ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
+- ```NO_LIMB_FIRST_AID``` This bodypart cannot be bandaged or disinfected.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
-- ```WING_ARM``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
+- ```WING_ARMS``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
 
 
 ## Books
@@ -390,6 +393,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
+- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -1213,6 +1217,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PET_MOUNTABLE``` Creature can be ridden or attached to a harness.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
+- ```PLANT_BLOOD``` Forces monster to bleed sap.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.

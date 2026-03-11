@@ -2101,8 +2101,8 @@ class item : public visitable
         void set_random_fault_of_type( const std::string &fault_type, bool force = false,
                                        bool message = true );
 
-        /** Removes the fault from the item, if such is presented. */
-        void remove_fault( const fault_id &fault_id );
+        /** Removes the fault from the item, if such is presented. Returns true if a fault was removed */
+        bool remove_fault( const fault_id &fault_id );
 
         /** Checks all the faults in item, and if there is any of this type, removes it. */
         void remove_single_fault_of_type( const std::string &fault_type );
@@ -3160,6 +3160,9 @@ class item : public visitable
         * top-level items in standard pockets */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
+
+        std::list<item *> all_holstered_items();
+        std::list<const item *> all_holstered_items() const;
 
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;

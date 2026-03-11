@@ -1021,6 +1021,16 @@ std::list<const item *> item::all_known_contents() const
     return contents.all_known_contents();
 }
 
+std::list<item *> item::all_holstered_items()
+{
+    return contents.all_holstered_items();
+}
+
+std::list<const item *> item::all_holstered_items() const
+{
+    return contents.all_holstered_items();
+}
+
 void item::clear_items()
 {
     contents.clear_items();

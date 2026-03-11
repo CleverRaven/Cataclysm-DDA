@@ -1618,6 +1618,11 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
+    "id": "MUTATED_ANATOMY_ONLY",
+    "type": "json_flag",
+    "info": "This can only be worn by those with <info>particular mutated anatomy</info> "
+  },
+  {
     "id": "MORPHIC",
     "type": "json_flag",
     "info": "This is <info>naturally sized to the body</info>."
@@ -1721,6 +1726,11 @@
   {
     "id": "NEEDS_NO_LUBE",
     "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_SUNLIGHT",
+    "type": "json_flag",
+    "info": "This tool only functions in strong direct sunlight.  It will not work indoors, underground, at night, or in overcast weather."
   },
   {
     "id": "MAGICAL",
@@ -2607,6 +2617,11 @@
     "info": "You have nonhuman ancestry or are not human"
   },
   {
+    "id": "BLOCK_HUGE_ATTACKS",
+    "type": "json_flag",
+    "info": "You are capable of blocking attacks from targets of any size"
+  },
+  {
     "id": "SUFFOCATION_IMMUNE",
     "type": "json_flag",
     "info": "You are immune to being crowd-crushed"
@@ -2949,7 +2964,6 @@
     "id": "PHASE_BACK",
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
-    "name": "Phase back",
-    "info": "This terrain will phase back to its original terrain when no longer modified."
+    "//2": "This terrain will phase back to its original terrain when no longer modified."
   }
 ]

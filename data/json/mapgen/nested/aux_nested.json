@@ -475,6 +475,11 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "sub_t_stairs_up",
+    "object": { "rows": [ "<" ], "terrain": { "<": [ "t_stairs_up" ] }, "mapgensize": [ 1, 1 ] }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "8x8_hole",
     "object": {
       "mapgensize": [ 8, 8 ],

@@ -87,6 +87,8 @@ struct weather_type {
         nc_color map_color = c_white;
         // Map glyph of weather type.
         uint32_t symbol = PERCENT_SIGN_UNICODE;
+        // Sun glyph of weather type.
+        uint32_t sun_symbol = NULL_UNICODE;
         // Penalty to ranged attacks.
         int ranged_penalty = 0;
         // Penalty to per-square visibility, applied in transparency map.
@@ -128,6 +130,9 @@ struct weather_type {
         void check() const;
         std::string get_symbol() const {
             return utf32_to_utf8( symbol );
+        }
+        std::string get_sun_symbol() const {
+            return utf32_to_utf8( sun_symbol );
         }
         weather_type() = default;
 };

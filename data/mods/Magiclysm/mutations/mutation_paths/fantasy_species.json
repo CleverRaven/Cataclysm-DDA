@@ -858,7 +858,13 @@
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
     "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "activation_msg": ""
+    "activation_msg": "",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "avian_talon_l" }, { "gain": "avian_talon_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -874,8 +880,8 @@
     "types": [ "WINGS" ],
     "strict_threshreq": true,
     "restricts_gear": [ "torso" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "wing_ravenfolk_l" }, { "gain": "wing_ravenfolk_r" } ] } ],
     "allow_soft_gear": true,
-    "flags": [ "WINGS_2", "WING_GLIDE" ],
     "active": true,
     "activated_is_setup": false,
     "activation_msg": "",

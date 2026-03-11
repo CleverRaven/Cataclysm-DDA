@@ -142,8 +142,6 @@ std::string action_ident( action_id act )
             return "LEVEL_DOWN";
         case ACTION_MOVE_UP:
             return "LEVEL_UP";
-        case ACTION_TOGGLE_MAP_MEMORY:
-            return "toggle_map_memory";
         case ACTION_CENTER:
             return "center";
         case ACTION_SHIFT_N:
@@ -415,7 +413,6 @@ bool can_action_change_worldstate( const action_id act )
 {
     switch( act ) {
         // Shift view
-        case ACTION_TOGGLE_MAP_MEMORY:
         case ACTION_CENTER:
         case ACTION_SHIFT_N:
         case ACTION_SHIFT_NE:

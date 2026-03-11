@@ -884,6 +884,7 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
         const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
         bool restrict_volume ) const
 {
+    // probably need a crafter instead of avatar?
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
@@ -951,10 +952,12 @@ bool quality_requirement::has(
     const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &, int,
     craft_flags, const std::function<void( int )> & ) const
 {
+    // probably need a crafter instead of avatar?
     if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
-    return crafting_inv.has_quality( type, level, count );
+    return crafting_inv.has_quality( type, level, count ) ||
+           get_player_character().has_quality( type, level, count );
 }
 
 nc_color quality_requirement::get_color( bool has_one, const read_only_visitable &,

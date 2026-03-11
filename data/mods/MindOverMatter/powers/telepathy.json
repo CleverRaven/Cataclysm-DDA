@@ -370,7 +370,7 @@
     "flags": [ "PSIONIC", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "blind",
+    "effect_str": "psi_blind",
     "damage_type": "psi_telepathic_damage",
     "shape": "blast",
     "min_duration": {

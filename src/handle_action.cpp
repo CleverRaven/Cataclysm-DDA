@@ -111,10 +111,6 @@ enum class direction : unsigned int;
 #include "sdltiles.h"
 #endif
 
-static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
-static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
-
 static const bionic_id bio_remote( "bio_remote" );
 
 static const damage_type_id damage_cut( "cut" );
@@ -250,7 +246,6 @@ input_context game::get_player_input( std::string &action )
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
         for( const action_id id : {
-            ACTION_TOGGLE_MAP_MEMORY,
             ACTION_CENTER,
             ACTION_SHIFT_N,
             ACTION_SHIFT_NE,
@@ -1481,7 +1476,6 @@ static void loot()
         SortLoot = 2,
         SortLootStatic = 4,
         SortLootPersonal = 8,
-        FertilizePlots = 16,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
         Multichoptrees = 256,
@@ -1499,7 +1493,6 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     zone_manager &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.cache_has_item_with( flag_FERTILIZER );
 
     // reset any potentially disabled zones from a past activity
     mgr.reset_disabled();
@@ -1519,7 +1512,6 @@ static void loot()
     flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos_bub() ) ||
              g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos_bub() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos_bub() ) ) {
-        flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
@@ -1569,13 +1561,6 @@ static void loot()
         menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
                             wrap60( _( "Unloads any corpses or containers that are in their respective zones." ) ) );
     }
-
-    if( flags & FertilizePlots ) {
-        menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                            !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                            wrap60( _( "Fertilize any nearby Farm: Plot zones." ) ) );
-    }
-
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
                             wrap60( _( "Work on any nearby Blueprint: construction zones." ) ) );
@@ -1665,11 +1650,8 @@ static void loot()
         case UnloadLoot:
             player_character.assign_activity( unload_loot_activity_actor() );
             break;
-        case FertilizePlots:
-            player_character.assign_activity( ACT_FERTILIZE_PLOT );
-            break;
         case ConstructPlots:
-            player_character.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+            player_character.assign_activity( multi_build_construction_activity_actor() );
             break;
         case MultiFarmPlots:
             player_character.assign_activity( multi_farm_activity_actor() );
@@ -1687,7 +1669,7 @@ static void loot()
             player_character.assign_activity( multi_vehicle_repair_activity_actor() );
             break;
         case MultiButchery:
-            player_character.assign_activity( ACT_MULTIPLE_BUTCHER );
+            player_character.assign_activity( multi_butchery_activity_actor() );
             break;
         case MultiMining:
             player_character.assign_activity( multi_mine_activity_actor() );
@@ -2158,10 +2140,6 @@ static bool has_vehicle_control( avatar &player_character )
 static void do_deathcam_action( const action_id &act, avatar &player_character )
 {
     switch( act ) {
-        case ACTION_TOGGLE_MAP_MEMORY:
-            player_character.toggle_map_memory();
-            break;
-
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x();
             player_character.view_offset.y() = g->driving_view_offset.y();
@@ -2395,11 +2373,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
+                    const bool use_grab_routing =
+                        has_grabbed_single_tile_vehicle( player_character, here );
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
-                        destination_preview =
-                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        if( use_grab_routing ) {
+                            destination_preview = route_with_grab( here, player_character,
+                                                                   pathfinding_target::point( auto_travel_destination ),
+                                                                   player_character.get_path_avoid() );
+                        } else {
+                            destination_preview =
+                                here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        }
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );
@@ -2410,13 +2396,59 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point_rel_ms dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_rel_ms::zero ) {
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: get_next returned zero, aborting.  pos=(%d,%d)",
+                                       player_character.pos_bub().x(), player_character.pos_bub().y() );
                         player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
+                const tripoint_bub_ms pos_before = player_character.pos_bub();
+                const tripoint_bub_ms dest_tile = pos_before +
+                                                  tripoint_rel_ms( dest_delta, 0 );
+                const ter_id ter_before = here.ter( dest_tile );
+                const furn_id furn_before = here.furn( dest_tile );
+                int veh_door_part_before = -1;
+                if( const optional_vpart_position ovp = here.veh_at( dest_tile ) ) {
+                    veh_door_part_before = ovp->vehicle().next_part_to_open(
+                                               ovp->part_index(), true );
+                }
                 if( !avatar_action::move( player_character, here, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
+                    add_msg_debug( debugmode::DF_ACTIVITY,
+                                   "auto_move: move(%d,%d) FAILED at pos=(%d,%d), aborting",
+                                   dest_delta.x(), dest_delta.y(),
+                                   player_character.pos_bub().x(), player_character.pos_bub().y() );
                     player_character.abort_automove();
+                } else if( player_character.pos_bub() == pos_before &&
+                           dest_delta != point_rel_ms::zero ) {
+                    // General auto-move safety: catches cases where move() returns true
+                    // ("handled") but the player didn't actually move. Covers grabbed
+                    // vehicle collisions, NPC interactions, and any future similar cases.
+                    // Check if terrain, furniture, or a vehicle part changed (door/trunk
+                    // opened) - if so, next step will walk through, so don't abort.
+                    const ter_id ter_after = here.ter( dest_tile );
+                    const furn_id furn_after = here.furn( dest_tile );
+                    bool veh_part_opened = false;
+                    if( const optional_vpart_position ovp = here.veh_at( dest_tile ) ) {
+                        // If there was an openable part before but not now, a vehicle
+                        // door/trunk/hatch was opened by avatar_action::move.
+                        const int openable_now = ovp->vehicle().next_part_to_open(
+                                                     ovp->part_index(), true );
+                        veh_part_opened = ( veh_door_part_before >= 0 && openable_now < 0 ) ||
+                                          ( veh_door_part_before >= 0 && openable_now != veh_door_part_before );
+                    }
+                    if( ter_before != ter_after || furn_before != furn_after || veh_part_opened ) {
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: pos unchanged but ter/furn/veh changed at (%d,%d), continuing",
+                                       dest_tile.x(), dest_tile.y() );
+                    } else {
+                        add_msg_debug( debugmode::DF_ACTIVITY,
+                                       "auto_move: move(%d,%d) returned OK but pos unchanged at (%d,%d), aborting",
+                                       dest_delta.x(), dest_delta.y(),
+                                       pos_before.x(), pos_before.y() );
+                        player_character.abort_automove();
+                    }
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
@@ -2969,7 +3001,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MEDICAL:
-            player_character.disp_medical();
+            if( player_character.disp_medical() ) {
+                return false;
+            }
             break;
 
         case ACTION_BODYSTATUS:

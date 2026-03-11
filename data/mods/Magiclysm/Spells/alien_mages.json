@@ -46,7 +46,7 @@
     "description": { "str": "A spell for the mi-go fleshwarper to cause a random mutation.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "//": "Random 25% to 75% chance to cause a mutation",
-    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "TOUCH_REQUIRED" ],
     "shape": "blast",
     "effect": "mutate",
     "min_damage": 2500,

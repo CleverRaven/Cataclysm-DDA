@@ -304,5 +304,29 @@
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ { "text": { "ctxt": "<granny_name_g>", "str": "child" } }, "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<pat_robo_nuckname>",
+    "text": [
+      "Tin Tony",
+      "Wi-Fi",
+      "Bluetooth",
+      "Robocawp",
+      "Beep-Boop",
+      "Toastah",
+      "Clankah",
+      "Skinjob",
+      "HAL",
+      "WALL-E",
+      "3PO",
+      "Sparky",
+      "Transformah",
+      "Terminatah",
+      "Circuit Breakah",
+      "Tinfoil",
+      "Nuts'n'bolts",
+      "Neo"
+    ]
   }
 ]

@@ -1053,7 +1053,7 @@ reference at least one body part or sub body part.
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched. 0 makes the limb waterproof, morale checks for absolute wetness while other effects for wetness percentage - making a high `drench_capacity` prevent the penalties longer.
 | `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
-| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability, weather, and `drying_capacity` of the bodypart.
+| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability and weather.
 | `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
@@ -1082,7 +1082,7 @@ reference at least one body part or sub body part.
   Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
-
+| `qualities`            | (_optional_) Object that defines potential tool qualities this bodypart provide; `quality` and `level` fields are self-explanatory, `disable_percent` removes a quality if limb HP is less than percent defined
 ```jsonc
 {
   "id": "arm_l",
@@ -1116,6 +1116,7 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "similar_bodyparts": [ "arm_bear_l" ],
+  "qualities": [ { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }, { "quality": "BUTCHER", "level": 2 } ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
@@ -2534,15 +2535,17 @@ it is present to help catch errors.
     { "level": 2, "description": "foo" },
     { "level": 3, "description": "bar" },
     { "level": 4, "description": "xyz" }
-],
-"level_descriptions_practice": [
-    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
-    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
-    { "level": 2, "description": "foo" },
-    { "level": 3, "description": "bar" },
-    { "level": 4, "description": "xyz" }
-],
-  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+  ],
+  "level_descriptions_practice": [
+      { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+      { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+      { "level": 2, "description": "foo" },
+      { "level": 3, "description": "bar" },
+      { "level": 4, "description": "xyz" }
+  ],
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ],
+  "required_traits": [ "THINSKIN", "HORNS" ],
+  "allowed_traits": [ "PAWS", "SKIN_DARK" ]
 }
 ```
 
@@ -2562,6 +2565,10 @@ it is present to help catch errors.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
+| `requires_all_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
+| `requires_any_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+
+If neither `requires_all_traits` or `requires_any_traits` are defined, the skill will always display in the character tab
 
 ### Speed Description
 

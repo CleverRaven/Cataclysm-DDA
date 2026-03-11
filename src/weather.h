@@ -115,6 +115,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
+bool can_creature_see_sky( const Creature &target );
 void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
@@ -184,6 +185,9 @@ void glare( const weather_type_id &w );
  */
 float incident_sunlight( const weather_type_id &wtype,
                          const time_point &t = calendar::turn );
+// Apply weather and time of day to the moonlight.
+float incident_moonlight( const weather_type_id &wtype,
+                          const time_point &t = calendar::turn );
 
 /* Amount of irradiance (W/m2) at ground after weather modifications */
 float incident_sun_irradiance( const weather_type_id &wtype,

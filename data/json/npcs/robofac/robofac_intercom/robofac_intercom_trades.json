@@ -416,6 +416,7 @@
   {
     "id": [
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STORM",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VITRIFIED",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_EXODII",
@@ -432,13 +433,26 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_BARRICADED_CHURCH",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRING_DIMENSION",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
     "responses": [
       {
-        "text": "[Deposit a portal storm datasheet.]",
+        "text": "[Deposit a \"stable portal\" datasheet.]",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "HEW_printout_data_portal", "count": 1 } }, { "math": [ "HEW_portal_data_sold < 1" ] } ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_portal", "count": 1, "popup": true },
+          { "math": [ "HEW_portal_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL"
+      },
+      {
+        "text": "[Deposit a \"unstable portal\" datasheet.]",
         "condition": {
           "and": [
             { "u_has_items": { "item": "HEW_printout_data_portal_storm", "count": 1 } },
@@ -683,8 +697,34 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE"
       },
+      {
+        "text": "[Deposit datasheet NLL8.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } },
+            { "math": [ "HEW_void_spider_lair_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_void_spider_lair", "count": 1, "popup": true },
+          { "math": [ "HEW_void_spider_lair_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR"
+      },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL",
+    "type": "talk_topic",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"We have forwarded the recording to Research and thank you for your continued cooperation.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STORM",
@@ -741,7 +781,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_LIXA",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"You've located a severe spacetime disturbance.  Several of the recordings performed unexpected loops in their subroutines.  We also picked up signatures typical of some DARPA laboratories - for this reason, we strongly suggest you avoid the area.\"",
+    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"You've located a severe spacetime disturbance.  Notably, several of the recordings performed unexpected loops in their subroutines.  In fact, these anomalies seem to be centered around a facility we are familiar with, and where we have recently performed extensive aerial surveillance.  If you are interested, we are willing to offer you a contract to retrieve something from this location.  Let us know if you are interested.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -874,6 +914,17 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE",
     "type": "talk_topic",
     "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"The graph you perhaps saw on the report is an anomalous ground radar recoding.  The instruments in the HEW system are not very advanced, but they've clearly picked up someone with intelligent design.  We've forwarded it to Research for further study.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR",
+    "type": "talk_topic",
+    "dynamic_line": "&You deposit the sheet in the tray.  The person behind the microphone starts mumbling, as if speaking to someone off mic:  \"New HEW…  yeah…  atmospheric readings are normal…  subterranean…  several returned null, look.  Should be noisy…  yeah…  no, can't read the GC-MS until we plug it in…  right…  could be the instrument, but we've seen recordings like this before.\"\n\nThe intercom clicks twice, off then on, then the tray slides open, this time with a pile of coins.  \"This is an odd one.  We've turned it over to Research, but you might expect a relevant contract to be added to your list in the future.  Keep an eye out.  Thank you for your contributions to science, as always.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

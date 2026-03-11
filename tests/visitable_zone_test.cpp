@@ -82,7 +82,7 @@ static constexpr tripoint_rel_ms cave_offset{ building_width, building_width, 0 
 TEST_CASE( "visitable_zone_surface_test" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
 
     std::string mon_type = "mon_zombie";
     std::vector<monster *> monsters;

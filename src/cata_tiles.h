@@ -4,7 +4,9 @@
 
 #include <array>
 #include <bitset>
+#include <chrono>
 #include <cstddef>
+#include <deque>
 #include <map>
 #include <memory>
 #include <optional>
@@ -15,6 +17,8 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
+#include <stdint.h>
 
 #include "animation.h"
 #include "calendar.h"
@@ -40,7 +44,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 enum class direction : unsigned int;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 enum class visibility_type : int;
 
 extern void set_displaybuffer_rendertarget();
@@ -639,7 +643,7 @@ class cata_tiles
         void draw_bullet_frame();
         void void_bullet();
 
-        void init_draw_hit( const tripoint_bub_ms &p, std::string name );
+        void init_draw_hit( const Creature &critter );
         void draw_hit_frame();
         void void_hit();
 
@@ -835,8 +839,11 @@ class cata_tiles
         tripoint_bub_ms bul_pos;
         std::string bul_id;
 
-        tripoint_bub_ms hit_pos;
-        std::string hit_entity_id;
+        struct hit_animation {
+            weak_ptr_fast<Creature> creature_ptr;
+            std::chrono::steady_clock::time_point timestamp;
+        };
+        std::deque<hit_animation> hit_animations;
 
         tripoint_bub_ms line_pos;
         bool is_target_line = false;

@@ -112,7 +112,7 @@ TEST_CASE( "only_degrade_items_with_defined_degradation", "[item][degradation]" 
 
 TEST_CASE( "Degradation_on_spawned_items", "[item][degradation]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "Non-spawned items have no degradation" ) {
         item norm( itype_test_baseball );
@@ -275,7 +275,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
 {
     // Setup map
-    clear_map();
+    clear_map_without_vision();
     set_time_to_day();
     REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 
@@ -460,7 +460,7 @@ TEST_CASE( "Gun_repair_with_degradation", "[item][degradation]" )
         item gun( itype_test_glock_degrade );
         clear_character( u );
         u.set_skill_level( skill_mechanics, 10 );
-        clear_map();
+        clear_map_without_vision();
         set_time_to_day();
 
         WHEN( "0 damage / 0 degradation" ) {
@@ -670,7 +670,7 @@ static item_location put_in_container( item_location &container, const itype_id 
 TEST_CASE( "refit_item_inside_spillable_container", "[item][repair][container]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     set_time_to_day();
     REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 

@@ -449,7 +449,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
 
         ///\EFFECT_INT speeds up aiming of vehicle turrets
         player_character.set_moves( std::min( 0,
-                                              player_character.get_moves() - 100 + ( 5 * player_character.int_cur ) ) );
+                                              player_character.get_moves() - 100 + ( 5 * player_character.get_int() ) ) );
     }
     return got_target;
 }
@@ -575,9 +575,9 @@ npc &vehicle_part::get_targeting_npc( vehicle &veh )
         // turrets are subject only to recoil_vehicle()
         brain.recoil = 0;
         // These might all be affected by vehicle part damage, weather effects, etc.
-        brain.str_cur = 16;
-        brain.dex_cur = 8;
-        brain.per_cur = 12;
+        brain.set_str_base( 16 );
+        brain.set_dex_base( 8 );
+        brain.set_per_base( 12 );
         // Assume vehicle turrets are friendly to the player.
         brain.set_attitude( NPCATT_FOLLOW );
         brain.set_fac( veh.get_owner() );

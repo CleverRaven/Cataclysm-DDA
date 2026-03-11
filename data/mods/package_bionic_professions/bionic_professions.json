@@ -959,7 +959,16 @@
     "description": "Through a series of painful and expensive surgeries, you became a walking bionic weapon, your services as a mercenary available to the highest bidder.",
     "points": 5,
     "traits": [ "CBM_Interface" ],
-    "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
+    "CBMs": [
+      "bio_razors",
+      "bio_armor_eyes",
+      "bio_sunglasses",
+      "bio_dex_enhancer",
+      "bio_ears",
+      "bio_carbon",
+      "bio_metabolics",
+      "bio_power_storage_mkII"
+    ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "proficiencies": [ "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar", "prof_gross_anatomy" ],
     "items": {

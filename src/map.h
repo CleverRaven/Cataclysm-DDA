@@ -371,7 +371,7 @@ struct tile_render_info {
 class map
 {
         friend class teleport;
-        friend class editmap;
+        friend class editmap_ui;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
 
@@ -840,6 +840,12 @@ class map
         // TODO: Remove the ugly sinking vehicle hack
         float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false );
 
+        // Traction at a hypothetical position (for drag feasibility checks).
+        // Computes wheel positions as at_origin + part.precalc[0] instead of
+        // using the vehicle's actual map position.
+        float vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                      bool ignore_movement_modifiers = false );
+
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision
         // If vector contains collisions with vehicles other than veh2, they will be ignored
@@ -1078,6 +1084,12 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
+        // Returns true if precipitation cannot reach this tile. Walks upward
+        // through z-levels looking for any blocking surface: solid floor,
+        // TRANSPARENT_FLOOR (glass/ramps/grates), NO_FLOOR_WATER, SUN_ROOF_ABOVE
+        // furniture, or vehicle with ROOF/OPAQUE. Uses floor_cache when valid,
+        // falls back to direct terrain/furniture/vehicle checks otherwise.
+        bool is_roofed( const tripoint_bub_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).
@@ -1433,9 +1445,14 @@ class map
         // Partial construction functions
         void partial_con_set( const tripoint_bub_ms &p, const partial_con &con );
         void partial_con_remove( const tripoint_bub_ms &p );
+        void partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p );
         partial_con *partial_con_at( const tripoint_bub_ms &p );
         // Traps
         void trap_set( const tripoint_bub_ms &p, const trap_id &type );
+
+    private:
+        void partial_con_remove_impl( const tripoint_bub_ms &p );
+    public:
 
         const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
@@ -1921,8 +1938,6 @@ class map
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
 
-        void draw_lab( mapgendata &dat );
-
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
@@ -2313,7 +2328,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 */
 class tinymap : private map
 {
-        friend class editmap;
+        friend class editmap_ui;
     protected:
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
@@ -2523,6 +2538,9 @@ class tinymap : private map
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );
+        }
+        bool is_roofed( const tripoint_omt_ms &p ) const {
+            return map::is_roofed( rebase_bub( p ) );
         }
         int get_radiation( const tripoint_omt_ms &p ) const {
             return map::get_radiation( rebase_bub( p ) );

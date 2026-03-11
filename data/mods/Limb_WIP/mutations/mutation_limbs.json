@@ -244,7 +244,7 @@
     "main_part": "arm_wing_bird_l",
     "connected_to": "torso",
     "opposite_part": "arm_wing_bird_r",
-    "conditional_flags": [ "WING_ARM" ],
+    "conditional_flags": [ "WING_ARMS" ],
     "encumbrance_limit": 10,
     "hit_size": 20,
     "hit_difficulty": 1.2,
@@ -1373,7 +1373,7 @@
       }
     ],
     "sub_parts": [ "arm_bionic_basic_shoulder_l", "arm_bionic_basic_upper_l", "arm_bionic_basic_elbow_l", "arm_bionic_basic_lower_l" ],
-    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1434,7 +1434,7 @@
       }
     ],
     "sub_parts": [ "arm_bionic_basic_shoulder_r", "arm_bionic_basic_upper_r", "arm_bionic_basic_elbow_r", "arm_bionic_basic_lower_r" ],
-    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1500,7 +1500,7 @@
     "similar_bodypart": "hand_r",
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [ "hand_bionic_basic_wrist_r", "hand_bionic_basic_palm_r", "hand_bionic_basic_back_r", "hand_bionic_basic_fingers_r" ],
-    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1574,7 +1574,7 @@
       "leg_bionic_basic_lower_l",
       "leg_bionic_basic_draped_l"
     ],
-    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1648,7 +1648,7 @@
         "duration_dmg_scaling": 0.5
       }
     ],
-    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1688,7 +1688,7 @@
       "foot_bionic_basic_heel_l"
     ],
     "similar_bodypart": "foot_l",
-    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1728,7 +1728,7 @@
       "foot_bionic_basic_heel_r"
     ],
     "similar_bodypart": "foot_r",
-    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB" ],
+    "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1760,7 +1760,7 @@
     "base_hp": 250,
     "drench_capacity": 700,
     "bionic_slots": 58,
-    "flags": [ "LIMB_LOWER", "BIONIC_LIMB", "IGNORE_TEMP" ],
+    "flags": [ "LIMB_LOWER", "BIONIC_LIMB", "NO_LIMB_FIRST_AID", "IGNORE_TEMP" ],
     "sub_parts": [ "bionic_treads_body", "bionic_treads_treads" ],
     "no_power_effect": "no_power_tank_treads",
     "smash_message": "You ram the %s with the shell of your tank treads.",

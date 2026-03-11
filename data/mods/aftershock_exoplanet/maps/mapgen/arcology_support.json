@@ -1,0 +1,608 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_loot_research",
+    "mapping": {
+      "c": {
+        "items": [
+          { "item": "tools_science", "chance": 10 },
+          { "item": "dissection", "chance": 10 },
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 }
+        ]
+      },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
+      "X": {
+        "items": [
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "mut_lab", "chance": 2 },
+          { "item": "robots", "chance": 5 },
+          { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 1 },
+          { "item": "sewage_plant", "chance": 5 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 }
+        ]
+      },
+      "d": {
+        "items": [
+          { "item": "SUS_office_desk", "chance": 20 },
+          { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 2 }
+        ]
+      },
+      "h": { "item": [ { "item": "coat_lab", "chance": 5 } ] },
+      "]": { "items": [ { "item": "manuals", "chance": 10 }, { "item": "textbooks", "chance": 10 } ] },
+      "l": {
+        "items": [
+          { "item": "SUS_office_filing_cabinet", "chance": 10 },
+          { "item": "science", "chance": 10 },
+          { "item": "harddrugs", "chance": 3 },
+          { "item": "softdrugs", "chance": 3 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ]
+      }
+    }
+  },
+  {
+    "//": "Office supplies, home, bathroom, and kitchen.",
+    "type": "palette",
+    "id": "lab_loot_home_office",
+    "mapping": {
+      "c": {
+        "items": [
+          { "item": "SUS_office_desk", "chance": 20 },
+          { "item": "SUS_science_personal_effects", "chance": 15 },
+          { "item": "science", "chance": 2 }
+        ]
+      },
+      "d": {
+        "items": [
+          { "item": "SUS_office_desk", "chance": 50 },
+          { "item": "SUS_science_personal_effects", "chance": 10 },
+          { "item": "stash_drugs", "chance": 5 },
+          { "item": "science", "chance": 3 }
+        ]
+      },
+      "f": { "items": [ { "item": "SUS_fridge_breakroom", "chance": 60 } ] },
+      "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] },
+      "X": {
+        "items": [
+          { "item": "chem_lab", "chance": 10 },
+          { "item": "robots", "chance": 5 },
+          { "item": "science", "chance": 5 },
+          { "item": "SUS_science_personal_effects", "chance": 1 },
+          { "item": "sewage_plant", "chance": 5 },
+          { "item": "harddrugs", "chance": 5 },
+          { "item": "softdrugs", "chance": 5 }
+        ]
+      },
+      "h": { "item": [ { "item": "coat_lab", "chance": 2 } ] },
+      "s": {
+        "items": [
+          { "item": "dresser", "chance": 30 },
+          { "item": "lab_shoes", "chance": 20 },
+          { "item": "lab_torso", "chance": 10 },
+          { "item": "lab_pants", "chance": 10 }
+        ]
+      },
+      "b": { "items": [ { "item": "bed", "chance": 50 } ] },
+      "]": { "items": [ { "item": "lab_bookshelves", "chance": 50, "repeat": 3 } ] },
+      "l": {
+        "items": [
+          { "item": "SUS_office_filing_cabinet", "chance": 10 },
+          { "item": "stash_drugs", "chance": 5 },
+          { "item": "science", "chance": 3 },
+          { "item": "SUS_science_personal_effects", "chance": 2 },
+          { "item": "dresser", "chance": 3 },
+          { "item": "lab_torso", "chance": 3 },
+          { "item": "lab_pants", "chance": 3 }
+        ]
+      }
+    }
+  },
+  {
+    "//": "Top level 'lab_spawn_XXXXX' templates are for use in floorplans.",
+    "//2": "Spawn for a room at least 7x7, walls often but not guaranteed.",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_spawn_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [
+        { "chunks": [ [ "lab_room_7x7", 97 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "Spawn for a room exactly 7x7 with doors only in the center of each wall.",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_spawn_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "place_nested": [
+        { "chunks": [ [ "lab_room_7x7", 33 ], [ "lab_room_7x7_crossdoors", 63 ], [ "lab_room_7x7_rare", 3 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "lab_maybe_effects_7x7" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "//": "7x7 cyborg & dissector",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        "ccccccc",
+        ".......",
+        ".......",
+        ".......",
+        ".......",
+        "......."
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "place_traps": [ { "trap": "tr_dissector", "x": [ 1, 5 ], "y": [ 2, 5 ] } ],
+      "place_monster": [ { "monster": "mon_broken_cyborg", "x": [ 0, 6 ], "y": [ 0, 6 ], "chance": 33 } ]
+    }
+  },
+  {
+    "//": "7x7 teleporter room",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_traps": [ { "trap": "tr_telepad", "x": [ 1, 5 ], "y": [ 1, 5 ] } ],
+      "place_nested": [ { "chunks": [ "lab_telepad_counter_2x2" ], "x": [ 2, 3 ], "y": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "//": "2x2 counter with teleporter loot on it",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_telepad_counter_2x2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "cc",
+        "cc"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": { "c": { "items": [ { "item": "teleport", "chance": 20 } ] } }
+    }
+  },
+  {
+    "//": "7x7 desks",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ccc.ccc",
+        ".h...h.",
+        "...c...",
+        "..hx...",
+        "...c...",
+        ".h...h.",
+        "ccc.ccc"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "c": {
+          "items": [
+            { "item": "SUS_office_desk", "chance": 30 },
+            { "item": "SUS_science_personal_effects", "chance": 10 },
+            { "item": "textbooks", "chance": 3 },
+            { "item": "science", "chance": 3 }
+          ]
+        },
+        "h": { "item": [ { "item": "coat_lab", "chance": 10 } ] }
+      }
+    }
+  },
+  {
+    "//": "7x7 bulk chemical storage",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_rare",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_furniture": [ { "furn": "f_standing_tank", "x": 3, "y": 3 } ],
+      "place_nested": [ { "chunks": [ "lab_filltank_chem" ], "x": 3, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 200, 800 ], "x": 0, "y": 0, "liquid": "bleach" } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 100, 400 ], "x": 0, "y": 0, "liquid": "water_clean" } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_filltank_chem",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 100, 400 ], "x": 0, "y": 0, "liquid": "salt_water" } ] }
+  },
+  {
+    "//": "7x7 glass monster cage",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_rare",
+    "object": { "mapgensize": [ 7, 7 ], "place_nested": [ { "chunks": [ "glass_monster_cage" ], "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "glass_monster_cage",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ggggg",
+        "g,STg",
+        "g,,,g",
+        "g,,,g",
+        "ggGgg"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_blue" },
+      "place_monster": [
+        {
+          "monster": [ "mon_zombie_brute", "mon_zombie_screecher", "mon_zombie_hollow", "mon_zombie_master", "mon_zombie_necro" ],
+          "x": [ 2, 3 ],
+          "y": [ 1, 3 ],
+          "chance": 80
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "glass_monster_cage",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ggggg",
+        "g,,,g",
+        "g,,,G",
+        "g,,,g",
+        "ggggg"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_blue" },
+      "place_monster": [
+        {
+          "monster": [ "mon_zombie_pig", "mon_zombear", "mon_zoose", "mon_zolf", "mon_zombie_dog" ],
+          "x": [ 1, 3 ],
+          "y": [ 1, 3 ],
+          "chance": 80
+        }
+      ]
+    }
+  },
+  {
+    "//": "7x7 chem_storage",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "c.c.c.c",
+        "c.c.c.c",
+        "c.c.c.c",
+        ".......",
+        "c.c.c.c",
+        "c.c.c.c",
+        "c.c.c.c"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 chem_storage",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        ".c.c.c.",
+        "......."
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 hydroponics",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        ".c.....",
+        ".c~~~~.",
+        "......."
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { "~": [ "t_water_sh" ] },
+      "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 10 } ] }, "~": { "items": [ { "item": "hydro", "chance": 20 } ] } }
+    }
+  },
+  {
+    "//": "7x7 chem_storage and office",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        ".ccccc.",
+        ".c.....",
+        ".c...d.",
+        ".c..hd.",
+        ".c..xd.",
+        "......."
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ]
+    }
+  },
+  {
+    "//": "7x7 u-conference room",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        "..hhhh.",
+        "..tttt.",
+        "..t....",
+        "..tttt.",
+        "..hhhh.",
+        "x......"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": { "t": { "items": [ { "item": "SUS_office_desk", "chance": 15 } ] } }
+    }
+  },
+  {
+    "//": "7x7 security desk",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        "..d....",
+        "..d....",
+        "..ch...",
+        "..ccdd.",
+        ".......",
+        ".x....."
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "mapping": { "c": { "items": [ { "item": "museum_security", "chance": 66 } ] } }
+    }
+  },
+  {
+    "//": "7x7 crate room",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "sub_f_crate",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "//": "Places a crate, 25% chance of being pre-opened.",
+      "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] }
+    }
+  },
+  {
+    "//": "7x7 machine room",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [
+        { "chunks": [ "sub_t_machinery" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 10 },
+        { "chunks": [ "sub_t_machinery", "sub_f_crate" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "sub_t_machinery",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "A" ],
+      "furniture": {
+        "A": [
+          "f_machinery_heavy",
+          "f_machinery_heavy",
+          "f_machinery_electronic",
+          "f_machinery_light",
+          "f_centrifuge",
+          "f_console_broken"
+        ]
+      }
+    }
+  },
+  {
+    "//": "7x7 bathrooms",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Tl|.|Tl",
+        "S.|.|.S",
+        "-W-.-W-",
+        ".......",
+        "-W-.-W-",
+        "S.|.|.S",
+        "lT|.|Tl"
+      ],
+      "palettes": [ "lab_palette" ],
+      "mapping": {
+        "l": { "items": [ { "item": "cleaning", "chance": 60, "repeat": 2 } ] },
+        "S": { "items": [ { "item": "drugs_heal_simple", "chance": 10 }, { "item": "harddrugs", "chance": 5 } ] }
+      }
+    }
+  },
+  {
+    "//": "7x7 vr mat, using safety glasses to suggest vr goggles",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".......",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,,.",
+        ".,,,,x.",
+        "......."
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { ",": "t_floor_green" },
+      "mapping": { ",": { "item": [ { "item": "ar_glasses_advanced", "chance": 4 } ] } }
+    }
+  },
+  {
+    "//": "7x7 barracks",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "s.....s",
+        "bb...bb",
+        ".......",
+        ".......",
+        ".......",
+        "bb...bb",
+        "s.....s"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ]
+    }
+  },
+  {
+    "//": "7x7 kennel",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,=.=,,",
+        ",,=.=,,",
+        "=^=.=^=",
+        ".......",
+        "=^=....",
+        ",,=..hl",
+        ",,=.ccx"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_home_office" ],
+      "terrain": { "=": "t_chainfence", "^": [ [ "t_chaingate_c", 3 ], [ "t_chaingate_o", 1 ] ] },
+      "mapping": { "l": { "items": [ { "item": "vet_softdrug", "chance": 80, "repeat": 2 } ] } },
+      "place_monster": [
+        { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "pack_size": [ 1, 2 ], "one_or_none": true },
+        {
+          "monster": "mon_zombie_dog",
+          "x": [ 0, 1 ],
+          "y": [ 5, 6 ],
+          "chance": 50,
+          "pack_size": [ 1, 2 ],
+          "one_or_none": true
+        },
+        {
+          "monster": "mon_zombie_dog",
+          "x": [ 5, 6 ],
+          "y": [ 0, 1 ],
+          "chance": 50,
+          "pack_size": [ 1, 2 ],
+          "one_or_none": true
+        }
+      ]
+    }
+  },
+  {
+    "//": "incinerated room - using crossdoors to ensure no extra space in the room not covered in ash",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_room_7x7_crossdoors",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa",
+        "aaaaaaa"
+      ],
+      "terrain": { "a": "t_thconc_floor" },
+      "item": { "a": { "item": "ash", "chance": 90 } },
+      "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "//": "big ash pile (shovel-needed) with a chance of science gear",
+    "type": "mapgen",
+    "nested_mapgen_id": "sub_f_ash",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "a" ],
+      "furniture": { "a": "f_ash" },
+      "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
+      "items": { "a": { "item": "science", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_maybe_effects_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_nested": [ { "chunks": [ [ "null", 98 ], [ "lab_add_spiders_7x7", 2 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "//": "7x7 spider overlay",
+    "type": "mapgen",
+    "nested_mapgen_id": "lab_add_spiders_7x7",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "place_monsters": [ { "monster": "GROUP_SPIDER", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.1 } ],
+      "place_fields": [ { "field": "fd_web", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": 40 } ]
+    }
+  }
+]

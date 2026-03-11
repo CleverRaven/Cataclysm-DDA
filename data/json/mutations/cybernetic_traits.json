@@ -20,6 +20,39 @@
   },
   {
     "type": "mutation",
+    "id": "Hub01_CBM_Interface",
+    "name": { "str": "Hub 01 Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.  You also have a USB port installed behind your ear.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion",
+    "name": { "str": "Minor brain lesion" },
+    "points": 0,
+    "description": "You have a minor brain lesion and some leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -1 }, { "value": "DEXTERITY", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion_2",
+    "name": { "str": "Major brain lesion" },
+    "points": 0,
+    "description": "You have a major brain lesion and lots of leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.  Twice.  Smart move.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "DEXTERITY", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "EXODII_BODY_1",
     "flags": [ "Exodii_Body" ],
     "name": { "str": "Exodii cyborg framework - style 1a" },

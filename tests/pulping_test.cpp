@@ -22,7 +22,7 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 
 TEST_CASE( "monster_pulping_test" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &you = get_player_character();
     for( const pulp_test_data &test : test_data::pulp_test ) {
         clear_character( you );

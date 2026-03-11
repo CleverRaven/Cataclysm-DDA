@@ -790,6 +790,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_xe_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -804,7 +808,7 @@
       {
         "values": [
           {
-            "value": "STRENGTH",
+            "value": "SMASH_BONUS",
             "add": {
               "math": [
                 "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"

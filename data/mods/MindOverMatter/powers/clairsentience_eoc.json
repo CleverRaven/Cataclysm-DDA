@@ -21,7 +21,7 @@
     "id": "EOC_CLAIR_RAD_SENSE",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_CLAIR_RAD_SENSE_SELF", "EOC_CLAIR_RAD_SENSE_OUTSIDE", "EOC_PORTAL_NULL_AWAKENING" ],
+        "run_eoc_selector": [ "EOC_CLAIR_RAD_SENSE_SELF", "EOC_CLAIR_RAD_SENSE_OUTSIDE", "EOC_MOM_NO_EFFECT" ],
         "names": [ "Check yourself", "Check your surroundings", "Nevermind" ],
         "keys": [ "1", "2", "3" ],
         "descriptions": [
