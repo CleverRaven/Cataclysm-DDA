@@ -126,5 +126,17 @@
     "rotate": false,
     "locations": [ "string_dimension_field_core" ],
     "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_dome_distress_beacon",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "string_dimension_dome_distress_beacon_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_dome_distress_beacon_north" }
+    ],
+    "locations": [ "string_dimension_crossroads" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
   }
 ]

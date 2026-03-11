@@ -173,5 +173,14 @@
     "color": "light_gray",
     "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_dome_distress_beacon", "string_dimension_dome_distress_beacon_1" ],
+    "vision_levels": "isolated_tower",
+    "name": "big electronic thing",
+    "sym": "E",
+    "color": "light_green",
+    "see_cost": "high"
   }
 ]

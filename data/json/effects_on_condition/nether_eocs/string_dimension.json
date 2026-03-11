@@ -197,5 +197,10 @@
         }
       }
     ]
+  },
+  {
+    "id": "EOC_SD_Computer",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
   }
 ]
