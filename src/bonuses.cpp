@@ -77,7 +77,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
         std::make_pair( "drive", SKILL_DRIVE ),
         std::make_pair( "firstaid", SKILL_FIRSTAID ),
         std::make_pair( "spellcraft", SKILL_SPELLCRAFT ),
-        std::make_pair( "metaphysics", SKILL_METAPHYSICS),
+        std::make_pair( "metaphysics", SKILL_METAPHYSICS ),
         std::make_pair( "gramarye", SKILL_GRAMARYE )
     }
 };
