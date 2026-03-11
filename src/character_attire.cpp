@@ -58,6 +58,8 @@ static const efftype_id effect_onfire( "onfire" );
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_MUTATED_ANATOMY_ONLY( "MUTATED_ANATOMY_ONLY" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
+static const flag_id json_flag_ROBOFAC_LENS_ACCESSORY( "ROBOFAC_LENS_ACCESSORY" );
+static const flag_id json_flag_ROBOFAC_LENS_HELMET( "ROBOFAC_LENS_HELMET" );
 static const flag_id json_flag_SHAPESHIFTED_ARMOR( "SHAPESHIFTED_ARMOR" );
 
 static const material_id material_acidchitin( "acidchitin" );
@@ -260,6 +262,11 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( amount_worn( it.typeId() ) >= it.max_worn() ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
+    }
+
+    if( it.has_flag( flag_ROBOFAC_LENS_ACCESSORY ) && ( !worn_with_flag( flag_ROBOFAC_LENS_HELMET ) ) ) {
+        return ret_val<void>::make_failure( ( is_avatar() ? _( "You can't wear that without a LENS helmet." )
+                                              : string_format( _( "%s can't wear that without a LENS helmet." ), get_name() ) ) );
     }
 
     return ret_val<void>::make_success();
