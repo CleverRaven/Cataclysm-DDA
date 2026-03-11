@@ -96,7 +96,10 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
     "stealthy": true,                    // While you have this effect, your footsteps have half the normal sound
     "quiet": true,                       // While you have this effect, your attacks make no sound
     "melee_bash_damage_cap_bonus": true, // Your melee skill increases your maximum bashing damage
-    "forbidden_buffs_all": [ "eskrima_hit_buff" ],   // This effect cannot be applied if all of the named buffs are active
+    "required_buffs_any": [ "mma_buff_tiger_claw_oncrit" ],    // This effect requires any of the named buffs to be applied
+    "required_buffs_all": [ "mma_buff_panzer_static1" ],    // This effect requires all of the named buffs to be applied
+    "forbidden_buffs_any": [ "mma_buff_hylian_static2", "mma_buff_hylian_static3" ],   // This effect is forbidden if any of the named buffs are applied
+    "forbidden_buffs_all": [ "mma_buff_tiger_claw_onmove" ],   // This effect is forbidden if all of the named buffs are applied
     "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed
     "max_stacks": 8,                     // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
     "bonus_blocks": 1,                   // Extra blocks per turn

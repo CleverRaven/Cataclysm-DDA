@@ -151,7 +151,11 @@
     "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
     "condition": { "or": [ { "u_has_trait": "VINES3" }, { "u_has_wielded_with_flag": "MAGIC_FOCUS" } ] },
     "condition_desc": "Must have Writhing Vines active or be wielding a heartvine whip",
-    "disarms": true
+    "disarms": true,
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   },
   {
     "type": "technique",
