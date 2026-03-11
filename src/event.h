@@ -307,6 +307,7 @@ template<>
 struct event_spec<event_type::character_casts_spell> {
     static constexpr std::array<event_field, 7> fields = { {
             { "character", cata_variant_type::character_id },
+            { "spell_effect", cata_variant_type::effect_id },
             { "spell", cata_variant_type::spell_id },
             { "school", cata_variant_type::trait_id },
             { "difficulty", cata_variant_type::int_},
