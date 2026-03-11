@@ -303,28 +303,28 @@
     "id": "beak_woodpecker_nares",
     "copy-from": "beak_nares",
     "type": "sub_body_part",
-    "parent": "beak_bird",
+    "parent": "beak_woodpecker",
     "similar_bodypart": "beak_nares"
   },
   {
     "id": "beak_woodpecker_top",
     "copy-from": "beak_top",
     "type": "sub_body_part",
-    "parent": "beak_bird",
+    "parent": "beak_woodpecker",
     "similar_bodypart": "beak_top"
   },
   {
     "id": "beak_woodpecker_tip",
     "copy-from": "beak_tip",
     "type": "sub_body_part",
-    "parent": "beak_bird",
+    "parent": "beak_woodpecker",
     "similar_bodypart": "beak_tip"
   },
   {
     "id": "beak_woodpecker_bottom",
     "copy-from": "beak_bottom",
     "type": "sub_body_part",
-    "parent": "beak_bird",
+    "parent": "beak_woodpecker",
     "similar_bodypart": "beak_bottom"
   },
   {
