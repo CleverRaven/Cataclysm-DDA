@@ -4854,7 +4854,8 @@
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
-    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_woodpecker" } ] } ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_woodpecker" } ] } ],
+    "armor": [ { "parts": [ "head", "beak" ], "bash": 3 } ]
   },
   {
     "type": "mutation",
