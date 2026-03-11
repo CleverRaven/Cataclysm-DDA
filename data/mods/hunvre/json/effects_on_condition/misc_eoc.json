@@ -1,5 +1,23 @@
 [
   {
+    "id": "f_bed_retractable",
+    "copy-from": "f_bed",
+    "type": "furniture",
+    "name": "Bed",
+    "description": "Bed",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] },
+    "//": "This needs to be above the ter_furn_transform definitions down there."
+  },
+  {
+    "id": "f_shower_retractable",
+    "copy-from": "f_shower",
+    "type": "furniture",
+    "name": "Shower",
+    "description": "Shower",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_CHANGE_FURNITURE" ] },
+    "//": "This needs to be above the ter_furn_transform definitions down there."
+  },
+  {
     "id": "EOC_CHANGE_FURNITURE",
     "type": "effect_on_condition",
     "//": "We're using a special terrain to orient the spawns correctly, it was the least bad option.",

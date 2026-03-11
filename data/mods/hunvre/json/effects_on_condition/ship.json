@@ -56,9 +56,10 @@
   {
     "type": "effect_on_condition",
     "id": "eoc_talk_spawn",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "effect": { "open_dialogue": { "topic": "talk_spawn" } }
+    "recurrence": 1,
+    "condition": { "math": [ "spawned == 0" ] },
+    "deactivate_condition": { "math": [ "spawned == 1" ] },
+    "effect": [ { "math": [ "spawned = 1" ] }, { "run_eocs": [ "eoc_teleport_to_bed" ] } ]
   },
   {
     "type": "effect_on_condition",
