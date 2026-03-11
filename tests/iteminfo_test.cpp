@@ -1082,7 +1082,8 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                ==
                "--\n"
                "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>" + std::to_string( faux_fur_suit_cov ) + "</color>%: The <color_c_cyan>head</color>. The <color_c_cyan>l. arm</color>. The <color_c_cyan>l. leg</color>.\n"
+               "  <color_c_yellow>" + std::to_string( faux_fur_suit_cov ) +
+               "</color>%: The <color_c_cyan>head</color>. The <color_c_cyan>l. arm</color>. The <color_c_cyan>l. leg</color>.\n"
                "  <color_c_yellow>100</color>%: The <color_c_cyan>r. arm</color>. The <color_c_cyan>r. leg</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Warmth</color>"
                "  <color_c_yellow>" + std::to_string( faux_fur_suit_warmth ) + "</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
