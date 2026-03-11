@@ -13,14 +13,18 @@
       {
         "id": "xe_ma_buff_arvore_taking_root",
         "name": "Taking Root",
-        "description": "Planting yourself like the mighty tree, you prepare to endure an onslaught.\n\n+1 bonus block, +1.0 bash armor, +0.5 cut/stab armor per gramarye skill level.\nLasts 3 turns.",
+        "description": "Planting yourself like the mighty tree, you prepare to endure an onslaught.\n\n+1 bonus block, +0.5 bash armor, +0.25 cut/stab armor per gramarye skill level.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 3,
+        "max_stacks": 2,
+        "buff_duration": 4,
         "bonus_blocks": 1,
-        "flat_bonuses": [ { "stat": "armor", "type": "bash", "scaling-stat": "gramarye", "scale": 1 } ]
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scaling-stat": "gramarye", "scale": 0.5 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "gramarye", "scale": 0.25 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "gramarye", "scale": 0.25 }
+        ]
       }
     ],
     "ondodge_buffs": [
@@ -55,7 +59,7 @@
       {
         "id": "xe_ma_buff_arvore_block_increase",
         "name": "Dense Thicket",
-        "description": "As a thicket returns to form after an animal pushes through, you renew your defenses after a hit.\n\n+0.75 block per unarmed skill level, +1 block effectiveness per gramarye skill level.\nLasts 3 turns.",
+        "description": "As a thicket returns to form after an animal pushes through, you renew your defenses after a hit.\n\n+0.75 blocked damage per unarmed skill level, +1 block effectiveness per gramarye skill level.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 4 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -84,7 +88,8 @@
       "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE",
       "TECH_XE_MA_ARVORE_VENOM_ATTACK",
       "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
-      "TECH_XE_MA_ARVORE_DISARM"
+      "TECH_XE_MA_ARVORE_DISARM",
+      "TECH_XE_MA_ARVORE_COUNTER_TRIP"
     ],
     "weapons": [ "heartvine_whip" ]
   },
@@ -150,10 +155,43 @@
   },
   {
     "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_COUNTER_TRIP",
+    "name": "Obstructing Roots",
+    "messages": [ "You lash out at %s and knock them to the ground", "<npcname> knocks %s to the ground" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 }, { "name": "gramarye", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "melee_allowed": true,
+    "block_counter": true,
+    "attack_vectors": [ "vector_null" ],
+    "eocs": [ "EOC_TECH_XE_MA_ARVORE_COUNTER_TRIP" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "or": [ { "u_has_trait": "VINES3" }, { "u_has_wielded_with_flag": "MAGIC_FOCUS" } ] }
+      ]
+    },
+    "down_dur": 2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TECH_XE_MA_ARVORE_COUNTER_TRIP",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        "npc_is_outside",
+        { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+        { "x_in_y_chance": { "x": 1, "y": 4 } }
+      ]
+    },
+    "effect": [ { "npc_set_field": "fd_pollen_arvore_weaken", "radius": 0, "outdoor_only": true, "intensity": 3 } ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
     "name": "Beneath the Falling Tree",
     "messages": [ "You punch through %s's armor with a mighty blow", "<npcname> punches through %s's armor with a mighty blow" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 4 }, { "name": "gramarye", "level": 5 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 }, { "name": "gramarye", "level": 5 } ],
     "weighting": 2,
     "unarmed_allowed": true,
     "crit_ok": true,
