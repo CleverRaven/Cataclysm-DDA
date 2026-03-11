@@ -99,7 +99,7 @@
         ]
       },
       {
-        "text": "[2 HGC] I've brought you one of those quadrapeds.",
+        "text": "[2 HGC] I've brought you one of those quadrupeds.",
         "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
         "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
         "effect": [
@@ -148,7 +148,7 @@
         ]
       },
       {
-        "text": "[2 HGC] I've also got one of those quadrapeds.",
+        "text": "[2 HGC] I've also got one of those quadrupeds.",
         "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
         "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
         "effect": [
@@ -193,7 +193,7 @@
           "yes": "R&D is going well.  Maybe we'll have new products ready sometime soon.",
           "no": "Research is ongoing.  Nothing new to report."
         },
-        "no": "We've made some progress.  If you're keen to use our newest prototypes, I'd encourage you to see the Doc across the street.  Now we're looking for some cool military tech to synergize with the circuits I'm slapping together.  The intercome will have a relevant open contract, if they don't already."
+        "no": "We've made some progress.  If you're keen to use our newest prototypes, I'd encourage you to see the Doc across the street.  Now we're looking for some cool military tech to synergize with the circuits I'm slapping together.  The intercom will have a relevant open contract, if they don't already."
       },
       "no": "Honestly?  I'm able to reverse engineer a lot of this tech, but I can't recreate it.  Our top engineers know what we need to fix the problem, and are looking for mercs to help us solve the problem.  Ask about contracts at the intercom."
     },
