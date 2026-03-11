@@ -48,5 +48,15 @@
     "description": "A syringe that extends out into two tubes that snake up through the nostrils and down to the lungs in order to get the spores deep into their new home, where they can best spread through the body.",
     "price": "3 kUSD 500 USD",
     "difficulty": 0
+  },
+  {
+    "id": "xe_onryō_snp",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Onryō SNP" },
+    "description": "This CBM uses a rudimentary AI and chips at strategic points along the central nervous system to keep the body running and fighting after death.  This allows resuscitation sometimes with extraordinary measures but during this time the body will continue to bleed and take more damage and the most common outcome is still death.",
+    "price": "33 kUSD 500 USD",
+    "difficulty": 6
   }
 ]
