@@ -930,7 +930,8 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                "  <color_c_yellow>" + std::to_string( swat_armor_cov ) +
                "</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Warmth</color>"
-               "  <color_c_yellow>" + std::to_string( swat_armor_warmth ) + "</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
+               "  <color_c_yellow>" + std::to_string( swat_armor_warmth ) +
+               "</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
 
         verify_item_coverage(
         swat_armor, {
