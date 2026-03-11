@@ -301,6 +301,36 @@
     "name": "right bird foot"
   },
   {
+    "id": "test_partial_wing_l",
+    "type": "body_part",
+    "copy-from": "test_bird_wing_l",
+    "name": "left partial wing",
+    "heading": "L. P.Wing",
+    "hp_bar_ui_text": "L P.WING",
+    "main_part": "test_partial_wing_l",
+    "opposite_part": "test_partial_wing_l",
+    "sub_parts": [ "sub_test_partial_wing_shoulder_l", "sub_test_partial_wing_lower_l" ]
+  },
+  {
+    "id": "sub_test_partial_wing_shoulder_l",
+    "type": "sub_body_part",
+    "parent": "test_partial_wing_l",
+    "name": "left partial wing shoulder",
+    "side": "left",
+    "opposite": "sub_test_partial_wing_shoulder_l",
+    "max_coverage": 25
+  },
+  {
+    "id": "sub_test_partial_wing_lower_l",
+    "type": "sub_body_part",
+    "parent": "test_partial_wing_l",
+    "name": "lower left partial wing",
+    "side": "left",
+    "opposite": "sub_test_partial_wing_lower_l",
+    "secondary": true,
+    "max_coverage": 75
+  },
+  {
     "type": "enchantment",
     "id": "ENCH_TEST_TAIL",
     "condition": "ALWAYS",
