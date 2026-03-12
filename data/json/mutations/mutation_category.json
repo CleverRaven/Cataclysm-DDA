@@ -19,6 +19,17 @@
   },
   {
     "type": "mutation_category",
+    "id": "CYBORG",
+    "//": "Cyborg has special logic and doesn't function like a normal mutation category, so some of the vars here only exist to prevent errors",
+    "name": "Cyborg",
+    "threshold_mut": "THRESH_CYBORG",
+    "skip_test": true,
+    "mutagen_message": "",
+    "vitamin": "null",
+    "base_removal_chance": 0
+  },
+  {
+    "type": "mutation_category",
     "id": "PLANT",
     "name": "Plant",
     "threshold_mut": "THRESH_PLANT",

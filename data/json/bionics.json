@@ -85,7 +85,9 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLE"
+      "CLAWS_TENTACLE",
+      "BIONIC_ARM_BASIC_RIGHT",
+      "BIONIC_ARM_BASIC_LEFT"
     ]
   },
   {
@@ -138,7 +140,9 @@
       "LEG_TENT_BRACE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
-      "INSECT_RESERVOIR"
+      "INSECT_RESERVOIR",
+      "BIONIC_LEG_BASIC_RIGHT",
+      "BIONIC_LEG_BASIC_LEFT"
     ]
   },
   {
@@ -1678,7 +1682,9 @@
       "LEG_TENT_BRACE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
-      "INSECT_RESERVOIR"
+      "INSECT_RESERVOIR",
+      "BIONIC_LEG_BASIC_RIGHT",
+      "BIONIC_LEG_BASIC_LEFT"
     ],
     "passive_pseudo_items": [ "integrated_bio_robofac_xmleg" ]
   },
@@ -1706,7 +1712,9 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLE"
+      "CLAWS_TENTACLE",
+      "BIONIC_ARM_BASIC_RIGHT",
+      "BIONIC_ARM_BASIC_LEFT"
     ],
     "passive_pseudo_items": [ "integrated_bio_robofac_xmarm" ]
   },

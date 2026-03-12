@@ -130,10 +130,40 @@
     "description": "Your left arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "category": [ "CYBORG" ],
+    "threshreq": [ "THRESH_CYBORG" ],
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
       }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "WINGS_BIRD",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "ARM_FEATHERS",
+      "WINGS_BIRD",
+      "QUILLS",
+      "BARBS",
+      "WEBBED",
+      "PAWS",
+      "PAWS_LITTLE",
+      "PAWS_LARGE",
+      "CRUSTACEAN_CLAW",
+      "WINGS_BAT",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK"
     ]
   },
   {
@@ -143,10 +173,40 @@
     "description": "Your right arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "category": [ "CYBORG" ],
+    "threshreq": [ "THRESH_CYBORG" ],
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
       }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "WINGS_BIRD",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "ARM_FEATHERS",
+      "WINGS_BIRD",
+      "QUILLS",
+      "BARBS",
+      "WEBBED",
+      "PAWS",
+      "PAWS_LITTLE",
+      "PAWS_LARGE",
+      "CRUSTACEAN_CLAW",
+      "WINGS_BAT",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK"
     ]
   },
   {
@@ -156,6 +216,33 @@
     "description": "Your left leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "category": [ "CYBORG" ],
+    "threshreq": [ "THRESH_CYBORG" ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR",
+      "BIRD_LEGS",
+      "LEGS_BAT",
+      "CRAB_LEGS",
+      "STRONG_LEGS",
+      "ANIMAL_FEET",
+      "HOOKED_TOES",
+      "HOOVES",
+      "RABBIT_FEET",
+      "ROOTS1",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ],
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
@@ -169,6 +256,33 @@
     "description": "Your right leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "category": [ "CYBORG" ],
+    "threshreq": [ "THRESH_CYBORG" ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR",
+      "BIRD_LEGS",
+      "LEGS_BAT",
+      "CRAB_LEGS",
+      "STRONG_LEGS",
+      "ANIMAL_FEET",
+      "HOOKED_TOES",
+      "HOOVES",
+      "RABBIT_FEET",
+      "ROOTS1",
+      "RAP_TALONS",
+      "WEBBED_FEET"
+    ],
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
