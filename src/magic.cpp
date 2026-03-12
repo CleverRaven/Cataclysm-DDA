@@ -2544,12 +2544,14 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const float unaugmented_mana = guy.calculate_by_enchantment( ( mana_base + int_bonus ), enchant_vals::mod::MAX_MANA, true );
+    const float unaugmented_mana = guy.calculate_by_enchantment( ( mana_base + int_bonus ),
+                                   enchant_vals::mod::MAX_MANA, true );
 
     units::mass bionics_weight = guy.bionics_weight();
     units::mass bodyweight = guy.bodyweight();
     const float penalty_calc = std::sqrt( bionics_weight / ( bionics_weight + bodyweight ) );
-    const float bionic_penalty = guy.enchantment_cache->modify_value( enchant_vals::mod::BIONIC_MANA_PENALTY, unaugmented_mana * penalty_calc );
+    const float bionic_penalty = guy.enchantment_cache->modify_value(
+                                     enchant_vals::mod::BIONIC_MANA_PENALTY, unaugmented_mana * penalty_calc );
 
     return std::floor( unaugmented_mana - bionic_penalty );
 }
