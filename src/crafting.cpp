@@ -2533,7 +2533,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's too rotten to salvage anything." ) );
     }
 
     // refuse to disassemble items containing monsters/pets

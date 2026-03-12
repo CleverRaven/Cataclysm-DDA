@@ -3300,8 +3300,17 @@ void target_ui::update_target_list()
             targets.push_back( target->pos_bub() );
         }
     }
+    // Sort hostile creatures first, then by distance within each group.
+    creature_tracker &creatures = get_creature_tracker();
     std::sort( targets.begin(), targets.end(), [&]( const tripoint_bub_ms lhs,
     const tripoint_bub_ms rhs ) {
+        const Creature *cl = creatures.creature_at( lhs, true );
+        const Creature *cr = creatures.creature_at( rhs, true );
+        const bool lhs_hostile = cl && cl->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        const bool rhs_hostile = cr && cr->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        if( lhs_hostile != rhs_hostile ) {
+            return lhs_hostile;
+        }
         return rl_dist_exact( lhs, you->pos_bub() ) < rl_dist_exact( rhs, you->pos_bub() );
     } );
 }

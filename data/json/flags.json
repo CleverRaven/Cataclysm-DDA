@@ -2965,5 +2965,15 @@
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
     "//2": "This terrain will phase back to its original terrain when no longer modified."
+  },
+  {
+    "id": "ROBOFAC_LENS_ACCESSORY",
+    "type": "json_flag",
+    "info": "This item is an accessory for a Hub 01 LENS helmet, and can only be worn with that helmet."
+  },
+  {
+    "id": "ROBOFAC_LENS_HELMET",
+    "type": "json_flag",
+    "info": "This item allows you to wear Hub 01 LENS accessories."
   }
 ]

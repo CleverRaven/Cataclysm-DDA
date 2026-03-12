@@ -283,7 +283,8 @@
             {
               "or": [
                 { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] },
-                { "math": [ "u_portal_storm_recordings_sold > 2" ] }
+                { "math": [ "u_portal_storm_recordings_sold > 2" ] },
+                { "math": [ "ancilla_autodoc_placed == 1" ] }
               ]
             }
           ]

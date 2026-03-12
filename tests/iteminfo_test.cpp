@@ -2684,14 +2684,14 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
            "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
-           "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
+           "<color_c_white>With</color> <color_c_cyan>chunk of steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
            "<color_c_white>Repair</color> using integrated soldering iron, integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, portable soldering iron, or TEST soldering iron.\n"
-           "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
+           "<color_c_white>With</color> <color_c_cyan>plastic chunk</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
            "--\n"
@@ -3371,5 +3371,23 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
         CHECK( enc.find( "Encumbrance" ) == std::string::npos );
         CHECK( wrm.find( "Warmth" ) == std::string::npos );
         CHECK( brt.find( "Breathability" ) == std::string::npos );
+    }
+
+    SECTION( "coverage value correct for default human" ) {
+        clear_avatar();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_COVERAGE } );
+        CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
+        CHECK( info.find( arms_frag ) != std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
+    }
+
+    SECTION( "coverage value correct for alt-arm character" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_COVERAGE } );
+        CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
     }
 }
