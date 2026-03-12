@@ -4739,7 +4739,12 @@
     "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_feathers_l" }, { "gain": "arm_feathers_r" } ]
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "gain": "arm_feathers_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "gain": "arm_feathers_r" } ]
       }
     ]
   },
@@ -4961,6 +4966,9 @@
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
       },
       {
+        "condition": {
+          "and": [ { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } }, { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } } ]
+        },
         "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
       }
     ]

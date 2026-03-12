@@ -381,7 +381,12 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ]
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -558,15 +563,12 @@
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [
-          { "lose": "arm_l" },
-          { "lose": "arm_r" },
-          { "lose": "hand_r" },
-          { "lose": "hand_l" },
-          { "gain": "arm_wing_bird_l" },
-          { "gain": "arm_wing_bird_r" }
-        ]
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_wing_bird_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_wing_bird_r" } ]
       }
     ]
   },
@@ -891,8 +893,12 @@
       "ench_quadruped_movement_full",
       { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_l" }, { "gain": "animal_paw_rabbit_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_rabbit_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_r" } ]
       }
     ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
@@ -952,8 +958,12 @@
       },
       { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "animal_paw_l" }, { "gain": "animal_paw_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_r" } ]
       }
     ],
     "triggers": [
@@ -1004,8 +1014,12 @@
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "hoof_l" }, { "gain": "hoof_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "hoof_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "hoof_r" } ]
       }
     ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
@@ -1108,8 +1122,12 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "avian_talon_l" }, { "gain": "avian_talon_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "avian_talon_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "avian_talon_r" } ]
       }
     ]
   },
