@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_basement_bionic",
+    "name": "Shady Basement",
+    "terrain": [ "basement_bionic" ]
+  }
+]

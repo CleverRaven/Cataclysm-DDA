@@ -1,0 +1,92 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_e1",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_e2",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t1",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t2",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t3",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t4",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t5",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t6",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_t7",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_+1",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_+2",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_+3",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_+4",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_c1",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_c2",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_c3",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_c4",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_mansion_c5",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  }
+]

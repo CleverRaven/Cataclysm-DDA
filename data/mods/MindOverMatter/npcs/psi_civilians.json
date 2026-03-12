@@ -1,0 +1,56 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_ELECTROKINETIC",
+    "dynamic_line": [ "I am the heart of the storm!", "&They smile as lightning crackles over their skin." ],
+    "responses": [
+      { "text": "How are you doing that?", "topic": "TALK_CIVILIAN_ELECTROKINETIC_HOW" },
+      { "text": "*Back away slowly*", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_ELECTROKINETIC_HOW",
+    "dynamic_line": [
+      "I have the power of the storm!  I will save this world!",
+      "&They say nothing, merely looking at you with glowing eyes."
+    ],
+    "responses": [ { "text": "*Back away slowly*", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PHOTOKINETIC",
+    "dynamic_line": [ "This isn't real…  It's just tricks right?  Haha.  It's just tricks and lights…" ],
+    "responses": [ { "text": "It's not like any tricks I've ever seen…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PYROKINETIC",
+    "dynamic_line": [ "Hahaha!!  Burn!  BURN!!", "&They cackle loudly as flames burst from their outstretched hand.", "All will burn!" ],
+    "responses": [
+      { "text": "How are you doing that?", "topic": "TALK_CIVILIAN_PYROKINETIC_HOW" },
+      { "text": "*Back away slowly*", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_PYROKINETIC_HOW",
+    "dynamic_line": [ "Isn't it beautiful?  BURN THEM ALL!", "The flames have chosen me!" ],
+    "responses": [ { "text": "*Back away slowly*", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_TELEKINETIC",
+    "dynamic_line": [ "Get out of here!", "No, no no!  Go away!" ],
+    "responses": [
+      { "text": "How are you doing that?", "topic": "TALK_CIVILIAN_TELEKINETIC_HOW" },
+      { "text": "*Back away slowly*", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_TELEKINETIC_HOW",
+    "dynamic_line": [ "*doesn't look at you at all.  They just keep yelling at the horde." ],
+    "responses": [ { "text": "*Back away slowly*", "topic": "TALK_DONE" } ]
+  }
+]

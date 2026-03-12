@@ -1,0 +1,47 @@
+[
+  {
+    "type": "enchantment",
+    "id": "cranial_explosion",
+    "intermittent_activation": { "effects": [ { "frequency": "5 days", "spell_effects": [ { "id": "head_go_bye" } ] } ] }
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_counteraction",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "afs_generic_free_turn",
+        "hit_self": true,
+        "message": "You react with machine-like precision.",
+        "npc_message": "%1$s's reacts with robotic precision."
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_optimization",
+    "condition": "ACTIVE",
+    "hit_you_effect": [ { "id": "afs_generic_speed_bonus", "hit_self": true } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "heightened_performance",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "DEXTERITY", "add": 1 },
+      { "value": "STRENGTH", "add": 1 },
+      { "value": "SPEED", "add": 3 },
+      { "value": "HUNGER", "multiply": 1.1 },
+      { "value": "THIRST", "multiply": 1.1 },
+      { "value": "METABOLISM", "multiply": 1.1 },
+      { "value": "SOCIAL_PERSUADE", "add": -10 },
+      { "value": "SOCIAL_INTIMIDATE", "add": 2 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "protect_cold",
+    "condition": "ACTIVE",
+    "incoming_damage_mod": [ { "type": "cold", "add": -15 } ]
+  }
+]

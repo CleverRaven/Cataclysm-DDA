@@ -10,11 +10,16 @@ jobs:
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          cancel_others: 'true'
-          paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
+      with:
+        cancel_others: 'true'
+        paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: pull_request_id
+        path: pull_request_id
   astyle-code:
     name: astyle check
     needs: skip-duplicates
@@ -23,9 +28,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
-        fetch-depth: 1
+        persist-credentials: false
 
     - name: install dependencies
       run: sudo apt-get install astyle
@@ -33,8 +38,10 @@ jobs:
     - name: astyle check
       run: make astyle-check
 
+    - name: Format
+      if: failure()
+      run: make astyle-fast
+
     - name: Display Corrections
       if: failure()
-      run: |
-        make astyle
-        git diff
+      run: git diff --color

@@ -1,0 +1,169 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "changeling",
+    "base_faction": "nether",
+    "neutral": [ "fish", "small_animal" ],
+    "by_mood": [ "nether", "nightmares", "slime" ],
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vampire",
+    "base_faction": "zombie",
+    "neutral": [ "zombie" ],
+    "by_mood": [ "nether", "nightmares" ],
+    "hate": [ "changeling", "thornbeast", "werewolves" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vampire_anathema",
+    "copy-from": "vampire",
+    "//": "Like the mentors, they are human enough to be attacked by zombies.  Luring them into other hostiles is a valid strategy.",
+    "extend": { "hate": [ "changeling", "nether", "nightmares", "vampire", "zombie" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cult",
+    "copy-from": "cult",
+    "extend": { "neutral": [ "vampire_anathema" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "arvore",
+    "base_faction": "changeling",
+    "neutral": [ "small_animal", "fish" ],
+    "by_mood": [ "nether", "nightmares", "ierde", "undine", "sylph", "salamander", "changeling", "berserk_bot" ],
+    "hate": [ "zombie", "homullus", "thornbeast", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ierde",
+    "base_faction": "changeling",
+    "friendly": [ "worm" ],
+    "neutral": [ "small_animal", "fish", "berserk_bot" ],
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
+    "hate": [ "zombie", "sylph", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "undine",
+    "base_faction": "changeling",
+    "neutral": [ "small_animal", "fish", "berserk_bot" ],
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "sylph", "ierde", "slime", "changeling" ],
+    "hate": [ "zombie", "salamander", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "salamander",
+    "base_faction": "changeling",
+    "neutral": [ "small_animal", "fish", "berserk_bot" ],
+    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "homullus", "changeling" ],
+    "hate": [ "zombie", "undine", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "homullus",
+    "base_faction": "changeling",
+    "friendly": [ "berserk_bot" ],
+    "neutral": [ "small_animal", "fish" ],
+    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "sylph", "salamander", "changeling" ],
+    "hate": [ "zombie", "arvore", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "sylph",
+    "base_faction": "changeling",
+    "neutral": [ "small_animal", "fish", "berserk_bot" ],
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander", "changeling" ],
+    "hate": [ "zombie", "ierde", "cult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "berserk_bot",
+    "copy-from": "berserk_bot",
+    "extend": { "friendly": [ "homullus" ], "neutral": [ "sylph", "salamander", "undine", "ierde" ], "by_mood": [ "arvore" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "thornbeast",
+    "by_mood": [ "zombie", "nether", "nightmares" ],
+    "hate": [ "arvore", "vampire" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish",
+    "copy-from": "fish",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "copy-from": "worm",
+    "extend": { "neutral": [ "ierde" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_animal",
+    "copy-from": "small_animal",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "slime",
+    "copy-from": "slime",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "extend": { "hate": [ "changeling", "vampire_anathema", "werewolves" ], "neutral": [ "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "triffid",
+    "copy-from": "triffid",
+    "extend": { "hate": [ "changeling", "werewolves" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fungus",
+    "copy-from": "fungus",
+    "extend": { "hate": [ "changeling", "werewolves" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether",
+    "copy-from": "nether",
+    "extend": {
+      "hate": [ "werewolves" ],
+      "by_mood": [ "changeling", "arvore", "ierde", "sylph", "undine", "homullus", "salamander" ]
+    }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "exodii",
+    "copy-from": "exodii",
+    "extend": { "hate": [ "changeling", "vampire", "vampire_anathema" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "isolated_artisans",
+    "copy-from": "isolated_artisans",
+    "extend": { "hate": [ "changeling", "vampire", "nightmares", "vampire_anathema" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nightmares",
+    "base_faction": "nether_hate_humans",
+    "friendly": "nether",
+    "neutral": [ "fish", "small_animal", "slime" ],
+    "by_mood": [ "changeling", "vampire" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "werewolves",
+    "hate": [ "zombie", "nether", "triffid", "vampire", "fungus" ]
+  }
+]

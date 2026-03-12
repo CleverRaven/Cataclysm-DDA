@@ -3,19 +3,32 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
-#include <cstddef>
+#include <array>
+#include <ctime>
+#include <filesystem>
 #include <functional>
-#include <iosfwd>
+#include <limits>
 #include <map>
+#include <memory>
+#include <numeric>
+#include <optional>
+#include <sstream>
 #include <string> // IWYU pragma: keep
+#include <string_view>
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
-class JsonIn;
+#include "enums.h"
+
 class JsonOut;
+class JsonValue;
+class cata_path;
 class translation;
+class zzip;
+class zzip_stack;
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -46,14 +59,10 @@ enum units_type {
     VU_WIND
 };
 
-/**
- * Round a floating point value down to the nearest integer
- *
- * Optimized floor function, similar to std::floor but faster.
- */
-inline int fast_floor( double v )
+constexpr bool float_equals( double l, double r )
 {
-    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+    constexpr double epsilon = std::numeric_limits<double>::epsilon() * 100;
+    return l + epsilon >= r && r + epsilon >= l;
 }
 
 /**
@@ -69,7 +78,7 @@ double round_up( double val, unsigned int dp );
 *
 * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
 */
-template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
 T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
@@ -90,9 +99,12 @@ int divide_round_down( int a, int b );
 bool isBetween( int test, int down, int up );
 
 /**
- * Perform case sensitive search for a query string inside a subject string.
+ * Perform case insensitive search for a query string inside a subject string.
  *
  * Searches for string given by qry inside a subject string given by str.
+ *
+ * Supports searching for accented letters with a non-accented search key, for example,
+ * search key 'bo' matches 'Bō', but search key 'bö' should not match with 'Bō' and only match with 'Bö' or 'BÖ'.
  *
  * @param str Subject to search for occurrence of the query string.
  * @param qry Query string to search for in str
@@ -100,8 +112,8 @@ bool isBetween( int test, int down, int up );
  * @return true if the query string is found at least once within the subject
  *         string, otherwise returns false
  */
-bool lcmatch( const std::string &str, const std::string &qry );
-bool lcmatch( const translation &str, const std::string &qry );
+bool lcmatch( std::string_view str, std::string_view qry );
+bool lcmatch( const translation &str, std::string_view qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -116,7 +128,7 @@ bool lcmatch( const translation &str, const std::string &qry );
  *
  * @return true if include/exclude rules pass. See Example.
  */
-bool match_include_exclude( const std::string &text, std::string filter );
+bool match_include_exclude( std::string_view text, std::string filter );
 
 /**
  * Basic logistic function.
@@ -187,27 +199,6 @@ const char *velocity_units( units_type vel_units );
 double convert_velocity( int velocity, units_type vel_units );
 
 /**
- * Convert a temperature from degrees Fahrenheit to degrees Celsius.
- *
- * @return Temperature in degrees C.
- */
-double temp_to_celsius( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Fahrenheit to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double temp_to_kelvin( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Celsius to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double celsius_to_kelvin( double celsius );
-
-/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
@@ -250,6 +241,28 @@ template<typename T>
 constexpr T lerp_clamped( const T &min, const T &max, float t )
 {
     return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
+}
+
+// Inverse of \p lerp, unbounded so it may extrapolate, returns 0.0f if min == max
+// @returns linear factor for interpolating between \p min and \p max to reach \p value
+template<typename T>
+constexpr float inverse_lerp( const T &min, const T &max, const T &value )
+{
+    if( max == min ) {
+        return 0.0f; // avoids a NaN
+    }
+    return ( value - min ) / ( max - min );
+}
+
+// Remaps \p value from range of \p i_min to \p i_max to a range between \p o_min and \p o_max
+// uses unclamped linear interpolation, so output value may be beyond output range if value is
+// outside input range.
+template<typename Tin, typename Tout>
+constexpr Tout linear_remap( const Tin &i_min, const Tin &i_max,
+                             const Tout &o_min, const Tout &o_max, Tin value )
+{
+    const float t = inverse_lerp( i_min, i_max, value );
+    return lerp( o_min, o_max, t );
 }
 
 /**
@@ -303,16 +316,17 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+bool write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer,
+                    const char *fail_message );
+void write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer );
 ///@}
-
-class JsonDeserializer;
 
 /**
  * Try to open and read from given file using the given callback.
@@ -323,9 +337,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -335,14 +348,63 @@ class JsonDeserializer;
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file( const std::filesystem::path &path,
+                     const std::function<void( std::istream & )> &reader );
+bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file_json( const cata_path &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional( const std::filesystem::path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional( const cata_path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional_json( const cata_path &path,
+                                   const std::function<void( const JsonValue & )> &reader );
+/**@}*/
+
+/**
+ * Like the above but for reading files from zzips. Allows for identical exception and
+ * error handling logic.
+ */
+/**@{*/
+bool read_from_zzip_optional( const zzip &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
+                              const std::filesystem::path &file,
+                              const std::function<void( std::string_view )> &reader );
+/**@}*/
+
+/**
+* Try to open and provide a std::istream for the given, possibly, gzipped, file.
+*
+* The file is opened for reading (binary mode) and tested to see if it is compressed.
+* Compressed files are decompressed into a std::stringstream and returned.
+* Uncompressed files are returned as normal lazy ifstreams.
+* Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+*
+* @return A unique_ptr of the appropriate istream, or nullptr on failure.
+*/
+/**@{*/
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
+/**@}*/
+
+/**
+ * Try to open and read the entire file to a string.
+ *
+ * The file is opened for reading (binary mode), read into a string, and then closed.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A nonempty optional with the contents of the file on success, or std::nullopt on failure.
+ */
+/**@{*/
+std::optional<std::string> read_whole_file( const std::string &path );
+std::optional<std::string> read_whole_file( const std::filesystem::path &path );
+std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -352,16 +414,26 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  * @param str the original string to be processed
  * @param f the function that guides how to mess the message
- * f() will be called for each character (lingual, not byte):
- * [-] f() == -1 : nothing will be done
- * [-] f() == 0  : the said character will be replace by a random character
- * [-] f() == ch : the said character will be replace by ch
+ * f() will be called for each character (lingual, not byte) and returns either:
+ * [-] do_not_replace_character : the said character will be kept as is
+ * [-] replace_character_with {r} : the said character will be replaced by the given character r
+ * [-] replace_character_randomly : the said character will be replaced by a random character
+  *    chosen from a predefined set of gibberish characters, depending on the character width
  *
  * @return The processed string
  *
  */
 
-std::string obscure_message( const std::string &str, const std::function<char()> &f );
+struct do_not_replace_character {};
+struct replace_character_with {
+    char ch;
+};
+struct replace_character_randomly {};
+using obscure_message_action =
+    std::variant<do_not_replace_character, replace_character_with, replace_character_randomly>;
+
+std::string obscure_message( std::string_view str,
+                             const std::function<obscure_message_action()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -379,7 +451,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  */
 /**@{*/
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
                           const std::string &data );
 
 template<typename T>
@@ -393,7 +465,7 @@ inline std::string serialize( const T &obj )
 template<typename T>
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+    deserialize_wrapper( [&obj]( const JsonValue & jsin ) {
         obj.deserialize( jsin );
     }, data );
 }
@@ -402,34 +474,30 @@ inline void deserialize_from_string( T &obj, const std::string &data )
 /**
  * \brief Returns true iff s1 starts with s2
  */
-bool string_starts_with( const std::string &s1, const std::string &s2 );
-
-/**
- * Returns true iff s1 starts with s2.
- * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- * Note: N is (size+1) for null-terminated strings.
- */
-template <std::size_t N>
-inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+inline bool string_starts_with( std::string_view s1, std::string_view s2 )
 {
-    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+    return s1.compare( 0, s2.size(), s2 ) == 0;
 }
 
 /**
  * \brief Returns true iff s1 ends with s2
  */
-bool string_ends_with( const std::string &s1, const std::string &s2 );
-
-/**
- *  Returns true iff s1 ends with s2.
- *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- *  Note: N is (size+1) for null-terminated strings.
- */
-template <std::size_t N>
-inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+inline bool string_ends_with( std::string_view s1, std::string_view s2 )
 {
-    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+    return s1.size() >= s2.size() &&
+           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }
+
+bool string_empty_or_whitespace( std::string_view s );
+
+/** strcmp, but for string_view objects.  In C++20 this can be replaced with
+ * operator<=> */
+int string_view_cmp( std::string_view, std::string_view );
+
+template<typename Integer>
+Integer svto( std::string_view );
+
+extern template int svto<int>( std::string_view );
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -438,10 +506,38 @@ bool return_true( const T & )
     return true;
 }
 
+template<typename T>
+bool return_false( const T & )
+{
+    return false;
+}
+
 /**
- * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ * Joins an iterable (class implementing begin() and end()) of elements into a single
+ * string with specified delimiter by using `<<` ostream operator on each element
+ *
+ * keyword: implode
  */
-std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+template<typename Container>
+std::string string_join( const Container &iterable, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = iterable.begin(); a != iterable.end(); ++a ) {
+        if( a != iterable.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
+}
+
+/**
+* Splits a string by delimiter into a vector of strings
+*
+* keyword: explode
+*/
+std::vector<std::string> string_split( std::string_view string, char delim );
 
 /**
  * Append all arguments after the first to the first.
@@ -463,7 +559,7 @@ std::string &str_append( std::string &root, T &&...a )
 }
 
 /**
- * Concatenates a bunch of strings with append, to minimze unnecessary
+ * Concatenates a bunch of strings with append, to minimize unnecessary
  * allocations
  */
 template<typename T0, typename... T>
@@ -555,55 +651,58 @@ std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vect
     return filtered;
 }
 
-int modulo( int v, int m );
-
-class on_out_of_scope
+template<typename Map, typename Set>
+bool map_equal_ignoring_keys( const Map &lhs, const Map &rhs, const Set &ignore_keys )
 {
-    private:
-        std::function<void()> func;
-    public:
-        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
-        }
+    // Since map and set are sorted, we can do this as a single pass with only conditional checks into remove_keys
+    if( ignore_keys.empty() ) {
+        return lhs == rhs;
+    }
 
-        on_out_of_scope( const on_out_of_scope & ) = delete;
-        on_out_of_scope( on_out_of_scope && ) = delete;
-        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
-        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
+    auto lbegin = lhs.begin();
+    auto lend = lhs.end();
+    auto rbegin = rhs.begin();
+    auto rend = rhs.end();
 
-        ~on_out_of_scope() {
-            if( func ) {
-                func();
+    for( ; lbegin != lend && rbegin != rend; ++lbegin, ++rbegin ) {
+        // Sanity check keys
+        if( lbegin->first != rbegin->first ) {
+            while( lbegin != lend && ignore_keys.count( lbegin->first ) == 1 ) {
+                ++lbegin;
+            }
+            if( lbegin == lend ) {
+                break;
+            }
+            if( rbegin->first != lbegin->first ) {
+                while( rbegin != rend && ignore_keys.count( rbegin->first ) == 1 ) {
+                    ++rbegin;
+                }
+                if( rbegin == rend ) {
+                    break;
+                }
+            }
+            // If we've skipped ignored keys and the keys still don't match,
+            // then the maps are unequal.
+            if( lbegin->first != rbegin->first ) {
+                return false;
             }
         }
-
-        void cancel() {
-            func = nullptr;
+        if( lbegin->second != rbegin->second && ignore_keys.count( lbegin->first ) != 1 ) {
+            return false;
         }
-};
+        // Either the values were equal, or the key was ignored.
+    }
+    // At least one map ran out of keys. The other may still have ignored keys in it.
+    while( lbegin != lend && ignore_keys.count( lbegin->first ) ) {
+        ++lbegin;
+    }
+    while( rbegin != rend && ignore_keys.count( rbegin->first ) ) {
+        ++rbegin;
+    }
+    return lbegin == lend && rbegin == rend;
+}
 
-template<typename T>
-class restore_on_out_of_scope
-{
-    private:
-        T &t;
-        T orig_t;
-        on_out_of_scope impl;
-    public:
-        // *INDENT-OFF*
-        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-
-        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-        // *INDENT-ON*
-
-        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
-        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
-};
+int modulo( int v, int m );
 
 /** Add elements from one set to another */
 template <typename T>
@@ -623,5 +722,63 @@ std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_se
     rhv.clear();
     return lhv;
 }
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
+
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
+
+/**
+ * Convenience function to get the aggregate value for a list of values.
+ */
+template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+T aggregate( const std::vector<T> &values, aggregate_type agg_func )
+{
+    if( values.empty() ) {
+        return T();
+    }
+    switch( agg_func ) {
+        case aggregate_type::FIRST:
+            return values.front();
+        case aggregate_type::LAST:
+            return *values.rbegin();
+        case aggregate_type::MIN:
+            return *std::min_element( values.begin(), values.end() );
+        case aggregate_type::MAX:
+            return *std::max_element( values.begin(), values.end() );
+        case aggregate_type::AVERAGE:
+        case aggregate_type::SUM: {
+            T agg_sum = std::accumulate( values.begin(), values.end(), 0 );
+            return agg_func == aggregate_type::SUM ? agg_sum : agg_sum / values.size();
+        }
+        default:
+            return T();
+    }
+}
+
+// overload pattern for std::variant from https://en.cppreference.com/w/cpp/utility/variant/visit
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+explicit overloaded( Ts... ) -> overloaded<Ts...>;
+
+std::optional<double> svtod( std::string_view token, bool debugmsg_on_fail = true );
 
 #endif // CATA_SRC_CATA_UTILITY_H

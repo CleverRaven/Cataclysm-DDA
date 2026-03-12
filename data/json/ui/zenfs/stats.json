@@ -1,0 +1,42 @@
+[
+  {
+    "id": "zenfs_main_stats",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 8,
+    "widgets": [ "zenfs_str", "zenfs_dex", "zenfs_int", "zenfs_per" ]
+  },
+  {
+    "id": "zenfs_str",
+    "type": "widget",
+    "label": "Str",
+    "var": "stat_str",
+    "width": 4,
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "zenfs_dex",
+    "type": "widget",
+    "label": "Dex",
+    "var": "stat_dex",
+    "width": 4,
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "zenfs_int",
+    "type": "widget",
+    "label": "Int",
+    "var": "stat_int",
+    "width": 4,
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "zenfs_per",
+    "type": "widget",
+    "label": "Per",
+    "var": "stat_per",
+    "width": 4,
+    "copy-from": "stat_number"
+  }
+]

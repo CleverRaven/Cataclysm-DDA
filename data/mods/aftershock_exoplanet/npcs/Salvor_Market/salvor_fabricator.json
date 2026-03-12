@@ -1,0 +1,67 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_SALVOR_FABRICATOR",
+    "name": { "str": "salvage merchant" },
+    "job_description": "Salvor Fabricator",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 2, 3 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 1, 3 ] },
+    "worn_override": "NC_SALVOR_FABRICATOR_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 1, 3 ] } }
+    ],
+    "shopkeeper_item_group": [ { "group": "afs_salvor_fabricator_trade", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "group": "afs_augustmoon_batteries_disposable", "markup": 10 },
+      { "group": "afs_augustmoon_batteries_rechargeable", "markup": 20 },
+      { "group": "afs_salvor_fabricator_tools", "markup": 80 },
+      { "group": "afs_salvor_fabricator_scraps", "markup": 3 },
+      { "group": "afs_salvor_fabricator_tools_aftershock", "markup": 3 },
+      { "group": "afs_salvor_fabricator_combat_gear", "markup": 3 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "salvor_fabricator",
+    "name_unique": "Veronica Donaldson",
+    "name_suffix": "salvor fabricator",
+    "gender": "female",
+    "age": 62,
+    "height": 182,
+    "class": "NC_SALVOR_FABRICATOR",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SALVOR_FABRICATOR",
+    "faction": "UICA"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SALVOR_FABRICATOR_worn",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "item": "afs_frontier_cryo" },
+      { "item": "afs_frontier_cryomask" },
+      { "item": "afs_wrist_computer" },
+      { "item": "spacer_cap" },
+      { "item": "carbide_cuirass" },
+      { "item": "afs_herc_rig" },
+      { "item": "boots_combat" },
+      { "item": "gloves_tactical" },
+      { "item": "spacer_jumpsuit" },
+      { "item": "holster" }
+    ]
+  }
+]

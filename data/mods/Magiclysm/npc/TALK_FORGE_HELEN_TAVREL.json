@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "forge_lord_reagents",
-    "//": "The Lord of the Forge of Wonders.",
+    "//": "The Pirate of the Forge of Wonders.",
     "name_unique": "Helen Tavrel, Former Pirate",
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD_REAGENT",
@@ -17,12 +17,13 @@
     "id": "NC_FORGE_LORD_REAGENT",
     "name": { "str": "Pirate Queen" },
     "job_description": "My adventures would curdle your blood.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_FORGE_LORD_STORE_REAGENT",
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "category": "guns", "premium": 1 }, { "category": "ammo", "premium": 1 } ],
     "worn_override": "NC_FORGE_REAGENT_clothes",
     "weapon_override": "NC_FORGE_REAGENT_wield",
     "skills": [
@@ -33,8 +34,7 @@
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "computer", "bonus": { "one_in": 2 } },
       { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {
@@ -73,12 +73,21 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE_REAGENT", "count": [ 10, 20 ], "prob": 100 },
+      { "group": "NC_FORGE_PIRATE_wield", "count": 10, "prob": 20 },
+      { "item": "denarius", "count": [ 5, 20 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "NC_FORGE_LORD_STORE_REAGENT",
     "items": [
       { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
       { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
-      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 },
-      { "group": "spellbook_loot_1", "prob": 75, "count": [ 1, 3 ] }
+      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 }
     ]
   },
   {
@@ -96,6 +105,7 @@
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_REAGENT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_REAGENT_DOING" },
+      { "text": "When are you getting new stuff?", "topic": "TALK_FORGE_REAGENT_ASK_INTERVAL" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -108,5 +118,19 @@
       "no": "A lifetime of plunder has brought me many a strange item - that you can have for unbeatable prices!"
     },
     "responses": [ { "text": "Well, shiver me timbers then.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+  },
+  {
+    "id": "TALK_FORGE_REAGENT_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Do you think me a fool, to tell an officer of the law my current plans?",
+        "Not even trying to ask me that undercover?  By the seventeen seas, officers of the law really ARE made worse these days.",
+        "The end of times is here and that's what you're worried about?  You should get your priorities straight."
+      ],
+      "no": "Well you obviously aren't an officer so here's the deal.  There's a mighty fine galleon making land on <restock_time_point>, I'm certain to have something good by then."
+    },
+    "responses": [ { "text": "May the seas be ever in your favor.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
   }
 ]

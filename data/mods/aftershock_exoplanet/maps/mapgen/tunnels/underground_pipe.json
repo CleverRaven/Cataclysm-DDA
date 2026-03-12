@@ -1,0 +1,260 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_ramp_down_ruins",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "                        ",
+        "         |              ",
+        "        |       |       ",
+        "        |      |        ",
+        "        |RRRRRR|    |   ",
+        "        |°°°°°°|   ||   ",
+        " |      |°°°°°°|  ||    ",
+        " ||     |°°°°°°|        ",
+        " ||     ||°°°°||    |   ",
+        "         ||°°||     |   ",
+        "  ||      ||||   ||  || ",
+        "                        ",
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_pipe" ],
+      "terrain": { "R": "t_snowslope_down" },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_twoway1", 20 ],
+            [ "formless_ruins_twoway2", 20 ],
+            [ "formless_ruins_twoway3", 20 ],
+            [ "formless_ruins_pillar1", 20 ],
+            [ "formless_ruins_pillar2", 20 ],
+            [ "formless_ruins_industrial_tower", 10 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_ramp_up",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        |RRRRRR|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-o~-o|        ",
+        "        |oo~~-o|        ",
+        "        |o-~~oo|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ],
+      "terrain": { "R": "t_iceslope_up" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_end",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "                        ",
+        "                        ",
+        "        |      |        ",
+        "        |      |        ",
+        "        |o   -o|        ",
+        "        |o- ~-o|        ",
+        "        |o-~ -o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_straight",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_curved",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||||||||||||",
+        "        |ooooooooooooooo",
+        "        |o--------------",
+        "        |o-~~~~~~~~~~~~~",
+        "        |o-~~~~~~~~~~~~~",
+        "        |o-~~-----------",
+        "        |o-~~-oooooooooo",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_tee",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-oooooooooo",
+        "        |o-~~-----------",
+        "        |o-~~~~~~~~~~~~~",
+        "        |o-~~~~~~~~~~~~~",
+        "        |o-~~-----------",
+        "        |o-~~-oooooooooo",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_pipe_four_way",
+    "object": {
+      "fill_ter": "t_ice_wall",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "|||||||||o-~~-o|||||||||",
+        "oooooooooo-~~-oooooooooo",
+        "-----------~~-----------",
+        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~",
+        "-----------~~-----------",
+        "oooooooooo-~~-oooooooooo",
+        "|||||||||o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "afs_pipe" ]
+    }
+  }
+]

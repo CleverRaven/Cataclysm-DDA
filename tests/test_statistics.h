@@ -4,8 +4,8 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iosfwd>
 #include <limits>
+#include <string>
 #include <type_traits>
 #include <vector>
 
@@ -34,7 +34,7 @@ struct upper_lower_threshold {
 
 // we cache the margin of error so when adding a new value we must invalidate
 // it so it gets calculated a again
-static constexpr double invalid_err = -1;
+constexpr double invalid_err = -1;
 
 template<typename T>
 class statistics
@@ -44,15 +44,15 @@ class statistics
         int _n;
         double _sum;
         mutable double _error;
-        const double _Z;
-        const double _Zsq;
+        const double Z_;
+        const double Zsq_;
         T _max;
         T _min;
         std::vector< T > samples;
     public:
         explicit statistics( const double Z = Z99_9 ) :
             _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
-            _Z( Z ),  _Zsq( Z * Z ), _max( std::numeric_limits<T>::min() ),
+            Z_( Z ),  Zsq_( Z * Z ), _max( std::numeric_limits<T>::min() ),
             _min( std::numeric_limits<T>::max() ) {}
 
         void new_type() {
@@ -80,19 +80,19 @@ class statistics
         // Outside of this class, this should only be used for debugging
         // purposes.
         template<typename U = T>
-        typename std::enable_if< std::is_same< U, bool >::value, double >::type
+        std::enable_if_t< std::is_same_v< U, bool >, double >
         margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
             // Implementation of outline from https://measuringu.com/ci-five-steps/
-            const double adj_numerator = ( _Zsq / 2 ) + _sum;
-            const double adj_denominator = _Zsq + _n;
+            const double adj_numerator = ( Zsq_ / 2 ) + _sum;
+            const double adj_denominator = Zsq_ + _n;
             const double adj_proportion = adj_numerator / adj_denominator;
             const double a = adj_proportion * ( 1.0 - adj_proportion );
             const double b = a / adj_denominator;
             const double c = std::sqrt( b );
-            _error = c * _Z;
+            _error = c * Z_;
             return _error;
         }
         // Standard error is intended to be used with continuous data samples.
@@ -102,13 +102,13 @@ class statistics
         // Outside of this class, this should only be used for debugging purposes.
         // https://measuringu.com/ci-five-steps/
         template<typename U = T>
-        typename std::enable_if < ! std::is_same< U, bool >::value, double >::type
+        std::enable_if_t < ! std::is_same_v< U, bool >, double >
         margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
             const double std_err = stddev() / std::sqrt( _n );
-            _error = std_err * _Z;
+            _error = std_err * Z_;
             return _error;
         }
 
@@ -124,11 +124,11 @@ class statistics
         }
 
         bool test_threshold( const epsilon_threshold &t ) const {
-            return ( ( t.midpoint - t.epsilon ) < lower() &&
-                     ( t.midpoint + t.epsilon ) > upper() );
+            return ( t.midpoint - t.epsilon ) < lower() &&
+                   ( t.midpoint + t.epsilon ) > upper();
         }
         bool test_threshold( const upper_lower_threshold &t ) const {
-            return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
+            return t.lower_thresh < lower() && t.upper_thresh > upper();
         }
         double upper() const {
             double result = avg() + margin_of_error();
@@ -152,8 +152,8 @@ class statistics
 
         bool is_within_epsilon( const double v, const double epsilon ) const {
             const double average = avg();
-            return( ( average + epsilon > v ) &&
-                    ( average - epsilon < v ) );
+            return( average + epsilon > v ) &&
+                  ( average - epsilon < v );
         }
         // Theoretically a one-pass formula is more efficient, however because
         // we keep handles onto _sum and _n as class members and calculate them

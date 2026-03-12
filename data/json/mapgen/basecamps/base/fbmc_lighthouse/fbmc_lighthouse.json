@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lighthouse_0",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 10, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lighthouse_root_cellar",
+    "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 9, "y": 15 } ] }
+  }
+]

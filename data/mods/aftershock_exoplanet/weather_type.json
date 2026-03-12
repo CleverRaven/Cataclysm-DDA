@@ -6,6 +6,7 @@
     "color": "white",
     "map_color": "h_white",
     "sym": ".",
+    "sun_sym": "⛄",
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -20,
@@ -13,13 +14,13 @@
     "dangerous": false,
     "precip": "light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
-    "condition": { "or": [ { "is_humidity": 97 }, { "not": { "is_pressure": 1000 } } ] }
+    "priority": 30,
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
   },
   {
     "id": "afs_whiteout",
@@ -28,6 +29,7 @@
     "color": "i_black",
     "map_color": "i_black",
     "sym": "o",
+    "sun_sym": "⛆",
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -40,
@@ -35,13 +37,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
-    "condition": { "and": [ "is_day", { "is_windpower": 20 } ] }
+    "priority": 40,
+    "condition": { "and": [ "is_day", { "math": [ "weather('windpower') >= 20" ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -50,6 +52,7 @@
     "color": "blue",
     "map_color": "h_blue",
     "sym": "o",
+    "sun_sym": "☃",
     "ranged_penalty": 3,
     "sight_penalty": 1.1,
     "light_modifier": -30,
@@ -57,13 +60,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snow",
-    "sun_intensity": "light",
+    "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
-    "condition": { "or": [ { "is_humidity": 98 }, { "not": { "is_pressure": 993 } } ] }
+    "priority": 50,
+    "condition": { "or": [ { "math": [ "weather('humidity') >= 98" ] }, { "math": [ "weather('pressure') < 993" ] } ] }
   },
   {
     "id": "afs_thunder",
@@ -72,6 +75,7 @@
     "color": "dark_gray",
     "map_color": "i_blue",
     "sym": "%",
+    "sun_sym": "⛈",
     "ranged_penalty": 4,
     "sight_penalty": 1.2,
     "light_modifier": -40,
@@ -79,13 +83,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
-    "condition": { "not": { "is_pressure": 990 } }
+    "priority": 60,
+    "condition": { "math": [ "weather('pressure') < 990" ] }
   },
   {
     "id": "afs_lightning",
@@ -94,6 +98,7 @@
     "color": "yellow",
     "map_color": "h_yellow",
     "sym": "%",
+    "sun_sym": "⛈",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -101,12 +106,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
+    "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
-    "condition": { "not": { "is_pressure": 980 } }
+    "priority": 70,
+    "condition": { "math": [ "weather('pressure') < 980" ] }
   }
 ]

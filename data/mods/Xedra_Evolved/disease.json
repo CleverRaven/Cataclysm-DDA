@@ -1,0 +1,13 @@
+[
+  {
+    "type": "disease_type",
+    "id": "fae_food",
+    "//": "Currently unobtainable due to inability for json effects to cause a character to glow in the dark.",
+    "min_duration": "6 m",
+    "max_duration": "1 h",
+    "min_intensity": 1,
+    "max_intensity": 3,
+    "health_threshold": 100,
+    "symptoms": "foxfire_imbibed"
+  }
+]

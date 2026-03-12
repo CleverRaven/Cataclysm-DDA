@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VANILLA_TRAIL_INTERSECTION_WEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "vanilla_trail_intersection_weight = 0" ] } ]
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "type": "npc",
+    "id": "augustmoon_security",
+    "//": "A generic guard for port augustmoon.",
+    "name_suffix": "Augustmoon Security",
+    "class": "NC_UICA_NAVAL_POLICE",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_AUGUSTMOON_SECURITY",
+    "faction": "UICA"
+  },
+  {
+    "id": "TALK_AUGUSTMOON_SECURITY",
+    "type": "talk_topic",
+    "dynamic_line": [ "Keep it civil, salvor.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

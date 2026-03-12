@@ -1,0 +1,97 @@
+[
+  {
+    "id": "stat_number",
+    "//": "Base widget for stats",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "str_num",
+    "type": "widget",
+    "label": "Str",
+    "var": "stat_str",
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "str_num_no_label",
+    "type": "widget",
+    "copy-from": "str_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "dex_num",
+    "type": "widget",
+    "label": "Dex",
+    "var": "stat_dex",
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "dex_num_no_label",
+    "type": "widget",
+    "copy-from": "dex_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "int_num",
+    "type": "widget",
+    "label": "Int",
+    "var": "stat_int",
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "int_num_no_label",
+    "type": "widget",
+    "copy-from": "int_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "per_num",
+    "type": "widget",
+    "label": "Per",
+    "var": "stat_per",
+    "copy-from": "stat_number"
+  },
+  {
+    "id": "per_num_no_label",
+    "type": "widget",
+    "copy-from": "per_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
+  },
+  {
+    "id": "str_dex_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Str/Dex",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num" ]
+  },
+  {
+    "id": "int_per_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Int/Per",
+    "arrange": "columns",
+    "widgets": [ "int_num", "per_num" ]
+  },
+  {
+    "id": "stats_no_label_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "columns",
+    "widgets": [ "str_num_no_label", "dex_num_no_label", "int_num_no_label", "per_num_no_label" ]
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_OLD_EFFECTS_REMOVAL",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "u_has_any_effect": [ "effect_telepath_sense_minds", "effect_telepathic_suggestion", "effect_telepathic_psi_armor" ] },
+    "effect": [
+      { "u_lose_effect": "effect_telepath_sense_minds" },
+      { "u_lose_effect": "effect_telepathic_suggestion" },
+      { "u_lose_effect": "effect_telepathic_psi_armor" },
+      { "run_eocs": "EOC_AFS_END_PSI_POWERS_MAINTAINED" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_sense_minds",
+    "name": [ "Sensing Minds" ],
+    "desc": [ "You are looking out for other minds." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of other minds fades away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_suggestion",
+    "name": [ "Mind Trick" ],
+    "desc": [ "You are preparing to influence the minds of others to make them more amenable to your point of view." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_psi_armor",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "Your mind is warded against telepathic attack or detection." ],
+    "apply_message": "",
+    "remove_message": "Your thoughts are once again unguarded.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 17
+  }
+]

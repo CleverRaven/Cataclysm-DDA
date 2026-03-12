@@ -1,0 +1,19 @@
+name: "Pull Request Labeler"
+on:
+  - pull_request_target
+
+permissions:
+  contents: read
+
+jobs:
+  triage:
+    permissions:
+      contents: read  # for actions/labeler to determine modified files
+      pull-requests: write  # for actions/labeler to add labels to PRs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          # I don't want no bot removing stuff for me
+          sync-labels: ""

@@ -1,13 +1,11 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MINER",
-    "default": "mon_zombie_miner",
-    "monsters": [  ]
+    "id": "GROUP_MINER",
+    "monsters": [ { "monster": "mon_zombie_miner" } ]
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "mine_spiral_west", "mine_spiral_central", "mine_spiral_east" ] ],
     "object": {
       "fill_ter": "t_rock_floor",
@@ -38,6 +36,7 @@
         "########################################################################"
       ],
       "terrain": {
+        " ": [ [ "t_puddle_underground", 1 ], [ "t_rock_floor", 10 ] ],
         "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
         "#": "t_rock",
         "*": "t_railroad_track_small",
@@ -50,7 +49,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mine_spiral_-1_nw", "mine_spiral_-1_n", "mine_spiral_-1_ne" ],
       [ "mine_spiral_-1_sw", "mine_spiral_-1_s", "mine_spiral_-1_se" ]
@@ -124,7 +122,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "mine_spiral_finale_nw", "mine_spiral_finale_n", "mine_spiral_finale_ne" ],
       [ "mine_spiral_finale_sw", "mine_spiral_finale_s", "mine_spiral_finale_se" ]

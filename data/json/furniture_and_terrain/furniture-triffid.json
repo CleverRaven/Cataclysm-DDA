@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_glowingbulb",
     "name": "illuminating plant bulb",
-    "description": "A small plant grows among the roots here, its green onion-like bulb illuminating the area around it.",
+    "description": "A small plant grows among the roots here, its green, onion-like bulb illuminating the area around it.",
     "symbol": "!",
     "color": "brown",
     "move_cost_mod": 6,
@@ -15,7 +15,9 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -34,14 +36,16 @@
       "str_max": 60,
       "sound": "smash",
       "sound_fail": "whump.",
-      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 15 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
     "type": "furniture",
     "id": "f_midden",
     "name": "composting midden",
-    "description": "A hole that has been dug into the roots here, and a pretty unpleasant smell emits from it.",
+    "description": "A hole has been dug into the roots here, and a pretty unpleasant smell emits from it.",
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": 3,

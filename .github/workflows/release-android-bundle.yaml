@@ -1,0 +1,63 @@
+name: "Manual experimental Android aab bundle generator"
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+
+permissions:
+  write-all
+
+jobs:
+  release:
+    name: Build and release Android bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate build variables
+        id: vars
+        run: |
+          timestamp=$(date -u "+%Y-%m-%d-%H%M")
+          echo "timestamp=$timestamp" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-experimental-aab-bundle-$timestamp" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental Android bundle $timestamp" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - name: Set up JDK
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext
+
+      - name: Build Android bundle
+        working-directory: ./android
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
+          export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
+          chmod +x gradlew
+          ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+          mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-android-bundle-${STEPS_VARS_OUTPUTS_TIMESTAMP}-${{ github.sha }}.aab
+        env:
+          STEPS_VARS_OUTPUTS_TIMESTAMP: ${{ steps.vars.outputs.timestamp }}
+
+      - name: Create GitHub release
+        run: |
+          gh release create ${STEPS_VARS_OUTPUTS_TAG_NAME} \
+            cdda-android-bundle-${STEPS_VARS_OUTPUTS_TIMESTAMP}-${{ github.sha }}.aab \
+            --prerelease \
+            --title "${STEPS_VARS_OUTPUTS_RELEASE_NAME}" \
+            --target "${{ github.sha }}"
+        env:
+          STEPS_VARS_OUTPUTS_TAG_NAME: ${{ steps.vars.outputs.tag_name }}
+          STEPS_VARS_OUTPUTS_TIMESTAMP: ${{ steps.vars.outputs.timestamp }}
+          STEPS_VARS_OUTPUTS_RELEASE_NAME: ${{ steps.vars.outputs.release_name }}

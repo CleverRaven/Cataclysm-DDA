@@ -1,0 +1,182 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_controls_room",
+    "description": "We should remove some of display racks and counters, then build a set of beds inside the radio control room for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_controls_room",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_controls_room" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_controls_room" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_controls_room" } ],
+    "blueprint_name": "set of beds in the radio control room",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_0",
+    "description": "We should build a set of beds inside the radio tower shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_0",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_0" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_0" } ],
+    "blueprint_name": "set of beds in the radio tower",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_1",
+    "description": "We should build a set of beds in the northeast side shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_1",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_1" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_1" } ],
+    "blueprint_name": "set of beds in NE side shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_2",
+    "description": "We should build a set of beds in the southwest corner shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_2",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_2" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_2" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_2" } ],
+    "blueprint_name": "set of beds in SW corner shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_3",
+    "description": "We should build a set of beds in the southwest side shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_3",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_3" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_3" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_3" } ],
+    "blueprint_name": "set of beds in SW side shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_4",
+    "description": "We should build a set of beds in the southeast side shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_4",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_4" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_4" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_4" } ],
+    "blueprint_name": "set of beds in SE side shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_5",
+    "description": "We should build a set of beds in the southeast corner shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_5",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_5" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_5" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_5" } ],
+    "blueprint_name": "set of beds in SE corner shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_6",
+    "description": "We should build a set of beds in the southeast corner shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_6",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_6" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_6" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_6" } ],
+    "blueprint_name": "set of beds in SE corner shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_7",
+    "description": "We should build a set of beds in the southwest corner shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_7",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_7" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_7" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_7" } ],
+    "blueprint_name": "set of beds in SW corner shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_beds_8",
+    "description": "We should build a set of beds in the south side shack for our survivors.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_beds_8",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_beds_8" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_beds_8" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_shack_8" } ],
+    "blueprint_name": "set of beds in S side shack",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    }
+  }
+]

@@ -2,20 +2,24 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
-#include <iosfwd>
+#include <cstddef>
+#include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "enums.h"
+#include "global_vars.h"
 #include "item.h"
-#include "optional.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Item_spawn_data;
 class JsonObject;
 class JsonValue;
 class time_point;
@@ -46,6 +50,8 @@ item item_from( const item_group_id &group_id, const time_point &birthday );
  * Same as above but with implicit birthday at turn 0.
  */
 item item_from( const item_group_id &group_id );
+// Return a formatted list of min-max items an item group can spawn
+std::string potential_items( const item_group_id &group_id );
 
 using ItemList = std::vector<item>;
 /**
@@ -84,9 +90,9 @@ std::set<const itype *> every_possible_item_from( const item_group_id &group_id 
  */
 bool group_is_defined( const item_group_id &group_id );
 /**
- * Shows an menu to debug the item groups.
+ * Return the corresponding Item_spawn_data for an item_group_id as .obj() is undefined
  */
-void debug_spawn();
+Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
 /**
  * See @ref Item_factory::load_item_group
  */
@@ -135,19 +141,22 @@ class Item_spawn_data
             last
         };
 
-        Item_spawn_data( int _probability, const std::string &context ) :
-            probability( _probability ), context_( context ) { }
+        Item_spawn_data( int _probability, const std::string &context, holiday _event = holiday::none ) :
+            probability( _probability ), context_( context ), event( _event ) { }
         virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
+         * @param[out] list New items are appended to the list
          * @param[in] birthday All items have that value as birthday.
          * @param[out] rec Recursion list, output goes here.
          * @param[in] spawn_flags Extra information to change how items are spawned.
+         * @return The number of new items appended to the list
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec,
-                                 spawn_flags = spawn_flags::none ) const = 0;
-        ItemList create( const time_point &birthday, spawn_flags = spawn_flags::none ) const;
+        virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                                    spawn_flags = spawn_flags::none ) const = 0;
+        std::size_t create( ItemList &list, const time_point &birthday,
+                            spawn_flags = spawn_flags::none ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -158,7 +167,7 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency() const;
+        virtual void check_consistency( bool actually_spawn ) const;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
@@ -166,22 +175,34 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
-        void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
+        virtual std::map<const itype *, std::pair<int, int>> every_item_min_max() const = 0;
 
         const std::string &context() const {
             return context_;
         }
 
-        /** probability, used by the parent object. */
-        int probability;
+        int get_probability( bool skip_event_check ) const;
+        void set_probability( int prob ) {
+            probability = prob;
+        }
+        bool is_event_based() const {
+            return event != holiday::none;
+        }
+
         /**
          * The group spawns contained in this item
          */
-        cata::optional<itype_id> container_item;
+        std::optional<itype_id> container_item;
+        std::optional<std::string> container_item_variant;
         overflow_behaviour on_overflow = overflow_behaviour::none;
+        /**
+         * These item(s) are spawned as components
+         */
+        std::optional<std::vector<itype_id>> components_items;
         bool sealed = true;
+        std::optional<bool> active = std::nullopt;
 
         struct relic_generator {
             relic_procgen_data::generation_rules rules;
@@ -196,9 +217,13 @@ class Item_spawn_data
         cata::value_ptr<relic_generator> artifact;
 
     protected:
+        /** probability, used by the parent object. */
+        int probability;
         // A description of where this group was defined, for use in error
         // messages
         std::string context_;
+        // If defined, only spawn this item during the specified event
+        holiday event = holiday::none;
 };
 
 template<>
@@ -234,7 +259,7 @@ class Item_modifier
          * if item should not spawn in a container.
          * If the created item is a liquid and it uses the default
          * charges, it will expand/shrink to fill the container completely.
-         * If it is created with to much charges, they are reduced.
+         * If it is created with too many charges, they are reduced.
          * If it is created with the non-default charges, but it still fits
          * it is not changed.
          */
@@ -244,7 +269,6 @@ class Item_modifier
          */
         std::unique_ptr<Item_spawn_data> contents;
         bool sealed = true;
-
         /**
          * Custom flags to be added to the item.
          */
@@ -254,6 +278,16 @@ class Item_modifier
          * gun variant id, for guns with variants
          */
         std::string variant;
+
+        /**
+        * add this faults to item, if possible
+        */
+        std::vector<std::pair<fault_id, int>> faults;
+
+        /**
+        * add this variables to item
+        */
+        global_variables::impl_t item_vars;
 
         /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.
@@ -266,7 +300,7 @@ class Item_modifier
         void modify( item &new_item, const std::string &context ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const itype_id &itemid );
-        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements );
+        void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) const;
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -299,7 +333,7 @@ class Single_item_creator : public Item_spawn_data
         };
 
         Single_item_creator( const std::string &id, Type type, int probability,
-                             const std::string &context );
+                             const std::string &context, holiday event = holiday::none );
         ~Single_item_creator() override = default;
 
         /**
@@ -307,18 +341,21 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        cata::optional<Item_modifier> modifier;
+        std::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
+        std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                            spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
+        void check_consistency( bool actually_spawn ) const override;
         bool remove_item( const itype_id &itemid ) override;
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 };
 
 /**
@@ -335,7 +372,7 @@ class Item_group : public Item_spawn_data
         };
 
         Item_group( Type type, int probability, int ammo_chance, int magazine_chance,
-                    const std::string &context );
+                    const std::string &context, holiday event = holiday::none );
         ~Item_group() override = default;
 
         const Type type;
@@ -358,14 +395,15 @@ class Item_group : public Item_spawn_data
          * a Single_item_creator or Item_group to @ref items.
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
-
-        ItemList create( const time_point &birthday, RecursionList &rec, spawn_flags ) const override;
+        std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
+                            spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        void check_consistency( bool actually_spawn ) const override;
         bool remove_item( const itype_id &itemid ) override;
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

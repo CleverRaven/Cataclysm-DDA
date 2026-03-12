@@ -1,0 +1,23 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_GREAT_LIBRARY_LIBRARIAN_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "panties" },
+      { "item": "skirt" },
+      { "item": "dress_shirt" },
+      { "item": "heels" },
+      { "item": "purse" },
+      { "item": "diamond_ring" },
+      { "item": "pearl_gold_earring" },
+      { "item": "gold_bracelet" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_GREAT_LIBRARY_LIBRARIAN_carried",
+    "subtype": "collection",
+    "items": [ { "item": "magnifying_glass" } ]
+  }
+]

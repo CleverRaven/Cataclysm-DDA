@@ -1,0 +1,39 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_magus_permanent_light",
+    "name": "imperishable light",
+    "description": "A glowing orb of light floats here, emitting a soft radiance.",
+    "symbol": "*",
+    "color": "white",
+    "move_cost_mod": 0,
+    "light_emitted": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "TINY", "THIN_OBSTACLE" ],
+    "bash": { "str_min": 9999, "str_max": 9999 },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_REMOVE_MAGUS_LIGHT",
+          "condition": { "u_query": "Dismiss the imperishable light?", "default": false },
+          "effect": [
+            {
+              "u_map_run_eocs": [
+                {
+                  "id": "EOC_REMOVE_MAGUS_LIGHT_2",
+                  "effect": [ { "u_cast_spell": { "id": "magus_permanent_light" }, "loc": { "context_val": "loc" } } ],
+                  "false_effect": { "u_message": "There is no nearby light to dismiss.", "type": "bad" }
+                }
+              ],
+              "range": 1,
+              "store_coordinates_in": { "context_val": "loc" },
+              "stop_at_first": true,
+              "condition": { "map_furniture_id": "f_magus_permanent_light", "loc": { "context_val": "loc" } }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

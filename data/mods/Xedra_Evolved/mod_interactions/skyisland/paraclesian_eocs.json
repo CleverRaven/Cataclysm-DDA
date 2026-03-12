@@ -1,0 +1,45 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            {
+              "or": [ { "u_near_om_location": "sky_island_core", "range": 1 }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ]
+            },
+            { "or": [ { "math": [ "u_val('pos_z') == 6" ] }, { "math": [ "u_val('pos_z') == 7" ] } ] }
+          ]
+        },
+        { "and": [ { "u_near_om_location": "sky_island_core", "range": 1 }, { "math": [ "u_val('pos_z') == 6" ] } ] }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_FAE_BAN_DIDNT_SLEEP_UNDERGROUND",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_FAE_BAN_DIDNT_SLEEP_NEAR_HUMANS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_FAE_BAN_DIDNT_SLEEP_OUTSIDE",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_FAE_BAN_SLEEP_ON_LAND",
+    "effect": [  ]
+  }
+]

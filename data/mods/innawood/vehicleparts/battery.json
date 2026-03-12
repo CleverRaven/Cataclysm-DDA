@@ -1,0 +1,27 @@
+[
+  {
+    "id": "battery_car_clay",
+    "type": "vehicle_part",
+    "name": { "str": "clay car battery" },
+    "item": "battery_car_clay",
+    "fuel_type": "battery",
+    "categories": [ "energy" ],
+    "color": "yellow",
+    "broken_color": "red",
+    "durability": 12,
+    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  Contained in a clay shell.",
+    "folded_volume": "6250 ml",
+    "breaks_into": [
+      { "item": "chem_sulphuric_acid", "count": [ 6, 9 ] },
+      { "item": "lead", "count": [ 2200, 1800 ] },
+      { "item": "ceramic_shard", "count": [ 1, 3 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
+    },
+    "damage_reduction": { "bash": 10 },
+    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
+  }
+]

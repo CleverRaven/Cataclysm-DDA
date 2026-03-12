@@ -1,5 +1,6 @@
 [
   {
+    "//1": "This file consists of chunks of mapgen intended to be reusable for other labs, they don't spawn as is.",
     "type": "overmap_special",
     "id": "Lab_Parking_Lot",
     "//": "A secure parking lot and concrete wall.",
@@ -9,9 +10,12 @@
       { "point": [ -2, -1, 0 ], "overmap": "lab_surface_parking_blockD1_west" },
       { "point": [ -3, -1, 0 ], "overmap": "lab_surface_parking_blockD0_west" },
       { "point": [ -1, -2, 0 ], "overmap": "lab_surface_parking_blockE2_west" },
+      { "point": [ -1, -2, 1 ], "overmap": "lab_surface_parking_blockE2_roof_west" },
       { "point": [ -1, 2, 0 ], "overmap": "lab_surface_parking_blockA2_west" },
+      { "point": [ -1, 2, 1 ], "overmap": "lab_surface_parking_blockA2_roof_west" },
       { "point": [ -2, 0, 0 ], "overmap": "lab_surface_parking_blockC1_west" },
       { "point": [ -3, 0, 0 ], "overmap": "lab_surface_parking_blockC0_west" },
+      { "point": [ -2, 2, 1 ], "overmap": "lab_surface_parking_blockC0_roof_west" },
       { "point": [ -2, 1, 0 ], "overmap": "lab_surface_parking_blockB1_west" },
       { "point": [ -3, 1, 0 ], "overmap": "lab_surface_parking_blockB0_west" },
       { "point": [ -2, 2, 0 ], "overmap": "lab_surface_parking_blockA1_west" },
@@ -210,7 +214,7 @@
   {
     "type": "overmap_special",
     "id": "Lab_MAINTENANCE_areas",
-    "//": "Lab maintence areas that connect to other lab zones.",
+    "//": "Lab maintenance areas that connect to other lab zones.",
     "overmaps": [
       { "point": [ -1, 2, -2 ], "overmap": "lab_maintenance_z-2&3_A_north" },
       { "point": [ 2, 2, -2 ], "overmap": "lab_maintenance_z-2&3_B_north" },

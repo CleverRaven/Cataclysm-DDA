@@ -1,0 +1,524 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "industrial_runoff",
+    "terrain": [ { "result": [ [ "t_polluted_snow", 1 ], [ "t_snow", 2 ] ], "valid_terrain": [ "t_snow" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_formless_ruins_industrial",
+    "weight": 5,
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        { "chunks": [ "afs_formless_ruins_industrial_base" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 45 ], [ "formless_piping", 45 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_ruin_pollution" ], "x": 0, "y": 0 }
+      ],
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [
+        { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
+        { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_formless_ruins_industrial",
+    "weight": 1,
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        { "chunks": [ [ "afs_formless_reactor", 45 ], [ "afs_formless_manufab", 45 ] ], "x": 0, "y": 0 },
+        { "chunks": [ "afs_ruin_pollution" ], "x": 0, "y": 0 }
+      ],
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [
+        { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 },
+        { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2, "density": 0.2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_ruin_pollution",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "industrial_runoff", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_formless_ruins_industrial_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "1           1           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_twoway1", 20 ],
+            [ "formless_ruins_twoway2", 20 ],
+            [ "formless_ruins_twoway3", 20 ],
+            [ "formless_ruins_pillar1", 20 ],
+            [ "formless_ruins_pillar2", 20 ],
+            [ "formless_ruins_industrial_tower", 10 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_formless_reactor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "            1   ..      ",
+        "             |  ..|||.  ",
+        "             |  ..|2|.  ",
+        "             |   .|1|.  ",
+        "                 .      ",
+        "               || ....  ",
+        "               .. |1|.  ",
+        "3            . .  |2|.  ",
+        "             |.   |||. .",
+        "             |         .",
+        "            ||   .... ..",
+        "            |     |||. |",
+        "            |   ..|2| | ",
+        "                . |1| | ",
+        "               ||  .. ||",
+        "           ..    ...   |",
+        "            .. ...|1|.||",
+        "              .   |2|. |",
+        "           ||     |||   ",
+        "           |       .    ",
+        "           |    ||...|| ",
+        "           |     ||.||  ",
+        "           |||          ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "1": "t_reinforced_glass", "2": "t_metal_floor", ".": "t_metal_floor" },
+      "furniture": { "2": "f_ancient_atomic_backup" },
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "nested": {
+        "3": {
+          "chunks": [
+            [ "formless_ruins_ribs1", 20 ],
+            [ "formless_ruins_ribs2", 20 ],
+            [ "formless_ruins_twoway1", 20 ],
+            [ "formless_ruins_twoway2", 20 ],
+            [ "formless_ruins_twoway3", 20 ],
+            [ "formless_ruins_pillar1", 20 ],
+            [ "formless_ruins_pillar2", 20 ],
+            [ "formless_ruins_empty1", 10 ],
+            [ "formless_ruins_empty2", 10 ],
+            [ "formless_ruins_empty3", 10 ],
+            [ "formless_ruins_empty4", 10 ]
+          ]
+        }
+      },
+      "place_nested": [ { "chunks": [ "afs_formless_reactor_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_formless_reactor_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                  ...   ",
+        "                  ...   ",
+        "                  ...   ",
+        "                        ",
+        "                        ",
+        "                  ...   ",
+        "                  ...   ",
+        "             .    ...   ",
+        "             .          ",
+        "            ..          ",
+        "            .     ...  .",
+        "            .     ... ..",
+        "                  ... ..",
+        "               ..     ..",
+        "                       .",
+        "                  ... ..",
+        "                  ...  .",
+        "           ..     ...   ",
+        "           ..           ",
+        "           ..   ....... ",
+        "           ..    .....  ",
+        "           ..           ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { ".": "t_metal_floor", " ": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_formless_manufab",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      |                 ",
+        "||||||||          ||    ",
+        " |5              6|     ",
+        " |5      1...  166|6    ",
+        " ||||    ...  ..  |    |",
+        " | |     ....  .       |",
+        "   p|||  1 ....1     |||",
+        "   pp|     ..    |||    ",
+        "    p| 44444...44444|   ",
+        "    p. .. ..  4   4 |   ",
+        "     ...|||...||| 4     ",
+        "     ... |3...1|  4     ",
+        "  6      =1...2=  4     ",
+        "  66     =3...2=  4     ",
+        "  6  ....|1...1|  4     ",
+        "     ...|||...|||.4.    ",
+        "     |...  4     ...|   ",
+        "    ||6 .. 4 ...... |  |",
+        "||!666||..1...1 ..|    |",
+        "|  |E6    ..          ||",
+        "|  |E     1  .1       | ",
+        "|55|E    6666       66| ",
+        "|||||  |||||||||||||6|| ",
+        "   |                    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_monster": [
+        { "monster": "mon_zenit", "x": 11, "y": 8, "spawn_data": { "patrol": [ { "x": 11, "y": 8 } ] } },
+        { "monster": "mon_zenit", "x": 11, "y": 17, "spawn_data": { "patrol": [ { "x": 11, "y": 17 } ] } }
+      ],
+      "terrain": {
+        "1": "t_metal_floor",
+        "2": "t_metal_floor",
+        "3": "t_metal_floor",
+        "4": "t_conveyor",
+        "5": "t_metal_floor",
+        "6": "t_metal_floor"
+      },
+      "furniture": {
+        "1": "f_robotic_arm",
+        "2": "f_metal_deposition_u",
+        "3": "f_monomolecularsaw",
+        "5": "f_ancient_processor",
+        "6": "f_wreckage"
+      },
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "place_nested": [ { "chunks": [ "afs_formless_manufab_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_formless_manufab_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      .                 ",
+        "........          ..    ",
+        " ...              .     ",
+        " ...              .     ",
+        " ...              .    .",
+        " ...                   .",
+        "    ...              ...",
+        "     .           ...    ",
+        "     .              .   ",
+        "                    .   ",
+        "        .........       ",
+        "         .......        ",
+        "         .......        ",
+        "         .......        ",
+        "         .......        ",
+        "        .........       ",
+        "     .              .   ",
+        "    ..              .  .",
+        "........          .    .",
+        "....                  ..",
+        "....                  . ",
+        "....                  . ",
+        ".....  ................ ",
+        "   .                    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { ".": "t_metal_floor", " ": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_piping",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                 pppp   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                    p   ",
+        "                 pppp   ",
+        "                    p   ",
+        "                    p   ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_heavy_industry_furnishing" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_piping",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " p                 p    ",
+        " p                 p    ",
+        " p                 p    ",
+        " p                 p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        " p       p         p    ",
+        "         p              ",
+        "         p              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_heavy_industry_furnishing" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_piping",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        " pppp    pppppppppppp   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          p             ",
+        "          p             ",
+        "          p             ",
+        "  pppppppppppppppppppppp",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ppppppppppppp       ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_heavy_industry_furnishing" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_piping",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                    p   ",
+        "                    p   ",
+        "         pppppppppppp   ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p              ",
+        "         p         p    ",
+        "         p         p    ",
+        "                   p    ",
+        "                   p    ",
+        "         p         p    ",
+        "         p         p    ",
+        "         p        pp    ",
+        "         p         p    ",
+        "         p         p    ",
+        "         p         p    ",
+        "         p         p    ",
+        "         p              ",
+        "         p              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "afs_habitat_heavy_industry_furnishing" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_ruins_industrial_tower",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "///// ./////",
+        "/..  //..// ",
+        "/..     .//.",
+        "/ /   ..   .",
+        "  .   ....  ",
+        "  /   .   . ",
+        "      /     ",
+        "/..   ..    ",
+        "      .  ...",
+        "/..  / .   /",
+        "  // /..  </",
+        "////  //////"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "place_nested": [ { "chunks": [ "formless_ruins_industrial_tower_1" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_ruins_industrial_tower_1",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "///[[ ./[///",
+        "/<......66//",
+        "/..[[[  ..6/",
+        "/..      [.[",
+        "[..      [.[",
+        "[.       [.[",
+        "[.       [.[",
+        "[.[      [.[",
+        "[.[       .[",
+        "/.[[   .[[./",
+        " .........>/",
+        "///[[[[[[///"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "terrain": { " ": "t_open_air", "6": "t_metal_floor" },
+      "furniture": { "6": "f_wreckage" },
+      "place_nested": [ { "chunks": [ "formless_ruins_industrial_tower_2" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_ruins_industrial_tower_2",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "///[[ ./[///",
+        "/>.....666//",
+        "/...[[[[[66/",
+        "/..      [.[",
+        "[..      [.[",
+        "[.       [.[",
+        "[.          ",
+        "[.         [",
+        "[..       .[",
+        "/66.   .[[./",
+        "666.. ....</",
+        "/  [    [///"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "terrain": { " ": "t_open_air", "6": "t_metal_floor" },
+      "furniture": { "6": "f_wreckage" },
+      "place_nested": [ { "chunks": [ "formless_ruins_industrial_tower_3" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "formless_ruins_industrial_tower_3",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "[[[[    [[[[",
+        "...........[",
+        "....     ..[",
+        "...        [",
+        " ..       .[",
+        "          .[",
+        "           [",
+        "           [",
+        " ..  ..   .[",
+        "[... ...[[.[",
+        "[.........>[",
+        "[[      [[.["
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_heavy_industry_furnishing" ],
+      "terrain": { " ": "t_open_air", "6": "t_metal_floor" },
+      "furniture": { "6": "f_wreckage" }
+    }
+  }
+]

@@ -5,11 +5,14 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "output.h"
+
+class Creature;
+class item;
+struct map_data_common_t;
 
 /**
  * Get a function that returns true if the value matches the query.
@@ -39,7 +42,7 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
         std::vector<std::function<bool( const T & )> > inv_functions;
         size_t comma = filter.find( ',' );
         while( !filter.empty() ) {
-            const auto &current_filter = trim( filter.substr( 0, comma ) );
+            const std::string &current_filter = trim( filter.substr( 0, comma ) );
             if( !current_filter.empty() ) {
                 auto current_func = filter_from_string( current_filter, basic_filter );
                 if( current_filter[0] == '-' ) {
@@ -85,8 +88,6 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
     return basic_filter( filter );
 }
 
-class item;
-
 /**
  * Get a function that returns true if the item matches the query.
  */
@@ -96,5 +97,13 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
  * Get a function that returns true if the value matches the basic query (no commas or minuses).
  */
 std::function<bool( const item & )> basic_item_filter( std::string filter );
+
+std::function<bool( const Creature & )> creature_filter_from_string(
+    const std::string &filter );
+std::function<bool( const Creature & )> basic_creature_filter( std::string filter );
+
+std::function<bool( const map_data_common_t & )> terfurn_filter_from_string(
+    const std::string &filter );
+std::function<bool( const map_data_common_t & )> basic_terfurn_filter( std::string filter );
 
 #endif // CATA_SRC_ITEM_SEARCH_H

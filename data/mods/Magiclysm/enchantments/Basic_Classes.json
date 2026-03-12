@@ -1,0 +1,12 @@
+[
+  {
+    "type": "enchantment",
+    "id": "KELVINIST",
+    "incoming_damage_mod": [ { "type": "heat", "add": { "math": [ "u_school_level('KELVINIST') / -6" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "STORMSHAPER",
+    "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_school_level('STORMSHAPER') / -6" ] } } ]
+  }
+]

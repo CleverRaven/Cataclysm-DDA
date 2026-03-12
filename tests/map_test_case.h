@@ -2,16 +2,16 @@
 #define CATA_TESTS_MAP_TEST_CASE_H
 
 #include <functional>
-#include <new>
+#include <optional>
 #include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "map.h"
-#include "mapdata.h"
-#include "optional.h"
+#include "coordinates.h"
 #include "point.h"
+#include "type_id.h"
 
 /**
  * Framework that simplifies writing tests that involve setting up 2d (or limited 3d) maps.
@@ -49,7 +49,7 @@ class map_test_case
             // current char from `expected_results`
             char expect_c;
             // current point in map coords
-            tripoint p;
+            tripoint_bub_ms p;
             // current point in local coords [0..width) [0..height)
             point p_local;
         };
@@ -71,14 +71,14 @@ class map_test_case
          * When using any `for_each_tile` variant, calculated (map) coordinates (`tile::p`) are such that
          * `anchor_char` point within `setup` is aligned with the map coords stored in `anchor_map_pos`.
          */
-        cata::optional<char> anchor_char = cata::nullopt;
+        std::optional<char> anchor_char = std::nullopt;
 
         /**
          *  The 'anchor' coordinates on the map (in map coordinates).
          *  For example, it can be the center of the map or player's coordinates.
          *  This test will align `anchor_char` (in `setup`) with given map coordinates.
          */
-        tripoint anchor_map_pos = tripoint_zero;
+        tripoint_bub_ms anchor_map_pos = tripoint_bub_ms::zero;
 
         /**
          * Invokes callback for each tile of the input map.
@@ -107,7 +107,7 @@ class map_test_case
         int get_width() const;
 
         // returns calculated "origin" point, i.e. shift relative to the map
-        tripoint get_origin();
+        tripoint_bub_ms get_origin();
 
         // automatically set `anchor_char` from the list of given chars to the one that is present in the `setup`
         void set_anchor_char_from( const std::set<char> &chars );
@@ -138,19 +138,19 @@ class map_test_case
          * (and performing other sanity checks)
          * @param p tripoint in map coordinates that is expected to align with the `anchor_map_pos`
          */
-        void validate_anchor_point( const tripoint &p );
+        void validate_anchor_point( const tripoint_bub_ms &p );
 
     private:
         // origin (0,0) of this `map_test_case` in `map` coordinates
         // based on `anchor_map_pos` and `anchor_char`, lazily calculated when needed, reset on transformations
-        cata::optional<tripoint> origin = cata::nullopt;
+        std::optional<tripoint_bub_ms> origin = std::nullopt;
 
         // flag that internal sanity checks are completed, resets on transformations
         bool checks_complete = false;
 
         void do_internal_checks();
 
-        void for_each_tile( const tripoint &tmp_origin,
+        void for_each_tile( const tripoint_bub_ms &tmp_origin,
                             const std::function<void( tile & )> &callback ) const;
 
 };
@@ -165,38 +165,21 @@ using tile_predicate = std::function<bool( map_test_case::tile )>;
  * `f` and `g` must have same signature.
  * Returns tile_predicate that always returns "true" for easier chaning.
  */
-static inline tile_predicate operator+(
+tile_predicate operator+(
     const std::function<void( map_test_case::tile )> &f,
-    const std::function<void( map_test_case::tile )> &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        f( t );
-        g( t );
-        return true;
-    };
-}
+    const std::function<void( map_test_case::tile )> &g );
 
 /**
  * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) && g(tile)`.
  * Note, if `f` returns false, `g` is not invoked!  (&& semantics)
  */
-static inline tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        return f( t ) && g( t );
-    };
-}
+tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g );
 
 /**
  * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) || g(tile)`.
  * Note, if `f` returns true, `g` is not invoked!  (|| semantics)
  */
-static inline tile_predicate operator||( const tile_predicate &f, const tile_predicate &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        return f( t ) || g( t );
-    };
-}
+tile_predicate operator||( const tile_predicate &f, const tile_predicate &g );
 
 namespace tiles
 {
@@ -212,16 +195,7 @@ namespace tiles
  * @param f function to call when char matches
  * @return function that returns true when char is matched and false otherwise
  */
-static inline tile_predicate ifchar( char c, tile_predicate f )
-{
-    return [ = ]( map_test_case::tile t ) {
-        if( t.setup_c == c ) {
-            f( t );
-            return true;
-        }
-        return false;
-    };
-}
+tile_predicate ifchar( char c, const tile_predicate &f );
 
 /**
  * Returns the function that sets the map `ter` at the `map_test_case::tile` coords to the given ter_id
@@ -229,30 +203,22 @@ static inline tile_predicate ifchar( char c, tile_predicate f )
  * @param shift shift from the current tile coordinates (e.g. to have the ability to set tiles above)
  * @return function that sets tiles
  */
-static inline tile_predicate ter_set(
+tile_predicate ter_set(
     ter_str_id ter,
-    tripoint shift = tripoint_zero
-)
-{
-    return [ = ]( map_test_case::tile t ) {
-        REQUIRE( ter.is_valid() );
-        tripoint p = t.p + shift;
-        get_map().ter_set( p, ter );
-        return true;
-    };
-}
+    tripoint shift = tripoint::zero
+);
 
 /**
  * Function that prints encountered char and fails.
  * Use at the end of the chain of char handlers.
  */
-static const tile_predicate fail = []( map_test_case::tile t )
+inline const tile_predicate fail = []( map_test_case::tile t )
 {
     FAIL( "Setup char is not handled: " << t.setup_c );
     return false;
 };
 
-static const tile_predicate noop = []( map_test_case::tile )
+inline const tile_predicate noop = []( map_test_case::tile )
 {
     return true;
 };

@@ -1,34 +1,39 @@
-#include "cata_catch.h"
 #include "calendar.h" // IWYU pragma: associated
 
+#include <array>
+#include <cstdio>
+#include <functional>
 #include <iomanip>
+#include <optional>
+#include <sstream>
 #include <string>
+#include <tuple>
 #include <unordered_set>
+#include <vector>
 
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
+#include "cata_utility.h"
 #include "hash_utils.h"
 #include "line.h"
 #include "options_helpers.h"
-#include "optional.h"
-#include "output.h"
-#include "stringmaker.h"
+#include "units.h"
 #include "units_utility.h"
 
 // SUN TESTS
 
 // The 24-hour solar cycle has four overlapping parts, as defined by four calendar.cpp functions:
 //
-// is_night : While the Sun is below the horizon
-// is_day   : While the Sun is above -12° altitude
-// is_dawn, is_dusk : While the Sun is near the horizon at the appropriate end
+// is_night : While the Sun is below -6° altitude
+// is_day   : While the Sun is above -1° altitude
+// is_dawn, is_dusk : While the Sun is in between -6° to -1° at the appropriate end
 //                    of the day
 //
-// Day and night overlap, and dawn and dusk both overlap with both day and
-// night.
 //
 // The times of sunrise and sunset will naturally depend on the current time of year; this aspect is
 // covered by the "sunrise and sunset" and solstice/equinox tests later in this file. Here we simply
 // use the first day of spring as a baseline.
-TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
+TEST_CASE( "daily_solar_cycle", "[sun][night][dawn][day][dusk]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
     const time_point midnight = calendar::turn_zero;
@@ -41,11 +46,10 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 
     SECTION( "Night" ) {
         // First, at the risk of stating the obvious
-        CHECK( is_night( midnight ) );
-        // And while we're at it
-        CHECK_FALSE( is_day( midnight ) );
-        CHECK_FALSE( is_dawn( midnight ) );
-        CHECK_FALSE( is_dusk( midnight ) );
+        CHECK( is_night( midnight + 1_seconds ) );
+        CHECK( is_night( midnight + 2_hours ) );
+        CHECK( is_night( midnight + 3_hours ) );
+        CHECK( is_night( midnight + 4_hours ) );
 
         // Yep, still dark
         CHECK( is_night( midnight + 1_seconds ) );
@@ -57,7 +61,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     SECTION( "Dawn" ) {
         CHECK_FALSE( is_night( today_sunrise ) );
         CHECK( is_dawn( today_sunrise - 1_seconds ) );
-        CHECK( is_dawn( today_sunrise - 30_minutes ) );
+        CHECK( is_dawn( today_sunrise - 20_minutes ) );
 
         // Dawn stops at 1 degrees
         CHECK_FALSE( is_dawn( today_sunrise + 7_minutes ) );
@@ -93,8 +97,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     SECTION( "Dusk" ) {
         CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 1_seconds ) );
-        CHECK( is_dusk( today_sunset + 30_minutes ) );
-        CHECK( is_dusk( today_sunset + 1_hours - 1_seconds ) );
+        CHECK( is_dusk( today_sunset + 20_minutes ) );
     }
 
     SECTION( "Night again" ) {
@@ -102,13 +105,40 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
         CHECK( is_night( today_sunset + 3_hours ) );
         CHECK( is_night( today_sunset + 4_hours ) );
     }
+
+    SECTION( "Eternal night" ) {
+        //Eternal night
+        calendar::set_eternal_night( true );
+        CHECK( is_night( midnight + 1_seconds ) );
+        CHECK( is_night( today_sunrise + 1_seconds ) );
+        CHECK( is_night( noon + 1_seconds ) );
+        CHECK( is_night( today_sunset + 1_seconds ) );
+        CHECK_FALSE( is_dawn( today_sunrise + 1_seconds ) );
+        CHECK_FALSE( is_day( noon + 1_seconds ) );
+        CHECK_FALSE( is_dusk( today_sunset + 1_seconds ) );
+        calendar::set_eternal_night( false );
+    }
+
+    SECTION( "Eternal night" ) {
+        //Eternal day
+        calendar::set_eternal_day( true );
+        CHECK( is_day( midnight + 1_seconds ) );
+        CHECK( is_day( today_sunrise + 1_seconds ) );
+        CHECK( is_day( noon + 1_seconds ) );
+        CHECK( is_day( today_sunset + 1_seconds ) );
+        CHECK_FALSE( is_dawn( today_sunrise + 1_seconds ) );
+        CHECK_FALSE( is_night( midnight + 1_seconds ) );
+        CHECK_FALSE( is_dusk( today_sunset + 1_seconds ) );
+        calendar::set_eternal_day( false );
+    }
 }
 
 // The calendar `sunlight` function returns light level for both sun and moon.
-TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
+TEST_CASE( "sunlight_and_moonlight", "[sun][sunlight][moonlight]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
     const time_point midnight = calendar::turn_zero;
+    const time_point noon = calendar::turn_zero + 12_hours;
     const time_point today_sunrise = sunrise( midnight );
     const time_point today_sunset = sunset( midnight );
     CHECK( today_sunset > today_sunrise );
@@ -131,11 +161,11 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
         CHECK( sun_moon_light_at( today_sunrise + 3_hours ) >
                sun_moon_light_at( today_sunrise + 2_hours ) );
         // Noon
-        CHECK( sun_moon_light_at( midnight + 12_hours ) == Approx( 110 ).margin( 10 ) );
-        CHECK( sun_moon_light_at( midnight + 13_hours ) <
-               sun_moon_light_at( midnight + 12_hours ) );
-        CHECK( sun_moon_light_at( midnight + 14_hours ) <
-               sun_moon_light_at( midnight + 13_hours ) );
+        CHECK( sun_moon_light_at( noon ) == Approx( 110 ).margin( 10 ) );
+        CHECK( sun_moon_light_at( noon + 1_hours ) <
+               sun_moon_light_at( noon ) );
+        CHECK( sun_moon_light_at( noon + 2_hours ) <
+               sun_moon_light_at( noon + 1_hours ) );
         // Dusk begins
         CHECK( sun_moon_light_at( today_sunset - 1_hours ) ==
                Approx( sun_moon_light_at( today_sunrise + 1_hours ) ).margin( 1 ) );
@@ -143,6 +173,21 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
                Approx( sun_moon_light_at( today_sunrise ) ).margin( 1 ) );
         CHECK( sun_moon_light_at( today_sunset + 1_hours ) ==
                Approx( sun_moon_light_at( today_sunrise - 1_hours ) ).margin( 1 ) );
+
+        // Eternal night
+        calendar::set_eternal_night( true );
+        CHECK( sun_moon_light_at( midnight ) == 1.0f );
+        CHECK( sun_moon_light_at( today_sunset ) == 1.0f );
+        CHECK( sun_moon_light_at( today_sunrise ) == 1.0f );
+        CHECK( sun_moon_light_at( noon ) == 1.0f );
+        calendar::set_eternal_night( false );
+        // Eternal day
+        calendar::set_eternal_day( true );
+        CHECK( sun_moon_light_at( midnight ) == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( today_sunset ) == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( noon ) == Approx( 126 ).margin( 5 ) );
+        calendar::set_eternal_day( false );
     }
 
     // This moonlight test is intentionally simple, only checking new moon (minimal light) and full
@@ -172,7 +217,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 }
 
 // sanity-check seasonally-adjusted maximum daylight level
-TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
+TEST_CASE( "noon_sunlight_levels", "[sun][daylight][equinox][solstice]" )
 {
     const time_duration one_season = calendar::season_length();
     const time_point spring = calendar::turn_zero;
@@ -205,11 +250,21 @@ TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
         CHECK( sun_moon_light_at( winter + 12_hours ) ==
                Approx( sun_moon_light_at_noon_near( winter ) ).margin( 3 ) );
     }
+
+    SECTION( "Eternal day" ) {
+        // locked sunlight when eternal day id due
+        calendar::set_eternal_day( true );
+        CHECK( sun_light_at( spring + 12_hours ) == 125.0f );
+        CHECK( sun_light_at( summer + 12_hours ) == 125.0f );
+        CHECK( sun_light_at( autumn + 12_hours ) == 125.0f );
+        CHECK( sun_light_at( winter + 12_hours ) == 125.0f );
+        calendar::set_eternal_day( false );
+    }
 }
 
 // The times of sunrise and sunset vary throughout the year. Equinoxes occur on the
 // first day of spring and autumn, and solstices occur on the first day of summer and winter.
-TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
+TEST_CASE( "sunrise_and_sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 {
     // Due to the "NN_days" math below, this test requires a default 91-day season length
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -235,26 +290,26 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
     SECTION( "spring equinox is day 1 of spring" ) {
         // Actual sunrise and sunset on March 21st 2001 are 0545 and 1757
-        CHECK( "Year 1, Spring, day 1 5:57:58 AM" == to_string( sunrise( spring ) ) );
-        CHECK( "Year 1, Spring, day 1 6:16:07 PM" == to_string( sunset( spring ) ) );
+        CHECK( "Year 1, Mar 21 5:57:58 AM" == to_string( sunrise( spring ) ) );
+        CHECK( "Year 1, Mar 21 6:16:07 PM" == to_string( sunset( spring ) ) );
     }
 
     SECTION( "summer solstice is day 1 of summer" ) {
         // Actual sunrise and sunset on June 21st 2001 are 0407 and 1924
-        CHECK( "Year 1, Summer, day 1 4:22:20 AM" == to_string( sunrise( summer ) ) );
-        CHECK( "Year 1, Summer, day 1 7:41:38 PM" == to_string( sunset( summer ) ) );
+        CHECK( "Year 1, Jun 21 4:22:20 AM" == to_string( sunrise( summer ) ) );
+        CHECK( "Year 1, Jun 21 7:41:38 PM" == to_string( sunset( summer ) ) );
     }
 
     SECTION( "autumn equinox is day 1 of autumn" ) {
         // Actual sunrise and sunset on September 22nd 2001 are 0531 and 1741
-        CHECK( "Year 1, Autumn, day 1 5:45:33 AM" == to_string( sunrise( autumn ) ) );
-        CHECK( "Year 1, Autumn, day 1 5:59:37 PM" == to_string( sunset( autumn ) ) );
+        CHECK( "Year 1, Sep 21 5:45:33 AM" == to_string( sunrise( autumn ) ) );
+        CHECK( "Year 1, Sep 21 5:59:37 PM" == to_string( sunset( autumn ) ) );
     }
 
     SECTION( "winter solstice is day 1 of winter" ) {
         // Actual sunrise and sunset on December 21st 2001 are 0710 and 1614
-        CHECK( "Year 1, Winter, day 1 7:25:07 AM" == to_string( sunrise( winter ) ) );
-        CHECK( "Year 1, Winter, day 1 4:31:46 PM" == to_string( sunset( winter ) ) );
+        CHECK( "Year 1, Dec 21 7:25:07 AM" == to_string( sunrise( winter ) ) );
+        CHECK( "Year 1, Dec 21 4:31:46 PM" == to_string( sunset( winter ) ) );
     }
 
     SECTION( "spring sunrise gets earlier" ) {
@@ -304,7 +359,7 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
 static rl_vec2d checked_sunlight_angle( const time_point &t )
 {
-    const cata::optional<rl_vec2d> opt_angle = sunlight_angle( t );
+    const std::optional<rl_vec2d> opt_angle = sunlight_angle( t );
     REQUIRE( opt_angle );
     return *opt_angle;
 }
@@ -351,7 +406,7 @@ TEST_CASE( "sun_highest_at_noon", "[sun]" )
     }
 }
 
-TEST_CASE( "noon_sun_doesn't_move_much", "[sun]" )
+TEST_CASE( "noon_sun_does_not_move_much", "[sun]" )
 {
     rl_vec2d noon_angle = checked_sunlight_angle( first_noon );
     for( int i = 1; i < 1000; ++i ) {
@@ -387,6 +442,30 @@ TEST_CASE( "dawn_dusk_fixed_during_eternal_season", "[sun]" )
         CHECK( time_past_midnight( this_sunrise ) == time_past_midnight( first_sunrise ) );
         CHECK( time_past_midnight( this_sunset ) == time_past_midnight( first_sunset ) );
     }
+}
+
+TEST_CASE( "sun_altitude_fixed_during_eternal_night_or_day", "[sun]" )
+{
+    const time_point midnight = calendar::turn_zero;
+    const time_point noon = calendar::turn_zero + 12_hours;
+    const time_point today_sunrise = sunrise( midnight );
+    const time_point today_sunset = sunset( midnight );
+
+    // Eternal night
+    calendar::set_eternal_night( true );
+    CHECK( sun_azimuth_altitude( midnight ).second < -10_degrees );
+    CHECK( sun_azimuth_altitude( today_sunset ).second < -10_degrees );
+    CHECK( sun_azimuth_altitude( today_sunrise ).second < -10_degrees );
+    CHECK( sun_azimuth_altitude( noon ).second < -10_degrees );
+    calendar::set_eternal_night( false );
+
+    // Eternal day
+    calendar::set_eternal_day( true );
+    CHECK( sun_azimuth_altitude( midnight ).second == 90_degrees );
+    CHECK( sun_azimuth_altitude( today_sunset ).second == 90_degrees );
+    CHECK( sun_azimuth_altitude( today_sunrise ).second == 90_degrees );
+    CHECK( sun_azimuth_altitude( noon ).second == 90_degrees );
+    calendar::set_eternal_day( false );
 }
 
 TEST_CASE( "sunrise_sunset_consistency", "[sun]" )
@@ -456,7 +535,8 @@ static PointSet sun_positions_regular( time_point start, time_point end, time_du
         REQUIRE( azimuth <= 360_degrees );
         REQUIRE( altitude >= 0_degrees );
         REQUIRE( altitude <= 90_degrees );
-        plot_points.emplace( azimuth / 4_degrees, altitude / 3_degrees );
+        plot_points.emplace( static_cast<int>( azimuth / 4_degrees ),
+                             static_cast<int>( altitude / 3_degrees ) );
     }
 
     return plot_points;

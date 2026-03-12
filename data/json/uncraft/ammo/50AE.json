@@ -1,0 +1,38 @@
+[
+  {
+    "result": "50ae_fmj",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 39 ] ],
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 20 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "50ae_jhp",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 36 ] ],
+      [ [ "unprimed_50ae_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder_magnum_pistol", 20 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "50ae_casing",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "unprimed_50ae_casing", 1 ] ], [ [ "spent_lgpistol_primer", 1 ] ] ]
+  }
+]

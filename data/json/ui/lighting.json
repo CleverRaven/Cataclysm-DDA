@@ -1,0 +1,46 @@
+[
+  {
+    "id": "lighting_desc",
+    "type": "widget",
+    "label": "Lighting",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "bright",
+        "text": "bright",
+        "color": "yellow",
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') <= 1" ] }
+      },
+      {
+        "id": "cloudy",
+        "text": "cloudy",
+        "color": "white",
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 2" ] }
+      },
+      {
+        "id": "shady",
+        "text": "shady",
+        "color": "light_gray",
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 3" ] }
+      },
+      {
+        "id": "dark",
+        "text": "dark",
+        "color": "dark_gray",
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 4" ] }
+      },
+      {
+        "id": "very dark",
+        "text": "very dark",
+        "color": "black_white",
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 5" ] }
+      }
+    ]
+  },
+  {
+    "id": "lighting_desc_no_label",
+    "type": "widget",
+    "copy-from": "lighting_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

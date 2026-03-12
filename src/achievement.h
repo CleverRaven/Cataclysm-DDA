@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
@@ -5,31 +6,27 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
-#include <new>
+#include <optional>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_subscriber.h"
-#include "optional.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class achievements_tracker;
-struct achievement_requirement;
-template <typename E> struct enum_traits;
-
-namespace cata
-{
-class event;
-}  // namespace cata
 class requirement_watcher;
 class stats_tracker;
+struct achievement_requirement;
+template <typename E> struct enum_traits;
 
 enum class achievement_comparison : int {
     equal,
@@ -61,15 +58,17 @@ class achievement
     public:
         achievement() = default;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
+        void finalize();
         void check() const;
         static void load_achievement( const JsonObject &, const std::string & );
-        static void finalize();
+        static void finalize_all();
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();
 
         achievement_id id;
+        std::vector<std::pair<achievement_id, mod_id>> src;
         bool was_loaded = false;
 
         const translation &name() const {
@@ -97,7 +96,7 @@ class achievement
                     last
                 };
 
-                void deserialize( JsonIn & );
+                void deserialize( const JsonObject &jo );
                 void check( const achievement_id & ) const;
 
                 time_point target() const;
@@ -110,19 +109,26 @@ class achievement
                 time_duration period_;
         };
 
-        const cata::optional<time_bound> &time_constraint() const {
+        const std::optional<time_bound> &time_constraint() const {
             return time_constraint_;
         }
 
         const std::vector<achievement_requirement> &requirements() const {
             return requirements_;
         }
+
+        bool is_manually_given() const {
+            return manually_given_;
+        }
+
     private:
         translation name_;
         translation description_;
         bool is_conduct_ = false;
+        // if the achievement is given by an EOC
+        bool manually_given_ = false;
         std::vector<achievement_id> hidden_by_;
-        cata::optional<time_bound> time_constraint_;
+        std::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
 
@@ -146,7 +152,7 @@ struct achievement_state {
     std::string ui_text( const achievement * ) const;
 
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonObject &jo );
 };
 
 class achievement_tracker
@@ -201,6 +207,9 @@ class achievements_tracker : public event_subscriber
 
         void report_achievement( const achievement *, achievement_completion );
 
+        void write_json_achievements(
+            std::ostream &achievement_file, const std::string &avatar_name ) const;
+
         achievement_completion is_completed( const achievement_id & ) const;
         bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
@@ -212,10 +221,11 @@ class achievements_tracker : public event_subscriber
         }
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
     private:
         void init_watchers();
 

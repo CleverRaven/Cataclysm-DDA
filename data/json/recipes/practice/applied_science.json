@@ -1,0 +1,42 @@
+[
+  {
+    "id": "research_biochemistry_chemistry_set",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SCIENCE",
+    "name": "biochemistry",
+    "description": "Researching the chemical properties of dangerous blood from mutated creatures.  It also gives a slight insight into the vulnerabilities these substances cause to the monsters.",
+    "skill_used": "chemistry",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "proficiencies": [
+      { "proficiency": "prof_intro_biology", "required": true },
+      { "proficiency": "prof_organic_chemistry", "required": true },
+      { "proficiency": "prof_biochemistry", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "tools": [ [ [ "chemistry_set", 50 ] ] ],
+    "components": [ [ [ "blood_acid", 1 ], [ "blood_acid_insect", 1 ], [ "blood_acid_plant", 1 ], [ "blood_acid_underground", 1 ] ] ],
+    "autolearn": [ [ "chemistry", 5 ] ]
+  },
+  {
+    "id": "research_biochemistry_chemistry_set_basic",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SCIENCE",
+    "name": "biochemistry",
+    "description": "Researching the chemical properties of dangerous blood from mutated creatures.  It also gives a slight insight into the vulnerabilities these substances cause to the monsters.",
+    "skill_used": "chemistry",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "proficiencies": [
+      { "proficiency": "prof_intro_biology", "required": true },
+      { "proficiency": "prof_organic_chemistry", "required": true },
+      { "proficiency": "prof_biochemistry", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "tools": [ [ [ "chemistry_set_basic", -1 ] ], [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [ [ [ "blood_acid", 1 ], [ "blood_acid_insect", 1 ], [ "blood_acid_plant", 1 ], [ "blood_acid_underground", 1 ] ] ],
+    "autolearn": [ [ "chemistry", 5 ] ]
+  }
+]

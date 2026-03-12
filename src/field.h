@@ -2,15 +2,19 @@
 #ifndef CATA_SRC_FIELD_H
 #define CATA_SRC_FIELD_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "color.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "field_type.h"
 #include "type_id.h"
+
+class Creature;
 
 /**
  * An active or passive effect existing on a tile.
@@ -21,8 +25,9 @@ class field_entry
     public:
         field_entry() : type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) ), intensity( 1 ), age( 0_turns ),
             is_alive( false ) { }
-        field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
-            intensity( i ), age( a ), is_alive( true ) { }
+        field_entry( const field_type_id &t, const int i, const time_duration &a,
+                     effect_source source = effect_source() ) : type( t ),
+            intensity( i ), age( a ), causer( source ), is_alive( true ) { }
 
         nc_color color() const;
 
@@ -47,6 +52,14 @@ class field_entry
         int set_field_intensity( int new_intensity );
         void mod_field_intensity( int mod );
 
+        // Get the creature responsible for this field (if any). May be nullptr.
+        Creature *get_causer() const;
+
+        void set_causer( effect_source source );
+
+        // Get direct access to the effect_source we're storing.
+        effect_source get_effect_source() const;
+
         /// @returns @ref age.
         time_duration get_field_age() const;
         /// Sets @ref age to the given value.
@@ -59,6 +72,7 @@ class field_entry
         }
 
         bool is_dangerous() const;
+        bool is_mopsafe() const;
 
         //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
@@ -75,6 +89,7 @@ class field_entry
             return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
+        void initialize_decay();
         void do_decay();
 
         std::vector<field_effect> field_effects() const;
@@ -86,6 +101,8 @@ class field_entry
         int intensity;
         // The age, of the field effect. 0 is permanent.
         time_duration age;
+        // The creature responsible for this field, if any.
+        effect_source causer;
         // The time when the field will decay, initialized to 0.
         time_point decay_time;
         // True if this is an active field, false if it should be destroyed next check.
@@ -127,7 +144,7 @@ class field
          * @return false if the field_type_id already exists, true otherwise.
          */
         bool add_field( const field_type_id &field_type_to_add, int new_intensity = 1,
-                        const time_duration &new_age = 0_turns );
+                        const time_duration &new_age = 0_turns, effect_source source = effect_source() );
 
         /**
          * Removes the field entry with a type equal to the field_type_id parameter.
@@ -156,6 +173,11 @@ class field
          */
         field_type_id displayed_field_type() const;
 
+        /**
+         * Returns the intensity of the drawn tile
+         */
+        int displayed_intensity() const;
+
         description_affix displayed_description_affix() const;
 
         //Returns the vector iterator to begin searching through the list.
@@ -171,9 +193,12 @@ class field
          */
         int total_move_cost() const;
 
+        // Whether any individual field has a move cost below 0.
+        bool any_negative_move_cost() const;
+
     private:
         // A pointer lookup table of all field effects on the current tile.
-        std::map<field_type_id, field_entry> _field_type_list;
+        lazy<std::map<field_type_id, field_entry>> _field_type_list;
         //_displayed_field_type currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
         field_type_id _displayed_field_type;
 };

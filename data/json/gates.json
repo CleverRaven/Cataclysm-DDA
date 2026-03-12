@@ -2,21 +2,10 @@
   {
     "type": "gate",
     "id": "t_gates_mech_control",
-    "alias": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
     "floor": "t_floor",
-    "walls": [
-      "t_wall",
-      "t_wall_r",
-      "t_wall_w",
-      "t_wall_b",
-      "t_wall_g",
-      "t_wall_y",
-      "t_wall_p",
-      "t_concrete_wall",
-      "t_brick_wall",
-      "t_strconc_wall"
-    ],
+    "//": "An empty walls list matches anything with a WALL flag, while a list only matches the listed entries",
+    "walls": [  ],
     "messages": {
       "pull": "You turn the handle…",
       "open": "The gate is opened!",
@@ -28,22 +17,20 @@
   },
   {
     "type": "gate",
+    "id": "t_gates_control_concrete",
+    "copy-from": "t_gates_mech_control"
+  },
+  {
+    "type": "gate",
+    "id": "t_gates_control_brick",
+    "copy-from": "t_gates_mech_control"
+  },
+  {
+    "type": "gate",
     "id": "t_gates_mech_control_lab",
-    "alias": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
-    "door": "t_door_metal_locked",
+    "copy-from": "t_gates_mech_control",
     "floor": "t_thconc_floor",
-    "walls": [
-      "t_wall",
-      "t_wall_r",
-      "t_wall_w",
-      "t_wall_b",
-      "t_wall_g",
-      "t_wall_y",
-      "t_wall_p",
-      "t_concrete_wall",
-      "t_brick_wall",
-      "t_strconc_wall"
-    ],
+    "walls": [  ],
     "messages": {
       "pull": "You turn the handle…",
       "open": "The gate is opened!",
@@ -52,13 +39,44 @@
     },
     "moves": 1800,
     "bashing_damage": 40
+  },
+  {
+    "type": "gate",
+    "id": "t_gates_control_concrete_lab",
+    "copy-from": "t_gates_mech_control_lab"
+  },
+  {
+    "type": "gate",
+    "id": "t_gates_control_brick_lab",
+    "copy-from": "t_gates_mech_control_lab"
   },
   {
     "type": "gate",
     "id": "t_barndoor",
     "door": "t_door_metal_locked",
     "floor": "t_dirtfloor",
-    "walls": "t_wall_wood",
+    "walls": [
+      "t_wall_wood",
+      "t_wall_wood_chipped",
+      "t_wall_wood_broken",
+      "t_wall_wood_widened",
+      "t_wood_wall_b",
+      "t_wood_wall_black",
+      "t_wood_wall_brown",
+      "t_wood_wall_cyan",
+      "t_wood_wall_g",
+      "t_wood_wall_gray",
+      "t_wood_wall_orange",
+      "t_wood_wall_p",
+      "t_wood_wall_P",
+      "t_wood_wall_r",
+      "t_wood_wall_w",
+      "t_wood_wall_y",
+      "t_wall_log",
+      "t_wall_log_chipped",
+      "t_wall_log_broken",
+      "t_wall_log_widened"
+    ],
     "messages": {
       "pull": "You pull the rope…",
       "open": "The barn doors opened!",
@@ -73,7 +91,22 @@
     "id": "t_palisade_pulley",
     "door": "t_palisade_gate",
     "floor": "t_palisade_gate_o",
-    "walls": "t_palisade",
+    "walls": [ "t_palisade", "t_palisade_embrasure" ],
+    "messages": {
+      "pull": "You pull the rope…",
+      "open": "The palisade gate swings open!",
+      "close": "The palisade gate swings closed with a crash!",
+      "fail": "The palisade gate can't be closed!"
+    },
+    "moves": 1800,
+    "bashing_damage": 30
+  },
+  {
+    "type": "gate",
+    "id": "t_palisade_pulley_wood",
+    "door": "t_palisade_gate",
+    "floor": "t_palisade_gate_o",
+    "walls": [ "t_palisade", "t_palisade_embrasure" ],
     "messages": {
       "pull": "You pull the rope…",
       "open": "The palisade gate swings open!",
@@ -88,7 +121,7 @@
     "id": "t_gates_control_metal",
     "door": "t_door_metal_locked",
     "floor": "t_metal_floor",
-    "walls": "t_wall_metal",
+    "walls": [ "t_wall_metal", "t_wall_metal_corrugated", "t_wall_bulkhead", "t_scrap_wall", "t_junk_wall" ],
     "messages": {
       "pull": "You throw the lever…",
       "open": "The door rises!",

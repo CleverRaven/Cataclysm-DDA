@@ -1,11 +1,11 @@
-#if !defined(TILES) && defined(_WIN32)
-#define UNICODE 1
-#ifndef CMAKE
 #pragma GCC diagnostic ignored "-Wunused-macros"
+#if !defined(TILES) && defined(_WIN32)
+#ifndef CMAKE
 #define _UNICODE 1
 #endif
+#define UNICODE 1
 #include "cursesport.h" // IWYU pragma: associated
-
+#ifndef TUI
 #include <cstdlib>
 #include <fstream>
 
@@ -15,12 +15,12 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
-#include "get_version.h"
 #include "init.h"
 #include "input.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
 #include "color_loader.h"
@@ -29,6 +29,11 @@
 #include "mmsystem.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
+
+
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
 
 //***********************************
 //Globals                           *
@@ -87,7 +92,6 @@ static bool WinCreate()
 {
     // Get current process handle
     WindowINST = GetModuleHandle( nullptr );
-    std::string title = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Register window class
     WNDCLASSEXW WindowClassType   = WNDCLASSEXW();
@@ -120,7 +124,7 @@ static bool WinCreate()
     int WindowY = WorkArea.bottom / 2 - ( WndRect.bottom - WndRect.top ) / 2;
 
     // Magic
-    WindowHandle = CreateWindowExW( 0, szWindowClass, widen( title ).c_str(), WndStyle,
+    WindowHandle = CreateWindowExW( 0, szWindowClass, L"", WndStyle,
                                     WindowX, WindowY,
                                     WndRect.right - WndRect.left,
                                     WndRect.bottom - WndRect.top,
@@ -183,7 +187,7 @@ bool handle_resize( int, int )
         TERMINAL_HEIGHT = WndRect.bottom / fontheight;
         WindowWidth = TERMINAL_WIDTH * fontwidth;
         WindowHeight = TERMINAL_HEIGHT * fontheight;
-        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
         catacurses::resizeterm();
         create_backbuffer();
         SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
@@ -560,7 +564,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<int> prev_lastchar( lastchar );
+        restore_on_out_of_scope prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }
@@ -651,10 +655,23 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
+}
+
+bool catacurses::supports_256_colors()
+{
+    return COLORS >= 256;
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
@@ -747,15 +764,17 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window &,
+        const point &, bool center_cursor ) const
 {
     // TODO: implement this properly
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it
@@ -783,10 +802,6 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
-void cata_cursesport::handle_additional_window_clear( WINDOW * )
-{
-}
-
 int get_scaling_factor()
 {
     return 1;
@@ -802,4 +817,11 @@ void refresh_display()
     RedrawWindow( WindowHandle, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
 }
 
+void set_title( const std::string &title )
+{
+    if( WindowHandle != nullptr ) {
+        SetWindowTextW( WindowHandle, widen( title ).c_str() );
+    }
+}
+#endif // TUI
 #endif

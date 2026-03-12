@@ -1,0 +1,88 @@
+[
+  {
+    "type": "scenario",
+    "id": "paraclesian_birth_naked_afraid",
+    "name": "Paraclesian Birth, Lost and Alone",
+    "flags": [ "LONE_START" ],
+    "points": 0,
+    "description": "Your first moments of life, born of the elements, alone.  An elemental fae on a dying world, lost in the wilderness.",
+    "start_name": "Paraclesian Birth",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "professions": [
+      "paraclesian_ierde_naked_afraid",
+      "paraclesian_undine_naked_afraid",
+      "paraclesian_salamander_naked_afraid",
+      "paraclesian_sylph_naked_afraid",
+      "paraclesian_arvore_naked_afraid",
+      "paraclesian_homullus_naked_afraid"
+    ],
+    "eoc": [ "scenario_paraclesian_birth" ],
+    "traits": [ "ELEMENTAL_MANA1", "ELEMENTAL_MANA2" ],
+    "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "werewolf_native",
+    "name": "Werewolf, Natural-born",
+    "flags": [ "LONE_START" ],
+    "points": 0,
+    "description": "You had no idea what was going on the first time it happened, when you woke up with mud on your bare feet and a sour taste in your mouth, but you were soon found.  The People of the Moon, they called themselves, and they said you were one of them.  A werewolf.  You lived out in the wilderness for a while with them.  Maybe some of the People are still out there.",
+    "start_name": "Alone",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "forced_traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM" ],
+    "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "werewolf_native_naked_unafraid",
+    "name": "Werewolf, Naked and Unafraid",
+    "flags": [ "LONE_START" ],
+    "points": 0,
+    "description": "You have no idea what happened, but you're alone in the unspoiled wilderness.  You have mud on your feet, none of your clothes or possessions, and you don't know where you are.  But you have learned there's a beast inside you, and anyone who crosses you had best beware.",
+    "start_name": "Alone",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "professions": [ "naked" ],
+    "forced_traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM" ],
+    "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "xe_lilin_scenario_naked_afraid",
+    "name": "The Owl, Naked and Afraid",
+    "points": 0,
+    "description": "For most or all of your life, you've had a secret; you are a predator.  While you don't need to drink blood or eat flesh or anything so crude, you must absorb the spiritual essence, the \"ruach\", of living beings in order to maintain your health and vitality.  Something happened, and now you're alone in the wilderness, without any of your possessions.  You'd best find others quick, or you'll wither away.",
+    "start_name": "Alone",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "professions": [ "naked" ],
+    "eoc": [ "scenario_lilin_starting_ruach" ],
+    "forced_traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ],
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "once_bitten",
+    "copy-from": "infected",
+    "name": "Once Bitten",
+    "points": 0,
+    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, vacationing to Transylvania, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  And to make matters worse, when you woke up, you were alone in the wilderness with no sign of humanity anywhere.  You're going to have to survive somehow.",
+    "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],
+    "start_name": "Cave",
+    "eoc": [ "scenario_once_bitten" ],
+    "requirement": "avchievement_gains_vampire_trait",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "once_bitten_naked_and_afraid",
+    "copy-from": "infected",
+    "name": "Once Bitten, Naked and Afraid",
+    "points": 0,
+    "description": "Whether you were visiting Salem's Lot, boating on the Demeter, vacationing to Transylvania, or just another lost boy or girl, you've been bitten by a stranger at twilight the night before.  And to make matters worse, when you woke up, you were alone in the wilderness with no sign of humanity anywhere.  You're going to have to survive somehow.",
+    "start_name": "Alone",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
+    "professions": [ "naked" ],
+    "eoc": [ "scenario_once_bitten" ],
+    "requirement": "avchievement_gains_vampire_trait",
+    "flags": [ "LONE_START" ]
+  }
+]

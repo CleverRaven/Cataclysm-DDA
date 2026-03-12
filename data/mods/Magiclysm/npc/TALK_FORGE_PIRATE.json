@@ -14,7 +14,12 @@
     "id": "NC_FORGE_PIRATE",
     "name": { "str": "Pirate" },
     "job_description": "My adventures would curdle your blood.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "TOUGH3" } ],
+    "traits": [
+      { "trait": "VAULT_DEFENDER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "TOUGH3" }
+    ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_dex": { "one_in": 4 },

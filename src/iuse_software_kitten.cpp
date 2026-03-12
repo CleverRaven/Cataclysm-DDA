@@ -1,18 +1,21 @@
 #include "iuse_software_kitten.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstdlib>  // Needed for rand()
-#include <functional>
+#include <optional>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "input.h"
-#include "optional.h"
+#include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
-#include "posix_time.h"
 #include "rng.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -23,6 +26,7 @@ static constexpr int KITTEN = 1;
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
 
@@ -31,11 +35,7 @@ robot_finds_kitten::robot_finds_kitten()
     empty.pos = point( -1, -1 );
     empty.color = nc_color();
     empty.character = ' ';
-    for( int ( &col )[rfkLINES] : rfkscreen ) {
-        for( int &i : col ) {
-            i = EMPTY;
-        }
-    }
+    rfkscreen.fill( EMPTY );
     /* Create an array to ensure we don't get duplicate messages. */
     for( int c = 0; c < nummessages; c++ ) {
         bogus[c] = empty;
@@ -127,9 +127,7 @@ void robot_finds_kitten::show() const
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
-        for( int c = 0; c < rfkCOLS; c++ ) {
-            mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
-        }
+        mvwhline( w, point( 0, 2 ), BORDER_COLOR, '_', rfkCOLS );
         wmove( w, kitten.pos );
         draw_kitten();
 
@@ -165,18 +163,20 @@ void robot_finds_kitten::show() const
             break;
         }
         case ui_state::main:
-            mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::invalid_input:
-            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::bogus_message: {
             std::vector<std::string> bogusvstr = foldstring( this_bogus_message, rfkCOLS );
+            wattron( w, c_white );
             for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                mvwprintz( w, point( 0, c ), c_white, bogusvstr[c] );
+                mvwprintw( w, point( 0, c ), bogusvstr[c] );
             }
+            wattroff( w, c_white );
             break;
         }
         case ui_state::end_animation: {
@@ -199,7 +199,7 @@ void robot_finds_kitten::show() const
                 mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
             }
             if( end_animation_frame >= 5 ) {
-                mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
+                mvwprintz( w, point::zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
             }
             break;
         }
@@ -288,13 +288,20 @@ void robot_finds_kitten::process_input()
                 }
             } else {
                 refresh_display();
-                timespec ts;
-                ts.tv_sec = 0;
-                ts.tv_nsec = 100'000'000; // 100 ms
-                for( int i = 0; i < 10; ++i ) {
-                    nanosleep( &ts, nullptr );
-                    inp_mngr.pump_events();
-                }
+                // Sleep for 1 s
+                const auto sleep_till = std::chrono::steady_clock::now()
+                                        + std::chrono::nanoseconds( 1000000000 );
+                do {
+                    const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
+                                                     // Pump events every 100 ms
+                                                     std::chrono::nanoseconds( 100000000 ) );
+                    if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
+                        std::this_thread::sleep_for( sleep_for );
+                        inp_mngr.pump_events();
+                    } else {
+                        break;
+                    }
+                } while( true );
                 end_animation_frame++;
             }
             break;

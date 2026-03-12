@@ -1,0 +1,70 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERAMBULATE_VEHICLE",
+    "//": "Example EOC that shifts a vehicle to the test dimension",
+    "effect": [
+      {
+        "if": { "current_dimension": "" },
+        "then": { "set_string_var": "test", "target_var": { "u_val": "destination_dimension" } },
+        "else": { "set_string_var": "", "target_var": { "u_val": "destination_dimension" } }
+      },
+      {
+        "u_travel_to_dimension": { "u_val": "destination_dimension" },
+        "region_type": { "u_val": "test" },
+        "take_vehicle": true,
+        "fail_message": "The Perambulator shivers but does not move.",
+        "success_message": "In a flash of light the surroundings outside the Perambulator are changed!."
+      },
+      { "u_message": { "u_val": "destination_dimension" } },
+      { "if": { "current_dimension": "" }, "then": { "u_message": "home sweet home" } }
+    ]
+  },
+  {
+    "id": "dimensional_perambulator",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "dimensional perambulator" },
+    "description": "A perambulator, for perambulating through dimensions",
+    "weight": "1 kg",
+    "volume": "5 L",
+    "material": [ "lc_steel" ],
+    "symbol": "#",
+    "color": "dark_gray"
+  },
+  {
+    "id": "dimensional_perambulator",
+    "type": "vehicle_part",
+    "name": { "str": "Dimensional Perambulator" },
+    "item": "dimensional_perambulator",
+    "location": "center",
+    "categories": [ "utility" ],
+    "durability": 100,
+    "description": "A perambulator, for perambulating through dimensions",
+    "flags": [ "EOC_ACTIVATION" ],
+    "activatable_eoc": "EOC_PERAMBULATE_VEHICLE",
+    "variants": [ { "symbols": "#", "symbols_broken": "X" } ]
+  },
+  {
+    "id": "dimensional_bathyscape",
+    "//": "Test vehicle for dimensional travel",
+    "type": "vehicle",
+    "name": "Sir Pemberton Smythe's Dimensional Bathyscape",
+    "blueprint": [
+      [ "---" ],
+      [ "+#|" ],
+      [ "---" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "hdframe", "board", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "hdframe", { "part": "tank", "fuel": "gasoline" }, "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "hdframe", "engine_v6", "alternator_car", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "hdframe", "door", "roof", "battery_car" ] },
+      { "x": 0, "y": 0, "parts": [ "hdframe", "seat", "controls" ] },
+      { "x": 0, "y": 1, "parts": [ "hdframe", "roof", "dimensional_perambulator" ] },
+      { "x": 1, "y": -1, "parts": [ "hdframe", "board", "roof" ] },
+      { "x": 1, "y": 0, "parts": [ "hdframe", "board", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "hdframe", "board", "roof" ] }
+    ]
+  }
+]

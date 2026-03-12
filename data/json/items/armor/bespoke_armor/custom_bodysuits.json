@@ -1,0 +1,616 @@
+[
+  {
+    "id": "armor_nomad",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "name": { "str": "nomad jumpsuit" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
+    "weight": "3600 g",
+    "volume": "3500 ml",
+    "price_postapoc": "17 USD 50 cent",
+    "material": [ "denim", "leather" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "cover_vitals": 40,
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "AVERAGE"
+      }
+    ],
+    "environmental_protection": 2,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ]
+  },
+  {
+    "id": "armor_nomad_advanced",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "advanced nomad jumpsuit" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
+    "weight": "4000 g",
+    "volume": "3500 ml",
+    "price": "350 USD",
+    "price_postapoc": "17 USD 50 cent",
+    "material": [ "denim", "leather" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "cover_vitals": 40,
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "AVERAGE"
+      }
+    ],
+    "environmental_protection": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the climate control on.",
+      "target": "armor_nomad_advanced_on",
+      "need_charges": 1,
+      "need_charges_msg": "Your internal reservoir is empty."
+    },
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
+  },
+  {
+    "id": "armor_nomad_advanced_on",
+    "copy-from": "armor_nomad_advanced",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
+    "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",
+    "revert_to": "armor_nomad_advanced",
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE", "SPAWN_ACTIVE" ],
+    "power_draw": "100 W",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s pipes stop humming.",
+      "target": "armor_nomad_advanced"
+    }
+  },
+  {
+    "id": "armor_nomad_light",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "light nomad jumpsuit" },
+    "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
+    "copy-from": "armor_nomad",
+    "price_postapoc": "12 USD 50 cent",
+    "material": [ "denim", "leather" ],
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 30, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "cover_vitals": 30,
+        "coverage": 100,
+        "encumbrance": [ 2, 2 ],
+        "breathability": "AVERAGE"
+      }
+    ],
+    "environmental_protection": 1,
+    "proportional": { "weight": 0.6, "volume": 0.75, "warmth": 0.75 },
+    "use_action": [  ],
+    "material_thickness": 0.5
+  },
+  {
+    "id": "lsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "handmade summer suit" },
+    "description": "A form-fitting coverall jumpsuit made from scratch, made of durably woven wool and Nomex with reinforced pockets.  The moisture wicking fabric keeps you cool and it's comfortable to wear day-to-day while maintaining a moderate level of protection.  Note that while the Nomex layer is chemical resistant, the garment's permeability means it is a poor defense against chemical attacks",
+    "weight": "3500 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Wool has a density of 1.31g/cm^3, thickness of 0.1 cm leaves us with 2192 grams.",
+    "//2": "Nomex has a density of 1.38g/cm^3, thickness of 0.05 cm leaves us with 1154 grams.",
+    "//3": "Nylon has a density of 1.14g/cm^3, thickness of 0.05 cm and ~5% coverage leaves us with 48 grams - this is just for some reinforced pockets sewn on.",
+    "//4": "Totalled up this is 3394 grams - round up to 3500 to account for clasps, zippers, etc.",
+    "//5": "The odd encumbrance rounds down to 3-4 when fitted - usually will always be, but since it's hand-tailored to your body, it should be harder for someone else to wear compared to a one-size-fits-all commercial garment.",
+    "volume": "3000 ml",
+    "price_postapoc": "50 USD",
+    "material": [ "wool", "nomex" ],
+    "symbol": "[",
+    "looks_like": "survivor_jumpsuit",
+    "color": "green",
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nomex", "covered_by_mat": 95, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 9 ]
+      },
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nomex", "covered_by_mat": 95, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 110,
+        "max_item_length": "32 cm",
+        "description": "Lower back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "warmth": 20,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "STURDY" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "xl_lsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade summer suit" },
+    "copy-from": "lsurvivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_lsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade summer suit" },
+    "copy-from": "lsurvivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "survivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "handmade combat suit" },
+    "description": "A form-fitting coverall jumpsuit consisting of stab-weave Kevlar and ripstop Nylon woven in layers to provide substantial protection from bites and cuts.  Has reinforced pockets sewn on for storage.  Lacking a rubber sealant, it is still reasonably breathable, and therefore offers only modest protection against chemical attacks despite its synthetic fabric construction.",
+    "weight": "7750 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Nylon has a density of 1.14g/cm^3, thickness of 0.15 cm leaves us with 2865 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.2 cm leaves us with 4820 grams.",
+    "//3": "0.05 cm Nylon pockets weigh about 50 gram total.",
+    "//4": "Totalled up this is 7736 grams, rounded up to 7750 to account for clasps, zippers etc.",
+    "//5": "The odd encumbrance rounds down to 6-7 when fitted - usually will always be, but since it's hand-tailored to your body, it should be harder for someone else to wear compared to a one-size-fits-all commercial garment.",
+    "volume": "6500 ml",
+    "price_postapoc": "75 USD",
+    "material": [ "kevlar", "nylon" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "brown",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 15 ]
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 13 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 110,
+        "max_item_length": "32 cm",
+        "description": "Lower back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "warmth": 30,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "STURDY", "RAINPROOF" ]
+  },
+  {
+    "id": "xlsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade combat suit" },
+    "copy-from": "survivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xssurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade combat suit" },
+    "copy-from": "survivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "handmade hazard suit" },
+    "description": "A heavy, restrictive coverall jumpsuit consisting of layered Kevlar and tough canvas.  Most importantly, it is sealed with a flexible polymer coating, making it almost impermeable to chemical attacks.  It does not mitigate radiation or electrical dangers, and is a real pain to wear all the time.",
+    "weight": "10100 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Canvas density at 1.6 g/cm^3, thickness of 0.15 cm leaves us with 4015 grams.",
+    "//2": "Kevlar has a density of 1.44g/cm^3, thickness of 0.2 cm leaves us with 4820 grams.",
+    "//4": "Vinyl has a density of 1.4g/cm^3, thickness of 0.05 cm leaves us with 1171 grams.",
+    "//5": "Totalled up this is 10006 grams, rounded up to 10100 to account for clasps, zippers, etc.",
+    "volume": "8000 ml",
+    "price_postapoc": "75 USD",
+    "material": [ "kevlar", "canvas", "vinyl" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 21, 22 ]
+      },
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 21, 21 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 110,
+        "max_item_length": "32 cm",
+        "description": "Lower back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "warmth": 35,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_hsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade hazard suit" },
+    "copy-from": "hsurvivor_jumpsuit",
+    "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_hsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade hazard suit" },
+    "copy-from": "hsurvivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "wsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "handmade winter suit" },
+    "description": "A stuffy coverall jumpsuit consisting of durably woven cotton lined with fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
+    "weight": "8800 g",
+    "//": "Human surface area is roughly 18600 cm^2, based off of rules of 9 the torso is 36%, both arms are 18%, both legs are 36% leaving us with 16740 cm^2.",
+    "//1": "Cotton has a density of 1.52g/cm^3, thickness of 0.15 cm leaves us with 3814 grams.",
+    "//2": "Fur has a density of ~1.1g/cm^3 based off of the materials json, thickness of 0.19 cm leaves us with 3499 grams.",
+    "//3": "Canvas is waterproofed (waxed, etc) cotton at 1.6 g/cm^3, thickness of 0.05 cm leaves us with 1338 grams.",
+    "//4": "0.05 cm canvas pockets weigh about 75 grams total.",
+    "//5": "Totalled up this is 8726 grams, rounded up to 8800 to account for clasps, zippers, etc.",
+    "volume": "8500 ml",
+    "price_postapoc": "75 USD",
+    "material": [ "cotton", "fur", "canvas" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "fur", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 20 ]
+      },
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "fur", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 110,
+        "max_item_length": "32 cm",
+        "description": "Lower back pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "15 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "warmth": 70,
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_wsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade winter suit" },
+    "copy-from": "wsurvivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_wsurvivor_jumpsuit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade winter suit" },
+    "copy-from": "wsurvivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "wsurvivor_jumpsuit_nofur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade faux fur winter suit" },
+    "description": "A stuffy coverall jumpsuit consisting of durably woven cotton lined with faux fur and a canvas outer layer.  Waterproof, and sturdier than pre-Cataclysm winter clothing, with numerous storage pockets.  However, it is noticeably encumbering and wearing it outside of cold weather is pretty much out of the question.",
+    "copy-from": "wsurvivor_jumpsuit",
+    "material": [ "cotton", "faux_fur", "canvas" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "faux_fur", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 20 ]
+      },
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "faux_fur", "covered_by_mat": 95, "thickness": 1.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
+      }
+    ]
+  },
+  {
+    "id": "xs_wsurvivor_jumpsuit_nofur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade faux fur winter suit" },
+    "copy-from": "wsurvivor_jumpsuit_nofur",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "xl_wsurvivor_jumpsuit_nofur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "handmade faux fur winter suit" },
+    "copy-from": "wsurvivor_jumpsuit_nofur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  }
+]

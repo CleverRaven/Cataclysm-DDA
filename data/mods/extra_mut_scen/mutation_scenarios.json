@@ -8,18 +8,12 @@
     "points": 1,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ],
     "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "labtech", "security", "medic" ],
-    "allowed_locs": [
-      "sloc_forest",
-      "sloc_field",
-      "sloc_lab_random",
-      "sloc_lab_escape_cells",
-      "sloc_lab_finale",
-      "sloc_ice_lab_stairs",
-      "sloc_ice_lab_finale"
-    ],
+    "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "traits": [
+      "ALCMET",
       "ANIMALDISCORD2",
       "ANIMALEMPATH2",
+      "ANIMAL_FEET",
       "ANTENNAE",
       "ANTLERS",
       "ARM_FEATHERS",
@@ -28,13 +22,18 @@
       "ARM_TENTACLES_8",
       "BARBS",
       "BARK",
+      "BATEARS",
       "BEAK",
       "BEAUTIFUL",
       "BEAUTIFUL2",
-      "BEAUTIFUL3",
       "BIOLUM0",
       "BIOLUM1",
       "BIOLUM2",
+      "BLOODLETTER",
+      "BOOMING_VOICE",
+      "BOVINE_BULK",
+      "BOVINE_BULK2",
+      "CAMO1",
       "CANINE_EARS",
       "CARNIVORE",
       "CEPH_EYES",
@@ -42,9 +41,12 @@
       "CHAOTIC",
       "CHITIN",
       "CHITIN2",
+      "CHITIN2_MOLTED",
       "CHITIN3",
+      "CHITIN3_MOLTED",
       "CHITIN_FUR",
       "CHITIN_FUR2",
+      "CHITIN_MOLTED",
       "CLAWS",
       "CLAWS_RAT",
       "CLAWS_RETRACT",
@@ -52,20 +54,29 @@
       "COLDBLOOD2",
       "COLDBLOOD3",
       "COMPOUND_EYES",
+      "CRAB_LEGS",
+      "CROAK",
+      "CRUSTACEAN_CARAPACE",
+      "CRUSTACEAN_CARAPACE_MOLTED",
       "DEFORMED",
       "DEFORMED2",
-      "DEFORMED3",
+      "DENSE_BONES",
       "DEX_UP",
       "DEX_UP_2",
-      "DEX_UP_3",
       "DISIMMUNE",
+      "DISORGANIZED",
+      "EAGLEEYED",
       "ELECTRORECEPTORS",
+      "ELFAEYES",
+      "ELFA_EARS",
       "ELFA_FNV",
       "ELFA_NV",
       "EYEBULGE",
       "FANGS",
+      "LEAFNOSE",
       "FASTHEALER2",
       "FAT",
+      "TUNNEL_FIGHTER",
       "FEATHERS",
       "FELINE_EARS",
       "FELINE_FUR",
@@ -74,13 +85,18 @@
       "FLEET2",
       "FORKED_TONGUE",
       "FUR",
-      "GILLS",
-      "GILLS_CEPH",
+      "GOURMAND",
       "GROWL",
       "HAIRROOTS",
+      "HAS_NEMESIS",
+      "HATES_BOOKS",
+      "HATES_WATER",
       "HEADBUMPS",
+      "HEAVYSLEEPER2",
+      "HEMOVORE",
       "HERBIVORE",
       "HISS",
+      "HOARDER",
       "HOLLOW_BONES",
       "HOOVES",
       "HORNS",
@@ -90,50 +106,94 @@
       "HUNGER2",
       "HUNGER3",
       "INFIMMUNE",
-      "INFRARED",
-      "INK_GLANDS",
+      "INSECT_RESERVOIR",
       "INT_UP",
       "INT_UP_2",
-      "INT_UP_3",
       "JEKYLL",
       "LARGE",
       "LEAVES",
       "LEG_TENTACLES",
+      "LIAR",
       "LIGHTFUR",
       "LIGHT_BONES",
       "LIZ_EYE",
       "LIZ_IR",
+      "LONG_TONGUE",
+      "LOVES_BOOKS",
       "LUPINE_EARS",
       "LUPINE_FUR",
+      "LUPINE_FUR_SUMMER",
       "LYNX_FUR",
       "MANDIBLES",
+      "MANSBESTFRIEND",
+      "MARLOSS",
+      "MARLOSS_AVOID",
+      "MARLOSS_BLUE",
+      "MARLOSS_YELLOW",
+      "MARTIAL_FENCING",
       "MEMBRANE",
+      "MET_RAT",
       "MINOTAUR",
       "MORE_PAIN2",
       "MORE_PAIN3",
+      "MOUSE_EARS",
       "MOUTH_FLAPS",
       "MOUTH_TENTACLES",
+      "MUTAGEN_AVOID",
+      "MUTAGEN_GLAND_ALPHA",
+      "MUTAGEN_GLAND_BATRACHIAN",
+      "MUTAGEN_GLAND_BEAST",
+      "MUTAGEN_GLAND_BIRD",
+      "MUTAGEN_GLAND_CATTLE",
+      "MUTAGEN_GLAND_CEPHALOPOD",
+      "MUTAGEN_GLAND_CHIMERA",
+      "MUTAGEN_GLAND_CHIROPTERAN",
+      "MUTAGEN_GLAND_CRUSTACEAN",
+      "MUTAGEN_GLAND_ELFA",
+      "MUTAGEN_GLAND_FELINE",
+      "MUTAGEN_GLAND_FISH",
+      "MUTAGEN_GLAND_GASTROPOD",
+      "MUTAGEN_GLAND_INSECT",
+      "MUTAGEN_GLAND_LIZARD",
+      "MUTAGEN_GLAND_LUPINE",
+      "MUTAGEN_GLAND_MEDICAL",
+      "MUTAGEN_GLAND_MOUSE",
+      "MUTAGEN_GLAND_PLANT",
+      "MUTAGEN_GLAND_RAPTOR",
+      "MUTAGEN_GLAND_RAT",
+      "MUTAGEN_GLAND_SLIME",
+      "MUTAGEN_GLAND_SPIDER",
+      "MUTAGEN_GLAND_TROGLOBITE",
+      "MUTAGEN_GLAND_URSINE",
+      "MUTE",
       "MUZZLE",
       "MUZZLE_BEAR",
       "MUZZLE_LONG",
+      "MUZZLE_RAPTOR",
       "MUZZLE_RAT",
       "NAILS",
       "NAUSEA",
+      "NIGHT_RAIDER",
       "NIGHTVISION2",
       "NIGHTVISION3",
+      "NOMAD",
       "NOMAD2",
       "NOMAD3",
+      "OUTDOORSMAN",
       "PADDED_FEET",
       "PAINREC1",
       "PAINREC2",
       "PAINREC3",
       "PALE",
       "PARAIMMUNE",
+      "PATCHSKIN1",
+      "PATCHSKIN2",
       "PAWS",
       "PAWS_LARGE",
+      "PAWS_LITTLE",
+      "PERSISTENCE_HUNTER",
       "PER_UP",
       "PER_UP_2",
-      "PER_UP_3",
       "PHEROMONE_INSECT",
       "PHEROMONE_MAMMAL",
       "PLANTSKIN",
@@ -141,24 +201,33 @@
       "PONDEROUS1",
       "PONDEROUS2",
       "PONDEROUS3",
+      "PROF_SKATER",
+      "PYROMANIA",
       "QUILLS",
+      "RABBIT_EARS",
+      "RABBIT_FEET",
+      "RABBIT_FUR",
+      "RABBIT_NOSE",
       "RADIOACTIVE1",
       "RADIOACTIVE2",
       "RADIOACTIVE3",
       "RADIOGENIC",
-      "REGEN",
+      "RADIOPHILE",
+      "RAP_TALONS",
       "ROT1",
       "ROT2",
-      "ROT3",
       "RUMINANT",
       "SAPROVORE",
       "SCALES",
+      "SCREECH",
       "SHELL",
       "SHOUT1",
       "SHOUT2",
       "SHOUT3",
+      "SKIN_PEELING",
+      "SKIN_RASHY",
       "SKIN_ROUGH",
-      "SLEEK_SCALES",
+      "SKIN_SMOOTH",
       "SLEEPY2",
       "SLIME_HANDS",
       "SLIMY",
@@ -169,46 +238,58 @@
       "SNARL",
       "SNOUT",
       "SORES",
+      "SPARSE_SCALES",
       "SPINES",
       "SPOTS",
+      "STIMBOOST",
       "STR_UP",
       "STR_UP_2",
-      "STR_UP_3",
+      "STRONG_LEGS",
       "SUNBURN",
       "SUNLIGHT_DEPENDENT",
+      "TABLEMANNERS",
       "TAIL_CATTLE",
       "TAIL_CLUB",
       "TAIL_FIN",
       "TAIL_FLUFFY",
       "TAIL_LONG",
+      "TAIL_RABBIT",
       "TAIL_RAPTOR",
       "TAIL_RAT",
-      "TAIL_STING",
       "TAIL_STUB",
       "TAIL_THICK",
       "TALONS",
+      "THINSKIN",
       "THIRST2",
       "THIRST3",
       "THORNS",
+      "TOUGH2",
+      "TOUGH3",
       "TROGLO",
       "TROGLO2",
       "TROGLO3",
+      "TRUTHTELLER",
       "UNSTABLE",
       "URSINE_EARS",
       "URSINE_EYE",
       "URSINE_FUR",
+      "URSINE_FUR_SUMMER",
       "VINES1",
       "VINES2",
       "VOMITOUS",
       "WEBBED",
+      "WEBBED_FEET",
       "WEB_WALKER",
       "WHISKERS",
       "WHISKERS_RAT",
+      "WIDE_MOUTH",
       "WINGS_BAT",
-      "WINGS_BIRD",
       "WINGS_INSECT",
-      "WINGS_STUB"
-    ]
+      "WINGS_STUB",
+      "XS",
+      "XXXL"
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -217,7 +298,87 @@
     "name": "Mutant - Prime Threshold",
     "description": "Start as a post-threshold Prime Mutant",
     "forced_traits": "THRESH_ALPHA",
-    "extend": { "traits": [ "DEX_ALPHA", "INT_ALPHA", "PER_ALPHA", "STR_ALPHA", "WAKEFUL2" ] }
+    "extend": { "traits": [ "ALPHA_COMPLEX", "DEX_ALPHA", "INT_ALPHA", "PER_ALPHA", "ROT3", "STR_ALPHA", "WAKEFUL2" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_batrachian",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Batrachian Threshold",
+    "description": "Start as a post-threshold Batrachian Mutant",
+    "forced_traits": "THRESH_BATRACHIAN",
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "COLDBLOOD4",
+        "DIRTSLEEPER",
+        "EATPOISON",
+        "FRESHWATEROSMOSIS",
+        "FROG_EYES",
+        "GILLS",
+        "LEAPING_LEGS",
+        "LEAPING_LEGS2",
+        "LONG_TONGUE2",
+        "PHEROMONE_AMPHIBIAN",
+        "PRED1",
+        "STRONGER_RESISTWARM",
+        "THIRST3",
+        "VOMITSTOMACH",
+        "WAKEFUL2",
+        "WATERSLEEP",
+        "WATERSLEEPER"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_crustacean",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Crustacean Threshold",
+    "description": "Start as a post-threshold Crustacean Mutant",
+    "forced_traits": "THRESH_CRUSTACEAN",
+    "extend": {
+      "traits": [
+        "CRUSTACEAN_CLAW",
+        "EATDEAD",
+        "EATPOISON",
+        "GILLS",
+        "HUGE_OK",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "MUT_TOUGH2",
+        "SCUTTLE",
+        "STR_UP_3",
+        "STR_UP_4",
+        "THIRST3"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_gastropod",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Gastropod Threshold",
+    "description": "Start as a post-threshold Gastropod Mutant",
+    "forced_traits": "THRESH_GASTROPOD",
+    "extend": {
+      "traits": [
+        "GASTROPOD_BALANCE",
+        "GASTROPOD_EXTREMITY1",
+        "GASTROPOD_EXTREMITY2",
+        "GASTROPOD_EXTREMITY3",
+        "GASTROPOD_FOOT",
+        "MUCUS_SECRETION",
+        "MUCUS_SECRETION2",
+        "SNAIL_TRAIL",
+        "SLIME_SPRAY",
+        "SHELL2",
+        "SHELL3",
+        "STRONGER_RESISTWARM",
+        "TOXICFLESH",
+        "VISCOUS"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -226,7 +387,21 @@
     "name": "Mutant - Beast Threshold",
     "description": "Start as a post-threshold Beast Mutant",
     "forced_traits": "THRESH_BEAST",
-    "extend": { "traits": [ "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE", "STR_UP_4" ] }
+    "extend": {
+      "traits": [
+        "ADRENALINE",
+        "MUT_TOUGH",
+        "PHEROMONE_MAMMAL",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "PRED4",
+        "SAPIOVORE",
+        "STR_UP_3",
+        "STR_UP_4",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -235,7 +410,20 @@
     "name": "Mutant - Bird Threshold",
     "description": "Start as a post-threshold Bird Mutant",
     "forced_traits": "THRESH_BIRD",
-    "extend": { "traits": [ "BEAK_HUM", "BEAK_PECK", "BIRD_EYE", "DOWN", "GIZZARD", "PER_UP_4" ] }
+    "extend": {
+      "traits": [
+        "BEAK_HUM",
+        "BEAK_PECK",
+        "BIRD_EYE",
+        "BIRD_LEGS",
+        "DEX_UP_3",
+        "DOWN",
+        "GIZZARD",
+        "PER_UP_3",
+        "PER_UP_4",
+        "WINGS_BIRD"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -244,7 +432,19 @@
     "name": "Mutant - Bovine Threshold",
     "description": "Start as a post-threshold Bovine Mutant",
     "forced_traits": "THRESH_CATTLE",
-    "extend": { "traits": [ "GRAZER", "HUGE_OK", "LARGE_OK", "MUT_TOUGH", "MUT_TOUGH2", "MUT_TOUGH3" ] }
+    "extend": {
+      "traits": [
+        "STR_UP_3",
+        "GRAZER",
+        "HUGE_OK",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "MUT_TOUGH2",
+        "MUT_TOUGH3",
+        "PHEROMONE_MAMMAL",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -253,7 +453,19 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
+    "traits": [
+      "CAMO2",
+      "CEPH_MIND",
+      "CLAWS_TENTACLE",
+      "GILLS_CEPH",
+      "INT_UP_3",
+      "DEX_UP_4",
+      "INK_GLANDS",
+      "INT_UP_4",
+      "LEG_TENT_BRACE",
+      "SHELL2",
+      "STRONGER_RESISTWARM"
+    ]
   },
   {
     "type": "scenario",
@@ -266,18 +478,22 @@
       "traits": [
         "ACIDBLOOD",
         "ACIDPROOF",
+        "DEFORMED3",
         "EATDEAD",
         "EATHEALTH",
         "EATPOISON",
+        "LARGE_OK",
         "MUT_JUNKIE",
         "MUT_TOUGH",
         "MUT_TOUGH2",
+        "PATCHSKIN3",
         "PRED1",
         "PRED2",
         "PRED3",
         "PRED4",
         "SABER_TEETH",
-        "SAPIOVORE"
+        "SAPIOVORE",
+        "STR_UP_3"
       ]
     }
   },
@@ -288,7 +504,23 @@
     "name": "Mutant - Fey Threshold",
     "description": "Start as a post-threshold Fey Mutant",
     "forced_traits": "THRESH_ELFA",
-    "extend": { "traits": [ "BENDY1", "FEYHEARING", "FLOWERS", "ROSEBUDS", "TREE_COMMUNION", "WAKEFUL2", "WAKEFUL3" ] }
+    "extend": {
+      "traits": [
+        "BENDY1",
+        "BEAUTIFUL2",
+        "BEAUTIFUL3",
+        "DEX_UP_3",
+        "ELFA_NV",
+        "ELFA_FNV",
+        "FEYHEARING",
+        "FLOWERS",
+        "PER_UP_3",
+        "ROSEBUDS",
+        "TREE_COMMUNION",
+        "WAKEFUL2",
+        "WAKEFUL3"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -297,7 +529,9 @@
     "name": "Mutant - Feline Threshold",
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
+    "extend": {
+      "traits": [ "DEX_UP_3", "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH", "STRONGER_RESISTCHILL" ]
+    }
   },
   {
     "type": "scenario",
@@ -306,7 +540,20 @@
     "name": "Mutant - Aquatic Threshold",
     "description": "Start as a post-threshold Aquatic Mutant",
     "forced_traits": "THRESH_FISH",
-    "extend": { "traits": [ "AMPHIBIAN", "DEX_UP_4", "FRESHWATEROSMOSIS", "SEESLEEP", "SHARKTEETH", "TOXICFLESH", "WATERSLEEP" ] }
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "DEX_UP_4",
+        "FRESHWATEROSMOSIS",
+        "GILLS",
+        "SEESLEEP",
+        "SHARKTEETH",
+        "SLEEK_SCALES",
+        "STRONGER_RESISTWARM",
+        "TOXICFLESH",
+        "WATERSLEEP"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -315,7 +562,20 @@
     "name": "Mutant - Insect Threshold",
     "description": "Start as a post-threshold Insect Mutant",
     "forced_traits": "THRESH_INSECT",
-    "extend": { "traits": [ "ACIDBLOOD", "ACIDPROOF", "INSECT_ARMS", "INSECT_ARMS_OK", "PROBOSCIS", "WINGS_BUTTERFLY" ] }
+    "extend": {
+      "traits": [
+        "ACIDBLOOD",
+        "ACIDPROOF",
+        "BIOLUM3",
+        "BOMBADIER_BLAST",
+        "INFRARED",
+        "INSECT_ARMS",
+        "INSECT_ARMS_OK",
+        "TAIL_STING",
+        "PROBOSCIS",
+        "WINGS_BUTTERFLY"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -325,7 +585,18 @@
     "description": "Start as a post-threshold Lizard Mutant",
     "forced_traits": "THRESH_LIZARD",
     "extend": {
-      "traits": [ "COLDBLOOD4", "LARGE_OK", "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "REGEN_LIZ", "SAPIOVORE", "THICK_SCALES" ]
+      "traits": [
+        "COLDBLOOD4",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "REGEN_LIZ",
+        "SAPIOVORE",
+        "STRONGER_RESISTWARM",
+        "THICK_SCALES"
+      ]
     }
   },
   {
@@ -335,7 +606,9 @@
     "name": "Mutant - Wolf Threshold",
     "description": "Start as a post-threshold Wolf Mutant",
     "forced_traits": "THRESH_LUPINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3" ] }
+    "extend": {
+      "traits": [ "BURROWLARGE", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3", "STR_UP_3", "STRONGER_RESISTCHILL" ]
+    }
   },
   {
     "type": "scenario",
@@ -354,7 +627,7 @@
     "description": "Start as a post-threshold Prototype Mutant",
     "forced_traits": "THRESH_MEDICAL",
     "extend": {
-      "traits": [ "ACIDBLOOD", "ACIDPROOF", "CENOBITE", "MASOCHIST_MED", "MUT_JUNKIE", "MUT_TOUGH", "MUT_TOUGH2", "NOPAIN" ]
+      "traits": [ "ACIDBLOOD", "ACIDPROOF", "CENOBITE", "MASOCHIST_MED", "MUT_JUNKIE", "MUT_TOUGH", "MUT_TOUGH2", "NOPAIN", "NUMB" ]
     }
   },
   {
@@ -364,7 +637,20 @@
     "name": "Mutant - Diminutive Threshold",
     "description": "Start as a post-threshold Diminutive Mutant",
     "forced_traits": "THRESH_MOUSE",
-    "extend": { "traits": [ "CRAFTY", "EASYSLEEPER2", "EATDEAD", "EATPOISON", "GOODCARDIO2", "NO_THIRST", "PROJUNK2", "SMALL_OK" ] }
+    "extend": {
+      "traits": [
+        "CRAFTY",
+        "EASYSLEEPER2",
+        "EATDEAD",
+        "EATPOISON",
+        "GOODCARDIO2",
+        "MOUSE_EARS",
+        "NO_THIRST",
+        "PROJUNK2",
+        "SMALL_OK",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -408,10 +694,43 @@
         "ROOTS3",
         "ROSEBUDS",
         "SAPROPHAGE",
+        "STRONGER_RESISTWARM",
         "TRANSPIRATION",
         "TREE_COMMUNION",
+        "STRONGER_RESISTCHILL",
         "VINES3"
       ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_chiropteran",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Chiropteran Threshold",
+    "description": "Start as a post-threshold Bat Mutant",
+    "forced_traits": "THRESH_CHIROPTERAN",
+    "extend": {
+      "traits": [
+        "FANGS_VAMPIRE",
+        "ECHOLOCATION",
+        "PHEROMONE_MAMMAL",
+        "HOOKED_TOES",
+        "DEX_UP_3",
+        "WINGS_BAT",
+        "BLOODFEEDER",
+        "LEGS_BAT"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_rabbit",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Lagomorph Threshold",
+    "description": "Start as a post-threshold Lagomorph Mutant",
+    "forced_traits": "THRESH_RABBIT",
+    "extend": {
+      "traits": [ "BURROW", "EASYSLEEPER2", "GOODCARDIO2", "GRAZER", "INCISORS", "LEAPING_LEGS", "PER_UP_3", "STRONGER_RESISTCHILL" ]
     }
   },
   {
@@ -430,7 +749,7 @@
     "name": "Mutant - Survivor Threshold",
     "description": "Start as a post-threshold Survivor Mutant",
     "forced_traits": "THRESH_RAT",
-    "extend": { "traits": [ "BURROW", "CLAWS_ST", "EATDEAD", "EATPOISON", "INCISORS" ] }
+    "extend": { "traits": [ "BURROW", "DEFORMED3", "CLAWS_ST", "EATDEAD", "EATPOISON", "INCISORS", "MOUSE_EARS" ] }
   },
   {
     "type": "scenario",
@@ -445,12 +764,16 @@
         "ACIDPROOF",
         "AMORPHOUS",
         "BENDY1",
+        "DEFORMED3",
         "BENDY2",
         "BENDY3",
         "INT_SLIME",
         "PER_SLIME",
         "PER_SLIME_OK",
+        "REGEN",
+        "SLIMEMIND",
         "SLIMESPAWNER",
+        "SLIME_SPRAY",
         "VISCOUS"
       ]
     }
@@ -469,6 +792,7 @@
         "CF_HAIR",
         "CHITIN_FUR3",
         "FANGS_SPIDER",
+        "INFRARED",
         "INSECT_ARMS",
         "POISONOUS2",
         "PRED1",
@@ -489,7 +813,7 @@
     "name": "Mutant - Subterranean Threshold",
     "description": "Start as a post-threshold Subterranean Mutant",
     "forced_traits": "THRESH_TROGLOBITE",
-    "extend": { "traits": [ "EATPOISON", "PAINRESIST_TROGLO", "STOCKY_TROGLO" ] }
+    "extend": { "traits": [ "EATPOISON", "INFRARED", "PAINRESIST_TROGLO", "REGEN", "STR_UP_3", "STOCKY_TROGLO" ] }
   },
   {
     "type": "scenario",
@@ -500,6 +824,8 @@
     "forced_traits": "THRESH_URSINE",
     "extend": {
       "traits": [
+        "BURROWLARGE",
+        "CLAWS_ST",
         "HIBERNATE",
         "HUGE_OK",
         "LARGE_OK",
@@ -511,6 +837,7 @@
         "PRED3",
         "PRED4",
         "SAPIOVORE",
+        "STRONGER_RESISTCHILL",
         "STR_UP_4"
       ]
     }

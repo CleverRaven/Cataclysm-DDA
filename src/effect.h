@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
-#include <tuple>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -14,27 +17,19 @@
 #include "calendar.h"
 #include "color.h"
 #include "effect_source.h"
-#include "hash_utils.h"
-#include "translations.h"
+#include "enums.h"
+#include "event.h"
+#include "flat_set.h"
+#include "translation.h"
 #include "type_id.h"
 
-class effect_type;
-
-enum game_message_type : int;
-enum class event_type : int;
-class JsonIn;
+class Character;
 class JsonObject;
 class JsonOut;
+class effect_type;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );
-
-enum effect_rating {
-    e_good,     // The effect is good for the one who has it.
-    e_neutral,  // There is no effect or the effect is very nominal. This is the default.
-    e_bad,      // The effect is bad for the one who has it.
-    e_mixed     // The effect has good and bad parts to the one who has it.
-};
 
 /** @relates string_id */
 template<>
@@ -52,20 +47,65 @@ struct vitamin_rate_effect {
     vitamin_id vitamin;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct vitamin_applied_effect {
-    cata::optional<std::pair<int, int>> rate = cata::nullopt;
-    cata::optional<time_duration> tick = cata::nullopt;
-    cata::optional<float> absorb_mult = cata::nullopt;
+    std::optional<std::pair<int, int>> rate = std::nullopt;
+    std::optional<time_duration> tick = std::nullopt;
+    std::optional<float> absorb_mult = std::nullopt;
     vitamin_id vitamin;
+};
+
+enum class mod_type : uint8_t {
+    BASE_MOD = 0,
+    SCALING_MOD = 1,
+
+    MAX,
+};
+
+using modifier_value_arr = std::array<double, static_cast<size_t>( mod_type::MAX )>;
+extern modifier_value_arr default_modifier_values;
+
+enum class mod_action : uint8_t {
+    AMOUNT,
+    CHANCE_BOT,
+    CHANCE_TOP,
+    MAX,
+    MAX_VAL,
+    MIN,
+    MIN_VAL,
+    TICK,
+};
+
+// Limb score interactions
+struct limb_score_effect {
+    // Score id to affect
+    limb_score_id score_id;
+    // Multiplier to apply when not resisted
+    float mod;
+    float red_mod;
+    float scaling;
+    float red_scaling;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct effect_dur_mod {
+    efftype_id effect_id;
+    float modifier;
+    bool same_bp;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class effect_type
 {
-        friend void load_effect_type( const JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
+        friend struct mod_tracker;
     public:
         enum class memorial_gender : int {
             male,
@@ -77,7 +117,7 @@ class effect_type
         efftype_id id;
 
         /** Returns if an effect is good or bad for message display. */
-        effect_rating get_rating() const;
+        game_message_type get_rating( int intensity = 1 ) const;
 
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
@@ -86,15 +126,13 @@ class effect_type
          *  from 1 to max_intensity with the matching reduced value. */
         bool use_desc_ints( bool reduced ) const;
 
-        /** Returns the appropriate game_message_type when a new effect is obtained. This is equal to
-         *  an effect's "rating" value. */
-        game_message_type gain_game_message_type() const;
         /** Returns the appropriate game_message_type when an effect is lost. This is opposite to
          *  an effect's "rating" value. */
-        game_message_type lose_game_message_type() const;
+        game_message_type lose_game_message_type( int intensity = 1 ) const;
 
-        /** Returns the message displayed when a new effect is obtained. */
-        std::string get_apply_message() const;
+        // adds a message to the log for applying an effect
+        void add_apply_msg( int intensity ) const;
+
         /** Returns the memorial log added when a new effect is obtained. */
         std::string get_apply_memorial_log( memorial_gender gender ) const;
         /** Returns the message displayed when an effect is removed. */
@@ -107,17 +145,20 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        double get_mod_value( const std::string &type, mod_action action, uint8_t reduction_level,
+                              int intensity ) const;
+
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( const JsonObject &jo, const std::string &member );
-        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
+        void load_mod_data( const JsonObject &jo );
+        bool load_miss_msgs( const JsonObject &jo, std::string_view member );
+        bool load_decay_msgs( const JsonObject &jo, std::string_view member );
+        bool load_apply_msgs( const JsonObject &jo, std::string_view member );
 
         /** Verifies data is accurate */
         static void check_consistency();
         void verify() const;
-
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
@@ -128,11 +169,23 @@ class effect_type
         const time_duration &intensity_duration() const {
             return int_dur_factor;
         }
-
+        std::vector<enchantment_id> enchantments;
+        cata::flat_set<json_character_flag> immune_flags;
+        cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
+        uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
+            return static_cast<uint8_t>( action ) << 0 |
+                   reduction_level << 8;
+        }
+
+        void extract_effect(
+            const std::array<std::optional<JsonObject>, 2> &j,
+            const std::string &effect_name,
+            const std::vector<std::pair<std::string, mod_action>> &action_keys );
+
         int max_intensity = 0;
         int max_effective_intensity = 0;
-        time_duration max_duration = 0_turns;
+        time_duration max_duration = 365_days;
 
         int dur_add_perc = 0;
         int int_add_val = 0;
@@ -140,6 +193,7 @@ class effect_type
         int int_decay_step = 0;
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
+        bool int_decay_remove = false;
 
         std::set<flag_id> flags;
 
@@ -176,9 +230,8 @@ class effect_type
 
         std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
-        effect_rating rating = effect_rating::e_neutral;
+        std::vector<std::pair<translation, game_message_type>> apply_msgs;
 
-        translation apply_message;
         std::string apply_memorial_log;
         translation remove_message;
         std::string remove_memorial_log;
@@ -186,14 +239,25 @@ class effect_type
         translation blood_analysis_description;
 
         translation death_msg;
-        cata::optional<event_type> death_event;
+        std::optional<event_type> death_event;
 
-        /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+        std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<limb_score_effect> limb_score_data;
+        std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
+
+        std::vector<std::pair<efftype_id, mod_id>> src;
+};
+
+class effect;
+
+// Inheritance here allows forward declaration of the map in class Creature.
+// Storing body_part as an int_id to make things easier for hash and JSON
+class effects_map : public
+    std::map<efftype_id, std::map<bodypart_id, effect>>
+{
 };
 
 class effect
@@ -213,6 +277,9 @@ class effect
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
             source( source ) {
+            clamp_duration();
+            apply_int_dur_factor();
+            clamp_intensity();
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -229,6 +296,9 @@ class effect
         std::string disp_desc( bool reduced = false ) const;
         /** Returns the short description as set in json. */
         std::string disp_short_desc( bool reduced = false ) const;
+        /** Returns the mod source info. */
+        std::string disp_mod_source_info() const;
+
         /** Returns true if a description will be formatted as "Your" + body_part + description. */
         bool use_part_descs() const;
 
@@ -239,18 +309,20 @@ class effect
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
         void decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
-                    const time_point &time, bool player );
+                    const time_point &time, bool player, const effects_map &eff_map = effects_map() );
 
         /** Returns the remaining duration of an effect. */
         time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */
         time_duration get_max_duration() const;
-        /** Sets the duration, capping at max_duration if it exists. */
+        /** Sets the duration, capping at max duration. */
         void set_duration( const time_duration &dur, bool alert = false );
-        /** Mods the duration, capping at max_duration if it exists. */
+        /** Mods the duration, capping at max_duration. */
         void mod_duration( const time_duration &dur, bool alert = false );
-        /** Multiplies the duration, capping at max_duration if it exists. */
+        /** Multiplies the duration, capping at max_duration. */
         void mult_duration( double dur, bool alert = false );
+        /** Caps duration at max_duration. */
+        void clamp_duration();
 
         std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
 
@@ -287,12 +359,24 @@ class effect
         int set_intensity( int val, bool alert = false );
 
         /**
+         * Clamps intensity of effect to range [1..max_intensity]
+         * @return new clamped intensity of the effect
+         */
+        int clamp_intensity();
+
+        /**
          * Modify intensity of effect capped by range [1..max_intensity]
          * @param mod Amount to increase current intensity by
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping
          */
         int mod_intensity( int mod, bool alert = false );
+
+        /**
+         * Set intensity of effect if it is duration based
+         * @return potentially updated intensity of the effect
+         */
+        int apply_int_dur_factor( bool alert = false );
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<trait_id> &get_resist_traits() const;
@@ -325,6 +409,11 @@ class effect
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        // Extract limb score modifiers for descriptions
+        std::vector<limb_score_effect> get_limb_score_data() const;
+
+        std::vector<effect_dur_mod> get_effect_dur_scaling() const;
+
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;
         event_type death_event() const;
@@ -339,6 +428,12 @@ class effect
         time_duration get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
+        /** Returns the step of intensity decay */
+        int get_int_decay_step() const;
+        /** Returns the number of ticks between intensity changes */
+        int get_int_decay_tick() const;
+        /** Returns if the effect is not protected from intensity decay-based removal */
+        bool get_int_decay_remove() const;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
         const std::vector<std::pair<translation, int>> &get_miss_msgs() const;
@@ -349,6 +444,8 @@ class effect
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
 
+        float get_limb_score_mod( const limb_score_id &score, bool reduced = false ) const;
+
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {
             return eff_type->id;
@@ -357,7 +454,7 @@ class effect
         const effect_source &get_source() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
     protected:
         const effect_type *eff_type;
@@ -370,20 +467,29 @@ class effect
 
 };
 
-void load_effect_type( const JsonObject &jo );
+class effect_migration
+{
+    public:
+        efftype_id id_old;
+        std::optional<efftype_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const effect_migration *find_migration( const efftype_id &original );
+};
+
+void load_effect_type( const JsonObject &jo, std::string_view src );
 void reset_effect_types();
 const std::map<efftype_id, effect_type> &get_effect_types();
 
-std::string texitify_base_healing_power( int power );
+std::string texitify_base_healing_power( float power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
 nc_color colorize_bleeding_intensity( int intensity );
-
-// Inheritance here allows forward declaration of the map in class Creature.
-// Storing body_part as an int_id to make things easier for hash and JSON
-class effects_map : public
-    std::map<efftype_id, std::map<bodypart_id, effect>>
-{
-};
 
 #endif // CATA_SRC_EFFECT_H

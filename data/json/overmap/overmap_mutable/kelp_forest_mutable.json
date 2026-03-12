@@ -1,0 +1,47 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "kelp_forest_mutable",
+    "subtype": "mutable",
+    "locations": [ "ocean_bed" ],
+    "occurrences": [ 1, 2 ],
+    "flags": [ "OCEAN", "WILDERNESS" ],
+    "check_for_locations": [ [ [ 0, 0, 0 ], [ "ocean_surface" ] ], [ [ 0, 0, 1 ], [ "open_air" ] ] ],
+    "check_for_locations_area": [ { "type": [ "ocean_bed" ], "from": [ 2, 2, -9 ], "to": [ -2, -2, -9 ] } ],
+    "joins": [ "kelp_to_kelp", "root_to_kelp" ],
+    "overmaps": {
+      "root": { "overmap": "ocean_surface", "above": "root_to_kelp", "locations": [ "ocean_surface" ] },
+      "root_to_forest": { "overmap": "open_air", "below": "root_to_kelp", "locations": [ "open_air" ] },
+      "kelp_forest_core": {
+        "overmap": "kelp_forest_core",
+        "north": "kelp_to_kelp",
+        "east": "kelp_to_kelp",
+        "south": "kelp_to_kelp",
+        "west": "kelp_to_kelp"
+      },
+      "kelp_forest_end": { "overmap": "kelp_forest_end_north", "north": "kelp_to_kelp" },
+      "kelp_forest_fill": {
+        "overmap": "kelp_forest_end_north",
+        "north": { "id": "kelp_to_kelp", "type": "available" },
+        "east": { "id": "kelp_to_kelp", "type": "available" },
+        "west": { "id": "kelp_to_kelp", "type": "available" }
+      }
+    },
+    "root": "root",
+    "phases": [
+      [
+        {
+          "name": "root_to_forest",
+          "//": "Connects the z0 root to the z9 ocean bed",
+          "chunk": [ { "overmap": "root_to_forest", "pos": [ 0, 0, 1 ] }, { "overmap": "kelp_forest_core", "pos": [ 0, 0, -9 ] } ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "kelp_forest_core", "weight": 400 },
+        { "overmap": "kelp_forest_end", "weight": 100 },
+        { "overmap": "kelp_forest_fill", "weight": 1 }
+      ]
+    ]
+  }
+]

@@ -1,0 +1,61 @@
+[
+  {
+    "type": "region_settings",
+    "id": "netherum_labyrinth",
+    "rivers": null,
+    "lakes": null,
+    "ocean": null,
+    "ravines": null,
+    "forests": null,
+    "forest_trails": null,
+    "highways": null,
+    "cities": null,
+    "forest_composition": "no_forests",
+    "map_extras": "no_map_extras",
+    "terrain_furniture": "default",
+    "weather": "default",
+    "place_roads": false,
+    "place_specials": true,
+    "neighbor_connections": false,
+    "default_oter": [
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "netherum_labyrinth_sparkling_chasm",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_netherum_labyrinth_groundcover", 1 ] ],
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "NETHERUM_LABYRINTH" ] },
+    "//": "ignored",
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "netherum_labyrinth_t_region_groundcover",
+    "ter_id": "t_netherum_labyrinth_groundcover",
+    "replace_with_terrain": [ "t_nl_chasm_no_trap" ]
+  }
+]

@@ -1,0 +1,169 @@
+[
+  {
+    "id": "mon_mi_go_fleshwarper",
+    "type": "MONSTER",
+    "name": { "str": "mi-go fleshwarper" },
+    "copy-from": "mon_mi_go",
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  Its flesh occasionally ripples, as though something inside was squirming and trying to get free.",
+    "volume": "92500 ml",
+    "weight": "120 kg",
+    "hp": 240,
+    "diff": 25,
+    "morale": 35,
+    "melee_skill": 6,
+    "regenerates": 0,
+    "regeneration_modifiers": [ [ "effect_migo_enhance_flesh_monster", 2 ] ],
+    "bleed_rate": 50,
+    "extend": {
+      "flags": [ "MAGIC_USER" ],
+      "special_attacks": [
+        {
+          "id": "migo_fleshwarper_blood_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_blood_poison_spell", "min_level": 5 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae move rhythmically for a moment."
+        },
+        {
+          "id": "migo_fleshwarper_cure_spell",
+          "type": "spell",
+          "spell_data": { "id": "monster_heal_spell", "hit_self": true, "min_level": 15 },
+          "cooldown": 30,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae twitch in all directions for a moment."
+        },
+        {
+          "id": "migo_fleshwarper_mutate_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_mutate", "min_level": 1 },
+          "cooldown": 50,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s reaches an appendage toward %3$s!"
+        },
+        {
+          "id": "migo_fleshwarper_block_healing_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_fleshwarper_block_healing", "min_level": 2 },
+          "cooldown": { "math": [ "12 + rand(25)" ] },
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s's numerous antennae synch and point at %3$s."
+        },
+        {
+          "id": "migo_fleshwarper_enhance_flesh_spell",
+          "type": "spell",
+          "spell_data": { "id": "migo_enhance_flesh_monster", "hit_self": true, "min_level": 1 },
+          "cooldown": 50,
+          "condition": {
+            "and": [ { "not": { "u_has_effect": "effect_migo_enhance_flesh_monster" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
+          },
+          "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "migo_fleshwarper_enhance_flesh_initial",
+          "//": "fake attack, allowing the mi-go to put up Enhance Flesh immediately",
+          "cooldown": 1,
+          "move_cost": 80,
+          "dodgeable": false,
+          "blockable": false,
+          "uncanny_dodgeable": false,
+          "range": 50,
+          "self_effects_always": [
+            { "id": "effect_migo_enhance_flesh_monster", "duration": 50 },
+            { "id": "effect_monster_no_double_cast", "duration": 8000 }
+          ],
+          "effects_require_dmg": false,
+          "condition": { "not": { "u_has_effect": "effect_monster_no_double_cast" } },
+          "hit_dmg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "hit_dmg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "miss_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "miss_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "no_dmg_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+          "no_dmg_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_mi_go_nethermancer",
+    "copy-from": "mon_mi_go_scout",
+    "looks_like": "mon_mi_go",
+    "type": "MONSTER",
+    "name": { "str": "mi-go nethermancer" },
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with an uncanny fluidity on its many legs.  Its carapace is covered in regular patterns which occasionally shift as you look at them before settling into a new configuration.",
+    "dodge": 4,
+    "special_attacks": [
+      [ "PARROT", 100 ],
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.4 } ] },
+      {
+        "id": "migo_nethermancer_grab",
+        "type": "spell",
+        "spell_data": { "id": "sorcerer_hand_monster", "min_level": 2 },
+        "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s twitches its antennae at %3$s and %3$s is lifted up and pulled towards them!"
+      },
+      {
+        "id": "migo_nethermancer_no_escape",
+        "type": "spell",
+        "spell_data": { "id": "teleport_anchor_monster", "min_level": 4 },
+        "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "migo_nethermancer_summon",
+        "type": "spell",
+        "spell_data": { "id": "migo_nethermancer_summon_nether", "min_level": 0 },
+        "cooldown": 40,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s's numerous antennae weave in a complicated pattern."
+      },
+      {
+        "id": "migo_nethermancer_nether_shield",
+        "type": "spell",
+        "spell_data": { "id": "migo_nether_shield_monster", "hit_self": true, "min_level": 10 },
+        "cooldown": 60,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_migo_nether_shield_monster" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
+        },
+        "monster_message": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "migo_nethermancer_nether_shield_initial",
+        "//": "fake attack, allowing the mi-go to put up Nether Shield immediately",
+        "cooldown": 1,
+        "move_cost": 80,
+        "dodgeable": false,
+        "blockable": false,
+        "uncanny_dodgeable": false,
+        "range": 50,
+        "self_effects_always": [
+          { "id": "effect_migo_nether_shield_monster", "duration": 50 },
+          { "id": "effect_monster_no_double_cast", "duration": 8000 }
+        ],
+        "effects_require_dmg": false,
+        "condition": { "not": { "u_has_effect": "effect_monster_no_double_cast" } },
+        "hit_dmg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "hit_dmg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "miss_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "miss_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "no_dmg_msg_u": "%1$s's numerous antennae sync their movements for a brief moment.",
+        "no_dmg_msg_npc": "%1$s's numerous antennae sync their movements for a brief moment."
+      },
+      {
+        "id": "migo_nethermancer_dispel",
+        "type": "spell",
+        "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
+        "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s numerous antennae point directly at %3$s."
+      }
+    ],
+    "extend": { "flags": [ "MAGIC_USER", "CORNERED_FIGHTER" ] }
+  }
+]

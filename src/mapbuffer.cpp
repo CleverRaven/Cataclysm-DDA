@@ -1,48 +1,58 @@
 #include "mapbuffer.h"
 
 #include <chrono>
+#include <cstddef>
 #include <exception>
+#include <filesystem>
 #include <functional>
-#include <ratio>
+#include <optional>
 #include <set>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <string_view>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game_constants.h"
+#include "flexbuffer_json.h"
+#include "game.h"
+#include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
+#include "std_hash_fs_path.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
+#include "worldfactory.h"
+#include "zzip.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-class game;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
-
-static std::string find_quad_path( const std::string &dirname, const tripoint &om_addr )
+static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
-    return string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y, om_addr.z );
+    return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
 }
 
-static std::string find_dirname( const tripoint &om_addr )
+static cata_path find_dirname( const tripoint_abs_omt &om_addr )
 {
-    const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    return string_format( "%s/maps/%d.%d.%d", PATH_INFO::world_base_save_path(), segment_addr.x,
-                          segment_addr.y, segment_addr.z );
+    const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
+    std::string segment = string_format( "%d.%d.%d",
+                                         segment_addr.x(),
+                                         segment_addr.y(), segment_addr.z() );
+    return PATH_INFO::current_dimension_save_path() / "maps" / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -55,7 +65,20 @@ void mapbuffer::clear()
     submaps.clear();
 }
 
-bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
+void mapbuffer::clear_outside_reality_bubble()
+{
+    map &here = get_map();
+    auto it = submaps.begin();
+    while( it != submaps.end() ) {
+        if( here.inbounds( it->first ) ) {
+            ++it;
+        } else {
+            it = submaps.erase( it );
+        }
+    }
+}
+
+bool mapbuffer::add_submap( const tripoint_abs_sm &p, std::unique_ptr<submap> &sm )
 {
     if( submaps.count( p ) ) {
         return false;
@@ -66,7 +89,7 @@ bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
     return true;
 }
 
-bool mapbuffer::add_submap( const tripoint &p, submap *sm )
+bool mapbuffer::add_submap( const tripoint_abs_sm &p, submap *sm )
 {
     // FIXME: get rid of this overload and make submap ownership semantics sane.
     std::unique_ptr<submap> temp( sm );
@@ -78,26 +101,27 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
     return result;
 }
 
-void mapbuffer::remove_submap( tripoint addr )
+void mapbuffer::remove_submap( const tripoint_abs_sm &addr )
 {
     auto m_target = submaps.find( addr );
     if( m_target == submaps.end() ) {
-        debugmsg( "Tried to remove non-existing submap %d,%d,%d", addr.x, addr.y, addr.z );
+        debugmsg( "Tried to remove non-existing submap %s", addr.to_string() );
         return;
     }
     submaps.erase( m_target );
 }
 
-submap *mapbuffer::lookup_submap( const tripoint &p )
+submap *mapbuffer::lookup_submap( const tripoint_abs_sm &p )
 {
-    dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
+    dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x() << "], y[" << p.y() << "], z["
+                  << p.z() << "])";
 
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
         } catch( const std::exception &err ) {
-            debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
         return nullptr;
     }
@@ -105,27 +129,70 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
     return iter->second.get();
 }
 
+bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
+{
+    // Could so with a second check against a std::unordered_set<tripoint_abs_sm> of already checked existing but not loaded submaps before resorting to unserializing?
+    const auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
+        try {
+            return unserialize_submaps( p );
+        } catch( const std::exception &err ) {
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
+        }
+        return false;
+    }
+
+    return true;
+}
+
+bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
+{
+    const auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
+        try {
+            const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
+            const cata_path dirname = find_dirname( om_addr );
+            std::string file_name = quad_file_name( om_addr );
+
+            if( world_generator->active_world->has_compression_enabled() ) {
+                cata_path zzip_name = dirname;
+                zzip_name += zzip_suffix;
+                if( !file_exist( zzip_name ) ) {
+                    return false;
+                }
+                std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                    ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+                return z && z->has_file( std::filesystem::u8path( file_name ) );
+            } else {
+                return file_exist( dirname / file_name );
+            }
+        } catch( const std::exception &err ) {
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
+        }
+        return false;
+    }
+
+    return true;
+}
+
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
-
+    assure_dir_exist( PATH_INFO::current_dimension_save_path() / "maps" );
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
     map &here = get_map();
-    const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
     static_popup popup;
 
     // A set of already-saved submaps, in global overmap coordinates.
-    std::set<tripoint> saved_submaps;
-    std::list<tripoint> submaps_to_delete;
+    std::set<tripoint_abs_omt> saved_submaps;
+    std::list<tripoint_abs_sm> submaps_to_delete;
     static constexpr std::chrono::milliseconds update_interval( 500 );
-    auto last_update = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
 
     for( auto &elem : submaps ) {
-        auto now = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         if( last_update + update_interval < now ) {
             popup.message( _( "Please wait as the map saves [%d/%d]" ),
                            num_saved_submaps, num_total_submaps );
@@ -138,7 +205,7 @@ void mapbuffer::save( bool delete_after_save )
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
         // we have the rest of it, if that assumption is broken we have REAL problems.
-        const tripoint om_addr = sm_to_omt_copy( elem.first );
+        const tripoint_abs_omt om_addr = project_to<coords::omt>( elem.first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             // Already handled this one.
             continue;
@@ -148,17 +215,14 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        const std::string dirname = find_dirname( om_addr );
-        const std::string quad_path = find_quad_path( dirname, om_addr );
+        const cata_path dirname = find_dirname( om_addr );
+        const cata_path quad_path = dirname / quad_file_name( om_addr );
 
+        bool inside_reality_bubble = here.inbounds( om_addr );
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        const bool zlev_del = !map_has_zlevels && om_addr.z != get_map().get_abs_sub().z;
         save_quad( dirname, quad_path, om_addr, submaps_to_delete,
-                   delete_after_save || zlev_del ||
-                   om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
-                   om_addr.x > map_origin.x + HALF_MAPSIZE ||
-                   om_addr.y > map_origin.y + HALF_MAPSIZE );
+                   delete_after_save || !inside_reality_bubble );
         num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {
@@ -166,26 +230,52 @@ void mapbuffer::save( bool delete_after_save )
     }
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
-                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
-                           bool delete_after_save )
+void mapbuffer::save_quad(
+    const cata_path &dirname, const cata_path &filename, const tripoint_abs_omt &om_addr,
+    std::list<tripoint_abs_sm> &submaps_to_delete, bool delete_after_save )
 {
-    std::vector<point> offsets;
-    std::vector<tripoint> submap_addrs;
-    offsets.push_back( point_zero );
-    offsets.push_back( point_south );
-    offsets.push_back( point_east );
-    offsets.push_back( point_south_east );
+    std::vector<point_rel_sm> offsets;
+    std::vector<tripoint_abs_sm> submap_addrs;
+    offsets.reserve( 4 );
+    submap_addrs.reserve( 4 );
+    offsets.push_back( point_rel_sm::zero );
+    offsets.push_back( point_rel_sm::south );
+    offsets.push_back( point_rel_sm::east );
+    offsets.push_back( point_rel_sm::south_east );
 
     bool all_uniform = true;
-    for( auto &offsets_offset : offsets ) {
-        tripoint submap_addr = omt_to_sm_copy( om_addr );
-        submap_addr.x += offsets_offset.x;
-        submap_addr.y += offsets_offset.y;
+    bool reverted_to_uniform = false;
+    bool file_exists = false;
+
+    std::optional<zzip> z;
+    cata_path zzip_name = dirname;
+    zzip_name += zzip_suffix;
+    // The number of uniform submaps is so enormous that the filesystem overhead
+    // for this step of just checking if the quad exists approaches 70% of the
+    // total cost of saving the mapbuffer, in one test save I had.
+    if( world_generator->active_world->has_compression_enabled() ) {
+        z = zzip::load( zzip_name.get_unrelative_path(),
+                        ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+        if( !z ) {
+            throw std::runtime_error( "Failed opening compressed save file " +
+                                      zzip_name.get_unrelative_path().generic_u8string() );
+        }
+        file_exists = z->has_file( filename.get_relative_path().filename() );
+    } else {
+        file_exists = std::filesystem::exists( filename.get_unrelative_path() );
+    }
+
+    for( point_rel_sm &offsets_offset : offsets ) {
+        tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
+        submap_addr += offsets_offset.raw(); // TODO: Make += etc. available to relative parameters as well.
         submap_addrs.push_back( submap_addr );
         submap *sm = submaps[submap_addr].get();
-        if( sm != nullptr && !sm->is_uniform ) {
-            all_uniform = false;
+        if( sm != nullptr ) {
+            if( !sm->is_uniform() ) {
+                all_uniform = false;
+            } else if( sm->reverted ) {
+                reverted_to_uniform = file_exists;
+            }
         }
     }
 
@@ -199,108 +289,164 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             }
         }
 
-        return;
+        // deleting the file might fail on some platforms in some edge cases so force serialize this
+        // uniform quad
+        if( !reverted_to_uniform ) {
+            return;
+        }
     }
 
-    // Don't create the directory if it would be empty
-    assure_dir_exist( dirname );
-    write_to_file( filename, [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-        jsout.start_array();
-        for( auto &submap_addr : submap_addrs ) {
-            if( submaps.count( submap_addr ) == 0 ) {
-                continue;
-            }
-
-            submap *sm = submaps[submap_addr].get();
-
-            if( sm == nullptr ) {
-                continue;
-            }
-
-            jsout.start_object();
-
-            jsout.member( "version", savegame_version );
-            jsout.member( "coordinates" );
-
-            jsout.start_array();
-            jsout.write( submap_addr.x );
-            jsout.write( submap_addr.y );
-            jsout.write( submap_addr.z );
-            jsout.end_array();
-
-            sm->store( jsout );
-
-            jsout.end_object();
-
-            if( delete_after_save ) {
-                submaps_to_delete.push_back( submap_addr );
-            }
+    std::stringstream stringout;
+    JsonOut jsout( stringout );
+    jsout.start_array();
+    for( auto &submap_addr : submap_addrs ) {
+        if( submaps.count( submap_addr ) == 0 ) {
+            continue;
         }
 
+        submap *sm = submaps[submap_addr].get();
+
+        if( sm == nullptr ) {
+            continue;
+        }
+
+        jsout.start_object();
+
+        jsout.member( "version", savegame_version );
+        jsout.member( "coordinates" );
+
+        jsout.start_array();
+        jsout.write( submap_addr.x() );
+        jsout.write( submap_addr.y() );
+        jsout.write( submap_addr.z() );
         jsout.end_array();
-    } );
+
+        sm->store( jsout );
+
+        jsout.end_object();
+
+        if( delete_after_save ) {
+            submaps_to_delete.push_back( submap_addr );
+        }
+    }
+
+    jsout.end_array();
+
+    std::string s = std::move( stringout ).str();
+
+    if( z ) {
+        z->add_file( filename.get_relative_path().filename(), s );
+    } else {
+        // Don't create the directory if it would be empty
+        assure_dir_exist( dirname );
+        write_to_file( filename, [&]( std::ostream & fout ) {
+            fout << s;
+        } );
+    }
+
+    if( all_uniform && reverted_to_uniform ) {
+        if( z ) {
+            z->delete_files( { filename.get_relative_path().filename() } );
+        } else {
+            std::filesystem::remove( filename.get_unrelative_path() );
+        }
+    }
+    if( z ) {
+        cata_path tmp_path = zzip_name + ".tmp";
+        if( z->compact_to( tmp_path.get_unrelative_path(), 2.0 ) ) {
+            z.reset();
+            rename_file( tmp_path, zzip_name );
+        }
+    }
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
 // seeking around in them, so we're using the json streaming API.
-submap *mapbuffer::unserialize_submaps( const tripoint &p )
+submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 {
     // Map the tripoint to the submap quad that stores it.
-    const tripoint om_addr = sm_to_omt_copy( p );
-    const std::string dirname = find_dirname( om_addr );
-    std::string quad_path = find_quad_path( dirname, om_addr );
+    const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
+    const cata_path dirname = find_dirname( om_addr );
+    std::string file_name = quad_file_name( om_addr );
+    std::filesystem::path file_name_path = std::filesystem::u8path( file_name );
+    cata_path quad_path = dirname / file_name;
 
-    if( !file_exist( quad_path ) ) {
-        // Fix for old saves where the path was generated using std::stringstream, which
-        // did format the number using the current locale. That formatting may insert
-        // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
-        // of "map/1234.7.8.map".
-        std::ostringstream buffer;
-        buffer << dirname << "/" << om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
-        if( file_exist( buffer.str() ) ) {
-            quad_path = buffer.str();
+    bool read = [&] {
+        if( world_generator->active_world->has_compression_enabled() )
+        {
+            cata_path zzip_name = dirname;
+            zzip_name += zzip_suffix;
+            if( !file_exist( zzip_name ) ) {
+                return false;
+            }
+
+            std::optional<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+            if( !z ) {
+                debugmsg( _fmt( "Failed to load submaps from {0}, could not open zzip.", zzip_name ) );
+                return false;
+            }
+            if( !z->has_file( file_name_path ) ) {
+                return false;
+            }
+            std::vector<std::byte> contents = z->get_file( file_name_path );
+            std::string_view string_contents{ reinterpret_cast<char *>( contents.data() ), contents.size() };
+            JsonValue jsin = json_loader::from_string( std::string( string_contents ) );
+            try {
+                deserialize( jsin );
+            } catch( std::exception &err ) {
+                debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), zzip_name.generic_u8string() + ":" + file_name,
+                          err.what() );
+                return false;
+            }
+            return true;
+        } else
+        {
+            return read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
+                deserialize( jsin );
+            } );
         }
+    }();
+
+    if( !read ) {
+        return nullptr;
     }
 
-    using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
-        // If it doesn't exist, trigger generating it.
-        return nullptr;
-    }
+    // fill in uniform submaps that were not serialized. Note that failure as a result of it
+    // not being uniform is OK and results in any missing uniform submaps being generated.
+    oter_id const oid = overmap_buffer.ter( om_addr );
+    generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );
     if( submaps.count( p ) == 0 ) {
-        debugmsg( "file %s did not contain the expected submap %d,%d,%d",
-                  quad_path, p.x, p.y, p.z );
-        return nullptr;
+        debugmsg( "file %s did not contain the expected submap %s for non-uniform terrain %s",
+                  quad_path.generic_u8string(), p.to_string(), oid.id().str() );
     }
+
     return submaps[ p ].get();
 }
 
-void mapbuffer::deserialize( JsonIn &jsin )
+void mapbuffer::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject submap_json : ja ) {
         std::unique_ptr<submap> sm = std::make_unique<submap>();
-        tripoint submap_coordinates;
-        jsin.start_object();
+        tripoint_abs_sm submap_coordinates;
         int version = 0;
-        while( !jsin.end_object() ) {
-            std::string submap_member_name = jsin.get_member_name();
-            if( submap_member_name == "version" ) {
-                version = jsin.get_int();
-            } else if( submap_member_name == "coordinates" ) {
-                jsin.start_array();
-                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
-                jsin.end_array();
+        // We have to read version first because the iteration order of json members is undefined.
+        if( submap_json.has_int( "version" ) ) {
+            version = submap_json.get_int( "version" );
+        }
+        for( JsonMember submap_member : submap_json ) {
+            std::string submap_member_name = submap_member.name();
+            if( submap_member_name == "coordinates" ) {
+                JsonArray coords_array = submap_member;
+                tripoint_abs_sm loc{ coords_array.next_int(), coords_array.next_int(), coords_array.next_int() };
                 submap_coordinates = loc;
             } else {
-                sm->load( jsin, submap_member_name, version );
+                sm->load( submap_member, submap_member_name, version );
             }
         }
 
         if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was already loaded", submap_coordinates.x, submap_coordinates.y,
-                      submap_coordinates.z );
+            debugmsg( "submap %s was already loaded", submap_coordinates.to_string() );
         }
     }
 }

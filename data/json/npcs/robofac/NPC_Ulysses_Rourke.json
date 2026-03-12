@@ -36,21 +36,9 @@
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "smg", "bonus": { "rng": [ 2, 6 ] } }
     ],
-    "bionics": [
-      { "id": "bio_targeting", "chance": 100 },
-      { "id": "bio_memory", "chance": 100 },
-      { "id": "bio_armor_arms", "chance": 100 },
-      { "id": "bio_armor_legs", "chance": 100 },
-      { "id": "bio_hydraulics", "chance": 100 },
-      { "id": "bio_cqb", "chance": 100 },
-      { "id": "bio_metabolics", "chance": 100 },
-      { "id": "bio_str_enhancer", "chance": 100 },
-      { "id": "bio_blade", "chance": 100 },
-      { "id": "bio_power_storage", "chance": 100 },
-      { "id": "bio_torsionratchet", "chance": 100 }
-    ],
     "carry_override": "NC_robofac_security_head_misc",
-    "worn_override": "NC_robofac_security_head_worn"
+    "worn_override": "NC_robofac_security_head_worn",
+    "weapon_override": "NC_robofac_security_head_weapon"
   },
   {
     "type": "item_group",
@@ -60,23 +48,19 @@
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "rm13_armor" },
-      { "item": "goggles_nv" },
-      { "item": "holster", "prob": 50 },
+      { "item": "legrig", "count": 2 },
       { "item": "tacvest" }
     ]
   },
   {
     "type": "item_group",
+    "id": "NC_robofac_security_head_weapon",
+    "items": [ { "item": "fn_p90", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_robofac_security_head_misc",
     "subtype": "collection",
-    "entries": [
-      { "item": "grenade_emp" },
-      { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
-      { "item": "goggles_nv" },
-      { "item": "flashbang", "count": 2 },
-      { "item": "plut_cell", "count": 5 },
-      { "item": "5x50_100_mag", "count": 2, "charges": 100, "ammo-item": "5x50heavy" },
-      { "item": "5x50heavy", "count": 8 }
-    ]
+    "entries": [ { "item": "flashbang", "count": 2 }, { "item": "fnp90mag", "count": 3, "charges": 50 } ]
   }
 ]

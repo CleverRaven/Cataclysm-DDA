@@ -1,0 +1,55 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TERMITES",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_nymph", "weight": 4, "cost_multiplier": 0 },
+      { "monster": "mon_termite_alate", "weight": 4, "cost_multiplier": 0 },
+      { "monster": "mon_termite_soldier", "weight": 9, "cost_multiplier": 5 },
+      { "monster": "mon_termite_shooter", "weight": 9, "cost_multiplier": 5 },
+      { "monster": "mon_termite_worker", "weight": 87, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TERMITE_SURFACE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_shooter", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_alate", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_termite_worker", "weight": 852, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TERMITE_ALATE",
+    "default": "mon_termite_queen",
+    "monsters": [ { "monster": "mon_termite_king" }, { "monster": "mon_termite_queen" } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_TERMITE",
+    "default": "mon_termite_soldier",
+    "monsters": [
+      { "monster": "mon_termite_soldier", "weight": 35 },
+      { "monster": "mon_termite_shooter", "weight": 35 },
+      { "monster": "mon_termite_alate", "weight": 30, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SCORPION",
+    "monsters": [ { "monster": "mon_large_scorpion", "ends": "180 days" }, { "monster": "mon_scorpion_giant", "starts": "120 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_ONICOPHORE",
+    "monsters": [
+      { "monster": "mon_onicophore_small", "weight": 5, "ends": "180 days" },
+      { "monster": "mon_onicophore", "weight": 5, "starts": "120 days" },
+      { "monster": "mon_onicophore_giant", "weight": 2, "starts": "288 days" }
+    ]
+  }
+]

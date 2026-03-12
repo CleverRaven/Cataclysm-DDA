@@ -1,0 +1,8 @@
+[
+  {
+    "copy-from": "defense_mode_fortified",
+    "type": "scenario",
+    "extend": { "allowed_locs": [ "sloc_lake_retreat" ] },
+    "id": "defense_mode_fortified"
+  }
+]

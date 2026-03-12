@@ -1,0 +1,22 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "mutagen",
+    "replace": "purifier"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mutagen",
+    "replace": "iv_purifier"
+  },
+  {
+    "type": "recipe",
+    "result": "purifier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "iv_purifier",
+    "obsolete": true
+  }
+]

@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_roots" ],
-    "weight": 100,
+    "om_terrain": "triffid_roots",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -39,9 +37,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootss" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootss",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -71,15 +67,13 @@
         "PP.....PPPPPPPPP...PPPPP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootsn" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsn",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -109,15 +103,13 @@
         ">>>>>>>>>>>>>>>>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootse" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootse",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -147,15 +139,13 @@
         "P....PPPPPPPPPPPP>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootsw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -185,7 +175,7 @@
         ">>>>>>>PPPPPPPPPPP....PP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "furniture": { "O": "f_midden" },
       "items": {
         "O": [
@@ -199,9 +189,7 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootsen" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsen",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -231,15 +219,13 @@
         ">>>>>>>>>>>>>PP>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootsnw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsnw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -269,15 +255,13 @@
         ">>>>>>>>>>P>>>>>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootssw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootssw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -307,19 +291,16 @@
         ">>>>>>>PP.T.PPPPPPPPPPPP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_rootsse" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsse",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
-        ">>>>>>>>>>>>>>>>>>>>>>>>",
         ">>>>>>>>>>>>>>>>>>>>>>>>",
         ">>>>>>>>>>>>>>>>>>>>>>>>",
         ">>>>>>>>>>>>>>>>>>>>>>>>",
@@ -346,7 +327,7 @@
         "PPPPPPPPPP.PPPPP>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   }

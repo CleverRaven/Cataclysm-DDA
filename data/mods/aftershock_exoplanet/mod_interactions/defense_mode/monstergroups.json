@@ -1,0 +1,18 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "AFS_GROUP_DM",
+    "monsters": [
+      { "monster": "mon_moxie_scavenger_dm", "weight": 350, "cost_multiplier": 1 },
+      { "monster": "mon_moxie_regenerator_dm", "weight": 200, "cost_multiplier": 1 },
+      { "monster": "mon_moxie_grabby_dm", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_human_biomachine_dm", "weight": 50, "cost_multiplier": 1 },
+      { "monster": "afs_titanis_dm", "weight": 350, "cost_multiplier": 0 },
+      { "monster": "afs_venandi_dm", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "afs_mon_boatman_dm", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_upliftedbear_dm", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed_dm", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_upliftedoctopus_dm", "weight": 1, "cost_multiplier": 10 }
+    ]
+  }
+]

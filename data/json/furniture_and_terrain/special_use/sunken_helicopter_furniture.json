@@ -1,0 +1,122 @@
+[
+  {
+    "id": "t_sunkenhelicopter_floor",
+    "copy-from": "t_scrap_floor",
+    "type": "terrain",
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ] },
+    "name": "waterlogged aisle",
+    "description": "A waterlogged aisle.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "connect_groups": [ "INDOORFLOOR", "MULCHFLOOR" ]
+  },
+  {
+    "id": "t_sunkenhelicopter_floor_rotator",
+    "copy-from": "t_sunkenhelicopter_floor",
+    "type": "terrain",
+    "connect_groups": [ "INDOORFLOOR", "MULCHFLOOR" ]
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_nw",
+    "copy-from": "t_scrap_wall",
+    "type": "terrain",
+    "name": "waterlogged board",
+    "description": "A waterlogged metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable."
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_ne",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_w",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_e",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_s",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_sw",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_wall_se",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_wall_nw"
+  },
+  {
+    "id": "t_sunkenhelicopter_quarterpanel_n_middle",
+    "copy-from": "t_drystone_wall_half",
+    "type": "terrain",
+    "name": "waterlogged quarterpanel",
+    "description": "A waterlogged half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "lc_steel_chunk", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "id": "t_sunkenhelicopter_quarterpanel_n_left",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_quarterpanel_n_middle"
+  },
+  {
+    "id": "t_sunkenhelicopter_quarterpanel_n_right",
+    "type": "terrain",
+    "copy-from": "t_sunkenhelicopter_quarterpanel_n_middle"
+  },
+  {
+    "id": "t_sunkenhelicopter_windshield_n",
+    "copy-from": "t_window",
+    "type": "terrain",
+    "name": "waterlogged windshield",
+    "description": "A waterlogged sheet of glass that lets you see outside the vehicle.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "shoot": { "reduce_damage": [ 1, 4 ], "reduce_damage_laser": [ 0, 4 ], "destroy_damage": [ 1, 4 ], "no_laser_destroy": true }
+  },
+  {
+    "id": "t_sunkenhelicopter_frame",
+    "copy-from": "t_junk_floor",
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ] },
+    "type": "terrain",
+    "name": "waterlogged frame",
+    "description": "A waterlogged metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_sunkenhelicopter_seat_rotating",
+    "name": "waterlogged bucket seat",
+    "description": "A waterlogged soft upholstered car seat, contoured to hold one person.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable.",
+    "copy-from": "f_armchair",
+    "rotates_to": "MULCHFLOOR"
+  },
+  {
+    "id": "t_sunkenhelicopter_roof",
+    "copy-from": "t_sunkenhelicopter_floor",
+    "extend": { "flags": [ "LIQUID", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ] },
+    "type": "terrain",
+    "name": "waterlogged roof",
+    "description": "A waterlogged metal roof.  Absolutely unrecoverable."
+  },
+  {
+    "id": "t_sunkenhelicopter_rotor",
+    "copy-from": "t_sunkenhelicopter_floor",
+    "type": "terrain",
+    "name": "waterlogged heavy-duty military Blackhawk rotors",
+    "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.  It has started to degrade after some time spent underwater.  Absolutely unrecoverable."
+  }
+]

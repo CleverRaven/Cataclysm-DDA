@@ -1,0 +1,6 @@
+[
+  {
+    "type": "oter_id_migration",
+    "oter_ids": { "termites_fungus": "termites_food" }
+  }
+]

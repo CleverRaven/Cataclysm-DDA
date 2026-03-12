@@ -1,0 +1,59 @@
+[
+  {
+    "type": "palette",
+    "id": "afs_tunnel_any",
+    "palettes": [ "afs_tunnel", { "distribution": [ [ "afs_tunnel_volcanic", 1 ], [ "afs_tunnel_forested", 1 ] ] } ]
+  },
+  {
+    "type": "palette",
+    "id": "afs_tunnel",
+    "terrain": { "#": "t_ice_wall", "'": "t_open_air", ".": "t_rock_floor", "0": [ [ "t_rock", 5 ], [ "t_rock_floor_no_roof", 5 ] ] }
+  },
+  {
+    "type": "palette",
+    "id": "afs_tunnel_volcanic",
+    "terrain": {
+      "w": "t_water_hot",
+      "W": "t_water_hot",
+      ",": [ [ "t_basaltfloor", 5 ], [ "t_lichen", 1 ], [ "t_lichendirt", 1 ] ],
+      "s": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
+      "I": [ [ "t_fumarole", 5 ], [ "t_basalt_wall", 5 ], [ "t_lichenyum", 1 ], [ "t_basaltfloor", 5 ] ]
+    },
+    "furniture": {
+      "s": [ [ "f_basaltspike", 5 ], [ "f_null", 5 ] ],
+      "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ],
+      "W": "f_clear",
+      "w": "f_clear"
+    },
+    "mapping": {
+      "*": {
+        "terrain": [ [ "t_null", 40 ], [ "t_basaltfloor", 5 ], [ "t_lichen", 4 ], [ "t_lichendirt", 5 ] ],
+        "furniture": [ [ "f_basaltspike", 10 ], [ "f_null", 200 ], [ "f_geo_vent", 1 ] ]
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_tunnel_forested",
+    "terrain": {
+      "w": "t_water_hot",
+      "W": "t_water_hot",
+      ",": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
+      "s": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
+      "F": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
+      "I": [ [ "t_tree_worm", 5 ], [ "t_tree_lichen", 5 ], [ "t_lichenyum", 5 ], [ "t_lichendirt", 5 ] ]
+    },
+    "furniture": {
+      "s": [ [ "f_shrub_moss", 5 ], [ "f_null", 5 ] ],
+      "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ],
+      "W": "f_clear",
+      "w": "f_clear"
+    },
+    "mapping": {
+      "*": {
+        "terrain": [ [ "t_null", 40 ], [ "t_lichen", 5 ], [ "t_lichendirt", 15 ] ],
+        "furniture": [ [ "f_shrub_moss", 20 ], [ "f_null", 120 ], [ "f_geo_vent", 1 ] ]
+      }
+    }
+  }
+]

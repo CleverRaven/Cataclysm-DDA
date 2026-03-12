@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildPresets": [
+    {
+      "name": "@BUILD_PRESET_NAME@",
+      "configurePreset": "@CONFIGURE_PRESET@",
+      "environment": {
+        @_MSVC_DEVENV@
+      },
+      "configuration": "@CMAKE_BUILD_TYPE@",
+      "verbose": true
+    }
+  ]
+}

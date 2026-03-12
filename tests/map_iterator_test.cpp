@@ -1,23 +1,27 @@
-#include "cata_catch.h"
-
 #include <algorithm>
 #include <array>
+#include <cstddef>
+#include <functional>
+#include <vector>
 
+#include "cata_catch.h"
 #include "coordinates.h"
+#include "line.h"
 #include "map_iterator.h"
 #include "point.h"
 
 static std::array<tripoint, 9> range_1_2d_centered = {
-    {   {tripoint_north_west}, { tripoint_north}, { tripoint_north_east},
-        {tripoint_west}, { tripoint_zero}, { tripoint_east},
-        {tripoint_south_west}, { tripoint_south}, { tripoint_south_east}
+    {   {tripoint::north_west}, {tripoint::north}, {tripoint::north_east},
+        {tripoint::west}, {tripoint::zero}, {tripoint::east},
+        {tripoint::south_west}, {tripoint::south}, {tripoint::south_east}
     }
 };
 
-TEST_CASE( "Radius one 2D square centered at origin." )
+TEST_CASE( "Radius_one_2D_square_centered_at_origin", "[tripoint_range]" )
 {
-    for( const tripoint &candidate :
-         tripoint_range<tripoint>( tripoint_north_west, tripoint_south_east ) ) {
+    tripoint_range<tripoint> tested( tripoint::north_west, tripoint::south_east );
+    REQUIRE( tested.size() == range_1_2d_centered.size() );
+    for( const tripoint &candidate : tested ) {
         REQUIRE( std::find( range_1_2d_centered.begin(), range_1_2d_centered.end(), candidate ) !=
                  range_1_2d_centered.end() );
     }
@@ -30,18 +34,21 @@ static std::array<tripoint, 9> range_1_2d_offset = {
     }
 };
 
-TEST_CASE( "Radius one 2D square centered at -4/-4/0." )
+TEST_CASE( "Radius_one_2D_square_centered_at_-4/-4/0", "[tripoint_range]" )
 {
-    for( const tripoint &candidate : tripoint_range<tripoint>( {-5, -5, 0}, {-3, -3, 0} ) ) {
+    tripoint_range<tripoint> tested( {-5, -5, 0}, {-3, -3, 0} );
+    REQUIRE( tested.size() == range_1_2d_offset.size() );
+    for( const tripoint &candidate : tested ) {
         REQUIRE( std::find( range_1_2d_offset.begin(), range_1_2d_offset.end(), candidate ) !=
                  range_1_2d_offset.end() );
     }
 }
 
-TEST_CASE( "Radius one 2D square centered at -4/-4/0 in abs_omt coords." )
+TEST_CASE( "Radius_one_2D_square_centered_at_-4/-4/0_in_abs_omt_coords", "[tripoint_range]" )
 {
-    for( const tripoint_abs_omt &candidate :
-         tripoint_range<tripoint_abs_omt>( {-5, -5, 0}, {-3, -3, 0} ) ) {
+    tripoint_range<tripoint_abs_omt> tested( {-5, -5, 0}, {-3, -3, 0} );
+    REQUIRE( tested.size() == range_1_2d_offset.size() );
+    for( const tripoint_abs_omt &candidate : tested ) {
         REQUIRE( std::find( range_1_2d_offset.begin(), range_1_2d_offset.end(), candidate.raw() ) !=
                  range_1_2d_offset.end() );
     }
@@ -106,10 +113,185 @@ static std::array<tripoint, 343> range_3_3d_offset = {
     }
 };
 
-TEST_CASE( "Radius three 3D square centered at 8/8/1." )
+TEST_CASE( "Radius_three_3D_square_centered_at_8/8/1", "[tripoint_range]" )
 {
-    for( const tripoint &candidate : tripoint_range<tripoint>( {5, 5, -2}, {11, 11, 4} ) ) {
+    tripoint_range<tripoint> tested( {5, 5, -2}, {11, 11, 4} );
+    REQUIRE( tested.size() == range_3_3d_offset.size() );
+    for( const tripoint &candidate : tested ) {
         REQUIRE( std::find( range_3_3d_offset.begin(), range_3_3d_offset.end(), candidate ) !=
                  range_3_3d_offset.end() );
     }
+}
+
+TEST_CASE( "tripoint_range_iteration_order", "[tripoint_range]" )
+{
+    tripoint_range<tripoint> tested( tripoint( 4, 4, 0 ), tripoint( 6, 6, 0 ) );
+    std::vector<tripoint> expected = {
+        { 4, 4, 0 }, { 5, 4, 0 }, { 6, 4, 0 },
+        { 4, 5, 0 }, { 5, 5, 0 }, { 6, 5, 0 },
+        { 4, 6, 0 }, { 5, 6, 0 }, { 6, 6, 0 }
+    };
+    REQUIRE( tested.size() == expected.size() );
+    int i = 0;
+    for( const tripoint &pt : tested ) {
+        CHECK( pt == expected[i] );
+        ++i;
+    }
+}
+
+// Using static functions instead of lambdas to suppress -Wmaybe-uninitialized
+// false positives triggered by lambda's implicit anonymous data structure in
+// debug builds
+static bool tripoint_range_handle_bad_predicates_test_func( const tripoint & )
+{
+    return false;
+}
+
+TEST_CASE( "tripoint_range_handle_bad_predicates", "[tripoint_range]" )
+{
+    tripoint_range<tripoint> tested( tripoint( 4, 4, 0 ), tripoint( 6, 6, 0 ),
+                                     tripoint_range_handle_bad_predicates_test_func );
+    REQUIRE( tested.empty() );
+    int visited = 0;
+    for( const tripoint &pt : tested ) {
+        INFO( pt );
+        REQUIRE( false );
+        ++visited;
+    }
+    CHECK( visited == 0 );
+}
+
+TEST_CASE( "tripoint_range_circle_order", "[tripoint_range]" )
+{
+    const tripoint center( 6, 6, 0 );
+    tripoint_range<tripoint> range_test( tripoint( 4, 4, 0 ), tripoint( 8, 8,
+    0 ), [center]( const tripoint & pt ) {
+        return trig_dist( center, pt ) < 2.5;
+    } );
+    tripoint_range<tripoint> radius_test = points_in_radius_circ( center, 2 );
+    std::vector<tripoint> expected = {
+        { 5, 4, 0 }, { 6, 4, 0 }, { 7, 4, 0 },
+        { 4, 5, 0 }, { 5, 5, 0 }, { 6, 5, 0 }, { 7, 5, 0 }, { 8, 5, 0 },
+        { 4, 6, 0 }, { 5, 6, 0 }, center, { 7, 6, 0 }, { 8, 6, 0 },
+        { 4, 7, 0 }, { 5, 7, 0 }, { 6, 7, 0 }, { 7, 7, 0 }, { 8, 7, 0 },
+        { 5, 8, 0 }, { 6, 8, 0 }, { 7, 8, 0 },
+    };
+    REQUIRE( range_test.size() == expected.size() );
+    REQUIRE( radius_test.size() == expected.size() );
+    size_t range = 0;
+    size_t radius = 0;
+    for( const tripoint &pt : range_test ) {
+        CHECK( pt == expected[range] );
+        ++range;
+    }
+    for( const tripoint &pt : radius_test ) {
+        CHECK( pt == expected[radius] );
+        ++radius;
+    }
+    CHECK( range == expected.size() );
+    CHECK( radius == expected.size() );
+}
+
+TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
+{
+    /* 0:
+     * ...
+     * .x.
+     * ...
+     */
+    CHECK( points_in_radius_circ( tripoint::zero, 0 ).size() == 1 );
+    /* 1:
+     * xxx
+     * xxx
+     * xxx
+     */
+    CHECK( points_in_radius_circ( tripoint::zero, 1 ).size() == 9 );
+    /* 2:
+     * .xxx.
+     * xxxxx
+     * xxxxx
+     * xxxxx
+     * .xxx.
+     */
+    CHECK( points_in_radius_circ( tripoint::zero, 2 ).size() == 21 );
+    /* 3:
+     * ..xxx..
+     * .xxxxx.
+     * xxxxxxx
+     * xxxxxxx
+     * xxxxxxx
+     * .xxxxx.
+     * ..xxx..
+     */
+    CHECK( points_in_radius_circ( tripoint::zero, 3 ).size() == 37 );
+    /* 4:
+     * ..xxxxx..
+     * .xxxxxxx.
+     * xxxxxxxxx
+     * xxxxxxxxx
+     * xxxxxxxxx
+     * xxxxxxxxx
+     * xxxxxxxxx
+     * .xxxxxxx.
+     * ..xxxxx..
+     */
+    CHECK( points_in_radius_circ( tripoint::zero, 4 ).size() == 69 );
+}
+
+// Using static functions instead of lambdas to suppress -Wmaybe-uninitialized
+// false positives triggered by lambda's implicit anonymous data structure in
+// debug builds
+static bool tripoint_range_predicates_radius_test_func( const tripoint &pt )
+{
+    return pt.z < 0;
+}
+
+TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
+{
+    tripoint_range<tripoint> tested = points_in_radius_where( tripoint::zero, 2,
+                                      tripoint_range_predicates_radius_test_func, 2 );
+    std::vector<tripoint> expected = {
+        { -2, -2, -2 }, { -1, -2, -2 }, { 0, -2, -2 }, { 1, -2, -2 }, { 2, -2, -2 },
+        { -2, -1, -2 }, { -1, -1, -2 }, { 0, -1, -2 }, { 1, -1, -2 }, { 2, -1, -2 },
+        { -2,  0, -2 }, { -1,  0, -2 }, { 0,  0, -2 }, { 1,  0, -2 }, { 2,  0, -2 },
+        { -2,  1, -2 }, { -1,  1, -2 }, { 0,  1, -2 }, { 1,  1, -2 }, { 2,  1, -2 },
+        { -2,  2, -2 }, { -1,  2, -2 }, { 0,  2, -2 }, { 1,  2, -2 }, { 2,  2, -2 },
+
+        { -2, -2, -1 }, { -1, -2, -1 }, { 0, -2, -1 }, { 1, -2, -1 }, { 2, -2, -1 },
+        { -2, -1, -1 }, { -1, -1, -1 }, { 0, -1, -1 }, { 1, -1, -1 }, { 2, -1, -1 },
+        { -2,  0, -1 }, { -1,  0, -1 }, tripoint::below, { 1,  0, -1 }, { 2,  0, -1 },
+        { -2,  1, -1 }, { -1,  1, -1 }, { 0,  1, -1 }, { 1,  1, -1 }, { 2,  1, -1 },
+        { -2,  2, -1 }, { -1,  2, -1 }, { 0,  2, -1 }, { 1,  2, -1 }, { 2,  2, -1 },
+    };
+    REQUIRE( tested.size() == expected.size() );
+    size_t i = 0;
+    for( const tripoint &pt : tested ) {
+        CHECK( pt == expected[i] );
+        ++i;
+    }
+    CHECK( i == tested.size() );
+}
+
+// Using static functions instead of lambdas to suppress -Wmaybe-uninitialized
+// false positives triggered by lambda's implicit anonymous data structure in
+// debug builds
+static bool tripoint_range_predicates_test_func( const tripoint &pt )
+{
+    return pt.x == 0;
+}
+
+TEST_CASE( "tripoint_range_predicates", "[tripoint_range]" )
+{
+    tripoint_range<tripoint> tested( tripoint::north_west, tripoint::south_east,
+                                     tripoint_range_predicates_test_func );
+    std::vector<tripoint> expected = {
+        tripoint::north, tripoint::zero, tripoint::south
+    };
+    REQUIRE( tested.size() == expected.size() );
+    size_t i = 0;
+    for( const tripoint &pt : tested ) {
+        CHECK( pt == expected[i] );
+        ++i;
+    }
+    CHECK( i == tested.size() );
 }

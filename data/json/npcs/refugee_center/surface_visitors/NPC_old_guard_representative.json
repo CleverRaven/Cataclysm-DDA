@@ -20,9 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -32,8 +30,58 @@
       { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
       { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      {
+        "text": "I've got some questions for you about those weird robots.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_1",
+        "condition": {
+          "or": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "encountered_base", { "u_val": "factional_questline_mission_oldguard-exodii" } ] }
+          ]
+        }
+      },
+      {
+        "text": "I think I can already tell you what you want to know about those 'robots'.",
+        "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
+        }
+      },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      {
+        "text": "I wanted to ask you something about that offer.",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "found_sunken_helicopter" } ] } },
+            { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "effect": [ { "u_add_var": "sunken_helicopter_tip_offer", "value": "yes" } ],
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_representative" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] } }
+          ]
+        },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_0"
+      },
+      {
+        "text": "<end_talking_bye>",
+        "condition": {
+          "or": [
+            { "not": { "compare_string": [ "yes", { "u_val": "proven_worth_to_old_guard_representative" } ] } },
+            { "compare_string": [ "yes", { "u_val": "sunken_helicopter_tip_offer" } ] }
+          ]
+        },
+        "topic": "TALK_DONE"
+      }
     ],
     "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
   },
@@ -59,7 +107,10 @@
   {
     "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
     "type": "talk_topic",
-    "dynamic_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+    "dynamic_line": {
+      "gendered_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
@@ -91,11 +142,50 @@
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
+    "id": "TALK_OLD_GUARD_REP_EXODII_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      {
+        "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_2",
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_EXODII_2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to one of the teamsters for the Free Merchants.  Maybe that's a way we could establish some friendlier relationships.",
+    "responses": [
+      { "text": "Good idea.  I'll go do that.", "topic": "TALK_DONE" },
+      { "text": "Huh, maybe.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, well.  In that case, I would be interested in hearing what you know about them.  I can relay it to command.  Let's see what I have to trade… how about some antibiotics from our stores?  You can never have too many of them out there.",
+    "responses": [
+      {
+        "text": "Yeah, I've met them.  They seem open to trade and things.  Not hostile, at least not to me.",
+        "topic": "TALK_OLD_GUARD_REP_EXODII_2",
+        "effect": [ { "u_spawn_item": "antibiotics" }, "mission_success", "clear_mission" ]
+      },
+      { "text": "I'll have to think about it.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
-    "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
+    "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1",
@@ -103,8 +193,8 @@
     "dynamic_line": "It's your lucky day: I just made contact with a couple volunteers like yourself, and that's exactly the sort of project I can put them to.",
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1 += 2" ] }
       ]
     },
     "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
@@ -118,18 +208,20 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
       "update_mapgen": {
         "set": [
-          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 0, "y": 11 }
         ],
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }
     },
+    "end": { "effect": [ { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
       "describe": "We need help…",
@@ -161,6 +253,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -177,6 +270,35 @@
   {
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
+    "name": { "str": "Find Source of Robots" },
+    "description": "Go to the supposed source of the weird robots marked on your map and report back to the Old Guard representative what you've seen.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "missions_old_guard_u_scouted_exodii" } ] },
+    "difficulty": 2,
+    "value": 10000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5 },
+      "effect": [ { "math": [ "old_guard_rep_scouting = 1" ] } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "Got a weird one for you this time…",
+      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.  Report back to me when you've found out something.",
+      "accepted": "Thanks, once you know who it is, report back to me and I'll pass that on.",
+      "rejected": "Come back when you get a chance, if there's any chance these things are on our side, we need all the help we can get.",
+      "advice": "If you see any weird machines around, do not engage.  Sneak away, I'd say.  They seem to be hostile to zombies, but that doesn't mean they can tell you aren't one.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
+      "failure": "Damn… let's hope we can try again sometime."
+    },
+    "end": { "effect": [ { "u_add_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" } ] }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_4",
+    "type": "mission_definition",
     "name": { "str": "Secure Trade Route" },
     "description": "One of the Free Merchants silently disappeared while escorting a trade caravan.  Whoever or whatever is responsible must be quick and quiet - investigate the trade route and eliminate the threat.",
     "goal": "MGOAL_KILL_MONSTER",
@@ -185,14 +307,12 @@
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
-        "place_monster": [
-          { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
-          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
-        ]
+        "place_monster": [ { "monster": "mon_spider_trapdoor_small", "x": 12, "y": 12, "target": true, "repeat": [ 3, 5 ] } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_OLD_GUARD_REP_4",
+    "has_generic_rewards": false,
+    "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
       "offer": "There is another monster troubling the merchants but this time it isn't human… at least I don't think.  Guy just disappeared while walking behind a packed caravan.  They didn't hear any shots but I suppose some raider may have been real sneaky.  Check out the area and report anything you find.",
@@ -206,7 +326,7 @@
     }
   },
   {
-    "id": "MISSION_OLD_GUARD_REP_4",
+    "id": "MISSION_OLD_GUARD_REP_5",
     "type": "mission_definition",
     "name": { "str": "Assassinate Raider Leader" },
     "description": "The Old Guard have located a Hell's Raiders encampment that is coordinating attacks on the Free Merchants.  Pay them a visit and execute the area leadership.",
@@ -214,33 +334,249 @@
     "difficulty": 10,
     "value": 300000,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "bandit_camp_1",
-        "om_special": "bandit_camp",
-        "reveal_radius": 1,
-        "min_distance": 10,
-        "search_range": 120
-      },
+      "assign_mission_target": { "om_terrain": "bandit_camp_1", "om_special": "bandit_camp", "reveal_radius": 1, "min_distance": 10 },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
-        { "u_buy_item": "ruger_redhawk" },
-        { "u_buy_item": "44magnum", "count": 17 },
-        { "u_buy_item": "holster" },
-        { "u_buy_item": "badge_marshal" },
+        { "u_spawn_item": "sw629" },
+        { "u_spawn_item": "44magnum", "count": 17 },
+        { "u_spawn_item": "western_holster" },
+        { "u_spawn_item": "badge_marshal" },
         { "u_add_trait": "PROF_FED" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dialogue": {
       "describe": "We need help…",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
-      "accepted": "Now repeat after me…  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic…… that I will bear true faith and allegiance to the same…… that I take this obligation freely, without any mental reservation or purpose of evasion…… and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
+      "accepted": "Now repeat after me… I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic… that I will bear true faith and allegiance to the same… that I take this obligation freely, without any mental reservation or purpose of evasion… and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies… it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.  We may have some hope of long term survival yet thanks to you.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REPEATER_BEGIN",
+    "type": "mission_definition",
+    "name": { "str": "Install radio repeater mod" },
+    "description": "The Old Guard wishes to expand their range of communications to get in touch with other survivors in the Wasteland.  Find a Radio Station and install a repeater mod via its terminal.",
+    "goal": "MGOAL_COMPUTER_TOGGLE",
+    "difficulty": 5,
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_OLD_GUARD_REPEATER",
+    "dialogue": {
+      "describe": "I don't need anything major for now, Marshal.  Well, except…",
+      "offer": "For now, the perimeter of the Refugee Center is free of threats.  That means we can afford to divert our attention to others in need of help.  However, our communication with the wasteland is lacking at best and nonexistent at worst.  We need to broaden our reach to intercept and send radio broadcasts.  Unfortunately Radio Towers are out of the question to widen our broadcasts, as the emergency grid for them is out of action.  However, Radio Stations in towns or urban areas should still have some juice left.  I want you to install something called a \"radio repeater mod\" in these stations that can broaden their reach and allow them to pick weaker signals.  Sadly, I have neither these devices nor a manual for them at my disposal.  You'll need to find instructions and assemble them yourself.  Are you up for this task?",
+      "accepted": "As I said, I have no repeaters or manuals at my disposal.  But you might want to try you chances in Libraries or maybe other survivors.  Godspeed, Marshal.",
+      "rejected": "Come back when you get a chance Marshal.  We really need get in touch with rest of the region.",
+      "advice": "As I recommended, libraries would be a good start.  Or any place that sells books and manuals, really.",
+      "inquire": "Have you set up a repeater yet, Marshal?",
+      "success": "Thank you for the good work, Marshal.  It's not much but please accept these supplies to compensate.  Come back to me if you are willing to install more.",
+      "success_lie": "Huh; that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
+      "failure": "That's a damn shame…  You can come back anytime if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
+        { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
+        { "u_spawn_item": "bandages", "count": 5 },
+        { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
+        { "u_spawn_item": "556", "container": "box_small", "count": 60 },
+        { "u_spawn_item": "FMCNote", "count": 25 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REPEATER",
+    "type": "mission_definition",
+    "name": { "str": "Install radio repeater mod" },
+    "description": "The Old Guard wishes to expand their range of communications to get in touch with other survivors in the Wasteland.  Find a Radio Station and install a repeater mod via its terminal.",
+    "goal": "MGOAL_COMPUTER_TOGGLE",
+    "difficulty": 5,
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_OLD_GUARD_REPEATER",
+    "dialogue": {
+      "describe": "We need more help…",
+      "offer": "We need more repeaters to expand our range and ability of our communications.  You know the drill Marshal, find or assemble a radio repeater mod and set it up in a Radio Station.  Radio Towers are still off the table.",
+      "accepted": "Stay safe, Marshal.",
+      "rejected": "Come back when you get a chance Marshal.  We really need get in touch with rest of the region.",
+      "advice": "You can find the Radio Stations in towns or urban centers.  I still have no repeater mod available Marshal.  However you can craft one yourself, if you find the manual.  Try libraries or bookstores if you still don't have one.",
+      "inquire": "Have you set up a repeater yet, Marshal?",
+      "success": "Good work, Marshal.  Here's some supplies for your next venture.  Come back to me if you are willing to install more.",
+      "success_lie": "Huh, that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
+      "failure": "Oh well, you can try again anytime."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
+        { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
+        { "u_spawn_item": "bandages", "count": 5 },
+        { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
+        { "u_spawn_item": "556", "container": "box_small", "count": 60 },
+        { "u_spawn_item": "FMCNote", "count": 25 }
+      ]
+    }
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_0",
+    "type": "talk_topic",
+    "dynamic_line": "Wait.  Before you go, I got an offer for you if you're interested.",
+    "responses": [
+      { "text": "What is it?", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB",
+    "type": "talk_topic",
+    "dynamic_line": "I'm listening.",
+    "responses": [
+      {
+        "text": "Tell me about it.",
+        "condition": { "not": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1"
+      },
+      {
+        "text": "Anything else I should know?",
+        "condition": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_DANGER"
+      },
+      {
+        "text": "Tell me about the cargo.",
+        "condition": { "u_has_mission": "MISSION_FIND_SUNKEN_HELICOPTER" },
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0"
+      },
+      { "text": "Never mind…", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_1",
+    "type": "talk_topic",
+    "dynamic_line": "A helicopter crashed in the region not long ago, at first I thought it was just a rumor, caravan guards talking about some crash nearby, but then I got a visit from a couple of Old Guard people looking for a lost helicopter, one of them got quite drunk one night and shared some interesting details, turns out it was an Old Guard heli coming back from way out west with quite the cargo, and I know where you can find it.  That's all you're getting for free though, I'd like to see some return on investment on that bottle you understand.",
+    "responses": [
+      { "text": "I'm not buying anything without some proof.", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_PROOF" },
+      {
+        "text": "Why sell the info instead of retrieving the cargo yourself?  What happened to the old guard investigation?  How can you be sure that it wasn't looted already?  This sounds sketchy as hell.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_SKETCHY"
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 50 } },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 50 }, { "assign_mission": "MISSION_FIND_SUNKEN_HELICOPTER" } ],
+        "text": "[50 merch] Fine.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_2",
+        "failure_explanation": "You don't have enough.",
+        "failure_topic": "TALK_DONE"
+      },
+      { "text": "Never mind…", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_PROOF",
+    "type": "talk_topic",
+    "dynamic_line": "&He crosses his arms.  \"Fine.  Go talk to the guards, that crash was all the talk among them for a while.  Look, I'm not trying to do you over, I wouldn't risk my reputation and my job for a handful of cash, feel free to tell everyone in the center that I'm a liar sending people to their death for a quick buck if you find out that I lied.\"",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_SKETCHY",
+    "type": "talk_topic",
+    "dynamic_line": "&He sighs.  \"Well, let's just say that the location of the helicopter doesn't make the retrieval of the cargo…trivial.  Apparently the higher-ups at the Old Guard agreed that it was too hard and too far to be worth.  It wasn't transporting Jesus, just valuable cargo.\"",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_DANGER",
+    "type": "talk_topic",
+    "dynamic_line": "Yes actually.  The scout told me that he saw something weird down at the lake.  Translucent shapes swimming close to the surface from time to time.  I'm sure it has something to do with the weird storm that brought the helicopter down.",
+    "responses": [ { "text": "I see…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_2",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, give me your map I'll show you the location.",
+    "responses": [
+      { "text": "I had other questions.", "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_HUB" },
+      { "text": "Thanks.", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0",
+    "type": "talk_topic",
+    "dynamic_line": "The cargo?  That's the kind of optional information worth a small supplement.",
+    "responses": [
+      {
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "failed_representative_cargo_trial" } ] } },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "FEAR", 2 ], [ "TRUST", -2 ] ] },
+        "text": "This wasn't the deal and you're starting to wear my nerves thin asshole, tell me or I'll make you pick your teeth off the floor.",
+        "success": { "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1" },
+        "failure": {
+          "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_INTIMIDATE_FAILURE",
+          "effect": { "u_add_var": "failed_representative_cargo_trial", "value": "yes" },
+          "opinion": { "trust": -1 }
+        }
+      },
+      {
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "failed_representative_cargo_trial" } ] } },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "FEAR", -2 ], [ "TRUST", 2 ] ] },
+        "text": "Come on, you already got what you wanted, are you really trying to fleece me?",
+        "success": { "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1" },
+        "failure": {
+          "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_PERSUADE_FAILURE",
+          "effect": { "u_add_var": "failed_representative_cargo_trial", "value": "yes" }
+        }
+      },
+      {
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 25 } },
+        "effect": { "u_sell_item": "FMCNote", "count": 25 },
+        "text": "[25 merch] This better be worth.",
+        "topic": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1",
+        "failure_explanation": "You don't have enough.",
+        "failure_topic": "TALK_DONE"
+      },
+      { "text": "Never mind…", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_INTIMIDATE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "& He tenses and grits his teeth for a moment before regaining his composure.  \"No, we both know you won't.  Let's pretend this never happened, offer's still up.\"",
+    "responses": [ { "text": "Fine…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_0_PERSUADE_FAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "What are you talking about, I'm not \"fleecing\" anyone, you're free to make the retrieval with the information you have, all I'm offering is purely optional information for a reasonable price.",
+    "responses": [ { "text": "Fine…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_SUNKEN_HELICOPTER_CARGO_1",
+    "type": "talk_topic",
+    "dynamic_line": "Fine.  The heli was transporting a few sets of those combat exoskeletons back from a DoubleTech testing site way out west, the ones they were showing on TV before all this, I'm sure a guy like you could put those to good use.  I won't risk my life for one but if you succeed and would like to trade them you know where to find me.",
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_FIND_SUNKEN_HELICOPTER",
+    "type": "mission_definition",
+    "name": { "str": "Find the sunken helicopter" },
+    "description": "You got the location of a sunken helicopter, all that's left to do is find a way to get there.",
+    "goal": "MGOAL_GO_TO",
+    "value": 0,
+    "difficulty": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "sunken_helicopter", "om_special": "sunken_helicopter", "reveal_radius": 5 }
+    },
+    "end": { "effect": { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" } },
+    "origins": [ "ORIGIN_NULL" ],
+    "invisible_on_complete": true
   }
 ]

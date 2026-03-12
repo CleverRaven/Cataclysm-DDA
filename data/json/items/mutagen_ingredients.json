@@ -1,0 +1,286 @@
+[
+  {
+    "type": "ITEM",
+    "abstract": "mutagen_sample",
+    "symbol": "q",
+    "color": "red",
+    "name": { "str": "abstract mutagen sample", "//~": "NO_I18N" },
+    "description": { "str": "This item needs a description defined, and is copied from abstract mutagen sample.", "//~": "NO_I18N" },
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE", "MUTAGEN_SAMPLE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "ITEM",
+    "id": "alpha_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "alpha sample" },
+    "description": "A slurry of superiority.",
+    "looks_like": "medical_sample",
+    "material": [ "hflesh", "hblood", "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "batrachian_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green",
+    "name": { "str": "frog sample" },
+    "description": "A slurry of simplicity.",
+    "looks_like": "medical_sample",
+    "material": [ "slime", "blood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "beast_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_red",
+    "name": { "str": "beast sample" },
+    "description": "A slurry of might.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "blood", "bone", "fur" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "bird_sample",
+    "copy-from": "mutagen_sample",
+    "color": "cyan",
+    "name": { "str": "bird sample" },
+    "description": "A slurry of freedom.",
+    "looks_like": "medical_sample",
+    "material": [ "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "cattle_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "cattle sample" },
+    "description": "A slurry of tranquility.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "gutskin" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "cephalopod_sample",
+    "copy-from": "mutagen_sample",
+    "color": "dark_gray",
+    "name": { "str": "cephalopod sample" },
+    "description": "A slurry of curiosity.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "slime" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "chimera_sample",
+    "copy-from": "mutagen_sample",
+    "color": "white",
+    "name": { "str": "chimera sample" },
+    "description": "A slurry of adaptation.",
+    "looks_like": "medical_sample",
+    "material": [ "gutskin", "bone", "fur" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "elfa_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_green",
+    "name": { "str": "Elf-A sample" },
+    "description": "A slurry of responsibility.",
+    "looks_like": "medical_sample",
+    "material": [ "veggy", "hblood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "feline_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "feline sample" },
+    "description": "A slurry of flexibility.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "blood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "fish_sample",
+    "copy-from": "mutagen_sample",
+    "color": "yellow",
+    "name": { "str": "fish sample" },
+    "description": "A slurry of transformation.",
+    "looks_like": "medical_sample",
+    "material": [ "blood", "water" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "gastropod_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown_cyan",
+    "name": { "str": "snail sample" },
+    "description": "A slurry of steadfastness.",
+    "looks_like": "medical_sample",
+    "material": [ "chitin", "slime" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "human_sample",
+    "copy-from": "mutagen_sample",
+    "color": "black_red",
+    "name": { "str": "human sample" },
+    "description": "A slurry of purity.",
+    "looks_like": "medical_sample",
+    "material": [ "hflesh", "hblood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "insect_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "insect sample" },
+    "description": "A slurry of stability.",
+    "looks_like": "medical_sample",
+    "material": [ "iflesh", "chitin" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "lizard_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green_cyan",
+    "name": { "str": "lizard sample" },
+    "description": "A slurry of healing.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "blood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "lupine_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "lupine sample" },
+    "description": "A slurry of community.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "flesh", "blood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "medical_sample",
+    "copy-from": "mutagen_sample",
+    "color": "magenta",
+    "name": { "str": "medical sample" },
+    "description": "A slurry of satisfaction.",
+    "material": [ "hflesh", "iron" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "mouse_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "mouse sample" },
+    "description": "A slurry of experimentation.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "plant_sample",
+    "copy-from": "mutagen_sample",
+    "color": "green",
+    "name": { "str": "plant sample" },
+    "description": "A slurry of peace.",
+    "looks_like": "medical_sample",
+    "material": [ "veggy", "wood" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "raptor_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "raptor sample" },
+    "description": "A slurry of evolution.",
+    "looks_like": "medical_sample",
+    "material": [ "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "rabbit_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "rabbit sample" },
+    "description": "A slurry of luck.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "fur" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "rat_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "rat sample" },
+    "description": "A slurry of survival.",
+    "looks_like": "medical_sample",
+    "material": [ "fur", "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "slime_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_green",
+    "name": { "str": "slime sample" },
+    "description": "A slurry of sharing.",
+    "looks_like": "medical_sample",
+    "material": [ "slime" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "spider_sample",
+    "copy-from": "mutagen_sample",
+    "color": "dark_gray",
+    "name": { "str": "spider sample" },
+    "description": "A slurry of sustainability.",
+    "looks_like": "medical_sample",
+    "material": [ "chitin", "fur" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "troglobite_sample",
+    "copy-from": "mutagen_sample",
+    "color": "light_gray",
+    "name": { "str": "troglobite sample" },
+    "description": "A slurry of reliability.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "soil" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "ursine_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "ursine sample" },
+    "description": "A slurry of toughness.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "fur", "gutskin" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "crustacean_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "crustacean sample" },
+    "description": "A slurry of toughness.",
+    "looks_like": "medical_sample",
+    "material": [ "flesh", "chitin" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "chiropteran_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "chiropteran sample" },
+    "description": "A slurry of silence.",
+    "looks_like": "medical_sample",
+    "material": [ "bone", "blood" ]
+  }
+]

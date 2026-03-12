@@ -1,0 +1,41 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "sauropod_stomach_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "25 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "stomach_sauropod", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "haggis",
+    "id_suffix": "sauropod",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "tailor", 1 ],
+    "time": "110 m",
+    "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
+    "batch_time_factors": [ 50, 4 ],
+    "using": [ [ "sewing_standard", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
+      [ [ "stomach_sauropod", 1 ] ],
+      [ [ "meat_offal", 4, "LIST" ] ],
+      [ [ "oatmeal", 16 ], [ "buckwheat", 4 ] ]
+    ],
+    "charges": 4
+  }
+]

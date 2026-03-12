@@ -1,0 +1,77 @@
+[
+  {
+    "type": "effect_type",
+    "id": "mutagen_stego",
+    "name": [ "Stego Mutation", "Stego Transformation", "Stego Metamorphosis" ],
+    "desc": [
+      "You consumed stego mutagen.",
+      "You consumed a large amount of stego mutagen.",
+      "You consumed a life-changing amount of stego mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_STEGO" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Stego Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_horns",
+    "name": [ "Horns Mutation", "Horns Transformation", "Horns Metamorphosis" ],
+    "desc": [
+      "You consumed horns mutagen.",
+      "You consumed a large amount of horns mutagen.",
+      "You consumed a life-changing amount of horns mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_HORNS" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Horns Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_tyrant",
+    "name": [ "Tyrant Mutation", "Tyrant Transformation", "Tyrant Metamorphosis" ],
+    "desc": [
+      "You consumed tyrant mutagen.",
+      "You consumed a large amount of tyrant mutagen.",
+      "You consumed a life-changing amount of tyrant mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_TYRANT" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Tyrant Mutagen Contamination"
+  }
+]

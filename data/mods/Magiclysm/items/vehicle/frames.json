@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "fold_orichalcum_frame",
     "name": "foldable orichalcum frame",
     "copy-from": "foldframe",
@@ -8,10 +8,10 @@
     "weight": "10 kg",
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
-    "price": 10000
+    "price": "100 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "orichalcum_frame",
     "name": "orichalcum frame",
     "symbol": "]",
@@ -20,15 +20,15 @@
     "weight": "100 kg",
     "color": "yellow",
     "material": [ "orichalcum_metal" ],
-    "price": 80000
+    "price": "800 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "light_orichalcum_frame",
     "name": "light orichalcum frame",
     "copy-from": "orichalcum_frame",
     "description": "A frame made of orichalcum.  Partially torn down in order to reduce weight at the cost of durability.",
     "weight": "40 kg",
-    "price": 30000
+    "price": "300 USD"
   }
 ]

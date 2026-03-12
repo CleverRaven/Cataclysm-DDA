@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [
       [ "steel_mill_0_1_3", "steel_mill_0_2_3", "steel_mill_0_3_3", "steel_mill_0_4_3" ],
       [ "steel_mill_1_1_3", "steel_mill_1_2_3", "steel_mill_1_3_3", "steel_mill_1_4_3" ],

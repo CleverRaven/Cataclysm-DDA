@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cheese_wheel_wax",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "wax coating" },
+    "looks_like": "can_food",
+    "description": "The wax coating for a big wheel of cheese.  Could preserve it basically indefinitely, if left sealed.",
+    "weight": "215 g",
+    "volume": "2100 ml",
+    "longest_side": "16 cm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paraffin_wax" ],
+    "symbol": "%",
+    "color": "yellow",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "//": "To be sealable, has to be sized for exactly 60 cheese. See issue #81781",
+        "max_contains_volume": "1860 ml",
+        "max_contains_weight": "3 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "item_restriction": [ "cheese_hard" ]
+      }
+    ]
+  }
+]

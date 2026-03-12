@@ -1,0 +1,15 @@
+[
+  {
+    "abstract": "efile_video",
+    "copy-from": "abstract_efile",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "symbol": "o",
+    "name": "abstract video",
+    "description": "An abstract video file, implemented as a book.",
+    "ememory_size": "128 MB",
+    "intelligence": 5,
+    "looks_like": "story_book",
+    "color": "light_cyan"
+  }
+]

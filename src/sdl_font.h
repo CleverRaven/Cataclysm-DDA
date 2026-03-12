@@ -1,6 +1,7 @@
 #pragma once
 #ifndef CATA_SRC_SDL_FONT_H
 #define CATA_SRC_SDL_FONT_H
+#include "font_loader.h"
 
 #if defined(TILES)
 
@@ -17,7 +18,6 @@
 #include "color.h"
 #include "color_loader.h"
 #include "debug.h"
-#include "font_loader.h"
 #include "point.h"
 #include "hash_utils.h"
 #include "sdl_wrappers.h"
@@ -59,7 +59,7 @@ class Font
             int fontheight,
             const palette_array &palette,
             bool fontblending );
-    public:
+
         // the width of the font, background is always this size.
         int width;
         // the height of the font, background is always this size.
@@ -84,8 +84,10 @@ class CachedTTFFont : public Font
                          const std::string &ch,
                          const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
+
     protected:
-        SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch, int color );
+        SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch,
+                                      int &ch_width, int color );
 
         TTF_Font_Ptr font;
         // Maps (character code, color) to SDL_Texture*
@@ -155,7 +157,7 @@ class FontFallbackList : public Font
             SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
             int w, int h,
             const palette_array &palette,
-            const std::vector<std::string> &typefaces,
+            const std::vector<font_config> &typefaces,
             int fontsize, bool fontblending );
         ~FontFallbackList() override = default;
 

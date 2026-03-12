@@ -1,0 +1,21 @@
+[
+  {
+    "id": "spacebar_overmap_14x6_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "spacebar_overmap_14x6" ]
+  },
+  {
+    "id": "spacebar_overmap_14x6",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 14,
+    "height": 6,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

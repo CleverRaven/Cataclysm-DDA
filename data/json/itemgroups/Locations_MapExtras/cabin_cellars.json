@@ -1,0 +1,45 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "cabin_nested_cellar_boxed_junk",
+    "//": "various types of stored items in boxes or empty boxes for the nested cabin cellar",
+    "//2": "Two itemgroups are necessary because on_overflow can only be specified on top-level itemgroups",
+    "entries": [
+      { "group": "cabin_nested_cellar_boxed_junk_wood", "prob": 1 },
+      { "group": "cabin_nested_cellar_boxed_junk_cardboard", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "cabin_nested_cellar_boxed_junk_wood",
+    "on_overflow": "spill",
+    "container-item": "box_large_wood",
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "group": "clothing_hunting", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "clothing_hunting", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "camping", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "camping", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "hiking", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "hiking", "count": [ 2, 4 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "cabin_nested_cellar_boxed_junk_cardboard",
+    "on_overflow": "spill",
+    "container-item": "box_large",
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "group": "clothing_hunting", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "clothing_hunting", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "camping", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "camping", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "hiking", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "hiking", "count": [ 2, 4 ], "prob": 10 }
+    ]
+  }
+]

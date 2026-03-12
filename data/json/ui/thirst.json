@@ -1,0 +1,65 @@
+[
+  {
+    "id": "thirst_desc_label",
+    "type": "widget",
+    "label": "Thirst",
+    "//": "Instant thirst takes stomach contents into account",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "Parched",
+        "color": "light_red",
+        "condition": { "math": [ "u_val('instant_thirst') > 520" ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 240" ] }, { "math": [ "u_val('instant_thirst') <= 520" ] } ] }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "Very thirsty",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 80" ] }, { "math": [ "u_val('instant_thirst') <= 240" ] } ] }
+      },
+      {
+        "id": "thirsty",
+        "text": "Thirsty",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 40" ] }, { "math": [ "u_val('instant_thirst') <= 80" ] } ] }
+      },
+      {
+        "id": "neutral",
+        "text": "",
+        "color": "white",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst') <= 40" ] } ] }
+      },
+      {
+        "id": "slaked",
+        "text": "Slaked",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst') < 0" ] } ] }
+      },
+      {
+        "id": "hydrated",
+        "text": "Hydrated",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst') < -20" ] } ] }
+      },
+      {
+        "id": "turgid",
+        "text": "Turgid",
+        "color": "green",
+        "condition": { "math": [ "u_val('instant_thirst') < -60" ] }
+      }
+    ]
+  },
+  {
+    "id": "thirst_desc_no_label",
+    "type": "widget",
+    "copy-from": "thirst_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

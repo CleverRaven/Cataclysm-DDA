@@ -1,0 +1,166 @@
+[
+  {
+    "result": "combat_exoskeleton_armor_head_heavy_reinforced",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 20 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_head_heavy", 1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "combat_exoskeleton_armor_torso_heavy_reinforced",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "3 h 15 m",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 2 ], [ "welding_standard", 200 ] ],
+    "components": [
+      [ [ "qt_link_sheet", 2 ] ],
+      [ [ "qt_chain_link", 45 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_torso_heavy", 1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "combat_exoskeleton_armor_arm_heavy_reinforced",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_arm_heavy", 1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "combat_exoskeleton_armor_leg_heavy_reinforced",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_leg_heavy", 1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_head_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_head_medium_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 20 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_head_medium", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_torso_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_torso_medium_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 2 ] ],
+      [ [ "qt_chain_link", 45 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_torso_medium", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_arm_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_arm_medium_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_arm_medium", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_leg_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_leg_medium_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_leg_medium", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_head_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_head_light_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 20 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_head_light", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_torso_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_torso_light_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 2 ] ],
+      [ [ "qt_chain_link", 45 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_torso_light", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_arm_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_arm_light_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_arm_light", 1 ] ]
+    ]
+  },
+  {
+    "copy-from": "combat_exoskeleton_armor_leg_heavy_reinforced",
+    "result": "combat_exoskeleton_armor_leg_light_reinforced",
+    "type": "recipe",
+    "components": [
+      [ [ "qt_link_sheet", 1 ] ],
+      [ [ "qt_chain_link", 25 ] ],
+      [ [ "qt_wire", 1 ] ],
+      [ [ "combat_exoskeleton_armor_leg_light", 1 ] ]
+    ]
+  }
+]

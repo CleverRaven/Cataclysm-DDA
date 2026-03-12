@@ -1,13 +1,9 @@
 #include "weather_type.h"
 
-#include <cstdlib>
-#include <set>
-
-#include "assign.h"
 #include "condition.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
 
 namespace
 {
@@ -31,27 +27,7 @@ std::string enum_to_string<precip_class>( precip_class data )
         case precip_class::last:
             break;
     }
-    debugmsg( "Invalid precip_class" );
-    abort();
-}
-
-template<>
-std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
-{
-    switch( data ) {
-        case sun_intensity_type::none:
-            return "none";
-        case sun_intensity_type::light:
-            return "light";
-        case sun_intensity_type::normal:
-            return "normal";
-        case sun_intensity_type::high:
-            return "high";
-        case sun_intensity_type::last:
-            break;
-    }
-    debugmsg( "Invalid sun_intensity_type" );
-    abort();
+    cata_fatal( "Invalid precip_class" );
 }
 
 template<>
@@ -64,6 +40,8 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "flurries";
         case weather_sound_category::rainy:
             return "rainy";
+        case weather_sound_category::rainstorm:
+            return "rainstorm";
         case weather_sound_category::snow:
             return "snow";
         case weather_sound_category::snowstorm:
@@ -72,11 +50,18 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "thunder";
         case weather_sound_category::silent:
             return "silent";
+        case weather_sound_category::portal_storm:
+            return "portal_storm";
+        case weather_sound_category::clear:
+            return "clear";
+        case weather_sound_category::sunny:
+            return "sunny";
+        case weather_sound_category::cloudy:
+            return "cloudy";
         case weather_sound_category::last:
             break;
     }
-    debugmsg( "Invalid weather sound category." );
-    abort();
+    cata_fatal( "Invalid weather sound category." );
 }
 
 } // namespace io
@@ -104,50 +89,62 @@ void weather_type::check() const
     for( const auto &type : required_weathers ) {
         if( !type.is_valid() ) {
             debugmsg( "Weather type %s does not exist.", type.c_str() );
-            abort();
         }
     }
 }
 
-void weather_type::load( const JsonObject &jo, const std::string & )
+void weather_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
 
-    assign( jo, "color", color );
-    assign( jo, "map_color", map_color );
+    optional( jo, was_loaded, "color", color, nc_color_reader{} );
+    optional( jo, was_loaded, "map_color", map_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+    optional( jo, was_loaded, "sun_sym", sun_symbol, unicode_codepoint_from_symbol_reader,
+              static_cast<uint32_t>( 0x263C ) ); // ☼
 
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    mandatory( jo, was_loaded, "priority", priority );
+    optional( jo, was_loaded, "light_multiplier", light_multiplier, 1.f );
+    optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
     mandatory( jo, was_loaded, "precip", precip );
     mandatory( jo, was_loaded, "rains", rains );
-    optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
-    mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
     optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
 
-    if( jo.has_member( "weather_animation" ) ) {
-        JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
-        mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
-        if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
-            weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
+    if( jo.has_array( "passive_effects" ) ) {
+        for( JsonObject job : jo.get_array( "passive_effects" ) ) {
+            field_effect fe;
+            fe.deserialize( job );
+            passive_effect.emplace_back( fe );
         }
-        mandatory( weather_animation_jo, was_loaded, "sym", weather_animation.symbol,
-                   unicode_codepoint_from_symbol_reader );
     }
+    optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
+    optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
+
+    optional( jo, was_loaded, "weather_animation", weather_animation );
     optional( jo, was_loaded, "required_weathers", required_weathers );
-    read_condition<dialogue>( jo, "condition", condition, true );
+    // FIXME: generic factory reader for condition
+    read_condition( jo, "condition", condition, true );
+}
+
+void weather_animation_t::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "factor", factor );
+    mandatory( jo, false, "color", color, nc_color_reader{} );
+    mandatory( jo, false, "sym", symbol, unicode_codepoint_from_symbol_reader );
 }
 
 void weather_types::reset()
@@ -158,9 +155,6 @@ void weather_types::reset()
 void weather_types::finalize_all()
 {
     weather_type_factory.finalize();
-    for( const weather_type &wt : weather_type_factory.get_all() ) {
-        const_cast<weather_type &>( wt ).finalize();
-    }
 }
 
 const std::vector<weather_type> &weather_types::get_all()
@@ -171,12 +165,10 @@ const std::vector<weather_type> &weather_types::get_all()
 void weather_types::check_consistency()
 {
     if( !WEATHER_CLEAR.is_valid() ) {
-        debugmsg( "Weather type clear is required." );
-        abort();
+        cata_fatal( "Weather type clear is required." );
     }
     if( !WEATHER_NULL.is_valid() ) {
-        debugmsg( "Weather type null is required." );
-        abort();
+        cata_fatal( "Weather type null is required." );
     }
     weather_type_factory.check();
 }

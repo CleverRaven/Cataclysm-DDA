@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_research_notes_computer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "6" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "computers": {
+        "6": {
+          "name": "Log Console",
+          "security": 3,
+          "options": [ { "name": "View Research Logs", "action": "research", "security": 0 } ],
+          "failures": [ { "action": "alarm" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  }
+]

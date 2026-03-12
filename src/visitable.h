@@ -5,13 +5,14 @@
 #include <climits>
 #include <functional>
 #include <list>
+#include <utility>
 #include <vector>
 
 #include "cata_utility.h"
 #include "type_id.h"
 
-class item;
 class Character;
+class item;
 
 enum class VisitResponse : int {
     ABORT, // Stop processing after this node
@@ -66,7 +67,7 @@ class read_only_visitable
         virtual int max_quality( const quality_id &qual ) const;
 
         std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+                                        const std::function<bool( const item & )> &filter, Character &player_character ) const;
         /**
          * Count maximum available charges from this instance and any contained items
          * @param what ID of item to count charges of
@@ -76,7 +77,7 @@ class read_only_visitable
          */
         virtual int charges_of( const itype_id &what, int limit = INT_MAX,
                                 const std::function<bool( const item & )> &filter = return_true<item>,
-                                const std::function<void( int )> &visitor = nullptr ) const;
+                                const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

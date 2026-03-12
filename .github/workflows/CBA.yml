@@ -13,12 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest    
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v1
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
-        fetch-depth: 1
+        persist-credentials: false
     - name: install dependencies
-      run: sudo apt-get install libncursesw5-dev
+      run: sudo apt-get install libncursesw5-dev gettext
     - name: Prepare Build Analyzer
       run: |
         cd
@@ -29,15 +28,20 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RELEASE ..
         cmake --build . -- -j3
         echo "${PWD}" >> $GITHUB_PATH
-    - uses: ammaraskar/gcc-problem-matcher@master
+    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
     - name: make
       run: |
+        clang++ --version
         ClangBuildAnalyzer --start .
-        CLANG=clang++-10 CXXFLAGS=-ftime-trace make
+        CLANG=clang++ CXXFLAGS=-ftime-trace make
         ClangBuildAnalyzer --stop . buildAnalysis
     - name: Analyze
       run: ClangBuildAnalyzer --analyze buildAnalysis
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: ClangBuildAnalyzer-analysis
+        path: buildAnalysis
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: ClangBuildAnalyzer-traces
         path: "**/obj/*.json"

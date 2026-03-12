@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic_edge_room_connector" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -31,8 +30,7 @@
         " c|22||||||  ||||||c c  ",
         "     |FFFF|  |FFFF|     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   }
 ]

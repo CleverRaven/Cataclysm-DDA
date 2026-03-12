@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
+#include <cstdint>
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <numeric>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
@@ -15,16 +15,16 @@
 #include <vector>
 
 #include "crafting.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
 class item;
+class item_components;
 class nc_color;
 class read_only_visitable;
 template <typename E> struct enum_traits;
@@ -44,14 +44,16 @@ enum class component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
+    std::vector<std::pair<quality_id, mod_id>> src;
     translation name;
 
     std::vector<std::pair<int, std::string>> usages;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 
     static void reset();
     static void load_static( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
 };
 
 struct component {
@@ -230,10 +232,10 @@ struct requirement_data {
         template <
             typename Container,
             typename = std::enable_if_t <
-                std::is_same <
-                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
-                std::is_same <
-                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                std::is_same_v <
+                    typename Container::value_type, std::pair<requirement_id, int >> ||
+                std::is_same_v <
+                    typename Container::value_type, std::pair<const requirement_id, int >>
                 >
             >
         explicit requirement_data( const Container &cont ) :
@@ -278,7 +280,9 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void load_requirement( const JsonObject &jsobj,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      bool check_extend = false,
+                                      bool is_abstract = false );
 
         /**
          * Store requirement data for future lookup
@@ -286,13 +290,14 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void save_requirement( const requirement_data &req,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      const requirement_data *extend = nullptr );
         static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
          */
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
@@ -335,18 +340,24 @@ struct requirement_data {
         alter_item_comp_vector &get_components();
 
         /**
-         * Returns true if the requirements are fufilled by the filtered inventory
+         * Returns true if the requirements are fulfilled by the filtered inventory
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
-                                      craft_flags = craft_flags::none ) const;
+                                      craft_flags = craft_flags::none, bool restrict_volume = true ) const;
+        /**
+         * Returns true if there are enough item_comp in the crafting_inv for this recipe.
+         * @param filter should be recipe::get_component_filter() if used with a recipe, as above.
+         */
+        bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
+                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, const std::string &hilite = "",
+                int batch = 1, std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
@@ -363,7 +374,7 @@ struct requirement_data {
          * Returned requirement_data is for *all* batches at once.
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
-                const std::list<item> &remaining_comps );
+                const item_components &remaining_comps );
 
         /**
          * Merge similar quality/tool/component lists.
@@ -382,15 +393,16 @@ struct requirement_data {
          */
         void dump( JsonOut &jsout ) const;
 
+        uint64_t make_hash() const;
+
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 
         bool check_enough_materials( const read_only_visitable &crafting_inv,
-                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
-        bool check_enough_materials( const item_comp &comp, const read_only_visitable &crafting_inv,
-                                     const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+                                     const std::function<bool( const item & )> &filter, int batch = 1,
+                                     bool restrict_volume = true ) const;
 
         template<typename T>
         static void check_consistency( const std::vector< std::vector<T> > &vec,
@@ -413,7 +425,7 @@ struct requirement_data {
         std::vector<std::string> get_folded_list( int width, const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
                 const std::vector< std::vector<T> > &objs, int batch = 1,
-                const std::string &hilite = "",
+                std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         template<typename T>

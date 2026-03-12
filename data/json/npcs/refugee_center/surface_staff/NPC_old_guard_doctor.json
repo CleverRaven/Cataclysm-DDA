@@ -1,13 +1,36 @@
 [
   {
+    "type": "npc_class",
+    "id": "NC_FM_DOCTOR",
+    "name": { "str": "Doctor" },
+    "job_description": "I'm looking for wounded to help.",
+    "common": false,
+    "traits": [
+      { "group": "BG_survival_story_MEDICAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_DOCTOR_misc",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
     "type": "npc",
     "id": "science_rep",
     "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix": "Doctor",
-    "class": "NC_DOCTOR",
+    "class": "NC_FM_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
     "mission_offered": "MISSION_SCIENCE_REP_1"
@@ -21,13 +44,16 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_SCIENCE_REP_WORLD" },
       { "text": "Can I trade for supplies?", "topic": "TALK_SCIENCE_REP_ASK_TRADE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_SCIENCE_REP_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+    "dynamic_line": {
+      "gendered_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So what are you doing right now?", "topic": "TALK_SCIENCE_REP_NEW_DOING" },
       { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }
@@ -46,7 +72,7 @@
     "id": "TALK_SCIENCE_REP_NEW_NEWS",
     "type": "talk_topic",
     "dynamic_line": "Sightings of unusual living dead or new mutations.  The more we know about what's happening, the closer we can get to a treatment or maybe even a cure.  It's a long shot, but you have hope to survive.",
-    "responses": [ { "text": "Good luck with that…", "topic": "TALK_SCIENCE_REP" } ]
+    "responses": [ { "text": "Good luck with that.", "topic": "TALK_SCIENCE_REP" } ]
   },
   {
     "id": "TALK_SCIENCE_REP_WORLD",
@@ -63,69 +89,123 @@
   {
     "id": "MISSION_SCIENCE_REP_1",
     "type": "mission_definition",
-    "name": { "str": "Analyze Zombie Blood" },
-    "goal": "MGOAL_FIND_ITEM",
+    "name": { "str": "Procure a centrifuge" },
+    "description": "You need to bring me a <color_light_blue>centrifuge</color>, equipment like this can most commonly be found at <color_light_blue>hospitals</color>, but you can also try to search for it at <color_light_blue>medical labs</color> then bring it back to the <color_light_blue>Doctor</color>.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "microcentrifuge" }, { "u_has_item": "centrifuge" } ] },
     "difficulty": 5,
     "value": 50000,
-    "item": "software_blood_data",
-    "start": {
-      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "search_range": 540, "reveal_radius": 3 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "hospital_2", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_2",
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood…",
-      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
-      "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless…",
-      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
-      "inquire": "Well, do you have the data yet?",
+      "describe": "It could be very useful to be able to perform an analysis of zombie blood…",
+      "offer": "We don't have the equipment for real analysis here so I'll need you to bring me one.  I've been authorized to reward the completion of this job with 30 merch, a sizeable sum of the local currency.",
+      "accepted": "Excellent.  Here, I'll note the location of a hospital nearby, with some luck you should be able to find a centrifuge in working condition there.",
+      "rejected": "Are you sure?  The data we could extract with that equipment could be priceless…",
+      "advice": "Centrifuges can be a bit heavy; you might want to locate a smaller one if you can, it will be way easier to transport.",
+      "inquire": "Well, do you have the centrifuge yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
-      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable…"
+      "success_lie": "Wait, you couldn't possibly have the centrifuge!  Liar!",
+      "failure": "What a shame, that equipment could have proved invaluable…"
+    },
+    "end": {
+      "effect": [
+        {
+          "if": { "u_has_item": "centrifuge" },
+          "then": { "u_consume_item": "centrifuge" },
+          "else": { "u_consume_item": "microcentrifuge" }
+        },
+        { "u_spawn_item": "FMCNote", "count": 30 },
+        { "u_add_var": "proven_worth_to_old_guard_representative", "value": "yes" }
+      ]
     }
   },
   {
     "id": "MISSION_SCIENCE_REP_2",
     "type": "mission_definition",
     "name": { "str": "Download Workstation Data" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "software_lab_data",
-    "start": "create_lab_console",
+    "start": {
+      "assign_mission_target": { "om_terrain": "microlab_generic_surface", "om_special": "4x4_microlab_surface", "reveal_radius": 3, "cant_see": true },
+      "update_mapgen": [
+        {
+          "om_terrain": "microlab_generic_surface_connector",
+          "place_computers": [
+            {
+              "name": "Laboratory Archives",
+              "eocs": [ "eoc_mission_science_rep_computer" ],
+              "chat_topics": [ "mission_science_rep_2_computer_main" ],
+              "x": 21,
+              "y": 14
+            }
+          ],
+          "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
+        }
+      ],
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_3",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
-      "accepted": "Great!  I've mapped out a route to the address.",
+      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.  Like last time, I can compensate you, and the Old Guard saw enough promise in this assignment to spare a larger sum of 60 merch.  I'm sure you're also free to lay claim to any valuables you might find at the target location.",
+      "accepted": "Great!  I've mapped out a route to the address.  Bring back anything you find on this secure USB drive.",
       "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
+      "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Don't forget the secure USB drive.",
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
-    }
+    },
+    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 60 } }
   },
   {
     "id": "MISSION_SCIENCE_REP_3",
     "type": "mission_definition",
     "name": { "str": "Download Encryption Codes" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_hidden_lab_console",
+    "item": "software_encryption_codes",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lab_subway_vent_shaft_surface",
+        "om_special": "microlab_mutable",
+        "reveal_radius": 3,
+        "cant_see": true
+      },
+      "update_mapgen": [
+        {
+          "om_terrain": "microlab_portal_dressroom",
+          "place_computers": [
+            {
+              "name": "Security Console",
+              "eocs": [ "eoc_mission_science_rep_computer" ],
+              "chat_topics": [ "mission_science_rep_3_computer_main" ],
+              "x": 9,
+              "y": 18
+            }
+          ],
+          "set": [ { "point": "item_remove", "x": 9, "y": 18 } ]
+        }
+      ],
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_4",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
-      "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
+      "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.  I couldn't secure any funding for this due to a lack of obvious results, but if you believe in this enough, maybe we can convince them otherwise?",
+      "accepted": "Great!  I've mapped out a route to the address.  Use this secure USB drive as usual.",
       "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "Expect the lab to be locked as usual.",
+      "advice": "Expect the lab to be locked as usual.  Don't forget the secure USB drive.",
       "inquire": "Have you completed your mission?",
       "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
       "success_lie": "What good does this do us?",
@@ -136,45 +216,81 @@
     "id": "MISSION_SCIENCE_REP_4",
     "type": "mission_definition",
     "name": { "str": "Download Research Archives" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_ice_lab_console",
+    "item": "software_archived_data",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "lab_subway_vent_shaft_surface",
+        "om_special": "microlab_mutable",
+        "reveal_radius": 3,
+        "cant_see": true
+      },
+      "update_mapgen": [
+        {
+          "om_terrain": "microlab_portal_MSU14",
+          "place_computers": [
+            {
+              "name": "Laboratory Archives",
+              "eocs": [ "eoc_mission_science_rep_computer" ],
+              "chat_topics": [ "mission_science_rep_4_computer_main" ],
+              "x": 13,
+              "y": 5
+            }
+          ],
+          "set": [ { "point": "item_remove", "x": 21, "y": 14 } ]
+        }
+      ],
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_SCIENCE_REP_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did find communications from a lab that had some kind of freezing portal open during the Cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
-      "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
+      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  That data will have to be backed up somewhere secure and remote.  I heard of a lab that has data servers hidden in a high security vault on lower floors.  I bet the archives inside that lab are still working.  The Old Guard didn't seem very convinced, but still ended up providing 100 merch for this.",
+      "accepted": "Excellent!  I've mapped out a route to the address.  Bring back anything you find on this secure USB drive.",
       "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
+      "advice": "That lab is going to be protected by various security systems.  You may need special access cards or a way to cut your way in.  Don't forget the secure USB drive.",
       "inquire": "Have you completed your mission?",
       "success": "Thanks!  This is a lot of data to go through.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
-    }
+    },
+    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 100 } }
   },
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": { "str": "Find Lab Tunnels" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_train_data",
-    "start": "reveal_lab_train_depot",
+    "item": "train_data",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "underground_lab_cargo_stationA",
+        "om_special": "lab_mutagen_6_level",
+        "reveal_radius": 1,
+        "cant_see": true,
+        "z": -4
+      },
+      "effect": [ { "u_spawn_item": "mission_science_rep_secure_usb_blank", "use_item_group": true } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.  On the other hand, our sponsors were extremely impressed in getting this far without their direction, and would like to apologize by supporting this mission with a whole 300 merch!",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",
+      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Don't forget the secure USB drive.",
       "inquire": "Have you completed your mission?",
       "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
-    }
+    },
+    "end": { "effect": { "u_spawn_item": "FMCNote", "count": 300 } }
   }
 ]

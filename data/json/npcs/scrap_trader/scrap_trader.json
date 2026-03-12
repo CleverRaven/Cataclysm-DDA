@@ -1,0 +1,369 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_scrap_trader",
+    "class": "SCRAP_MERCHANT",
+    "gender": "male",
+    "name_suffix": "scrapper",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_NPC_SCRAP_TRADER",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"
+  },
+  {
+    "type": "npc_class",
+    "id": "SCRAP_MERCHANT",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": 4,
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "Appearance_demographics" },
+      { "trait": "STRONGBACK" },
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "STRONGSTOMACH" },
+      { "trait": "PAINRESIST" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "QUICK" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "TOUGH" },
+      { "trait": "ADRENALINE" },
+      { "trait": "NARCOLEPTIC" },
+      { "trait": "PROJUNK" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "worn_override": "SCRAP_MERCHANT_worn",
+    "weapon_override": "SCRAP_MERCHANT_weapon",
+    "carry_override": "SCRAP_MERCHANT_carried",
+    "shopkeeper_item_group": [
+      { "group": "SCRAPPER_Shop", "rigid": true },
+      {
+        "group": "SCRAPPER_Shop_Specialty_Metals",
+        "rigid": true,
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_trade_specific_metal_tradeable" } ] }
+      },
+      {
+        "group": "no_sell",
+        "rigid": true,
+        "condition": { "math": [ "n_NEVER == 1" ] },
+        "refusal": "<npcname> will never sell this"
+      },
+      { "group": "fridges_and_freezers_tradeable" }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_price_rules": [
+      { "item": "scrap", "price": 200, "fixed_adj": 0 },
+      { "item": "nuts_bolts", "price": 500, "fixed_adj": 0 },
+      { "item": "sheet_metal_small", "price": 400, "fixed_adj": 0 },
+      { "item": "lc_steel_chunk", "price": 400, "fixed_adj": 0 },
+      { "item": "lc_steel_lump", "price": 600, "fixed_adj": 0 },
+      { "item": "sheet_metal", "price": 500, "fixed_adj": 0 },
+      { "item": "lc_steel_lump", "price": 1200, "fixed_adj": 0 },
+      { "item": "mc_steel_lump", "price": 1600, "fixed_adj": 0 },
+      { "item": "scrap_aluminum", "price": 30, "fixed_adj": 0 },
+      { "item": "hc_steel_lump", "price": 2000, "fixed_adj": 0 },
+      { "item": "scrap_bronze", "price": 500, "fixed_adj": 0 },
+      { "item": "bismuth", "price": 2000, "fixed_adj": 0 },
+      { "item": "zinc_metal", "price": 2000, "fixed_adj": 0 },
+      { "item": "lead", "price": 2400, "fixed_adj": 0 },
+      { "item": "scrap_copper", "price": 140, "fixed_adj": 0 },
+      { "item": "tin", "price": 3600, "fixed_adj": 0 },
+      { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
+      { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
+      { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
+      { "group": "fridges_and_freezers_tradeable", "markup": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "glasses_safety" },
+      { "item": "helmet_liner" },
+      { "item": "hat_hard" },
+      { "item": "turtleneck_shirt" },
+      { "item": "jacket_jean" },
+      { "item": "vest" },
+      { "item": "boxer_briefs" },
+      { "item": "jeans" },
+      { "item": "gloves_work" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "gold_ring" },
+      { "item": "tool_belt" },
+      { "item": "spearsling" },
+      { "group": "modular_ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_carried",
+    "subtype": "collection",
+    "items": [
+      { "item": "flashlight", "charges": [ 0, 300 ] },
+      { "item": "multitool" },
+      { "item": "hammer" },
+      { "item": "boltcutters" },
+      { "item": "homemade_grenade", "count": [ 0, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_weapon",
+    "subtype": "collection",
+    "items": [ { "item": "heavy_crowbar" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "no_sell",
+    "subtype": "collection",
+    "items": [
+      { "item": "cash_register", "count": 0 },
+      { "item": "wheel_wide", "count": 0 },
+      { "group": "SUS_fridge_survivor", "count": 0 },
+      { "group": "SUS_utensils", "count": 0 },
+      { "item": "microwave", "count": 0 },
+      { "group": "used_1st_aid", "count": 0 },
+      { "item": "coffee", "count": 0 },
+      { "item": "hd_tow_cable", "count": 0 },
+      { "item": "roadmap", "count": 0 },
+      { "item": "folding_poncho", "count": 0 },
+      { "item": "rope_6", "count": 0 },
+      { "item": "handflare", "count": 0 },
+      { "item": "sm_extinguisher", "count": 0 },
+      { "item": "towel", "count": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap", "count": [ 125, 250 ] },
+      { "item": "nuts_bolts", "count": [ 10, 25 ] },
+      { "item": "sheet_metal_small", "count": [ 50, 100 ] },
+      { "item": "lc_steel_chunk", "count": [ 100, 200 ] },
+      { "item": "lc_steel_lump", "count": [ 50, 100 ] },
+      { "item": "sheet_metal", "count": [ 25, 50 ] },
+      { "item": "lc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "mc_steel_lump", "count": [ 25, 50 ] },
+      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Specialty_Metals",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap_aluminum", "count": [ 100, 200 ] },
+      { "item": "scrap_bronze", "count": [ 20, 50 ] },
+      { "item": "bismuth", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "zinc_metal", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 },
+      { "item": "lead", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "scrap_copper", "count": [ 100, 200 ] },
+      { "item": "tin", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "magnesium", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "silver_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "gold_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "platinum_small", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_NPC_SCRAP_TRADER_INTRO", "TALK_NPC_SCRAP_TRADER_STORY", "TALK_NPC_SCRAP_TRADER_FORT" ],
+    "responses": [
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_trust() >= 2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
+        }
+      },
+      { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
+      "yes": "Hello there.  Nice to see you, <name_g>.",
+      "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
+      },
+      {
+        "text": "Hands up, <name_b>!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
+      },
+      {
+        "text": "Pleasure to see you again, <name_g>.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_INTRO",
+    "dynamic_line": "Do you need something?",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
+      { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've come across it in your travels?",
+        "topic": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_STORY",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": "I know I worked in salvage, but I don't remember much else about it.  I just remember finding this place and deciding to stay here.",
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": "I know I worked in salvage, but I don't remember much else about it.  I just remember finding this place and deciding to stay here.",
+        "no": "Well, I held a modest job here as a scrap yard worker.  Business was fair most days, but when <the_cataclysm> hit, I decided to head out here.  With all the craziness going on in the cities and whatnot, I decided to just stay here for while.  I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by."
+      }
+    },
+    "responses": [
+      { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
+      { "text": "Hmm.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_FORT",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": "Well, this place had some barbed wire, metalworking tools, and plenty of supplies.  I made the walls myself.  I didn't know of anywhere else to go either.",
+        "no": "Like I said, I came out here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making."
+      }
+    },
+    "responses": [
+      { "text": "Interesting.", "topic": "TALK_NONE" },
+      { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed in the shed next door for anyone who needs it.  Just don't hog it.  Someone else might come along.",
+    "responses": [
+      {
+        "text": "Thanks, <name_g>.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "effect": { "u_set_fac_relation": "share public goods" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The scrap trader nods along, listening",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": ", then shrugs.  \"No, sorry, not ringing any bells.\"",
+          "no": ", then raises one eyebrow.  \"Not making any promises, but I did catch just a glimpse of a weird building one time that might be what you're looking for.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance -= 1" ] },
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_BULK_SELL",
+    "//": "this is all the dialogue related to buying bulk metal or scrap.",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure thing.  I've got a few things on hand.  What'll ya have?" ],
+    "responses": [
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      {
+        "text": "Let's take a look at your stock.",
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END",
+        "effect": "start_trade"
+      }
+    ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_BULK_SELL_END",
+    "type": "talk_topic",
+    "dynamic_line": [ "Anything else you need?" ],
+    "responses": [
+      { "text": "No, that's all.", "topic": "TALK_DONE" },
+      { "text": "Find anything good?", "topic": "TALK_SCRAP_TRADER_ASK_INTERVAL" },
+      { "text": "Can I have another look?", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
+    ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "Nope, although I have a really good claim by the river.  Gonna go fetch them soon, be right back after <restock_time_point>.",
+    "responses": [ { "text": "Well, good luck.", "topic": "TALK_NPC_SCRAP_TRADER" } ]
+  }
+]

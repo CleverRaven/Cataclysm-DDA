@@ -1,0 +1,680 @@
+[
+  {
+    "id": "boots_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "survivor fireboots (pair)" },
+    "description": "A pair of customized, Kevlar-armored Nomex boots.  These will keep you alive, even when knee-deep in the flames.",
+    "weight": "1980 g",
+    "volume": "3 L",
+    "price": "240 USD",
+    "price_postapoc": "60 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "kevlar", "nomex" ],
+    "symbol": "[",
+    "looks_like": "boots_combat",
+    "color": "light_gray",
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "survivor fireboots (pair)" },
+    "copy-from": "boots_fsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_boots_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "boots_fsurvivor",
+    "name": { "str_sp": "survivor fireboots (pair)" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "boots_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "heavy survivor boots (pair)" },
+    "description": "A pair of customized Kevlar boots that are heavily armored with steel.  Favoring protection over comfort, these will keep you alive, especially when knee-deep in the dead.",
+    "weight": "2254 g",
+    "volume": "3 L",
+    "price": "240 USD",
+    "price_postapoc": "80 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "kevlar", "steel" ],
+    "symbol": "[",
+    "looks_like": "boots_combat",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 50, "thickness": 2.5 }
+        ],
+        "coverage": 100
+      }
+    ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "xl_boots_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "heavy survivor boots (pair)" },
+    "copy-from": "boots_hsurvivor",
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_boots_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "boots_hsurvivor",
+    "name": { "str_sp": "heavy survivor boots (pair)" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "gloves_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "heavy survivor gloves (pair)" },
+    "description": "A pair of customized, steel-backed Kevlar gloves.  These are designed for protection first.",
+    "weight": "1344 g",
+    "volume": "1 L",
+    "price": "180 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "kevlar", "steel" ],
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 4,
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 50, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [ { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 90, "thickness": 2.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "xl_gloves_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "heavy survivor gloves (pair)" },
+    "copy-from": "gloves_hsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_gloves_hsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "gloves_hsurvivor",
+    "name": { "str_sp": "heavy survivor gloves (pair)" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "gloves_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "survivor firegloves (pair)" },
+    "description": "A pair of customized, Kevlar-armored Nomex gloves.  These are a post-apocalyptic extension of what firefighters wore pre-Cataclysm.",
+    "weight": "410 g",
+    "volume": "1 L",
+    "price": "180 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "kevlar_layered", "nomex" ],
+    "symbol": "[",
+    "looks_like": "fire_gauntlets",
+    "color": "light_gray",
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "xl_gloves_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str_sp": "survivor firegloves (pair)" },
+    "copy-from": "gloves_fsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_gloves_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "gloves_fsurvivor",
+    "name": { "str_sp": "survivor firegloves (pair)" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hood_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "survivor firehood" },
+    "description": "A customized armored Nomex and Kevlar hood, strong and durable.",
+    "weight": "1220 g",
+    "volume": "1500 ml",
+    "price": "580 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "kevlar_layered", "nomex" ],
+    "symbol": "[",
+    "looks_like": "hood_survivor",
+    "color": "light_gray",
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "xl_hood_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "hood_fsurvivor",
+    "name": { "str": "survivor firehood" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_hood_fsurvivor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "hood_fsurvivor",
+    "name": { "str": "survivor firehood" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "fsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "survivor firesuit" },
+    "description": "Heavy, hand-built combination armor made from a cut-down bulletproof vest and a reinforced flame-resistant Nomex jumpsuit.  Protects the wearer from fire and the elements.",
+    "weight": "6800 g",
+    "volume": "11500 ml",
+    "price": "2 kUSD",
+    "price_postapoc": "50 USD",
+    "material": [ "kevlar_layered", "nomex" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 26 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 15,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "xl_fsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "survivor firesuit" },
+    "copy-from": "fsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_fsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "fsurvivor_suit",
+    "name": { "str": "survivor firesuit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "heavy survivor suit" },
+    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "15500 g",
+    "volume": "12 L",
+    "price": "2 kUSD",
+    "price_postapoc": "70 USD",
+    "material": [ "kevlar_layered", "steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 31 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 21 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 15,
+    "material_thickness": 6,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "xlhsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "hsurvivor_suit",
+    "name": { "str": "heavy survivor suit" },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xshsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "hsurvivor_suit",
+    "name": { "str": "heavy survivor suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lsurvivor_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "mercenary body armor" },
+    "description": "Custom-made armor that combines a level II vest with a combat shirt and adds extra padding to the arms for safety.  Fairly lightweight and ergonomic and has numerous pockets for storage.",
+    "weight": "3000 g",
+    "volume": "6 L",
+    "price": "600 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "kevlar_layered", "kevlar", "nylon" ],
+    "symbol": "[",
+    "looks_like": "combat_shirt",
+    "color": "green",
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.7 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3, "ignore_sheet_thickness": true }
+        ],
+        "encumbrance": [ 4, 5 ],
+        "coverage": 100,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 2.2 }
+        ],
+        "encumbrance": [ 4, 5 ],
+        "coverage": 100,
+        "cover_vitals": 30,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Shoulder pouch.",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Shoulder pouch.",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Reinforced pen pouch.",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "150 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Front torso pouch.",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Front torso pouch.",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Lower back pouch.",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "18 cm",
+        "moves": 250
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
+    "id": "xl_lsurvivor_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "mercenary body armor" },
+    "copy-from": "lsurvivor_armor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_lsurvivor_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "lsurvivor_armor",
+    "name": { "str": "mercenary body armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "light survivor suit" },
+    "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced fabric jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "5100 g",
+    "volume": "10500 ml",
+    "price": "1 kUSD 100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 15,
+    "material_thickness": 4,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "xl_lsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "light survivor suit" },
+    "copy-from": "lsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "survivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "survivor suit" },
+    "description": "A hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "6800 g",
+    "volume": "11500 ml",
+    "price": "1 kUSD 500 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "kevlar_layered", "leather" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 20 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 15,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "xlsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "survivor suit" },
+    "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "12400 g",
+    "volume": "18 L",
+    "price": "1 kUSD 500 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "kevlar_layered", "leather" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 30 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 22 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 15,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "PREFIX_XL", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "wsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "winter survivor suit" },
+    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "7800 g",
+    "volume": "14 L",
+    "price": "2 kUSD",
+    "price_postapoc": "50 USD",
+    "material": [ "kevlar_layered", "fur" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "light_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 75,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 5,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  },
+  {
+    "id": "xl_wsurvivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "wsurvivor_suit_nofur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "winter survivor suit" },
+    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "survivor_suit",
+    "color": "pink"
+  },
+  {
+    "id": "xl_wsurvivor_suit_nofur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "color": "pink",
+    "warmth": 65,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "h20survivor_suit",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "survivor wetsuit" },
+    "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced neoprene wetsuit.  Protects from the elements as well as from harm.",
+    "weight": "6400 g",
+    "volume": "7 L",
+    "price": "1 kUSD 100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "kevlar", "plastic", "neoprene" ],
+    "symbol": "[",
+    "looks_like": "wetsuit",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 200 }
+    ],
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+  }
+]

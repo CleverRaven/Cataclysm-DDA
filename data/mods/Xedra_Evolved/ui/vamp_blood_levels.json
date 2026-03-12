@@ -1,0 +1,275 @@
+[
+  {
+    "id": "vampire_blood_levels",
+    "type": "widget",
+    "label": "Blood",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "slumber",
+        "text": "Eternal Slumber",
+        "color": "dark_gray_red",
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -1501" ] } ] }
+      },
+      {
+        "id": "near_death",
+        "text": "Corpse-like",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -751" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -1500" ] }
+          ]
+        }
+      },
+      {
+        "id": "starving",
+        "text": "Hypomia",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -301" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -751" ] }
+          ]
+        }
+      },
+      {
+        "id": "hungry",
+        "text": "Sallow",
+        "color": "light_green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= -1" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -301" ] }
+          ]
+        }
+      },
+      {
+        "id": "hungry",
+        "text": "Enervated",
+        "color": "yellow",
+        "condition": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -1" ] } ] }
+      },
+      {
+        "id": "content",
+        "text": "Content",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > -1" ] }
+          ]
+        }
+      },
+      {
+        "id": "flush",
+        "text": "Flush",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "engorged",
+        "text": "Engorged",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
+          ]
+        }
+      },
+      {
+        "id": "swollen",
+        "text": "Tick-like",
+        "color": "red_cyan",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] }
+          ]
+        }
+      },
+      {
+        "id": "flush",
+        "text": "Satisfied",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "engorged",
+        "text": "Filled",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') <= 4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 2401" ] }
+          ]
+        }
+      },
+      {
+        "id": "swollen",
+        "text": "Saturated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 8401" ] }
+          ]
+        }
+      },
+      {
+        "id": "sated",
+        "text": "Sated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 8401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 14401" ] }
+          ]
+        }
+      },
+      {
+        "id": "brimmed",
+        "text": "Brimmed",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 14401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 24401" ] }
+          ]
+        }
+      },
+      {
+        "id": "overflowing",
+        "text": "Overflowing",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 24401" ] }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "vampire_blood_levels_numbers",
+    "type": "widget",
+    "style": "text",
+    "label": "Blood",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "vampire_blood_levels_numbers_bad",
+        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red><u_val:max_blood_amount_for_graph></color>",
+        "parse_tags": true,
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 1" ] }
+          ]
+        }
+      },
+      {
+        "id": "vampire_blood_levels_numbers_good",
+        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green><u_val:max_blood_amount_for_graph></color>",
+        "parse_tags": true,
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "vampire_blood_levels_numbers_excess",
+        "text": "<color_red><u_val:blood_amount_for_graph></color>     Max: <color_red><u_val:max_blood_amount_for_graph></color>",
+        "parse_tags": true,
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "vampire_virus" } ] },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin') > 1799" ] }
+          ]
+        }
+      },
+      {
+        "id": "vampire_blood_levels_numbers_stockpile",
+        "text": "<color_green><u_val:blood_amount_for_graph></color>     Max: <color_green><u_val:max_blood_amount_for_graph></color>",
+        "parse_tags": true,
+        "condition": {
+          "and": [ { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" }, { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] } ]
+        }
+      }
+    ],
+    "padding": 0
+  },
+  {
+    "id": "vampire_blood_levels_graph",
+    "type": "widget",
+    "label": "Blood",
+    "var": "custom",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "//": "Distillate the Inner Blood ensures that the UI won't show the negatively high levels.",
+    "custom_var": {
+      "value": { "math": [ "u_vitamin('human_blood_vitamin')" ] },
+      "range": [
+        0,
+        {
+          "math": [
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.3333333"
+          ]
+        },
+        {
+          "math": [
+            "(5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)) * 0.6666666"
+          ]
+        },
+        {
+          "math": [
+            "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600) + (u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') * 11200)"
+          ]
+        }
+      ]
+    },
+    "style": "graph",
+    "width": 40,
+    "symbols": ".oO0",
+    "fill": "pool",
+    "colors": [ "c_green", "c_green", "c_yellow", "c_red" ],
+    "padding": 0
+  }
+]

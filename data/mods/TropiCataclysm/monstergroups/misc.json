@@ -1,0 +1,38 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_DOMESTIC",
+    "default": "mon_dog",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SAFE",
+    "is_safe": true,
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_tapir", "weight": 10 },
+      { "monster": "mon_capybara", "weight": 10 },
+      { "monster": "mon_guinea_pig", "weight": 10 },
+      { "monster": "mon_bushdog", "weight": 10 },
+      { "monster": "mon_camel", "weight": 10 },
+      { "monster": "mon_boa", "weight": 10 },
+      { "monster": "mon_anaconda", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SUBWAY",
+    "default": "mon_spider_cellar_giant",
+    "monsters": [
+      { "monster": "mon_caecilian", "weight": 180, "ends": "30 days" },
+      { "monster": "mon_caecilian_small", "weight": 180, "starts": "30 days", "ends": "60 days" },
+      { "monster": "mon_minhocao", "weight": 180, "starts": "60 days" },
+      { "group": "GROUP_ONICOPHORE", "weight": 180 }
+    ]
+  }
+]

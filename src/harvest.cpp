@@ -3,22 +3,64 @@
 #include <algorithm>
 #include <cmath>
 #include <iterator>
+#include <optional>
 #include <string>
 
-#include "assign.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 
+static const butchery_requirements_id butchery_requirements_default( "default" );
+
+static const itype_id itype_ruined_chunks( "ruined_chunks" );
+
+static const skill_id skill_survival( "survival" );
+
 namespace
 {
+generic_factory<harvest_drop_type> harvest_drop_type_factory( "harvest_drop_type" );
 generic_factory<harvest_list> harvest_list_factory( "harvest_list" );
 } //namespace
+
+/** @relates string_id */
+template<>
+const harvest_drop_type &string_id<harvest_drop_type>::obj() const
+{
+    return harvest_drop_type_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<harvest_drop_type>::is_valid() const
+{
+    return harvest_drop_type_factory.is_valid( *this );
+}
+
+translation harvest_drop_type::field_dress_msg( bool succeeded ) const
+{
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_fielddress_success : msg_fielddress_fail ).value_or( translation() );
+}
+
+translation harvest_drop_type::butcher_msg( bool succeeded ) const
+{
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_butcher_success : msg_butcher_fail ).value_or( translation() );
+}
+
+translation harvest_drop_type::dissect_msg( bool succeeded ) const
+{
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_dissect_success : msg_dissect_fail ).value_or( translation() );
+}
 
 /** @relates string_id */
 template<>
@@ -46,7 +88,7 @@ bool harvest_list::is_null() const
     return id == harvest_id::NULL_ID();
 }
 
-bool harvest_list::has_entry_type( const std::string &type ) const
+bool harvest_list::has_entry_type( const harvest_drop_type_id &type ) const
 {
     for( const harvest_entry &entry : entries() ) {
         if( entry.type == type ) {
@@ -56,11 +98,53 @@ bool harvest_list::has_entry_type( const std::string &type ) const
     return false;
 }
 
+void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std::string &src )
+{
+    harvest_drop_type_factory.load( jo, src );
+}
+
+void harvest_drop_type::finalize_all()
+{
+    harvest_drop_type_factory.finalize();
+}
+
+void harvest_drop_type::reset()
+{
+    harvest_drop_type_factory.reset();
+}
+
+void harvest_drop_type::load( const JsonObject &jo, std::string_view )
+{
+    harvest_skills.clear();
+    optional( jo, was_loaded, "group", is_group_, false );
+    optional( jo, was_loaded, "dissect_only", dissect_only_, false );
+    optional( jo, was_loaded, "msg_fielddress_fail", msg_fielddress_fail, "" );
+    optional( jo, was_loaded, "msg_fielddress_success", msg_fielddress_success, "" );
+    optional( jo, was_loaded, "msg_butcher_fail", msg_butcher_fail, "" );
+    optional( jo, was_loaded, "msg_butcher_success", msg_butcher_success, "" );
+    optional( jo, was_loaded, "msg_dissect_fail", msg_dissect_fail, "" );
+    optional( jo, was_loaded, "msg_dissect_success", msg_dissect_success, "" );
+    if( jo.has_string( "harvest_skills" ) ) {
+        skill_id sk;
+        mandatory( jo, was_loaded, "harvest_skills", sk );
+        harvest_skills.emplace_back( sk );
+    } else if( jo.has_member( "harvest_skills" ) ) {
+        optional( jo, was_loaded, "harvest_skills", harvest_skills );
+    } else {
+        harvest_skills.emplace_back( skill_survival );
+    }
+}
+
+const std::vector<harvest_drop_type> &harvest_drop_type::get_all()
+{
+    return harvest_drop_type_factory.get_all();
+}
+
 void harvest_entry::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "drop", drop );
 
-    optional( jo, was_loaded, "type", type );
+    optional( jo, was_loaded, "type", type, harvest_drop_type_id::NULL_ID() );
     optional( jo, was_loaded, "base_num", base_num, { 1.0f, 1.0f } );
     optional( jo, was_loaded, "scale_num", scale_num, { 0.0f, 0.0f } );
     optional( jo, was_loaded, "max", max, 1000 );
@@ -69,11 +153,34 @@ void harvest_entry::load( const JsonObject &jo )
     optional( jo, was_loaded, "faults", faults );
 }
 
-void harvest_entry::deserialize( JsonIn &jsin )
+void harvest_entry::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
+
+bool harvest_entry::operator==( const harvest_entry &rhs ) const
+{
+    return drop == rhs.drop;
+}
+
+class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
+{
+    public:
+        harvest_entry get_next( const JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
+            harvest_entry ret;
+            mandatory( jo, false, "drop", ret.drop );
+
+            optional( jo, false, "type", ret.type, harvest_drop_type_id::NULL_ID() );
+            optional( jo, false, "base_num", ret.base_num, { 1.0f, 1.0f } );
+            optional( jo, false, "scale_num", ret.scale_num, { 0.0f, 0.0f } );
+            optional( jo, false, "max", ret.max, 1000 );
+            optional( jo, false, "mass_ratio", ret.mass_ratio, 0.00f );
+            optional( jo, false, "flags", ret.flags );
+            optional( jo, false, "faults", ret.faults );
+            return ret;
+        }
+};
 
 void harvest_list::finalize()
 {
@@ -86,20 +193,18 @@ void harvest_list::finalize()
 
 void harvest_list::finalize_all()
 {
-    for( const harvest_list &pr : get_all() ) {
-        const_cast<harvest_list &>( pr ).finalize();
-    }
+    harvest_list_factory.finalize();
 }
 
-void harvest_list::load( const JsonObject &obj, const std::string & )
+void harvest_list::load( const JsonObject &obj, std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
-    mandatory( obj, was_loaded, "entries", entries_ );
+    mandatory( obj, was_loaded, "entries", entries_, harvest_entry_reader{} );
 
     optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
-              butchery_requirements_id( "default" ) );
+              butchery_requirements_default );
     optional( obj, was_loaded, "message", message_ );
-    optional( obj, was_loaded, "leftovers", leftovers, itype_id( "ruined_chunks" ) );
+    optional( obj, was_loaded, "leftovers", leftovers, itype_ruined_chunks );
 }
 
 void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )
@@ -118,28 +223,21 @@ void harvest_list::check_consistency()
         const std::string hl_id = hl.id.c_str();
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
-            bool item_valid = true;
-            if( !( item::type_is_defined( itype_id( entry.drop ) ) ||
-                   ( entry.type == "bionic_group" &&
-                     item_group::group_is_defined( item_group_id( entry.drop ) ) ) ) ) {
-                item_valid = false;
-                errorlist += entry.drop;
-            }
-            // non butchery harvests need to be excluded
-            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
-                if( entry.type == "null" ) {
-                    if( !item_valid ) {
-                        errorlist += ", ";
-                    }
-                    errorlist += "null type";
-                } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
-                              entry.type == "blood" ||
-                              entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
-                    if( !item_valid ) {
-                        errorlist += ", ";
-                    }
-                    errorlist += entry.type;
+            if( entry.type.is_null() ) {
+                // Type id is null
+                if( item::type_is_defined( itype_id( entry.drop ) ) ) {
+                    return errorlist;
                 }
+                errorlist += "null type";
+            } else if( !entry.type.is_valid() ) {
+                // Type id is invalid
+                errorlist += "invalid type \"" + entry.type.str() + "\"";
+            } else if( ( entry.type->is_item_group() &&
+                         !item_group::group_is_defined( item_group_id( entry.drop ) ) ) ||
+                       ( !entry.type->is_item_group() && !item::type_is_defined( itype_id( entry.drop ) ) ) ) {
+                // Specified as item_group but no such group exists, or
+                // specified as single itype but no such itype exists
+                errorlist += entry.drop;
             }
             return errorlist;
         };
@@ -159,22 +257,22 @@ void harvest_list::reset()
     harvest_list_factory.reset();
 }
 
-std::list<harvest_entry>::const_iterator harvest_list::begin() const
+std::vector<harvest_entry>::const_iterator harvest_list::begin() const
 {
     return entries().begin();
 }
 
-std::list<harvest_entry>::const_iterator harvest_list::end() const
+std::vector<harvest_entry>::const_iterator harvest_list::end() const
 {
     return entries().end();
 }
 
-std::list<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
+std::vector<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
 {
     return entries().rbegin();
 }
 
-std::list<harvest_entry>::const_reverse_iterator harvest_list::rend() const
+std::vector<harvest_entry>::const_reverse_iterator harvest_list::rend() const
 {
     return entries().rend();
 }

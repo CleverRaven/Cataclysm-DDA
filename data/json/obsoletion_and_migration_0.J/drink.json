@@ -1,0 +1,33 @@
+[
+  {
+    "id": "water_purifying",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE", "AMMO" ],
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "water (purifying) (obsolete)" },
+    "description": "You've dissolved tablets of disinfecting chemicals in this water to purify it.  Soon it'll be ready to drink.",
+    "material": [ "water" ],
+    "weight": "250 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "quench": 50,
+    "flags": [ "EATEN_COLD" ],
+    "use_action": {
+      "target": "water_clean",
+      "msg": "After using the tablets and carefully decanting out the resulting clean water, it's ready to drink",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 2400,
+      "not_ready_msg": "The chlorine released by the tablets is still working.  You still need to wait a bit before you can drink it."
+    },
+    "ammo_type": "water"
+  }
+]

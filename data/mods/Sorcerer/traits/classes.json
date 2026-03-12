@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mutation",
+    "id": "SORCERER",
+    "name": "Sorcerer",
+    "points": 0,
+    "description": "Your magical power comes from your inner strength, rather than book learning.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "ANIMIST", "MAGUS", "KELVINIST", "STORMSHAPER", "EARTHSHAPER", "TECHNOMANCER", "DRUID", "BIOMANCER" ],
+    "flags": [ "ALLOW_ADVANCED_SPELLS" ],
+    "active": true,
+    "activated_eocs": [ "EOC_open_sorcerer_menu" ]
+  }
+]

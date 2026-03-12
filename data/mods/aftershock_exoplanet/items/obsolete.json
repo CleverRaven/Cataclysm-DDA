@@ -1,0 +1,38 @@
+[
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_cam_spy",
+    "replace": "afs_motion_sensor"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_cam_spy_on",
+    "replace": "afs_motion_sensor"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_magellan_suit_helmet_on",
+    "replace": "afs_magellan_suit_helmet"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_frontier_cryomask_on",
+    "replace": "afs_frontier_cryomask"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_magellan_suit_helmet_on",
+    "replace": "jerky"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "afs_jerky",
+    "replace": "meat"
+  }
+]

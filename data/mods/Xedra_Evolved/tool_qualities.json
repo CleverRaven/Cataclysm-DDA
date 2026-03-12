@@ -1,0 +1,19 @@
+[
+  {
+    "type": "tool_quality",
+    "id": "DREAM_HAMMER",
+    "name": { "str": "hammer of dreams" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "AI_TOOL",
+    "//": "provide a support in organizing huge amount of informations",
+    "name": { "str": "intelligent agent" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SACRIFICE",
+    "//": "a place to convert one type of magic to another via sacrificing it to elder powers",
+    "name": { "str": "sacrificial altar" }
+  }
+]

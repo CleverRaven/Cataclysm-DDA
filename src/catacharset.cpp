@@ -1,10 +1,10 @@
 #include "catacharset.h"
 
+#include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <cstring>
 
-#include "options.h"
+#include "cata_assert.h"
 #include "output.h"
 #include "wcwidth.h"
 
@@ -101,13 +101,13 @@ uint32_t UTF8_getch( const char **src, int *srclen )
 //Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width( const char *s, const bool ignore_tags )
+int utf8_width( std::string_view s, const bool ignore_tags )
 {
     if( ignore_tags ) {
         return utf8_width( remove_color_tags( s ) );
     }
-    int len = strlen( s );
-    const char *ptr = s;
+    int len = s.size();
+    const char *ptr = s.data();
     int w = 0;
     while( len > 0 ) {
         uint32_t ch = UTF8_getch( &ptr, &len );
@@ -117,11 +117,6 @@ int utf8_width( const char *s, const bool ignore_tags )
         w += mk_wcwidth( ch );
     }
     return w;
-}
-
-int utf8_width( const std::string &str, const bool ignore_tags )
-{
-    return utf8_width( str.c_str(), ignore_tags );
 }
 
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
@@ -209,7 +204,7 @@ std::string utf8_truncate( const std::string &s, size_t length )
     return s.substr( 0, last_pos );
 }
 
-static const std::array<char, 64> base64_encoding_table = {{
+static constexpr const std::array<char, 64> base64_encoding_table = {{
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -221,32 +216,70 @@ static const std::array<char, 64> base64_encoding_table = {{
     }
 };
 
-static       std::array<char, 256> base64_decoding_table;
+static constexpr std::array<char, 256> build_base64_decoding_table()
+{
+    std::array<char, 256> ret{ 0 };
+    for( int i = 0; i < 64; i++ ) {
+        ret[static_cast<unsigned char>( base64_encoding_table[i] )] = i;
+    }
+    return ret;
+}
+
+static constexpr const std::array<char, 256> base64_decoding_table = build_base64_decoding_table();
+
 static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
-static void build_base64_decoding_table()
+static std::string base64_encode_raw( std::string_view str );
+static std::string base64_decode_raw( std::string_view instr );
+
+std::string base64_encode_bitset( const std::bitset<576> &bitset_to_encode )
 {
-    static bool built = false;
-    if( !built ) {
-        for( int i = 0; i < 64; i++ ) {
-            base64_decoding_table[static_cast<unsigned char>( base64_encoding_table[i] )] = i;
+    std::string raw_bitset_data( 72, '\0' );
+    for( uint64_t i = 0; i < 9; ++i ) {
+        uint64_t bits = 0;
+        for( size_t j = 0; j < sizeof( bits ) * 8; ++j ) {
+            if( bitset_to_encode[( i * 64 ) + j] ) {
+                bits |= 1ULL << j;
+            }
         }
-        built = true;
+        memcpy( &raw_bitset_data[i * 8], &bits, sizeof( bits ) );
+    }
+    return base64_encode_raw( raw_bitset_data );
+}
+
+void base64_decode_bitset( std::string_view packed_bitset,
+                           std::bitset<576> &destination_bitset )
+{
+    if( !packed_bitset.empty() && packed_bitset[0] == '#' ) {
+        packed_bitset = packed_bitset.substr( 1 );
+    }
+    std::string decoded_string = base64_decode_raw( packed_bitset );
+    for( int i = 0; i < 9; i++ ) {
+        uint64_t bits;
+        memcpy( &bits, &decoded_string[( 8 - i ) * 8], sizeof( bits ) );
+        std::bitset<576> temp_bitset( bits );
+        destination_bitset <<= 64;
+        destination_bitset |= temp_bitset;
     }
 }
 
-std::string base64_encode( const std::string &str )
+std::string base64_encode( const std::string_view &str )
 {
     //assume it is already encoded
     if( !str.empty() && str[0] == '#' ) {
-        return str;
+        return std::string{ str };
     }
+    return "#" + base64_encode_raw( str );
+}
+
+std::string base64_encode_raw( std::string_view str )
+{
 
     int input_length = str.length();
     int output_length = 4 * ( ( input_length + 2 ) / 3 );
 
     std::string encoded_data( output_length, '\0' );
-    const unsigned char *data = reinterpret_cast<const unsigned char *>( str.c_str() );
+    const unsigned char *data = reinterpret_cast<const unsigned char *>( str.data() );
 
     for( int i = 0, j = 0; i < input_length; ) {
 
@@ -266,28 +299,25 @@ std::string base64_encode( const std::string &str )
         encoded_data[output_length - 1 - i] = '=';
     }
 
-    return "#" + encoded_data;
+    return encoded_data;
 }
 
-std::string base64_decode( const std::string &str )
+std::string base64_decode( const std::string_view &str )
 {
     // do not decode if it is not base64
-    if( str.empty() || str[0] != '#' ) {
-        return str;
+    if( str.empty() || str[0] != '#' || ( str.length() - 1 ) % 4 != 0 ) {
+        return std::string{ str };
     }
 
-    build_base64_decoding_table();
+    return base64_decode_raw( str.substr( 1 ) );
+}
 
-    std::string instr = str.substr( 1 );
-
+std::string base64_decode_raw( std::string_view instr )
+{
     int input_length = instr.length();
 
-    if( input_length % 4 != 0 ) {
-        return str;
-    }
-
     int output_length = input_length / 4 * 3;
-    const char *data = instr.c_str();
+    const char *data = instr.data();
 
     if( data[input_length - 1] == '=' ) {
         output_length--;
@@ -328,107 +358,17 @@ std::string base64_decode( const std::string &str )
     return decoded_data;
 }
 
-static void strip_trailing_nulls( std::wstring &str )
-{
-    while( !str.empty() && str.back() == '\0' ) {
-        str.pop_back();
-    }
-}
-
-static void strip_trailing_nulls( std::string &str )
-{
-    while( !str.empty() && str.back() == '\0' ) {
-        str.pop_back();
-    }
-}
-
-std::wstring utf8_to_wstr( const std::string &str )
-{
-#if defined(_WIN32)
-    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
-    std::wstring wstr( sz, '\0' );
-    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
-    strip_trailing_nulls( wstr );
-    return wstr;
-#else
-    std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 ) + 1;
-    std::wstring wstr( sz, '\0' );
-    std::mbstowcs( &wstr[0], str.c_str(), sz );
-    strip_trailing_nulls( wstr );
-    return wstr;
-#endif
-}
-
-std::string wstr_to_utf8( const std::wstring &wstr )
-{
-#if defined(_WIN32)
-    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr );
-    std::string str( sz, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, nullptr, nullptr );
-    strip_trailing_nulls( str );
-    return str;
-#else
-    std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 ) + 1;
-    std::string str( sz, '\0' );
-    std::wcstombs( &str[0], wstr.c_str(), sz );
-    strip_trailing_nulls( str );
-    return str;
-#endif
-}
-
-std::string native_to_utf8( const std::string &str )
-{
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
-    }
-#if defined(_WIN32)
-    // native encoded string --> Unicode sequence --> UTF-8 string
-    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, nullptr, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, nullptr, 0, nullptr,
-                                         nullptr ) + 1;
-    std::string result( utf8_size, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, nullptr, nullptr );
-    strip_trailing_nulls( result );
-    return result;
-#else
-    return str;
-#endif
-}
-
-std::string utf8_to_native( const std::string &str )
-{
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
-    }
-#if defined(_WIN32)
-    // UTF-8 string --> Unicode sequence --> native encoded string
-    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, nullptr, 0, nullptr,
-                                           nullptr ) + 1;
-    std::string result( native_size, '\0' );
-    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, nullptr, nullptr );
-    strip_trailing_nulls( result );
-    return result;
-#else
-    return str;
-#endif
-}
-
-std::string utf32_to_utf8( const std::u32string &str )
+std::string utf32_to_utf8( const std::u32string_view str )
 {
     std::string ret;
     ret.reserve( str.length() );
-    for( auto it = str.begin(); it < str.end(); ++it ) {
-        ret += utf32_to_utf8( *it );
+    for( const char32_t c : str ) {
+        ret += utf32_to_utf8( c );
     }
     return ret;
 }
 
-std::u32string utf8_to_utf32( const std::string &str )
+std::u32string utf8_to_utf32( std::string_view str )
 {
     int len = str.length();
     const char *dat = str.data();
@@ -444,21 +384,31 @@ std::u32string utf8_to_utf32( const std::string &str )
 std::vector<std::string> utf8_display_split( const std::string &s )
 {
     std::vector<std::string> result;
-    std::string current_glyph;
+    std::vector<std::string_view> parts;
+    utf8_display_split_into( s, parts );
+    result.reserve( parts.size() );
+    for( std::string_view part : parts ) {
+        result.emplace_back( part );
+    }
+    return result;
+}
+
+void utf8_display_split_into( const std::string &s, std::vector<std::string_view> &result )
+{
     const char *pos = s.c_str();
+    const char *glyph_begin = pos;
+    const char *glyph_end = pos;
     int len = s.length();
     while( len > 0 ) {
-        const char *old_pos = pos;
         const uint32_t ch = UTF8_getch( &pos, &len );
         const int width = mk_wcwidth( ch );
-        if( width > 0 && !current_glyph.empty() ) {
-            result.push_back( current_glyph );
-            current_glyph.clear();
+        if( width > 0 && glyph_begin != glyph_end ) {
+            result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
+            glyph_begin = glyph_end;
         }
-        current_glyph += std::string( old_pos, pos );
+        glyph_end = pos;
     }
-    result.push_back( current_glyph );
-    return result;
+    result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
 }
 
 int center_text_pos( const char *text, int start_pos, int end_pos )

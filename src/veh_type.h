@@ -2,37 +2,64 @@
 #ifndef CATA_SRC_VEH_TYPE_H
 #define CATA_SRC_VEH_TYPE_H
 
-#include <algorithm>
 #include <array>
 #include <bitset>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
-#include "compatibility.h"
-#include "damage.h"
-#include "optional.h"
+#include "coordinates.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
-class JsonObject;
 class Character;
+class JsonObject;
+class JsonOut;
+class JsonValue;
 class vehicle;
+class vpart_info;
+struct vehicle_prototype;
+template <typename T> class generic_factory;
+
+namespace vehicles
+{
+// separator for variant when loading vehicle prototypes part array and map memory
+// if part 'id' or 'abstract' fields contain it an error is raised
+constexpr char variant_separator = '#';
+
+void load_prototype( const JsonObject &jo, const std::string &src );
+void reset_prototypes();
+void finalize_prototypes();
+const std::vector<vehicle_prototype> &get_all_prototypes();
+
+namespace parts
+{
+void load( const JsonObject &jo, const std::string &src );
+void check();
+void reset();
+void finalize();
+const std::vector<vpart_info> &get_all();
+} // namespace parts
+} // namespace vehicles
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
+    VPFLAG_APPLIANCE,
+    VPFLAG_ARCADE,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
@@ -41,6 +68,8 @@ enum vpart_bitflags : int {
     VPFLAG_CIRCLE_LIGHT,
     VPFLAG_BOARDABLE,
     VPFLAG_AISLE,
+    VPFLAG_MWS,
+    VPFLAG_ADVANCED_MWS,
     VPFLAG_CONTROLS,
     VPFLAG_OBSTACLE,
     VPFLAG_OPAQUE,
@@ -48,12 +77,14 @@ enum vpart_bitflags : int {
     VPFLAG_SEATBELT,
     VPFLAG_SIMPLE_PART,
     VPFLAG_SPACE_HEATER,
+    VPFLAG_HEATED_TANK,
     VPFLAG_COOLER,
+    VPFLAG_WALL_MOUNTED,
     VPFLAG_WHEEL,
     VPFLAG_ROTOR,
-    VPFLAG_ROTOR_SIMPLE,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
+    VPFLAG_NO_LEAK,
     VPFLAG_DOME_LIGHT,
     VPFLAG_AISLE_LIGHT,
     VPFLAG_ATOMIC_LIGHT,
@@ -65,6 +96,7 @@ enum vpart_bitflags : int {
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
     VPFLAG_CARGO,
+    VPFLAG_CARGO_PASSABLE,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
     VPFLAG_WATER_WHEEL,
@@ -80,49 +112,62 @@ enum vpart_bitflags : int {
     VPFLAG_RAIL,
     VPFLAG_TURRET_CONTROLS,
     VPFLAG_ROOF,
+    VPFLAG_CABLE_PORTS,
+    VPFLAG_BATTERY,
+    VPFLAG_POWER_TRANSFER,
+    VPFLAG_HUGE_OK,
+    VPFLAG_NEED_LEG,
+    VPFLAG_IGNORE_LEG_REQUIREMENT,
+    VPFLAG_INOPERABLE_SMALL,
+    VPFLAG_IGNORE_HEIGHT_REQUIREMENT,
 
     NUM_VPFLAGS
 };
-/* Flag info:
- * INTERNAL - Can be mounted inside other parts
- * ANCHOR_POINT - Allows secure seatbelt attachment
- * OVER - Can be mounted over other parts
- * MOUNTABLE - Usable as a point to fire a mountable weapon from.
- * E_COLD_START - Cold weather makes the engine take longer to start
- * E_STARTS_INSTANTLY - The engine takes no time to start, like foot pedals
- * E_ALTERNATOR - The engine can mount and power an alternator
- * E_COMBUSTION - The engine burns fuel to provide power and can burn or explode
- * E_HIGHER_SKILL - Multiple engines with this flag are harder to install
- * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
+    bool was_loaded = false;
+
     float backfire_threshold = 0.0f;
     int backfire_freq = 1;
     int muscle_power_factor = 0;
     float damaged_power_factor = 0.0f;
     int noise_factor = 0;
-    int m2c = 1;
+    int m2c = 100;
     std::vector<std::string> exclusions;
     std::vector<itype_id> fuel_opts;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
+    std::string terrain_flag; // terrain flag this mod block applies to
+    int move_override;        // override when on flagged terrain, ignored if 0
+    int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
+
+    void deserialize( const JsonValue &jv );
+    // for generic_factory delete/extend
+    bool operator==( const veh_ter_mod &rhs ) const {
+        return terrain_flag == rhs.terrain_flag;
+    }
 };
 
 struct vpslot_wheel {
+    bool was_loaded = false;
+
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating = 0.0f;
+    std::vector<veh_ter_mod> terrain_modifiers;
+    float offroad_rating = 0.5f;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_rotor {
+    bool was_loaded = false;
+
     int rotor_diameter = 1;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct vpslot_workbench {
@@ -131,78 +176,45 @@ struct vpslot_workbench {
     // Mass/volume allowed before a crafting speed penalty is applied
     units::mass allowed_mass = 0_gram;
     units::volume allowed_volume = 0_ml;
+
+    void deserialize( const JsonObject &jo );
 };
 
-struct transform_terrain_data {
+struct vpslot_toolkit {
+    bool was_loaded = false;
+
+    std::set<itype_id> allowed_types;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
+
+    void deserialize( const JsonObject &jo );
 };
 
-const std::vector<std::pair<std::string, translation>> vpart_variants = {
-    { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
-    { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
-    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
-    { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
-    { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
-    { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
-    { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
-    { "cross", to_translation( "vpart_variants", "Cross" ) },
-    { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
-    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
-    { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
-    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
-    { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
-    { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
-    { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
-    { "nw_edge", to_translation( "vpart_variants", "Front Left Corner" ) },
-    { "se_edge", to_translation( "vpart_variants", "Rear Right Corner" ) },
-    { "sw_edge", to_translation( "vpart_variants", "Rear Left Corner" ) },
-    { "vertical_right", to_translation( "vpart_variants", "Right Vertical" ) },
-    { "vertical_left", to_translation( "vpart_variants", "Left Vertical" ) },
-    { "vertical_2_right", to_translation( "vpart_variants", "Right Thick Vertical" ) },
-    { "vertical_2_left", to_translation( "vpart_variants", "Left Thick Vertical" ) },
-    { "vertical_T_right", to_translation( "vpart_variants", "Right T Joint" ) },
-    { "vertical_T_left", to_translation( "vpart_variants", "Left T Joint" ) },
-    { "front_right", to_translation( "vpart_variants", "Front Right" ) },
-    { "front_left", to_translation( "vpart_variants", "Front Left" ) },
-    { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
-    { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
-    // these have to be last to avoid false positives
-    { "cover", to_translation( "vpart_variants", "Cover" ) },
-    { "vertical", to_translation( "vpart_variants", "Vertical" ) },
-    { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
-    { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },
-    { "horizontal_2", to_translation( "vpart_variants", "Thick Horizontal" ) },
-    { "ne", to_translation( "vpart_variants", "Front Right" ) },
-    { "nw", to_translation( "vpart_variants", "Front Left" ) },
-    { "se", to_translation( "vpart_variants", "Rear Right" ) },
-    { "sw", to_translation( "vpart_variants", "Rear Left" ) },
-    { "front", to_translation( "vpart_variants", "Front" ) },
-    { "rear", to_translation( "vpart_variants", "Rear" ) },
-    { "left", to_translation( "vpart_variants", "Left" ) },
-    { "right", to_translation( "vpart_variants", "Right" ) }
-};
+struct vp_control_req {
+    std::set<std::pair<skill_id, int>> skills;
+    std::set<proficiency_id> proficiencies;
 
-const std::map<std::string, int> vpart_variants_standard = {
-    { "cover", '^' }, { "cross", 'c' },
-    { "horizontal", 'h' }, { "horizontal_2", '=' }, { "vertical", 'j' }, { "vertical_2", 'H' },
-    { "ne", 'u' }, { "nw", 'y' }, { "se", 'n' }, { "sw", 'b' }
+    void deserialize( const JsonObject &jo );
 };
-std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid );
-std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
-std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
 
 class vpart_category
 {
     public:
         static const std::vector<vpart_category> &all();
 
-        static void load( const JsonObject &jo );
-        static void finalize();
+        static void load_all( const JsonObject &jo );
+        static void finalize_all();
+        void load( const JsonObject &jo );
         static void reset();
 
         std::string get_id() const {
@@ -228,27 +240,49 @@ class vpart_category
         int priority_ = 0; // order of tab in the UI
 };
 
+class vpart_variant
+{
+    public:
+        std::string id;
+        std::array<char32_t, 8> symbols;
+        std::array<char32_t, 8> symbols_broken;
+
+        std::string get_label() const;
+
+        // @note if input is vehicle facing convert using `270_degrees - vehicle.face.dir()` first
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken if true returns the broken symbol else
+        // @returns unicode symbol for this variant given a direction and broken status
+        char32_t get_symbol( units::angle direction, bool is_broken ) const;
+
+        // @note if input is vehicle facing convert using `270_degrees - vehicle.face.dir()` first
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken whether to return the broken symbol
+        // @returns ncurses ACS code for this variant given a direction and broken status
+        int get_symbol_curses( units::angle direction, bool is_broken ) const;
+
+        // @returns ncurses ACS code for a unicode \p sym symbol
+        static int get_symbol_curses( char32_t sym );
+
+    private:
+        std::string label_;
+        friend class vpart_info;
+        void load( const JsonObject &jo, bool was_loaded );
+};
+
 class vpart_info
 {
     public:
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
-                                 const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
-        static void load( const JsonObject &jo, const std::string &src );
-        static void finalize();
-        static void check();
-        static void reset();
+        vpart_id id;
 
-        static const std::map<vpart_id, vpart_info> &all();
+        void load( const JsonObject &jo, std::string_view src );
+        void check() const;
+        void finalize();
+        void handle_inheritance( const vpart_info &copy_from,
+                                 const std::unordered_map<std::string, vpart_info> &abstracts );
 
         /** Translated name of a part */
         std::string name() const;
-
-        vpart_id get_id() const {
-            return id;
-        }
 
         const std::set<std::string> &get_flags() const {
             return flags;
@@ -260,13 +294,6 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
-
-        bool has_tool( const itype_id &tool ) const {
-            return std::find_if( pseudo_tools.cbegin(),
-            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
-                return p.first == tool;
-            } ) != pseudo_tools.cend();
-        }
 
         /** Gets all categories of this part */
         const std::set<std::string> &get_categories() const;
@@ -280,53 +307,51 @@ class vpart_info
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
+        // needed for setting turret requirements, possibly not for general use
+        void set_install_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
+
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &you ) const;
+        time_duration install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &you ) const;
+        time_duration removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
-        /** Returns whether or not the part is repairable  */
+        /** Returns whether or not the part type is repairable */
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &you ) const;
+        time_duration repair_time( const Character &you ) const;
 
-        /**
-         * @name Engine specific functions
-         *
-         */
-        std::vector<std::string> engine_excludes() const;
-        int engine_m2c() const;
-        float engine_backfire_threshold() const;
-        int engine_backfire_freq() const;
-        int engine_muscle_power_factor() const;
-        float engine_damaged_power_factor() const;
-        int engine_noise_factor() const;
-        std::vector<itype_id> engine_fuel_opts() const;
-        /**
-         * @name Wheel specific functions
-         *
-         */
-        float wheel_rolling_resistance() const;
-        int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
-        /** @name rotor specific functions
-        */
-        int rotor_diameter() const;
-        /**
-         * Getter for optional workbench info
-         */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_terrain_transform> transform_terrain_info;
+        //Enchantments
+        std::vector<enchantment_id> enchantments;
+        std::optional<effect_on_condition_id> activatable_eoc;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
+
+        // @returns tools required for folding this part
+        std::vector<itype_id> get_folding_tools() const;
+        // @returns tools required for unfolding this part
+        std::vector<itype_id> get_unfolding_tools() const;
+        // @returns time required for folding this part
+        time_duration get_folding_time() const;
+        // @returns time required for unfolding this part
+        time_duration get_unfolding_time() const;
+
+        /** Returns whether or not the vehicle this part installed requires something to control */
+        bool has_control_req() const;
+
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -341,32 +366,39 @@ class vpart_info
 
         /** Pseudo tools this provides when installed, second is the hotkey */
         std::set<std::pair<itype_id, int>> pseudo_tools;
-
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
-
-        /** Unique identifier for this part */
-        vpart_id id;
+        // tools required to fold this part
+        std::vector<itype_id> folding_tools;
+        // tools required to unfold this part
+        std::vector<itype_id> unfolding_tools;
+        // time required to fold this part
+        time_duration folding_time = 10_seconds;
+        // time required to unfold this part
+        time_duration unfolding_time = 10_seconds;
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
 
     public:
-        /* map of standard variant names to symbols */
-        std::map<std::string, int> symbols;
+        std::map<std::string, vpart_variant> variants;
+        // default variant to use when no variant is selected
+        std::string variant_default;
+        // used in vpart_info::finalize() to generate cosmetic variants sets
+        std::vector<std::pair<std::string, std::string>> variants_bases;
 
         /** Required skills to install, repair, or remove this component */
         std::map<skill_id, int> install_skills;
         std::map<skill_id, int> repair_skills;
         std::map<skill_id, int> removal_skills;
 
+        // required skill to control vehicle
+        vp_control_req control_air;
+        vp_control_req control_land;
+
         /** @ref item_group this part breaks into when destroyed */
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
+        std::unordered_map<damage_type_id, float> damage_reduction;
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -386,9 +418,6 @@ class vpart_info
         nc_color color = c_light_gray;
         nc_color color_broken = c_light_gray;
 
-        /* Contains data for terrain transformer parts */
-        transform_terrain_data transform_terrain;
-
         /** Fuel type of engine or tank */
         itype_id fuel_type = itype_id::NULL_ID();
 
@@ -396,7 +425,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        std::optional<units::volume> folded_volume = std::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
@@ -410,16 +439,11 @@ class vpart_info
         /** base item for this part */
         itype_id base_item;
 
-        /** What slot of the vehicle tile does this part occupy? */
-        std::string location;
+        /** item it should be removed as */
+        std::optional<itype_id> removed_item;
 
-        /**
-         * Symbol of part which will be translated as follows:
-         * y, u, n, b to NW, NE, SE, SW lines correspondingly
-         * h, j, c to horizontal, vertical, cross correspondingly
-         */
-        int sym = 0;
-        int sym_broken = '#';
+        /** What slot of the vehicle tile does this part occupy? */
+        vpart_location_id location = vpart_location_id::NULL_ID();
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
@@ -428,32 +452,36 @@ class vpart_info
         int dmg_mod = 100;
 
         /**
-         * Electrical power, flat rate (watts); positive for generation, negative for consumption
-         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
+         * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
-        int epower = 0;
+        units::power epower = 0_W;
 
         /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        int energy_consumption = 0;
+        units::power energy_consumption = 0_W;
 
         /**
          * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
-        int power = 0;
+        units::power power = 0_W;
 
-        /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = to_moves<int>( 1_hours );
-        /** Repair time (in moves) to fully repair a component (@see repair_time) */
-        int repair_moves = to_moves<int>( 1_hours );
-        /** Removal time (in moves) for component (@see removal_time),
-         *  default is half @ref install_moves */
-        int removal_moves = -1;
+        /** Installation for component (@see install_time) */
+        time_duration install_moves = 1_hours;
+        /** Repair time to fully repair a component (@see repair_time) */
+        time_duration repair_moves = 1_hours;
+        /** Removal time for component (@see removal_time), default is half \p install_moves */
+        time_duration removal_moves = -1_seconds;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
+        // seatbelt (str, currently non-functional #30239)
+        // muffler (% noise reduction)
+        // horn (sound volume)
+        // light (intensity)
+        // recharging (charging speed in watts)
+        // funnel (water collection area in mm^2)
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -461,29 +489,28 @@ class vpart_info
 
         /*Comfort data for sleeping in vehicles*/
         int comfort = 0;
-        int floor_bedding_warmth = 0;
-        int bonus_fire_warmth_feet = 300;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
+        units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
 
-        // z-ordering, inferred from location, cached here
-        int z_order = 0;
-        // Display order in vehicle interact display
-        int list_order = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
+    private:
+        bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vpart_id, mod_id>> src;
+        friend class generic_factory<vpart_info>;
+        friend struct mod_tracker;
 };
 
 struct vehicle_item_spawn {
-    point pos;
+    point_rel_ms pos;
     int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
-    std::vector<itype_id> item_ids;
-    // item_ids, but for items with variants specified
-    std::vector<std::pair<itype_id, std::string>> variant_ids;
+    // item_ids, with variants specified (empty is ignored)
+    std::vector<std::pair<itype_id, std::string>> item_ids;
     std::vector<item_group_id> item_groups;
+
+    void deserialize( const JsonObject &jo );
 };
 
 /**
@@ -491,33 +518,79 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
-    struct part_def {
-        point pos;
-        vpart_id part;
-        std::string variant;
-        int with_ammo = 0;
-        std::set<itype_id> ammo_types;
-        std::pair<int, int> ammo_qty = { -1, -1 };
-        itype_id fuel = itype_id::NULL_ID();
-    };
+    public:
+        struct part_def {
+            point_rel_ms pos;
+            vpart_id part;
+            std::string variant;
+            int with_ammo = 0;
+            std::set<itype_id> ammo_types;
+            std::pair<int, int> ammo_qty = { -1, -1 };
+            itype_id fuel = itype_id::NULL_ID();
+            std::vector<itype_id> tools;
 
-    vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && ) noexcept;
-    ~vehicle_prototype();
+            bool operator==( const part_def &other ) const {
+                return pos == other.pos && part == other.part && variant == other.variant &&
+                       with_ammo == other.with_ammo && ammo_types == other.ammo_types && ammo_qty == other.ammo_qty &&
+                       fuel == other.fuel && tools == other.tools;
+            }
+        };
 
-    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
+        struct zone_def {
+            zone_type_id zone_type;
+            std::string name;
+            std::string filter;
+            point_rel_ms pt;
 
-    translation name;
-    std::vector<part_def> parts;
-    std::vector<vehicle_item_spawn> item_spawns;
+            void deserialize( const JsonObject &jo );
+            bool operator==( const zone_def &other ) const {
+                return zone_type == other.zone_type && name == other.name && filter == other.name && pt == other.pt;
+            }
+        };
 
-    std::unique_ptr<vehicle> blueprint;
+        vproto_id id;
+        translation name;
+        std::vector<part_def> parts;
+        std::vector<vehicle_item_spawn> item_spawns;
+        std::vector<zone_def> zone_defs;
+        std::vector<std::pair<vproto_id, mod_id>> src;
 
-    static void load( const JsonObject &jo );
-    static void reset();
-    static void finalize();
+        shared_ptr_fast<vehicle> blueprint;
 
-    static std::vector<vproto_id> get_all();
+        void load( const JsonObject &jo, std::string_view src );
+        static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
+    private:
+        bool was_loaded = false; // used by generic_factory
+        friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
+};
+
+/**
+* Holder for all vpart migrations, when loading parts with vpart_id present
+* in the map keys they'll be replaced by vpart_id in the pair's value
+*/
+class vpart_migration
+{
+    public:
+        vpart_id part_id_old;
+        vpart_id part_id_new;
+        std::optional<std::string> variant;
+        std::vector<itype_id> add_veh_tools;
+
+        /** Handler for loading "vehicle_part_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Finalizes migrations */
+        static void finalize();
+
+        /** Checks migrations */
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const vpart_migration *find_migration( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

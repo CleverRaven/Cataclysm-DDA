@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_ground",
     "object": {
       "fill_ter": "t_floor",
@@ -71,7 +70,11 @@
           { "item": "enchanted_worn_items", "chance": 10 },
           { "item": "enchanted_combat_items", "chance": 5 }
         ],
-        "R": [ { "item": "magic_shop_books", "chance": 40, "repeat": [ 0, 2 ] }, { "item": "spellbook_loot_2", "chance": 10 } ],
+        "R": [
+          { "item": "magic_shop_books", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "spellbook_loot_2", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "spellbook_restricted_loot_2", "chance": 3, "repeat": [ 1, 2 ] }
+        ],
         "j": [
           { "item": "enchanted_small_items", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "enchanted_combat_items", "chance": 1 },
@@ -82,7 +85,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -144,7 +146,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_2nd",
     "object": {
       "fill_ter": "t_floor",
@@ -172,7 +173,7 @@
         "#####,,,===__===,,,#####",
         "#k  ],=}=______=}=,]  k#",
         "#RHH)====______====)HHR#",
-        "#########################"
+        "########################"
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
@@ -203,7 +204,8 @@
         "H": [
           { "item": "magic_shop_clothes", "chance": 5 },
           { "item": "enchanted_small_items", "chance": 10 },
-          { "item": "magic_shop_books", "chance": 10 }
+          { "item": "magic_shop_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 1 }
         ],
         "`": [
           { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
@@ -223,7 +225,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_3rd",
     "object": {
       "fill_ter": "t_floor",
@@ -258,14 +259,17 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "dragon_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_4th",
     "object": {
       "fill_ter": "t_floor",
@@ -300,14 +304,17 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35 }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "dragon_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_5th",
     "object": {
       "fill_ter": "t_floor",
@@ -355,7 +362,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_6th",
     "object": {
       "fill_ter": "t_floor",
@@ -390,18 +396,23 @@
       "items": {
         "r": [
           { "item": "magic_shop_books", "chance": 20 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 },
           { "item": "magic_shop_wands", "chance": 10 },
           { "item": "enchanted_small_items", "chance": 5 },
           { "item": "enchanted_combat_items", "chance": 2 }
         ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "spellbook_restricted_loot_2", "chance": 3, "repeat": [ 1, 2 ] },
+          { "item": "spellbook_mana_upgrades", "chance": 5 },
+          { "item": "dragon_books", "chance": 30 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_7th",
     "object": {
       "fill_ter": "t_floor",
@@ -448,7 +459,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_8th",
     "object": {
       "fill_ter": "t_floor",
@@ -494,7 +504,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "magic_academy_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -507,24 +516,25 @@
         "________________________",
         "________________________",
         "________________________",
-        "_________      _________",
-        "________     >  ________",
-        "_______          _______",
-        "______            ______",
-        "______            ______",
-        "______            ______",
-        "______            ______",
-        "_______          _______",
-        "________        ________",
-        "_________      _________",
-        "__________ __ __________",
+        "_________######_________",
+        "________##   >##________",
+        "_______##c====c##_______",
+        "______## ====== ##______",
+        "______#i ====== i#______",
+        "______#i ====== i#______",
+        "______## ====== ##______",
+        "_______##c====c##_______",
+        "________##    ##________",
+        "_________######_________",
+        "__________#__#__________",
         "________________________",
         "________________________",
         "________________________",
         "________________________",
         "________________________"
       ],
-      "terrain": { ">": "t_stairs_down", "_": "t_open_air" }
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { ">": "t_stairs_down", "_": "t_open_air", "=": "t_grass_golf", "#": "t_rock_wall_half" }
     }
   }
 ]

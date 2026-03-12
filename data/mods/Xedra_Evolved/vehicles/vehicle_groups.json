@@ -1,0 +1,17 @@
+[
+  {
+    "type": "vehicle_group",
+    "id": "police_pileup",
+    "vehicles": [ [ "bearcub", 40 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "city_pileup",
+    "vehicles": [ [ "bearcub", 8 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "military_vehicles",
+    "vehicles": [ [ "bearcub", 5 ] ]
+  }
+]

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "psionic_shield_belt",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "shield belt" },
+    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized shield with Ψ and the XEDRA logo inside it.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "nylon", "steel", "nether_crystal" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "yellow",
+    "material_thickness": 1.5,
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
+        "target": "psionic_shield_belt_on",
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch",
+        "moves": 75
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ],
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Shield Belt",
+        "description": "The air around you has a faint shimmer.",
+        "ench_effects": [ { "effect": "effect_shield_belt_telekin_protection", "intensity": 1 } ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -8 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -40 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "psionic_shield_belt_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "shield belt (active)", "str_pl": "shield belts (active)" },
+    "copy-from": "psionic_shield_belt",
+    "power_draw": "150 W",
+    "revert_to": "psionic_shield_belt",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "psionic_shield_belt",
+        "msg": "You flip the switch on the box and the red LED turns off.",
+        "menu_text": "Flip the switch",
+        "type": "transform",
+        "moves": 75
+      }
+    ],
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
+  },
+  {
+    "id": "psionic_fire_shield_belt",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "name": { "str": "suppression belt" },
+    "description": "A simple synthetic fabric belt with a box to the right of the belt loop.  The box has a toggleable switch and a stylized flame with a large circle and line superimposed over it and a Ψ behind the XEDRA logo inside it.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "nylon", "steel", "nether_crystal" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "red",
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_electronoetic"
+      }
+    ],
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You flip the switch on the box and a red LED lights up.",
+        "damage_failure_msg": "You flip the switch on the box, but nothing happens.",
+        "target": "psionic_fire_shield_belt_on",
+        "need_charges": 1,
+        "need_charges_msg": "The switch clicks but nothing happens.",
+        "need_worn": true,
+        "menu_text": "Flip the switch",
+        "moves": 75
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
+        "volume_encumber_modifier": 0.35
+      }
+    ],
+    "tool_ammo": [ "battery" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "name": "Active Suppression Belt",
+        "description": "The air around you feels cool.",
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+        "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "psionic_fire_shield_belt_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "suppression belt (active)", "str_pl": "suppression belts (active)" },
+    "copy-from": "psionic_fire_shield_belt",
+    "power_draw": "50 W",
+    "revert_to": "psionic_fire_shield_belt",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "psionic_fire_shield_belt",
+        "msg": "You flip the switch on the box and the red LED turns off.",
+        "menu_text": "Flip the switch",
+        "type": "transform",
+        "moves": 75
+      }
+    ],
+    "extend": { "flags": [ "NO_TAKEOFF", "SPAWN_ACTIVE" ] }
+  }
+]

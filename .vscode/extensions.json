@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "cdda-toys.cdda-json-formatter",
+    "nornagon.cdda-json-lsp"
+  ]
+}

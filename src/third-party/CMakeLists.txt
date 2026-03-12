@@ -1,14 +1,66 @@
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.20)
 
+# Don't clang-tidy third party code
+set(CMAKE_CXX_CLANG_TIDY "")
 
 # Root third-party library which will export all individual ones.
 add_library(
         third-party
         INTERFACE)
 
-set(THIRD_PARTY_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/third-party)
+# Flatbuffers
+file(GLOB FLATBUFFERS_HEADERS flatbuffers/**/*.h)
+file(GLOB FLATBUFFERS_SOURCES flatbuffers/*.cpp)
 
-file(GLOB GHC_HEADERS ${THIRD_PARTY_SOURCE_DIR}/ghc/*.hpp)
+add_library(
+        flatbuffers
+        STATIC
+        ${FLATBUFFERS_HEADERS}
+        ${FLATBUFFERS_SOURCES})
+
+target_include_directories(
+        flatbuffers
+        SYSTEM
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+# For cata_flatbuffers_assert.h
+target_include_directories(
+        flatbuffers
+        PUBLIC
+        ${CMAKE_SOURCE_DIR}/src)
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        flatbuffers
+        )
+
+# fmt
+file(GLOB FMT_HEADERS fmt/*.h)
+file(GLOB FMT_SOURCES fmt/*.cc)
+
+add_library(
+        fmt
+        STATIC
+        ${FMT_HEADERS}
+        ${FMT_SOURCES})
+
+target_include_directories(
+        fmt
+        SYSTEM
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        fmt
+        )
+
+
+# GHC filesystem
+file(GLOB GHC_HEADERS ghc/*.hpp)
 
 add_library(
         ghc-filesystem
@@ -23,9 +75,198 @@ target_include_directories(
         ghc-filesystem
         SYSTEM
         INTERFACE
-        ${THIRD_PARTY_SOURCE_DIR})
+        ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(
         third-party
         INTERFACE
-        ghc-filesystem)
+        ghc-filesystem
+        )
+
+# ImGUI
+if (TILES)
+        add_library(
+                imgui
+                STATIC
+                imgui/imconfig.h
+                imgui/imgui.cpp
+                imgui/imgui.h
+                imgui/imgui_demo.cpp
+                imgui/imgui_draw.cpp
+                imgui/imgui_freetype.cpp
+                imgui/imgui_freetype.h
+                imgui/imgui_impl_sdl2.cpp
+                imgui/imgui_impl_sdl2.h
+                imgui/imgui_impl_sdlrenderer2.cpp
+                imgui/imgui_impl_sdlrenderer2.h
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
+                imgui/imgui_tables.cpp
+                imgui/imgui_widgets.cpp
+                imgui/imstb_rectpack.h
+                imgui/imstb_textedit.h
+                imgui/imstb_truetype.h
+                )
+
+        target_include_directories(
+                imgui
+                SYSTEM
+                PUBLIC
+                ${CMAKE_CURRENT_SOURCE_DIR}
+                )
+
+        target_include_directories(
+                imgui
+                SYSTEM
+                PRIVATE
+                ${SDL2_INCLUDE_DIR}/..
+                /usr/include/freetype2
+                )
+
+        target_compile_options(
+                imgui
+                PRIVATE
+                -w
+                )
+
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(imgui PUBLIC
+                SDL2::SDL2-static
+                $<TARGET_NAME_IF_EXISTS:PkgConfig::Freetype>
+            )
+        else()
+            target_link_libraries(imgui PUBLIC
+                SDL2::SDL2
+                freetype
+            )
+        endif ()
+
+
+        target_link_libraries(
+                third-party
+                INTERFACE
+                imgui
+                )
+endif ()
+
+# ImTUI
+if (CURSES)
+        add_library(
+                imtui
+                STATIC
+                imgui/imconfig.h
+                imgui/imgui.cpp
+                imgui/imgui.h
+                imgui/imgui_demo.cpp
+                imgui/imgui_draw.cpp
+                imgui/imgui_internal.h
+                imgui/imgui_stdlib.cpp
+                imgui/imgui_stdlib.h
+                imgui/imgui_tables.cpp
+                imgui/imgui_widgets.cpp
+                imtui/imtui-impl-ncurses.cpp
+                imtui/imtui-impl-ncurses.h
+                imtui/imtui-impl-text.cpp
+                imtui/imtui-impl-text.h
+                imtui/imtui.h
+                )
+
+        target_include_directories(
+                imtui
+                SYSTEM
+                PUBLIC
+                ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_compile_options(
+                imtui
+                PRIVATE
+                -w
+                )
+
+        target_compile_definitions(
+                imtui
+                PUBLIC
+                IMTUI
+                $<$<BOOL:${MSYS2}>:NCURSES_INTERNALS>
+        )
+
+        target_link_libraries(
+                third-party
+                INTERFACE
+                imtui
+                )
+
+        if (TARGET unofficial::pdcurses::pdcurses)
+            target_link_libraries(
+                    imtui
+                    PUBLIC
+                    unofficial::pdcurses::pdcurses
+            )
+            target_compile_definitions(
+                imtui
+                PUBLIC
+                PDC_WIDE
+                NCURSES_MOUSE_VERSION
+            )
+        elseif(TARGET pdcurses)
+            target_link_libraries(imtui PUBLIC pdcurses)
+        else() # FindCurses.cmake does not create targets
+            target_include_directories(
+                    imtui
+                    SYSTEM
+                    PUBLIC
+                    ${CURSES_INCLUDE_DIR}
+                    ${NCURSES_INCLUDE_DIRS}
+                    ${CURSES_INCLUDE_DIR}/ncurses$<$<BOOL:${CURSES_NEED_WIDE}>:w>
+            )
+        endif()
+endif ()
+
+# We use snmalloc in header only mode
+file(GLOB SNMALLOC_HEADERS snmalloc/**/*)
+
+add_library(
+        snmalloc
+        INTERFACE)
+
+target_include_directories(
+        snmalloc
+        SYSTEM
+        INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        snmalloc
+        )
+
+# Zstandard
+file(GLOB ZSTD_HEADERS zstd/**/*.h)
+file(GLOB ZSTD_SOURCES zstd/common/*.c zstd/compress/*.c zstd/decompress/*.c)
+
+add_library(
+        zstd
+        STATIC
+        ${ZSTD_HEADERS}
+        ${ZSTD_SOURCES})
+
+target_include_directories(
+        zstd
+        SYSTEM
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_compile_definitions(
+        zstd
+        PUBLIC
+        ZSTD_STATIC_LINKING_ONLY
+        ZSTD_DISABLE_ASM
+        )
+
+target_link_libraries(
+        third-party
+        INTERFACE
+        zstd
+        )

@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_DEPENDENCY_TREE_H
 #define CATA_SRC_DEPENDENCY_TREE_H
 
-#include <iosfwd>
 #include <map>
 #include <stack>
+#include <string>
 #include <vector>
 
 #include "type_id.h"
@@ -33,9 +33,9 @@ class dependency_node
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
-        bool is_available();
+        bool is_available() const;
         bool has_errors();
-        std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors();
+        std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors() const;
         std::string s_errors();
 
         // Tree traversal

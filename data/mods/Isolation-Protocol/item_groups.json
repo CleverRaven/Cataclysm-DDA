@@ -1,0 +1,13 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "iso_remediator_cache",
+    "entries": [
+      { "item": "iso_lewis_mag", "ammo-item": "3006", "charges": 47 },
+      { "item": "smokebomb", "count": 2 },
+      { "item": "xedra_rubber_mantle", "count": 2, "prob": 15 },
+      { "item": "grenade", "count": 2, "prob": 50 }
+    ]
+  }
+]

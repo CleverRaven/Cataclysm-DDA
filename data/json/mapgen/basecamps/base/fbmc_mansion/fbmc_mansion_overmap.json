@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_e1" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_e2" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t1" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t2" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t3" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t4" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t5" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t6" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_t7" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c1" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c2" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c3" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c4" ],
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_mansion_c5" ],
+    "object": { "fill_ter": "t_dirt" }
+  }
+]

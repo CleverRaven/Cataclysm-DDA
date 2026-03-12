@@ -11,12 +11,11 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "memory_fast.h"
 
-class JsonIn;
 class JsonObject;
-class loading_ui;
-struct json_source_location;
+class JsonValue;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -57,16 +56,11 @@ struct json_source_location;
 class DynamicDataLoader
 {
     public:
-        using type_string = std::string;
-        using t_type_function_map =
-            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>>;
-        using str_vec = std::vector<std::string>;
-
         /**
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
+        using deferred_json = std::list<std::pair<JsonObject, std::string>>;
 
     private:
         bool finalized = false;
@@ -80,12 +74,19 @@ class DynamicDataLoader
          * Maps the type string (coming from json) to the
          * functor that loads that kind of object from json.
          */
+        using type_string = std::string;
+        using t_type_function_map =
+            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>>;
+        using str_vec = std::vector<std::string>;
         t_type_function_map type_function_map;
         void add( const std::string &type, const std::function<void( const JsonObject & )> &f );
         void add( const std::string &type,
                   const std::function<void( const JsonObject &, const std::string & )> &f );
         void add( const std::string &type,
                   const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                  &f );
+        void add( const std::string &type,
+                  const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
                   &f );
         /**
          * Load all the types from that json data.
@@ -96,8 +97,8 @@ class DynamicDataLoader
          * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &ui,
-                                 const std::string &base_path, const std::string &full_path );
+        void load_all_from_json( const JsonValue &jsin, const std::string &src,
+                                 const cata_path &base_path, const cata_path &full_path );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
@@ -105,8 +106,8 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_object( const JsonObject &jo, const std::string &src,
-                          const std::string &base_path = std::string(),
-                          const std::string &full_path = std::string() );
+                          const cata_path &base_path = cata_path{},
+                          const cata_path &full_path = cata_path{} );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
@@ -119,7 +120,7 @@ class DynamicDataLoader
          * May print a debugmsg if something seems wrong.
          * @param ui Finalization status display.
          */
-        void check_consistency( loading_ui &ui );
+        void check_consistency();
 
     public:
         /**
@@ -137,7 +138,26 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         /*@{*/
-        void load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui );
+        void load_data_from_path( const cata_path &path, const std::string &src );
+        /**
+         * Load all data from json files located in
+         * the path (recursive) except for those within the mod_interactions folder.
+         * @param path Either a folder (recursively load all
+         * files with the extension .json), or a file (load only
+         * that file, don't check extension).
+         * @param src String identifier for mod this data comes from.
+         * @throws std::exception on all kind of errors.
+         */
+        /*@{*/
+        void load_mod_data_from_path( const cata_path &path, const std::string &src );
+        /**
+         * Load directories located within the given path if they are named after a currently loaded mod id.
+         * @param path a folder.
+         * @param src String identifier for mod this data comes from.
+         * @throws std::exception on all kind of errors.
+         */
+        /*@{*/
+        void load_mod_interaction_files_from_path( const cata_path &path, const std::string &src );
         /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with
@@ -155,7 +175,6 @@ class DynamicDataLoader
          * game should *not* proceed in that case.
          */
         /*@{*/
-        void finalize_loaded_data( loading_ui &ui );
         void finalize_loaded_data();
         /*@}*/
 

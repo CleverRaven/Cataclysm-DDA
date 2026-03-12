@@ -1,0 +1,91 @@
+import re
+
+from .message import Message, messages, occurrences
+
+
+tag_pattern = re.compile(r'^<[a-zA-Z0-9_!?.-]*>$')
+
+
+def is_tag(text):
+    return tag_pattern.match(text)
+
+
+def append_comment(comments, new_comment):
+    if not new_comment:
+        return comments
+    if type(new_comment) is str:
+        return comments + new_comment.split("\n")
+    elif type(new_comment) is list:
+        for comment in new_comment:
+            comments = append_comment(comments, comment)
+        return comments
+
+
+def write_text(json, origin, context="", comment="", plural=False):
+    """
+    Record a text for translation.
+
+    Parameters:
+        json: The text in string or JSON dict form
+        origin (str): Path of JSON source location
+        context (str): "context" as in GNU gettext
+        comment: Translation comments in either string form or list of strings
+        plural (bool): Whether the text should be pluralized
+        explicit_plural (bool): Whether the plural is specified
+                                explicitly in JSON
+    """
+    if not json:
+        return
+
+    comments = append_comment([], comment)
+    text = ""
+    text_plural = ""
+    explicit_plural = False
+
+    if type(json) is str:
+        text = json
+        if plural:
+            text_plural = f"{text}s"
+    elif type(json) is dict:
+        if "//~" in json:
+            comments = append_comment(comments, json["//~"])
+        context = json.get("ctxt", "")
+        text = json.get("str", "")
+        if plural:
+            if "str_sp" in json:
+                text = json["str_sp"]
+                text_plural = json["str_sp"]
+                explicit_plural = True
+            elif "str_pl" in json:
+                text_plural = json["str_pl"]
+                explicit_plural = True
+            else:
+                text_plural = f"{text}s"
+
+    if not text or "NO_I18N" in comments or is_tag(text):
+        return
+
+    format_tag = None
+    if re.search(r"%\w", text):
+        format_tag = "c-format"
+
+    if (context, text) not in messages:
+        messages[(context, text)] = list()
+
+    messages[(context, text)].append(
+        Message(comments, origin, format_tag, context,
+                text, text_plural, explicit_plural))
+    occurrences.append((context, text))
+
+
+# Used in parse_effect and parse_condition
+def write_variable(json, origin, context="", comment="", plural=False):
+    if not json:
+        return
+
+    if type(json) is dict and "default_str" in json:
+        write_text(json["default_str"], origin, context=context,
+                   comment=f"default value for {comment}", plural=plural)
+    else:
+        write_text(json, origin, context=context, comment=comment,
+                   plural=plural)

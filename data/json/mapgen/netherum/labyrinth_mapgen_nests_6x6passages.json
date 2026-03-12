@@ -1,0 +1,518 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "......",
+        "......",
+        "......",
+        "......",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "narrowing type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "vv..vv",
+        "vv..vv",
+        "vv..vv",
+        "vv..vv",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "moth-eaten type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "walled type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v|..|v",
+        "vϴ..ϴv",
+        "v|..|v",
+        "v|..|v",
+        "vϴ..ϴv",
+        "v|..|v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "split type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "ϴ....ϴ",
+        "..vv..",
+        "..vv..",
+        "..vv..",
+        "..vv..",
+        "ϴ....ϴ"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "hole type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "..vv..",
+        ".vvvv.",
+        ".vvvv.",
+        "..vv..",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "tiny storeroom type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        ".|--|.",
+        ".-1_-.",
+        ".-__-.",
+        ".|--|.",
+        "......"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "-": [ [ "t_nl_metal_wall", 6 ], "t_nl_door_c" ] },
+      "nested": { "1": { "chunks": [ "ls_2x2_furniture" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "jagged hole type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "..oo..",
+        ".ovvo.",
+        ".ovvo.",
+        "..oo..",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "holy rusted metal batman type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vo.oov",
+        "voo.ov",
+        "vo.oov",
+        "voo.ov",
+        "vo.oov",
+        "voo.ov"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "moth-eaten type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "oooooo",
+        "......",
+        "......",
+        "oooooo",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "wall support type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "|ϴ||ϴ|",
+        "......",
+        "......",
+        "|ϴ||ϴ|",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "narrowing type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        ".vvvv.",
+        "......",
+        "......",
+        ".vvvv.",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "swoopy-up type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vv..vv",
+        "......",
+        "......",
+        "..vv..",
+        ".vvvv.",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "swoopy-down type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        ".vvvv.",
+        "..vv..",
+        "......",
+        "......",
+        "vv..vv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "holy rusted metal batman type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "oooooo",
+        "o.o.o.",
+        ".o.o.o",
+        "oooooo",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_secorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "vv....",
+        "v.ϴ...",
+        "v.....",
+        "v.....",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_necorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v.....",
+        "v.....",
+        "v.ϴ...",
+        "vv....",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_nwcorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".....v",
+        ".....v",
+        "...ϴ.v",
+        "....vv",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_swcorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "....vv",
+        "...ϴ.v",
+        ".....v",
+        ".....v",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Tn_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".ϴ..ϴ.",
+        "......",
+        "......",
+        "......",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Tn_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "......",
+        "......",
+        "..vv..",
+        ".vvvv.",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Tw_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".ϴ...v",
+        ".....v",
+        ".....v",
+        ".ϴ...v",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Tw_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "....vv",
+        "...vvv",
+        "...vvv",
+        "....vv",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Te_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v...ϴ.",
+        "v.....",
+        "v.....",
+        "v...ϴ.",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Te_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "vv....",
+        "vvv...",
+        "vvv...",
+        "vv....",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Ts_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "......",
+        "......",
+        "......",
+        ".ϴ..ϴ.",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_Ts_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        ".vvvv.",
+        "..vv..",
+        "......",
+        "......",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".ϴ..ϴ.",
+        "......",
+        "......",
+        ".ϴ..ϴ.",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".ϴ..ϴ.",
+        "..vv..",
+        "..vv..",
+        ".ϴ..ϴ.",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "..vv..",
+        ".vvvv.",
+        ".vvvv.",
+        "..vv..",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  }
+]

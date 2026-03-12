@@ -4,10 +4,13 @@
 
 #include <array>
 #include <cstddef>
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -26,6 +29,11 @@ enum clothing_mod_type : int {
     num_clothing_mod_types
 };
 
+inline auto  format_as( clothing_mod_type cmt )
+{
+    return static_cast<std::underlying_type_t<clothing_mod_type>>( cmt );
+}
+
 template<>
 struct enum_traits<clothing_mod_type> {
     static constexpr clothing_mod_type last = clothing_mod_type::num_clothing_mod_types;
@@ -40,11 +48,13 @@ struct mod_value {
 };
 
 struct clothing_mod {
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
+    static void finalize_all();
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 
     clothing_mod_id id;
+    std::vector<std::pair<clothing_mod_id, mod_id>> src;
     bool was_loaded = false;
 
     flag_id flag;

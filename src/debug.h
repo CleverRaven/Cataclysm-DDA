@@ -2,8 +2,12 @@
 #ifndef CATA_SRC_DEBUG_H
 #define CATA_SRC_DEBUG_H
 
+#include <cstdlib>
+#include <string>
+#include <unordered_set>
+#include <utility>
+
 #include "string_formatter.h"
-#include <list>
 
 /**
  *      debugmsg(msg, ...)
@@ -55,18 +59,18 @@
 #define STRING(x) STRING2(x)
 
 #if defined(__GNUC__)
-#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#define CATA_FUNCTION_NAME __PRETTY_FUNCTION__
 #else
-#define __FUNCTION_NAME__ __func__
+#define CATA_FUNCTION_NAME __func__
 #endif
 
 /**
  * Debug message of level D_ERROR and class D_MAIN, also includes the source
- * file name and line, uses varg style arguments, teh first argument must be
+ * file name and line, uses varg style arguments, the first argument must be
  * a printf style format string.
  */
 
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), CATA_FUNCTION_NAME, __VA_ARGS__) // NOLINT(bugprone-lambda-function-name)
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
@@ -79,14 +83,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+// Fatal error with a message
+#define cata_fatal(...) \
+    do { \
+        debugmsg(__VA_ARGS__); \
+        std::abort(); \
+    } while( false )
+
 // A fatal error for use in constexpr functions
-// This exists for compatibility reasons.  On gcc 5.3 we need a
+// This exists for compatibility reasons.  On gcc before 9 we need a
 // different implementation that is messier.
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
-// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// Pass a placeholder return value to be used on old gcc (it won't
 // actually be returned, it's just needed for the type), and then
 // args as if to debugmsg for the remaining args.
-#if defined(__GNUC__) && __GNUC__ < 6
+#if defined(__GNUC__) && __GNUC__ < 9
 #define constexpr_fatal(ret, ...) \
     do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
 #else
@@ -199,6 +210,11 @@ void limitDebugClass( int );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset the error observation flag (for seed-fuzz test reruns).
+ */
+void debug_reset_error_observed();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg
@@ -236,25 +252,35 @@ enum debug_filter : int {
     DF_ACT_SAFECRACKING, // safecracking activity actor
     DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
+    DF_ACTIVITY, // activity actor generic
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic
+    DF_CAMPS, // Everything to do with camps, player-owned or otherwise
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
+    DF_CRAFTING, // Crafting everything
     DF_CREATURE, // creature generic
     DF_EFFECT, // effects generic
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic
     DF_MATTACK, // monster attack generic
     DF_MELEE, // melee generic
+    DF_MONMOVE, // movement/pathfinding-related
     DF_MONSTER, // monster generic
-    DF_NPC, // npc generic
+    DF_MUTATION, // mutation/purification logic
+    DF_NPC, // npc generic, less verbose comments
+    DF_NPC_COMBATAI, // npc combat and danger assessment logic
+    DF_NPC_ITEMAI, // npc weapon/item logic - weapon choices, decision to reload, etc.
+    DF_NPC_MOVEAI, // Pathfinding and movement logic.  For the NPC with places to be.
     DF_OVERMAP, // overmap generic
+    DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
     DF_REQUIREMENTS_MAP, // activity_item_handler requirements_map()
     DF_SOUND, // sound generic
@@ -265,9 +291,20 @@ enum debug_filter : int {
     DF_LAST // This is always the last entry
 };
 
-extern std::list<debug_filter> enabled_filters;
+inline auto format_as( debug_filter df )
+{
+    return static_cast<std::underlying_type_t<debug_filter>>( df );
+}
+
+extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );
 } // namespace debugmode
+
+
+// From catch.hpp:
+// Returns true if the current process is being debugged (either
+// running under the debugger or has a debugger attached post facto).
+bool isDebuggerActive();
 
 #if defined(BACKTRACE)
 /**

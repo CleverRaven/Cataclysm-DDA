@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_COMPUTER_SESSION_H
 #define CATA_SRC_COMPUTER_SESSION_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "computer.h"
 #include "cursesdef.h"
+#include "type_id.h"
 
 class Character;
 
@@ -32,7 +33,7 @@ class computer_session
 
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( Character &you, int Security = -1 );
+        bool hack_attempt( Character &you, int Security = -1 ) const;
 
         /**
          * Checks whether the specified action can be activated (has any effect)
@@ -87,7 +88,6 @@ class computer_session
 
         void action_amigara_log();
         void action_amigara_start();
-        void action_blood_anal();
         void action_cascade();
         void action_complete_disable_external_power();
         void action_conveyor();
@@ -102,15 +102,22 @@ class computer_session
         void action_geiger();
         void action_irradiator();
         void action_list_bionics();
+        void action_list_mutations();
         void action_lock();
+        void helper_map( bool ( *func )( const oter_id & ), const char *query,
+                         enum computer_action action );
         void action_map_sewer();
         void action_map_subway();
         void action_maps();
         void action_miss_disarm();
+        void action_miss_launch();
         void action_open();
+        void action_open_gate();
+        void action_close_gate();
         void action_open_disarm();
         void action_portal();
         void action_radio_archive();
+        void helper_release( float radius );
         void action_release();
         void action_release_bionics();
         void action_release_disarm();
@@ -138,7 +145,6 @@ class computer_session
         void failure_alarm();
         void failure_amigara();
         void failure_damage();
-        void failure_destroy_blood();
         void failure_destroy_data();
         void failure_manhacks();
         void failure_pump_explode();

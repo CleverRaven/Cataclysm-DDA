@@ -1,0 +1,72 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_MOONSHINER",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
+      "yes": "Hey <name_g>.",
+      "no": { "gendered_line": "Haven't seen someone new in a while.  What brings you around here?", "relevant_genders": [ "npc" ] }
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Just wandering, <name_g>.",
+        "topic": "TALK_NPC_MOONSHINER_INTRO",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
+      },
+      {
+        "text": "I'll make this real simple for you.  Hand over your stuff, and no one gets hurt, capiche?",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
+      },
+      {
+        "text": "<greet>",
+        "topic": "TALK_NPC_MOONSHINER_INTRO",
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+      },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_MOONSHINER_INTRO",
+    "dynamic_line": "What can I do for you?",
+    "responses": [
+      { "text": "Could you tell me a bit about yourself?", "topic": "TALK_NPC_MOONSHINER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_trust() >= 2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
+        }
+      },
+      { "text": "Can I purchase any of your liquor?", "topic": "TALK_NPC_MOONSHINER_INTRO", "effect": "start_trade" },
+      {
+        "text": "It's a bit dangerous to be out here alone.  Why don't you come with me?",
+        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "Anything I could do for you?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_MOONSHINER_STORY",
+    "dynamic_line": {
+      "gendered_line": "I run this distillery you're standing in, before <the_cataclysm> it wasn't so legal with the law.  I was in <city> making a deal on my product when a horde of rioters busted in, so I ran for it.  I thought my business would be a nice place to stay, so I came out here.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [ { "text": "Huh.", "topic": "TALK_NONE" } ]
+  }
+]

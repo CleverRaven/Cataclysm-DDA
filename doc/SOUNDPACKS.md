@@ -1,3 +1,43 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Soundpacks](#soundpacks)
+  - [soundpack.txt format](#soundpacktxt-format)
+  - [JSON format](#json-format)
+    - [Sound effects](#sound-effects)
+        - [Adding variety](#adding-variety)
+    - [Preloading SFX](#preloading-sfx)
+    - [Playlists](#playlists)
+  - [Playlists List](#playlists-list)
+  - [JSON Format Sound Effects List](#json-format-sound-effects-list)
+    - [Open/close doors](#openclose-doors)
+    - [Smashing attempts and results](#smashing-attempts-and-results)
+    - [Melee](#melee)
+    - [Firearm/ranged weapon](#firearmranged-weapon)
+    - [Environmental SFX](#environmental-sfx)
+    - [Misc environmental sounds](#misc-environmental-sounds)
+    - [Ambient danger theme](#ambient-danger-theme)
+    - [Chainsaw pack](#chainsaw-pack)
+    - [Monster death and bite attacks](#monster-death-and-bite-attacks)
+    - [Player movement sfx](#player-movement-sfx)
+    - [Fatigue](#fatigue)
+    - [Player hurt](#player-hurt)
+    - [Player death and end-game](#player-death-and-end-game)
+    - [Various bionics](#various-bionics)
+    - [Various tools/traps being used](#various-toolstraps-being-used)
+    - [Various activities](#various-activities)
+    - [Musical instruments](#musical-instruments)
+    - [Various shouts and screams](#various-shouts-and-screams)
+    - [Speech](#speech)
+    - [Radio chatter](#radio-chatter)
+    - [Humming sounds of various origins](#humming-sounds-of-various-origins)
+    - [Fire](#fire)
+    - [Vehicle](#vehicle)
+    - [Miscellaneous](#miscellaneous)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Soundpacks
 
 A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of `sound_effect` or playlists.
@@ -33,12 +73,36 @@ Sound effects can be included with a format like this:
     "id": "fire_gun",
     "volume": 90,
     "variant": "bio_laser_gun",
+    "season": "summer",
     "files": [ "guns/energy_generic/weapon_fire_laser.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "open_door",
+    "volume": 75,
+    "variant": "t_door_c",
+    "season": "summer",
+    "is_indoors": true,
+    "is_night": false,
+    "files": [ "indoors/open_door_daytime.ogg" ]
   }
 ]
 ```
 
-Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
+Each sound effect is identified by an id, a variant, and a season. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
+
+##### Adding variety
+
+Several optional fields can be defined to target specific situations:
+
+| Field        | Purpose
+|---           |---
+| `variant`    | Defines a specific subset of the id's sound group. (ex: `"id": "environment", "variant": "WEATHER_DRIZZLE"`)
+| `season`     | If defined, the sound will only play on the specified season. (possible values are `spring`, `summer`, `autumn`, and `winter`).
+| `is_indoors` | If defined, the sound will only play if the player is indoors/outdoors when true/false.
+| `is_night`   | If defined, the sound will only play if the current time is night/day when true/false.
+
+If multiple `files` are defined for the sound effect, one will be chosen at random when the sound is played.
 
 The volume key may range from 0-100.
 
@@ -52,12 +116,15 @@ Sound effects can be included for preloading with a format like this:
 [
   {
     "type": "sound_effect_preload",
-    "preload": [ { "id": "environment", "variant": "daytime" }, { "id": "environment" } ]
+    "preload": [
+      { "id": "environment", "variant": "thunder_near", "season": "spring", "is_night": false },
+      { "id": "environment" }
+    ]
   }
 ]
 ```
 
-### Playlist
+### Playlists
 
 A playlist can be included with a format like this:
 
@@ -72,11 +139,39 @@ A playlist can be included with a format like this:
         "files": [ { "file": "Dark_Days_Ahead_demo_2.wav", "volume": 100 }, { "file": "cataclysmthemeREV6.wav", "volume": 90 } ]
       }
     ]
+  },
+  {
+    "type": "playlist",
+    "playlists": [
+      {
+        "id": "mp3",
+        "shuffle": false,
+        "files": [ { "file": "Dark_Days_Ahead_demo_2.wav", "volume": 100 }, { "file": "cataclysmthemeREV6.wav", "volume": 90 } ]
+      }
+    ]
   }
 ]
 ```
 
-Each sound effect is identified by an id and a variant. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
+Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different.
+
+Playlists are governed mainly by their id, which dictate in which situation a given playlist will be activated. Different situations trigger different ids, and if more than one ids are active at the same time, then the conflict is resolved by a priority model. Basically, each music id are given a hard-coded priority, where ids with higher priority takes precedent.
+
+## Playlists List
+
+A full list and priority of playlist ids is given in the following.
+
+* `mp3`
+This id is assigned with the highest priority value. Playlists that has this id will be activated when the player hears music with no sound, usually via a mp3 player or its variant.
+
+* `instrument`
+This id is assigned with the second highest priority value. Playlists that has this id will be activated when the player plays any musical instrument.
+
+* `sound`
+This id is assigned with the third highest priority value. Playlists that has this id will be activated when the player hears music with some sound, usually via a stereo or an i-pad.
+
+* `title`
+This id is assigned with the lowest priority value. It will be played only when all other playlists are inactive.
 
 ## JSON Format Sound Effects List
 
@@ -121,7 +216,7 @@ Divided by sections for clarity.
 * `environment thunder_near|thunder_far`
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`
-* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM`
+* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_RAINSTORM|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY|WEATHER_PORTAL_STORM`
 * `environment alarm|church_bells|police_siren`
 * `environment deafness_shock|deafness_tone_start|deafness_tone_light|deafness_tone_medium|deafness_tone_heavy`
 
@@ -134,10 +229,10 @@ Divided by sections for clarity.
 
 Triggered by seeing large numbers of zombies.
 
-* `danger_low`
-* `danger_medium`
-* `danger_high`
-* `danger_extreme`
+* `danger_low` when seeing 5-9 enemies.
+* `danger_medium` when seeing 10-14 enemies.
+* `danger_high` when seeing 15-19 enemies.
+* `danger_extreme` when seeing ≥ 20 enemies.
 
 ### Chainsaw pack
 
@@ -158,7 +253,6 @@ Triggered by seeing large numbers of zombies.
 * `mon_death zombie_death|zombie_gibbed`
 * `mon_bite bite_miss|bite_hit`
 * `melee_attack monster_melee_hit`
-* `player_laugh laugh_f|laugh_m`
 
 ### Player movement sfx
 
@@ -179,7 +273,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 
 ### Player death and end-game
 
-* `clean_up_at_end game_over|death_m|death_f`
+* `clean_up_at_end death_m|death_f`
 
 ### Various bionics
 

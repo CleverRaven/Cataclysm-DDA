@@ -4,11 +4,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void UnusedStaticsCheck::registerMatchers( MatchFinder *Finder )
@@ -52,7 +48,7 @@ void UnusedStaticsCheck::check( const MatchFinder::MatchResult &Result )
 
     // Ignore cases that are not static linkage
     Linkage Lnk = ThisDecl->getFormalLinkage();
-    if( Lnk != InternalLinkage && Lnk != UniqueExternalLinkage ) {
+    if( Lnk != Linkage::Internal && Lnk != Linkage::UniqueExternal ) {
         return;
     }
 
@@ -77,6 +73,4 @@ void UnusedStaticsCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

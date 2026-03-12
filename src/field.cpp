@@ -6,8 +6,12 @@
 #include <utility>
 
 #include "calendar.h"
-#include "make_static.h"
+#include "effect_source.h"
 #include "rng.h"
+
+class Creature;
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 std::string field_entry::symbol() const
 {
@@ -27,6 +31,11 @@ const field_intensity_level &field_entry::get_intensity_level() const
 bool field_entry::is_dangerous() const
 {
     return get_intensity_level().dangerous;
+}
+
+bool field_entry::is_mopsafe() const
+{
+    return !get_intensity_level().dangerous || get_field_type()->mopsafe;
 }
 
 field_type_id field_entry::get_field_type() const
@@ -67,10 +76,36 @@ time_duration field_entry::get_field_age() const
     return age;
 }
 
+Creature *field_entry::get_causer() const
+{
+    return causer.resolve_creature();
+}
+
+void field_entry::set_causer( effect_source source )
+{
+    causer = source;
+}
+
+effect_source field_entry::get_effect_source() const
+{
+    return causer;
+}
+
 time_duration field_entry::set_field_age( const time_duration &new_age )
 {
     decay_time = time_point();
     return age = new_age;
+}
+
+void field_entry::initialize_decay()
+{
+    if( type.obj().linear_half_life ) {
+        decay_time = calendar::turn - age + type.obj().half_life;
+    } else {
+        std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                           ( type.obj().half_life ) ) );
+        decay_time = calendar::turn - age + time_duration::from_turns( d( rng_get_engine() ) );
+    }
 }
 
 void field_entry::do_decay()
@@ -79,7 +114,7 @@ void field_entry::do_decay()
     age += 1_turns;
     if( type.obj().half_life > 0_turns && get_field_age() > 0_turns ) {
         // Legacy handling for fire because it's weird and complicated.
-        if( type == STATIC( field_type_str_id( "fd_fire" ) ) ) {
+        if( type == field_fd_fire ) {
             if( to_turns<int>( type->half_life ) < dice( 2, to_turns<int>( age ) ) ) {
                 set_field_age( 0_turns );
                 set_field_intensity( get_field_intensity() - 1 );
@@ -87,10 +122,7 @@ void field_entry::do_decay()
             return;
         }
         if( decay_time == calendar::turn_zero ) {
-            std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
-                                               ( type.obj().half_life ) ) );
-            const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
-            decay_time = calendar::turn - age + decay_delay;
+            initialize_decay();
         }
         if( decay_time <= calendar::turn ) {
             set_field_age( 0_turns );
@@ -114,8 +146,8 @@ field_entry *field::find_field( const field_type_id &field_type_to_find, const b
     if( !_displayed_field_type ) {
         return nullptr;
     }
-    const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
+    const auto it = _field_type_list->find( field_type_to_find );
+    if( it != _field_type_list->end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
@@ -127,8 +159,8 @@ const field_entry *field::find_field( const field_type_id &field_type_to_find,
     if( !_displayed_field_type ) {
         return nullptr;
     }
-    const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
+    const auto it = _field_type_list->find( field_type_to_find );
+    if( it != _field_type_list->end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
@@ -143,14 +175,14 @@ If you wish to modify an already existing field use find_field and modify the re
 Intensity defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::add_field( const field_type_id &field_type_to_add, const int new_intensity,
-                       const time_duration &new_age )
+                       const time_duration &new_age, effect_source source )
 {
     // sanity check, we don't want to store fd_null
     if( !field_type_to_add ) {
         return false;
     }
-    auto it = _field_type_list.find( field_type_to_add );
-    if( it != _field_type_list.end() ) {
+    auto it = _field_type_list->find( field_type_to_add );
+    if( it != _field_type_list->end() ) {
         //Already exists, but lets update it. This is tentative.
         int prev_intensity = it->second.get_field_intensity();
         if( !it->second.is_field_alive() ) {
@@ -158,20 +190,22 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
             prev_intensity = 0;
         }
         it->second.set_field_intensity( prev_intensity + new_intensity );
+        it->second.set_causer( source );
         return false;
     }
     if( !_displayed_field_type ||
         field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
         _displayed_field_type = field_type_to_add;
     }
-    _field_type_list[field_type_to_add] = field_entry( field_type_to_add, new_intensity, new_age );
+    _field_type_list[field_type_to_add] = field_entry( field_type_to_add, new_intensity, new_age,
+                                          source );
     return true;
 }
 
 bool field::remove_field( const field_type_id &field_to_remove )
 {
-    const auto it = _field_type_list.find( field_to_remove );
-    if( it == _field_type_list.end() ) {
+    const auto it = _field_type_list->find( field_to_remove );
+    if( it == _field_type_list->end() ) {
         return false;
     }
     remove_field( it );
@@ -180,20 +214,18 @@ bool field::remove_field( const field_type_id &field_to_remove )
 
 void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
 {
-    _field_type_list.erase( it );
+    _field_type_list->erase( it );
     _displayed_field_type = fd_null;
-    if( !_field_type_list.empty() ) {
-        for( auto &fld : _field_type_list ) {
-            if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
-                _displayed_field_type = fld.first;
-            }
+    for( auto &fld : *_field_type_list ) {
+        if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
+            _displayed_field_type = fld.first;
         }
     }
 }
 
 void field::clear()
 {
-    _field_type_list.clear();
+    _field_type_list->clear();
     _displayed_field_type = fd_null;
 }
 
@@ -203,27 +235,27 @@ Returns the number of fields existing on the current tile.
 */
 unsigned int field::field_count() const
 {
-    return _field_type_list.size();
+    return _field_type_list->size();
 }
 
 std::map<field_type_id, field_entry>::iterator field::begin()
 {
-    return _field_type_list.begin();
+    return _field_type_list->begin();
 }
 
 std::map<field_type_id, field_entry>::const_iterator field::begin() const
 {
-    return _field_type_list.begin();
+    return _field_type_list->begin();
 }
 
 std::map<field_type_id, field_entry>::iterator field::end()
 {
-    return _field_type_list.end();
+    return _field_type_list->end();
 }
 
 std::map<field_type_id, field_entry>::const_iterator field::end() const
 {
-    return _field_type_list.end();
+    return _field_type_list->end();
 }
 
 /*
@@ -240,13 +272,29 @@ description_affix field::displayed_description_affix() const
     return _displayed_field_type.obj().desc_affix;
 }
 
+int field::displayed_intensity() const
+{
+    auto it = _field_type_list->find( _displayed_field_type );
+    return it->second.get_field_intensity();
+}
+
 int field::total_move_cost() const
 {
     int current_cost = 0;
-    for( const auto &fld : _field_type_list ) {
+    for( const auto &fld : *_field_type_list ) {
         current_cost += fld.second.get_intensity_level().move_cost;
     }
     return current_cost;
+}
+
+bool field::any_negative_move_cost() const
+{
+    for( const auto &fld : *_field_type_list ) {
+        if( fld.second.get_intensity_level().move_cost < 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<field_effect> field_entry::field_effects() const

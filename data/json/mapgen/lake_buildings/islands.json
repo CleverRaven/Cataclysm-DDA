@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "island_sand",
     "object": {
       "fill_ter": "t_sand",
@@ -48,15 +47,14 @@
             [ "small_camp_8x8", 5 ],
             [ "gone_fishing_3x3", 5 ]
           ],
-          "x": [ 3, 20 ],
-          "y": [ 3, 20 ]
+          "x": [ 3, 16 ],
+          "y": [ 3, 16 ]
         }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "island_forest",
     "object": {
       "predecessor_mapgen": "forest",
@@ -70,15 +68,14 @@
             [ "small_camp_8x8", 5 ],
             [ "gone_fishing_3x3", 5 ]
           ],
-          "x": [ 3, 20 ],
-          "y": [ 3, 20 ]
+          "x": [ 3, 16 ],
+          "y": [ 3, 16 ]
         }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "island_forest_thick",
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -92,15 +89,14 @@
             [ "small_camp_8x8", 5 ],
             [ "gone_fishing_3x3", 5 ]
           ],
-          "x": [ 3, 20 ],
-          "y": [ 3, 20 ]
+          "x": [ 3, 16 ],
+          "y": [ 3, 16 ]
         }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "island_forest_water",
     "object": {
       "predecessor_mapgen": "forest_water",
@@ -114,15 +110,14 @@
             [ "small_camp_8x8", 5 ],
             [ "gone_fishing_3x3", 5 ]
           ],
-          "x": [ 3, 20 ],
-          "y": [ 3, 20 ]
+          "x": [ 3, 16 ],
+          "y": [ 3, 16 ]
         }
       ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "island_field",
     "object": {
       "predecessor_mapgen": "field",
@@ -136,8 +131,8 @@
             [ "small_camp_8x8", 5 ],
             [ "gone_fishing_3x3", 5 ]
           ],
-          "x": [ 3, 20 ],
-          "y": [ 3, 20 ]
+          "x": [ 3, 16 ],
+          "y": [ 3, 16 ]
         }
       ]
     }

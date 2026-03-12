@@ -1,13 +1,28 @@
 #include <cstddef>
-#include <iosfwd>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "debug.h"
 #include "npc.h"
 #include "player_activity.h"
+#include "type_id.h"
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_BURROW( "ACT_BURROW" );
+static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
 namespace std
 {
@@ -176,49 +191,49 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
 {
     static const std::vector< activity_id > legacy_map = {
         activity_id::NULL_ID(),
-        activity_id( "ACT_RELOAD" ),
+        ACT_RELOAD,
         activity_id::NULL_ID(), // ACT_READ is an actor now
-        activity_id( "ACT_GAME" ),
-        activity_id( "ACT_WAIT" ),
+        activity_id::NULL_ID(), // ACT_GAME is an actor now
+        activity_id::NULL_ID(), // ACT_WAIT is an actor now
         activity_id::NULL_ID(), // ACT_CRAFT is an actor now
         activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
-        activity_id( "ACT_DISASSEMBLE" ),
-        activity_id( "ACT_BUTCHER" ),
-        activity_id( "ACT_LONGSALVAGE" ),
-        activity_id( "ACT_FORAGE" ),
-        activity_id( "ACT_BUILD" ),
-        activity_id( "ACT_VEHICLE" ),
+        ACT_DISASSEMBLE,
+        ACT_BUTCHER,
+        activity_id::NULL_ID(), // ACT_LONGSALVAGE is an actor now
+        activity_id::NULL_ID(), // ACT_FORAGE is an actor now
+        activity_id::NULL_ID(), // ACT_BUILD is an actor now
+        activity_id::NULL_ID(), // ACT_VEHICLE is an actor now
         activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
-        activity_id( "ACT_TRAIN" ),
-        activity_id( "ACT_WAIT_WEATHER" ),
-        activity_id( "ACT_FIRSTAID" ),
-        activity_id( "ACT_FISH" ),
-        activity_id( "ACT_PICKAXE" ),
-        activity_id( "ACT_BURROW" ),
-        activity_id( "ACT_PULP" ),
-        activity_id( "ACT_VIBE" ),
+        activity_id::NULL_ID(), // ACT_TRAIN is an actor now
+        activity_id::NULL_ID(), // ACT_WAIT_WEATHER is an actor now
+        activity_id::NULL_ID(), // ACT_FIRSTAID is an actor now
+        activity_id::NULL_ID(), // ACT_FISH is an actor now
+        activity_id::NULL_ID(), // ACT_PICKAXE is an actor now
+        ACT_BURROW,
+        ACT_PULP,
+        activity_id::NULL_ID(), // ACT_VIBE is an actor now
         activity_id::NULL_ID(), // ACT_MAKE_ZLAVE is deprecated
         activity_id::NULL_ID(), // ACT_DROP is an actor now
         activity_id::NULL_ID(), // ACT_STASH is an actor now
-        activity_id( "ACT_PICKUP" ),
-        activity_id( "ACT_MOVE_ITEMS" ),
-        activity_id( "ACT_ADV_INVENTORY" ),
-        activity_id( "ACT_ARMOR_LAYERS" ),
-        activity_id( "ACT_START_FIRE" ),
-        activity_id( "ACT_OPEN_GATE" ),
-        activity_id( "ACT_FILL_LIQUID" ),
-        activity_id( "ACT_HOTWIRE_CAR" ),
-        activity_id( "ACT_AIM" ),
-        activity_id( "ACT_ATM" ),
-        activity_id( "ACT_START_ENGINES" ),
+        ACT_PICKUP,
+        ACT_MOVE_ITEMS,
+        activity_id::NULL_ID(), // ACT_ADV_INVENTORY is uistate.open_menu now
+        activity_id::NULL_ID(), // ACT_ARMOR_LAYERS is uistate.open_menu now
+        activity_id::NULL_ID(), // ACT_START_FIRE is an actor now
+        ACT_OPEN_GATE,
+        ACT_FILL_LIQUID,
+        ACT_HOTWIRE_CAR,
+        ACT_AIM,
+        activity_id::NULL_ID(), // ACT_ATM is an actor now
+        activity_id::NULL_ID(), // ACT_START_ENGINES is an actor now
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
-        activity_id( "ACT_CRACKING" ),
-        activity_id( "ACT_REPAIR_ITEM" ),
-        activity_id( "ACT_MEND_ITEM" ),
-        activity_id( "ACT_GUNMOD_ADD" ),
-        activity_id( "ACT_WAIT_NPC" ),
-        activity_id( "ACT_CLEAR_RUBBLE" ),
-        activity_id( "ACT_MEDITATE" ),
+        ACT_CRACKING,
+        ACT_REPAIR_ITEM,
+        activity_id::NULL_ID(), // ACT_MEND_ITEM is an actor now
+        activity_id::NULL_ID(), // ACT_GUNMOD_ADD
+        activity_id::NULL_ID(), // ACT_WAIT_NPC is an actor now
+        activity_id::NULL_ID(), // ACT_CLEAR_RUBBLE
+        ACT_MEDITATE,
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 

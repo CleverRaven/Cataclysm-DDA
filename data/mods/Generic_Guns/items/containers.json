@@ -1,0 +1,106 @@
+[
+  {
+    "id": "pistol_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "pistol ammo box", "str_pl": "pistol ammo boxes" },
+    "description": "This box holds 20 rounds of pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "7 g",
+    "volume": "80 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "53 ml", "max_contains_weight": "300 g", "rigid": true } ],
+    "symbol": ")"
+  },
+  {
+    "id": "pistol_ammo_box_100",
+    "type": "ITEM",
+    "name": { "str": "pistol ammo box", "str_pl": "pistol ammo boxes" },
+    "description": "This box holds 100 rounds of pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "17 g",
+    "volume": "345 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "265 ml", "max_contains_weight": "6 kg", "rigid": true } ],
+    "symbol": ")"
+  },
+  {
+    "id": "pistol_tiny_ammo_box_50",
+    "type": "ITEM",
+    "name": { "str": "tiny pistol ammo box", "str_pl": "tiny pistol ammo boxes" },
+    "description": "This box holds 50 rounds of tiny pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "9 g",
+    "volume": "440 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "73 ml", "max_contains_weight": "400 g", "rigid": true } ],
+    "symbol": ")"
+  },
+  {
+    "id": "pistol_tiny_ammo_box_250",
+    "type": "ITEM",
+    "name": { "str": "tiny pistol ammo box", "str_pl": "tiny pistol ammo boxes" },
+    "description": "This box holds 250 rounds of tiny pistol ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "46 g",
+    "volume": "475 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "365 ml", "max_contains_weight": "2 kg", "rigid": true } ],
+    "symbol": ")"
+  },
+  {
+    "id": "magnum_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "magnum ammo box", "str_pl": "magnum ammo boxes" },
+    "description": "This box holds 20 rounds of magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "11 g",
+    "volume": "130 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "90 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "10 cm",
+        "rigid": true
+      }
+    ],
+    "symbol": ")"
+  },
+  {
+    "id": "rifle_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": "rifle ammo box", "str_pl": "rifle ammo boxes" },
+    "description": "This box holds 20 rounds of rifle ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "20 g",
+    "volume": "230 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "158 ml",
+        "max_contains_weight": "400 g",
+        "max_item_length": "14 cm",
+        "rigid": true
+      }
+    ],
+    "symbol": ")"
+  },
+  {
+    "id": "rifle_ammo_box_50",
+    "type": "ITEM",
+    "name": { "str": "rifle ammo box", "str_pl": "rifle ammo boxes" },
+    "description": "This box holds 50 rounds of rifle ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "50 g",
+    "volume": "475 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "395 ml", "max_contains_weight": "1 kg", "rigid": true } ],
+    "symbol": ")"
+  },
+  {
+    "id": "shot_ammo_box_10",
+    "type": "ITEM",
+    "name": { "str": "shotshell ammo box", "str_pl": "shotshell ammo boxes" },
+    "description": "This box holds 10 rounds of shotshell ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "28 g",
+    "volume": "307 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "190 ml",
+        "max_contains_weight": "470 g",
+        "max_item_length": "10 cm",
+        "rigid": true
+      }
+    ],
+    "symbol": ")"
+  }
+]

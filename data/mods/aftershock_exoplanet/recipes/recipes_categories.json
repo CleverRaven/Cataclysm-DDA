@@ -1,0 +1,14 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_ELECTRONIC",
+    "copy-from": "CC_ELECTRONIC",
+    "extend": { "recipe_subcategories": [ "CSC_ELECTRONIC_CBMS" ] }
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_PRACTICE",
+    "copy-from": "CC_PRACTICE",
+    "extend": { "recipe_subcategories": [ "CSC_PRACTICE_PSI" ] }
+  }
+]

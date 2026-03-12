@@ -1,0 +1,90 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_fire_lookout_tower_0",
+    "blueprint_provides": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen" },
+      { "id": "tool_storage" },
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "relaying" },
+      { "id": "foraging" }
+    ],
+    "blueprint_resources": [ "fake_woodstove" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_root_cellar",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_root_cellar",
+    "blueprint_name": "root cellar",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_root_cellar" }, { "id": "pantry" }, { "id": "trapping" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_root_cellar" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_water_well",
+    "description": "Digging a well will give us easy access to water and allow us to send out combat patrols or scouts.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_water_well",
+    "blueprint_name": "water well",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_water_well" }, { "id": "scouting" }, { "id": "patrolling" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_water_well" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_radio",
+    "description": "Let's set up a radio tower to improve our recruitment efforts.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_radio",
+    "blueprint_name": "radio tower",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_radio" }, { "id": "radio" }, { "id": "recruiting" } ],
+    "blueprint_requires": [
+      { "id": "fbmc_fire_lookout_tower_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_0" },
+      { "id": "fbmc_fire_lookout_tower_beds_1" }
+    ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_radio" } ]
+  }
+]

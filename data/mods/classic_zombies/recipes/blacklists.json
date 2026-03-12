@@ -1,0 +1,17 @@
+[
+  {
+    "type": "recipe",
+    "result": "large_storage_battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "medium_storage_battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "storage_battery",
+    "obsolete": true
+  }
+]

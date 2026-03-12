@@ -1,0 +1,9 @@
+[
+  {
+    "id": "sound_num",
+    "type": "widget",
+    "label": "Sound",
+    "var": "sound",
+    "style": "number"
+  }
+]

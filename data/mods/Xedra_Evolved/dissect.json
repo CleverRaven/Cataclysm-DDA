@@ -1,0 +1,172 @@
+[
+  {
+    "id": "dissect_renfield_bionic_monster",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this monstrous ghoul.",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionic_renfield_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
+    "id": "dissect_combat_cyborg",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this monstrous ghoul.",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "combat_cyborg_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
+    "id": "dissect_mon_zombie_scientist_xe",
+    "type": "harvest",
+    "message": "You cut into the undead scientist, carefully removing layers of tissue.",
+    "entries": [
+      {
+        "drop": "scientist_xe_base_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "base_num": [ 0, 1 ],
+        "scale_num": [ 0.1, 0.3 ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "scientist_xe_base_CBM_power_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "base_num": [ 0, 1 ],
+        "scale_num": [ 0.1, 0.3 ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
+    "id": "dissect_mon_zombie_oa_agent",
+    "type": "harvest",
+    "message": "You search through the remains of the strange soldier, looking for anything of interest.",
+    "entries": [
+      {
+        "drop": "zombie_oa_agent_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
+      },
+      {
+        "drop": "Zomborg_CBM_harvest_power",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
+      }
+    ]
+  },
+  {
+    "id": "dissect_ierde_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "ierde_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_ierde_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "ierde_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_undine_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "undine_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_undine_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "undine_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_undine_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "undine_sample_large", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_arvore_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "arvore_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_arvore_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "arvore_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_arvore_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "arvore_sample_large", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_arvore_huge",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "arvore_sample_huge", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_salamander_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "salamander_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_salamander_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "salamander_sample_large", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_homullus_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "homullus_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_sylph_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "sylph_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_sylph_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "sylph_sample_large", "type": "mutagen_group" } ]
+  }
+]

@@ -23,8 +23,8 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CPPFLAGS += -I../src -isystem ../src/third-party
-CXXFLAGS += -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CPPFLAGS += -I. -I../src -isystem ../src/third-party
+CXXFLAGS += -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses
 CXXFLAGS += -Wall -Wextra
 
 ifndef PCH
@@ -39,9 +39,9 @@ ifeq ($(PCH), 1)
 PCHFLAGS += -DCATA_CATCH_PCH
 PCH_H = pch/tests-pch.hpp
 ifeq ($(CLANG), 0)
-PCH_P = $(PCH_H).gch
+PCH_P = $(ODIR)/$(PCH_H).gch
 else
-PCH_P = $(PCH_H).pch
+PCH_P = $(ODIR)/$(PCH_H).pch
 CXXFLAGS += -Wno-unused-macros
 endif
 endif
@@ -58,31 +58,34 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
 
 $(TEST_BATCHES): $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex --user-dir test_user_dir_$$$$ $@
 
 check: $(TEST_TARGET) $(TEST_BATCHES)
 
 check-single: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex
 
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
 
 #Unconditionally create object directory on invocation.
-$(shell mkdir -p $(ODIR))
+$(shell mkdir -p $(ODIR) $(dir $(PCH_P)))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+
+$(ODIR)/%.inc: %.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+
+.PHONY: includes
+includes: $(OBJS:.o=.inc)
 
 .PHONY: clean check check-single tests precompile_header
 

@@ -5,7 +5,123 @@
   },
   {
     "type": "mutation_type",
+    "id": "SUNLIGHT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "GILLS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CONSTITUTION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ACCLIMATIZATION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ATTRACTIVENESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BLOOD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SIZE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "STR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DEX"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PER"
+  },
+  {
+    "type": "mutation_type",
+    "id": "INT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ATTITUDE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BUILD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DURABILITY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TORSO_ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "THIRST"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DIET"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CARDIO"
+  },
+  {
+    "type": "mutation_type",
+    "id": "EYES"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VISION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PAIN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PAIN_RECOVERY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HUMAN_EMPATHY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SECRETION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ANIMAL_EMPATHY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PREDATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "HEALING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BONES"
   },
   {
     "type": "mutation_type",
@@ -25,7 +141,19 @@
   },
   {
     "type": "mutation_type",
+    "id": "PHEROMONE"
+  },
+  {
+    "type": "mutation_type",
     "id": "HANDS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "FEET"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SOLES"
   },
   {
     "type": "mutation_type",
@@ -57,7 +185,15 @@
   },
   {
     "type": "mutation_type",
+    "id": "TUSKS"
+  },
+  {
+    "type": "mutation_type",
     "id": "EARS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HEARING"
   },
   {
     "type": "mutation_type",
@@ -66,6 +202,46 @@
   {
     "type": "mutation_type",
     "id": "WINGS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ARMS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SLEEPINESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MASOCHISM"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MEMORY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TONGUE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "GRAZING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ECTOTHERMIC"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VOICE_TONE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WANDERLUST"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HAIR"
   },
   {
     "type": "mutation_type",
@@ -81,6 +257,18 @@
   },
   {
     "type": "mutation_type",
+    "id": "hair_color"
+  },
+  {
+    "type": "mutation_type",
     "id": "facial_hair"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BODY_ARMOR_MOD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SOCIAL"
   }
 ]

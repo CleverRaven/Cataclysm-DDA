@@ -1,0 +1,56 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_alien_weed_1",
+    "name": "alien plant",
+    "description": "An alien plant, a knee-high tightly-coiled bundle of reddish-yellow stalks with jagged leaves extending every which way.  It looks very difficult to walk through.",
+    "symbol": ",",
+    "move_cost_mod": 3,
+    "color": [ "red", "red", "red", "light_red" ],
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "ROUGH", "PAINFUL" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "alien_leaves", "count": [ 5, 9 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_weed_2",
+    "name": "alien plant",
+    "description": "An alien plant, a collection of delicate bluish-white strands with small white globes along their length.  They seem to float almost like seaweed, despite being a terrestrial plant.",
+    "symbol": ",",
+    "move_cost_mod": 0,
+    "color": [ "white", "blue", "light_blue", "white" ],
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "alien_leaves", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_weed_3",
+    "name": "alien plant",
+    "description": "An alien plant, a single, cylindrical dark-red trunk with a small cluster of leaves on top.  It makes a hollow sound when struck.",
+    "symbol": ",",
+    "move_cost_mod": 1,
+    "color": [ "red", "red", "light_red", "dark_gray" ],
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "alien_leaves", "count": [ 2, 4 ] } ]
+    }
+  }
+]

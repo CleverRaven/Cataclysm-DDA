@@ -1,0 +1,98 @@
+[
+  {
+    "id": "XE_STRANGE_EVENT_BROWNIE_MEETS_BROWNIE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "concatenate": [
+          "&The brownie starts when it sees you and makes ready to vanish, then it takes a closer look at you.",
+          {
+            "u_has_trait": "UNKNOWING_CHANGELING_NOBLE",
+            "yes": {
+              "u_male": true,
+              "yes": "  \"My apologies for entering your court without your leave, my lord.  I beg pardon.  Now, if you will excuse me…\"",
+              "no": "  \"My apologies for entering your court without your leave, my lady.  I beg pardon.  Now, if you will excuse me…\""
+            },
+            "no": "\"Oh. Oh!  I'm terribly sorry, I didn't realize there was already one of us here.  I'll take my leave.\""
+          },
+          "  They turn as if to go."
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "text": "Us?  What are you talking about?",
+        "topic": "XE_STRANGE_EVENT_BROWNIE_FEW_BROWNIE_TRAITS_YET",
+        "condition": {
+          "and": [
+            { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') < 3" ] },
+            { "not": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" } }
+          ]
+        }
+      },
+      {
+        "text": "Leave already?  Why not join me?",
+        "topic": "XE_STRANGE_EVENT_BROWNIE_MEDIUM_BROWNIE_TRAITS",
+        "condition": { "and": [ { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') >= 3" ] } ] }
+      },
+      {
+        "text": "Why not join my court?",
+        "topic": "XE_STRANGE_EVENT_BROWNIE_YOU_ARE_NOBLE",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }
+      },
+      {
+        "text": "I will.  Get out.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      },
+      {
+        "text": "Well, goodbye.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      }
+    ]
+  },
+  {
+    "id": "XE_STRANGE_EVENT_BROWNIE_FEW_BROWNIE_TRAITS_YET",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&The brownie looks at you closely.  \"You don't know?  Oh dear, you don't know, do you?  Well, it's not my place to tell you, you'll have to figure it out.  That's part of why they put you here, after all.\"  Before you can get in another word, the brownie spins in a circle and vanishes."
+    ],
+    "responses": [
+      {
+        "text": "Wait, I-",
+        "topic": "TALK_DONE",
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      }
+    ]
+  },
+  {
+    "id": "XE_STRANGE_EVENT_BROWNIE_MEDIUM_BROWNIE_TRAITS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&The brownie shakes their head.  \"It's a generous offer, but no thank you.  I'm looking for a place I can make my mark without the mortals breathing down my back.  Given another few decades you'll probably understand, if this world has that long.  And if not, well, I'll see you Under the Hill.\"  Before you can get in another word, the brownie spins in a circle and vanishes."
+    ],
+    "responses": [
+      {
+        "text": "Farewell then.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      }
+    ]
+  },
+  {
+    "id": "XE_STRANGE_EVENT_BROWNIE_YOU_ARE_NOBLE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&The brownie shakes their head.  \"I thank you for the generous offer, but no, my road doesn't end here.  I have a long way to travel yet, and by your leave, I had best take the first step on it.\""
+    ],
+    "responses": [
+      {
+        "text": "Farewell then.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_die": { "remove_corpse": true, "supress_message": true, "remove_from_creature_tracker": true } }
+      }
+    ]
+  }
+]

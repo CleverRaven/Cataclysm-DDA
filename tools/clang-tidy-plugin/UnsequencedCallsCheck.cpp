@@ -19,11 +19,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void UnsequencedCallsCheck::registerMatchers( MatchFinder *Finder )
@@ -203,6 +199,4 @@ void UnsequencedCallsCheck::check( const MatchFinder::MatchResult &Result )
     CheckCall( Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

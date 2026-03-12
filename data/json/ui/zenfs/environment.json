@@ -1,0 +1,247 @@
+[
+  {
+    "id": "environment_stack",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 50,
+    "widgets": [
+      "zenfs_sun_bar",
+      "zenfs_wind_moon",
+      "zenfs_lighting_date",
+      "zenfs_weather_safe",
+      "zenfs_env_temp_time_rad",
+      "zenfs_sky_island_expedition_timer_50",
+      "zenfs_place_omloc"
+    ]
+  },
+  {
+    "id": "environment_stack_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 42,
+    "widgets": [
+      "zenfs_sun_bar_42",
+      "zenfs_wind_moon",
+      "zenfs_lighting_date_alt",
+      "zenfs_weather_safe",
+      "zenfs_env_temp_time_rad_alt",
+      "zenfs_sky_island_expedition_timer_46",
+      "zenfs_place_omloc_alt"
+    ]
+  },
+  {
+    "id": "zenfs_sun_with_moon",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sun_bar_51", "zenfs_moon_phase_text" ]
+  },
+  {
+    "id": "zenfs_sun_with_moon_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sun_bar_43", "zenfs_moon_phase_text" ]
+  },
+  {
+    "id": "zenfs_date_time_temp_rad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_date_17", "zenfs_time_13", "zenfs_env_temp_desc", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_date_time_temp_rad_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_date_17", "zenfs_time_11", "zenfs_env_temp_desc_14", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_wind_light_weather_safe",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_lighting_desc_13", "zenfs_weather_desc_21", "zenfs_safe_mode_right" ]
+  },
+  {
+    "id": "zenfs_wind_light_weather_safe_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_lighting_desc_11", "zenfs_weather_desc_17", "zenfs_safe_mode_right" ]
+  },
+  {
+    "id": "zenfs_wind_moon",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_wind_desc_17", "zenfs_moon_phase_text_right" ]
+  },
+  {
+    "id": "zenfs_lighting_date",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_lighting_desc_16", "zenfs_date_17", "zenfs_blank_line" ]
+  },
+  {
+    "id": "zenfs_lighting_date_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_lighting_desc_14", "zenfs_date_17", "zenfs_blank_line" ]
+  },
+  {
+    "id": "zenfs_weather_safe",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weather_desc_21", "zenfs_safe_mode_right" ]
+  },
+  {
+    "id": "zenfs_env_temp_time_rad",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_env_temp_desc_17", "zenfs_time_20", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_env_temp_time_rad_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_env_temp_desc_15", "zenfs_time_14", "zenfs_rad_badge_desc" ]
+  },
+  {
+    "id": "zenfs_place_omloc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_place_desc", "zenfs_omloc_desc" ]
+  },
+  {
+    "id": "zenfs_place_omloc_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_place_desc_19", "zenfs_omloc_desc" ]
+  },
+  {
+    "id": "zenfs_place_expedition_omloc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_place_desc", "zenfs_sky_island_expedition_timer", "zenfs_omloc_desc" ]
+  },
+  {
+    "id": "zenfs_place_expedition_omloc_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_place_desc_15", "zenfs_sky_island_expedition_timer", "zenfs_omloc_desc_23" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_wind_desc_17",
+    "type": "widget",
+    "style": "layout",
+    "width": 17,
+    "arrange": "columns",
+    "widgets": [ "wind_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_lighting_desc_11",
+    "type": "widget",
+    "style": "layout",
+    "separator": ": ",
+    "width": 11,
+    "arrange": "columns",
+    "widgets": [ "lighting_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_lighting_desc_13",
+    "type": "widget",
+    "copy-from": "zenfs_lighting_desc_11",
+    "width": 13
+  },
+  {
+    "id": "zenfs_lighting_desc_14",
+    "type": "widget",
+    "copy-from": "zenfs_lighting_desc_11",
+    "width": 14
+  },
+  {
+    "id": "zenfs_lighting_desc_16",
+    "type": "widget",
+    "copy-from": "zenfs_lighting_desc_13",
+    "width": 16
+  },
+  {
+    "id": "zenfs_weather_desc_17",
+    "type": "widget",
+    "copy-from": "weather_desc",
+    "width": 17,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_weather_desc_21",
+    "type": "widget",
+    "copy-from": "weather_desc",
+    "width": 21,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_env_temp_desc",
+    "type": "widget",
+    "style": "layout",
+    "width": 20,
+    "arrange": "rows",
+    "widgets": [ "env_temp_desc_no_label" ]
+  },
+  {
+    "id": "zenfs_env_temp_desc_14",
+    "type": "widget",
+    "copy-from": "zenfs_env_temp_desc",
+    "width": 14
+  },
+  {
+    "id": "zenfs_env_temp_desc_15",
+    "type": "widget",
+    "copy-from": "zenfs_env_temp_desc",
+    "width": 15
+  },
+  {
+    "id": "zenfs_env_temp_desc_17",
+    "type": "widget",
+    "copy-from": "zenfs_env_temp_desc",
+    "width": 17
+  },
+  {
+    "id": "zenfs_rad_badge_desc_8",
+    "type": "widget",
+    "copy-from": "rad_badge_template",
+    "label": "<color_white>Rad</color>",
+    "separator": "",
+    "style": "text",
+    "width": 8,
+    "text_align": "right",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "zenfs_rad_badge_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "widgets": [ "zenfs_rad_badge_desc_8" ]
+  },
+  {
+    "id": "zenfs_safe_mode_right",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "safe_mode_classic_desc"
+  }
+]

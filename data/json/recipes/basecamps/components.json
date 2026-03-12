@@ -1,0 +1,8 @@
+[
+  {
+    "id": "large_tent_equivalent",
+    "type": "requirement",
+    "//": "Big tent or couple of small tents, used in basecamp construction.",
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+  }
+]

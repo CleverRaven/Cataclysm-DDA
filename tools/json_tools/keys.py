@@ -14,8 +14,7 @@ Example usages:
 import sys
 import json
 import argparse
-from util import import_data, key_counter, ui_counts_to_columns,\
-    WhereAction
+from util import import_data, key_counter, ui_counts_to_columns, WhereAction
 
 parser = argparse.ArgumentParser(
     description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

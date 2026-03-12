@@ -2,19 +2,17 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
-#include <iosfwd>
 #include <memory>
+#include <string>
 #include <unordered_map>
 
 #include "activity_type.h"
 #include "clone_ptr.h"
-#include "point.h"
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
-class monster;
+class JsonValue;
 class player_activity;
 
 class activity_actor
@@ -33,13 +31,23 @@ class activity_actor
             return false;
         }
 
+        /**
+         * Updates stored values used for activity with values from another
+         * activity of the same type.
+         * Nothing is updated by default. Each activity_actor type should handle
+         * its own values if required.
+         * @pre @p other is the same type of actor as `this`
+         */
+        virtual void set_resume_values_internal( const activity_actor &,
+                const Character & ) { }
+
     public:
         virtual ~activity_actor() = default;
 
         /**
          * Should return the activity id of the corresponding activity
          */
-        virtual activity_id get_type() const = 0;
+        virtual const activity_id &get_type() const = 0;
 
         /**
          * Called once at the start of the activity.
@@ -82,7 +90,20 @@ class activity_actor
         }
 
         /**
+         * Called in player_activity::set_resume_values when this activity is resumed
+         * with another one.
+         * Checks that @p other has the same type as `this` so that
+         * `set_resume_values_internal` can safely `static_cast` @p other.
+         */
+        void set_resume_values( const activity_actor &other, const Character &who ) {
+            if( other.get_type() == get_type() ) {
+                set_resume_values_internal( other, who );
+            }
+        }
+
+        /**
          * Used to generate the progress display at the top of the screen
+         * See player_activity::get_progress_message()
          */
         virtual std::string get_progress_message( const player_activity &act ) const;
 
@@ -93,6 +114,16 @@ class activity_actor
          */
         virtual float exertion_level() const {
             return get_type()->exertion_level();
+        }
+
+        /**
+         * Override to false in actors that are slow because they frequently
+         * invalidate the inventory and trigger excessive
+         * drop_invalid_inventory() calls, and can guarantee that it is called
+         * appropriately themselves.
+         */
+        virtual bool do_drop_invalid_inventory() const {
+            return true;
         }
 
         /**
@@ -117,46 +148,13 @@ class activity_actor
 };
 
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
-
-class disable_activity_actor : public activity_actor
-{
-    public:
-        disable_activity_actor() = default;
-        disable_activity_actor( const tripoint &target, int moves_total,
-                                bool reprogram ) : target( target ), moves_total( moves_total ), reprogram( reprogram ) {}
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_DISABLE" );
-        }
-
-        void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity & /*&act*/, Character &who ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<disable_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
-
-        /** Returns whether the given monster is a robot and can currently be disabled or reprogrammed */
-        static bool can_disable_or_reprogram( const monster &monster );
-
-        static int get_disable_turns();
-
-    private:
-        tripoint target;
-        int moves_total;
-        bool reprogram;
-};
+void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin );
 
 namespace activity_actors
 {
 
 // defined in activity_actor.cpp
-extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+extern const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions;
 
 } // namespace activity_actors

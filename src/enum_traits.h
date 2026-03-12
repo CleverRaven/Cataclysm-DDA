@@ -48,7 +48,7 @@ namespace enum_traits_detail
 {
 
 template<typename E>
-using last_type = typename std::decay<decltype( enum_traits<E>::last )>::type;
+using last_type = std::decay_t<decltype( enum_traits<E>::last )>;
 
 } // namespace enum_traits_detail
 
@@ -116,6 +116,28 @@ inline bool operator!( E e )
 {
     using I = std::underlying_type_t<E>;
     return !static_cast<I>( e );
+}
+
+template<typename E>
+static E &operator++( E &e )
+{
+    using I = std::underlying_type_t<E>;
+    e = static_cast<E>( static_cast<I>( e ) + 1 );
+    if( e == enum_traits<E>::last ) {
+        e = enum_traits<E>::first;
+    }
+    return e;
+}
+
+template<typename E>
+static E &operator--( E &e )
+{
+    using I = std::underlying_type_t<E>;
+    if( e == enum_traits<E>::first ) {
+        e = enum_traits<E>::last;
+    }
+    e = static_cast<E>( static_cast<I>( e ) - 1 );
+    return e;
 }
 
 #endif // CATA_SRC_ENUM_TRAITS_H

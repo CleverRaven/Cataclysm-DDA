@@ -1,16 +1,14 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "radio_tower" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " ---------------------- ",
-        " |                    | ",
-        " |                    | ",
-        " |        R____R      | ",
+        " |2222222|||||||||||||| ",
+        " |_______             | ",
+        " |_______             | ",
+        " |_______ R____R      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
@@ -18,7 +16,7 @@
         " |_______ R____R      | ",
         " |_______      6      | ",
         " |_______             | ",
-        " ------22-------------- ",
+        " ||||||22|||||||||||||| ",
         "                        ",
         "                        ",
         "                        ",
@@ -32,28 +30,16 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
-        "#": "t_concrete_wall",
-        "R": "t_radio_tower",
-        "2": "t_chaingate_c",
-        "-": "t_chainfence_h",
-        "|": "t_chainfence_v",
-        "6": "t_radio_controls",
-        "_": "t_pavement",
-        "<": "t_stairs_up"
-      }
+      "palettes": [ "radio_tower_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "radio_tower_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " -2222222-------------- ",
+        " |2222222|||||||||||||| ",
         " |_______             | ",
         " |_______             | ",
         " |_______ R____R      | ",
@@ -62,14 +48,14 @@
         " |_______ ______      | ",
         " |_______ _<____      | ",
         " |_______ R____R      | ",
-        " |___________         | ",
-        " |___________         | ",
-        " --------##+########--- ",
+        " |_______  _          | ",
+        " |__________          | ",
+        " ||||||||##+########||| ",
         "         #..ll#rrrC#4   ",
         "         w....+..h6#    ",
         "         ##+#w#...C#    ",
         "         |R   wCCCCw    ",
-        "         |----##ww##    ",
+        "         |||||##ww##    ",
         "                        ",
         "                        ",
         "                        ",
@@ -78,31 +64,48 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
-        "#": "t_concrete_wall",
-        "R": "t_radio_tower",
-        "2": "t_chaingate_c",
-        "-": "t_chainfence_h",
-        "|": "t_chainfence_v",
-        "6": "t_radio_controls",
-        "_": "t_pavement",
-        "+": "t_door_c",
-        "4": "t_gutter_downspout",
-        "<": "t_stairs_up",
-        "w": "t_window"
-      },
-      "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
-      "items": {
-        "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
-        "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
-        "l": { "item": "clothing_work_set", "chance": 80 }
-      }
+      "palettes": [ "radio_tower_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
+    "om_terrain": [ "radio_tower_reverberation_mp3" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        " |2222222|||||||||||||| ",
+        " |_______             | ",
+        " |_______             | ",
+        " |_______ R____R      | ",
+        " |_______ ______      | ",
+        " |_______ ______      | ",
+        " |_______ ______      | ",
+        " |_______ _<____      | ",
+        " |_______ R____R      | ",
+        " |_______   9  6      | ",
+        " |_______             | ",
+        " ||||||22|||||||||||||| ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "radio_tower_palette" ],
+      "items": { "9": [ { "item": "corpse_painful" } ] },
+      "terrain": { "9": "t_region_groundcover" },
+      "place_item": [ { "item": "mp3_reverberation", "x": [ 11, 13 ], "y": [ 10, 11 ], "amount": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "radio_tower_roof_1",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -114,16 +117,16 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "          aaaa ,        ",
-        "          a><a ,        ",
+        "          a≷,a ,        ",
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         ...........3   ",
-        "         ...........5   ",
-        "         ...........3   ",
-        "         .......&...3   ",
-        "          R   ......3   ",
-        "              ......3   ",
+        "         ------------   ",
+        "         -..........5   ",
+        "         -..........-   ",
+        "         ------.&...-   ",
+        "          R   -.....-   ",
+        "              -------   ",
         "                        ",
         "                        ",
         "                        ",
@@ -132,13 +135,11 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_even",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -150,7 +151,7 @@
         "        :a,,,,,,aX      ",
         "         a,,::,,a       ",
         "         a,,::,,a       ",
-        "        :a,<>,,,aX      ",
+        "        :a,≷,,,,aX      ",
         "         aR,,,,Ra       ",
         "         aaaaaaaa       ",
         "            :           ",
@@ -168,13 +169,11 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_even_stair_only",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -186,7 +185,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa<>a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -204,13 +203,12 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
+      "nested": { ",": { "chunks": [ [ "null", 190 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_odd",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -222,7 +220,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa><a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -240,13 +238,12 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
+      "nested": { ",": { "chunks": [ [ "null", 200 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": "radio_tower_top",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
@@ -258,7 +255,7 @@
         "          a,,,,a        ",
         "          a,RR,a        ",
         "          a,RR,a        ",
-        "          a>,,,a        ",
+        "          av,,,a        ",
         "          aaaaaa        ",
         "                        ",
         "                        ",
@@ -276,16 +273,15 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
+      "palettes": [ "radio_tower_palette", "roof_palette" ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 40 ],
-            [ "radio_tower_2x2_map", 40 ],
+            [ "null", 120 ],
+            [ "radio_tower_2x2_map", 15 ],
             [ "radio_tower_2x2_holdout", 10 ],
-            [ "radio_tower_2x2_sniper", 10 ],
-            [ "radio_tower_wasp", 5 ]
+            [ "radio_tower_2x2_sniper", 1 ],
+            [ "radio_tower_wasp", 4 ]
           ],
           "x": 10,
           "y": 5
@@ -295,7 +291,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_holdout",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -312,7 +307,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_sniper",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -329,7 +323,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_wasp",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -341,15 +334,10 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_loot": [
-        { "item": "survivor_scope", "x": 1, "y": 0 },
-        { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
-      ]
+      "place_loot": [ { "item": "binoculars", "x": 1, "y": 0 }, { "item": "survivormap", "x": 1, "y": 0 } ]
     }
   }
 ]

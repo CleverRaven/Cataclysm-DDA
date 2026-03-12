@@ -27,11 +27,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void CombineLocalsIntoPointCheck::registerMatchers( MatchFinder *Finder )
@@ -95,7 +91,7 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     const VarDecl *ZDecl = dyn_cast_or_null<VarDecl>( NextDecl );
 
     // Avoid altering bool variables
-    if( StringRef( XDecl->getType().getAsString() ).endswith( "ool" ) ) {
+    if( StringRef( XDecl->getType().getAsString() ).ends_with( "ool" ) ) {
         return;
     }
 
@@ -290,6 +286,4 @@ void CombineLocalsIntoPointCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

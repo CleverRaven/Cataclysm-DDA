@@ -1,19 +1,39 @@
 #include <functional>
+#include <list>
+#include <string>
 
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_pocket.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "map_selector.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
+static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
+static const itype_id itype_hammer_pocket_test( "hammer_pocket_test" );
+static const itype_id itype_jar_glass_sealed( "jar_glass_sealed" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_pickle( "pickle" );
+static const itype_id itype_purse( "purse" );
+static const itype_id itype_test_tool_belt( "test_tool_belt" );
+static const itype_id itype_tongs_pocket_test( "tongs_pocket_test" );
+static const itype_id itype_wrench_pocket_test( "wrench_pocket_test" );
+
 TEST_CASE( "item_contents" )
 {
-    item tool_belt( "test_tool_belt" );
+    map &here = get_map();
+
+    clear_map_without_vision();
+    item tool_belt( itype_test_tool_belt );
 
     const units::volume tool_belt_vol = tool_belt.volume();
     const units::mass tool_belt_weight = tool_belt.weight();
@@ -22,15 +42,15 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.weight( true ) == tool_belt.type->weight );
     CHECK( tool_belt.weight( false ) == tool_belt.type->weight );
 
-    item hammer( "hammer" );
-    item tongs( "tongs" );
-    item wrench( "wrench" );
-    item crowbar( "crowbar" );
+    item hammer( itype_hammer_pocket_test );
+    item tongs( itype_tongs_pocket_test );
+    item wrench( itype_wrench_pocket_test );
+    item crowbar( itype_crowbar_pocket_test );
 
-    ret_val<bool> i1 = tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i2 = tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i3 = tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i4 = tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i1 = tool_belt.put_in( hammer, pocket_type::CONTAINER );
+    ret_val<void> i2 = tool_belt.put_in( tongs, pocket_type::CONTAINER );
+    ret_val<void> i3 = tool_belt.put_in( wrench, pocket_type::CONTAINER );
+    ret_val<void> i4 = tool_belt.put_in( crowbar, pocket_type::CONTAINER );
 
     {
         CAPTURE( i1.str() );
@@ -62,48 +82,76 @@ TEST_CASE( "item_contents" )
     // check that the tool belt is "full"
     CHECK( !tool_belt.can_contain( crowbar ).success() );
 
-    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
+    tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
-    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
-    tool_belt.overflow( tripoint_zero );
+    tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
+    tool_belt.overflow( here, tripoint_bub_ms::zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
-    tool_belt.overflow( tripoint_zero );
+    tool_belt.overflow( here, tripoint_bub_ms::zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
     tool_belt.remove_items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "crowbar" );
+        return it.typeId() == itype_crowbar_pocket_test;
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
-    tool_belt.spill_contents( tripoint_zero );
+    tool_belt.spill_contents( tripoint_bub_ms::zero );
     CHECK( tool_belt.empty() );
 }
 
-TEST_CASE( "overflow on combine", "[item]" )
+TEST_CASE( "overflow_on_combine", "[item]" )
 {
-    tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
+    clear_map_without_vision();
+    tripoint_bub_ms origin{ 60, 60, 0 };
+    item purse( itype_purse );
+    item log( itype_log );
     item_contents overfull_contents( purse.type->pockets );
-    overfull_contents.force_insert_item( log, item_pocket::pocket_type::CONTAINER );
+    overfull_contents.force_insert_item( log, pocket_type::CONTAINER );
     capture_debugmsg_during( [&purse, &overfull_contents]() {
         purse.combine( overfull_contents );
     } );
     map &here = get_map();
     here.i_clear( origin );
-    purse.overflow( origin );
+    purse.overflow( here, origin );
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
-TEST_CASE( "overflow test", "[item]" )
+TEST_CASE( "overflow_test", "[item]" )
 {
-    tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
-    purse.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
+    clear_map_without_vision();
+    tripoint_bub_ms origin{ 60, 60, 0 };
+    item purse( itype_purse );
+    item log( itype_log );
+    purse.force_insert_item( log, pocket_type::MIGRATION );
     map &here = get_map();
-    here.i_clear( origin );
-    purse.overflow( origin );
+    purse.overflow( here, origin );
     CHECK( here.i_at( origin ).size() == 1 );
+}
+
+TEST_CASE( "overflow_test_into_parent_item", "[item]" )
+{
+    map &here = get_map();
+
+    clear_map_without_vision();
+    tripoint_bub_ms origin{ 60, 60, 0 };
+    item jar( itype_jar_glass_sealed );
+    item pickle( itype_pickle );
+    pickle.force_insert_item( pickle, pocket_type::MIGRATION );
+    jar.put_in( pickle, pocket_type::CONTAINER );
+    int contents_pre = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_pre += it->count();
+    }
+    REQUIRE( contents_pre == 1 );
+
+    item_location jar_loc( map_cursor( origin ), &jar );
+    jar_loc.overflow( here );
+    CHECK( here.i_at( origin ).empty() );
+
+    int contents_count = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_count += it->count();
+    }
+    CHECK( contents_count == 2 );
 }

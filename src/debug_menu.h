@@ -4,29 +4,29 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
-#include <string> // IWYU pragma: keep
+#include <optional>
+#include <string>
+#include <string_view>
 
-struct tripoint;
-template <typename E> struct enum_traits;
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
+#include "coordinates.h"  // IWYU pragma: keep
 
 class Character;
+class Creature;
+struct mongroup;
+template <typename E> struct enum_traits;
 
 namespace debug_menu
 {
 
 enum class debug_menu_index : int {
     WISH,
+    SPAWN_ITEM_GROUP,
     SHORT_TELEPORT,
     LONG_TELEPORT,
-    REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NPC_FOLLOWER,
+    SPAWN_NAMED_NPC,
+    SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
     KILL_AREA,
@@ -34,12 +34,20 @@ enum class debug_menu_index : int {
     MUTATE,
     SPAWN_VEHICLE,
     CHANGE_SKILLS,
+    CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
+    UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
+    CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
+    SPAWN_HORDE,
     MAP_EDITOR,
+    PALETTE_VIEWER,
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
@@ -53,16 +61,20 @@ enum class debug_menu_index : int {
     DISPLAY_WEATHER,
     DISPLAY_SCENTS,
     CHANGE_TIME,
+    FORCE_TEMP,
     SET_AUTOMOVE,
     SHOW_MUT_CAT,
     OM_EDITOR,
     BENCHMARK,
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
+    OM_TELEPORT_CITY,
+    PRINT_OVERMAPS,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
     CRASH_GAME,
+    TEST_END_SCREEN,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
     DISPLAY_NPC_ATTACK,
@@ -70,9 +82,9 @@ enum class debug_menu_index : int {
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
     TEST_WEATHER,
-    WRITE_EOCS,
     SAVE_SCREENSHOT,
     GAME_REPORT,
+    GAME_MIN_ARCHIVE,
     DISPLAY_SCENTS_LOCAL,
     DISPLAY_SCENTS_TYPE_LOCAL,
     DISPLAY_TEMP,
@@ -80,65 +92,94 @@ enum class debug_menu_index : int {
     DISPLAY_VISIBILITY,
     DISPLAY_LIGHTING,
     DISPLAY_TRANSPARENCY,
-    DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
     HOUR_TIMER,
     CHANGE_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    VEHICLE_DELETE,
+    VEHICLE_EXPORT,
     GENERATE_EFFECT_LIST,
-    EDIT_CAMP_LARDER,
+    WRITE_GLOBAL_EOCS,
+    WRITE_GLOBAL_VARS,
+    EDIT_GLOBAL_VARS,
+    ACTIVATE_EOC,
+    WRITE_TIMED_EVENTS,
+    QUICKLOAD,
+    IMPORT_FOLLOWER,
+    EXPORT_FOLLOWER,
+    EXPORT_SELF,
+    QUICK_SETUP,
+    QUICK_SETUP_FLAG_DIRTY,
+    TOGGLE_SETUP_MUTATION,
+    NORMALIZE_BODY_STAT,
+    SIX_MILLION_DOLLAR_SURVIVOR,
+    EDIT_FACTION,
+    WRITE_CITY_LIST,
+    TALK_TOPIC,
+    IMGUI_DEMO,
+    VEHICLE_EFFECTS,
     last
 };
 
-void change_spells( Character &character );
-
-void teleport_short();
-void teleport_long();
-void teleport_overmap( bool specific_coordinates = false );
-
-void spawn_nested_mapgen();
-void character_edit_menu();
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
-void wishitem( Character *you, const tripoint & );
-void wishmonster( const cata::optional<tripoint> &p );
+void wishitem( Character *you, const tripoint_bub_ms & );
+// Shows a menu to debug item groups. Spawns items if test is false, otherwise displays would be spawned items.
+void wishitemgroup( bool test );
+void wishmonster( const std::optional<tripoint_bub_ms> &p );
+void wishmonstergroup( tripoint_abs_omt &loc );
+void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );
-void wishskill( Character *you );
+void wishbionics( Character *you );
+/*
+ * Set skill on any Character object; player character or NPC
+ * Can change skill theory level
+ */
+void wishskill( Character *you, bool change_theory = false );
+/*
+ * Set proficiency on any Character object; player character or NPC
+ */
 void wishproficiency( Character *you );
-void mutation_wish();
-void draw_benchmark( int max_difference );
 
 void debug();
 
+void export_save_archive_and_game_report();
+
+void do_debug_quick_setup( bool flag_dirty = false );
+
 /* Splits a string by @param delimiter and push_back's the elements into _Container */
-template<typename _Container>
-_Container string_to_iterable( const std::string &str, const std::string &delimiter )
+template<typename Container>
+Container string_to_iterable( const std::string_view str, const std::string_view delimiter )
 {
-    _Container res;
+    Container res;
 
     size_t pos = 0;
     size_t start = 0;
     while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
         if( pos > start ) {
-            res.push_back( str.substr( start, pos - start ) );
+            res.emplace_back( str.substr( start, pos - start ) );
         }
         start = pos + delimiter.length();
     }
     if( start != str.length() ) {
-        res.push_back( str.substr( start, str.length() - start ) );
+        res.emplace_back( str.substr( start, str.length() - start ) );
     }
 
     return res;
 }
 
+bool is_debug_character();
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p = std::nullopt );
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p = std::nullopt );
+
 /* Merges iterable elements into std::string with
  * @param delimiter between them
  * @param f is callable that is called to transform each value
  * */
-template<typename _Container, typename Mapper>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+template<typename Container, typename Mapper>
+std::string iterable_to_string( const Container &values, const std::string_view delimiter,
                                 const Mapper &f )
 {
     std::string res;
@@ -151,10 +192,10 @@ std::string iterable_to_string( const _Container &values, const std::string &del
     return res;
 }
 
-template<typename _Container>
-std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+template<typename Container>
+std::string iterable_to_string( const Container &values, const std::string_view delimiter )
 {
-    return iterable_to_string( values, delimiter, []( const std::string & f ) {
+    return iterable_to_string( values, delimiter, []( const std::string_view f ) {
         return f;
     } );
 }

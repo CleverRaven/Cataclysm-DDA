@@ -24,7 +24,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     std::string info;
 
     if( !mod->authors.empty() ) {
-        info += colorize( ngettext( "Author", "Authors", mod->authors.size() ),
+        info += colorize( n_gettext( "Author", "Authors", mod->authors.size() ),
                           c_light_blue ) + ": " + enumerate_as_string( mod->authors );
         if( mod->maintainers.empty() ) {
             info += "\n";
@@ -34,20 +34,20 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( !mod->maintainers.empty() ) {
-        info += colorize( ngettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
+        info += colorize( n_gettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
                           c_light_blue ) + u8":\u00a0"/*non-breaking space*/ + enumerate_as_string( mod->maintainers ) + "\n";
     }
 
     if( !mod->dependencies.empty() ) {
         const auto &deps = mod->dependencies;
-        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
+        std::string str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
             if( e.is_valid() ) {
                 return string_format( "[%s]", e->name() );
             } else {
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info += colorize( ngettext( "Dependency", "Dependencies", deps.size() ),
+        info += colorize( n_gettext( "Dependency", "Dependencies", deps.size() ),
                           c_light_blue ) + ": " + str + "\n";
     }
 
@@ -68,6 +68,19 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
+bool mod_ui::confirm_mod_compatibility( const mod_id &checked_mod,
+                                        const std::vector<mod_id> &active_list )
+{
+    for( mod_id some_active_mod : active_list ) {
+        for( mod_id conflict_mod_id : some_active_mod->conflicts ) {
+            if( conflict_mod_id == checked_mod ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 void mod_ui::try_add( const mod_id &mod_to_add,
                       std::vector<mod_id> &active_list )
 {
@@ -79,6 +92,12 @@ void mod_ui::try_add( const mod_id &mod_to_add,
         debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
+    if( !confirm_mod_compatibility( mod_to_add, active_list ) ) {
+        popup( _( "Unable to add %s.  It is incompatible with a currently active mod." ),
+               mod_to_add->name() );
+        return;
+    }
+
     const MOD_INFORMATION &mod = *mod_to_add;
     bool errs;
     try {
@@ -177,7 +196,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
     int selshift = 0;
 
     // shift up (towards 0)
-    if( direction == '+' && can_shift_up( selection, active_list ) ) {
+    if( direction == '-' && can_shift_up( selection, active_list ) ) {
         // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
         newsel = selection - 1;
         oldsel = selection;
@@ -185,7 +204,7 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         selshift = -1;
     }
     // shift down (towards active_list.size()-1)
-    else if( direction == '-' && can_shift_down( selection, active_list ) ) {
+    else if( direction == '+' && can_shift_down( selection, active_list ) ) {
         newsel = selection;
         oldsel = selection + 1;
 

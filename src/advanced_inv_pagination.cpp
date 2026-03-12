@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
 
 class item_category;
@@ -13,7 +14,7 @@ void advanced_inventory_pagination::reset_page()
     last_category = nullptr;
 }
 
-bool advanced_inventory_pagination::new_category( const item_category *cat )
+bool advanced_inventory_pagination::new_category( const item_category *cat ) const
 {
     return last_category != cat;
 }

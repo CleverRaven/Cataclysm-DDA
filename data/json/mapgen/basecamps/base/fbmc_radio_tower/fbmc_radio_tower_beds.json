@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_controls_room",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 15, "y": 12 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 15, "y": 15 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_0",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 11, "y": 4 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 14, "y": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_1",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 16, "y": 4 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 19, "y": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_2",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 2, "y": 18 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 5, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_3",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 7, "y": 18 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 10, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_4",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 12, "y": 18 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 15, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_5",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 17, "y": 18 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 20, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_6",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 17, "y": 17 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 17, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_7",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 4, "y": 11 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 4, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_radio_tower_beds_8",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 4, "y": 16 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 4, "y": 19 } ]
+    }
+  }
+]

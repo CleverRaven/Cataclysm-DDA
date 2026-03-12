@@ -1,0 +1,107 @@
+[
+  {
+    "type": "palette",
+    "id": "trail_palette",
+    "palettes": [ "trail_terrain_furniture_palette", "trail_width_palette", "trail_item_palette" ]
+  },
+  {
+    "type": "palette",
+    "id": "trail_path_palette",
+    "terrain": { ".": "t_dirt" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_terrain_furniture_palette",
+    "palettes": [ "trail_path_palette" ],
+    "terrain": {
+      ".": "t_dirt",
+      "t": "t_trunk",
+      "n": "t_stump",
+      "m": "t_dirtmound",
+      "M": "t_moss",
+      ",": "t_forestfloor",
+      "u": "t_underbrush",
+      "f": "t_fungus_colony",
+      "F": "t_fern",
+      "G": [ [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+      "6": "t_region_tree_shade",
+      "7": [ "t_tree_dead", "t_tree_very_dead", "t_tree_dead_warped" ]
+    },
+    "furniture": { "_": [ [ "f_null", 17 ], [ "f_boulder_small", 1 ], [ "f_boulder_medium", 1 ], [ "f_boulder_large", 1 ] ] },
+    "nested": {
+      "B": { "chunks": [ [ "null", 3 ], [ "1x1_trailmap", 1 ] ] },
+      "I": { "chunks": [ [ "null", 3 ], [ "1x1_trail_sign", 1 ] ] },
+      "T": { "chunks": [ [ "1x1_predecessor_tree", 2 ], [ "1x1_predecessor_groundcover", 1 ] ] },
+      "*": { "chunks": [ "1x1_predecessor_groundcover" ] },
+      "s": { "chunks": [ "1x1_predecessor_shrub" ] },
+      "S": { "chunks": [ [ "1x1_predecessor_groundcover", 2 ], [ "1x1_predecessor_shrub", 3 ] ] },
+      "_": { "chunks": [ [ "1x1_t_railroad_rubble", 3 ], [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 3 ] ] },
+      "~": { "chunks": [ [ "1x1_t_mud", 6 ], [ "1x1_t_dirt", 1 ], [ "1x1_predecessor_groundcover", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "trail_width_palette",
+    "//": "Number indicates number of tiles from center",
+    "nested": {
+      "0": { "chunks": [ [ "1x1_trail", 1 ], [ "null", 0 ] ] },
+      "1": { "chunks": [ [ "1x1_trail", 1 ], [ "null", 1 ] ] },
+      "2": { "chunks": [ [ "1x1_trail", 1 ], [ "null", 3 ] ] },
+      "3": { "chunks": [ [ "1x1_trail", 0 ], [ "null", 1 ] ] },
+      "4": { "chunks": [ [ "1x1_trail", 0 ], [ "null", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "trail_item_palette",
+    "items": {
+      "0": { "item": "forest_trail", "chance": 1 },
+      "1": { "item": "forest_trail", "chance": 1 },
+      "2": { "item": "forest_trail", "chance": 1 },
+      "3": { "item": "forest_trail", "chance": 1 },
+      "4": { "item": "forest_trail", "chance": 1 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "trail_small_den_empty_palette",
+    "monster": { "A": { "monster": "mon_null", "chance": 100 }, "a": { "monster": "mon_null", "chance": 100 } },
+    "terrain": { "d": "t_den_small" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_large_den_empty_palette",
+    "monster": { "A": { "monster": "mon_null", "chance": 100 }, "a": { "monster": "mon_null", "chance": 100 } },
+    "terrain": { "d": "t_den_large" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_small_den_groundhog_palette",
+    "monster": { "A": { "monster": "mon_groundhog", "chance": 100 }, "a": { "monster": "mon_groundhog", "chance": 10 } },
+    "terrain": { "d": "t_den_small" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_small_den_hare_palette",
+    "monster": { "A": { "monster": "mon_hare", "chance": 100 }, "a": { "monster": "mon_hare", "chance": 25 } },
+    "terrain": { "d": "t_den_small" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_large_den_fox_gray_palette",
+    "monster": { "A": { "monster": "mon_fox_gray", "chance": 100 }, "a": { "monster": "mon_fox_gray", "chance": 5 } },
+    "terrain": { "d": "t_den_large" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_large_den_fox_red_palette",
+    "monster": { "A": { "monster": "mon_fox_red", "chance": 100 }, "a": { "monster": "mon_fox_red", "chance": 5 } },
+    "terrain": { "d": "t_den_large" }
+  },
+  {
+    "type": "palette",
+    "id": "trail_large_den_bear_palette",
+    "monster": { "A": { "monster": "mon_bear", "chance": 100 }, "a": { "monster": "mon_bear_cub", "chance": 5 } },
+    "terrain": { "d": "t_den_large" }
+  }
+]

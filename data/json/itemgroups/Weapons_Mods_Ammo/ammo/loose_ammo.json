@@ -1,0 +1,175 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "9mm_loose",
+    "items": [
+      { "item": "9mm", "charges": [ 1, 10 ], "prob": 100 },
+      { "item": "9mmfmj", "charges": [ 1, 10 ], "prob": 80 },
+      { "item": "9mmP", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "9mmP2", "charges": [ 1, 5 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "223_loose",
+    "items": [ { "item": "223", "charges": [ 1, 10 ], "prob": 10 }, { "item": "556", "charges": [ 1, 10 ], "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "45_loose",
+    "items": [
+      { "item": "45_acp", "charges": [ 1, 10 ], "prob": 80 },
+      { "item": "45_jhp", "charges": [ 1, 10 ], "prob": 80 },
+      { "item": "45_super", "charges": [ 1, 10 ], "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "380_loose",
+    "items": [
+      { "item": "380_FMJ", "charges": [ 1, 10 ], "prob": 60 },
+      { "item": "380_JHP", "charges": [ 1, 10 ], "prob": 80 },
+      { "item": "380_p", "charges": [ 1, 10 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "40_loose",
+    "items": [ { "item": "40fmj", "charges": [ 1, 10 ], "prob": 60 }, { "item": "40sw", "charges": [ 1, 10 ], "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "762_loose",
+    "items": [ { "item": "762_m87", "charges": [ 1, 10 ], "prob": 10 }, { "item": "762_jhp", "charges": [ 1, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "357_loose",
+    "items": [ { "item": "357mag_fmj", "charges": [ 1, 10 ], "prob": 1 }, { "item": "357mag_jhp", "charges": [ 1, 10 ], "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "12_loose",
+    "items": [
+      { "item": "shot_00", "charges": [ 1, 10 ], "prob": 2 },
+      { "item": "shot_bird", "charges": [ 1, 10 ], "prob": 10 },
+      { "item": "shot_slug", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "308_loose",
+    "items": [ { "item": "308", "charges": [ 1, 10 ], "prob": 7 }, { "item": "762_51", "charges": [ 1, 10 ], "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "38_loose",
+    "items": [
+      { "item": "38_fmj", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "38_special", "charges": [ 1, 10 ], "prob": 12 },
+      { "item": "38_special_p", "charges": [ 1, 10 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "44_loose",
+    "items": [ { "item": "44magnum", "charges": [ 1, 10 ], "prob": 10 }, { "item": "44fmj", "charges": [ 1, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "3006_loose",
+    "items": [ { "item": "3006", "charges": [ 1, 10 ], "prob": 1 }, { "item": "3006_jsp", "charges": [ 1, 10 ], "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "45colt_loose",
+    "items": [ { "item": "45colt_jhp", "charges": [ 1, 10 ] }, { "item": "45colt_cowboy", "charges": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "410_loose",
+    "items": [
+      { "item": "410shot_000", "charges": [ 1, 10 ], "prob": 2 },
+      { "item": "410shot_bird", "charges": [ 1, 10 ], "prob": 10 },
+      { "item": "410shot_slug", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "10mm_loose",
+    "items": [ { "item": "10mm_fmj", "charges": [ 1, 10 ], "prob": 1 }, { "item": "10mm_jhp", "charges": [ 1, 10 ], "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "303_loose",
+    "items": [ { "item": "303_sp", "charges": [ 1, 10 ], "prob": 3 }, { "item": "303_fmjbt", "charges": [ 1, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "30carbine_loose",
+    "items": [
+      { "item": "30carbine_jsp", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "30carbine", "charges": [ 1, 10 ], "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "32_loose",
+    "items": [ { "item": "32_acp", "charges": [ 1, 10 ], "prob": 4 }, { "item": "32_acp_jhp", "charges": [ 1, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "357sig_loose",
+    "items": [ { "item": "357sig_jhp", "charges": [ 1, 10 ], "prob": 1 }, { "item": "357sig_fmj", "charges": [ 1, 10 ], "prob": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "38super_loose",
+    "items": [ { "item": "38_super", "charges": [ 1, 10 ], "prob": 1 }, { "item": "38super_fmj", "charges": [ 1, 10 ], "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "4570_loose",
+    "items": [
+      { "item": "4570_sp", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "4570_low", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "4570_pen", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "50beowulf_loose",
+    "items": [
+      { "item": "50beowulf_xtp", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "50beowulf_penetrator", "charges": [ 1, 10 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "50AE_loose",
+    "items": [ { "item": "50ae_jhp", "charges": [ 1, 10 ], "prob": 4 }, { "item": "50ae_fmj", "charges": [ 1, 10 ], "prob": 1 } ]
+  }
+]

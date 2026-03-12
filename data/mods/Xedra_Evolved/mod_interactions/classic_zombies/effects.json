@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_ddotd_zombie_virus_resistance",
+    "//": "Hidden effect, exists to keep track of zombie virus resistance",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

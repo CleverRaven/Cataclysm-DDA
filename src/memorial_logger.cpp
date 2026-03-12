@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <cstddef>
 #include <istream>
 #include <list>
 #include <map>
@@ -16,6 +17,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -25,13 +27,16 @@
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "get_version.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -41,17 +46,21 @@
 #include "mutation.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+
+// IWYU pragma: no_forward_declare debug_menu::debug_menu_index
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -67,7 +76,7 @@ memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
 {}
 
 memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
-                                        const std::string &oter_name, const std::string &msg ) :
+                                        std::string_view oter_name, std::string_view msg ) :
     time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
 {}
 
@@ -80,9 +89,8 @@ std::string memorial_log_entry::to_string() const
     }
 }
 
-void memorial_log_entry::deserialize( JsonIn &jsin )
+void memorial_log_entry::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     if( jo.read( "preformatted", preformatted_ ) ) {
         return;
     }
@@ -116,19 +124,21 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string &male_msg,
-                           const std::string &female_msg )
+void memorial_logger::add( std::string_view male_msg,
+                           std::string_view female_msg )
 {
     Character &player_character = get_player_character();
-    const std::string &msg = player_character.male ? male_msg : female_msg;
+    const std::string_view msg = player_character.male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
+                             oter_id() :
+                             overmap_buffer.ter( player_character.pos_abs_omt() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
-    const std::string &oter_name = cur_ter->get_name();
+    const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
     log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
@@ -140,7 +150,7 @@ void memorial_logger::add( const std::string &male_msg,
  * In new format the entries are stored as json.
  * @param fin The stream to read the memorial entries from.
  */
-void memorial_logger::load( std::istream &fin, const std::string &path )
+void memorial_logger::load( std::istream &fin )
 {
     log.clear();
     if( fin.peek() == '|' ) {
@@ -155,7 +165,14 @@ void memorial_logger::load( std::istream &fin, const std::string &path )
             log.emplace_back( entry );
         }
     } else {
-        JsonIn jsin( fin, path );
+        // Unittests do not write data to a file first.
+        std::string memorial_data;
+        fin.seekg( 0, std::ios_base::end );
+        size_t size = fin.tellg();
+        fin.seekg( 0, std::ios_base::beg );
+        memorial_data.resize( size );
+        fin.read( memorial_data.data(), size );
+        JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }
@@ -210,7 +227,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     }
 
     const std::string locdesc =
-        overmap_buffer.get_description_at( u.global_sm_location() );
+        overmap_buffer.get_description_at( u.pos_abs_sm() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -240,7 +257,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -256,15 +273,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Stats
     file << _( "Final Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_cur )
-         << indent << string_format( _( "Dex %d" ), u.dex_cur )
-         << indent << string_format( _( "Int %d" ), u.int_cur )
-         << indent << string_format( _( "Per %d" ), u.per_cur ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex() )
+         << indent << string_format( _( "Int %d" ), u.get_int() )
+         << indent << string_format( _( "Per %d" ), u.get_per() ) << eol;
     file << _( "Base Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_max )
-         << indent << string_format( _( "Dex %d" ), u.dex_max )
-         << indent << string_format( _( "Int %d" ), u.int_max )
-         << indent << string_format( _( "Per %d" ), u.per_max ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str_base() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex_base() )
+         << indent << string_format( _( "Int %d" ), u.get_int_base() )
+         << indent << string_format( _( "Per %d" ), u.get_per_base() ) << eol;
     file << eol;
 
     //Last 20 messages
@@ -319,10 +336,10 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
-        file << indent << mutation_branch::get_name( mut ) << eol;
+    for( const trait_id &mut : u.get_functioning_mutations() ) {
+        file << indent << u.mutation_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.get_functioning_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;
@@ -353,19 +370,13 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
+    const item &weapon = u.get_wielded_item() ? *u.get_wielded_item() : null_item_reference();
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
-        file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
-    }
+    u.worn.write_text_memorial( file, indent, eol );
     file << eol;
 
     //Inventory
@@ -403,7 +414,7 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
 {
     JsonOut jsout( memorial_file, true, 2 );
     jsout.start_object();
-    jsout.member( "memorial_version", 0 );
+    jsout.member( "memorial_version", 1 );
     jsout.member( "log", log );
     jsout.member( "achievements", get_achievements() );
     jsout.member( "stats", get_stats() );
@@ -482,6 +493,10 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
             break;
         }
+        case event_type::avatar_dies: {
+            add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
+            break;
+        }
         case event_type::awakes_dark_wyrms: {
             add( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
                  pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
@@ -523,7 +538,7 @@ void memorial_logger::notify( const cata::event &e )
                 const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
-                    if( corpse_type.has_flag( MF_HUMAN ) ) {
+                    if( corpse_type.has_flag( mon_flag_HUMAN ) ) {
                         add( pgettext( "memorial_male",
                                        "You buried an unknown victim of the Cataclysm." ),
                              pgettext( "memorial_female",
@@ -599,7 +614,7 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "killer" );
             if( ch == avatar_id ) {
                 mtype_id victim_type = e.get<mtype_id>( "victim_type" );
-                if( victim_type->difficulty >= 30 ) {
+                if( victim_type->get_total_difficulty() >= 30 ) {
                     add( pgettext( "memorial_male", "Killed a %s." ),
                          pgettext( "memorial_female", "Killed a %s." ),
                          victim_type->nname() );
@@ -775,6 +790,12 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Dug a shaft into lava." ) );
             break;
         }
+        case event_type::dimension_travel: {
+            add( pgettext( "memorial_male", "Traveled from '%s' to '%s'." ),
+                 pgettext( "memorial_female", "Traveled from '%s' to '%s'." ),
+                 e.get<std::string>( "from_dimension" ), e.get<std::string>( "to_dimension" ) );
+            break;
+        }
         case event_type::disarms_nuke: {
             add( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                  pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
@@ -792,7 +813,7 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id to = e.get<trait_id>( "to_trait" );
                 add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                      pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                     from->name(), to->name() );
+                     get_avatar().mutation_name( from ), get_avatar().mutation_name( to ) );
             }
             break;
         }
@@ -842,12 +863,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Became addicted to %s." ),
                      pgettext( "memorial_female", "Became addicted to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
             }
             break;
         }
@@ -857,7 +877,17 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id trait = e.get<trait_id>( "trait" );
                 add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                      pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                     trait->name() );
+                     get_avatar().mutation_name( trait ) );
+            }
+            break;
+        }
+        case event_type::gains_proficiency: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                proficiency_id proficiency = e.get<proficiency_id>( "proficiency" );
+                add( pgettext( "memorial_male", "Gained the proficiency '%s'." ),
+                     pgettext( "memorial_female", "Gained the proficiency '%s'." ),
+                     proficiency->name() );
             }
             break;
         }
@@ -878,7 +908,7 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_over: {
+        case event_type::game_avatar_death: {
             bool suicide = e.get<bool>( "is_suicide" );
             std::string last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
@@ -897,11 +927,19 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_start: {
-            add( //~ %s is player name
-                pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                avatar_name );
+        case event_type::game_avatar_new: {
+            bool new_game = e.get<bool>( "is_new_game" );
+            if( new_game ) {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
+                    pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
+                    avatar_name );
+            } else {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s took over the journey through the Cataclysm." ),
+                    pgettext( "memorial_female", "%s took over the journey through the Cataclysm." ),
+                    avatar_name );
+            }
             break;
         }
         case event_type::installs_cbm: {
@@ -938,12 +976,21 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::loses_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
                      pgettext( "memorial_female", "Overcame addiction to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
+            }
+            break;
+        }
+        case event_type::loses_mutation: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                trait_id trait = e.get<trait_id>( "trait" );
+                add( pgettext( "memorial_male", "Lost the mutation '%s'." ),
+                     pgettext( "memorial_female", "Lost the mutation '%s'." ),
+                     get_avatar().mutation_name( trait ) );
             }
             break;
         }
@@ -1083,8 +1130,11 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::camp_taken_over:
         case event_type::character_consumes_item:
+        case event_type::character_dies:
         case event_type::character_eats_item:
+        case event_type::character_finished_activity:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_melee_attacks_character:
@@ -1092,14 +1142,30 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_ranged_attacks_character:
         case event_type::character_ranged_attacks_monster:
         case event_type::character_smashes_tile:
+        case event_type::character_starts_activity:
         case event_type::character_takes_damage:
+        case event_type::monster_takes_damage:
         case event_type::character_wakes_up:
+        case event_type::character_attempt_to_fall_asleep:
+        case event_type::character_falls_asleep:
+        case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
+        case event_type::character_takeoff_item:
         case event_type::character_wields_item:
+        case event_type::character_armor_destroyed:
+        case event_type::character_casts_spell:
         case event_type::cuts_tree:
+        case event_type::opens_spellbook:
         case event_type::reads_book:
+        case event_type::spellcasting_finish:
         case event_type::game_load:
+        case event_type::game_over:
         case event_type::game_save:
+        case event_type::game_start:
+        case event_type::game_begin:
+        case event_type::u_var_changed:
+        case event_type::vehicle_moves:
+        case event_type::character_butchered_corpse:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "harvest_drop_type",
+    "id": "flesh",
+    "msg_dissect_fail": "harvest_drop_tissue_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bone",
+    "msg_dissect_fail": "harvest_drop_bone_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "skin",
+    "msg_dissect_fail": "harvest_drop_tissue_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "blood"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "offal",
+    "msg_dissect_fail": "harvest_drop_tissue_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "mutagen",
+    "dissect_only": true,
+    "harvest_skills": [ "chemistry", "firstaid" ],
+    "msg_fielddress_fail": "harvest_drop_mutagen_field_dress",
+    "msg_butcher_fail": "harvest_drop_mutagen_butcher",
+    "msg_dissect_fail": "harvest_drop_mutagen_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "mutagen_group",
+    "group": true,
+    "dissect_only": true,
+    "harvest_skills": [ "chemistry", "firstaid" ],
+    "msg_fielddress_fail": "harvest_drop_mutagen_field_dress",
+    "msg_butcher_fail": "harvest_drop_mutagen_butcher",
+    "msg_dissect_fail": "harvest_drop_mutagen_dissect_failed"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bionic",
+    "dissect_only": true,
+    "harvest_skills": [ "electronics", "firstaid" ],
+    "msg_fielddress_fail": "harvest_drop_bionic_field_dress",
+    "msg_butcher_fail": "harvest_drop_bionic_butcher"
+  },
+  {
+    "type": "harvest_drop_type",
+    "id": "bionic_group",
+    "group": true,
+    "dissect_only": true,
+    "harvest_skills": [ "electronics", "firstaid" ],
+    "msg_fielddress_fail": "harvest_drop_bionic_field_dress",
+    "msg_butcher_fail": "harvest_drop_bionic_butcher"
+  }
+]

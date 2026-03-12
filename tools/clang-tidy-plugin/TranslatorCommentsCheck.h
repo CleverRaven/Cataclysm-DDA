@@ -1,8 +1,8 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_TRANSLATORCOMMENTSCHECK_H
 #define CATA_TOOLS_CLANG_TIDY_PLUGIN_TRANSLATORCOMMENTSCHECK_H
 
-#include <ClangTidy.h>
-#include <ClangTidyCheck.h>
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <clang/Basic/SourceLocation.h>
 #include <llvm/ADT/StringRef.h>
@@ -24,7 +24,7 @@ class TranslatorCommentsCheck : public ClangTidyCheck
 {
     public:
         TranslatorCommentsCheck( StringRef Name, ClangTidyContext *Context );
-        ~TranslatorCommentsCheck();
+        ~TranslatorCommentsCheck() override;
 
         void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;

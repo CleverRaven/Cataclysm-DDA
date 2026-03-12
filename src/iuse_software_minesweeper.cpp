@@ -2,30 +2,30 @@
 
 #include <array>
 #include <functional>
-#include <iosfwd>
-#include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "ui.h"
+#include "ui_helpers.h"
 #include "ui_manager.h"
+#include "uilist.h"
 
 minesweeper_game::minesweeper_game()
 {
     min = point( 8, 8 );
-    max = point_zero;
-    offset = point_zero;
+    max = point::zero;
+    offset = point::zero;
 }
 
 void minesweeper_game::new_level()
@@ -137,15 +137,8 @@ int minesweeper_game::start_game()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const point iCenter( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_minesweeper_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               iCenter );
-        w_minesweeper = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                            iCenter + point_south_east );
+        ui_helpers::full_screen_window( ui, &w_minesweeper, &w_minesweeper_border );
         max = point( FULL_SCREEN_WIDTH - 4, FULL_SCREEN_HEIGHT - 4 );
-        ui.position_from_window( w_minesweeper_border );
     } );
     ui.mark_resize();
 
@@ -310,8 +303,8 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            const point new_( vec->xy().raw() + point( iPlayerX, iPlayerY ) );
             if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
                 iPlayerX = new_.x;
                 iPlayerY = new_.y;

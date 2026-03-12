@@ -1,0 +1,24 @@
+[
+  {
+    "id": "create_rune_sorcerer",
+    "type": "SPELL",
+    "name": { "str": "Counterfeit Rune" },
+    "description": "This ritual creates a small pebble infused with a sorcerer's power.  It can trick spells that require runes to cast to think that you have the rune required.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_sorcerer",
+    "shape": "blast",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 0,
+    "spell_class": "SORCERER",
+    "energy_source": "HP",
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_fob_pilot",
+    "//": "Generic guard for the old guard.",
+    "name_suffix": "Pilot",
+    "class": "NC_SOLDIER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_OLD_GUARD_FOB_SOLDIER",
+    "faction": "old_guard"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_OG_PILOT",
+    "name": { "str": "Pilot" },
+    "job_description": "I'm a pilot.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_OG_PILOT_worn",
+    "carry_override": "NC_OG_PILOT_misc",
+    "proficiencies": [ "prof_helicopter_pilot", "prof_spotting" ],
+    "skills": [
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 5, 8 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 2, 4 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OG_PILOT_worn",
+    "subtype": "collection",
+    "items": [
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      },
+      { "item": "mil_flight_suit" },
+      { "item": "flight_helmet" },
+      { "item": "jacket_army", "prob": 40 },
+      { "item": "legrig" },
+      { "item": "boots_combat" },
+      {
+        "distribution": [
+          { "item": "nomex_gloves", "prob": 45 },
+          { "item": "gloves_tactical", "prob": 35 },
+          { "item": "gloves_leather", "prob": 20 }
+        ]
+      },
+      { "group": "clothing_watch", "prob": 85 },
+      { "item": "glock17_17", "ammo-item": "9mmfmj", "container-item": "tacvest", "charges": 17 },
+      { "item": "glock_17", "ammo-item": "9mmfmj", "container-item": "holster", "charges": 17 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OG_PILOT_misc",
+    "subtype": "collection",
+    "items": [
+      { "item": "whistle" },
+      { "item": "matches" },
+      { "item": "flashlight" },
+      { "item": "handflare", "count": 2 },
+      { "item": "glock17_17", "prob": 25 },
+      { "item": "goggles_nv" },
+      { "group": "knife_rambo_cont", "prob": 85 }
+    ]
+  }
+]

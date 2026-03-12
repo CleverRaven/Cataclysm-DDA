@@ -1,0 +1,33 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_slime",
+    "weakpoints": [
+      {
+        "id": "body",
+        "name": "the body",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 6
+      },
+      {
+        "id": "insensitive_spot",
+        "name": "a spot with virtually nothing to damage",
+        "is_good": false,
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      },
+      {
+        "id": "pseudopod",
+        "name": "a pseudopod reaching out to strike you when you deftly counter strike it",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 5
+      }
+    ]
+  }
+]

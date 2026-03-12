@@ -1,0 +1,142 @@
+[
+  {
+    "result": "exo_helmet_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 6 ] ],
+    "components": [ [ [ "damaged_exo_helmet_steel", 1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+    ]
+  },
+  {
+    "result": "exo_torso_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "1 d",
+    "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 32 ], [ "mc_steel_standard", 10 ] ],
+    "components": [ [ [ "damaged_exo_torso_steel", 1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+    ]
+  },
+  {
+    "result": "exo_arm_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "components": [ [ [ "damaged_exo_arm_steel", 1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+    ]
+  },
+  {
+    "result": "exo_leg_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "components": [ [ [ "damaged_exo_leg_steel", 1 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
+    ]
+  },
+  {
+    "result": "exo_helmet_plastic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "plastics_book", 7 ] ],
+    "time": "2 h",
+    "using": [ [ "plastic_molding", 4 ], [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "damaged_exo_helmet_plastic", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "exo_torso_plastic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "plastics_book", 7 ] ],
+    "time": "8 h",
+    "using": [ [ "plastic_molding", 8 ], [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "damaged_exo_torso_plastic", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "exo_arm_plastic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "plastics_book", 7 ] ],
+    "time": "6 h",
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ] ],
+    "components": [ [ [ "damaged_exo_arm_plastic", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "exo_leg_plastic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "plastics_book", 7 ] ],
+    "time": "6 h",
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ] ],
+    "components": [ [ [ "damaged_exo_leg_plastic", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  }
+]

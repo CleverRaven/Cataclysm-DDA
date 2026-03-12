@@ -1,0 +1,122 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_MAIN",
+    "dynamic_line": "&This computer still has power, but the screen displays a simple message: \"ERROR, access denied.  Assets storage is restricted to appropriate personnel.\"  A panel below the screen seems ready to accept some sort of id.",
+    "responses": [
+      {
+        "text": "Swipe credentials.",
+        "condition": { "u_has_item": "id_industrial" },
+        "topic": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_ID"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_ID",
+    "dynamic_line": "&You swipe the id and are rewarded with a fresh login screen and a picture of someone that you're pretty sure you had to put down to get here.  There's no hint about the password, though.",
+    "responses": [
+      {
+        "text": "Try hacking the computer",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 5, "skill_required": "computer" },
+        "success": {
+          "topic": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_HACK_SUCCESS",
+          "effect": { "turn_cost": { "math": [ "rng(60,(600 - u_skill('computer') * 5 ) )" ] } }
+        },
+        "failure": {
+          "topic": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_HACK_FAILURE",
+          "effect": { "turn_cost": { "math": [ "rng(30,(600 - u_skill('computer') * 2 ))" ] } }
+        }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_HACK_SUCCESS",
+    "dynamic_line": "&With a satisfying flash of the screen, you manage to log in.",
+    "responses": [
+      {
+        "text": "Unlock assets storage doors.",
+        "topic": "TALK_DONE",
+        "effect": { "u_transform_radius": 3, "ter_furn_transform": "ter_local_metal_door_opening" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_HACK_FAILURE",
+    "dynamic_line": "&After one too many failed attempts, you're greeted with a message informing you that you're locked out and need to see your systems administrator to regain access, and a loud clang from the other side of the door.  You certainly haven't made it any easier to get inside.",
+    "responses": [
+      {
+        "text": "Hmm.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_transform_radius": 2, "ter_furn_transform": "ter_local_computer_shutdown" },
+          { "u_transform_radius": 3, "ter_furn_transform": "ter_local_metal_door_closing" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_MAIN",
+    "dynamic_line": "&This computer still has power, but the screen displays a simple message: \"ERROR, access denied.  Raw materials access requires appropriate clearance.  Please contact your supervisor if you have received this message in error.\"  A panel below the screen seems ready to accept some sort of id.",
+    "responses": [
+      {
+        "text": "Swipe credentials.",
+        "condition": { "u_has_item": "id_science" },
+        "topic": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_ID"
+      },
+      { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_ID",
+    "dynamic_line": "&You swipe the id and are rewarded with a fresh login screen and a picture of someone that you're pretty sure you had to put down to get here.  There's no hint about the password, though.",
+    "responses": [
+      {
+        "text": "Try hacking the computer",
+        "trial": { "type": "SKILL_CHECK", "difficulty": 6, "skill_required": "computer" },
+        "success": {
+          "topic": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_HACK_SUCCESS",
+          "effect": { "turn_cost": { "math": [ "rng(60,(600 - u_skill('computer') * 5 ) )" ] } }
+        },
+        "failure": {
+          "topic": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_HACK_FAILURE",
+          "effect": { "turn_cost": { "math": [ "rng(30,(600 - u_skill('computer') * 2 ))" ] } }
+        }
+      },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_HACK_SUCCESS",
+    "dynamic_line": "&With a satisfying flash of the screen, you manage to log in.",
+    "responses": [
+      {
+        "text": "Unlock raw materials storage doors.",
+        "topic": "TALK_DONE",
+        "effect": { "u_transform_radius": 3, "ter_furn_transform": "ter_local_metal_door_opening" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_HACK_FAILURE",
+    "dynamic_line": "&After one too many failed attempts, you're greeted with a message informing you that you're locked out and need to see your systems administrator to regain access.  Also, and perhaps more importantly, an alarm goes off.",
+    "responses": [
+      {
+        "text": "Uh oh.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_transform_radius": 2, "ter_furn_transform": "ter_local_computer_shutdown" },
+          { "u_make_sound": "A loud alarm sounds!", "type": "alert", "volume": 50 }
+        ]
+      }
+    ]
+  }
+]

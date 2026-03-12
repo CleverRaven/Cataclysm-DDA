@@ -1,0 +1,92 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_10_bed_1",
+    "description": "Let's build a first set of beds in place of some existing desks.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_10_bed_1",
+    "blueprint_name": "build a first set of beds",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_1" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_barricades" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_1" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_10_bed_2",
+    "description": "Let's build a second set of beds in place of some existing desks.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_10_bed_2",
+    "blueprint_name": "build a second set of beds",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_2" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_2" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_10_bed_3",
+    "description": "Let's build a third set of beds in place of some existing desks.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_10_bed_3",
+    "blueprint_name": "build a third set of beds",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_3" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_2" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_3" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_10_bed_4",
+    "description": "Let's build a fourth set of beds in place of some existing desks.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_10_bed_4",
+    "blueprint_name": "build a fourth set of beds",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_4" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_3" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_4" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_10_bed_5",
+    "description": "Let's build a fifth set of beds in place of some existing desks.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_10_bed_5",
+    "blueprint_name": "build a fifth set of beds",
+    "blueprint_parameter_names": {
+      "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
+    },
+    "blueprint_provides": [ { "id": "fbmc_lightindustry_10_bed_5" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_bed_4" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_bed_5" } ]
+  }
+]

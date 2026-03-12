@@ -4,8 +4,8 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <unordered_set>
 
-#include "ClangTidy.h"
-#include "ClangTidyCheck.h"
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 
 namespace clang
 {

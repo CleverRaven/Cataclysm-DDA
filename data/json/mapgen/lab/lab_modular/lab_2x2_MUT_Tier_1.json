@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_NW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -43,7 +41,7 @@
         { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 15, "y": 15 },
         { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 15, "y": 16 },
         { "chunks": [ [ "lab_mutagen_8x8_west", 95 ], [ "lab_mutagen_8x8_vault_west", 5 ] ], "x": 12, "y": 6 },
-        { "chunks": [ [ "lab_mutagen_8x8_west", 100 ] ], "x": 12, "y": 18 },
+        { "chunks": [ [ "lab_mutagen_8x8_west_B", 100 ] ], "x": 12, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 11 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 18 },
         {
@@ -64,10 +62,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_NE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -103,7 +99,7 @@
         { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 8, "y": 15 },
         { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 9, "y": 16 },
         { "chunks": [ [ "lab_mutagen_8x8_east", 95 ], [ "lab_mutagen_8x8_vault_east", 5 ] ], "x": 4, "y": 6 },
-        { "chunks": [ [ "lab_mutagen_8x8_east", 100 ] ], "x": 4, "y": 18 },
+        { "chunks": [ [ "lab_mutagen_8x8_east_B", 100 ] ], "x": 4, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 17, "y": 11 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 17, "y": 18 },
         {
@@ -129,10 +125,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_SW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -198,10 +192,8 @@
     }
   },
   {
-    "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_1_SE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

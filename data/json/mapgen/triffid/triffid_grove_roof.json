@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "triffid_grove_roof" ],
-    "weight": 100,
+    "om_terrain": "triffid_grove_roof",
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [

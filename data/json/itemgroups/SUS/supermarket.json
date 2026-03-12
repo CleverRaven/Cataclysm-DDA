@@ -1,0 +1,1418 @@
+[
+  {
+    "id": "tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_green_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_fruit_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "herbal_tea_bag_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_bag_dandelion_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "tea_bag_chamomile_box_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_tea",
+    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "milk_cream_bottle_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic",
+    "entries": [ { "item": "milk_cream", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "veggy_salad_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "veggy_salad", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "sushi_veggyroll_bowl_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "sushi_veggyroll", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "onion_rings_box_6",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "onion_rings", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "id": "chicken_fried_box_6",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chicken_fried", "container-item": "null", "count": 6 } ]
+  },
+  {
+    "id": "flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "bread_flour_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "flour_wheat_free_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "flour_wheat_free", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "sugar_bag_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "yeast_bag_10",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "id": "spaghetti_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "spaghetti_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "lasagne_raw_bag_30",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "lasagne_raw", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "id": "noodles_fast_bag_5",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "noodles_fast", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "id": "cheese_hard_wrapper_8",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "cheese_hard", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "id": "spread_peanutbutter_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "can_food",
+    "entries": [ { "item": "spread_peanutbutter", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "pepper_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "garlic_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "chilly_p_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "thyme_bowl_plastic_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bowl_plastic",
+    "entries": [ { "item": "thyme", "container-item": "null", "count": 3 } ]
+  },
+  {
+    "id": "mustard_powder_bottle_plastic_small_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "mustard_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "id": "oats_bag_plastic_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "oats", "container-item": "null", "count": 2 } ]
+  },
+  {
+    "id": "crackers_box_16",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "crackers", "container-item": "null", "count": 16 } ]
+  },
+  {
+    "id": "oyster_crackers_box_20",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "oyster_crackers", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "id": "peanut_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "peanut", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "peanut_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "chestnut_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "chestnut_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pistachio_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pistachio_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pistachio_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pistachio_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "almond_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "almond_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cashews_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "cashews", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pecan_shelled_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pecan_shelled", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "pecan_roasted_bag_plastic_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "pecan_roasted", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cheese_bag_8",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "cheese", "container-item": "null", "count": 8 } ]
+  },
+  {
+    "id": "mozzarella_cheese_bag_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "mozzarella_cheese", "container-item": "null", "count": 1 } ]
+  },
+  {
+    "id": "mascarpone_container_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "cup_plastic",
+    "entries": [ { "item": "mascarpone", "container-item": "null", "count": 1 } ]
+  },
+  {
+    "id": "pecorino_cheese_wrapper_4",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wrapper",
+    "entries": [ { "item": "pecorino_cheese", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "id": "cottage_cheese_tub_1",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "plastic_bucket",
+    "entries": [ { "item": "cottage_cheese", "container-item": "null", "count": 1 } ]
+  },
+  {
+    "id": "commercial_sauces_dressings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "ketchup", 1 ],
+      [ "sauce_pesto", 1 ],
+      [ "hot_sauce", 1 ],
+      [ "sauce_red", 1 ],
+      [ "barbecue_sauce", 1 ],
+      [ "honey_mustard", 1 ],
+      [ "mustard", 1 ],
+      [ "mayonnaise", 1 ],
+      [ "soysauce", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_sauces_dressings",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_sauces_dressings", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_spices_seasoning",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_salt_bottle_plastic_small_full", "prob": 1 },
+      { "group": "pepper_bottle_plastic_small_full", "prob": 1 },
+      { "group": "garlic_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "curry_powder_bottle_plastic_small_full", "prob": 1 },
+      { "group": "chilly_p_bottle_plastic_small_full", "prob": 1 },
+      { "group": "seasoning_italian_bottle_plastic_small_full", "prob": 1 },
+      { "group": "wild_herbs_jar_glass_sealed_20_inf", "prob": 1 },
+      { "group": "thyme_bowl_plastic_full", "prob": 1 },
+      { "group": "mustard_powder_bottle_plastic_small_full", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_spices_seasoning",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_spices_seasoning", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_oil_vinegar",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "cooking_oil", "prob": 1, "count": 1, "container-item": "jug_plastic" }, [ "vinegar", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_oil_vinegar",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_oil_vinegar", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_exotic_food",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "noodles_fast_bag_5", "prob": 1 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_exotic_food",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_exotic_food", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_grains",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "dry_rice_bag_plastic_full", "count": 1 },
+      { "group": "dry_lentils_bag_plastic_full", "count": 1 },
+      { "group": "dry_beans_bag_plastic_full", "count": 1 },
+      { "group": "oats_bag_plastic_full", "count": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_grains",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_grains", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_baking",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "flour_bag_50", "prob": 1 },
+      { "group": "bread_flour_bag_50", "prob": 1 },
+      { "group": "flour_wheat_free_bag_50", "prob": 1 },
+      { "group": "yeast_bag_10", "prob": 1 },
+      { "group": "sugar_bag_50", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_baking",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_baking", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_pasta",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "spaghetti_raw_bag_30", "prob": 1 }, { "group": "lasagne_raw_bag_30", "prob": 1 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_pasta",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_pasta", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_canned_vegetables",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "prob": 1, "group": "corn_in_can" }, { "prob": 1, "group": "tomatoes_in_can" } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_canned_vegetables",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_canned_vegetables", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_canned_fruits",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "pineapple_in_can" },
+      { "prob": 1, "group": "coconut_milk_in_can" },
+      { "prob": 1, "group": "fruits_in_can" }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_canned_fruits",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_canned_fruits", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_canned_meat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "fish_in_can" },
+      { "prob": 1, "group": "lobster_in_can" },
+      { "prob": 1, "group": "sardine_in_can" },
+      { "prob": 1, "group": "tuna_in_can" },
+      { "prob": 1, "group": "salmon_in_can" },
+      { "prob": 1, "group": "chicken_in_can" },
+      { "prob": 1, "group": "spam_in_can" },
+      { "prob": 1, "group": "clams_in_can" }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_canned_meat",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_canned_meat", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_canned_meals",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "pork_beans_in_can" },
+      { "prob": 1, "group": "beans_in_can" },
+      { "prob": 1, "group": "chowder_in_can" },
+      { "prob": 1, "group": "ravioli_in_can" },
+      { "prob": 1, "group": "cheese_in_can" },
+      { "prob": 1, "group": "chili_in_can" }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_canned_meals",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_canned_meals", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_coffee",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "raw_coffee_in_container_full", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_tea",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "tea_bag_box_10", "prob": 1 },
+      { "group": "tea_green_bag_box_10", "prob": 1 },
+      { "group": "tea_fruit_bag_box_10", "prob": 1 },
+      { "group": "herbal_tea_bag_box_10", "prob": 1 },
+      { "group": "tea_bag_dandelion_box_10", "prob": 1 },
+      { "group": "tea_bag_chamomile_box_10", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_tea",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_tea", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_breakfast_cereal",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "cereal_in_container_full", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_breakfast_mixes",
+    "//": "Should include pancake mixes. TODO fix.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "cocoa_powder", 1 ], [ "cocoa_powder_milk", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_breakfast_mixes",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_breakfast_mixes", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_spreads",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "jam_fruit", 12 ], [ "honey_bottled", 12 ], { "group": "spread_peanutbutter_2", "prob": 8 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_spreads",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_spreads", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_sweet_snacks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "chocolate", 8 ], [ "protein_bar_zero", 6 ], [ "protein_bar_peanut", 6 ], [ "protein_bar_milk", 6 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_sweet_snacks",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_sweet_snacks", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_butter_cream",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "butter_wrapper_32", "prob": 10 }, { "group": "milk_cream_bottle_2", "prob": 10 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_butter_cream",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_butter_cream", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_yoghurt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "yoghurt", 1 ], [ "pudding", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_yoghurt",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_yoghurt", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_cheese",
+    "//": "Spawn 250ml (not g because soft cheeses are outliers) at a time, need to be improved",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "cheese_hard_wrapper_8" },
+      { "prob": 1, "group": "cheese_bag_8" },
+      { "prob": 1, "group": "mozzarella_cheese_bag_1" },
+      { "prob": 1, "group": "mascarpone_container_1" },
+      { "prob": 1, "group": "pecorino_cheese_wrapper_4" },
+      { "prob": 1, "group": "cottage_cheese_tub_1" }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_cheese",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_cheese", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_milk",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "milk_in_container_full", "count": [ 0, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_eggs",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "eggs_in_carton_full", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_deli",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "froglegs", 1 ], [ "gastropod_purged", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_deli",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_deli", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_meat_beef",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "meat", 4 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_meat_beef",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_meat_beef", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_meat_pork",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "meat", 4 ], [ "porkbelly", 2 ], [ "bacon_uncut", 3 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_meat_pork",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_meat_pork", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_meat_poultry",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "poultry", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_meat_poultry",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_meat_poultry", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_meat_seafood",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "fish", 4 ], [ "lobster", 1 ], [ "mollusk", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_meat_seafood",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_meat_seafood", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_icecream",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "icecream", 1 ],
+      [ "icecream_artificial", 1 ],
+      [ "icecream_choc", 1 ],
+      [ "icecream_candy", 1 ],
+      [ "icecream_fruit", 1 ],
+      [ "icecream_custard", 1 ],
+      [ "icecream_yogurt", 1 ],
+      [ "icecream_gelato", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_icecream",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_icecream", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_frozen_dessert",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "tiramisu", 1 ],
+      [ "milkshake", 1 ],
+      [ "milkshake_fastfood", 1 ],
+      [ "milkshake_choc", 1 ],
+      [ "milkshake_deluxe", 1 ],
+      [ "milkshake_deluxe_choc", 1 ],
+      [ "frozen_lemonade", 1 ],
+      [ "snowcone", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_frozen_dessert",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_frozen_dessert", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_water",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "water_clean", 1 ], [ "water_mineral", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_water",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_water", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_soda",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "soda_in_container_full", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_juices",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "juice_pasteurized", 1 ], [ "juice", 1 ], [ "pineapple_juice", 1 ], [ "oj", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_juices",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_juices", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_sports_drink",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "sports_drink", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_sports_drink",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_sports_drink", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_snacks_chips",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "bag_chips" } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_chips",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_snacks_chips", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_snacks_nuts_crackers",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "crackers_box_16", "prob": 1 },
+      { "group": "oyster_crackers_box_20", "prob": 1 },
+      { "group": "peanut_bag_plastic_4", "prob": 1 },
+      { "group": "peanut_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "chestnut_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pistachio_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "almond_roasted_bag_plastic_4", "prob": 1 },
+      { "group": "cashews_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_shelled_bag_plastic_4", "prob": 1 },
+      { "group": "pecan_roasted_bag_plastic_4", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_nuts_crackers",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_snacks_nuts_crackers", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_chocolate",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "chocolate", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_chocolate",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_chocolate", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_candy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "candy", 1 ],
+      [ "candy2", 1 ],
+      [ "candy3", 1 ],
+      [ "candy4", 1 ],
+      [ "candy5", 1 ],
+      [ "candy3gator", 1 ],
+      [ "cow_candy", 1 ],
+      { "item": "powder_candy", "prob": 1, "container-item": "bag_plastic_small" },
+      [ "candy_bracelet", 1 ],
+      [ "candycigarette", 1 ],
+      [ "candy_coated_peanuts", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_candy",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_candy", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_pet_food_in_container",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "pet_food_in_container_full", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_pet_accessories",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pet_carrier", "prob": 1 },
+      { "item": "petpack", "prob": 1 },
+      { "item": "dog_tag_dog", "prob": 1 },
+      { "item": "dog_whistle", "prob": 1 },
+      { "item": "rubber_harness_dog", "prob": 1 },
+      { "item": "leather_harness_dog", "prob": 1 },
+      { "group": "pet_collars", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_pet_accessories",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_pet_accessories", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_baby_accessories_food",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "teddy_bear", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_baby_accessories_food",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_baby_accessories_food", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_baby_hygiene",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "paper", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_baby_hygiene",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_baby_hygiene", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_office_supplies",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rubber_band", "prob": 1 },
+      { "item": "file", "prob": 1 },
+      { "item": "paper", "prob": 1 },
+      { "item": "book_binder", "prob": 1 },
+      { "item": "stapler", "prob": 1 },
+      { "item": "office_holepunch", "prob": 1 },
+      { "item": "scissors", "prob": 1 },
+      { "group": "writing_utensils", "count": [ 40, 100 ], "prob": 80, "charges": [ 80, 100 ] }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_office_supplies",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_office_supplies", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_electronics_accessories",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "used_usb_drives", "prob": 60, "variables": [ { "browsed": "true" } ] },
+      { "group": "used_memory_cards", "prob": 60, "variables": [ { "browsed": "true" } ] },
+      { "item": "battery_charger", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_electronics_accessories",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_electronics_accessories", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "book_school", "prob": 1 }, { "group": "manuals_school", "prob": 1 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_books",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_books", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_magazines",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "magazines", "prob": 1 } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_magazines",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_magazines", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_household_laundry",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "sponge", 1 ], [ "brush", 1 ], [ "liquid_soap", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_laundry",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_household_laundry", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_household_dish_cleaning",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "soap", 6 ], [ "liquid_soap", 1 ], [ "sponge", 1 ], [ "brush", 1 ], [ "dish_towel", 3 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_dish_cleaning",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_household_dish_cleaning", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_cleaning_supplies",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "soap", 6 ], [ "liquid_soap", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_cleaning_supplies",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_cleaning_supplies", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_toilet_paper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "toilet_paper", 12 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_toilet_paper",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_toilet_paper", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_dental_care",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "toothbrush_plain", 1 ], [ "toothbrush_electric", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_dental_care",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_dental_care", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_drugs",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "vitamin_shop", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_shower_supplies",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "soap", 6 ],
+      [ "liquid_soap", 1 ],
+      [ "house_coat", 1 ],
+      [ "bath_toy", 1 ],
+      [ "bottle_bathroom", 1 ],
+      [ "bathroom_scale", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_shower_supplies",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_shower_supplies", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_personal_care",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "makeup_kit", 1 ], [ "hair_dye_kit", 1 ] ]
+  },
+  {
+    "id": "SUS_shelf_commercial_personal_care",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_personal_care", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "small_crate_of_vegetables",
+    "//": "small crates aren't in the game yet, assumed volume of 26L (-33% for unevenness, so 17L)",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "broccoli", "count": [ 1, 94 ], "prob": 1 },
+      { "item": "cabbage_head", "count": [ 1, 10 ], "prob": 1 },
+      { "item": "radish_taproot", "count": [ 1, 52 ], "prob": 1 },
+      { "item": "spinach", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "carrot", "count": [ 1, 116 ], "prob": 1 },
+      { "item": "celery", "count": [ 1, 116 ], "prob": 1 },
+      { "item": "chili_pepper", "count": [ 1, 242 ], "prob": 1 },
+      { "item": "cucumber", "count": [ 1, 61 ], "prob": 1 },
+      { "item": "garlic", "count": [ 1, 377 ], "prob": 1 },
+      { "item": "horseradish_root", "count": [ 1, 42 ], "prob": 1 },
+      { "item": "lettuce_head", "count": [ 1, 9 ], "prob": 1 },
+      { "item": "onion", "count": [ 1, 125 ], "prob": 1 },
+      { "item": "potato", "count": [ 1, 73 ], "prob": 1 },
+      { "item": "pumpkin", "count": [ 1, 8 ], "prob": 1 },
+      { "item": "rhubarb", "count": [ 1, 91 ], "prob": 1 },
+      { "item": "tomato", "count": [ 1, 113 ], "prob": 1 },
+      { "item": "zucchini", "count": [ 1, 94 ], "prob": 1 },
+      { "item": "bell_pepper", "count": [ 1, 76 ], "prob": 1 },
+      { "item": "eggplant", "count": [ 1, 33 ], "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_vegetables",
+    "//": "3 levels * 3 crates per level = 9",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "small_crate_of_vegetables", "count": 9 } ]
+  },
+  {
+    "id": "small_crate_of_common_berries",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "blueberries", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "strawberries", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "cranberries", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "raspberries", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "blackberries", "count": [ 1, 68 ], "prob": 1 }
+    ]
+  },
+  {
+    "id": "small_crate_of_uncommon_fruits",
+    "//": "small crates aren't in the game yet, assumed volume of 26L (-33% for unevenness, so 17L)",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "guayaba", "count": [ 1, 136 ], "prob": 1 },
+      { "item": "maracuya", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "lulo", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "coconut", "count": [ 1, 9 ], "prob": 1 },
+      { "item": "mango", "count": [ 1, 34 ], "prob": 1 },
+      { "item": "pomegranate", "count": [ 1, 30 ], "prob": 1 },
+      { "item": "papaya", "count": [ 1, 28 ], "prob": 1 }
+    ]
+  },
+  {
+    "id": "small_crate_of_common_fruits",
+    "//": "small crates aren't in the game yet, assumed volume of 26L (-33% for unevenness, so 17L)",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "apple", "count": [ 1, 73 ], "prob": 1 },
+      { "item": "banana", "count": [ 1, 136 ], "prob": 1 },
+      { "item": "orange", "count": [ 1, 108 ], "prob": 1 },
+      { "item": "lemon", "count": [ 1, 147 ], "prob": 1 },
+      { "item": "pear", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "grapefruit", "count": [ 1, 37 ], "prob": 1 },
+      { "item": "cherries", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "plums", "count": [ 1, 207 ], "prob": 1 },
+      { "item": "grapes", "count": [ 1, 68 ], "prob": 1 },
+      { "item": "pineapple", "count": [ 1, 7 ], "prob": 1 },
+      { "item": "peach", "count": [ 1, 94 ], "prob": 1 },
+      { "item": "watermelon", "count": [ 1, 2 ], "prob": 1 },
+      { "item": "melon", "count": [ 1, 15 ], "prob": 1 },
+      { "item": "kiwi", "count": [ 1, 242 ], "prob": 1 },
+      { "item": "apricot", "count": [ 1, 68 ], "prob": 1 }
+    ]
+  },
+  {
+    "id": "small_crate_of_fruit_berries",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "small_crate_of_common_fruits", "count": 1, "prob": 80 },
+      { "group": "small_crate_of_common_berries", "count": 1, "prob": 20 }
+    ]
+  },
+  {
+    "id": "small_crate_of_fruits",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "small_crate_of_fruit_berries", "count": 1, "prob": 80 },
+      { "group": "small_crate_of_uncommon_fruits", "count": 1, "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_fruits",
+    "//": "3 levels * 3 crates per level = 9",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "small_crate_of_fruits", "count": 9 } ]
+  },
+  {
+    "id": "commercial_bread_specialty",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 1, "group": "garlic_bread_in_bag_full" },
+      { "prob": 1, "group": "frybread_in_bag_full" },
+      { "prob": 1, "group": "cornbread_in_bag_full" },
+      { "prob": 1, "group": "flatbread_in_bag_full" }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_bread_specialty",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_bread_specialty", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_bread_sweet",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "baked_goods", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_bread",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "prob": 1, "group": "bread_in_bag_full" }, { "prob": 1, "group": "bread_in_bag_full" } ]
+  },
+  {
+    "id": "SUS_shelf_commercial_bread",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_bread", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_frozen_meals",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "chili_in_can", "prob": 4 },
+      { "group": "ravioli_in_can", "prob": 4 },
+      { "group": "veggy_salad_bowl_2", "prob": 3 },
+      { "group": "sushi_veggyroll_bowl_2", "prob": 6 },
+      { "group": "sauerkraut_jar_glass_sealed_2", "prob": 2 },
+      { "group": "onion_rings_box_6", "prob": 8 },
+      { "group": "chicken_fried_box_6", "prob": 8 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_frozen_meals",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_frozen_meals", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "commercial_frozen_vegetables",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "broccoli", 1 ],
+      [ "cabbage_head", 1 ],
+      [ "radish_taproot", 1 ],
+      [ "spinach", 1 ],
+      [ "carrot", 1 ],
+      [ "garlic", 1 ],
+      [ "pumpkin", 1 ],
+      [ "rhubarb", 1 ],
+      [ "tomato", 1 ],
+      [ "zucchini", 1 ],
+      [ "bell_pepper", 1 ],
+      [ "eggplant", 1 ]
+    ]
+  },
+  {
+    "id": "SUS_shelf_commercial_frozen_vegetables",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "commercial_frozen_vegetables", "count": [ 1, 60 ] } ]
+  },
+  {
+    "id": "any_supermarket_SUS",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "SUS_shelf_commercial_sauces_dressings", "prob": 1 },
+      { "group": "SUS_shelf_commercial_oil_vinegar", "prob": 1 },
+      { "group": "SUS_shelf_commercial_exotic_food", "prob": 1 },
+      { "group": "SUS_shelf_commercial_grains", "prob": 1 },
+      { "group": "SUS_shelf_commercial_baking", "prob": 1 },
+      { "group": "SUS_shelf_commercial_pasta", "prob": 1 },
+      { "group": "SUS_shelf_commercial_canned_vegetables", "prob": 1 },
+      { "group": "SUS_shelf_commercial_canned_fruits", "prob": 1 },
+      { "group": "SUS_shelf_commercial_canned_meat", "prob": 1 },
+      { "group": "SUS_shelf_commercial_canned_meals", "prob": 1 },
+      { "group": "SUS_shelf_commercial_coffee", "prob": 1 },
+      { "group": "SUS_shelf_commercial_tea", "prob": 1 },
+      { "group": "SUS_shelf_commercial_breakfast_cereal", "prob": 1 },
+      { "group": "SUS_shelf_commercial_breakfast_mixes", "prob": 1 },
+      { "group": "SUS_shelf_commercial_spreads", "prob": 1 },
+      { "group": "SUS_shelf_commercial_sweet_snacks", "prob": 1 },
+      { "group": "SUS_shelf_commercial_butter_cream", "prob": 1 },
+      { "group": "SUS_shelf_commercial_yoghurt", "prob": 1 },
+      { "group": "SUS_shelf_commercial_cheese", "prob": 1 },
+      { "group": "SUS_shelf_commercial_milk", "prob": 1 },
+      { "group": "SUS_shelf_commercial_eggs", "prob": 1 },
+      { "group": "SUS_shelf_commercial_deli", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_beef", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_pork", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_poultry", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_seafood", "prob": 1 },
+      { "group": "SUS_shelf_commercial_icecream", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_dessert", "prob": 1 },
+      { "group": "SUS_shelf_commercial_water", "prob": 1 },
+      { "group": "SUS_shelf_commercial_soda", "prob": 1 },
+      { "group": "SUS_shelf_commercial_juices", "prob": 1 },
+      { "group": "SUS_shelf_commercial_sports_drink", "prob": 1 },
+      { "group": "SUS_shelf_commercial_chips", "prob": 1 },
+      { "group": "SUS_shelf_commercial_nuts_crackers", "prob": 1 },
+      { "group": "SUS_shelf_commercial_chocolate", "prob": 1 },
+      { "group": "SUS_shelf_commercial_candy", "prob": 1 },
+      { "group": "SUS_shelf_commercial_pet_food_in_container", "prob": 1 },
+      { "group": "SUS_shelf_commercial_pet_accessories", "prob": 1 },
+      { "group": "SUS_shelf_commercial_baby_accessories_food", "prob": 1 },
+      { "group": "SUS_shelf_commercial_baby_hygiene", "prob": 1 },
+      { "group": "SUS_shelf_commercial_office_supplies", "prob": 1 },
+      { "group": "SUS_shelf_commercial_electronics_accessories", "prob": 1 },
+      { "group": "SUS_shelf_commercial_books", "prob": 1 },
+      { "group": "SUS_shelf_commercial_magazines", "prob": 1 },
+      { "group": "SUS_shelf_commercial_laundry", "prob": 1 },
+      { "group": "SUS_shelf_commercial_dish_cleaning", "prob": 1 },
+      { "group": "SUS_shelf_commercial_cleaning_supplies", "prob": 1 },
+      { "group": "SUS_shelf_commercial_toilet_paper", "prob": 1 },
+      { "group": "SUS_shelf_commercial_dental_care", "prob": 1 },
+      { "group": "SUS_shelf_commercial_drugs", "prob": 1 },
+      { "group": "SUS_shelf_commercial_shower_supplies", "prob": 1 },
+      { "group": "SUS_shelf_commercial_personal_care", "prob": 1 },
+      { "group": "SUS_shelf_commercial_vegetables", "prob": 1 },
+      { "group": "SUS_shelf_commercial_fruits", "prob": 1 },
+      { "group": "SUS_shelf_commercial_bread_specialty", "prob": 1 },
+      { "group": "SUS_shelf_commercial_bread_sweet", "prob": 1 },
+      { "group": "SUS_shelf_commercial_bread", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_meals", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_vegetables", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_shelf_any",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "any_supermarket_SUS", "count": [ 0, 3 ] } ]
+  },
+  {
+    "id": "any_supermarket_SUS_fridge",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "SUS_shelf_commercial_meat_beef", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_pork", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_poultry", "prob": 1 },
+      { "group": "SUS_shelf_commercial_meat_seafood", "prob": 1 },
+      { "group": "SUS_shelf_commercial_icecream", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_dessert", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_meals", "prob": 1 },
+      { "group": "SUS_shelf_commercial_frozen_vegetables", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_supermarket_fridge_any",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "any_supermarket_SUS_fridge", "count": [ 0, 3 ] } ]
+  },
+  {
+    "id": "any_supermarket_SUS_freezer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "SUS_shelf_commercial_sauces_dressings", "prob": 1 },
+      { "group": "SUS_shelf_commercial_butter_cream", "prob": 1 },
+      { "group": "SUS_shelf_commercial_yoghurt", "prob": 1 },
+      { "group": "SUS_shelf_commercial_cheese", "prob": 1 },
+      { "group": "SUS_shelf_commercial_milk", "prob": 1 },
+      { "group": "SUS_shelf_commercial_eggs", "prob": 1 },
+      { "group": "SUS_shelf_commercial_vegetables", "prob": 1 },
+      { "group": "SUS_shelf_commercial_fruits", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_supermarket_freezer_any",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "any_supermarket_SUS_freezer", "count": [ 0, 3 ] } ]
+  },
+  {
+    "id": "SUS_commercial_chewing_gum",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "gum", "count": [ 0, 60 ], "prob": 1 } ]
+  },
+  {
+    "id": "cardboards",
+    "//": "1m long / 20cm arbitrary item width * 3 rows on average * 4 shelves = 60 items",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "box_small_folded", "prob": 20, "count": [ 0, 8 ] },
+      { "item": "box_medium_folded", "prob": 10, "count": [ 0, 4 ] },
+      { "item": "box_large_folded", "prob": 15, "count": [ 0, 2 ] },
+      { "item": "box_oversize_folded", "prob": 5, "count": [ 0, 1 ] }
+    ]
+  }
+]

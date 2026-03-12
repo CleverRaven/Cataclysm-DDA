@@ -1,0 +1,52 @@
+[
+  {
+    "id": "dissect_mon_feral_technomancer",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of the technomancer.  They have not given much care to their bionics, but some of the electronics look surprisingly intact.",
+    "entries": [
+      {
+        "drop": "feral_technomancer_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 1 ],
+        "scale_num": [ 0.1, 0.4 ],
+        "max": 2
+      },
+      {
+        "drop": "feral_technomancer_CBM_harvest_power",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
+      }
+    ]
+  },
+  {
+    "id": "dissect_mon_feral_high_technomancer",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of the technomancer.  They have not given much care to their bionics, but some of the electronics look surprisingly intact.",
+    "entries": [
+      {
+        "drop": "feral_high_technomancer_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 4
+      },
+      {
+        "drop": "feral_high_technomancer_CBM_harvest_power",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ],
+        "base_num": [ 0, 2 ],
+        "scale_num": [ 0.1, 0.6 ],
+        "max": 5
+      }
+    ]
+  }
+]

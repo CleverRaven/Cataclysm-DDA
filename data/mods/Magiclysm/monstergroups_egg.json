@@ -1,7 +1,7 @@
 [
   {
-    "name": "GROUP_EGG_OWLBEAR",
+    "id": "GROUP_EGG_OWLBEAR",
     "type": "monstergroup",
-    "default": "mon_owlbear_cub"
+    "monsters": [ { "monster": "mon_owlbear_cub" } ]
   }
 ]

@@ -3,24 +3,31 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "translations.h"
+#include "mtype.h"
+#include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
 class JsonObject;
 class monster;
-struct mon_effect_data;
+
+class invalid_mattack_actor : public mattack_actor
+{
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+        void load_internal( const JsonObject &, const std::string & ) override {}
+};
 
 class leap_actor : public mattack_actor
 {
@@ -30,11 +37,25 @@ class leap_actor : public mattack_actor
         float min_range = 0.0f;
         // Don't leap without a hostile target creature
         bool allow_no_target = false;
+        // Always leap, even when already adjacent to target
+        bool prefer_leap = false;
+        // Leap completely randomly regardless of target distance/direction
+        bool random_leap = false;
+        // Leap including terrains it doesn't usually move
+        // i.e. Aquatic monsters leap onto land
+        bool ignore_dest_terrain = false;
+        // Leap including tiles where there is something it would usually avoid,
+        // such as open air, fire, or traps
+        bool ignore_dest_danger = false;
         int move_cost = 0;
-        // Range below which we don't consider jumping at all
+        // Range to target below which we don't consider jumping at all
         float min_consider_range = 0.0f;
         // Don't jump if distance to target is more than this
         float max_consider_range = 0.0f;
+
+        std::vector<mon_effect_data> self_effects;
+
+        translation message;
 
         leap_actor() = default;
         ~leap_actor() override = default;
@@ -49,6 +70,8 @@ class mon_spellcasting_actor : public mattack_actor
     public:
         fake_spell spell_data;
 
+        bool allow_no_target = false;
+
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
@@ -57,13 +80,58 @@ class mon_spellcasting_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+class mon_eoc_actor : public mattack_actor
+{
+    public:
+        int range = 1;
+        bool allow_no_target = false;
+        std::vector<effect_on_condition_id> eoc;
+
+        mon_eoc_actor() = default;
+        ~mon_eoc_actor() override = default;
+
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+
+};
+
+struct grab {
+    // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified
+    int grab_strength;
+    // Percent chance to initiate a pull
+    int pull_chance;
+    // Ratio of pullee:puller weight
+    float pull_weight_ratio;
+    // Which effect should we apply on a successful grab to our target (bp)
+    // Limited to one GRAB-flagged effect per bp
+    efftype_id grab_effect;
+    // If true will attempt to remove all other GRAB flagged effects from the target and cancel the attack on failure
+    bool exclusive_grab = false;
+    // If true drags/pulls fail when targeting a character in a seat with seatbelts
+    bool respect_seatbelts = true;
+    // Distance the enemy drags you on successful drag attempt (also enable dragging in the first place)
+    int drag_distance;
+    // Deviation of each dragging step from a straight line away from the opponent
+    int drag_deviation;
+    // Number of drag steps which give you a grab break attempt
+    int drag_grab_break_distance;
+    // Movecost modifier for drag-related movements
+    float drag_movecost_mod;
+    // Messages for pulls and drags, those are mutually exclusive
+    translation pull_msg_u;
+    translation pull_fail_msg_u;
+    translation pull_msg_npc;
+    translation pull_fail_msg_npc;
+    void load_grab( const JsonObject &jo );
+    bool was_loaded = false;
+};
+
 class melee_actor : public mattack_actor
 {
     public:
         // Maximum damage from the attack
-        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
-        // Percent chance for the attack to happen if the mob tries it
-        int attack_chance = 100;
+        damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -79,10 +147,26 @@ class melee_actor : public mattack_actor
         bool no_adjacent = false;
         // Determines if a special attack can be dodged
         bool dodgeable = true;
+        // Determines if UNCANNY_DODGE (or the bionic) can be used to dodge this attack
+        bool uncanny_dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
+        // Determines if effects are only applied on damagin attacks
+        bool effects_require_dmg = true;
+        // Determines if effects are only applied on non bionic limbs
+        bool effects_require_organic = false;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
+        // Limits on target bodypart hit sizes
+        int hitsize_min = -1;
+        int hitsize_max = -1;
+        bool attack_upper = true;
+        grab grab_data;
+        bool is_grab = false;
+        std::pair<int, int> attack_amount = {1, 1};
+        bool spread_damage = false;
+
+        std::vector<effect_on_condition_id> eoc;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -91,8 +175,12 @@ class melee_actor : public mattack_actor
          */
         weighted_float_list<bodypart_str_id> body_parts;
 
-        /** Extra effects applied on damaging hit. */
+        /** Extra effects applied on hit. */
         std::vector<mon_effect_data> effects;
+        // Set of effects applied to the monster itself on attack/hit/damage
+        std::vector<mon_effect_data> self_effects_always;
+        std::vector<mon_effect_data> self_effects_onhit;
+        std::vector<mon_effect_data> self_effects_ondmg;
 
         /** Message for missed attack against the player. */
         translation miss_msg_u;
@@ -112,13 +200,16 @@ class melee_actor : public mattack_actor
         /** Message for throwing a non-player. */
         translation throw_msg_npc;
 
-        melee_actor();
+        melee_actor() = default;
         ~melee_actor() override = default;
 
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        /* Dedicated grab faction. Possible returns: -1 fails silently (attempting another attack instead)
+        0 fails loudly (resetting the cooldown), 1 succeeds */
+        int do_grab( monster &, Creature *target, bodypart_id bp_id ) const;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
@@ -174,6 +265,8 @@ class gun_actor : public mattack_actor
         /** Number of moves required for each attack */
         int move_cost = 150;
 
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 
@@ -195,12 +288,31 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
+        bool try_target( monster &z, Creature &target ) const;
+        bool shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
+                    int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class polymorph_special : public mattack_actor
+{
+    public:
+        mtype_id mon_id;
+        bool keep_speed = true;
+        bool keep_hp = true;
+        bool keep_anger = true;
+
+        polymorph_special() = default;
+        ~polymorph_special() override = default;
+
+        void load_internal( const JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

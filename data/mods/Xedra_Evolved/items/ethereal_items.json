@@ -1,0 +1,597 @@
+[
+  {
+    "id": "blurred_aura",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "name": "blurred aura",
+    "description": "Your edges blur and expand and contract in ways that don't reflect reality.  Allows you to dodge two extra attacks in a given turn.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "dreamstuff" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+  },
+  {
+    "id": "aura_futuresight",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "precognitive aura" },
+    "description": "A precognitive aura that allows you to dodge things you didn't see coming.",
+    "weight": "100 g",
+    "volume": "25 L",
+    "material": [ "dreamstuff" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "mutations": [ "FUTURESIGHT" ],
+        "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+      }
+    ]
+  },
+  {
+    "id": "rapier_dreamdross",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "dreamdross rapier" },
+    "description": "This is a thin ephemeral sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish one.",
+    "weight": "500 g",
+    "volume": "1500 ml",
+    "longest_side": "100 cm",
+    "price": "980 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD",
+      "RELIC_PINK"
+    ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "category": "weapons",
+    "melee_damage": { "bash": 2, "stab": 31, "cold": 10 }
+  },
+  {
+    "id": "dagger_dreamdross",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "dreamer dagger" },
+    "description": "This ephemeral dagger is 15 inches long from the hilt to the tip, the double-edged blade itself is a pearly white color and extremely sharp.",
+    "weight": "145 g",
+    "volume": "250 ml",
+    "longest_side": "38 cm",
+    "price": "40 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
+    "category": "weapons",
+    "melee_damage": { "stab": 16 },
+    "passive_effects": [ { "id": "DREAM_DAGGER" } ]
+  },
+  {
+    "id": "armor_dreamdross",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "copy-from": "armor_lc_lightplate",
+    "name": { "str_sp": "dream armor" },
+    "description": "A summoned medieval armor made from dreamdross.  It shimmers in the light and provides some protection.",
+    "material": [ "dreamstuff" ],
+    "warmth": 0,
+    "material_thickness": 5,
+    "flags": [ "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "aura_drunken_master",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "name": "Drunken Master aura",
+    "description": "Hey I thought this was America…",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "dreamstuff" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": -6 },
+          { "value": "PERCEPTION", "add": -3 }
+        ],
+        "mutations": [ "DRUNKEN", "GOODCARDIO" ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "id": "xe_oneiric_hammer",
+    "name": { "str": "Oneiric Hammer" },
+    "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
+    "weight": "1337 g",
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "dreamstuff" ],
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
+    "volume": "1250 ml",
+    "price": "0 cent",
+    "qualities": [ [ "DREAM_HAMMER", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_dreamdross": 100 } } ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "forged_dreamstuff", "moon_tears", "moon_tears_fine_chain" ],
+        "skill": "deduction",
+        "tool_quality": 0,
+        "cost_scaling": 0.1,
+        "move_cost": 100
+      }
+    ],
+    "melee_damage": { "bash": 30 },
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "ITEM",
+    "id": "constructed_hammer",
+    "name": { "str": "constructed hammer" },
+    "description": "A long handle ending in a two-sided head, one of which is hollow, and the other… does not exist.  Weirdly, both heads are equally useful, and the balance of hammer is pretty good to be useful as a weapon.  By activating and attacking with the hollow part, the hammer creates a tremendous force, able to break a thick tree (or someone's spine) in half, but will be destroyed afterwards.",
+    "copy-from": "mace",
+    "weight": "1250 g",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "forged_dreamstuff" ],
+    "volume": "1050 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "cast_spell", "spell_id": "constructed_hammer_attack", "no_fail": true, "level": 0, "need_wielding": true },
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "PRYING_NAIL", 1 ] ]
+  },
+  {
+    "id": "winch_stone",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "constructed winch", "str_pl": "constructed winches" },
+    "description": "A small token that floats near your right hand.  It pulls you to determined coordinates when you command it.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "dreamstuff" ],
+    "symbol": "*",
+    "color": "dark_gray",
+    "flags": [
+      "SINGLE_USE",
+      "TRADER_AVOID",
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "max_worn": 1,
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Jump.",
+      "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ]
+    }
+  },
+  {
+    "id": "magic_light",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "tools",
+    "name": "magic light",
+    "description": "A magical light source that will light up a small area.",
+    "weight": "1 g",
+    "material": [ "dreamstuff" ],
+    "volume": "250 ml",
+    "price": "1 cent",
+    "symbol": ",",
+    "color": "light_green",
+    "light": 300,
+    "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "water_pocket",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "water pocket" },
+    "description": "A large pouch of churning water on your back, containing a sealed air bubble.  It shifts and adjusts itself to minimize encumbrance.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": "0 cent",
+    "material": [ "water" ],
+    "symbol": "[",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "75 kg",
+        "moves": 60,
+        "watertight": true,
+        "airtight": true
+      }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "OVERSIZE", "NO_TAKEOFF", "NO_REPAIR", "NO_SALVAGE", "ZERO_WEIGHT" ],
+    "max_worn": 1,
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "salamander_flaming_summon_whip",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "weapons",
+    "symbol": "/",
+    "color": "red",
+    "name": "Tongues of Flame",
+    "description": "A long whip made of red-hot fire.  It crackles menacingly and casts a flickering red glow.",
+    "weight": "60 g",
+    "volume": "1500 ml",
+    "longest_side": "40 cm",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 6 },
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "light": 15,
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP",
+      "STURDY",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "FIRESTARTER",
+      "FLAMING",
+      "FIRE"
+    ],
+    "passive_effects": [ { "id": "SALAMANDER_SUMMON_WHIP" } ],
+    "weapon_category": [ "WHIPS" ]
+  },
+  {
+    "id": "undine_waters_map",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "undine waters map", "//~": "NO_I18N" },
+    "description": { "str": "The item for .", "//~": "NO_I18N" },
+    "weight": "30 g",
+    "volume": "250 ml",
+    "flags": [ "PAPER_SHAPED" ],
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "elemental_water" ],
+    "symbol": ";",
+    "color": "blue",
+    "copy-from": "abstractmap",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 150,
+      "terrain": [
+        "lake",
+        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ocean", "om_terrain_match_type": "PREFIX" }
+      ],
+      "message": "The waters reveal themselves to you."
+    }
+  },
+  {
+    "id": "arvore_preservation_container",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "vegetal sphere" },
+    "looks_like": "art_sphere",
+    "description": "A large, hollow sphere of plant matter, bark, and wood.  Food placed inside will rot one-fifth as fast as it would if left out in the open air.",
+    "weight": "3 kg",
+    "volume": "92 L",
+    "longest_side": "550 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "veggy", "wood" ],
+    "symbol": "o",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "70 L",
+        "max_contains_weight": "70 kg",
+        "spoil_multiplier": 0.2
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "item_ierde_iron_armor",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "invulnerable iron skin" },
+    "description": "Fae iron essence.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "material": [ "moon_tears" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.6,
+    "environmental_protection": 2,
+    "flags": [ "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.2 },
+          { "value": "FORCEFIELD", "add": 0.1 },
+          { "value": "PAIN_REMOVE", "add": 45 }
+        ]
+      },
+      {
+        "has": "WORN",
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
+      }
+    ]
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_01",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 15,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_02",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 20,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_03",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 25,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_04",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 30,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_05",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 35,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_ierde_reveal_earth_map_06",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "category": "maps",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 40,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "changeling_summer_sunglasses",
+    "copy-from": "fake_item",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "Under the Noonday Sun" },
+    "description": { "str": "You are protected from extremely bright lights." },
+    "qualities": [ [ "GLARE", 1 ] ],
+    "extend": { "flags": [ "SEMITANGIBLE", "INTEGRATED", "FLASH_PROTECTION", "SUN_GLASSES" ] }
+  },
+  {
+    "id": "vampire_blood_ball",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "blood-storing sphere" },
+    "looks_like": "jar_glass_sealed",
+    "description": "A magical transparent sphere.  You can use it to store any type of blood, at least until the sphere vanishes.",
+    "weight": "1 g",
+    "volume": "3050 ml",
+    "longest_side": "298 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "blood" ],
+    "symbol": "O",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "20 kg",
+        "material_restriction": [ "blood", "hblood", "vampire_blood" ]
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ]
+  }
+]

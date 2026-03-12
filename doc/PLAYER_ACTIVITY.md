@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Activities](#activities)
+  - [Adding new activities](#adding-new-activities)
+  - [JSON Properties](#json-properties)
+  - [Termination](#termination)
+  - [Notes](#notes)
+    - [`activity_actor::start`](#activity_actorstart)
+    - [`activity_actor::do_turn`](#activity_actordo_turn)
+    - [`activity_actor::finish`](#activity_actorfinish)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Activities
 
 Activities are long term actions, that can be interrupted and (optionally)
@@ -21,7 +36,7 @@ activity actor to the `deserialize_functions` map towards the bottom of
 `activity_actor.cpp`. Define `canceled` function if activity modifies
 some complex state that should be restored upon cancellation / interruption.
 
-4. If this activity is resumable, `override` 
+4. If this activity is resumable, `override`
 `activity_actor::can_resume_with_internal`
 
 5. Construct your activity actor and then pass it to the constructor for
@@ -40,12 +55,10 @@ query to stop the activity, and strings that describe it, for example:
 * interruptable (true): Can this be interrupted.  If false, then popups related
 to e.g. pain or seeing monsters will be suppressed.
 
-* no_resume (false): Rather than resuming, you must always restart the
-activity from scratch.
+* interruptable_with_kb (true): Can this be interrupted by a key press.
 
-* suspendable (true): If true, the activity can be continued without
-starting from scratch again. This is only possible if `can_resume_with()`
-returns true.
+* can_resume (true): If true, the activity can be resumed after an interruption,
+letting you continue from where you left off rather than from scratch.
 
 * based_on: Can be 'time', 'speed', or 'neither'.
 
@@ -72,6 +85,10 @@ drink from specific auto_consume zones during long activities.
 * multi_activity(false): This activity will repeat until it cannot do
 any more work, used for NPC and avatar zone activities.
 
+* completion_eoc: an EOC that is run when this activity completes
+
+* do_turn_eoc: an EOC that is run when this activity performs a turn
+
 ## Termination
 
 There are several ways an activity can be ended:
@@ -94,7 +111,7 @@ There are several ways an activity can be ended:
     Canceling an activity prevents the `activity_actor::finish`
     function from running, and the activity does therefore not yield a
     result. Instead, `activity_actor::canceled` is called. If activity is
-    suspendable, a copy of it is written to `Character::backlog`.
+    resumable, a copy of it is written to `Character::backlog`.
 
 ## Notes
 
@@ -135,7 +152,7 @@ satisfied:
 
 - The `player_activity::moves_left` is decreased in `do_turn`
 
-- The the activity is stopped in `do_turn`  (see 'Termination' above)
+- The activity is stopped in `do_turn`  (see 'Termination' above)
 
 For example, `move_items_activity_actor::do_turn` will either move as
 many items as possible given the character's current moves or, if there

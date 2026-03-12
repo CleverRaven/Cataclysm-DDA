@@ -1,0 +1,34 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAMESTART_POWER_LEARNING_VARIABLES",
+    "eoc_type": "EVENT",
+    "//": "This makes sure all running learn EoCs immediately turn off whenever they're activated",
+    "required_event": "game_begin",
+    "effect": [
+      { "math": [ "global_insight_power_learning_time_low = 1" ] },
+      { "math": [ "global_insight_power_learning_time_high = 1" ] },
+      { "math": [ "global_tier_one_power_learning_time_low = 1" ] },
+      { "math": [ "global_tier_one_power_learning_time_high = 1" ] },
+      { "math": [ "global_tier_two_power_learning_time_low = 1" ] },
+      { "math": [ "global_tier_two_power_learning_time_high = 1" ] },
+      { "math": [ "global_tier_three_power_learning_time_low = 1" ] },
+      { "math": [ "global_tier_three_power_learning_time_high = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_KNACK_RATING_TO_COUNTUP",
+    "effect": [  ]
+  }
+]

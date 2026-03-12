@@ -2,15 +2,23 @@
   {
     "type": "terrain",
     "id": "t_marloss",
-    "name": "marloss bush",
+    "name": "Marloss bush",
     "description": "This alien plant superficially resembles a blueberry bush, and hangs with large, juicy pink pomes that emit a heady, fruity aroma.",
     "symbol": "#",
     "color": "pink",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT", "GRAZER_INEDIBLE" ],
     "examine_action": "shrub_marloss",
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -27,7 +35,9 @@
       "ter_set": "t_null",
       "str_min": 20,
       "str_max": 400,
-      "str_min_supported": 50
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
     }
   },
   {
@@ -39,8 +49,17 @@
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "smash",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -52,7 +71,15 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "smash",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -64,32 +91,59 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS" ],
-    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 20,
+      "str_max": 400,
+      "str_min_supported": 50,
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_fungus_wall",
-    "alias": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
     "name": "fungal wall",
     "description": "Several thick, large tendrils of fungus perforate the wall here, piercing straight through it from the outside.  Despite the apparent damage, the wall is still structurally sound.",
     "symbol": "O",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_fungus_wall_transformed",
     "name": "fungal wall",
     "description": "The fungus here has grown thickly and tightly enough to form a solid wall.  It feels very stiff to the touch, and seems to be very strong.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
-    "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -100,7 +154,15 @@
     "color": "light_gray",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE" ],
-    "bash": { "str_min": 10, "str_max": 70, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -111,8 +173,26 @@
     "color": "dark_gray",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS", "SHORT" ],
-    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "FUNGUS",
+      "SHORT",
+      "GRAZER_INEDIBLE"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "poof!",
+      "ter_set": "t_fungus",
+      "hit_field": [ "fd_spores", 1 ],
+      "destroyed_field": [ "fd_fungal_splinters", 1 ]
+    }
   },
   {
     "type": "terrain",
@@ -140,7 +220,7 @@
   {
     "type": "terrain",
     "id": "t_marloss_tree",
-    "name": "marloss tree",
+    "name": "Marloss tree",
     "description": "This tree stands as a stark outlier to the landscape around it.  Despite its infestation, its leaves wave proudly in the wind, colored pinkish-white.  Its branches are heavy with pink fruit that looks both mutated and delicious.",
     "symbol": "7",
     "color": "pink",

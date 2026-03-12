@@ -1,0 +1,14 @@
+[
+  {
+    "copy-from": "defense_mode_fortified",
+    "type": "scenario",
+    "extend": { "allowed_locs": [ "sloc_defense_mode_border_office" ] },
+    "id": "defense_mode_fortified"
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_defense_mode_border_office",
+    "name": "Border Patrol Office",
+    "terrain": [ "dm_field_office_8" ]
+  }
+]

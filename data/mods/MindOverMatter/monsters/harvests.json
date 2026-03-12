@@ -1,0 +1,8 @@
+[
+  {
+    "id": "mutant_cow_with_skull",
+    "type": "harvest",
+    "copy-from": "mutant_mammal_large_leather",
+    "extend": { "entries": [ { "drop": "skull_bovine", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  }
+]

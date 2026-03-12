@@ -2,14 +2,17 @@
 #ifndef CATA_SRC_MATTACK_COMMON_H
 #define CATA_SRC_MATTACK_COMMON_H
 
-#include <string> // IWYU pragma: keep
+#include <functional>
 #include <memory>
-#include <type_traits>
+#include <string> // IWYU pragma: keep
+#include <utility>
 
 #include "clone_ptr.h"
+#include "dialogue_helpers.h"
 
 class JsonObject;
 class monster;
+struct const_dialogue;
 
 using mattack_id = std::string;
 using mon_action_attack = bool ( * )( monster * );
@@ -24,7 +27,11 @@ class mattack_actor
         mattack_id id;
         bool was_loaded = false;
 
-        int cooldown = 0;
+        dbl_or_var cooldown;
+
+        // Dialogue conditions of the attack
+        std::function<bool( const_dialogue const & )> condition;
+        bool has_condition = false;
 
         void load( const JsonObject &jo, const std::string &src );
 
@@ -37,7 +44,7 @@ class mattack_actor
 struct mtype_special_attack {
     protected:
         // TODO: Remove friend
-        friend struct mtype;
+        friend struct special_attacks_reader;
         cata::clone_ptr<mattack_actor> actor;
 
     public:

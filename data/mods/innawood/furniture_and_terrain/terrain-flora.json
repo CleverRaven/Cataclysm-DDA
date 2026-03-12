@@ -1,0 +1,22 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_young",
+    "name": "young tree",
+    "looks_like": "t_tree",
+    "description": "A relatively young sapling of an indeterminate species.  It could take decades before reaching maturity, so there's no use waiting around.",
+    "symbol": "1",
+    "color": [ "green", "green", "green", "brown" ],
+    "//": "barren in winter",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 1, 5 ] }, { "item": "withered", "count": [ 2, 6 ] } ]
+    }
+  }
+]

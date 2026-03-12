@@ -1,19 +1,23 @@
-#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstdio>
 #include <functional>
+#include <memory>
+#include <optional>
+#include <random>
 #include <sstream>
-#include <type_traits>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
-#include "game_constants.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
 #include "map.h"
+#include "map_scale_constants.h"
+#include "mdarray.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -23,11 +27,12 @@ static constexpr unsigned int NUMERATOR = 1;
 static constexpr unsigned int DENOMINATOR = 10;
 
 // NOLINTNEXTLINE(cata-xy)
-static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const int xx, const int xy, const int yx, const int yy,
-                          const int offsetX, const int offsetY, const int offsetDistance,
-                          const int row = 1, float start = 1.0f, const float end = 0.0f )
+static void oldCastLight(
+    cata::mdarray<float, point_bub_ms> &output_cache,
+    const cata::mdarray<float, point_bub_ms> &input_array,
+    const int xx, const int xy, const int yx, const int yy,
+    const int offsetX, const int offsetY, const int offsetDistance,
+    const int row = 1, float start = 1.0f, const float end = 0.0f )
 {
 
     float newStart = 0.0f;
@@ -51,7 +56,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist( tripoint_zero, delta ) <= radius ) {
+            if( rl_dist( tripoint::zero, delta ) <= radius ) {
                 output_cache[current.x][current.y] = VISIBILITY_FULL;
             }
 
@@ -82,8 +87,8 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
  * This is checking whether bresenham visibility checks match shadowcasting (they don't).
  */
 static bool bresenham_visibility_check(
-    const point &offset, const point &p,
-    const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+    const point_bub_ms &offset, const point_bub_ms &p,
+    const cata::mdarray<float, point_bub_ms> &transparency_cache )
 {
     if( offset == p ) {
         return true;
@@ -91,8 +96,8 @@ static bool bresenham_visibility_check(
     bool visible = true;
     const int junk = 0;
     bresenham( p, offset, junk,
-    [&transparency_cache, &visible]( const point & new_point ) {
-        if( transparency_cache[new_point.x][new_point.y] <=
+    [&transparency_cache, &visible]( const point_bub_ms & new_point ) {
+        if( transparency_cache[new_point.x()][new_point.y()] <=
             LIGHT_TRANSPARENCY_SOLID ) {
             visible = false;
             return false;
@@ -103,25 +108,23 @@ static bool bresenham_visibility_check(
 }
 
 static void randomly_fill_transparency(
-    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    cata::mdarray<float, point_bub_ms> &transparency_cache,
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
     std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
-    auto rng = std::bind( distribution, rng_get_engine() );
+    auto rng = [&distribution] { return distribution( rng_get_engine() ); };
 
     // Initialize the transparency value of each square to a random value.
-    for( auto &inner : transparency_cache ) {
-        for( float &square : inner ) {
-            if( rng() < numerator ) {
-                square = LIGHT_TRANSPARENCY_SOLID;
-            } else {
-                square = LIGHT_TRANSPARENCY_OPEN_AIR;
-            }
+    transparency_cache.fill_from_callable( [numerator, &rng]() {
+        if( rng() < numerator ) {
+            return LIGHT_TRANSPARENCY_SOLID;
+        } else {
+            return LIGHT_TRANSPARENCY_OPEN_AIR;
         }
-    }
+    } );
 }
 
 static bool is_nonzero( const float x )
@@ -135,8 +138,9 @@ static bool is_nonzero( const four_quadrants &x )
 }
 
 template<typename Exp>
-bool grids_are_equivalent( float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                           Exp experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+bool grids_are_equivalent(
+    const cata::mdarray<float, point_bub_ms> &control,
+    const cata::mdarray<Exp, point_bub_ms> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
@@ -151,10 +155,11 @@ bool grids_are_equivalent( float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
 }
 
 template<typename Exp>
-void print_grid_comparison( const point &offset,
-                            float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                            float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                            Exp experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+void print_grid_comparison(
+    const point_bub_ms &offset,
+    cata::mdarray<float, point_bub_ms> &transparency_cache,
+    const cata::mdarray<float, point_bub_ms> &control,
+    const cata::mdarray<Exp, point_bub_ms> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
@@ -162,7 +167,7 @@ void print_grid_comparison( const point &offset,
             const bool shadowcasting_disagrees =
                 is_nonzero( control[x][y] ) != is_nonzero( experiment[x][y] );
             const bool bresenham_disagrees =
-                bresenham_visibility_check( offset, point( x, y ), transparency_cache ) !=
+                bresenham_visibility_check( offset, point_bub_ms( x, y ), transparency_cache ) !=
                 is_nonzero( experiment[x][y] );
 
             if( shadowcasting_disagrees && bresenham_disagrees ) {
@@ -187,7 +192,7 @@ void print_grid_comparison( const point &offset,
             if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
                 output = '#';
             }
-            if( x == offset.x && y == offset.y ) {
+            if( x == offset.x() && y == offset.y() ) {
                 output = '@';
             }
             printf( "%c", output );
@@ -220,40 +225,44 @@ void print_grid_comparison( const point &offset,
 
 static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms> transparency_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
-    const point offset( 65, 65 );
+    const point_bub_ms offset( 65, 65 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offset.x, offset.y, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offset.x(), offset.y(), 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offset.x(), offset.y(), 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offset.x, offset.y, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offset.x(), offset.y(), 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offset.x(), offset.y(), 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offset.x, offset.y, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offset.x(), offset.y(), 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offset.x(), offset.y(), 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offset.x, offset.y, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offset.x(), offset.y(), 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offset.x(), offset.y(), 0 );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_experiment, transparency_cache, offset );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
@@ -270,7 +279,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     for( int x = 0; test_bresenham && passed && x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
             // Check that both agree on the outcome, but not necessarily the same values.
-            if( bresenham_visibility_check( offset, point( x, y ), transparency_cache ) !=
+            if( bresenham_visibility_check( offset, point_bub_ms( x, y ), transparency_cache ) !=
                 ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
                 passed = false;
                 break;
@@ -289,32 +298,43 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
 static void shadowcasting_float_quad(
     const int iterations, const unsigned int denominator = DENOMINATOR )
 {
-    float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    struct test_grids {
+        cata::mdarray<float, point_bub_ms> lit_squares_float = {};
+        cata::mdarray<four_quadrants, point_bub_ms> lit_squares_quad = {};
+        cata::mdarray<float, point_bub_ms> transparency_cache = {};
+    };
+
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+    cata::mdarray<float, point_bub_ms> &lit_squares_float = grids->lit_squares_float;
+    cata::mdarray<four_quadrants, point_bub_ms> &lit_squares_quad = grids->lit_squares_quad;
+    cata::mdarray<float, point_bub_ms> &transparency_cache = grids->transparency_cache;
 
     randomly_fill_transparency( transparency_cache, denominator );
 
     map dummy;
 
-    const point offset( 65, 65 );
+    const point_bub_ms offset( 65, 65 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
                      accumulate_transparency>(
                          lit_squares_quad, transparency_cache, offset );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light,
                      accumulate_transparency>(
                          lit_squares_float, transparency_cache, offset );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
@@ -340,27 +360,33 @@ static void shadowcasting_float_quad(
 }
 
 static void do_3d_benchmark(
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
+    const array_of_grids_of<const float> &transparency_caches,
     const int iterations )
 {
-    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    struct test_grids {
+        std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> seen_squares = {};
+        std::array<cata::mdarray<bool, point_bub_ms>, OVERMAP_LAYERS> floor_cache = {};
+    };
 
-    const tripoint origin( 65, 65, 0 );
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+
+    const tripoint_bub_ms origin( 65, 65, 0 );
+    array_of_grids_of<float> seen_caches;
+    array_of_grids_of<const bool> floor_caches;
 
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        seen_caches[z + OVERMAP_DEPTH] = &seen_squares[z + OVERMAP_DEPTH];
-        floor_caches[z + OVERMAP_DEPTH] = &floor_cache[z + OVERMAP_DEPTH];
+        seen_caches[z + OVERMAP_DEPTH] = &grids->seen_squares[z + OVERMAP_DEPTH];
+        floor_caches[z + OVERMAP_DEPTH] = &grids->floor_cache[z + OVERMAP_DEPTH];
     }
 
-    const auto start = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
-    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff =
@@ -372,8 +398,14 @@ static void do_3d_benchmark(
 
 static void shadowcasting_3d_benchmark( const int iterations )
 {
-    float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{0}}};
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
+    struct test_grids {
+        std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> transparency_cache = {};
+    };
+
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+    std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> &transparency_cache =
+        grids->transparency_cache;
+    array_of_grids_of<const float> transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
         transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache[z + OVERMAP_DEPTH];
@@ -389,16 +421,12 @@ static void shadowcasting_3d_benchmark( const int iterations )
         } else {
             value_to_set = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
-        for( auto &inner : transparency_cache[z + OVERMAP_DEPTH] ) {
-            for( float &square : inner ) {
-                square = value_to_set;
-            }
-        }
+        transparency_cache[z + OVERMAP_DEPTH].fill( value_to_set );
     }
     do_3d_benchmark( transparency_caches, iterations );
 
     // Add some obstacles, a ring at distance 5
-    float ( &ground_level )[MAPSIZE * SEEX][MAPSIZE * SEEY] = transparency_cache[OVERMAP_DEPTH];
+    cata::mdarray<float, point_bub_ms> &ground_level = transparency_cache[OVERMAP_DEPTH];
     ground_level[60][65] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[63][63] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[65][60] = LIGHT_TRANSPARENCY_SOLID;
@@ -412,29 +440,31 @@ static void shadowcasting_3d_benchmark( const int iterations )
 
 static void shadowcasting_3d_2d( const int iterations )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms> transparency_cache = {};
+    cata::mdarray<bool, point_bub_ms> floor_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 
     map dummy;
 
-    const tripoint offset( 65, 65, 0 );
+    const tripoint_bub_ms offset( 65, 65, 0 );
 
-    const auto start1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start1 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_squares_control, transparency_cache, offset.xy() );
     }
-    const auto end1 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end1 =
+        std::chrono::high_resolution_clock::now();
 
-    const tripoint origin( offset );
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
+    const tripoint_bub_ms origin( offset );
+    array_of_grids_of<const float> transparency_caches;
+    array_of_grids_of<float> seen_caches;
+    array_of_grids_of<const bool> floor_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         // TODO: Give some more proper values here
         transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache;
@@ -442,13 +472,15 @@ static void shadowcasting_3d_2d( const int iterations )
         floor_caches[z + OVERMAP_DEPTH] = &floor_cache;
     }
 
-    const auto start2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point start2 =
+        std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
-    const auto end2 = std::chrono::high_resolution_clock::now();
+    const std::chrono::high_resolution_clock::time_point end2 =
+        std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
         const long long diff1 =
@@ -479,7 +511,7 @@ static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
 static constexpr float V = LIGHT_TRANSPARENCY_OPEN_AIR;
 static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
-static const tripoint ORIGIN( 65, 65, 11 );
+static const tripoint_bub_ms ORIGIN( 65, 65, 11 );
 
 struct grid_overlay {
     std::vector<std::vector<std::vector<float>>> data;
@@ -490,11 +522,11 @@ struct grid_overlay {
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
     grid_overlay( const point &origin_offset, const float default_value ) {
-        this->offset = ORIGIN - origin_offset;
+        this->offset = ORIGIN.raw() - origin_offset;
         this->default_value = default_value;
     }
     grid_overlay( const tripoint &origin_offset, const float default_value ) {
-        this->offset = ORIGIN - origin_offset;
+        this->offset = ORIGIN.raw() - origin_offset;
         this->default_value = default_value;
     }
 
@@ -543,10 +575,10 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     if( !fov_3d ) {
         REQUIRE( test_case.depth() == 1 );
     }
-    level_cache *caches[OVERMAP_LAYERS];
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_squares;
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_cache;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_cache;
+    std::array<level_cache *, OVERMAP_LAYERS> caches;
+    array_of_grids_of<float> seen_squares;
+    array_of_grids_of<const float> transparency_cache;
+    array_of_grids_of<const bool> floor_cache;
 
     const int upper_bound = fov_3d ? OVERMAP_LAYERS : 12;
     const int lower_bound = fov_3d ? 0 : 11;
@@ -565,7 +597,9 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
 
     if( fov_3d ) {
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>( seen_squares,
-                transparency_cache, floor_cache, ORIGIN - tripoint( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
+                transparency_cache, floor_cache, ORIGIN - tripoint_rel_ms( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
+        get_map().seen_cache_process_ledges( seen_squares, floor_cache, ORIGIN - tripoint_rel_ms( 0, 0,
+                                             OVERMAP_DEPTH ) );
     } else {
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *seen_squares[11], *transparency_cache[11], ORIGIN.xy() );

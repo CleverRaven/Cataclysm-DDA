@@ -1,0 +1,285 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DANGER_SENSE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_danger_sense" } },
+    "effect": [
+      { "u_message": "You become preternaturally aware of possible dangers.", "type": "good" },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_afs_precog_danger_sense", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_DANGER_SENSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_DANGER_SENSE",
+    "condition": { "u_has_effect": "effect_afs_precog_danger_sense" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_precog_danger_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_danger_sense" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_danger_sense')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_danger_sense') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DANGER_SENSE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 303.00) + 1174.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_danger_sense') * 1002.00) + 2232.00) * (scaling_factor(u_val('intelligence') ) )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_RANGED_ENHANCE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_ranged_enhance" } },
+    "effect": [
+      {
+        "u_message": "Your enemies seem highlighted against the terrain as you tighten your grip on your weapon.",
+        "type": "good"
+      },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE", "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS" ]
+      },
+      { "u_add_effect": "effect_afs_precog_ranged_enhance", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_RANGED_ENHANCE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 8.00) + 210.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 25.00) + 640.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_ranged_enhance" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_precog_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_RANGED_ENHANCE_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_ranged_enhance" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_ranged_enhance')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_ranged_enhance') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_RANGED_ENHANCE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 8.00) + 210.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_ranged_enhance') * 25.00) + 640.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DODGE_BONUS_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_dodge_bonus" } },
+    "effect": [
+      { "u_message": "You can see a premonition of your enemies' attacks like a ghostly image.", "type": "good" },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE", "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE" ]
+      },
+      { "u_add_effect": "effect_afs_precog_dodge_bonus", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DODGE_BONUS_MAINTENANCE",
+        "time_in_future": [
+          { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 9.00) + 120.00) * scaling_factor(u_val('intelligence') )" ] },
+          {
+            "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 17.00) + 450.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS",
+    "condition": { "u_has_effect": "effect_afs_precog_dodge_bonus" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_precog_dodge_bonus" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_DODGE_BONUS_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_dodge_bonus" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_dodge_bonus')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_dodge_bonus') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_DODGE_BONUS_MAINTENANCE",
+        "time_in_future": [
+          { "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 9.00) + 120.00) * scaling_factor(u_val('intelligence') )" ] },
+          {
+            "math": [ "( (u_spell_level('afs_precog_dodge_bonus') * 17.00) + 450.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_craft_bonus" } },
+    "effect": [
+      { "u_message": "You can see how it all fits together, and how it *should* fit together.", "type": "good" },
+      { "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_CRAFT_BONUS_SWITCHER" ] },
+      { "u_add_effect": "effect_afs_precog_craft_bonus", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 250.00) + 1215.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 600.00) + 2700.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_CRAFT_BONUS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('afs_precog_craft_bonus')" ] },
+      "cases": [
+        { "case": 0, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_01" } },
+        { "case": 4, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_02" } },
+        { "case": 8, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_03" } },
+        { "case": 12, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_04" } },
+        { "case": 16, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_05" } },
+        { "case": 20, "effect": { "u_add_trait": "AFS_PRECOG_CRAFT_BONUS_06" } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_CRAFT_BONUS",
+    "condition": { "u_has_effect": "effect_afs_precog_craft_bonus" },
+    "effect": [
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_lose_effect": "effect_afs_precog_craft_bonus" },
+      { "u_lose_effect": "effect_afs_precog_craft_bonus_blindness" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_01" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_02" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_03" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_04" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_05" },
+      { "u_lose_trait": "AFS_PRECOG_CRAFT_BONUS_06" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_craft_bonus" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_craft_bonus')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_craft_bonus') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_CRAFT_BONUS_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 250.00) + 1215.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_craft_bonus') * 600.00) + 2700.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_MELEE_ENHANCE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_afs_precog_melee_enhance" } },
+    "effect": [
+      {
+        "u_message": "Distances seem to narrow and your enemies' movements seem to slow as their vulnerabilities are laid bare.",
+        "type": "good"
+      },
+      {
+        "run_eocs": [ "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE", "EOC_AFS_PRECOG_REMOVE_RANGED_ENHANCE", "EOC_AFS_PRECOG_REMOVE_DODGE_BONUS" ]
+      },
+      { "u_add_effect": "effect_afs_precog_melee_enhance", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_MELEE_ENHANCE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 9.00) + 240.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 28.00) + 690.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_REMOVE_MELEE_ENHANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_melee_enhance" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_precog_melee_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PRECOG_MELEE_ENHANCE_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_afs_precog_melee_enhance" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('afs_precog_melee_enhance')" ] },
+      { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      { "math": [ "u_spell_exp('afs_precog_melee_enhance') += psionic_power_experience_formula_maintenance()" ] },
+      {
+        "run_eocs": "EOC_AFS_PRECOG_MELEE_ENHANCE_MAINTENANCE",
+        "time_in_future": [
+          {
+            "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 9.00) + 240.00) * scaling_factor(u_val('intelligence') )" ]
+          },
+          {
+            "math": [ "( (u_spell_level('afs_precog_melee_enhance') * 28.00) + 690.00) * scaling_factor(u_val('intelligence') )" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "mon_zombie_bio_op",
+    "type": "MONSTER",
+    "name": { "str": "zombie bio-operator" },
+    "description": "This armored soldier zombie appears to have been some sort of special forces agent.  Its malfunctioning equipment sends out occasional showers of sparks.",
+    "copy-from": "mon_zombie_base",
+    "diff": 5,
+    "hp": 120,
+    "speed": 95,
+    "color": "red_cyan",
+    "melee_skill": 7,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "luminance": 4,
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "death_drops": "mon_zombie_bio_op_death_drops",
+    "armor": { "bash": 10, "cut": 18, "bullet": 14, "electric": 3 },
+    "dissect": "dissect_mon_zomborg",
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+      "families": [ "prof_wp_syn_armored" ],
+      "flags": [ "ELECTRIC" ]
+    }
+  }
+]

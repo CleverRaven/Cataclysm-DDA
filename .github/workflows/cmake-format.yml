@@ -16,14 +16,16 @@ on:
     - '**.cmake'
     - '**.cmake.in'
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v1
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       with:
-        fetch-depth: 1
+        persist-credentials: false
     - name: install cmakelang
       run: python3 -m pip install -U cmakelang
     - name: run cmake-lint

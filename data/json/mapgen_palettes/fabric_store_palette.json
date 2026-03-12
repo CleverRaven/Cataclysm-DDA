@@ -1,0 +1,36 @@
+[
+  {
+    "type": "palette",
+    "id": "fabric_store_pallete",
+    "terrain": {
+      ";": [ "t_door_locked", "t_door_elocked_alarm" ],
+      "i": "t_door_locked_interior",
+      "0": "t_window_alarm",
+      "z": "t_region_shrub_decorative",
+      "p": "t_region_groundcover_urban"
+    },
+    "furniture": {
+      "%": "f_console_broken",
+      "c": "f_rack",
+      "C": "f_rack",
+      "Q": "f_rack",
+      "s": "f_stool",
+      "d": "f_desk",
+      "[": "f_table",
+      "p": "f_region_flower",
+      "L": "f_locker",
+      "l": "f_locker",
+      "J": "f_locker"
+    },
+    "items": {
+      "c": [ { "item": "SUS_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_materials", "chance": 50 } ],
+      "C": { "item": "SUS_fur_tailoring_materials", "chance": 30 },
+      "Q": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
+      "d": { "item": "SUS_office_desk", "chance": 60 },
+      "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
+      "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
+      "l": [ { "item": "SUS_tailoring_materials", "chance": 30 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
+      "J": { "item": "SUS_janitors_closet", "chance": 60 }
+    }
+  }
+]

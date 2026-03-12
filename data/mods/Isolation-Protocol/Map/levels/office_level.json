@@ -1,0 +1,83 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "iso_office",
+    "subtype": "mutable",
+    "locations": [ "iso_nether" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 4, 4 ],
+    "flags": [ "ISO_MAP" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "iso_nether" ] ],
+      [ [ 0, 0, -1 ], [ "iso_nether" ] ],
+      [ [ 4, 0, -1 ], [ "iso_nether" ] ],
+      [ [ 3, 0, -1 ], [ "iso_nether" ] ],
+      [ [ 2, 0, -1 ], [ "iso_nether" ] ],
+      [ [ 1, 0, -1 ], [ "iso_nether" ] ],
+      [ [ -4, 0, -1 ], [ "iso_nether" ] ],
+      [ [ -3, 0, -1 ], [ "iso_nether" ] ],
+      [ [ -2, 0, -1 ], [ "iso_nether" ] ],
+      [ [ -1, 0, -1 ], [ "iso_nether" ] ],
+      [ [ 0, -4, -1 ], [ "iso_nether" ] ],
+      [ [ 0, -3, -1 ], [ "iso_nether" ] ],
+      [ [ 0, -2, -1 ], [ "iso_nether" ] ],
+      [ [ 0, -1, -1 ], [ "iso_nether" ] ],
+      [ [ 0, 4, -1 ], [ "iso_nether" ] ],
+      [ [ 0, 3, -1 ], [ "iso_nether" ] ],
+      [ [ 0, 2, -1 ], [ "iso_nether" ] ],
+      [ [ 0, 1, -1 ], [ "iso_nether" ] ]
+    ],
+    "joins": [ "duct_to_surface", "duct_to_entrance", "office_to_office" ],
+    "overmaps": {
+      "surface": { "overmap": "nether_glass_impassable_north", "below": "duct_to_surface", "locations": [ "iso_nether" ] },
+      "closing_chunk": {
+        "overmap": "iso_office",
+        "north": "office_to_office",
+        "east": { "id": "office_to_office", "type": "available" },
+        "south": { "id": "office_to_office", "type": "available" },
+        "west": { "id": "office_to_office", "type": "available" }
+      },
+      "office": {
+        "overmap": "iso_office",
+        "north": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
+        "east": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
+        "south": { "id": "office_to_office", "alternatives": [ "office_to_office" ] },
+        "west": { "id": "office_to_office", "alternatives": [ "office_to_office" ] }
+      },
+      "iso_elevator": {
+        "overmap": "iso_elevator_office",
+        "above": "duct_to_surface",
+        "north": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "east": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "south": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "west": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] }
+      },
+      "iso_next_level_elevator": {
+        "overmap": "iso_elevator_office_next",
+        "north": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "east": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "south": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] },
+        "west": { "id": "office_to_office", "type": "available", "alternatives": [ "office_to_office" ] }
+      }
+    },
+    "root": "surface",
+    "phases": [
+      [
+        {
+          "name": "start_chunk",
+          "chunk": [
+            { "overmap": "iso_elevator", "pos": [ 0, 0, 0 ] },
+            { "overmap": "office", "pos": [ 0, 1, 0 ] },
+            { "overmap": "office", "pos": [ 1, 1, 0 ] },
+            { "overmap": "office", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [ { "overmap": "office", "max": 15 } ],
+      [ { "overmap": "iso_next_level_elevator", "max": 2 } ],
+      [ { "overmap": "closing_chunk", "weight": 1 } ]
+    ]
+  }
+]

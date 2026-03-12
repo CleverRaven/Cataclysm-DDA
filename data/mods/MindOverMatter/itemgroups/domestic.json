@@ -1,0 +1,8 @@
+[
+  {
+    "id": "dining_hall_utensils",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "spoon" }, { "item": "spoon" }, { "item": "knife_butter" }, { "item": "glass" }, { "item": "mess_tray" } ]
+  }
+]

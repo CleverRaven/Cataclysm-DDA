@@ -1,7 +1,6 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -17,7 +16,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -25,14 +23,13 @@
       "rows": [
         "₸  ",
         "₸ Z",
-        "6 8"
+        "6 Ö"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -47,7 +44,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -62,24 +58,17 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
       "mapgensize": [ 3, 3 ],
-      "rows": [
-        "   ",
-        "   ",
-        "   "
-      ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
-      "place_loot": [ { "group": "trash", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 } ],
+      "place_loot": [ { "group": "SUS_trash_floor", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 } ],
       "place_nested": [ { "chunks": [ [ "sub_fd_shock_vent", 30 ], [ "null", 70 ] ], "x": 1, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -98,7 +87,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_NS_open",
     "object": {
@@ -121,7 +109,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_EW_open",
     "object": {
@@ -140,7 +127,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_3x3_EW_open",
     "object": {
@@ -163,7 +149,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_6x6_open",
     "object": {
@@ -181,7 +166,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_NE",
     "object": {
@@ -193,6 +177,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "cheese_hard", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -204,7 +189,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_NE",
     "object": {
@@ -216,6 +200,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "recipe_elfa", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -227,7 +212,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_NE",
     "object": {
@@ -239,6 +223,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "record_patient", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -250,7 +235,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_NE",
     "object": {
@@ -262,6 +246,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "group": "toxic_waste", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 },
@@ -271,7 +256,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_NE",
     "object": {
@@ -283,13 +267,13 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_sewer_rat", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_S",
     "object": {
@@ -301,13 +285,13 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_black_rat", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_S",
     "object": {
@@ -319,13 +303,13 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_sewer_snake", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance tunnel content.",
     "nested_mapgen_id": "lab_maintenance_5x5_room_S",
     "object": {
@@ -337,6 +321,7 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "terrain": { "Æ": "t_thconc_floor" },
       "place_loot": [
@@ -350,7 +335,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_6x6_open",
     "object": {
@@ -363,12 +347,12 @@
         " XXXX ",
         "      "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -380,12 +364,12 @@
         "  NN ",
         "   h "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -397,12 +381,12 @@
         "Y j L",
         "L   L"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -414,12 +398,12 @@
         "^ƨƨƨ^",
         "^^^^^"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -431,12 +415,12 @@
         " 0ƨƨ ",
         "00   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -448,12 +432,12 @@
         "  A  ",
         "⁵⁵   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -465,6 +449,7 @@
         ";~~~;",
         ";ƧƧƧ;"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "terrain": { "~": "t_sewage", "Ƨ": "t_thconc_floor" },
       "furniture": { "Ƨ": "f_barricade_road" }
@@ -472,7 +457,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for generic content.",
     "nested_mapgen_id": "lab_maintenance_5x5_open",
     "object": {
@@ -484,12 +468,12 @@
         " WWW ",
         "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for maintenance areas.",
     "nested_mapgen_id": "lab_maintenance_6x6_open",
     "object": {
@@ -502,12 +486,12 @@
         "⁵  Ø ⁵",
         "⁵⁵  ⁵⁵"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_maintenance_9x9_E",
     "object": {
@@ -524,15 +508,11 @@
         "NN  Q|   "
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
-      "place_loot": [
-        { "item": "broken_eyebot", "x": 0, "y": 2, "chance": 100 },
-        { "item": "broken_secubot", "x": 0, "y": 6, "chance": 100 }
-      ]
+      "place_loot": [ { "item": "broken_secubot", "x": 0, "y": 6, "chance": 100 } ]
     }
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall, possible door on south wall.",
     "nested_mapgen_id": "lab_maintenance_9x9_W",
     "object": {
@@ -557,7 +537,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on east wall.",
     "nested_mapgen_id": "lab_maintenance_9x9_E",
     "object": {
@@ -582,7 +561,6 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
     "//": "A nested map for a 5x9 room, includes door on west wall.",
     "nested_mapgen_id": "lab_maintenance_9x9_W",
     "object": {

@@ -2,15 +2,16 @@
 #ifndef CATA_SRC_VITAMIN_H
 #define CATA_SRC_VITAMIN_H
 
-#include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "translations.h"
+#include "stomach.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -82,6 +83,11 @@ class vitamin
             return rate_;
         }
 
+        /** An array of the other vitamins that this vitamin decays into, and their proportions */
+        std::vector<std::pair<vitamin_id, int>> decays_into() const {
+            return decays_into_;
+        }
+
         /** Get intensity of deficiency or zero if not deficient for specified qty */
         int severity( int qty ) const;
 
@@ -97,10 +103,24 @@ class vitamin
         /** Clear all loaded vitamins (invalidating any pointers) */
         static void reset();
 
+        /**
+         * Convert standard RDA to units a character can ingest
+         * This is the default RDA for an average human, before any modifiers
+         */
+        float RDA_to_default( int percent ) const;
+
+        /** Returns how many of this vitamin (in units) can be absorbed in one day */
+        int units_absorption_per_day() const;
+
+        int units_from_mass( vitamin_units::mass val ) const;
+        // First is value, second is units (g, mg, etc)
+        std::pair<std::string, std::string> mass_str_from_units( int units ) const;
+
     private:
         vitamin_id id_;
         vitamin_type type_ = vitamin_type::num_vitamin_types;
         translation name_;
+        std::optional<vitamin_units::mass> weight_per_unit;
         efftype_id deficiency_;
         efftype_id excess_;
         int min_ = 0;
@@ -108,6 +128,7 @@ class vitamin
         time_duration rate_ = 0_turns;
         std::vector<std::pair<int, int>> disease_;
         std::vector<std::pair<int, int>> disease_excess_;
+        std::vector<std::pair<vitamin_id, int>> decays_into_;
         std::set<std::string> flags_;
 };
 

@@ -1,9 +1,7 @@
 [
   {
-    "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_upper",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -33,15 +31,13 @@
         "|||||||||||±||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
-      "place_monsters": [ { "monster": "GROUP_LAB_HOSPTIAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
     }
   },
   {
-    "method": "json",
     "om_terrain": "lab_1x1x2_RES_8_apartments_lower",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -71,7 +67,7 @@
         "|||||||||||±||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
-      "place_monsters": [ { "monster": "GROUP_LAB_HOSPTIAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
     }
   }

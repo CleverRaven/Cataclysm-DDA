@@ -1,0 +1,73 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_melon",
+    "copy-from": "seed",
+    "name": { "str_sp": "melon seeds" },
+    "weight": "2 g",
+    "color": "white",
+    "use_action": [ "SEED" ],
+    "description": "Some raw melon seeds.",
+    "price": "1 cent",
+    "volume": "2 ml",
+    "plant_name": "melon",
+    "fruit": "melon",
+    "fruit_div": 3,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_banana",
+    "copy-from": "seed",
+    "name": { "str_sp": "banana seeds" },
+    "weight": "2 g",
+    "color": "dark_gray",
+    "use_action": [ "SEED" ],
+    "description": "Some raw banana seeds.",
+    "price": "1 cent",
+    "volume": "2 ml",
+    "plant_name": "banana",
+    "fruit": "banana",
+    "fruit_div": 3,
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "SEED", "COMESTIBLE" ],
+    "id": "seed_kiwi",
+    "copy-from": "seed",
+    "name": { "str_sp": "kiwi seeds" },
+    "weight": "2 g",
+    "color": "dark_gray",
+    "use_action": [ "SEED" ],
+    "description": "Some raw kiwi seeds.",
+    "price": "1 cent",
+    "volume": "2 ml",
+    "plant_name": "kiwi",
+    "fruit": "kiwi",
+    "fruit_div": 3,
+    "byproducts": [ "withered" ],
+    "growth_stages": [
+      { "GROWTH_SEED": "23 days" },
+      { "GROWTH_SEEDLING": "23 days" },
+      { "GROWTH_MATURE": "23 days" },
+      { "GROWTH_HARVEST": "22 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ]
+  }
+]

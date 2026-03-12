@@ -2,17 +2,34 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
+#include <array>
+#include <cstddef>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coordinates.h"
-#include "json.h"
+#include "cube_direction.h"
+#include "debug.h"
+#include "enum_bitset.h"
+#include "jmapgen_flags.h"
+#include "point.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
+// IWYU pragma: no_forward_declare cube_direction
+class JsonOut;
+class JsonValue;
 class map;
 class mission;
-struct point;
-struct regional_settings;
+enum class direction : unsigned int;
+enum class mapgen_phase;
+struct region_settings;
 
 namespace om_direction
 {
@@ -20,12 +37,43 @@ enum class type : int;
 } // namespace om_direction
 
 struct mapgen_arguments {
+    mapgen_arguments() = default;
+
+    template <
+        typename InputRange,
+        std::enable_if_t <
+            std::is_same_v <
+                typename InputRange::value_type, std::pair<std::string, cata_variant>
+                > ||
+            std::is_same_v <
+                typename InputRange::value_type, std::pair<const std::string, cata_variant>
+                >
+            > * = nullptr >
+    explicit mapgen_arguments( const InputRange &map_ )
+        : map( map_.begin(), map_.end() )
+    {}
+
     std::unordered_map<std::string, cata_variant> map;
 
+    bool operator==( const mapgen_arguments &other ) const {
+        return map == other.map;
+    }
+
     void merge( const mapgen_arguments & );
+    void add( const std::string &param_name, const cata_variant &value );
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonValue &ji );
 };
+
+namespace std
+{
+
+template<>
+struct hash<mapgen_arguments> {
+    size_t operator()( const mapgen_arguments & ) const noexcept;
+};
+
+} // namespace std
 
 namespace mapgendata_detail
 {
@@ -40,6 +88,11 @@ template<>
 inline std::string extract_variant_value<std::string>( const cata_variant &v )
 {
     return v.get_string();
+}
+template<>
+inline cata_variant extract_variant_value<cata_variant>( const cata_variant &v )
+{
+    return v;
 }
 
 } // namespace mapgendata_detail
@@ -62,15 +115,17 @@ inline std::string extract_variant_value<std::string>( const cata_variant &v )
 class mapgendata
 {
     private:
+        tripoint_abs_omt pos_;
         oter_id terrain_type_;
         float density_;
         time_point when_;
         ::mission *mission_;
-        int zlevel_;
         mapgen_arguments mapgen_args_;
+        enum_bitset<jmapgen_flags> mapgen_flags_;
+        std::vector<oter_id> predecessors_;
 
     public:
-        oter_id t_nesw[8];
+        std::array<oter_id, 8> t_nesw;
 
         int n_fac = 0;  // dir == 0
         int e_fac = 0;  // dir == 1
@@ -84,20 +139,23 @@ class mapgendata
         oter_id t_above;
         oter_id t_below;
 
-        const regional_settings &region;
+        std::unordered_map<cube_direction, std::string> joins;
+
+        const region_settings &region;
 
         map &m;
 
         weighted_int_list<ter_id> default_groundcover;
 
-        mapgendata( oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
-                    oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                    oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
-                    const oter_id &terrain_type, const mapgen_arguments &args, float density,
-                    const time_point &when, ::mission *miss );
+        struct dummy_settings_t {};
+        static constexpr dummy_settings_t dummy_settings = {};
+
+        mapgendata( map &, dummy_settings_t );
 
         mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
                     ::mission *miss );
+
+        std::vector<mapgen_phase> skip;
 
         /**
          * Creates a copy of this mapgen data, but stores a different @ref terrain_type.
@@ -118,6 +176,13 @@ class mapgendata
          */
         mapgendata( const mapgendata &other, const mapgen_arguments & );
 
+        /**
+         * Creates a copy of this mapgendata, but stores new parameter values
+         * and flags.
+         */
+        mapgendata( const mapgendata &other, const mapgen_arguments &,
+                    const enum_bitset<jmapgen_flags> & );
+
         const oter_id &terrain_type() const {
             return terrain_type_;
         }
@@ -131,8 +196,16 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // TODO: should be able to determine this from the map itself
-            return zlevel_;
+            return pos_.z();
+        }
+        const tripoint_abs_omt &pos() const {
+            return pos_;
+        }
+        const mapgen_arguments &get_args() const {
+            return mapgen_args_;
+        }
+        std::vector<oter_id> get_predecessors() const {
+            return predecessors_;
         }
 
         void set_dir( int dir_in, int val );
@@ -169,10 +242,19 @@ class mapgendata
             return t_below;
         }
         const oter_id &neighbor_at( om_direction::type dir ) const;
+        const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
-        void square_groundcover( const point &p1, const point &p2 ) const;
+        void square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
+
+        bool has_flag( jmapgen_flags ) const;
+
+        bool has_join( cube_direction, const std::string &join_id ) const;
+
+        bool has_predecessor() const;
+        const oter_id &last_predecessor() const;
+        void pop_last_predecessor();
 
         template<typename Result>
         Result get_arg( const std::string &name ) const {

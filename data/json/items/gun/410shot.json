@@ -1,47 +1,43 @@
 [
   {
-    "id": "saiga_410",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "Saiga-410" },
-    "description": "The Saiga-410 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
-    "weight": "3400 g",
-    "volume": "5762 ml",
-    "longest_side": "1171 mm",
-    "price": 189000,
-    "price_postapoc": 7000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "dispersion": 395,
-    "durability": 7,
-    "barrel_volume": "750 ml",
-    "ammo": [ "410shot" ],
-    "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
+    "id": "mossberg_500_410",
+    "copy-from": "gun_base_shotgun_manual",
+    "looks_like": "mossberg_500",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "5-round small game shotgun" },
+    "//": "Based on https://www.mossberg.com/500-bantam-50112.html",
+    "description": "This shotgun is a bit leaner and smaller than the others, being in .410 instead of the usual 12 gauge.  While the small caliber is more intended for small game, it will still kill zombies a-okay.",
+    "variant_type": "gun",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ]
+        "id": "mossberg_500_410",
+        "name": { "str": "Mossberg 500" },
+        "description": "This Mossberg 500 is a bit slimmer and smaller than the others, being in .410 instead of the more common 12 gauge.  Still features a reliable pump-action, and despite the smaller caliber it will still no doubt kill."
       }
-    ]
-  },
-  {
-    "id": "shotgun_410",
-    "copy-from": "shotgun_s",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "Winchester M37 .410" },
-    "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
-    "weight": "2948 g",
-    "volume": "1748 ml",
-    "longest_side": "1152 mm",
-    "price_postapoc": 2000,
-    "blackpowder_tolerance": 80,
+    ],
+    "ascii_picture": "mossberg590",
+    "weight": "2722 g",
+    "volume": "2191 ml",
+    "longest_side": "1086 mm",
+    "barrel_length": "610 mm",
+    "price": "910 USD",
+    "material": [ "steel", "aluminum", "plastic" ],
+    "dispersion": 320,
+    "clip_size": 5,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "loading port", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "ammo": [ "410shot" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 5 } } ]
   }
 ]

@@ -1,9 +1,12 @@
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"
@@ -14,14 +17,27 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
-#include "weather.h"
+#include "weather_type.h"
+
+static const efftype_id effect_test_rash( "test_rash" );
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_test( "fd_test" );
+
+static const itype_id itype_test_2x4( "test_2x4" );
+static const itype_id itype_test_hazmat_hat( "test_hazmat_hat" );
+static const itype_id itype_test_hazmat_shirt( "test_hazmat_shirt" );
+
+static const ter_str_id ter_t_open_air( "t_open_air" );
+static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
 static int count_fields( const field_type_str_id &field_type )
 {
     map &m = get_map();
     int live_fields = 0;
-    for( const tripoint &cursor : m.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &cursor : m.points_on_zlevel() ) {
         field_entry *entry = m.get_field( cursor, field_type );
         if( entry && entry->is_field_alive() ) {
             live_fields++;
@@ -35,22 +51,21 @@ static int count_fields( const field_type_str_id &field_type )
 // or dynamically update their own lifetimes.
 TEST_CASE( "acid_field_expiry_on_map", "[field]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &m = get_map();
-    const field_type_str_id field_type( "fd_acid" );
     // place a smoke field
-    for( const tripoint &cursor : m.points_on_zlevel() ) {
-        m.add_field( cursor, field_type, 1 );
+    for( const tripoint_bub_ms &cursor : m.points_on_zlevel() ) {
+        m.add_field( cursor, field_fd_acid, 1 );
     }
-    REQUIRE( count_fields( field_type ) == 17424 );
+    REQUIRE( count_fields( field_fd_acid ) == 17424 );
     const time_point before_time = calendar::turn;
     // run time forward until it goes away
-    while( calendar::turn - before_time < field_type.obj().half_life ) {
+    while( calendar::turn - before_time < field_fd_acid.obj().half_life ) {
         m.process_fields();
         calendar::turn += 1_seconds;
     }
 
-    CHECK( count_fields( field_type ) == Approx( 8712 ).margin( 300 ) );
+    CHECK( count_fields( field_fd_acid ) == Approx( 8712 ).margin( 300 ) );
 }
 
 static void test_field_expiry( const std::string &field_type_str )
@@ -59,10 +74,10 @@ static void test_field_expiry( const std::string &field_type_str )
     std::vector<field_entry> test_fields;
     for( int i = 0; i < 10000; ++i ) {
         test_fields.emplace_back( field_type, 1, 0_seconds );
-        test_fields[i].do_decay();
+        test_fields[i].initialize_decay();
     }
     // Reduce time advancement by 2 seconds because age gets incremented by do_decay()
-    calendar::turn += field_type.obj().half_life - 2_seconds;
+    calendar::turn += field_type.obj().half_life - 1_seconds;
     float decayed = 0.0f;
     float alive = 0.0f;
     for( field_entry &test_field : test_fields ) {
@@ -86,6 +101,7 @@ TEST_CASE( "field_expiry", "[field]" )
     test_field_expiry( "fd_sludge" );
     test_field_expiry( "fd_extinguisher" );
     test_field_expiry( "fd_electricity" );
+    test_field_expiry( "fd_short_halflife" );
 }
 
 static void fire_duration( const std::string &terrain_type, const time_duration minimum,
@@ -95,8 +111,8 @@ static void fire_duration( const std::string &terrain_type, const time_duration 
     CAPTURE( to_string( minimum ) );
     CAPTURE( to_string( maximum ) );
 
-    clear_map();
-    const tripoint fire_loc{ 33, 33, 0 };
+    clear_map_without_vision();
+    const tripoint_bub_ms fire_loc{ 33, 33, 0 };
     map &m = get_map();
     m.ter_set( fire_loc, ter_id( terrain_type ) );
     m.add_field( fire_loc, fd_fire, 1, 10_minutes );
@@ -148,26 +164,26 @@ static int fields_test_turns()
 static void fields_test_setup()
 {
     fields_test_time_before() = calendar::turn;
-    clear_map();
+    clear_map_without_vision();
 }
 static void fields_test_cleanup()
 {
     calendar::turn = fields_test_time_before();
-    clear_map();
+    clear_map_without_vision();
 }
 
-TEST_CASE( "fd_acid falls down", "[field]" )
+TEST_CASE( "fd_acid_falls_down", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_acid, 3 );
 
-    REQUIRE_FALSE( m.valid_move( p, p + tripoint_below ) );
+    REQUIRE_FALSE( m.valid_move( p, p + tripoint::below ) );
     REQUIRE( m.get_field( p, fd_acid ) );
-    REQUIRE_FALSE( m.get_field( p + tripoint_below, fd_acid ) );
+    REQUIRE_FALSE( m.get_field( p + tripoint::below, fd_acid ) );
 
     calendar::turn += 1_turns;
     m.process_fields();
@@ -175,9 +191,9 @@ TEST_CASE( "fd_acid falls down", "[field]" )
     m.process_fields();
 
     // remove floor under the acid field
-    m.ter_set( p, t_open_air );
+    m.ter_set( p, ter_t_open_air );
     m.build_floor_cache( 0 );
-    REQUIRE( m.valid_move( p, p + tripoint_below ) );
+    REQUIRE( m.valid_move( p, p + tripoint::below ) );
 
     calendar::turn += 1_turns;
     m.process_fields();
@@ -188,20 +204,20 @@ TEST_CASE( "fd_acid falls down", "[field]" )
         INFO( "acid field is dropped by exactly one point" );
         field_entry *acid_here = m.get_field( p, fd_acid );
         CHECK( ( !acid_here || !acid_here->is_field_alive() ) );
-        CHECK( m.get_field( p + tripoint_below, fd_acid ) );
+        CHECK( m.get_field( p + tripoint::below, fd_acid ) );
     }
 
     fields_test_cleanup();
 }
 
-TEST_CASE( "fire spreading", "[field]" )
+TEST_CASE( "fire_spreading", "[field][!mayfail]" )
 {
     fields_test_setup();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     weather_clear.with_windspeed( 0 );
 
-    const tripoint p{ 33, 33, 0 };
-    const tripoint far_p = p + tripoint_east * 3;
+    const tripoint_bub_ms p{ 33, 33, 0 };
+    const tripoint_bub_ms far_p = p + tripoint::east * 3;
 
     map &m = get_map();
 
@@ -223,23 +239,23 @@ TEST_CASE( "fire spreading", "[field]" )
     };
 
     SECTION( "fire spreads on fd_web" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint::east; p0 += tripoint::east ) {
             m.add_field( p0, fd_web, 1 );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 5_minutes );
     }
     SECTION( "fire spreads on flammable items" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
-            m.add_item( p0, item( "test_2x4" ) );
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint::east; p0 += tripoint::east ) {
+            m.add_item( p0, item( itype_test_2x4 ) );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
     }
     SECTION( "fire spreads on flammable terrain" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
-            REQUIRE( ter_str_id( "t_tree_walnut" )->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
-            m.ter_set( p0, ter_str_id( "t_tree_walnut" ) );
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint::east; p0 += tripoint::east ) {
+            REQUIRE( ter_t_tree_walnut->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
+            m.ter_set( p0, ter_t_tree_walnut );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
@@ -249,11 +265,11 @@ TEST_CASE( "fire spreading", "[field]" )
 }
 
 // tests fd_fire_vent <-> fd_flame_burst cycle
-TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
+TEST_CASE( "fd_fire_and_fd_fire_vent_test", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_fire_vent, 3 );
@@ -311,11 +327,11 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
 }
 
 // tests wandering_field property fd_smoke_vent
-TEST_CASE( "wandering_field test", "[field]" )
+TEST_CASE( "wandering_field_test", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE( fd_smoke_vent->wandering_field == fd_smoke );
@@ -334,19 +350,19 @@ TEST_CASE( "wandering_field test", "[field]" )
         CHECK( count_fields( fd_smoke ) == 25 );
     }
 
-    for( const tripoint &pnt : points_in_radius( p, 2 ) ) {
+    for( const tripoint_bub_ms &pnt : points_in_radius( p, 2 ) ) {
         CHECK( m.get_field( pnt, fd_smoke ) );
     }
 
     fields_test_cleanup();
 }
 
-TEST_CASE( "radioactive field", "[field]" )
+TEST_CASE( "radioactive_field", "[field]" )
 {
     fields_test_setup();
     clear_radiation();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );
@@ -370,10 +386,10 @@ TEST_CASE( "radioactive field", "[field]" )
     fields_test_cleanup();
 }
 
-TEST_CASE( "fungal haze test", "[field]" )
+TEST_CASE( "fungal_haze_test", "[field]" )
 {
     fields_test_setup();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE_FALSE( m.has_flag( "FUNGUS", p ) );
@@ -399,15 +415,16 @@ TEST_CASE( "fungal haze test", "[field]" )
     fields_test_cleanup();
 }
 
-TEST_CASE( "player_in_field test", "[field][player]" )
+TEST_CASE( "player_in_field_test", "[field][player]" )
 {
+    map &here = get_map();
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
-    const tripoint prev_char_pos = dummy.pos();
-    dummy.setpos( p );
+    const tripoint_bub_ms prev_char_pos = dummy.pos_bub( here );
+    dummy.setpos( here, p );
 
     map &m = get_map();
 
@@ -434,14 +451,14 @@ TEST_CASE( "player_in_field test", "[field][player]" )
     }
 
     clear_avatar();
-    dummy.setpos( prev_char_pos );
+    dummy.setpos( here, prev_char_pos );
     fields_test_cleanup();
 }
 
-TEST_CASE( "field API test", "[field]" )
+TEST_CASE( "field_API_test", "[field]" )
 {
     fields_test_setup();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
     field &f = m.field_at( p );
 
@@ -467,5 +484,100 @@ TEST_CASE( "field API test", "[field]" )
     CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
     CHECK( f.find_field( fd_fire ) );
 
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_double_effect_field_test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint_bub_ms p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    dummy.setpos( m, p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint_bub_ms p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item head_armor( itype_test_hazmat_hat );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( m, p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint_bub_ms p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( itype_test_hazmat_shirt );
+    dummy.wear_item( torso_armor );
+
+    dummy.setpos( m, p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint_bub_ms p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    map &m = get_map();
+
+    item torso_armor( itype_test_hazmat_shirt );
+    dummy.wear_item( torso_armor );
+    item head_armor( itype_test_hazmat_hat );
+    dummy.wear_item( head_armor );
+
+    dummy.setpos( m, p );
+    m.add_field( p, field_fd_test, 1 );
+
+    m.creature_in_field( dummy );
+
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_torso ) );
+    CHECK_FALSE( dummy.has_effect( effect_test_rash, body_part_head ) );
+
+    clear_avatar();
     fields_test_cleanup();
 }

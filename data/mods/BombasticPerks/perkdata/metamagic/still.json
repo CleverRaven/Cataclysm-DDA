@@ -1,0 +1,40 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_still_on",
+    "effect": [ { "u_add_var": "perk_metamagic_still_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_still_off",
+    "effect": [
+      { "u_message": "You deactivate your still metamagic" },
+      { "u_add_var": "perk_metamagic_still_deactivated", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_still",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_metamagic_still" },
+        { "not": { "compare_string": [ "yes", { "u_val": "perk_metamagic_still_deactivated" } ] } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_spellcasting_adjustment('somatic_difficulty', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = -1" ]
+      },
+      {
+        "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 0.2" ]
+      },
+      {
+        "math": [
+          "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES', 'flag_whitelist': 'NO_HANDS' ) = -0.2"
+        ]
+      }
+    ]
+  }
+]

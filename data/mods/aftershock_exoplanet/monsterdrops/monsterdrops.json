@@ -1,0 +1,344 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_afs_sentinel_lx_drops",
+    "entries": [ { "item": "afs_sentinel_cloak" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tripod",
+    "items": [
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
+      [ "sheet_kevlar_layered", 10 ],
+      [ "ceramic_armor", 15 ],
+      [ "alloy_plate", 10 ],
+      [ "robot_controls", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "chickenbot",
+    "items": [
+      [ "robot_controls", 5 ],
+      [ "ai_module", 5 ],
+      [ "sensor_module", 5 ],
+      [ "memory_module", 5 ],
+      [ "pathfinding_module", 5 ],
+      [ "identification_module", 5 ],
+      [ "reverse_jointed_legs", 40 ],
+      [ "chickenbot_chassis", 40 ],
+      [ "targeting_module", 5 ],
+      [ "gun_module", 30 ],
+      [ "mark19", 5 ],
+      [ "tazer", 5 ],
+      [ "m249", 5 ],
+      [ "storage_battery", 5 ],
+      [ "plut_cell", 5 ],
+      [ "mil_plate", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "tankbot",
+    "items": [
+      [ "tazer", 3 ],
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
+      [ "556", 8 ],
+      [ "alloy_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
+      [ "ceramic_armor", 10 ],
+      [ "hard_plate", 30 ],
+      [ "robot_controls", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_bandits",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boots_combat" },
+      { "item": "technician_pants_gray", "prob": 100, "damage": [ 0, 5 ] },
+      { "item": "technician_shirt_gray", "prob": 100, "damage": [ 0, 5 ] },
+      { "item": "afs_magellan_suit", "prob": 50, "damage": [ 0, 5 ] },
+      { "group": "afs_civilian_armory", "prob": 50 },
+      { "group": "mil_food", "prob": 100, "damage": [ 0, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xl_uplift_death_drop",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xlboots_combat", "damage": [ 0, 5 ] },
+      { "item": "xl_technician_pants_gray", "prob": 50, "damage": [ 0, 5 ] },
+      { "item": "xl_technician_shirt_gray", "prob": 100, "damage": [ 0, 5 ] },
+      { "item": "xl_jeans", "prob": 50, "damage": [ 0, 5 ] },
+      { "group": "mil_food", "prob": 100, "damage": [ 0, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xl_uplift_zed_death_drop",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xlboots_combat", "damage": [ 1, 5 ] },
+      { "item": "xl_technician_pants_gray", "prob": 50, "damage": [ 1, 5 ] },
+      { "item": "xl_technician_shirt_gray", "prob": 100, "damage": [ 1, 5 ] },
+      { "item": "xl_jeans", "prob": 50, "damage": [ 1, 5 ] },
+      { "item": "mp5mag", "prob": 10 },
+      { "group": "mil_food", "prob": 100, "damage": [ 0, 5 ] }
+    ]
+  },
+  {
+    "id": "frost_human",
+    "type": "harvest",
+    "entries": [
+      { "drop": "frost_human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "frost_hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "frost_human_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "frost_bone_human", "type": "bone", "mass_ratio": 0.12 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "frost_raw_hleather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_tiny",
+    "//": "animals so tiny they don't drop chunks of meat",
+    "type": "harvest",
+    "entries": [ { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.5 } ]
+  },
+  {
+    "id": "alien_small_fur",
+    "//": "does not drop stomach or other small organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_mammal_fur",
+    "//": "drops regular stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_large_fur",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_small_leather",
+    "//": "does not drop stomach or other small organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_leather",
+    "//": "drops regular stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_large_leather",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_alien_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_small_wool",
+    "//": "does not drop stomach or other small organs",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_large_wool",
+    "//": "drops large stomach",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_noskin",
+    "//": "for those vertebrates that don't have something you can skin off of them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_large_noskin",
+    "//": "for those vertebrates that don't have something you can skin off of them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "alien_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "alien_sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "alien_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "alien_stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "alien_bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_arthropod",
+    "type": "harvest",
+    "message": "<centipede_harvest>",
+    "entries": [
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.08 }
+    ]
+  },
+  {
+    "id": "alien_floater",
+    "//": "mostly hydrogen bubbles",
+    "message": "The freeze-burned leather parts easily, and thousands of fleshy floating bubbles erupt from the distended carcass.  Most fly away before you can reach them.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "alien_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "mutant_bug_hydrogen_sacs", "type": "offal", "mass_ratio": 2.0 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.0035 },
+      { "drop": "raw_alien_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "alien_moxphore",
+    "type": "harvest",
+    "message": "<arachnid_harvest>",
+    "entries": [
+      { "drop": "alien_flesh", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "alien_fat", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "alien_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "alien_organs", "type": "offal", "mass_ratio": 0.015 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  }
+]

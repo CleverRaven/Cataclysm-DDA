@@ -1,0 +1,47 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "223",
+    "picture": [
+      "<color_yellow>,",
+      "‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "556",
+    "picture": [
+      "<color_light_green>,",
+      "<color_yellow>‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "556_m855a1",
+    "picture": [
+      "<color_light_gray>,",
+      "<color_yellow>‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "556_incendiary",
+    "picture": [
+      "<color_red>,",
+      "<color_yellow>‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "556_m995",
+    "picture": [
+      "<color_dark_gray>,",
+      "<color_yellow>‼",
+      "\""
+    ]
+  }
+]

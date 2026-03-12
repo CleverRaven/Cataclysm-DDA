@@ -1,70 +1,80 @@
 [
   {
     "id": "book_newage_generic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "new-age book" },
     "description": "A mishmash of self-contradictory advice on spirits, auras, chakras, crystals, and psychic powers.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_inpsychic",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Your Inner Psychic", "str_pl": "copies of Your Inner Psychic" },
     "description": "Could you secretly have psychic powers?  Learn to see auras, attune to your chakras, and get down and dirty with your astral self.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_healcrystals",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "The Healing Power of Crystals", "str_pl": "copies of The Healing Power of Crystals" },
     "description": "Why waste time with 'doctors' or 'medicine'?  This guide will teach you to harness the innate healing power of crystals and nurture your soul.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_oilsecrets",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Essential Secrets", "str_pl": "copies of Essential Secrets" },
     "description": "The secret to happiness is simple: aromatherapy.  Surround yourself with products from our line of essential oils, using the discount code HAPPY for 10 percent off your first purchase, and you too can have it all.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_witchcraftbeg",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Witchcraft for Beginners", "str_pl": "copies of Witchcraft for Beginners" },
     "description": "This book starts with a spell for self-confidence (hang some lavender above your bathroom mirror), and works its way up to a hex for an ex (slash their tires).",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_witchcraftadv",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Advanced Witchcraft", "str_pl": "copies of Advanced Witchcraft" },
     "description": "This book apparently contains instructions for summoning and battling powerful spirits from other realms.  It doesn't say anything about zombies, though.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_beyondveil",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Beyond The Veil", "str_pl": "copies of Beyond The Veil" },
     "description": "What happens beyond death might be a mystery to the unlearned, but with careful use of a crystal ball, available for purchase on our website, you too can see beyond the veil.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_weapcrys",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Weaponizing Crystals", "str_pl": "copies of Weaponizing Crystals" },
     "description": "While this book claims crystals can be used to cast offensive spells, you suspect it might be more effective to just throw them.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_aliens",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Ancient Alien Secrets", "str_pl": "copies of Ancient Alien Secrets" },
     "description": "Who made the Bermuda Triangle?  How did they build Stonehenge?  What did the alien king whisper in Cleopatra's ear that passionate night in the dunes?  These answers and more in the Alien Theorists' latest exposé.",
     "copy-from": "book_pulp_newage_tpl"
   },
   {
     "id": "book_newage_horoscopes",
-    "type": "BOOK",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
     "name": { "str": "Your Year in Horoscopes", "str_pl": "copies of Your Year in Horoscopes" },
     "description": "A long, thorough list of horoscopes, sorted by date and by zodiac sign.  Today, you should \"take a minute to relax - It's not the end of the world.\"",
     "copy-from": "book_pulp_newage_tpl",

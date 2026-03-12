@@ -1,0 +1,14 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SELECT_STARTING_CITY",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PREGENERATED_PATH",
+    "stype": "string_input",
+    "value": "MA/MA_overmap"
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "type": "palette",
+    "id": "meadow_palette",
+    "terrain": {
+      "1": [
+        [ "t_region_soil", 1 ],
+        [ "t_region_grass", 2 ],
+        [ "t_grass_long", 1000 ],
+        [ "t_grass_tall", 2000 ],
+        [ "t_region_shrub_forest", 2 ],
+        [ "t_region_tree_forest", 2 ]
+      ],
+      "2": [
+        [ "t_region_soil", 10 ],
+        [ "t_region_grass", 2 ],
+        [ "t_grass_long", 1500 ],
+        [ "t_grass_tall", 100 ],
+        [ "t_region_shrub_forest", 1 ],
+        [ "t_region_tree_forest", 1 ]
+      ]
+    },
+    "furniture": {
+      "1": [
+        [ "f_null", 5000 ],
+        [ "f_region_weed", 20 ],
+        [ "f_boulder_small", 3 ],
+        [ "f_boulder_medium", 2 ],
+        [ "f_boulder_large", 1 ]
+      ],
+      "2": [
+        [ "f_null", 5000 ],
+        [ "f_region_weed", 20 ],
+        [ "f_boulder_small", 3 ],
+        [ "f_boulder_medium", 2 ],
+        [ "f_boulder_large", 1 ]
+      ]
+    }
+  }
+]

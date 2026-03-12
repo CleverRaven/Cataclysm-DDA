@@ -1,0 +1,34 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50bmg_sniper_gun&mags&cans",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_50bmg_sniper_gun&ammo" }, { "item": "ammo_can_50_50bmg_fmj_120", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50bmg_sniper_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_50bmg_sniper_gun&mags" },
+      { "group": "ammo_can_50_any_full", "prob": 30 },
+      { "group": "ammo_can_50_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50bmg_sniper_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "group": "nested_m107a1_no_ammo", "count": 1 },
+      { "group": "nested_m107a1_no_ammo", "count": 1, "prob": 40 },
+      { "group": "nested_m107a1_no_ammo", "count": 1, "prob": 10 }
+    ]
+  },
+  {
+    "id": "nested_m107a1_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m107a1" }, { "item": "m107a1mag", "count": [ 1, 3 ] } ]
+  }
+]

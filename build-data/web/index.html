@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, viewport-fit=cover, maximum-scale=1"
+    />
+    <title>Cataclysm: Dark Days Ahead</title>
+    <style>
+      @font-face {
+        font-family: Terminus;
+        src: url("./Terminus.ttf");
+      }
+
+      html {
+        padding: 0;
+        margin: 0;
+
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        padding: 0;
+        margin: 0;
+
+        height: 100%;
+        overflow: hidden;
+        background-color: grey;
+      }
+
+      canvas {
+        margin: 0;
+        padding: none;
+        border: 0px none;
+        background-color: black;
+        display: block;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        outline: none;
+
+        image-rendering: pixelated;
+        z-index: 1;
+      }
+
+      #loading-message {
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 30px;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-family: Terminus, monospace;
+        z-index: 4;
+      }
+
+      #settings-gear {
+        color: white;
+        opacity: 0.5;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      #settings-gear:hover {
+        opacity: 1;
+      }
+
+      #settings-menu {
+        color: white;
+        background-color: black;
+        z-index: 3;
+        position: absolute;
+        top: 40px;
+        left: 10px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        padding: 15px;
+        align-items: stretch;
+        border-color: white;
+        border-style: solid;
+      }
+
+      .menu-button {
+        font-family: Terminus, monospace;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      .menu-button:hover {
+        opacity: 1;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.2.0/screenfull.min.js"
+      integrity="sha512-GoG2/bE6QSPKSrjuoII6iPL2ODnwUJvFgysFYLTW2ltpx6G5nj+mYvhPq5rLPZby0rdMFU2fo4BMlWND7+QZ5g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+      integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta property="og:image" content="preview-image.png" />
+    <meta property="og:title" content="Cataclysm: Dark Days Ahead" />
+    <meta
+      property="og:description"
+      content="A port of Cataclysm: Dark Days Ahead for the browser."
+    />
+  </head>
+  <body>
+    <div id="settings-gear"><i class="fa-solid fa-gear"></i></div>
+    <div id="settings-menu" style="display: none">
+      <div style="margin-bottom: 10px">
+        <div id="toggle-fullscreen" class="menu-button">
+          <i class="fa-solid fa-expand"></i
+          ><span style="margin-left: 0.7em">Toggle Fullscreen</span>
+        </div>
+      </div>
+      <div style="margin-bottom: 10px">
+        <div id="export-saves" class="menu-button">
+          <i class="fa-solid fa-download"></i
+          ><span style="margin-left: 0.7em">Export Saves</span>
+        </div>
+      </div>
+      <div>
+        <a
+          target="_blank"
+          href="https://github.com/CleverRaven/Cataclysm-DDA"
+        >
+          <div id="browse-code" class="menu-button">
+            <i class="fa-brands fa-github"></i
+            ><span style="margin-left: 0.7em">Browse Code</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <canvas
+      id="canvas"
+      style="
+        width: 100%;
+        height: 100%;
+        min-width: 640px;
+        min-height: 384px;
+      "
+      tabindex="-1"
+    ></canvas>
+    <div id="loading-message">Loading...</div>
+
+    <script type="text/javascript">
+      const canvas = document.getElementById("canvas");
+      const loadingMessage = document.getElementById("loading-message");
+      const settingsMenu = document.getElementById("settings-menu");
+
+      window.addEventListener("menuready", () => {
+        loadingMessage.style.display = "none";
+      });
+
+      document.getElementById("settings-gear").onclick = () => {
+        if (settingsMenu.style.display === "none") {
+          settingsMenu.style.display = "inherit";
+        } else {
+          settingsMenu.style.display = "none";
+        }
+      };
+
+      canvas.addEventListener("click", () => {
+        settingsMenu.style.display = "none";
+      });
+
+      document.getElementById("toggle-fullscreen").onclick = () => {
+        screenfull.toggle();
+      };
+
+      document.getElementById("export-saves").onclick = async () => {
+        const zip = new JSZip();
+
+        function isRealDir(p) {
+          return p !== "." && p !== "..";
+        }
+
+        function recurse(fs_path, zip_path) {
+          const entries =
+            Module.FS.readdir(fs_path).filter(isRealDir);
+          for (const entry of entries) {
+            const entry_fs_path = fs_path + "/" + entry;
+            const entry_zip_path = zip_path + "/" + entry;
+
+            const stat = FS.stat(entry_fs_path);
+            if (FS.isDir(stat.mode)) {
+              recurse(entry_fs_path, entry_zip_path);
+            } else if (FS.isFile(stat.mode)) {
+              zip.file(
+                entry_zip_path,
+                FS.readFile(entry_fs_path, {
+                  encoding: "binary",
+                })
+              );
+            }
+          }
+        }
+
+        recurse("/home/web_user/.cataclysm-dda", "");
+
+        saveAs(await zip.generateAsync({ type: "blob" }), "saves.zip");
+      };
+
+      var Module = {
+        preRun: [],
+        postRun: [],
+        canvas: (function () {
+          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+          // application robust, you may want to override this behavior before shipping!
+          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+          canvas.addEventListener(
+            "webglcontextlost",
+            function (e) {
+              alert(
+                "WebGL context lost. You will need to reload the page."
+              );
+              e.preventDefault();
+            },
+            false
+          );
+
+          return canvas;
+        })(),
+        setStatus: function (text) {
+          if (text) {
+            loadingMessage.innerHTML = text;
+          } else {
+            loadingMessage.innerHTML = "Starting...";
+          }
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function (left) {
+          this.totalDependencies = Math.max(
+            this.totalDependencies,
+            left
+          );
+          Module.setStatus(
+            left
+              ? "Preparing... (" +
+                  (this.totalDependencies - left) +
+                  "/" +
+                  this.totalDependencies +
+                  ")"
+              : "All downloads complete."
+          );
+        },
+      };
+      Module.setStatus("Downloading...");
+      window.onerror = function (event, source, lineno, colno, error) {
+        if (typeof error === 'number' && Module.getExceptionMessage) {
+          console.log(Module.getExceptionMessage(error));
+        }
+        alert("Exception thrown, see JavaScript console.");
+      };
+      window.onbeforeunload = (e) => {
+        if (window.game_unsaved)
+          e.preventDefault();
+      }
+    </script>
+    <script async type="text/javascript" src="cataclysm-tiles.data.js"></script>
+    <script async type="text/javascript" src="cataclysm-tiles.js"></script>
+  </body>
+</html>

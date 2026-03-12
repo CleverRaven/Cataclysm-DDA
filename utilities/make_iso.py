@@ -39,11 +39,9 @@ args = parser.parse_args()
 converted_tile_ids = dict()
 
 
-def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
+def iso_ize(tile_num, initial_rotation=0, override=False):
     if override or (tile_num, initial_rotation) not in converted_tile_ids:
         print("  iso-izing " + str(tile_num))
-        if new_tile_num == -1:
-            new_tile_num = tile_num
         tile_png = "tile-{:0>6d}.png".format(tile_num)
         command = (
             'convert -background transparent ' +
@@ -83,7 +81,7 @@ def tile_convert(otile, main_id, new_tile_number):
     for g in ('fg', 'bg'):
         if g not in otile:
             continue
-        if type(otile[g]) == int:
+        if type(otile[g]) is int:
             if otile[g] == -1:
                 continue
             otile[g] = list([otile[g]])
@@ -133,7 +131,7 @@ def tile_convert(otile, main_id, new_tile_number):
                     print("  and rotating " + str(otile[g][0]))
                     # create 3 new iso-ized tiles, as well
                     for rot in (270, 180, 90):
-                        if iso_ize(otile[g][0], ntile['ntn'], rot):
+                        if iso_ize(otile[g][0], rot):
                             ntile[g].append(ntile['ntn'])
                             ntile['ntn'] += 1
                             print("next tile number now " + str(ntile['ntn']))
@@ -164,9 +162,9 @@ def tile_convert(otile, main_id, new_tile_number):
             for tile in ntile[g]:
                 # if tile_num is a dict with "weight" and "sprite",
                 # take the "sprite" number
-                if type(tile) == dict and "sprite" in tile:
+                if type(tile) is dict and "sprite" in tile:
                     iso_ize(tile["sprite"])
-                elif type(tile) == int:
+                elif type(tile) is int:
                     iso_ize(tile)
                 else:
                     raise RuntimeError("Unexpected sprite number: %s" % tile)

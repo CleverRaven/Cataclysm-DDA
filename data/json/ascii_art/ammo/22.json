@@ -1,0 +1,26 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "22_lr",
+    "picture": [
+      "<color_yellow>.",
+      "╨"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "22_cb",
+    "picture": [
+      "<color_dark_gray>,",
+      "<color_yellow>~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "22_ratshot",
+    "picture": [
+      "<color_cyan>.",
+      "<color_yellow>╨"
+    ]
+  }
+]

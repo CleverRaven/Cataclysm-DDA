@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "m203", "m320_mod", "pipe_launcher40mm" ],
+    "id": [ "m203", "m320_mod" ],
     "type": "MIGRATION",
     "replace": "grenade_under"
   },
@@ -15,12 +15,12 @@
     "replace": "shotgun_under"
   },
   {
-    "id": [ "masterkey_mod", "rm121aux_mod", "u_shotgun_mod" ],
+    "id": [ "masterkey_mod", "rm121aux_mod" ],
     "type": "MIGRATION",
     "replace": "shotgun_under_mod"
   },
   {
-    "id": [ "combination_gun_shotgun", "combination_gun_shotgun_pipe" ],
+    "id": [ "combination_gun_shotgun" ],
     "type": "MIGRATION",
     "replace": "rifle_shotgun_combination_shotgun"
   }

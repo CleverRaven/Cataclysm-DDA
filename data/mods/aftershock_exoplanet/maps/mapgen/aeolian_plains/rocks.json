@@ -1,0 +1,946 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_1",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "  ,##  ##   ",
+        "  ##  ,###  ",
+        "    ,,ss,## ",
+        "  ##ss ,,## ",
+        "  ###  www# ",
+        "   ## ww### ",
+        "     #####< ",
+        "    ######< ",
+        "      ##    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_1_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_1_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "   ..  ..   ",
+        "  ..   ...  ",
+        "         .. ",
+        "  ..     .. ",
+        "  ...     . ",
+        "   ..   ... ",
+        "     .oo..> ",
+        "    ..oo..> ",
+        "      ..    "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_2",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  ###       ",
+        "  #####     ",
+        "  ,######   ",
+        "  ## #####  ",
+        "      ##### ",
+        "  ##    ### ",
+        "  ###       ",
+        "         oo ",
+        "     oo     ",
+        "    oo      ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_2_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_2_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  ...       ",
+        "  .o...     ",
+        "   ..oo..   ",
+        "  .. .oo..  ",
+        "      .oo.. ",
+        "  ..    ... ",
+        "  oo.       ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_3",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "    oo    # ",
+        "   oo   ### ",
+        "       ##o  ",
+        "      ##o   ",
+        "    ####o   ",
+        "    o##     ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_3_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_3_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "          . ",
+        "        ... ",
+        "       ..   ",
+        "      ..    ",
+        "    ....    ",
+        "     ..     ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_4",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "   ##       ",
+        "  ##        ",
+        "        ### ",
+        "      ###<  ",
+        "   ######## ",
+        "    ####    ",
+        "      #     ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_4_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_4_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "   ..       ",
+        "  .o        ",
+        "        ... ",
+        "      ...<  ",
+        "   ....o... ",
+        "    ..o.    ",
+        "      .     ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_5",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "          ##",
+        "         ## ",
+        "     ,,,    ",
+        "  ,, ,###   ",
+        "  ss####    ",
+        "   ######   ",
+        "   ,s##     ",
+        "   ,,,#     ",
+        "  ###       ",
+        " ##         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_5_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_5_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "          ..",
+        "         .. ",
+        "            ",
+        "      ...   ",
+        "    ....    ",
+        "   ......   ",
+        "    ...     ",
+        "    ...     ",
+        "  ...       ",
+        " ..         "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_6",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "  o         ",
+        "         o  ",
+        "            ",
+        "            ",
+        "    ,,      ",
+        "  ,,,#      ",
+        "  ,,,#      ",
+        "   ###o     ",
+        "   ###o     ",
+        "  ####o     ",
+        "   ##       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_6_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_6_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "     .      ",
+        "     .      ",
+        "   ...      ",
+        "   .o.      ",
+        "  .oo.      ",
+        "   ..       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_7",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "        ## #",
+        "      o#####",
+        "    ,,s##   ",
+        "   ,,#,#    ",
+        "   ###      ",
+        "   ###      ",
+        "  ####      ",
+        "   ##       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_7_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "        .o .",
+        "       .ooo.",
+        "      .o.   ",
+        "     ...    ",
+        "   ...      ",
+        "   .o.      ",
+        "  .oo.      ",
+        "   o.       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_8",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "   o     #  ",
+        "       ###  ",
+        "       ##   ",
+        "      ###   ",
+        "     ###    ",
+        "     #      ",
+        "   ##    o  ",
+        "  ss#       ",
+        "  #s        ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_8_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_8_up",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "         .  ",
+        "       ...  ",
+        "       ..   ",
+        "      ...   ",
+        "     .o.    ",
+        "     o      ",
+        "   ..       ",
+        "    .       ",
+        "  o         ",
+        "            ",
+        "            "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                    ### ",
+        "                 #####  ",
+        "               ### #    ",
+        "            #####       ",
+        "          ######        ",
+        "       ##########    ## ",
+        "       ########    #### ",
+        "      ####   ###        ",
+        "             ####       ",
+        "          ########      ",
+        "       ,,,,s####        ",
+        "     ######,,W I, ##    ",
+        "   ######,,WWW,,,ss##   ",
+        "   ##### ,WWs ,,s,,,### ",
+        "   ## ,, WW ##,s,#####  ",
+        "      ,,,,,#####  ss    ",
+        "         ######         ",
+        "       ss s####         ",
+        "      ##########        ",
+        "        ######          ",
+        "           ##           ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_1_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                    .o. ",
+        "                 ..oo.  ",
+        "               ... .    ",
+        "            .....       ",
+        "          ...oo.        ",
+        "       ...ooooo..    .. ",
+        "       ........    ..oo ",
+        "      ....   ...        ",
+        "             ....       ",
+        "          ...ooo..      ",
+        "            .o..        ",
+        "     ......       ..    ",
+        "   ..ooo.          ..   ",
+        "   .oo..            ... ",
+        "   ..       ..   ...o.  ",
+        "           .....        ",
+        "         ......         ",
+        "           ..oo         ",
+        "      ..........        ",
+        "        .ooo..          ",
+        "           ..           ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ###     ",
+        "     o        #######   ",
+        "           ##########   ",
+        " o        ###########   ",
+        "         ############   ",
+        "       #,###########    ",
+        "   o  ,,,###########    ",
+        "    #,,,F,#########     ",
+        "   ####,,#########      ",
+        "  ##############        ",
+        "  #############         ",
+        " ##########           o ",
+        " #####                  ",
+        " ###                    ",
+        "                        ",
+        "                        ",
+        "           o            ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_2_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_2_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ...     ",
+        "              .......   ",
+        "           .....o....   ",
+        "          ...........   ",
+        "         ....oo......   ",
+        "       . ...........    ",
+        "         ooooooo....    ",
+        "    .     ooo......     ",
+        "   ....  o........      ",
+        "  ........oo....        ",
+        "  ...oo........         ",
+        " ...o......             ",
+        " .....                  ",
+        " ...                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "             o          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ##  ",
+        "                   ##   ",
+        "                  ##    ",
+        "                 ###    ",
+        "               ####     ",
+        "              #####     ",
+        "            ######      ",
+        "         ########       ",
+        "       #########        ",
+        "       ########         ",
+        "        ######          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_3_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_3_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ..  ",
+        "                   ..   ",
+        "                  ..    ",
+        "                 ...    ",
+        "               ....     ",
+        "              .....     ",
+        "            ......      ",
+        "         .....o..       ",
+        "       ....o....        ",
+        "       ...ooo..         ",
+        "        ......          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_4",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ##  ",
+        "                    #<  ",
+        "                  ###<  ",
+        "                #####<  ",
+        "            ########    ",
+        "        ############    ",
+        "        ###########     ",
+        "       ###########      ",
+        "      ###,#######       ",
+        "      #,Is,#####        ",
+        "      ,,,,I####         ",
+        "     ,s,o,,I###         ",
+        "     o,,,,,s##          ",
+        "    ,, ,,,s##           ",
+        "    o o,,###            ",
+        "      ,#####            ",
+        "      #####             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_4_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_4_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    ..  ",
+        "                    .>  ",
+        "                  ...>  ",
+        "                .....>  ",
+        "            ........    ",
+        "        ........o...    ",
+        "        ...........     ",
+        "       ....o......      ",
+        "      ... .......       ",
+        "      .    .o...        ",
+        "           ....         ",
+        "            ...         ",
+        "            ..          ",
+        "           ..           ",
+        "         .o.            ",
+        "       .ooo.            ",
+        "      .ooo.             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_5",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    #   ",
+        "                  ###   ",
+        "            ########    ",
+        "       #############    ",
+        "     ##############     ",
+        "    ###############     ",
+        "          ###wwww##     ",
+        "         ###,wwsw##     ",
+        "          ,,,,wsw##     ",
+        "        ,,o,,,ww,##     ",
+        "        ,,,,,o,,###     ",
+        "           o,,,###      ",
+        "            ,,,###      ",
+        "            ,,,###      ",
+        "  #         ,  ###      ",
+        "  #       o    ###      ",
+        "  ##           ###      ",
+        " ####         ###       ",
+        "#####        ####       ",
+        " ##          #          ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_5_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_5_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    .   ",
+        "                  ...   ",
+        "            ....o...    ",
+        "       .......ooo...    ",
+        "     ........oFoo..     ",
+        "    ........ooo....     ",
+        "          ...    ..     ",
+        "         ...     ..     ",
+        "                 ..     ",
+        "                 ..     ",
+        "                ...     ",
+        "               ...      ",
+        "               ...      ",
+        "               .o.      ",
+        "  .            .o.      ",
+        "  .            .o.      ",
+        "  ..           ...      ",
+        " oo..         ...       ",
+        ".ooo.        ....       ",
+        " ..          .          ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_6",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 ####   ",
+        "             #######    ",
+        "            #######     ",
+        "            ##,,##      ",
+        "         ###,,,,#       ",
+        "         #  ,,,##       ",
+        "           ,,           ",
+        "                        ",
+        "        o #   ##        ",
+        "              ##        ",
+        "        ##    #         ",
+        "       ########         ",
+        "      ########          ",
+        "      #######           ",
+        "     #####              ",
+        "    ##                  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_6_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_6_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 .o..   ",
+        "             ..oooo.    ",
+        "            ..oooo.     ",
+        "            ..  ..      ",
+        "         ...    .       ",
+        "         .     ..       ",
+        "                        ",
+        "                        ",
+        "          .   ..        ",
+        "              ..        ",
+        "        oo    .         ",
+        "       .ooooo..         ",
+        "      ...ooo..          ",
+        "      .oo....           ",
+        "     .o...              ",
+        "    ..                  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_7",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                 ###    ",
+        "              #####     ",
+        "              ###       ",
+        "            #####       ",
+        "           #####        ",
+        "         ######         ",
+        "        #####           ",
+        "       #####            ",
+        "      ###,,#            ",
+        "    ## ,,,,#            ",
+        "    ###,  ##            ",
+        "   ### I                ",
+        "  ####,   I             ",
+        " #####F,                ",
+        " ###,,,                 ",
+        "     ,  o               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_7_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_7_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                 ...    ",
+        "              .....     ",
+        "              ...       ",
+        "            .....       ",
+        "           .oo..        ",
+        "         ..oo..         ",
+        "        .ooo.           ",
+        "       ..oo.            ",
+        "      ...  o            ",
+        "    ..     o            ",
+        "    ...   .o            ",
+        "   .o.                  ",
+        "  .o..                  ",
+        " .o...                  ",
+        " ...                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_8",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                     #  ",
+        "                     #  ",
+        "                   ###  ",
+        "                   ##   ",
+        "                  ##    ",
+        "          o      ###    ",
+        "      o        ####     ",
+        "             #####      ",
+        "      ##   #####        ",
+        "    ###   #,,##         ",
+        "  ###     ,,,#          ",
+        " ####    ,,,#           ",
+        " ###    ####            ",
+        " ##     ##              ",
+        "        #               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ],
+      "place_nested": [ { "chunks": [ "rocks_large_8_up" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "rocks_large_8_up",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                     .  ",
+        "                     .  ",
+        "                   ...  ",
+        "                   ..   ",
+        "                  ..    ",
+        "                 ...    ",
+        "               ..o.     ",
+        "             ..oo.      ",
+        "      ..   ...o.        ",
+        "    ...   .  o.         ",
+        "  .o.        o          ",
+        " .o..       .           ",
+        " ...    oo..            ",
+        " ..     o.              ",
+        "        .               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "afs_aeolian_plain" ]
+    }
+  }
+]

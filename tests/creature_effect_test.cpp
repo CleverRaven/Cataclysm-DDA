@@ -1,12 +1,43 @@
+#include <string>
+
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "creature.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"
 
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_invisibility( "invisibility" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
+
+static const flag_id json_flag_INVISIBLE( "INVISIBLE" );
+
+static const mtype_id mon_flaming_eye( "mon_flaming_eye" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_graboid( "mon_graboid" );
+static const mtype_id mon_hallu_mom( "mon_hallu_mom" );
+static const mtype_id mon_razorclaw( "mon_razorclaw" );
+static const mtype_id mon_zombie( "mon_zombie" );
+
+static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_NETHER( "NETHER" );
+static const species_id species_WORM( "WORM" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_SLIMY( "SLIMY" );
 
 // Test effect methods from `Creature` class on both `monster` and `player`
 
@@ -34,12 +65,10 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 // - Otherwise, add effect, and check if it is blocked by another effect
 
 // Characters have effects on separate body parts, or no particular part (indicated by `bp_null`)
-TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
+TEST_CASE( "character_add_effect", "[creature][character][effect][add]" )
 {
     avatar dummy;
     dummy.set_body();
-    const efftype_id effect_bleed( "bleed" );
-    const efftype_id effect_grabbed( "grabbed" );
     const bodypart_id left_arm( "arm_l" );
     const bodypart_id right_arm( "arm_r" );
 
@@ -78,11 +107,9 @@ TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 }
 
 // Monsters may have effects added to them, but they don't have separate body parts.
-TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
+TEST_CASE( "monster_add_effect", "[creature][monster][effect][add]" )
 {
-    monster mummy( mtype_id( "mon_hallu_mom" ) );
-    const efftype_id effect_bleed( "bleed" );
-    const efftype_id effect_grabbed( "grabbed" );
+    monster mummy( mon_hallu_mom );
 
     mummy.clear_effects();
 
@@ -121,7 +148,6 @@ TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
 TEST_CASE( "remove_effect", "[creature][effect][remove]" )
 {
     avatar dummy;
-    const efftype_id effect_grabbed( "grabbed" );
     const bodypart_id left_arm( "arm_l" );
     const bodypart_id right_arm( "arm_r" );
     const bodypart_id left_leg( "leg_l" );
@@ -216,13 +242,10 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
 //
 TEST_CASE( "has_effect", "[creature][effect][has]" )
 {
-    const efftype_id effect_downed( "downed" );
-    const efftype_id effect_grabbed( "grabbed" );
-    const efftype_id effect_invisibility( "invisibility" );
 
     // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
-        monster mummy( mtype_id( "mon_hallu_mom" ) );
+        monster mummy( mon_hallu_mom );
 
         mummy.clear_effects();
 
@@ -312,18 +335,14 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
 //
 TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
-    const efftype_id effect_downed( "downed" );
-    const efftype_id effect_invisibility( "invisibility" );
-    const flag_id invisibility_flag( "INVISIBLE" );
-
-    monster mummy( mtype_id( "mon_hallu_mom" ) );
+    monster mummy( mon_hallu_mom );
 
     mummy.clear_effects();
 
     WHEN( "monster does not have any effects" ) {
 
         THEN( "has_effect_with_flag is false" ) {
-            CHECK_FALSE( mummy.has_effect_with_flag( invisibility_flag ) );
+            CHECK_FALSE( mummy.has_effect_with_flag( json_flag_INVISIBLE ) );
         }
     }
 
@@ -331,7 +350,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
         mummy.add_effect( effect_downed, 1_minutes );
 
         THEN( "has_effect_with_flag is false" ) {
-            CHECK_FALSE( mummy.has_effect_with_flag( invisibility_flag ) );
+            CHECK_FALSE( mummy.has_effect_with_flag( json_flag_INVISIBLE ) );
         }
     }
 
@@ -339,35 +358,22 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
         mummy.add_effect( effect_invisibility, 1_minutes );
 
         THEN( "has_effect_with_flag is true" ) {
-            CHECK( mummy.has_effect_with_flag( invisibility_flag ) );
+            CHECK( mummy.has_effect_with_flag( json_flag_INVISIBLE ) );
         }
     }
 }
 
 // monster::is_immune_effect
 //
-TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
+TEST_CASE( "monster_is_immune_effect", "[creature][monster][effect][immune]" )
 {
-    const efftype_id effect_bleed( "bleed" );
-    const efftype_id effect_poison( "poison" );
-    const efftype_id effect_badpoison( "badpoison" );
-    const efftype_id effect_downed( "downed" );
-    const efftype_id effect_paralyzepoison( "paralyzepoison" );
-    const efftype_id effect_venom_dmg( "venom_dmg" );
-    const efftype_id effect_venom_player1( "venom_player1" );
-    const efftype_id effect_venom_player2( "venom_player2" );
-    const efftype_id effect_venom_weaken( "venom_weaken" );
-
-    static const species_id species_WORM( "WORM" );
-    static const species_id species_FUNGUS( "FUNGUS" );
-
     // TODO: Monster may be immune to:
     // - onfire (if is_immune_damage DT_HEAT, made_of LIQUID, has_flag MF_FIREY)
     // - stunned (if has_flag MF_STUN_IMMUNE)
 
     WHEN( "monster is made of flesh, is not zombified, has blood and has no legs" ) {
         // graboid - fleshy, living snake of a species with bleed data
-        monster graboid( mtype_id( "mon_graboid" ) );
+        monster graboid( mon_graboid );
         graboid.clear_effects();
         REQUIRE( graboid.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( graboid.type->bodytype == "snake" );
@@ -394,7 +400,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
     WHEN( "monster is a zombie, made of flesh, has blood and has legs" ) {
         // Zombie - fleshy humanoid zombie
-        monster zed( mtype_id( "mon_zombie" ) );
+        monster zed( mon_zombie );
         zed.clear_effects();
         REQUIRE( zed.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( zed.type->in_species( species_ZOMBIE ) );
@@ -424,10 +430,10 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
     WHEN( "monster is made of nether flesh and is flying" ) {
         // Flaming eye, flesh, Nether species and flying
-        monster feye( mtype_id( "mon_flaming_eye" ) );
+        monster feye( mon_flaming_eye );
         feye.clear_effects();
         REQUIRE( feye.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE( feye.has_flag( MF_FLIES ) );
+        REQUIRE( feye.has_flag( mon_flag_FLIES ) );
         REQUIRE( feye.type->in_species( species_NETHER ) );
 
         THEN( "they can bleed" ) {
@@ -451,7 +457,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
     WHEN( "monster is not made of flesh or iflesh" ) {
         // Fungaloid - veggy, has no blood or bodytype
-        monster fungaloid( mtype_id( "mon_fungaloid" ) );
+        monster fungaloid( mon_fungaloid );
         fungaloid.clear_effects();
         REQUIRE_FALSE( fungaloid.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( fungaloid.type->in_species( species_FUNGUS ) );
@@ -478,9 +484,9 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
     WHEN( "monster species doesn't have bleeding type set, but it has flag describing its bleeding type" ) {
         // Razorclaw - has `MUTANT` species which doesn't have any bleeding type set, but has arthropod blood
-        monster razorclaw( mtype_id( "mon_razorclaw" ) );
+        monster razorclaw( mon_razorclaw );
         razorclaw.clear_effects();
-        REQUIRE( razorclaw.has_flag( MF_ARTHROPOD_BLOOD ) );
+        REQUIRE( razorclaw.has_flag( mon_flag_ARTHROPOD_BLOOD ) );
 
         THEN( "they can bleed" ) {
             CHECK_FALSE( razorclaw.is_immune_effect( effect_bleed ) );
@@ -490,7 +496,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 
 // Character::is_immune_effect
 //
-TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]" )
+TEST_CASE( "character_is_immune_effect", "[creature][character][effect][immune]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -501,19 +507,16 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
     // - deaf (if wearing something with DEAF/PARTIALDEAF, bionic ears, rm13 armor)
 
     WHEN( "character has Slimy mutation" ) {
-        const trait_id trait_slimy( "SLIMY" );
-        const efftype_id effect_corroding( "corroding" );
-
-        dummy.toggle_trait( trait_slimy );
-        REQUIRE( dummy.has_trait( trait_slimy ) );
+        dummy.toggle_trait( trait_SLIMY );
+        REQUIRE( dummy.has_trait( trait_SLIMY ) );
 
         THEN( "they are immune to the corroding effect" ) {
             CHECK( dummy.is_immune_effect( effect_corroding ) );
         }
 
         AND_WHEN( "they lose their Slimy mutation" ) {
-            dummy.toggle_trait( trait_slimy );
-            REQUIRE_FALSE( dummy.has_trait( trait_slimy ) );
+            dummy.toggle_trait( trait_SLIMY );
+            REQUIRE_FALSE( dummy.has_trait( trait_SLIMY ) );
 
             THEN( "they are no longer immune to the corroding effect" ) {
                 CHECK_FALSE( dummy.is_immune_effect( effect_corroding ) );
@@ -522,19 +525,16 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
     }
 
     WHEN( "character has Tentacle bracing mutation" ) {
-        const trait_id trait_tentacle_brace( "LEG_TENT_BRACE" );
-        const efftype_id effect_downed( "downed" );
-
-        dummy.toggle_trait( trait_tentacle_brace );
-        REQUIRE( dummy.has_trait( trait_tentacle_brace ) );
+        dummy.toggle_trait( trait_LEG_TENT_BRACE );
+        REQUIRE( dummy.has_trait( trait_LEG_TENT_BRACE ) );
 
         THEN( "they are immune to the downed effect" ) {
             CHECK( dummy.is_immune_effect( effect_downed ) );
         }
 
         AND_WHEN( "they lose their Tentacle bracing mutation" ) {
-            dummy.toggle_trait( trait_tentacle_brace );
-            REQUIRE_FALSE( dummy.has_trait( trait_tentacle_brace ) );
+            dummy.toggle_trait( trait_LEG_TENT_BRACE );
+            REQUIRE_FALSE( dummy.has_trait( trait_LEG_TENT_BRACE ) );
 
             THEN( "they are no longer immune to the downed effect" ) {
                 CHECK_FALSE( dummy.is_immune_effect( effect_downed ) );
@@ -545,7 +545,7 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
 
 // Creature::resists_effect
 //
-TEST_CASE( "creature effect reistance", "[creature][effect][resist]" )
+TEST_CASE( "creature_effect_reistance", "[creature][effect][resist]" )
 {
     // TODO: Creature resists effect if:
     // - has effect from eff.get_resist_effects

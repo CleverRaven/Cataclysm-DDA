@@ -2,6 +2,9 @@
 
 #include <algorithm>
 
+#include "lightmap.h"
+#include "shadowcasting.h"
+
 level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
@@ -27,12 +30,12 @@ bool level_cache::get_veh_in_active_range() const
     return !veh_cached_parts.empty();
 }
 
-bool level_cache::get_veh_exists_at( const tripoint &pt ) const
+bool level_cache::get_veh_exists_at( const tripoint_bub_ms &pt ) const
 {
-    return veh_exists_at[ pt.x * MAPSIZE_X + pt.y ];
+    return veh_exists_at[ pt.x() * MAPSIZE_X + pt.y()];
 }
 
-std::pair<vehicle *, int> level_cache::get_veh_cached_parts( const tripoint &pt ) const
+std::pair<vehicle *, int> level_cache::get_veh_cached_parts( const tripoint_bub_ms &pt ) const
 {
     auto it = veh_cached_parts.find( pt );
     if( it != veh_cached_parts.end() ) {
@@ -42,13 +45,13 @@ std::pair<vehicle *, int> level_cache::get_veh_cached_parts( const tripoint &pt 
     return std::make_pair( veh, -1 );
 }
 
-void level_cache::set_veh_exists_at( const tripoint &pt, bool exists_at )
+void level_cache::set_veh_exists_at( const tripoint_bub_ms &pt, bool exists_at )
 {
     veh_cache_cleared = false;
-    veh_exists_at[ pt.x * MAPSIZE_X + pt.y ] = exists_at;
+    veh_exists_at[ pt.x() * MAPSIZE_X + pt.y()] = exists_at;
 }
 
-void level_cache::set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num )
+void level_cache::set_veh_cached_parts( const tripoint_bub_ms &pt, vehicle &veh, int part_num )
 {
     veh_cache_cleared = false;
     veh_cached_parts[ pt ] = std::make_pair( &veh, part_num );
@@ -64,7 +67,7 @@ void level_cache::clear_vehicle_cache()
     veh_cache_cleared = true;
 }
 
-void level_cache::clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh )
+void level_cache::clear_veh_from_veh_cached_parts( const tripoint_bub_ms &pt, vehicle *veh )
 {
     auto it = veh_cached_parts.find( pt );
     if( it != veh_cached_parts.end() && it->second.first == veh ) {

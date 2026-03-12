@@ -29,11 +29,7 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 class NoLongMacrosCallbacks : public PPCallbacks
@@ -127,7 +123,7 @@ static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Resul
     if( alternatives.empty() ) {
         return;
     }
-    if( MatchedDecl->getName().startswith( "__" ) ) {
+    if( MatchedDecl->getName().starts_with( "__" ) ) {
         // Can happen for e.g. compiler-generated code inside an implicitly
         // generated function
         return;
@@ -197,6 +193,4 @@ void NoLongCheck::check( const MatchFinder::MatchResult &Result )
     CheckCast( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

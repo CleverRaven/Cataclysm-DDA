@@ -4,7 +4,7 @@
     "id": "evac_guard3",
     "//": "Appears in the refugee center as a guard with custom dialogue.",
     "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
+    "class": "NC_FREE_MERCH_GUARD",
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_EVAC_GUARD3",
@@ -18,13 +18,16 @@
       { "text": "What do you do around here?", "topic": "TALK_EVAC_GUARD3_NEW" },
       { "text": "Got tips for avoiding trouble?", "topic": "TALK_EVAC_GUARD3_RULES" },
       { "text": "Have you seen anyone who might be hiding something?", "topic": "TALK_EVAC_GUARD3_HIDE1" },
-      { "text": "Bye…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_EVAC_GUARD3_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+    "dynamic_line": {
+      "gendered_line": "I haven't been here for long but I do my best to watch who comes and goes.  You can't always predict who will bring trouble.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD3" } ]
   },
   {
@@ -45,22 +48,19 @@
   {
     "id": "TALK_EVAC_GUARD3_HIDE2",
     "type": "talk_topic",
-    "dynamic_line": "You're new here, who the hell put you up to this crap?",
+    "dynamic_line": { "gendered_line": "You're new here, who the hell put you up to this crap?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Get bent, traitor!",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 3 ] ] },
-        "success": {
-          "topic": "TALK_EVAC_GUARD3_HOSTILE",
-          "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ]
-        },
-        "failure": { "topic": "TALK_EVAC_GUARD3_INSULT", "effect": { "u_faction_rep": -5 } }
+        "success": { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "npc_change_faction": "hells_raiders" } ] },
+        "failure": { "topic": "TALK_EVAC_GUARD3_INSULT" }
       },
       {
         "text": "Got something to hide?",
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
         "success": { "topic": "TALK_EVAC_GUARD3_DEAD", "effect": { "npc_change_faction": "hells_raiders" } },
-        "failure": { "topic": "TALK_EVAC_GUARD3_INSULT", "effect": { "u_faction_rep": -5 } }
+        "failure": { "topic": "TALK_EVAC_GUARD3_INSULT" }
       },
       { "text": "Sorry, I didn't mean to offend you…", "topic": "TALK_EVAC_GUARD3_WASTE" }
     ]

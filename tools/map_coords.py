@@ -81,10 +81,10 @@ def info_folder(format: str) -> None:
     min_cx, max_cx = cx * 32, cx * 32 + 31
     min_cy, max_cy = cy * 32, cy * 32 + 31
 
-    o1 = f"{min_cx//180} {min_cy//180}"
-    o2 = f"{min_cx//180} {max_cy//180}"
-    o3 = f"{max_cx//180} {min_cy//180}"
-    o4 = f"{max_cx//180} {max_cy//180}"
+    o1 = f"{min_cx // 180} {min_cy // 180}"
+    o2 = f"{min_cx // 180} {max_cy // 180}"
+    o3 = f"{max_cx // 180} {min_cy // 180}"
+    o4 = f"{max_cx // 180} {max_cy // 180}"
     ol = [o1]
     if o2 not in ol:
         ol.append(o2)
@@ -122,7 +122,7 @@ def info_range(r1: tuple, r2: tuple) -> None:
     for z in lvz:
         for y in lvy:
             for x in lvx:
-                print(f"{x//32}.{y//32}.{z}/{x}.{y}.{z}.map", end=" ")
+                print(f"{x // 32}.{y // 32}.{z}/{x}.{y}.{z}.map", end=" ")
     print("")
 
 
@@ -234,10 +234,10 @@ Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
             cx, cy, cz = retInfo
 
             print(
-                f"     Map:  {cx//180}'{cx - 180 * (cx//180)}"
-                f"  {cy//180}'{cy- 180 * (cy//180)}  {cz}"
+                f"     Map:  {cx // 180}'{cx - 180 * (cx // 180)}"
+                f"  {cy // 180}'{cy - 180 * (cy // 180)}  {cz}"
             )
 
-            print(f"    File:  {cx//32}.{cy//32}.{cz}/{cx}.{cy}.{cz}.map")
+            print(f"    File:  {cx // 32}.{cy // 32}.{cz}/{cx}.{cy}.{cz}.map")
 
-            info_folder(f"{cx//32}.{cy//32}.{cz}")
+            info_folder(f"{cx // 32}.{cy // 32}.{cz}")

@@ -97,6 +97,47 @@
     "chance": 15
   },
   {
+    "id": "emit_toxic_stream",
+    "type": "emit",
+    "//": "Steady stream of toxic gas",
+    "field": "fd_toxic_gas",
+    "intensity": 3,
+    "qty": 24
+  },
+  {
+    "id": "emit_relax_gas_blast",
+    "type": "emit",
+    "//": "Large blast of relaxation gas (similar to riot control bot)",
+    "field": "fd_relax_gas",
+    "intensity": 3,
+    "qty": 200
+  },
+  {
+    "id": "emit_relax_gas_leak",
+    "type": "emit",
+    "//": "Periodic leaking of relaxation gas",
+    "field": "fd_relax_gas",
+    "intensity": 3,
+    "chance": 15
+  },
+  {
+    "id": "emit_tear_gas_leak",
+    "type": "emit",
+    "//": "Periodic leaking of tear gas",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "chance": 15
+  },
+  {
+    "id": "emit_tear_gas_toad",
+    "type": "emit",
+    "//": "Periodic leaking of tear gas",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "chance": 15,
+    "qty": 3
+  },
+  {
     "id": "emit_tindalos_gas_leak",
     "type": "emit",
     "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
@@ -124,13 +165,6 @@
     "qty": 25
   },
   {
-    "id": "emit_acid_splash",
-    "type": "emit",
-    "//": "Small amount of strong acid - stacks, but weak on its own",
-    "field": "fd_acid",
-    "intensity": 3
-  },
-  {
     "id": "emit_acid_drop",
     "type": "emit",
     "//": "Small amount of strong acid - will need more to melt anything",
@@ -147,6 +181,15 @@
     "chance": 100
   },
   {
+    "id": "emit_spark",
+    "type": "emit",
+    "//": "small sparks",
+    "field": "fd_electricity",
+    "intensity": 1,
+    "chance": 100,
+    "qty": 1
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",
@@ -156,20 +199,29 @@
     "qty": 10
   },
   {
+    "id": "emit_shock_burst_rat",
+    "type": "emit",
+    "//": "small cloud of lightning",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 5,
+    "qty": 10
+  },
+  {
     "id": "emit_shock_cloud",
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 20
+    "intensity": 7,
+    "qty": 6
   },
   {
     "id": "emit_shock_cloud_big",
     "type": "emit",
     "//": "Large cloud of lightning (example: supercharged incandescent husk)",
     "field": "fd_electricity",
-    "intensity": 3,
-    "qty": 40
+    "intensity": 10,
+    "qty": 12
   },
   {
     "id": "emit_cold_air2_stream",
@@ -207,14 +259,6 @@
     "qty": 100
   },
   {
-    "id": "emit_hot_air4_blast",
-    "type": "emit",
-    "field": "fd_hot_air4",
-    "//": "Makes the surrounding area extremely, uncomfortably hot.",
-    "intensity": 3,
-    "qty": 300
-  },
-  {
     "id": "emit_heater_vehicle",
     "type": "emit",
     "field": "fd_hot_air2",
@@ -229,34 +273,6 @@
     "intensity": 3,
     "qty": 3,
     "chance": 100
-  },
-  {
-    "id": "emit_hot_air1_cbm",
-    "type": "emit",
-    "field": "fd_hot_air1",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air2_cbm",
-    "type": "emit",
-    "field": "fd_hot_air2",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air3_cbm",
-    "type": "emit",
-    "field": "fd_hot_air3",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air4_cbm",
-    "type": "emit",
-    "field": "fd_hot_air4",
-    "intensity": 3,
-    "qty": 1
   },
   {
     "id": "emit_hot_air_migo_seep",
@@ -292,6 +308,13 @@
     "field": "fd_plasma",
     "qty": 2,
     "chance": 75
+  },
+  {
+    "id": "emit_plasma_continuously",
+    "type": "emit",
+    "field": "fd_plasma",
+    "qty": 4,
+    "chance": 100
   },
   {
     "id": "emit_fungicidal_stream",
@@ -338,6 +361,21 @@
     "id": "emit_fungal_blast",
     "type": "emit",
     "field": "fd_fungal_haze",
+    "qty": 200
+  },
+  {
+    "id": "emit_hallucinogenic_spores",
+    "type": "emit",
+    "//": "Slow infrequent leak of hallucinogenic cloud",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 1,
+    "qty": 4
+  },
+  {
+    "id": "emit_hallucinogenic_spores_blast",
+    "type": "emit",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 2,
     "qty": 200
   },
   {
@@ -391,5 +429,41 @@
     "field": "fd_sludge",
     "intensity": 3,
     "chance": 20
+  },
+  {
+    "id": "emit_tiny_fire",
+    "type": "emit",
+    "field": "fd_fire",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
+    "id": "emit_clairvoyant",
+    "type": "emit",
+    "field": "fd_clairvoyant",
+    "intensity": 1,
+    "qty": 9
+  },
+  {
+    "id": "emit_bees",
+    "type": "emit",
+    "//": "Periodic swarm of bees",
+    "field": "fd_bee_swarm",
+    "intensity": 3,
+    "chance": 15
+  },
+  {
+    "id": "emit_monster_gas_1",
+    "type": "emit",
+    "field": "fd_nm_monster_gas_1",
+    "intensity": 3,
+    "chance": 10
+  },
+  {
+    "id": "emit_monster_gas_2",
+    "type": "emit",
+    "field": "fd_nm_monster_gas_2",
+    "intensity": 3,
+    "chance": 10
   }
 ]

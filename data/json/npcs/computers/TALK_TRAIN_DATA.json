@@ -1,0 +1,49 @@
+[
+  {
+    "id": "EOC_TRAIN_DATA_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_MAIN",
+    "dynamic_line": "The computer awaits input…",
+    "responses": [
+      { "text": "Request Monorail", "topic": "COMP_TRAIN_DATA_MONRAIL_REQUEST" },
+      {
+        "text": "Download Train Data",
+        "topic": "COMP_TRAIN_DATA_DOWNLOAD",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_5" }
+      },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_MONRAIL_REQUEST",
+    "dynamic_line": "UNABLE TO CONTACT MONORAIL LINE.  PLEASE SEE YOUR ADMINISTRATOR FOR ASSISTANCE.",
+    "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Power off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_TRAIN_DATA_DOWNLOAD",
+    "dynamic_line": {
+      "u_has_item": "usb_drive_nano",
+      "yes": "The train data is ready to download.",
+      "no": "You don't have the right device to download the train data."
+    },
+    "responses": [
+      {
+        "text": "Download Train Data",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "usb_drive_nano" },
+        "effect": [
+          { "u_consume_item": "usb_drive_nano" },
+          { "u_spawn_item": "mission_science_rep_5_secure_usb_download", "use_item_group": true }
+        ]
+      },
+      { "text": "Go back.", "topic": "TALK_NONE" },
+      { "text": "Power off.", "topic": "TALK_DONE" }
+    ]
+  }
+]

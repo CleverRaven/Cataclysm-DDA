@@ -1,0 +1,149 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_SI_PRE_TELEPORT_LOCATION_CHECKING",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "if": {
+          "or": [
+            {
+              "and": [
+                { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
+                { "math": [ "u_val('pos_z') == 6" ] }
+              ]
+            },
+            {
+              "and": [ { "u_near_om_location": "sky_island_core", "range": 1 }, { "math": [ "u_val('pos_z') == 7" ] } ]
+            },
+            { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 8" ] } ] },
+            { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 9" ] } ] }
+          ]
+        },
+        "then": [
+          { "u_location_variable": { "u_val": "XE_si_on_sky_island_location" } },
+          { "math": [ "u_started_teleport_on_island = 1" ] }
+        ],
+        "else": [
+          { "u_location_variable": { "u_val": "XE_si_on_ground_location" } },
+          { "math": [ "u_started_teleport_on_island = 0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_SI_PRE_TELEPORT_POWER_CHECKING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "xedra_chronomancer_revert_location", { "context_val": "spell" } ] },
+            { "compare_string": [ "sylph_wind_translocation_spell", { "context_val": "spell" } ] },
+            { "compare_string": [ "homullus_road_translocate_spell", { "context_val": "spell" } ] },
+            { "compare_string": [ "arvore_forest_translocate", { "context_val": "spell" } ] },
+            { "compare_string": [ "ierde_tunnel_translocation_spell", { "context_val": "spell" } ] },
+            { "compare_string": [ "changeling_teleport_home_spell", { "context_val": "spell" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_XE_SI_POST_TELEPORT_FOLLOWUP", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_SI_POST_TELEPORT_FOLLOWUP",
+    "condition": {
+      "and": [
+        { "math": [ "u_started_teleport_on_island == 0" ] },
+        {
+          "or": [
+            {
+              "and": [
+                { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
+                { "math": [ "u_val('pos_z') == 6" ] }
+              ]
+            },
+            {
+              "and": [ { "u_near_om_location": "sky_island_core", "range": 1 }, { "math": [ "u_val('pos_z') == 7" ] } ]
+            },
+            { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 8" ] } ] },
+            { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 9" ] } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "u_has_trait": "awayfromhome" },
+        "then": [
+          { "u_teleport": { "u_val": "XE_si_on_ground_location" }, "force": true },
+          {
+            "u_message": "You briefly see the familiar sights of the floating island before you feel a wrenching sensation and you're suddenly back on the surface.  Whatever powers have put you in this situation must not be happy with you trying to circumvent the rules.",
+            "type": "bad",
+            "popup": true
+          },
+          { "math": [ "timeawayfromhome++" ] }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_started_teleport_on_island == 1" ] },
+            {
+              "not": {
+                "or": [
+                  {
+                    "and": [
+                      { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
+                      { "math": [ "u_val('pos_z') == 6" ] }
+                    ]
+                  },
+                  {
+                    "and": [ { "u_near_om_location": "sky_island_core", "range": 1 }, { "math": [ "u_val('pos_z') == 7" ] } ]
+                  },
+                  { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 8" ] } ] },
+                  { "and": [ { "u_at_om_location": "open_air" }, { "math": [ "u_val('pos_z') == 9" ] } ] }
+                ]
+              }
+            }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "As you come out of the darkness and the cold and see the surface, you feel a sudden wrenching sensation.  Pain washes over your entire body as your vision goes red, and the air burns as you take in a ragged breath.  The powers behind your situation are not happy at your attempt to circumvent their rules.",
+            "type": "bad",
+            "popup": true
+          },
+          { "u_add_effect": "warpsickness", "intensity": 3, "duration": "PERMANENT" },
+          {
+            "run_eocs": "EOC_XE_SI_PRE_TELEPORT_POST_TELEPORT_FOLLOWUP",
+            "time_in_future": { "math": [ "180 * (bonuspulses > 0 ? (bonuspulses * 60) : 1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_SI_PRE_TELEPORT_POST_TELEPORT_FOLLOWUP",
+    "effect": [
+      { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
+      { "u_message": "With an internal twist, you're suddenly back on the island.", "popup": true },
+      { "u_lose_effect": "warpsickness" }
+    ]
+  },
+  {
+    "id": "EOC_WINCH_TELEPORT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_teleport": { "u_val": "winch_teleport" } },
+      { "run_eocs": "EOC_XE_SI_POST_TELEPORT_FOLLOWUP", "time_in_future": 1 }
+    ]
+  }
+]

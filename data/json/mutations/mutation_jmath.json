@@ -1,0 +1,22 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "alpha_stat_bonus",
+    "//": "the smaller your stat, the bigger the bonus, up to 16, plus 2 of the stat above",
+    "//_0": "your current base stat, like `u_val('intelligence_base')`",
+    "num_args": 1,
+    "return": "_0 < 16 ? (10)+(_0/2)-_0 : 2"
+  },
+  {
+    "type": "jmath_function",
+    "id": "temperature_speed_mod",
+    "//": "Decreases your speed, if it's below of some temperature",
+    "//_0": "Temperature limit, after which the speed starts to change, in farenheit",
+    "//_1": "How big the speed changes per 1 degree",
+    "//example": "temperature_speed_mod(65, 0.2) would make you lose 0.2 speed, if temperature around is lower than 65 F; temperature of 55 F would result in `(65-55)*0.2 = 10*0.2 = 2` 2 move speed decrease",
+    "//example2": "temperature_speed_mod(35, -1.3) would make you gain 1.3 speed, if temperature around is lower than 35 F; temperature of 32 F would result in `(35-32)*-1.3 = 3*-1.3 ~= -4` 4 move speed increase",
+    "//example3": "temperature_speed_mod(65, 0.2), but character has mutation, that gives CLIMATE_CONTROL_HEAT 5; it would make you lose 0.2 speed, if temperature around is lower than 60 F; temperature of 55 F would result in `(65-5-55)*0.2 = 5*0.2 = 1` 1 move speed decrease",
+    "num_args": 2,
+    "return": "min((fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1, 0)"
+  }
+]

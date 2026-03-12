@@ -3,12 +3,13 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
-#include <iosfwd>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 
@@ -31,9 +32,9 @@ struct behavior_return {
 // The behavior tree performs a depth-first traversal until it reaches an unmet goal.
 // When tick is invoked, it visits root -> node_t::tick -> strategy -> children -> node_t::tick
 // At each level, the strategy determines the order in which to visit the current node's children.
-// Once a leaf node is reached, it either returns success, indicating it's requirements are met,
-// failure, indicating that it is incapable of satisfying it's requirements, or running, indicating
-// that it is capable of addressing tis requirements, but that they aren't met yet.
+// Once a leaf node is reached, it either returns success, indicating its requirements are met,
+// failure, indicating that it is incapable of satisfying its requirements, or running, indicating
+// that it is capable of addressing its requirements, but that they aren't met yet.
 // In practice, the tree is traversed until it reaches a node that returns running,
 // meaning that it is capable of making progress if set as a goal.
 // The arrangement of the tree and configuration of iteration strategies guarantees that it visits
@@ -64,21 +65,23 @@ class node_t
 
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );
-        void add_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
-                            new_predicate, const std::string &argument = "" );
+        void add_predicate( const std::function < status_t ( const oracle_t *, const std::string & )> &
+                            new_predicate, const std::string &argument = "", const bool &invert_result = false );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
 
         // Loading interface.
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         string_id<node_t> id;
+        std::vector<std::pair<string_id<node_t>, mod_id>> src;
         bool was_loaded = false;
     private:
         std::vector<const node_t *> children;
         const strategy_t *strategy = nullptr;
         using predicate_type = std::function<status_t( const oracle_t *, const std::string & )>;
-        std::vector<std::pair<predicate_type, std::string>> conditions;
+        std::vector<std::tuple<predicate_type, std::string, bool>> conditions;
+        status_t process_predicates( const oracle_t *subject ) const;
         // TODO: make into an ID?
         std::string _goal;
 };

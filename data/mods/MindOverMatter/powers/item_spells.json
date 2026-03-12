@@ -1,0 +1,72 @@
+[
+  {
+    "id": "grenade_anti_psi_explosion",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Null Grenade Explosion", "//~": "NO_I18N" },
+    "description": {
+      "str": "The wave of anti-psi created by a null grenade.  If you cast this yourself you're 100% going to have some problems.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "skill": "metaphysics",
+    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_psi_neutralized",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 1,
+    "min_duration": 1200,
+    "max_duration": 2500,
+    "min_aoe": 5,
+    "max_aoe": 5
+  },
+  {
+    "id": "pure_translocate_power",
+    "type": "SPELL",
+    "name": { "str": "Item Translocate", "//~": "NO_I18N" },
+    "description": { "str": "A translocate power for items.  It's a bug if you have it directly.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "valid_targets": [ "self" ],
+    "effect": "translocate",
+    "shape": "blast"
+  },
+  {
+    "id": "mom_abjuration_stone_effects",
+    "type": "SPELL",
+    "name": { "str": "Abjuration Stone Banishment", "//~": "NO_I18N" },
+    "description": { "str": "Part of the Abjuration Stone that banishes Nether monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "extra_effects": [ { "id": "mom_abjuration_stone_effects_psi_disruption", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MOM_ABJURATION_STONE_SPELL_EFFECTS",
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 25,
+    "targeted_monster_species": [ "NETHER", "NETHER_EMANATION", "NETHER_BURROWING" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_ABJURATION_STONE_SPELL_EFFECTS",
+    "effect": { "u_die": { "remove_corpse": true } }
+  },
+  {
+    "id": "mom_abjuration_stone_effects_psi_disruption",
+    "type": "SPELL",
+    "name": { "str": "Abjuration Stone Psi Disruption", "//~": "NO_I18N" },
+    "description": { "str": "Part of the Abjuration Stone that disrupts psi powers.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "teachable": false,
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DURATION", "RANDOM_AOE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_psi_neutralized",
+    "shape": "blast",
+    "min_duration": 600,
+    "max_duration": 1800,
+    "min_aoe": 20,
+    "max_aoe": 25
+  }
+]

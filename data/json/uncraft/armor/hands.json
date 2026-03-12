@@ -1,0 +1,50 @@
+[
+  {
+    "result": "gauntlets_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "string_6", 8 ] ],
+      [ [ "chitin_piece", 2 ] ],
+      [ [ "leather", 2 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "button_wood", 2 ] ]
+    ]
+  },
+  {
+    "result": "xs_gauntlets_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "string_6", 8 ] ],
+      [ [ "chitin_piece", 1 ] ],
+      [ [ "leather", 2 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "button_wood", 2 ] ]
+    ]
+  },
+  {
+    "result": "xl_gauntlets_chitin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "40 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "string_6", 8 ] ],
+      [ [ "chitin_piece", 3 ] ],
+      [ [ "leather", 4 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "button_wood", 2 ] ]
+    ]
+  }
+]

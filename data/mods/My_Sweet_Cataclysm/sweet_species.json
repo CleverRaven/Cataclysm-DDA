@@ -37,5 +37,12 @@
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "footsteps": "Shlop."
+  },
+  {
+    "type": "SPECIES",
+    "id": "CHOCOLATE",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "footsteps": "Clop."
   }
 ]

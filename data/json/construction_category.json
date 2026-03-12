@@ -7,6 +7,11 @@
   },
   {
     "type": "construction_category",
+    "id": "APPLIANCE",
+    "name": "Appliances"
+  },
+  {
+    "type": "construction_category",
     "id": "CONSTRUCT",
     "name": "Constructions"
   },
@@ -42,13 +47,28 @@
   },
   {
     "type": "construction_category",
+    "id": "TOOL",
+    "name": "Tools"
+  },
+  {
+    "type": "construction_category",
     "id": "WINDOWS",
     "name": "Windows"
   },
   {
     "type": "construction_category",
+    "id": "BULK",
+    "name": "Stacks and Piles"
+  },
+  {
+    "type": "construction_category",
     "id": "OTHER",
     "name": "Others"
+  },
+  {
+    "type": "construction_category",
+    "id": "DECONSTRUCT",
+    "name": "Deconstructions"
   },
   {
     "//": "Should be last in the list",

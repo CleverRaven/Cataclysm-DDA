@@ -1,0 +1,21 @@
+[
+  {
+    "type": "skill",
+    "id": "smartgun",
+    "name": { "str": "smart guns" },
+    "description": "Back in the 21st century marksmanship was an art whose mastery meant arduous years of constant training and preparation.  There are computers for that now.",
+    "tags": [ "combat_skill" ],
+    "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
+    "display_category": "display_ranged",
+    "sort_rank": 10500,
+    "companion_skill_practice": [ { "skill": "combat", "weight": 25 } ]
+  },
+  {
+    "type": "skill",
+    "id": "metaphysics",
+    "name": { "str": "metaphysics" },
+    "display_category": "display_ranged",
+    "sort_rank": 14500,
+    "description": "Your ability to manipulate psionic energy."
+  }
+]

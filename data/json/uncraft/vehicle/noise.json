@@ -7,17 +7,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "steel_chunk", 1 ] ], [ [ "platinum_small", 1 ] ], [ [ "pipe", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "beeper",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "500 s",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "cable", 2 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap", 7 ] ], [ [ "lc_steel_chunk", 1 ] ], [ [ "platinum_small", 1 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "uncraft",

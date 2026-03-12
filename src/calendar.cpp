@@ -3,32 +3,33 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdlib>
 #include <limits>
+#include <optional>
+#include <ostream>
 #include <string>
+#include <tuple>
 
-#include "cata_assert.h"
-#include "cata_utility.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "display.h"
 #include "line.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 1.5;
+static constexpr float moonlight_per_quarter = 1.5f;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
-const time_duration calendar::INDEFINITELY_LONG_DURATION(
-    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 static bool is_eternal_season = false;
+static bool is_eternal_night = false;
+static bool is_eternal_day = false;
 static int cur_season_length = 1;
+static lat_long location = { 42.36_degrees, -71.06_degrees };
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
 time_point calendar::start_of_game = calendar::turn_zero;
@@ -41,9 +42,14 @@ static constexpr units::angle nautical_dawn = -12_degrees;
 static constexpr units::angle civil_dawn = -6_degrees;
 static constexpr units::angle sunrise_angle = -1_degrees;
 
-double default_daylight_level()
+float default_daylight_level()
 {
-    return 100.0;
+    return 100.0f;
+}
+
+float max_sun_irradiance()
+{
+    return 1000.f;
 }
 
 time_duration lunar_month()
@@ -68,8 +74,21 @@ std::string enum_to_string<moon_phase>( moon_phase phase_num )
         case moon_phase::MOON_WANING_GIBBOUS: return "MOON_WANING_GIBBOUS";
         case moon_phase::MOON_PHASE_MAX: break;
     }
-    debugmsg( "Invalid moon_phase %d", phase_num );
-    abort();
+    cata_fatal( "Invalid moon_phase %d", phase_num );
+}
+template<>
+std::string enum_to_string<time_accuracy>( time_accuracy acc )
+{
+    switch( acc ) {
+        case time_accuracy::PARTIAL: return "PARTIAL";
+        case time_accuracy::FULL: return "FULL";
+        case time_accuracy::NUM_TIME_ACCURACY:
+        case time_accuracy::NONE: break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                << "Invalid time_accuracy " << static_cast<int>( acc );
+    }
+    return "NONE";
 }
 // *INDENT-ON*
 } // namespace io
@@ -81,36 +100,29 @@ moon_phase get_moon_phase( const time_point &p )
     const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
     const double phase_change = nearest_midnight / moon_phase_duration;
-    const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
+    const int current_phase = static_cast<int>( std::round( phase_change * static_cast<int>
+                              ( MOON_PHASE_MAX ) ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );
 }
 
-static constexpr time_duration angle_to_time( const units::angle a )
+static constexpr time_duration angle_to_time( const units::angle &a )
 {
     return a / 15.0_degrees * 1_hours;
 }
 
-// To support the eternal season option we create a strong typedef of timepoint
-// which is a solar_effective_time.  This converts a regular time to a time
-// which would be relevant for sun position calculations.  Normally the two
-// times are the same, but when eternal seasons are used the effective time is
-// always set to the same day, so that the sun position doesn't change from day
-// to day.
-struct solar_effective_time {
-    explicit solar_effective_time( const time_point &t_ )
-        : t( t_ ) {
-        if( calendar::eternal_season() ) {
-            const time_point start_midnight =
-                calendar::start_of_game - time_past_midnight( calendar::start_of_game );
-            t = start_midnight + time_past_midnight( t_ );
-        }
+season_effective_time::season_effective_time( const time_point &t_ )
+    : t( t_ )
+{
+    if( calendar::eternal_season() ) {
+        const time_point start_midnight =
+            calendar::start_of_game - time_past_midnight( calendar::start_of_game );
+        t = start_midnight + time_past_midnight( t_ );
     }
-    time_point t;
-};
+}
 
 static std::pair<units::angle, units::angle> sun_ra_declination(
-    solar_effective_time t, time_duration timezone )
+    season_effective_time t, time_duration timezone )
 {
     // This derivation is mostly from
     // https://en.wikipedia.org/wiki/Position_of_the_Sun
@@ -136,7 +148,7 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     // J2000, so use that as our offset too.  The relative drift is slow, so we
     // neglect it.
     const units::angle mean_anomaly = 77_degrees + mean_long;
-    // The two arbitrary constants in the caclulation of ecliptic longitude
+    // The two arbitrary constants in the calculation of ecliptic longitude
     // relate to the non-circularity of the Earth's orbit.
     const units::angle ecliptic_longitude =
         mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
@@ -154,7 +166,7 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     return { right_ascension, declination };
 }
 
-static units::angle sidereal_time_at( solar_effective_time t, units::angle longitude,
+static units::angle sidereal_time_at( season_effective_time t, units::angle longitude,
                                       time_duration timezone )
 {
     // Repeat some calculations from sun_ra_declination
@@ -175,8 +187,7 @@ static units::angle sidereal_time_at( solar_effective_time t, units::angle longi
 std::pair<units::angle, units::angle> sun_azimuth_altitude(
     time_point ti )
 {
-    const solar_effective_time t = solar_effective_time( ti );
-    const lat_long location = location_boston;
+    const season_effective_time t = season_effective_time( ti );
     units::angle right_ascension;
     units::angle declination;
     time_duration timezone = angle_to_time( location.longitude );
@@ -203,7 +214,14 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
 
     // Azimuth is from the South, turning positive to the west
     const units::angle azimuth = normalize( -atan2( horizontal.xy() ) + 180_degrees );
-    const units::angle altitude = units::asin( horizontal.z );
+    units::angle altitude = units::asin( horizontal.z );
+
+    if( calendar::eternal_day() ) {
+        altitude = 90_degrees;
+    }
+    if( calendar::eternal_night() ) {
+        altitude = astronomical_dawn - 10_degrees;
+    }
 
     /*printf(
         "\n"
@@ -222,14 +240,14 @@ static units::angle sun_altitude( time_point t )
     return sun_azimuth_altitude( t ).second;
 }
 
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
+std::optional<rl_vec2d> sunlight_angle( const time_point &t )
 {
     units::angle azimuth;
     units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
     if( altitude <= sunrise_angle ) {
         // Sun below horizon
-        return cata::nullopt;
+        return std::nullopt;
     }
     rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
     rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
@@ -248,16 +266,16 @@ static time_point solar_noon_near( const time_point &t )
 }
 
 static units::angle offset_to_sun_altitude(
-    const units::angle altitude, const units::angle longitude,
-    const solar_effective_time approx_time, const bool evening )
+    const units::angle &altitude, const units::angle &longitude,
+    const season_effective_time &approx_time, const bool evening )
 {
     units::angle ra;
     units::angle declination;
     time_duration timezone = angle_to_time( longitude );
     std::tie( ra, declination ) = sun_ra_declination( approx_time, timezone );
     double cos_hour_angle =
-        ( sin( altitude ) - sin( location_boston.latitude ) * sin( declination ) ) /
-        cos( location_boston.latitude ) / cos( declination );
+        ( sin( altitude ) - sin( location.latitude ) * sin( declination ) ) /
+        cos( location.latitude ) / cos( declination );
     if( std::abs( cos_hour_angle ) > 1 ) {
         // It doesn't actually reach that angle, so we pretend that it does at
         // its maximum possible angle
@@ -269,16 +287,16 @@ static units::angle offset_to_sun_altitude(
     }
     const units::angle target_sidereal_time = hour_angle + ra;
     const units::angle sidereal_time_at_approx_time =
-        sidereal_time_at( approx_time, location_boston.longitude, timezone );
+        sidereal_time_at( approx_time, location.longitude, timezone );
     return normalize( target_sidereal_time - sidereal_time_at_approx_time );
 }
 
-static time_point sun_at_altitude( const units::angle altitude, const units::angle longitude,
-                                   const time_point t, const bool evening )
+static time_point sun_at_altitude( const units::angle &altitude, const units::angle &longitude,
+                                   const time_point &t, const bool evening )
 {
     const time_point solar_noon = solar_noon_near( t );
     units::angle initial_offset =
-        offset_to_sun_altitude( altitude, longitude, solar_effective_time( solar_noon ), evening );
+        offset_to_sun_altitude( altitude, longitude, season_effective_time( solar_noon ), evening );
     if( !evening ) {
         initial_offset -= 360_degrees;
     }
@@ -287,7 +305,7 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
     // Now we should have the correct time to within a few minutes; iterate to
     // get a more precise estimate
     units::angle correction_offset =
-        offset_to_sun_altitude( altitude, longitude, solar_effective_time( initial_approximation ),
+        offset_to_sun_altitude( altitude, longitude, season_effective_time( initial_approximation ),
                                 evening );
     if( correction_offset > 180_degrees ) {
         correction_offset -= 360_degrees;
@@ -298,27 +316,34 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
 
 time_point sunrise( const time_point &p )
 {
-    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, false );
+    return sun_at_altitude( sunrise_angle, location.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, true );
+    return sun_at_altitude( sunrise_angle, location.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sun_at_altitude( civil_dawn, location_boston.longitude, p, true );
+    return sun_at_altitude( civil_dawn, location.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    return sun_at_altitude( civil_dawn, location_boston.longitude, p, false );
+    return sun_at_altitude( civil_dawn, location.longitude, p, false );
+}
+
+time_point noon( const time_point &p )
+{
+    const time_duration time_of_day = ( p - calendar::turn_zero ) % 1_days;
+    const time_duration till_noon = time_of_day - 12_hours;
+    return ( till_noon > 0_seconds ) ? p - till_noon : p + till_noon;
 }
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= nautical_dawn;
+    return sun_altitude( p ) <= civil_dawn;
 }
 
 bool is_day( const time_point &p )
@@ -326,10 +351,10 @@ bool is_day( const time_point &p )
     return sun_altitude( p ) >= sunrise_angle;
 }
 
-static bool is_twilight( const time_point &p )
+bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
+    return altitude >= civil_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
@@ -344,7 +369,7 @@ bool is_dawn( const time_point &p )
     return now < 12_hours && is_twilight( p );
 }
 
-static float moon_light_at( const time_point &p )
+float moon_light_at( const time_point &p )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
@@ -377,12 +402,22 @@ float sun_light_at( const time_point &p )
     }
 }
 
+float sun_irradiance( const time_point &p )
+{
+    const units::angle solar_alt = sun_altitude( p );
+
+    if( solar_alt < 0_degrees ) {
+        return 0;
+    }
+    return max_sun_irradiance() * sin( solar_alt );
+}
+
 float sun_moon_light_at( const time_point &p )
 {
     return sun_light_at( p ) + moon_light_at( p );
 }
 
-double sun_moon_light_at_noon_near( const time_point &p )
+float sun_moon_light_at_noon_near( const time_point &p )
 {
     const time_point solar_noon = solar_noon_near( p );
     return sun_moon_light_at( solar_noon );
@@ -399,19 +434,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d second", "%d seconds", num ), num );
+                    return string_format( n_gettext( "%d second", "%d seconds", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d minute", "%d minutes", num ), num );
+                    return string_format( n_gettext( "%d minute", "%d minutes", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hour", "%d hours", num ), num );
+                    return string_format( n_gettext( "%d hour", "%d hours", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d week", "%d weeks", num ), num );
+                    return string_format( n_gettext( "%d week", "%d weeks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d season", "%d seasons", num ), num );
+                    return string_format( n_gettext( "%d season", "%d seasons", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d year", "%d years", num ), num );
+                    return string_format( n_gettext( "%d year", "%d years", num ), num );
             }
         case clipped_align::right:
             switch( type ) {
@@ -421,25 +456,25 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     return _( "    forever" );
                 case clipped_unit::second:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  second", "%3d seconds", num ), num );
+                    return string_format( n_gettext( "%3d  second", "%3d seconds", num ), num );
                 case clipped_unit::minute:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  minute", "%3d minutes", num ), num );
+                    return string_format( n_gettext( "%3d  minute", "%3d minutes", num ), num );
                 case clipped_unit::hour:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    hour", "%3d   hours", num ), num );
+                    return string_format( n_gettext( "%3d    hour", "%3d   hours", num ), num );
                 case clipped_unit::day:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d     day", "%3d    days", num ), num );
+                    return string_format( n_gettext( "%3d     day", "%3d    days", num ), num );
                 case clipped_unit::week:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    week", "%3d   weeks", num ), num );
+                    return string_format( n_gettext( "%3d    week", "%3d   weeks", num ), num );
                 case clipped_unit::season:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d  season", "%3d seasons", num ), num );
+                    return string_format( n_gettext( "%3d  season", "%3d seasons", num ), num );
                 case clipped_unit::year:
                     //~ Right-aligned time string. should right-align with other strings with this same comment
-                    return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
+                    return string_format( n_gettext( "%3d    year", "%3d   years", num ), num );
             }
         case clipped_align::compact:
             switch( type ) {
@@ -447,19 +482,19 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                 case clipped_unit::forever:
                     return _( "forever" );
                 case clipped_unit::second:
-                    return string_format( ngettext( "%d sec", "%d secs", num ), num );
+                    return string_format( n_gettext( "%d sec", "%d secs", num ), num );
                 case clipped_unit::minute:
-                    return string_format( ngettext( "%d min", "%d mins", num ), num );
+                    return string_format( n_gettext( "%d min", "%d mins", num ), num );
                 case clipped_unit::hour:
-                    return string_format( ngettext( "%d hr", "%d hrs", num ), num );
+                    return string_format( n_gettext( "%d hr", "%d hrs", num ), num );
                 case clipped_unit::day:
-                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                    return string_format( n_gettext( "%d day", "%d days", num ), num );
                 case clipped_unit::week:
-                    return string_format( ngettext( "%d wk", "%d wks", num ), num );
+                    return string_format( n_gettext( "%d wk", "%d wks", num ), num );
                 case clipped_unit::season:
-                    return string_format( ngettext( "%d seas", "%d seas", num ), num );
+                    return string_format( n_gettext( "%d seas", "%d seas", num ), num );
                 case clipped_unit::year:
-                    return string_format( ngettext( "%d yr", "%d yrs", num ), num );
+                    return string_format( n_gettext( "%d yr", "%d yrs", num ), num );
             }
     }
 }
@@ -604,7 +639,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
+    const int second = to_seconds<int>( time_past_midnight( p ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
@@ -650,15 +685,29 @@ weekdays day_of_week( const time_point &p )
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
+    int day_since_game_start = to_days<int>( p - calendar::start_of_game );
+    // % 7 gives (negative) days before, add 7 to get positive
+    if( day_since_game_start < 0 ) {
+        day_since_game_start = ( day_since_game_start % 7 ) + 7;
+    }
     static const weekdays start_day = weekdays::THURSDAY;
-    const int result = day_since_cataclysm + static_cast<int>( start_day );
+    const int result = day_since_game_start + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
 }
 
 bool calendar::eternal_season()
 {
     return is_eternal_season;
+}
+
+bool calendar::eternal_night()
+{
+    return is_eternal_night;
+}
+
+bool calendar::eternal_day()
+{
+    return is_eternal_day;
 }
 
 time_duration calendar::year_length()
@@ -674,9 +723,21 @@ void calendar::set_eternal_season( bool is_eternal )
 {
     is_eternal_season = is_eternal;
 }
+void calendar::set_eternal_night( bool is_eternal )
+{
+    is_eternal_night = is_eternal;
+}
+void calendar::set_eternal_day( bool is_eternal )
+{
+    is_eternal_day = is_eternal;
+}
 void calendar::set_season_length( const int dur )
 {
     cur_season_length = dur;
+}
+void calendar::set_location( float latitude, float longitude )
+{
+    location = { units::from_degrees( latitude ), units::from_degrees( longitude ) };
 }
 
 static constexpr int real_world_season_length = 91;
@@ -728,7 +789,8 @@ bool x_in_y( const time_duration &a, const time_duration &b )
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
 
-const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+constexpr const std::array<std::pair<std::string_view, time_duration>, 15> time_duration::units
+= { {
         { "turns", 1_turns },
         { "turn", 1_turns },
         { "t", 1_turns },
@@ -771,19 +833,204 @@ season_type season_of_year( const time_point &p )
 
 std::string to_string( const time_point &p )
 {
-    const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
-                     ( calendar::year_length() ) + 1;
+    const int year = calendar::years_since_cataclysm( p ) + 1;
     const std::string time = to_string_time_of_day( p );
-    if( calendar::eternal_season() ) {
+    if( get_option<bool>( "SHOW_MONTHS" ) && calendar::year_length() == 364_days ) {
+        const std::pair<month, int> month_day = month_and_day( p );
+
+        //~ 1 is the year, 2 is the month, 3 is the day, 4 is the time of the day in its usual format
+        return string_format( _( "Year %1$d, %2$s %3$d %4$s" ), year, to_string( month_day.first ),
+                              month_day.second, time );
+    } else if( calendar::eternal_season() ) {
         const int day = to_days<int>( time_past_new_year( p ) );
         //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
         return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
-    } else {
-        const int day = day_of_season<int>( p ) + 1;
-        //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
-        return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
-                              calendar::name_season( season_of_year( p ) ), day, time );
     }
+    const int day = day_of_season<int>( p ) + 1;
+    //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
+    return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
+                          calendar::name_season( season_of_year( p ) ), day, time );
+
+}
+
+time_duration calendar::turn_zero_offset()
+{
+    // turn zero is the first day of spring, so the winter part of the year is otherwise not counted
+    // Jan 31 days, Feb 30 days, seasons start on the 21th (so Mar 21)
+    time_duration winter_at_start = 31_days + 30_days + 20_days;
+    if( calendar::year_length() == 364_days ) {
+        return winter_at_start;
+    }
+    // just do something proportional for non-standard settings
+    const time_duration season_length = calendar::season_length();
+    double fraction = to_days<double>( winter_at_start ) / 91.0;
+    return fraction * season_length;
+}
+
+int calendar::years_since_cataclysm( time_point turn )
+{
+    return to_turn<int>( ( turn + turn_zero_offset() ) / calendar::year_length() );
+}
+
+std::pair<month, int> month_and_day( time_point turn )
+{
+    if( calendar::year_length() != 364_days ) {
+        return std::make_pair( month::UNKNOWN, to_days<int>( time_past_new_year( turn ) ) );
+    }
+    // months are:
+    // Dec Jan Feb  Mar Apr May  Jun Jul Aug  Sep Oct Nov
+    // each month has 30 days, except Jan/Apr/Jul/Oct have 31
+    // seasons are:
+    // Winter: Dec 21-Mar 20
+    // Spring: Mar 21-Jun 20
+    // Summer: Jun 21-Sep 20
+    // Autumn: Sep 21-Dec 20
+    static std::array<month, 12> months = {
+        month::JANUARY, month::FEBRUARY, month::MARCH, month::APRIL, month::MAY, month::JUNE,
+        month::JULY, month::AUGUST, month::SEPTEMBER, month::OCTOBER, month::NOVEMBER, month::DECEMBER
+    };
+
+    int day = to_days<int>( time_past_new_year( turn ) );
+    // calculate which group (jan/feb/mar, apr/may/jun, etc) of month it is
+    int month = ( day / 91 ) * 3;
+    // then within the group, determine the actual month and day
+    day %= 91;
+    if( day < 31 ) {
+        day += 1;
+    } else if( day < 61 ) {
+        month += 1;
+        day = day - 31 + 1;
+    } else {
+        month += 2;
+        day = day - 61 + 1;
+    }
+    return std::make_pair( months[month], day );
+}
+
+std::string to_string( month m )
+{
+    static std::array<translation, 12> months = {
+        to_translation( "month", "Jan" ), to_translation( "month", "Feb" ),
+        to_translation( "month", "Mar" ), to_translation( "month", "Apr" ),
+        to_translation( "month", "May" ), to_translation( "month", "Jun" ),
+        to_translation( "month", "Jul" ), to_translation( "month", "Aug" ),
+        to_translation( "month", "Sep" ), to_translation( "month", "Oct" ),
+        to_translation( "month", "Nov" ), to_translation( "month", "Dec" )
+    };
+
+    static_assert( static_cast<month>( 0 ) == month::JANUARY, "month enum out of phase" );
+
+    if( m == month::UNKNOWN ) {
+        return _( "Cataclysm" );
+    }
+
+    return months[static_cast<int>( m )].translated();
+}
+
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc,
+                                      bool include_postfix )
+{
+    const int days = to_days<int>( turn_diff );
+    const int hours = to_hours<int>( turn_diff ) % 24;
+    const int minutes = to_minutes<int>( turn_diff ) % 60;
+    std::string days_text;
+    std::string hours_text;
+    std::string minutes_text;
+    switch( acc ) {
+        case time_accuracy::FULL:
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
+            }
+            if( hours > 0 ) {
+                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
+            }
+            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
+            break;
+        case time_accuracy::PARTIAL:
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day", "%d days", days ), days );
+            } else if( hours > 0 ) {
+                //~ Estimate of how much time has passed since the last entry
+                days_text = _( "Less than a day" );
+            } else {
+                //~ Estimate of how much time has passed since the last entry
+                days_text = _( "Not long" );
+            }
+            break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+            [[fallthrough]];
+        case time_accuracy::NUM_TIME_ACCURACY:
+        case time_accuracy::NONE:
+            //~ Estimate of how much time has passed since the last entry
+            days_text = days > 0 ? _( "A long while" ) : hours > 0 ? _( "A while" ) : _( "A short while" );
+            break;
+
+    }
+    if( include_postfix ) {
+        //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+        return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
+    }
+    //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+    return string_format( _( "%1$s%2$s%3$s" ), days_text, hours_text, minutes_text );
+}
+
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
+{
+    const int year = calendar::years_since_cataclysm( turn );
+    const std::pair<month, int> month_day = month_and_day( turn );
+    switch( acc ) {
+        case time_accuracy::FULL:
+            return to_string( turn );
+        case time_accuracy::PARTIAL:
+            if( get_option<bool>( "SHOW_MONTHS" ) ) {
+                // partial accuracy, able to see the sky
+                //~ Time of year:
+                //~ $1 = year since Cataclysm
+                //~ $2 = month
+                //~ $3 = day of month
+                //~ $4 = approximate time of day
+                return string_format( _( "Year %1$d, %2$s day %3$d, %4$s" ), year,
+                                      to_string( month_day.first ), month_day.second,
+                                      display::time_approx( turn ) );
+            } else {
+                //~ Time of year:
+                //~ $1 = year since Cataclysm
+                //~ $2 = season
+                //~ $3 = day of season
+                //~ $4 = approximate time of day
+                return string_format( _( "Year %1$d, %2$s day %3$d, %4$s" ), year,
+                                      calendar::name_season( season_of_year( turn ) ),
+                                      day_of_season<int>( turn ) + 1, display::time_approx( turn ) );
+            }
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+            [[fallthrough]];
+        case time_accuracy::NUM_TIME_ACCURACY:
+        case time_accuracy::NONE: {
+            // normalized to 100 day seasons
+            const int day_norm = ( month_day.second * 100 ) / to_days<int>( calendar::season_length() );
+            std::string seas_point;
+            if( day_norm < 33 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Early" );
+            } else if( day_norm < 66 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Mid" );
+            } else {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Late" );
+            }
+            //~ Estimated day-of-season string: $1 = Early/Mid/Late, $2 = Spring/Summer/Fall/Winter
+            std::string season = string_format( _( "%1$s %2$s" ), seas_point,
+                                                calendar::name_season( season_of_year( turn ) ) );
+            //~ Time of year: $1 = year since Cataclysm, $2 = season
+            return string_format( _( "Year %1$d, %2$s" ), year, season );
+        }
+    }
+    return std::string();
 }
 
 time_point::time_point()

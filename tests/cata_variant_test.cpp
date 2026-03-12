@@ -1,42 +1,51 @@
 #include <sstream>
 #include <string>
-#include <type_traits>
+#include <utility>
 
-#include "cata_variant.h"
 #include "cata_catch.h"
+#include "cata_variant.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "json.h"
+#include "json_loader.h"
 #include "point.h"
 #include "type_id.h"
 
-TEST_CASE( "variant_construction", "[variant]" )
+static const itype_id itype_anvil( "anvil" );
+
+static const mtype_id This_is_not_a_valid_id( "This is not a valid id" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id zombie( "zombie" );
+
+TEST_CASE( "variant_construction", "[variant][nogame]" )
 {
     SECTION( "itype_id" ) {
-        cata_variant v = cata_variant::make<cata_variant_type::itype_id>( itype_id( "anvil" ) );
+        cata_variant v = cata_variant::make<cata_variant_type::itype_id>( itype_anvil );
         CHECK( v.type() == cata_variant_type::itype_id );
-        CHECK( v.get<cata_variant_type::itype_id>() == itype_id( "anvil" ) );
-        CHECK( v.get<itype_id>() == itype_id( "anvil" ) );
-        cata_variant v2 = cata_variant( itype_id( "anvil" ) );
+        CHECK( v.get<cata_variant_type::itype_id>() == itype_anvil );
+        CHECK( v.get<itype_id>() == itype_anvil );
+        cata_variant v2 = cata_variant( itype_anvil );
         CHECK( v2.type() == cata_variant_type::itype_id );
-        CHECK( v2.get<cata_variant_type::itype_id>() == itype_id( "anvil" ) );
-        CHECK( v2.get<itype_id>() == itype_id( "anvil" ) );
+        CHECK( v2.get<cata_variant_type::itype_id>() == itype_anvil );
+        CHECK( v2.get<itype_id>() == itype_anvil );
         itype_id anvil( "anvil" );
         cata_variant v3( anvil );
         CHECK( v3.type() == cata_variant_type::itype_id );
-        CHECK( v3.get<cata_variant_type::itype_id>() == itype_id( "anvil" ) );
-        CHECK( v3.get<itype_id>() == itype_id( "anvil" ) );
+        CHECK( v3.get<cata_variant_type::itype_id>() == itype_anvil );
+        CHECK( v3.get<itype_id>() == itype_anvil );
     }
     SECTION( "mtype_id" ) {
-        cata_variant v = cata_variant::make<cata_variant_type::mtype_id>( mtype_id( "zombie" ) );
+        cata_variant v = cata_variant::make<cata_variant_type::mtype_id>( zombie );
         CHECK( v.type() == cata_variant_type::mtype_id );
-        CHECK( v.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
-        CHECK( v.get<mtype_id>() == mtype_id( "zombie" ) );
-        cata_variant v2 = cata_variant( mtype_id( "zombie" ) );
+        CHECK( v.get<cata_variant_type::mtype_id>() == zombie );
+        CHECK( v.get<mtype_id>() == zombie );
+        cata_variant v2 = cata_variant( zombie );
         CHECK( v2.type() == cata_variant_type::mtype_id );
-        CHECK( v2.get<cata_variant_type::mtype_id>() == mtype_id( "zombie" ) );
-        CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
+        CHECK( v2.get<cata_variant_type::mtype_id>() == zombie );
+        CHECK( v2.get<mtype_id>() == zombie );
     }
     SECTION( "point" ) {
         point p( 7, 63 );
@@ -54,20 +63,20 @@ TEST_CASE( "variant_construction", "[variant]" )
     }
 }
 
-TEST_CASE( "variant_copy_move", "[variant]" )
+TEST_CASE( "variant_copy_move", "[variant][nogame]" )
 {
-    cata_variant v = cata_variant( mtype_id( "zombie" ) );
+    cata_variant v = cata_variant( zombie );
     cata_variant v2 = v;
-    CHECK( v2.get<mtype_id>() == mtype_id( "zombie" ) );
+    CHECK( v2.get<mtype_id>() == zombie );
     cata_variant v3( v );
-    CHECK( v3.get<mtype_id>() == mtype_id( "zombie" ) );
+    CHECK( v3.get<mtype_id>() == zombie );
     cata_variant v4( std::move( v ) );
-    CHECK( v4.get<mtype_id>() == mtype_id( "zombie" ) );
+    CHECK( v4.get<mtype_id>() == zombie );
     cata_variant v5( std::move( v2 ) );
-    CHECK( v5.get<mtype_id>() == mtype_id( "zombie" ) );
+    CHECK( v5.get<mtype_id>() == zombie );
 }
 
-TEST_CASE( "variant_type_name_round_trip", "[variant]" )
+TEST_CASE( "variant_type_name_round_trip", "[variant][nogame]" )
 {
     int num_types = static_cast<int>( cata_variant_type::num_types );
     for( int i = 0; i < num_types; ++i ) {
@@ -77,38 +86,37 @@ TEST_CASE( "variant_type_name_round_trip", "[variant]" )
     }
 }
 
-TEST_CASE( "variant_default_constructor", "[variant]" )
+TEST_CASE( "variant_default_constructor", "[variant][nogame]" )
 {
     cata_variant v;
     CHECK( v.type() == cata_variant_type::void_ );
     CHECK( v.get_string().empty() );
 }
 
-TEST_CASE( "variant_serialization", "[variant]" )
+TEST_CASE( "variant_serialization", "[variant][nogame]" )
 {
-    cata_variant v = cata_variant( mtype_id( "zombie" ) );
+    cata_variant v = cata_variant( zombie );
     std::ostringstream os;
     JsonOut jsout( os );
     v.serialize( jsout );
     CHECK( os.str() == R"(["mtype_id","zombie"])" );
 }
 
-TEST_CASE( "variant_deserialization", "[variant]" )
+TEST_CASE( "variant_deserialization", "[variant][nogame]" )
 {
-    std::istringstream is( R"(["mtype_id","zombie"])" );
-    JsonIn jsin( is );
+    JsonValue jsin = json_loader::from_string( R"(["mtype_id","zombie"])" );
     cata_variant v;
     v.deserialize( jsin );
-    CHECK( v == cata_variant( mtype_id( "zombie" ) ) );
+    CHECK( v == cata_variant( zombie ) );
 }
 
-TEST_CASE( "variant_from_string" )
+TEST_CASE( "variant_from_string", "[nogame]" )
 {
     cata_variant v = cata_variant::from_string( cata_variant_type::mtype_id, "mon_zombie" );
-    CHECK( v == cata_variant( mtype_id( "mon_zombie" ) ) );
+    CHECK( v == cata_variant( mon_zombie ) );
 }
 
-TEST_CASE( "variant_type_for", "[variant]" )
+TEST_CASE( "variant_type_for", "[variant][nogame]" )
 {
     CHECK( cata_variant_type_for<bool>() == cata_variant_type::bool_ );
     CHECK( cata_variant_type_for<int>() == cata_variant_type::int_ );
@@ -120,8 +128,8 @@ TEST_CASE( "variant_type_for", "[variant]" )
 TEST_CASE( "variant_is_valid", "[variant]" )
 {
     // A string_id
-    CHECK( cata_variant( mtype_id( "mon_zombie" ) ).is_valid() );
-    CHECK_FALSE( cata_variant( mtype_id( "This is not a valid id" ) ).is_valid() );
+    CHECK( cata_variant( mon_zombie ).is_valid() );
+    CHECK_FALSE( cata_variant( This_is_not_a_valid_id ).is_valid() );
 
     // An int_id
     CHECK( cata_variant( ter_id( "t_grass" ) ).is_valid() );

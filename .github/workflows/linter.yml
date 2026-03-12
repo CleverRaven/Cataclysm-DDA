@@ -1,0 +1,44 @@
+name: Code Style Reviewer
+
+on:
+  pull_request_target:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
+    paths:
+      - '**.json'
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
+    paths:
+      - '**.json'
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  style-code:
+    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.draft == false }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+
+    - run: sudo apt-get install astyle
+
+    - run: make astyle-fast
+    - run: make style-all-json-parallel
+
+    - name: 'suggester / JSON & C++'
+      uses: reviewdog/action-suggester@aa38384ceb608d00f84b4690cacc83a5aba307ff # v1
+      if: ${{ always() }}
+      with:
+        tool_name: '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/DEVELOPER_TOOLING.md)'

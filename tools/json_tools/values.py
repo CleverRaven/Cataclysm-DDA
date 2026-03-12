@@ -5,8 +5,7 @@
 import argparse
 import sys
 import json
-from util import import_data, value_counter, ui_counts_to_columns,\
-    WhereAction
+from util import import_data, value_counter, ui_counts_to_columns, WhereAction
 
 parser = argparse.ArgumentParser(description="""Count the number of
 times a specific values occurs for a specific key. The key may be a

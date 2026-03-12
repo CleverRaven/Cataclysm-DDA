@@ -14,6 +14,19 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_CONSTRUCTION_1",
     "dynamic_line": "My partner is in charge of fortifying this place, you should ask him about what needs to be done.",
-    "responses": [ { "text": "I'll talk to him then…", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_anesthetic_asked" } ] } }
+          ]
+        },
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
+      },
+      { "text": "I'll talk to him then…", "topic": "TALK_DONE" }
+    ]
   }
 ]

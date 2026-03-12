@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_eagle_eyes",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 1.25 }, { "limb_score": "night_vis", "modifier": 1.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

@@ -2,19 +2,46 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <utility>
 
-#include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "translations.h"
+
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_tailor( "tailor" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
 
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
@@ -63,6 +90,25 @@ Skill::Skill( const skill_id &ident, const translation &name, const translation 
 {
 }
 
+std::vector<const Skill *> Skill::get_skills_for_chr_display(
+    Character &chr, std::function<bool ( const Skill &, const Skill & )> pred )
+{
+    std::vector<const Skill *> result;
+    result.reserve( skills.size() );
+
+    for( const Skill &sk : skills ) {
+        if( !sk.obsolete() && sk.can_chr_use( chr ) ) {
+            result.push_back( &sk );
+        }
+    }
+
+    std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
+        return pred( *lhs, *rhs );
+    } );
+
+    return result;
+}
+
 std::vector<const Skill *> Skill::get_skills_sorted_by(
     std::function<bool ( const Skill &, const Skill & )> pred )
 {
@@ -88,11 +134,32 @@ void Skill::reset()
     contextual_skills.clear();
 }
 
+void Skill::check_consistency()
+{
+    for( Skill &skill : skills )  {
+        auto rt = skill._requires_all_traits.begin();
+        while( rt != skill._requires_all_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_all_traits.erase( current );
+            }
+        }
+
+        rt = skill._requires_any_traits.begin();
+        while( rt != skill._requires_any_traits.end() ) {
+            auto current = rt++;
+            if( !trait_id( *current ).is_valid() ) {
+                debugmsg( "trait %s does not exist", current->c_str() );
+                rt = skill._requires_any_traits.erase( current );
+            }
+        }
+    }
+}
+
 void Skill::load_skill( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_id ident = skill_id( jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                               jsobj.get_string( "id" ) );
+    skill_id ident = skill_id( jsobj.get_string( "id" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
@@ -105,6 +172,18 @@ void Skill::load_skill( const JsonObject &jsobj )
     for( JsonObject jo_csp : jsobj.get_array( "companion_skill_practice" ) ) {
         companion_skill_practice.emplace( jo_csp.get_string( "skill" ), jo_csp.get_int( "weight" ) );
     }
+    std::map<int, translation> level_descriptions_theory;
+    std::map<int, translation> level_descriptions_practice;
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_theory" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_theory.emplace( jo.get_int( "level" ), desc );
+    }
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_practice" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_practice.emplace( jo.get_int( "level" ), desc );
+    }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {
         JsonObject jso_tta = jsobj.get_object( "time_to_attack" );
@@ -114,13 +193,28 @@ void Skill::load_skill( const JsonObject &jsobj )
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    if( jsobj.has_int( "sort_rank" ) ) {
+        sk._sort_rank = jsobj.get_int( "sort_rank" );
+    } else {
+        sk._sort_rank = 1000000;
+        debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
+    }
+
+    if( jsobj.has_bool( "consumes_focus" ) ) {
+        sk.consumes_focus = jsobj.get_bool( "consumes_focus" );
+    }
 
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
     sk._companion_survival_rank_factor = jsobj.get_int( "companion_survival_rank_factor", 0 );
     sk._companion_industry_rank_factor = jsobj.get_int( "companion_industry_rank_factor", 0 );
     sk._companion_skill_practice = companion_skill_practice;
+    sk._level_descriptions_theory = level_descriptions_theory;
+    sk._level_descriptions_practice = level_descriptions_practice;
     sk._obsolete = jsobj.get_bool( "obsolete", false );
+    sk._teachable = jsobj.get_bool( "teachable", true );
+    sk._requires_all_traits = jsobj.get_tags( "requires_all_traits" );
+    sk._requires_any_traits = jsobj.get_tags( "requires_any_traits" );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
@@ -140,12 +234,22 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_displayType_id ident = skill_displayType_id(
-                                     jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                                     jsobj.get_string( "id" ) );
+    skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "id" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),
     end( skillTypes ), [&]( const SkillDisplayType & s ) {
         return s._ident == ident;
@@ -159,7 +263,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
 
 const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
-    for( auto &i : skillTypes ) {
+    for( SkillDisplayType &i : skillTypes ) {
         if( i._ident == id ) {
             return i;
         }
@@ -170,13 +274,13 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-            skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
-            skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
-            skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
-            skill_id( "rifle" ), skill_id( "archery" ), skill_id( "launcher" ), skill_id( "mechanics" ),
-            skill_id( "electronics" ), skill_id( "cooking" ), skill_id( "tailor" ), skill_id::NULL_ID(),
-            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "computer" ),
-            skill_id( "survival" ), skill_id( "traps" ), skill_id( "swimming" ), skill_id( "driving" ),
+            skill_id::NULL_ID(), skill_dodge, skill_melee, skill_unarmed,
+            skill_bashing, skill_cutting, skill_stabbing, skill_throw,
+            skill_gun, skill_pistol, skill_shotgun, skill_smg,
+            skill_rifle, skill_archery, skill_launcher, skill_mechanics,
+            skill_electronics, skill_cooking, skill_tailor, skill_id::NULL_ID(),
+            skill_firstaid, skill_speech, skill_computer,
+            skill_survival, skill_traps, skill_swimming, skill_driving,
         }
     };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
@@ -189,6 +293,26 @@ skill_id Skill::from_legacy_int( const int legacy_id )
 skill_id Skill::random_skill()
 {
     return random_entry_ref( skills ).ident();
+}
+
+bool Skill::can_chr_use( Character &chr ) const
+{
+    for( std::string tid : _requires_all_traits ) {
+        if( !chr.has_trait( trait_id( tid ) ) ) {
+            return false;
+        }
+    }
+
+    if( !_requires_any_traits.empty() ) {
+        for( std::string tid : _requires_any_traits ) {
+            if( chr.has_trait( trait_id( tid ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return true;
 }
 
 // used for the pacifist trait
@@ -204,6 +328,25 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
+std::string Skill::get_level_description( int skill_lvl, bool practical ) const
+{
+    std::map<int, translation> description_map;
+
+    if( practical ) {
+        description_map = _level_descriptions_practice;
+    } else {
+        description_map = _level_descriptions_theory;
+    }
+
+    auto it = description_map.upper_bound( skill_lvl );
+    if( it != description_map.begin() ) {
+        --it;
+    } else {
+        return "";
+    }
+    return it->second.translated();
+}
+
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
                         bool allow_multilevel )
 {
@@ -212,12 +355,12 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         return;
     }
     // catchup gets faster the higher the level gap gets.
-    float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
+    float level_gap = 1.0f * std::max( knowledgeLevel(), 1 ) / std::max( level(), 1 );
     float catchup_amount = amount * catchup_modifier;
     float knowledge_amount = amount * knowledge_modifier;
-    if( _knowledgeLevel > _level ) {
+    if( knowledgeLevel() > level() ) {
         catchup_amount *= level_gap;
-    } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
+    } else if( knowledgeLevel() == level() && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
         catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
@@ -234,7 +377,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount = catchup_amount * 0.9f;
     }
 
-    if( _knowledgeLevel >= MAX_SKILL ) {
+    if( unadjustedKnowledgeLevel() >= MAX_SKILL ) {
         knowledge_amount = 0;
     }
 
@@ -254,31 +397,9 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     _rustAccumulator -= catchup_amount;
     _knowledgeExperience += knowledge_amount;
 
-    const auto xp_to_level = [&]() {
-        return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
-    };
-    while( _exercise >= xp_to_level() ) {
-        _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
-        ++_level;
-        if( _level > _knowledgeLevel ) {
-            _knowledgeLevel = _level;
-            _knowledgeExperience = 0;
-        }
-    }
-
-    if( _rustAccumulator < 0 ) {
-        _rustAccumulator = 0;
-    }
-    if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
-        _knowledgeExperience = _exercise;
-    }
-
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
-        _knowledgeExperience = 0;
-        ++_knowledgeLevel;
-    }
+    on_exercise_change( allow_multilevel );
+    practice();
 }
-
 
 void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 {
@@ -291,11 +412,11 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
     if( npc_knowledge > 0 ) {
         // This should later be modified by NPC teaching proficiencies.
-        level_gap = std::max( npc_knowledge * 1.0f - _knowledgeLevel * 1.0f, 1.0f );
+        level_gap = std::max<float>( npc_knowledge - unadjustedKnowledgeLevel(), 1.0f );
     } else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
-        level_gap = std::max( _knowledgeLevel * 1.0f - _level * 1.0f, 1.0f );
+        level_gap = std::max<float>( unadjustedKnowledgeLevel() - unadjustedLevel(), 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
@@ -306,7 +427,7 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
     }
     _knowledgeExperience += amount;
 
-    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+    if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
@@ -316,18 +437,23 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 bool SkillLevel::isRusty() const
 {
     // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
-    return _level != _knowledgeLevel ||
-           _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
+    return level() != knowledgeLevel() ||
+           _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
-bool SkillLevel::rust( int rust_resist )
+bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 {
-    if( _level >= MAX_SKILL ) {
+    if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
+        // don't rust within the grace period
+        return false;
+    }
+
+    if( unadjustedLevel() >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
 
-    const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
+    const int level_multiplier = pow( unadjustedLevel() + 1, 2U );
     float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
         // at this point the numbers ahead will be too small to bother.  Just cap it off.
@@ -340,31 +466,23 @@ bool SkillLevel::rust( int rust_resist )
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
-    int rust_amount = level_multiplier * 16 / rust_slowdown;
+    int rust_amount = level_multiplier * rust_multiplier * 16 / rust_slowdown;
 
     if( rust_resist > 0 ) {
         rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
     }
 
-    if( _level == 0 ) {
+    if( level() == 0 ) {
         rust_amount = std::min( rust_amount, _exercise );
     }
 
-    if( rust_amount < 1 ) {
+    if( rust_amount <= 0 ) {
         return false;
     }
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
-    if( _exercise < 0 ) {
-        if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * _level * _level ) - 1;
-            --_level;
-        } else {
-            _exercise = 0;
-        }
-    }
+    on_exercise_change();
 
     return false;
 }
@@ -376,8 +494,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _knowledgeLevel < maximumLevel || maximumLevel < 0 ) {
-        knowledge_train( ( _knowledgeLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( knowledgeLevel() < maximumLevel || maximumLevel < 0 ) {
+        knowledge_train( ( knowledgeLevel() + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
@@ -386,6 +504,44 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 bool SkillLevel::can_train() const
 {
     return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+}
+
+void SkillLevel::set_exercise( int value, bool raw )
+{
+    _exercise = raw ? value : value * ( 100 * ( level() + 1 ) * ( level() + 1 ) );
+    on_exercise_change( true );
+}
+
+void SkillLevel::on_exercise_change( bool allow_multilevel )
+{
+    if( _exercise < 0 ) {
+        _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
+        --_level;
+    } else {
+        const auto xp_to_level = [&]() {
+            return 100 * 100 * pow( unadjustedLevel() + 1, 2U );
+        };
+        while( _exercise >= xp_to_level() ) {
+            _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
+            ++_level;
+            if( unadjustedLevel() > unadjustedKnowledgeLevel() ) {
+                _knowledgeLevel = _level;
+                _knowledgeExperience = 0;
+            }
+        }
+
+        if( _rustAccumulator < 0 ) {
+            _rustAccumulator = 0;
+        }
+        if( level() == knowledgeLevel() && _exercise > _knowledgeExperience ) {
+            _knowledgeExperience = _exercise;
+        }
+
+        if( _knowledgeExperience >= 10000 * pow( unadjustedKnowledgeLevel() + 1, 2U ) ) {
+            _knowledgeExperience = 0;
+            ++_knowledgeLevel;
+        }
+    }
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
@@ -437,8 +593,19 @@ int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
+}
+
+float SkillLevelMap::get_progress_level( const skill_id &ident ) const
+{
+    return static_cast<float>( get_skill_level_object( ident ).exercise() ) / 100.0f;
+}
+
+float SkillLevelMap::get_progress_level( const skill_id &ident, const item &context ) const
+{
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_progress_level( id );
 }
 
 int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
@@ -448,8 +615,20 @@ int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_knowledge_level( id );
+}
+
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident ) const
+{
+    return static_cast<float>( get_skill_level_object( ident ).knowledgeExperience() ) / 100.0f;
+}
+
+float SkillLevelMap::get_knowledge_progress_level( const skill_id &ident,
+        const item &context ) const
+{
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_progress_level( id );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
@@ -514,7 +693,7 @@ bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+    return exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec );
 }
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
@@ -540,23 +719,7 @@ bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
 {
-    if( barter_skill <= 0 ) {
-        return 1.0;
-    }
-    if( barter_skill >= 5 ) {
-        return 2.0;
-    }
-    switch( barter_skill ) {
-        case 1:
-            return 1.05;
-        case 2:
-            return 1.15;
-        case 3:
-            return 1.30;
-        case 4:
-            return 1.65;
-        default:
-            // Should never occur
-            return 1.0;
-    }
+    int const skill = std::min( 5, std::abs( barter_skill ) );
+    double const val = 0.045 * std::pow( skill, 2 ) - 0.025 * skill + 1;
+    return barter_skill >= 0 ? val : 1 / val;
 }

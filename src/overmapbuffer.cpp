@@ -1,10 +1,13 @@
 #include "overmapbuffer.h"
 
 #include <algorithm>
-#include <climits>
+#include <cmath>
+#include <cstdlib>
+#include <filesystem>
 #include <iterator>
-#include <list>
+#include <limits>
 #include <map>
+#include <optional>
 #include <string>
 #include <tuple>
 
@@ -14,22 +17,30 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
+#include "city.h"
 #include "color.h"
-#include "common_types.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
+#include "horde_entity.h"
+#include "horde_map.h"
+#include "imgui/imgui.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
+#include "messages.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
-#include "optional.h"
+#include "omdata.h"
+#include "options.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
@@ -38,10 +49,21 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "text.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "worldfactory.h"
 
-class map_extra;
+static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
+static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
+
+static const int default_search_range = OMAPX * 5;
+
+// Moved from obsolete coordinate_conversions.h to its only remaining user.
+static int omt_to_sm_copy( int a )
+{
+    return 2 * a;
+}
 
 overmapbuffer overmap_buffer;
 
@@ -66,12 +88,13 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point_abs_om &p )
 {
-    return string_format( "%s/o.%d.%d", PATH_INFO::world_base_save_path(), p.x(), p.y() );
+    return string_format( "o.%d.%d", p.x(), p.y() );
 }
 
-std::string overmapbuffer::player_filename( const point_abs_om &p )
+cata_path overmapbuffer::player_filename( const point_abs_om &p )
 {
-    return string_format( "%s.seen.%d.%d", PATH_INFO::player_base_save_path(), p.x(), p.y() );
+    return PATH_INFO::current_dimension_player_save_path() + string_format( ".seen.%d.%d", p.x(),
+            p.y() );
 }
 
 overmap &overmapbuffer::get( const point_abs_om &p )
@@ -87,6 +110,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
     // That constructor loads an existing overmap or creates a new one.
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
+    global_state.overmap_count++;
     new_om.populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
@@ -106,13 +130,14 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
         }
     }
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
+    global_state.overmap_count++;
     new_om.populate( specials );
 }
 
 void overmapbuffer::fix_mongroups( overmap &new_overmap )
 {
     for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
-        auto &mg = it->second;
+        mongroup &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
         if( mg.empty() ) {
@@ -120,15 +145,13 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         // Inside the bounds of the overmap?
-        if( mg.pos.x() >= 0 && mg.pos.y() >= 0 && mg.pos.x() < OMAPX * 2 &&
-            mg.pos.y() < OMAPY * 2 ) {
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
-        point_abs_sm smabs = project_combine( new_overmap.pos(), mg.pos.xy() );
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( smabs );
         if( !has( omp ) ) {
             // Don't generate new overmaps, as this can be called from the
             // overmap-generating code.
@@ -136,8 +159,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
     }
 }
@@ -149,25 +171,23 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
         mongroup &mg = it->second;
 
         //if it's not the nemesis, continue
-        if( mg.horde_behaviour != "nemesis" ) {
+        if( mg.behaviour != mongroup::horde_behaviour::nemesis ) {
             ++it;
             continue;
         }
 
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
         //if the nemesis's abs coordinates put it in this overmap, it belongs here
-        if( project_to<coords::om>( mg.abs_pos.xy() ) == new_overmap.pos() ) {
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
 
         //otherwise, place it in the overmap that corresponds to its abs_sm coords
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
-
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
         //there should only be one nemesis, so we can break after finding it
         break;
@@ -182,7 +202,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     decltype( overmap::npcs ) to_relocate;
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
         npc &np = **it;
-        const tripoint_abs_omt npc_omt_pos = np.global_omt_location();
+        const tripoint_abs_omt npc_omt_pos = np.pos_abs_omt();
         const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
         if( npc_om_pos == new_overmap.pos() ) {
             // NPC is still in the same overmap (common case), nothing to do
@@ -200,7 +220,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     // involve loading new overmaps).
     for( auto &ptr : to_relocate ) {
         npc &np = *ptr;
-        const tripoint_abs_omt npc_omt_pos = np.global_omt_location();
+        const tripoint_abs_omt npc_omt_pos = np.pos_abs_omt();
         const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
         const point_abs_om loc = new_overmap.pos();
         if( !has( npc_om_pos ) ) {
@@ -231,17 +251,45 @@ void overmapbuffer::save()
     }
 }
 
+void overmapbuffer::reset()
+{
+    overmaps.clear();
+    last_requested_overmap = nullptr;
+}
+
 void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
+    global_state.clear();
     last_requested_overmap = nullptr;
 }
 
-const regional_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
+void overmap_global_state::clear()
+{
+    placed_unique_specials.clear();
+    unique_special_count.clear();
+    highway_intersections.clear();
+    overmap_count = 0;
+    major_river_count = 0;
+}
+
+const region_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
 {
     overmap *om = get_om_global( p ).om;
     return om->get_settings();
+}
+
+const region_settings &overmapbuffer::get_default_settings( const point_abs_om &p )
+{
+    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
+    const region_settings_id region_settings_default( rsettings_id );
+
+    if( !region_settings_default.is_valid() ) {
+        debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
+                  rsettings_id.c_str() ); // gonna die now =[
+    }
+    return *region_settings_default;
 }
 
 void overmapbuffer::add_note( const tripoint_abs_omt &p, const std::string &message )
@@ -266,7 +314,7 @@ void overmapbuffer::mark_note_dangerous( const tripoint_abs_omt &p, int radius, 
     }
 }
 
-void overmapbuffer::add_extra( const tripoint_abs_omt &p, const string_id<map_extra> &id )
+void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id )
 {
     overmap_with_local_coords om_loc = get_om_global( p );
     om_loc.om->add_extra( om_loc.local, id );
@@ -294,7 +342,23 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    if( file_exist( terrain_filename( p ) ) ) {
+
+    cata_path path;
+
+    const std::string terfilename = overmapbuffer::terrain_filename( p );
+    const std::filesystem::path terfilename_path = std::filesystem::u8path( terfilename );
+
+    if( world_generator->active_world->has_compression_enabled() ) {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() / zzip_overmap_directory );
+        path = PATH_INFO::current_dimension_save_path() / zzip_overmap_directory / terfilename_path
+               +
+               zzip_suffix;
+    } else {
+        assure_dir_exist( PATH_INFO::current_dimension_save_path() );
+        path = PATH_INFO::current_dimension_save_path() / terfilename_path;
+    }
+
+    if( file_exist( path ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
@@ -386,6 +450,14 @@ const std::string &overmapbuffer::note( const tripoint_abs_omt &p )
     return empty_string;
 }
 
+int overmapbuffer::note_danger_radius( const tripoint_abs_omt &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->note_danger_radius( om_loc.local );
+    }
+    return -1;
+}
+
 bool overmapbuffer::has_extra( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
@@ -394,12 +466,12 @@ bool overmapbuffer::has_extra( const tripoint_abs_omt &p )
     return false;
 }
 
-const string_id<map_extra> &overmapbuffer::extra( const tripoint_abs_omt &p )
+const map_extra_id &overmapbuffer::extra( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->extra( om_loc.local );
     }
-    static const string_id<map_extra> id;
+    static const map_extra_id id;
     return id;
 }
 
@@ -417,9 +489,21 @@ void overmapbuffer::toggle_explored( const tripoint_abs_omt &p )
     om_loc.om->explored( om_loc.local ) = !om_loc.om->explored( om_loc.local );
 }
 
+bool overmapbuffer::distance_limit( const int distance, const tripoint_abs_omt &origin_pos,
+                                    const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) <= distance;
+}
+
+bool overmapbuffer::distance_limit_line( const int distance, const tripoint_abs_omt &origin_pos,
+        const tripoint_abs_omt &picked_pos )
+{
+    return rl_dist( origin_pos, picked_pos ) == distance;
+}
+
 bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 {
-    for( const auto &m : overmap_buffer.monsters_at( p ) ) {
+    for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
         if( m->horde ) {
             return true;
         }
@@ -428,21 +512,13 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
     return false;
 }
 
-int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
+int overmapbuffer::get_horde_size( const tripoint_abs_omt &p, int filter )
 {
     int horde_size = 0;
-    for( const auto &m : overmap_buffer.monsters_at( p ) ) {
-        if( m->horde ) {
-            if( !m->monsters.empty() ) {
-                horde_size += m->monsters.size();
-            } else {
-                // We don't know how large this will actually be, because
-                // population "1" can still result in a zombie pack.
-                // So we double the population as an estimate to make
-                // hordes more likely to be visible on the overmap.
-                horde_size += m->population * 2;
-            }
-        }
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes = overmap_buffer.hordes_at(
+                p, filter );
+    for( std::unordered_map<tripoint_abs_ms, horde_entity> *horde_group : hordes ) {
+        horde_size += horde_group->size();
     }
 
     return horde_size;
@@ -454,33 +530,19 @@ bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
         return false;
     }
 
-    const overmap_with_local_coords om_loc = get_existing_om_global( p );
-    if( !om_loc ) {
-        return false;
-    }
-
-    for( const auto &v : om_loc.om->camps ) {
-        if( v.camp_omt_pos().xy() == p.xy() ) {
-            return true;
-        }
-    }
-
-    return false;
+    const auto camp = find_camp( p.xy() );
+    return !!camp;
 }
 
 bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 {
-    if( p.z() ) {
-        return false;
-    }
-
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return false;
     }
 
     for( const auto &v : om_loc.om->vehicles ) {
-        if( v.second.p == om_loc.local.xy() ) {
+        if( v.second.p.xy() == om_loc.local.xy() ) {
             return true;
         }
     }
@@ -491,34 +553,130 @@ bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 std::vector<om_vehicle> overmapbuffer::get_vehicle( const tripoint_abs_omt &p )
 {
     std::vector<om_vehicle> result;
-    if( p.z() != 0 ) {
-        return result;
-    }
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return result;
     }
     for( const auto &ov : om_loc.om->vehicles ) {
-        if( ov.second.p == om_loc.local.xy() ) {
+        if( ov.second.p.xy() == om_loc.local.xy() ) {
             result.push_back( ov.second );
         }
     }
     return result;
 }
 
+std::string overmapbuffer::get_vehicle_ter_sym( const tripoint_abs_omt &omt )
+{
+    std::string ter_sym;
+    std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omt );
+    int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+    for( om_vehicle vehicle : vehicles ) {
+        int temp_distance = std::abs( vehicle.p.z() - omt.z() );
+        if( temp_distance < distance ) {
+            distance = temp_distance;
+            if( vehicle.p.z() == omt.z() ) {
+                return "c"; // Break to always show vehicles on current level first
+            } else if( vehicle.p.z() > omt.z() ) {
+                ter_sym = "^";
+            } else {
+                ter_sym = "v";
+            }
+        }
+    }
+
+    return ter_sym;
+}
+
+std::string overmapbuffer::get_vehicle_tile_id( const tripoint_abs_omt &omt )
+{
+    std::string tile_id;
+    std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omt );
+    int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+    for( om_vehicle vehicle : vehicles ) {
+        int temp_distance = std::abs( vehicle.p.z() - omt.z() );
+        if( temp_distance < distance ) {
+            distance = temp_distance;
+            if( vehicle.p.z() == omt.z() ) {
+                return "overmap_remembered_vehicle"; // Break to always show vehicles on current level first
+            } else if( vehicle.p.z() > omt.z() ) {
+                tile_id = "overmap_remembered_vehicle_above";
+            } else {
+                tile_id = "overmap_remembered_vehicle_below";
+            }
+        }
+    }
+
+    return tile_id;
+}
+
+bool overmapbuffer::passable( const tripoint_abs_ms &p )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return false;
+    }
+    return om->passable( offset );
+}
+
+std::shared_ptr<map_data_summary> overmapbuffer::get_omt_summary( const tripoint_abs_omt &p )
+{
+    point_abs_om loc;
+    tripoint_om_omt offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return {};
+    }
+    return om->get_omt_summary( offset );
+}
+
+void overmapbuffer::set_passable( const tripoint_abs_ms &p, bool new_passable )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( p );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return;
+    }
+    om->set_passable( offset, new_passable );
+}
+
+void overmapbuffer::set_passable( const tripoint_abs_omt &p,
+                                  const std::bitset<24 * 24> &new_passable )
+{
+    const tripoint_abs_om loc = project_to<coords::om>( p );
+    overmap *om = get_existing( loc.xy() );
+    if( om == nullptr ) {
+        return;
+    }
+    om->set_passable( p, new_passable );
+}
+
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
-    const int radius = sig_power;
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
-        const tripoint_rel_sm rel_pos = center - abs_pos_om;
-        // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
-        // for processing as the monster group stores is location as relative coordinates, too.
-        om->signal_hordes( rel_pos, sig_power );
+    for( overmap *&om : get_overmaps_near( center, sig_power ) ) {
+        om->signal_hordes( project_to<coords::ms>( center ), sig_power );
     }
 }
 
-void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
+void overmapbuffer:: alert_entity( const tripoint_abs_ms &location,
+                                   const tripoint_abs_ms &destination, int intensity )
+{
+    point_abs_om loc;
+    tripoint_om_ms offset;
+    std::tie( loc, offset ) = project_remain<coords::om>( location );
+    overmap *om = get_existing( loc );
+    if( om == nullptr ) {
+        return;
+    }
+    om->alert_entity( offset, destination, intensity );
+}
+
+void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p )
 {
 
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
@@ -537,12 +695,20 @@ void overmapbuffer::add_nemesis( const tripoint_abs_omt &p )
 
 }
 
+void overmapbuffer::clear_mongroups()
+{
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
+        omp.second->clear_mon_groups();
+        omp.second->hordes.clear();
+    }
+}
+
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
-    const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    const tripoint_abs_sm center = get_player_character().pos_abs_sm();
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
 }
@@ -551,8 +717,8 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
-    const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    const tripoint_abs_sm center = get_player_character().pos_abs_sm();
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
 }
@@ -581,7 +747,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
     // but monster groups are defined with submap coordinates.
     tripoint_abs_sm p_sm = project_to<coords::sm>( p );
     std::vector<mongroup *> result;
-    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point &offset : std::array<point, 4> { { { point::zero }, { point::south }, { point::east }, { point::south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -644,35 +810,30 @@ void overmapbuffer::set_scent( const tripoint_abs_omt &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
 {
-    const point_abs_ms new_msp = veh->global_square_location().xy();
+    const point_abs_ms new_msp = veh->pos_abs().xy();
     const point_abs_omt old_omt = project_to<coords::omt>( old_msp );
     const point_abs_omt new_omt = project_to<coords::omt>( new_msp );
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
     const overmap_with_local_coords new_om_loc = get_om_global( new_omt );
     if( old_om_loc.om == new_om_loc.om ) {
-        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local.xy();
+        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local;
     } else {
         old_om_loc.om->vehicles.erase( veh->om_id );
         add_vehicle( veh );
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp &camp )
+void overmapbuffer::remove_camp( const point_abs_omt &p )
 {
-    const point_abs_omt omt = camp.camp_omt_pos().xy();
-    const overmap_with_local_coords om_loc = get_om_global( omt );
-    std::vector<basecamp> &camps = om_loc.om->camps;
-    for( auto it = camps.begin(); it != camps.end(); ++it ) {
-        if( it->camp_omt_pos().xy() == omt ) {
-            camps.erase( it );
-            return;
-        }
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        om_loc.om->remove_camp( p );
     }
 }
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    const tripoint_abs_omt omt = veh->global_omt_location();
+    const tripoint_abs_omt omt = veh->pos_abs_omt();
     const overmap_with_local_coords om_loc = get_existing_om_global( omt );
     if( !om_loc.om ) {
         debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
@@ -683,7 +844,7 @@ void overmapbuffer::remove_vehicle( const vehicle *veh )
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    const tripoint_abs_omt omt = veh->global_omt_location();
+    const tripoint_abs_omt omt = veh->pos_abs_omt();
     const overmap_with_local_coords om_loc = get_existing_om_global( omt );
     if( !om_loc.om ) {
         debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
@@ -695,7 +856,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
         id++;
     }
     om_vehicle &tracked_veh = om_loc.om->vehicles[id];
-    tracked_veh.p = om_loc.local.xy();
+    tracked_veh.p = om_loc.local;
     tracked_veh.name = veh->name;
     veh->om_id = id;
 }
@@ -704,21 +865,29 @@ void overmapbuffer::add_camp( const basecamp &camp )
 {
     const point_abs_omt omt = camp.camp_omt_pos().xy();
     const overmap_with_local_coords om_loc = get_om_global( omt );
-    om_loc.om->camps.push_back( camp );
+    om_loc.om->add_camp( omt, camp );
 }
 
-bool overmapbuffer::seen( const tripoint_abs_omt &p )
+om_vision_level overmapbuffer::seen( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->seen( om_loc.local );
     }
-    return false;
+    return om_vision_level::unseen;
 }
 
-void overmapbuffer::set_seen( const tripoint_abs_omt &p, bool seen )
+void overmapbuffer::set_seen( const tripoint_abs_omt &p, om_vision_level seen )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
-    om_loc.om->seen( om_loc.local ) = seen;
+    om_loc.om->set_seen( om_loc.local, seen );
+}
+
+bool overmapbuffer::seen_more_than( const tripoint_abs_omt &p, om_vision_level test )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->seen( om_loc.local ) > test;
+    }
+    return false;
 }
 
 const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
@@ -740,13 +909,37 @@ const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
 void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
-    return om_loc.om->ter_set( om_loc.local, id );
+    om_loc.om->ter_set( om_loc.local, id );
 }
 
-cata::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
+std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->mapgen_args( om_loc.local );
+}
+
+std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p.first );
+    return om_loc.om->join_used_at( { om_loc.local, p.second } );
+}
+
+std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->predecessors( om_loc.local );
+}
+
+int overmapbuffer::highest_omt_point( tripoint_abs_omt loc )
+{
+    for( int i = OVERMAP_HEIGHT; i >= OVERMAP_DEPTH * -1; i-- ) {
+        loc.z() = i;
+        if( !ter( loc )->can_see_down_through() ) {
+            return i;
+        }
+    }
+
+    return 0;
 }
 
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
@@ -769,7 +962,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
             const tripoint_abs_omt p = center + point( i, j );
-            if( seen( p ) ) {
+            if( seen( p ) == om_vision_level::full ) {
                 continue;
             }
             if( trigdist && i * i + j * j > radius_squared ) {
@@ -779,7 +972,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
                 continue;
             }
             result = true;
-            set_seen( p, true );
+            set_seen( p, om_vision_level::full );
         }
     }
     return result;
@@ -788,15 +981,21 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
-    ret.road_cost = 10;
-    ret.dirt_road_cost = 10;
-    ret.field_cost = 15;
-    ret.trail_cost = 18;
-    ret.shore_cost = 20;
-    ret.small_building_cost = 20;
-    ret.forest_cost = 30;
-    ret.swamp_cost = 100;
-    ret.other_cost = 30;
+    // 24 tiles = 24 seconds walking
+    ret.set_cost( oter_travel_cost_type::highway, 24 );
+    ret.set_cost( oter_travel_cost_type::road, 24 );
+    ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
+    ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::trail, 43 );
+    ret.set_cost( oter_travel_cost_type::shore, 48 );
+    ret.set_cost( oter_travel_cost_type::forest, 72 );
+    ret.set_cost( oter_travel_cost_type::swamp, 240 );
+    ret.set_cost( oter_travel_cost_type::other, 72 );
+    ret.set_cost( oter_travel_cost_type::structure, 60 );
+    ret.set_cost( oter_travel_cost_type::roof, 36 );
+    ret.set_cost( oter_travel_cost_type::basement, 60 );
+    ret.set_cost( oter_travel_cost_type::tunnel, 30 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -813,111 +1012,82 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
-    ret.road_cost = 10;
-    ret.field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
-    ret.dirt_road_cost = ret.field_cost;
-    ret.forest_cost = -1;
-    ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
-    ret.swamp_cost = -1;
-    ret.trail_cost = ( can_offroad && tiny ) ? ret.field_cost + 10 : -1;
+    ret.set_cost( oter_travel_cost_type::highway, 3 );
+    ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
+    const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.set_cost( oter_travel_cost_type::field, field_cost );
+    ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
+    ret.set_cost( oter_travel_cost_type::trail,
+                  ( can_offroad && tiny ) ? field_cost + 8 : -1 );
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();
-        ret.water_cost = boat_params.water_cost;
-        ret.shore_cost = boat_params.shore_cost;
+        ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
+        ret.set_cost( oter_travel_cost_type::shore, boat_params.get_cost( oter_travel_cost_type::shore ) );
     }
+    ret.allow_diagonal = false;
     return ret;
 }
 
 overmap_path_params overmap_path_params::for_watercraft()
 {
     overmap_path_params ret;
-    ret.water_cost = 10;
-    ret.shore_cost = 20;
+    ret.set_cost( oter_travel_cost_type::water, 8 ); // limited by vehicle autodrive speed
+    ret.set_cost( oter_travel_cost_type::shore, 16 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
 overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
-    ret.air_cost = 10;
+    ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
+    ret.allow_diagonal = false;
     return ret;
 }
 
 static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path_params &params )
 {
-    if( params.only_known_by_player && !overmap_buffer.seen( omt_pos ) ) {
+    if( params.only_known_by_player &&
+        !overmap_buffer.seen_more_than( omt_pos, om_vision_level::vague ) ) {
         return -1;
     }
     if( params.avoid_danger && overmap_buffer.is_marked_dangerous( omt_pos ) ) {
         return -1;
     }
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
-    if( is_ot_match( "road", oter, ot_match_type::type ) ||
-        is_ot_match( "bridge_road", oter, ot_match_type::type ) ||
-        is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
-        is_ot_match( "bridgehead_ramp", oter, ot_match_type::type ) ||
-        is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
-        return params.road_cost;
-    } else if( is_ot_match( "field", oter, ot_match_type::type ) ) {
-        return params.field_cost;
-    } else if( is_ot_match( "rural_road", oter, ot_match_type::prefix ) ||
-               is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ||
-               is_ot_match( "subway", oter, ot_match_type::type ) ||
-               is_ot_match( "lab_subway", oter, ot_match_type::type ) ) {
-        return params.dirt_road_cost;
-    } else if( is_ot_match( "forest_trail", oter, ot_match_type::type ) ) {
-        return params.trail_cost;
-    } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
-        return params.swamp_cost;
-    } else if( is_ot_match( "river", oter, ot_match_type::prefix ) ||
-               is_ot_match( "lake", oter, ot_match_type::prefix ) ) {
-        if( is_ot_match( "river_center", oter, ot_match_type::type ) ||
-            is_ot_match( "lake_surface", oter, ot_match_type::type ) ) {
-            return params.water_cost;
-        } else {
-            return params.shore_cost;
-        }
-    } else if( is_ot_match( "bridge", oter, ot_match_type::type ) ) {
-        return params.water_cost;
-    } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
-        return params.air_cost;
-    } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
-        return params.forest_cost;
-    } else if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-               is_ot_match( "deep_rock", oter, ot_match_type::type ) ||
-               is_ot_match( "solid_earth", oter, ot_match_type::type ) ||
-               is_ot_match( "microlab_rock_border", oter, ot_match_type::type ) ) {
-        return -1;
-    } else {
-        return params.other_cost;
-    }
+    return params.get_cost( oter->get_travel_cost_type() );
 }
 
 static bool is_ramp( const tripoint_abs_omt &omt_pos )
 {
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
-    return is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
-           is_ot_match( "bridgehead_ramp", oter, ot_match_type::type );
+    return ( oter->get_type_id() == oter_type_bridgehead_ground ) ||
+           ( oter->get_type_id() == oter_type_bridgehead_ramp );
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
-    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params )
+pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
+    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
-    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( src.is_invalid() || dest.is_invalid() ) {
         return {};
     }
 
     const pf::omt_scoring_fn estimate = [&]( tripoint_abs_omt pos ) {
-        const int cur_cost = pos == src ? 0 : get_terrain_cost( pos, params );
+        int cur_cost = get_terrain_cost( pos, params );
         if( cur_cost < 0 ) {
-            return pf::omt_score::rejected;
+            if( pos == src ) {
+                cur_cost = 0;
+            } else {
+                return pf::omt_score::rejected;
+            }
         }
         return pf::omt_score( cur_cost, is_ramp( pos ) );
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate );
-    return path.points;
+    const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
+    return path;
 }
 
 bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
@@ -927,7 +1097,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     static const point_rel_omt O( RADIUS * OMAPX,
                                   RADIUS * OMAPY );   // half-height of the area to search in
 
-    if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( source.is_invalid() || dest.is_invalid() ) {
         return false;
     }
 
@@ -950,7 +1120,8 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     }
 
     const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+        [&]( pf::directed_node<point_rel_omt> cur,
+    const std::optional<pf::directed_node<point_rel_omt>> & ) {
         int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
         if( !connection->has( oter ) ) {
@@ -996,11 +1167,18 @@ bool overmapbuffer::check_overmap_special_type_existing(
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
 }
 
-cata::optional<overmap_special_id> overmapbuffer::overmap_special_at(
+std::optional<overmap_special_id> overmapbuffer::overmap_special_at(
     const tripoint_abs_omt &loc )
 {
     const overmap_with_local_coords om_loc = get_om_global( loc );
     return om_loc.om->overmap_special_at( om_loc.local );
+}
+
+std::optional<mapgen_arguments> overmapbuffer::get_existing_omt_stack_arguments(
+    const point_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->get_existing_omt_stack_arguments( p );
 }
 
 bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,
@@ -1017,10 +1195,28 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
 }
 
+void overmapbuffer::add_unique_special( const overmap_special_id &id )
+{
+    if( contains_unique_special( id ) ) {
+        debugmsg( "Globally unique overmap special placed more than once: %s", id.str() );
+    }
+    global_state.placed_unique_specials.emplace( id );
+}
+
+void overmapbuffer::log_unique_special( const overmap_special_id &id )
+{
+    global_state.unique_special_count[id]++;
+}
+
+bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
+{
+    return global_state.placed_unique_specials.find( id ) != global_state.placed_unique_specials.end();
+}
+
 static omt_find_params assign_params(
     const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     std::vector<std::pair<std::string, ot_match_type>> temp_types;
@@ -1059,10 +1255,10 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         return false;
     }
 
-    if( params.must_see && !seen( location ) ) {
+    if( params.must_see && seen( location ) == om_vision_level::unseen ) {
         return false;
     }
-    if( params.cant_see && seen( location ) ) {
+    if( params.cant_see && seen( location ) != om_vision_level::unseen ) {
         return false;
     }
 
@@ -1084,7 +1280,7 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
 tripoint_abs_omt overmapbuffer::find_closest(
     const tripoint_abs_omt &origin, const std::string &type, int const radius, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, radius, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1115,34 +1311,120 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     // range.  The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
     const int min_dist = params.min_distance;
-    const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
+    const int max_dist = params.search_range ? params.search_range : default_search_range;
 
     std::vector<tripoint_abs_omt> result;
-    cata::optional<int> found_dist;
+    int found_dist = std::numeric_limits<int>::max();
 
-    for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
-        const int dist_xy = square_dist( origin.xy(), loc_xy );
+    // If we're looking for an existing special we can make use of the OM's map of points with specials rather
+    // than searching the whole OM.
+    if( params.om_special.has_value() ) {
+        const int om_range = max_dist / OMAPX + 1; // +1 because we may be close to OM borders.
+        const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+        const overmap_special_id special_id = params.om_special.value();
 
-        if( found_dist && *found_dist < dist_xy ) {
-            break;
-        }
+        for( int i = 0; i <= om_range; i++ ) {
+            for( const point_abs_om &om : closest_points_first( center.xy(), i, i ) ) {
+                if( has( om ) ) {
+                    overmap &om_data = get( om );
+                    point_abs_omt om_base = coords::project_to<coords::omt>( om );
 
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            const tripoint_abs_omt loc( loc_xy, z );
-            const int dist = square_dist( origin, loc );
+                    for( auto &element : om_data.overmap_special_placements ) {
+                        if( element.second == special_id ) {
+                            const tripoint_abs_omt loc = om_base + element.first.raw();
+                            if( is_findable_location( loc, params ) ) {
+                                const int dist_xy = square_dist( origin.xy(), loc.xy() );
 
-            if( found_dist && *found_dist < dist ) {
-                continue;
+                                if( dist_xy >= min_dist && dist_xy < max_dist ) {
+                                    result.push_back( loc );
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            if( is_findable_location( loc, params ) ) {
-                found_dist = dist;
-                result.push_back( loc );
+            if( !result.empty() ) {
+                tripoint_abs_omt result_pos = result.front();
+                int found_dist = square_dist( origin.xy(), result_pos.xy() );
+
+                for( const tripoint_abs_omt &loc : result ) {
+                    const int dist_xy = square_dist( origin.xy(), loc.xy() );
+
+                    if( dist_xy < found_dist ) {
+                        result_pos = loc;
+                        found_dist = dist_xy;
+                    }
+                }
+
+                // Note that this logic is less fancy than the non special one below. Here we just
+                // return the first position with the shortest distance found in the unsorted map,
+                // rather than collecting all positions with an equal distance and randomly select
+                // one. The assumption is that an unsorted map provides the random element, while
+                // the logic below removes the search order bias that would occur otherwise.
+                return result_pos;
+            }
+        }
+
+        return tripoint_abs_omt::invalid;
+    } else {
+
+        for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
+            const int dist_xy = square_dist( origin.xy(), loc_xy );
+
+            if( found_dist < dist_xy ) {
+                break;
+            }
+
+            for( int z = params.min_z; z <= params.max_z; z++ ) {
+                const tripoint_abs_omt loc( loc_xy, z );
+                const int dist = square_dist( origin, loc );
+
+                if( found_dist < dist ) {
+                    continue;
+                }
+
+                if( is_findable_location( loc, params ) ) {
+                    found_dist = dist;
+                    result.push_back( loc );
+                }
+            }
+        }
+
+        return random_entry( result, tripoint_abs_omt::invalid );
+    }
+}
+
+tripoint_abs_omt overmapbuffer::find_existing_globally_unique( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
+    // Should only be called if the target is present in the set of placed globally unique specials.
+
+    //TODO: Update the globally unique set to contain positions and add code here
+    // to return that position and only fall through to the search code below if the position is
+    // invalid (because the entry is converted from an earlier version where the position wasn't
+    // recorded).
+    const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+
+    // Very long range which will take forever if filled. Max is an arbitrary number.
+    const overmap_special_id special_id = params.om_special.value();
+    for( point_abs_om om : closest_points_first( center.xy(), 0, 100 ) ) {
+        if( has( om ) ) {
+            overmap &om_data = get( om );
+            point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+            for( auto &element : om_data.overmap_special_placements ) {
+                if( element.second == special_id ) {
+                    const tripoint_abs_omt loc = om_base + element.first.raw();
+                    if( is_findable_location( loc, params ) ) {
+                        return loc;
+                    }
+                }
             }
         }
     }
 
-    return random_entry( result, overmap::invalid_tripoint );
+    return tripoint_abs_omt::invalid;
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
@@ -1153,9 +1435,38 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
     const int min_dist = params.min_distance;
     const int max_dist = params.search_range ? params.search_range : OMAPX;
 
-    for( const tripoint_abs_omt &loc : closest_points_first( origin, min_dist, max_dist ) ) {
-        if( is_findable_location( loc, params ) ) {
-            result.push_back( loc );
+    // If we're looking for an existing special we can make use of the OM's map of points with specials rather
+    // than searching the whole OM.
+    if( params.om_special.has_value() ) {
+        const int om_min_range = min_dist / OMAPX;
+        const int om_max_range = max_dist / OMAPX + 1; // +1 because we may be close to OM borders.
+        const tripoint_abs_om center = coords::project_to<coords::om>( origin );
+        const overmap_special_id special_id = params.om_special.value();
+
+        for( const point_abs_om &om : closest_points_first( center.xy(), om_min_range, om_max_range ) ) {
+            if( has( om ) ) {
+                overmap &om_data = get( om );
+                point_abs_omt om_base = coords::project_to<coords::omt>( om );
+
+                for( auto &element : om_data.overmap_special_placements ) {
+                    if( element.second == special_id ) {
+                        const tripoint_abs_omt loc = om_base + element.first.raw();
+                        if( is_findable_location( loc, params ) ) {
+                            const int dist_xy = square_dist( origin.xy(), loc.xy() );
+
+                            if( dist_xy >= min_dist && dist_xy < max_dist ) {
+                                result.push_back( loc );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        for( const tripoint_abs_omt &loc : closest_points_first( origin, min_dist, max_dist ) ) {
+            if( is_findable_location( loc, params ) ) {
+                result.push_back( loc );
+            }
         }
     }
 
@@ -1165,7 +1476,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 std::vector<tripoint_abs_omt> overmapbuffer::find_all(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1175,13 +1486,13 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all(
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
-    return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
+    return random_entry( find_all( origin, params ), tripoint_abs_omt::invalid );
 }
 
 tripoint_abs_omt overmapbuffer::find_random(
     const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
     ot_match_type match_type, bool existing_overmaps_only,
-    const cata::optional<overmap_special_id> &om_special )
+    const std::optional<overmap_special_id> &om_special )
 {
     const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
                                    existing_overmaps_only, om_special );
@@ -1198,25 +1509,64 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
+void overmapbuffer::populate_followers_vec( std::vector<npc *> &followers,
+        bool only_following, bool ignore_hallu ) const
+{
+    followers.clear();
+    for( const character_id &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ||
+            ( only_following && !npc_to_get->is_following() ) ||
+            ( ignore_hallu && npc_to_get->is_hallucination() ) ) {
+            continue;
+        }
+        npc *npc_to_add = npc_to_get.get();
+        followers.push_back( npc_to_add );
+    }
+}
+
+void overmapbuffer::foreach_npc( const std::function<void( npc & )> &callback )
+{
+    for( auto &it : overmaps ) {
+        for( auto &guy : it.second->npcs ) {
+            callback( *guy );
+        }
+    }
+}
+
+shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &unique_id )
+{
+    point_abs_om loc = g->get_unique_npc_location( unique_id );
+    return get( loc ).find_npc_by_unique_id( unique_id );
+}
+
+std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 {
     for( auto &it : overmaps ) {
         const point_abs_omt p2( p );
         for( int x2 = p2.x() - 3; x2 < p2.x() + 3; x2++ ) {
             for( int y2 = p2.y() - 3; y2 < p2.y() + 3; y2++ ) {
-                if( cata::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
+                if( std::optional<basecamp *> camp = it.second->find_camp( point_abs_omt( x2, y2 ) ) ) {
                     return camp;
                 }
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
+}
+
+void overmapbuffer::clear_camps( const point_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !!om_loc.om ) {
+        om_loc.om->clear_camps();
+    }
 }
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
     cata_assert( who );
-    const tripoint_abs_omt npc_omt_pos = who->global_omt_location();
+    const tripoint_abs_omt npc_omt_pos = who->pos_abs_omt();
     const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
     get( npc_om_pos ).insert_npc( who );
 }
@@ -1224,7 +1574,7 @@ void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->erase_npc( id ) ) {
+        if( auto p = it.second->erase_npc( id ) ) {
             return p;
         }
     }
@@ -1234,10 +1584,7 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    const tripoint_abs_sm plpos = get_player_character().global_sm_location();
-    // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
-    const int zpos = get_map().has_zlevels() ? INT_MIN : plpos.z();
-    return get_npcs_near( tripoint_abs_sm( plpos.xy(), zpos ), radius );
+    return get_npcs_near( get_player_character().pos_abs_sm(), radius );
 }
 
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &location,
@@ -1246,7 +1593,8 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     return get_overmaps_near( location.xy(), radius );
 }
 
-std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p, const int radius )
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p,
+        const int radius )
 {
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
@@ -1287,18 +1635,14 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs( int
     return available;
 }
 
-// If z == INT_MIN, allow all z-levels
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_abs_sm &p,
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( p.xy(), radius ) ) {
+    for( overmap *&it : get_overmaps_near( p.xy(), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
-            const tripoint_abs_sm pos = guy.global_sm_location();
-            if( p.z() != INT_MIN && pos.z() != p.z() ) {
-                return false;
-            }
+            const tripoint_abs_sm pos = guy.pos_abs_sm();
             return square_dist( p.xy(), pos.xy() ) <= radius;
         } );
         result.insert( result.end(), temp.begin(), temp.end() );
@@ -1306,18 +1650,14 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_a
     return result;
 }
 
-// If z == INT_MIN, allow all z-levels
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_omt( const tripoint_abs_omt &p,
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( project_to<coords::sm>( p.xy() ), radius ) ) {
+    for( overmap *&it : get_overmaps_near( project_to<coords::sm>( p.xy() ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
-            tripoint_abs_omt pos = guy.global_omt_location();
-            if( p.z() != INT_MIN && pos.z() != p.z() ) {
-                return false;
-            }
+            tripoint_abs_omt pos = guy.pos_abs_omt();
             return square_dist( p.xy(), pos.xy() ) <= radius;
         } );
         result.insert( result.end(), temp.begin(), temp.end() );
@@ -1336,9 +1676,9 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
-        for( auto &tower : om->radios ) {
+    const tripoint_abs_sm center = get_player_character().pos_abs_sm();
+    for( overmap *&om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
+        for( radio_tower &tower : om->radios ) {
             const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 && tower.frequency == frequency ) {
                 return rref;
@@ -1351,12 +1691,12 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    const tripoint_abs_sm center = get_player_character().global_sm_location();
+    const tripoint_abs_sm center = get_player_character().pos_abs_sm();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        for( auto &tower : om->radios ) {
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
+        for( radio_tower &tower : om->radios ) {
             const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 ) {
                 result.push_back( rref );
@@ -1371,15 +1711,15 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
 {
     std::vector<camp_reference> result;
     for( overmap *om : get_overmaps_near( location, radius ) ) {
-        result.reserve( result.size() + om->camps.size() );
-        std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
-        [&]( basecamp & element ) {
-            const tripoint_abs_omt camp_pt = element.camp_omt_pos();
+        for( const std::pair<const point_abs_omt, basecamp> &camp : om->get_camps() ) {
+            const tripoint_abs_omt camp_pt = camp.second.camp_omt_pos();
             const tripoint_abs_sm camp_sm = project_to<coords::sm>( camp_pt );
             const int distance = rl_dist( camp_sm, location );
-
-            return camp_reference{ &element, camp_sm, distance };
-        } );
+            if( distance <= radius ) {
+                //This is very ugly but camp.second is const and camps should be private and the overmap can't pass back a camp_reference as it would be a circular include
+                result.push_back( camp_reference{ om->find_camp( camp_pt.xy() ).value(), camp_sm, distance } );
+            }
+        }
     }
     std::sort( result.begin(), result.end(), []( const camp_reference & lhs,
     const camp_reference & rhs ) {
@@ -1410,7 +1750,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {
             const auto rel_pos_city = project_to<coords::sm>( element.pos );
-            const auto abs_pos_city =
+            const tripoint_abs_sm abs_pos_city =
                 tripoint_abs_sm( project_combine( om->pos(), rel_pos_city ), 0 );
             const int distance = rl_dist( abs_pos_city, location );
 
@@ -1443,7 +1783,7 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     const auto it = std::find_if( cities.begin(), cities.end(),
     [this]( const city_reference & elem ) {
         const tripoint_abs_omt p = project_to<coords::omt>( elem.abs_sm_pos );
-        return seen( p );
+        return seen_more_than( p, om_vision_level::outlines );
     } );
 
     if( it != cities.end() ) {
@@ -1453,11 +1793,147 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     return city_reference::invalid;
 }
 
-std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
+void overmap_feature_grid::clear()
 {
-    const auto oter = ter( project_to<coords::omt>( where ) );
-    const nc_color ter_color = oter->get_color();
-    const std::string ter_name = colorize( oter->get_name(), ter_color );
+    grid_origin = point_abs_om::invalid;
+    feature_grid.clear();
+}
+
+void overmap_feature_grid::set_grid_origin( const point_abs_om &p )
+{
+    grid_origin = p;
+}
+
+point_abs_om overmap_feature_grid::get_grid_origin() const
+{
+    return grid_origin;
+}
+
+std::vector<overmap_feature_grid_node>
+overmap_feature_grid::find_grid_adjacent_features( const point_abs_om &generated_om_pos )
+{
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
+
+    //generate adjacent intersection points
+    std::vector<overmap_feature_grid_node> adjacent_features;
+    for( const point &cardinal : four_adjacent_offsets ) {
+        const point_abs_om p( generated_om_pos.x() + cardinal.x * c_separation,
+                              generated_om_pos.y() + cardinal.y * r_separation );
+        if( !feature_point_exists( p ) ) {
+            generate_feature_point( p );
+        }
+        adjacent_features.emplace_back( get_feature_point( p ) );
+    }
+
+    //store adjacencies in calling intersection point
+    overmap_feature_grid_node this_feature = get_feature_point( generated_om_pos );
+    const int adjacencies = four_adjacent_offsets.size();
+    for( int i = 0; i < adjacencies; i++ ) {
+        if( this_feature.get_adjacent_pos( i ).is_invalid() ) {
+            this_feature.set_adjacent_pos( adjacent_features[i].get_grid_pos(), i );
+        }
+    }
+    set_feature_point( generated_om_pos, this_feature );
+
+    return adjacent_features;
+}
+
+void overmap_feature_grid::serialize( JsonOut &out ) const
+{
+    out.start_object();
+    out.member( "overmap_highway_offset", grid_origin );
+    out.member( "overmap_highway_intersections", feature_grid );
+    out.end_object();
+}
+void overmap_feature_grid::deserialize( const JsonObject &obj )
+{
+    obj.read( "overmap_highway_offset", grid_origin );
+    obj.read( "overmap_highway_intersections", feature_grid );
+}
+
+int overmapbuffer::get_unique_special_count( const overmap_special_id &id )
+{
+    return global_state.unique_special_count[id];
+}
+
+int overmapbuffer::get_overmap_count() const
+{
+    return global_state.overmap_count;
+}
+
+int overmapbuffer::get_major_river_count() const
+{
+    return global_state.major_river_count;
+}
+
+void overmapbuffer::inc_major_river_count()
+{
+    global_state.major_river_count++;
+}
+
+bool overmap_feature_grid::feature_point_exists( const point_abs_om &intersection_om ) const
+{
+    return feature_grid.find( intersection_om.to_string_writable() ) !=
+           feature_grid.end();
+}
+
+void overmap_feature_grid::generate_feature_point( const point_abs_om &generated_om_pos )
+{
+    if( !feature_point_exists( generated_om_pos ) ) {
+        overmap_feature_grid_node new_intersection( generated_om_pos );
+        generate_offset( new_intersection );
+        add_msg_debug( debugmode::DF_HIGHWAY, "Generated intersection at overmap %s.",
+                       new_intersection.get_offset_pos().to_string_writable() );
+        feature_grid.insert( { generated_om_pos.to_string_writable(), new_intersection } );
+    }
+}
+
+std::vector<point_abs_om> overmap_feature_grid::find_feature_point_bounds( const point_abs_om
+        & generated_om_pos )
+{
+    const int c_separation = column_separation;
+    const int r_separation = row_separation;
+
+    const point_abs_om center = grid_origin;
+    const point_rel_om diff = generated_om_pos - center;
+
+    const double col_diff = diff.x() / static_cast<double>( c_separation );
+    const double row_diff = diff.y() / static_cast<double>( r_separation );
+    const int colsign = std::copysign( 1.0, col_diff );
+    const int rowsign = std::copysign( 1.0, row_diff );
+    const bool col_aligned = diff.x() % c_separation == 0;
+    const bool row_aligned = diff.y() % r_separation == 0;
+    const int col = static_cast<int>( col_diff ) + ( colsign == -1 && !col_aligned ? -1 : 0 );
+    const int row = static_cast<int>( row_diff ) + ( rowsign == -1 && !row_aligned ? -1 : 0 );
+
+    point_abs_om top_left( center.x() + col * c_separation, center.y() + row * r_separation );
+    std::vector<point_abs_om> bounds = { top_left + point_rel_om( c_separation, r_separation ),
+                                         top_left + point_rel_om( 0, r_separation ),
+                                         top_left + point_rel_om( c_separation, 0 ),
+                                         top_left
+                                       };
+    for( const point_abs_om &p : bounds ) {
+        if( !feature_point_exists( p ) ) {
+            generate_feature_point( p );
+        }
+    }
+    return bounds;
+}
+
+
+std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where, bool draw_origin )
+{
+    const oter_id oter = ter( project_to<coords::omt>( where ) );
+    om_vision_level vision = seen( project_to<coords::omt>( where ) );
+    nc_color ter_color = oter->get_color( vision );
+    std::string ter_name = colorize( oter->get_name( vision ), ter_color );
+    if( oter->blends_adjacent( vision ) ) {
+        oter_vision::blended_omt blended = oter_vision::get_blended_omt_info(
+                                               project_to<coords::omt>( where ), vision );
+        ter_color = blended.color;
+        ter_name = colorize( blended.name, ter_color );
+    }
 
     if( where.z() != 0 ) {
         return ter_name;
@@ -1466,10 +1942,14 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name;
+        if( draw_origin ) {
+            return ter_name + "\n" + get_origin( oter->get_type_id()->src );
+        } else {
+            return ter_name;
+        }
     }
 
-    const auto &closest_city = *closest_cref.city;
+    const struct city &closest_city = *closest_cref.city;
     const std::string closest_city_name = colorize( closest_city.name, c_yellow );
     const direction dir = direction_from( closest_cref.abs_sm_pos, where );
     const std::string dir_name = colorize( direction_name( dir ), c_light_gray );
@@ -1504,63 +1984,195 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         }
     }
 
+    if( draw_origin ) {
+        format_string += "\n" + get_origin( oter->get_type_id()->src );
+    }
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
 
-void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
+void overmapbuffer::display_description_at( const tripoint_abs_sm &where, bool draw_origin )
 {
-    // Create a copy, so we can reuse x and y later
-    point_abs_sm abs_sm = p.xy();
-    point_om_sm sm;
+    const oter_id oter = ter( project_to<coords::omt>( where ) );
+    om_vision_level vision = seen( project_to<coords::omt>( where ) );
+    nc_color ter_color = oter->get_color( vision );
+    std::string ter_name = colorize( oter->get_name( vision ), ter_color );
+
+    auto draw_origin_line = [&draw_origin, &oter]() {
+        if( draw_origin ) {
+            ImGui::NewLine();
+            cataimgui::TextColoredParagraph( c_light_gray, get_origin( oter->get_type_id()->src ) );
+            ImGui::NewLine();
+        }
+    };
+
+    if( oter->blends_adjacent( vision ) ) {
+        oter_vision::blended_omt blended = oter_vision::get_blended_omt_info(
+                                               project_to<coords::omt>( where ), vision );
+        ter_color = blended.color;
+        ter_name = colorize( blended.name, ter_color );
+    }
+
+    if( where.z() != 0 ) {
+        cataimgui::TextColoredParagraph( ter_color, ter_name );
+        return;
+    }
+
+    const city_reference closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
+        cataimgui::TextColoredParagraph( ter_color, ter_name );
+        draw_origin_line();
+        return;
+    }
+
+    const struct city &closest_city = *closest_cref.city;
+    const std::string closest_city_name = colorize( closest_city.name, c_yellow );
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = colorize( direction_name( dir ), c_light_gray );
+
+    const int sm_size = omt_to_sm_copy( closest_cref.city->size );
+    const int sm_dist = closest_cref.distance;
+
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    std::string format_string = pgettext( "terrain description", "%1$s %2$s from %3$s" );
+    if( sm_dist <= 3 * sm_size / 4 ) {
+        if( sm_size >= 16 ) {
+            // The city is big enough to be split in districts.
+            if( sm_dist <= sm_size / 4 ) {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                format_string = pgettext( "terrain description", "%1$s in central %3$s" );
+            } else {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                format_string = pgettext( "terrain description", "%1$s in %2$s %3$s" );
+            }
+        } else {
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
+        }
+    } else if( sm_dist <= sm_size ) {
+        if( sm_size >= 8 ) {
+            // The city is big enough to have outskirts.
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s on the %2$s outskirts of %3$s" );
+        } else {
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
+        }
+    }
+
+    cataimgui::TextColoredParagraph( ter_color, string_format( format_string, ter_name, dir_name,
+                                     closest_city_name ) );
+    draw_origin_line();
+}
+
+void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal )
+{
     point_abs_om omp;
-    std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
+    tripoint_om_sm current_submap_loc;
+    std::tie( omp, current_submap_loc ) = project_remain<coords::om>( p );
     overmap &om = get( omp );
-    const tripoint_om_sm current_submap_loc( sm, p.z() );
-    auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
-    std::for_each( monster_bucket.first, monster_bucket.second,
-    [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-        monster &this_monster = monster_entry.second;
-        // The absolute position in map squares, (x,y) is already global, but it's a
-        // submap coordinate, so translate it and add the exact monster position on
-        // the submap. modulo because the zombies position might be negative, as it
-        // is stored *after* it has gone out of bounds during shifting. When reloading
-        // we only need the part that tells where on the submap to put it.
-        point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
-        cata_assert( ms.x >= 0 && ms.x < SEEX );
-        cata_assert( ms.y >= 0 && ms.y < SEEX );
-        // TODO: fix point types
-        ms += project_to<coords::ms>( p.xy() ).raw();
-        const map &here = get_map();
-        // The monster position must be local to the main map when added to the game
-        const tripoint local = tripoint( here.getlocal( ms ), p.z() );
-        cata_assert( here.inbounds( local ) );
-        monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
-                                local, 0, true );
+    std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> monster_bucket =
+        om.hordes.entity_group_at( current_submap_loc );
+    if( monster_bucket.empty() ) {
+        return;
+    }
+    map &here = get_map();
+
+    struct queued_node {
+        tripoint_abs_ms pos;
+        horde_map::node_type node;
+    };
+    std::vector<queued_node> to_spawn;
+    for( std::unordered_map<tripoint_abs_ms, horde_entity> *monster_tree : monster_bucket ) {
+        for( auto it = monster_tree->begin(); it != monster_tree->end(); ) {
+            auto cur = it++;
+            tripoint_abs_ms pos = cur->first;
+            to_spawn.push_back( queued_node{ pos, monster_tree->extract( cur ) } );
+        }
+    }
+    om.hordes.clear_chunk( current_submap_loc );
+
+    // Deterministic order, preserving bucket sequence as tie-break.
+    std::stable_sort( to_spawn.begin(), to_spawn.end(),
+    []( const queued_node & a, const queued_node & b ) {
+        return a.pos < b.pos;
+    } );
+
+    for( queued_node &entry : to_spawn ) {
+        const tripoint_bub_ms local = here.get_bub( entry.pos );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
+        monster *placed = nullptr;
+        if( entry.node.mapped().monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>(
+                                                  *entry.node.mapped().monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( entry.node.mapped().type_id->id, local, 1 );
+        }
         if( placed ) {
             placed->on_load();
+        } else {
+            om.hordes.insert( std::move( entry.node ) );
         }
-    } );
-    om.monster_map.erase( current_submap_loc );
+    }
+}
+
+void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )
+{
+    point_abs_om omp;
+    tripoint_om_sm submap_loc;
+    std::tie( omp, submap_loc ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    om.spawn_mongroup( submap_loc, type, count );
 }
 
 void overmapbuffer::despawn_monster( const monster &critter )
 {
-    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
-    point_abs_om omp;
-    tripoint_om_sm sm;
-    std::tie( omp, sm ) = project_remain<coords::om>( critter.global_sm_location() );
-    overmap &om = get( omp );
+    tripoint_abs_om omp = project_to<coords::om>( critter.pos_abs() );
+    overmap &om = get( omp.xy() );
     // Store the monster using coordinates local to the overmap
 
     if( critter.is_nemesis() ) {
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
-        om.place_nemesis( critter.global_omt_location() );
+        om.place_nemesis( critter.pos_abs_omt() );
     } else {
-        om.monster_map.insert( std::make_pair( sm, critter ) );
+        om.hordes.spawn_entity( critter.pos_abs(), critter );
     }
 }
 
-overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string *pattern )
+horde_entity *overmapbuffer::entity_at( const tripoint_abs_ms &p )
+{
+    point_abs_om omp;
+    tripoint_om_ms oms;
+    std::tie( omp, oms ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    return om.entity_at( oms );
+}
+
+std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> overmapbuffer::hordes_at(
+    const tripoint_abs_omt &p, int filter )
+{
+    point_abs_om omp;
+    tripoint_om_omt omt;
+    std::tie( omp, omt ) = project_remain<coords::om>( p );
+    overmap &om = get( omp );
+    return om.hordes_at( omt, filter );
+}
+
+horde_entity &overmapbuffer::spawn_monster( const tripoint_abs_ms &p, mtype_id id )
+{
+    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
+    point_abs_om omp;
+    tripoint_om_sm sm;
+    std::tie( omp, sm ) = project_remain<coords::om>( project_to<coords::sm>( p ) );
+    overmap &om = get( omp );
+    return om.spawn_monster( p, id );
+}
+
+overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, std::string_view pattern )
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
@@ -1572,21 +2184,21 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                 if( note.empty() ) {
                     continue;
                 }
-                if( pattern != nullptr && lcmatch( note, *pattern ) ) {
+                if( !lcmatch( note, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_note(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.note( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.note( p )
+                );
             }
         }
     }
     return result;
 }
 
-overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string *pattern )
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, std::string_view pattern )
 {
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {
@@ -1594,19 +2206,19 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
                 tripoint_om_omt p( i, j, z );
-                const string_id<map_extra> &extra = om.extra( p );
+                const map_extra_id &extra = om.extra( p );
                 if( extra.is_null() ) {
                     continue;
                 }
                 const std::string &extra_text = extra.c_str();
-                if( pattern != nullptr && lcmatch( extra_text, *pattern ) ) {
+                if( !lcmatch( extra_text, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
-                result.push_back( t_point_with_extra(
-                                      project_combine( om.pos(), p.xy() ),
-                                      om.extra( p )
-                                  ) );
+                result.emplace_back(
+                    project_combine( om.pos(), p.xy() ),
+                    om.extra( p )
+                );
             }
         }
     }
@@ -1615,7 +2227,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
 
 bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
 {
-    for( auto &mongrp : monsters_at( p ) ) {
+    for( mongroup *&mongrp : monsters_at( p ) ) {
         if( !mongrp->is_safe() ) {
             return false;
         }
@@ -1623,13 +2235,21 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
     return true;
 }
 
-bool overmapbuffer::place_special(
-    const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
-    const bool must_be_unexplored, const bool force )
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
 {
-    const overmap_with_local_coords om_loc = get_om_global( p );
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
+}
 
-    bool placed = false;
+std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
+            const overmap_special &special, const tripoint_abs_omt &origin, om_direction::type dir,
+            const bool must_be_unexplored, const bool force )
+{
+    const overmap_with_local_coords om_loc = get_om_global( origin );
+
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
@@ -1641,20 +2261,25 @@ bool overmapbuffer::place_special(
         // the single overmap. If future generation is hoisted up to the
         // buffer to spawn overmaps, then this can also be changed accordingly.
         const city c = om_loc.om->get_nearest_city( om_loc.local );
-        om_loc.om->place_special( special, om_loc.local, dir, c,
-                                  must_be_unexplored, force );
-        placed = true;
+        std::vector<tripoint_abs_omt> result;
+        for( const tripoint_om_omt &p : om_loc.om->place_special(
+                 special, om_loc.local, dir, c, must_be_unexplored, force ) ) {
+            result.push_back( project_combine( om_loc.om->pos(), p ) );
+        }
+        return result;
     }
-    return placed;
+    return std::nullopt;
 }
 
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
                                    const tripoint_abs_omt &center, int radius )
 {
+    const int rad = radius ? radius : default_search_range;
+
     // First find the requested special. If it doesn't exist, we're done here.
     bool found = false;
     overmap_special special;
-    for( const auto &elem : overmap_specials::get_all() ) {
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
         if( elem.id == special_id ) {
             special = elem;
             found = true;
@@ -1666,46 +2291,24 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     }
 
     // Force our special to occur just once when we're spawning it here.
-    special.occurrences.min = 1;
-    special.occurrences.max = 1;
+    special.force_one_occurrence();
 
-    // Figure out the longest side of the special for purposes of determining our sector size
-    // when attempting placements.
-    const auto calculate_longest_side = [&special]() {
-        auto min_max_x = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.x < rhs.p.x;
-        } );
-
-        auto min_max_y = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.y < rhs.p.y;
-        } );
-
-        const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
-                                         min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
-
-        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
-        return std::min( special_longest_side, OMSPEC_FREQ );
-    };
-
-    const int longest_side = calculate_longest_side();
+    // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
+    const int longest_side = std::min( special.longest_side(), OMSPEC_FREQ );
 
     // Predefine our sectors to search in.
     om_special_sectors sectors = get_sectors( longest_side );
 
     // Get all of the overmaps within the defined radius of the center.
-    for( const auto &om : get_overmaps_near(
-             project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
+    for( overmap * const &om : get_overmaps_near(
+             project_to<coords::sm>( center ), omt_to_sm_copy( rad ) ) ) {
 
         // Build an overmap_special_batch for the special on this overmap.
         std::vector<const overmap_special *> specials;
         specials.push_back( &special );
         overmap_special_batch batch( om->pos(), specials );
 
-        // Filter the sectors to those which are in in range of our center point, so
+        // Filter the sectors to those which are in range of our center point, so
         // that we don't end up creating specials in areas that are outside of our radius,
         // since the whole point is to create a special that is within the parameters.
         std::vector<point_om_omt> sector_points_in_range;
@@ -1718,7 +2321,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
             // rest of it is outside the radius (due to size, rotation, etc), which would
             // then result in us placing the special but then not finding it later if we
             // search using the same radius value we used in placing it.
-            return square_dist( global_sector_point, center.xy() ) <= radius - longest_side;
+            return square_dist( global_sector_point, center.xy() ) <= rad - longest_side;
         } );
         om_special_sectors sectors_in_range {sector_points_in_range, sectors.sector_width};
 
@@ -1733,7 +2336,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         }
 
         // Hasn't been erased, so lets check placement counts.
-        for( const auto &special_placement : batch ) {
+        for( const overmap_special_placement &special_placement : batch ) {
             if( special_placement.instances_placed > 0 ) {
                 // It was placed, lets get outta here.
                 return true;

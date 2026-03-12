@@ -4,210 +4,314 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/release.yml'
+      - 'android/**'
+      - 'build-data/**'
+      - 'build-scripts/generate-release-notes.js'
+      - 'cataclysm-launcher'
+      - 'data/**'
+      - 'doc/**'
+      - 'gfx/**'
+      - 'lang/po/*.po'
+      - 'LICENSE*'
+      - 'Makefile'
+      - 'README*'
+      - 'src/**'
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+
 jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    permissions: write-all
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-      release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+        run: |
+          echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
-          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
-      - name: Check if there is existing git tag
-        id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
-        with:
-          tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
+          echo "tag_name=cdda-experimental-${STEPS_GET_TIMESTAMP_OUTPUTS_TIME}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA experimental build ${STEPS_GET_TIMESTAMP_OUTPUTS_TIME}" >> $GITHUB_OUTPUT
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - name: Push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
+          STEPS_GET_TIMESTAMP_OUTPUTS_TIME: ${{ steps.get-timestamp.outputs.time }}
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
-          tag_prefix: ""
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
+          persist-credentials: false
+      - name: Generate Release Notes
+        id: generate-release-notes
+        run: |
+          npm install @actions/github@8
+          node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' "${STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME}" "$(git log -1 --format='%H')" > notes.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
-          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
-          body: |
-            These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-          draft: false
-          prerelease: true
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME: ${{ steps.generate_env_vars.outputs.tag_name }}
+      - run: |
+          gh release create ${STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME} --notes-file notes.txt --prerelease --title "${STEPS_GENERATE_ENV_VARS_OUTPUTS_RELEASE_NAME}" --target "$(git log -1 --format='%H')"
+        env:
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_TAG_NAME: ${{ steps.generate_env_vars.outputs.tag_name }}
+          STEPS_GENERATE_ENV_VARS_OUTPUTS_RELEASE_NAME: ${{ steps.generate_env_vars.outputs.release_name }}
+
+  compose-tilesets:
+    uses: ./.github/workflows/compose-tilesets.yml
+  build-translations:
+    uses: ./.github/workflows/build-translations.yml
+    secrets:
+      TX_TOKEN: ${{ secrets.TX_TOKEN }}
+
   builds:
-    needs: release
-    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
+    needs:
+      - release
+      - compose-tilesets
+      - build-translations
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: Windows Tiles x64
-            mxe: x86_64
-            artifact: windows-tiles-x64
-            os: ubuntu-latest
+          - name: Windows Tiles x64 MSVC
+            artifact: windows-with-graphics-x64
+            arch: x64
+            os: windows-2022
             ext: zip
             content: application/zip
-          - name: Windows Tiles x32
-            mxe: i686
-            artifact: windows-tiles-x32
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-          - name: Linux Tiles x64
-            os: ubuntu-18.04
-            mxe: none
-            android: none
             tiles: 1
-            artifact: linux-tiles-x64
-            ext: tar.gz
-            content: application/gzip
-          - name: linux-curses-x64
-            os: ubuntu-18.04
-            mxe: none
+            sound: 0
+          - name: Windows Tiles Sounds x64 MSVC
+            artifact: windows-with-graphics-and-sounds-x64
+            arch: x64
+            os: windows-2022
+            ext: zip
+            content: application/zip
+            tiles: 1
+            sound: 1
+          - name: Linux Tiles x64
+            os: ubuntu-24.04
             android: none
-            tiles: 0
-            artifact: linux-curses-x64
+            libbacktrace: 1
+            tiles: 1
+            sound: 0
+            artifact: linux-with-graphics-x64
             ext: tar.gz
             content: application/gzip
-          - name: osx-curses-x64
-            os: macos-10.15
-            mxe: none
+          - name: Linux Tiles Sounds x64
+            os: ubuntu-24.04
+            android: none
+            libbacktrace: 1
+            tiles: 1
+            sound: 1
+            artifact: linux-with-graphics-and-sounds-x64
+            ext: tar.gz
+            content: application/gzip
+          - name: Linux Curses x64
+            os: ubuntu-24.04
+            android: none
+            libbacktrace: 1
             tiles: 0
-            artifact: osx-curses-x64
+            sound: 0
+            artifact: linux-terminal-only-x64
+            ext: tar.gz
+            content: application/gzip
+          - name: macOS Curses Universal Binary (x64 and arm64)
+            os: macos-15
+            tiles: 0
+            sound: 0
+            artifact: osx-terminal-only-universal
             ext: dmg
             content: application/x-apple-diskimage
-          - name: osx-tiles-x64
-            os: macos-10.15
-            mxe: none
+          - name: macOS Tiles Universal Binary (x64 and arm64)
+            os: macos-15
             tiles: 1
-            artifact: osx-tiles-x64
+            sound: 0
+            artifact: osx-with-graphics-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-latest
-            mxe: none
+            tiles: 1
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
             os: ubuntu-latest
-            mxe: none
+            tiles: 1
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk 
-          - name: Android Bundle
-            os: ubuntu-latest
-            mxe: none
-            android: bundle
-            artifact: android-bundle
-            ext: aab
-            content: application/aap
+          #- name: WebAssembly Bundle
+          #  os: ubuntu-latest
+          #  artifact: wasm
+          #  ext: zip
+          #  content: application/zip
+          #  tiles: 1
+          #  sound: 0
+          #  wasm: true
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    permissions: write-all
+    env:
+        ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies (windows)
-        if: matrix.mxe != 'none'
+      - name: Maximize build space (mac)
+        if: ${{ runner.os == 'macos' && matrix.android == '' }}
         run: |
-          sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
-            libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
-            p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-      - name: Install MXE
-        if: matrix.mxe != 'none'
+          sudo rm -rf $ANDROID_HOME
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-tags: true
+          persist-credentials: false
+      - name: Get soundpack
+        if: matrix.sound == 1
         run: |
-          sudo apt install software-properties-common lsb-release
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
-          sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
-          sudo apt update
-          sudo apt install mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
+          git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
+          mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
+      - name: Fetch tileset artifact into build
+        if: matrix.tiles == 1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: tileset-*
+          path: gfx
+          merge-multiple: true
+      - name: Fetch translations artifact into build
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: translations
+      - name: Install dependencies (windows msvc) (1/4)
+        if: runner.os == 'Windows'
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce # v2
+      - name: Install dependencies (windows msvc) (2/4)
+        if: runner.os == 'Windows'
+        uses: lukka/run-vcpkg@7d259227a1fb6471a0253dd5ab7419835228f7d7 # v11
+        id: runvcpkg
+        with:
+          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          vcpkgGitCommitId: '1b6e030cf096faf4f82d7b7025de8b2abee3e3df'
+      - name: Install dependencies (windows msvc) (3/4)
+        if: runner.os == 'Windows'
+        run: |
+          vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
+      - name: Install dependencies (windows msvc) (4/4)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2
+        with:
+          msystem: mingw64
+          install: >-
+            gettext
+            make
       - name: Install dependencies (Linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+          sudo apt-get install libsdl2-dev
+          git clone https://github.com/libsdl-org/SDL.git --branch release-2.0.20 --depth 1
+          cd SDL
+          mkdir build
+          cd build
+          ../configure
+          make -j$((`nproc`+0))
+          sudo make install
+          cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
+          sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-      - name: Install dependencies (mac)
+      - name: Install Emscripten (WebAssembly)
+        if: matrix.wasm
+        uses: mymindstorm/setup-emsdk@d233ac12b0102f74ca199f5dad7a4e2c13a8a745 # v13
+      - name: Install runtime dependencies (mac)
+        if: runner.os == 'macOS'
+        uses: BrettDong/setup-sdl2-frameworks@a8ca795ef904417e9ddcb010ef6bf2d11779dbe3 # v2
+        with:
+          sdl2: 2.30.11
+          sdl2-ttf: 2.24.0
+          sdl2-image: 2.8.4
+          sdl2-mixer: 2.8.0
+      - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
-          pip3 install dmgbuild==1.4.2 biplist
-      - name: Build CDDA (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
+          pip3 install --break-system-packages dmgbuild biplist
+      - name: install macports (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        uses: melusina-org/setup-macports@c7eb59386def259a274627092566a7f7b8d219b1 # v1
+      - name: install macports packages (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        run: |
+          sudo port install freetype +universal pkgconfig +universal
+      - name: Create VERSION.TXT
+        shell: bash
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
+          build number: ${NEEDS_RELEASE_OUTPUTS_TIMESTAMP}
           commit sha: ${{ github.sha }}
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.F.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
-      - name: Build CDDA (windows)
-        if: matrix.mxe != 'none'
         env:
-          PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
+          NEEDS_RELEASE_OUTPUTS_TIMESTAMP: ${{ needs.release.outputs.timestamp }}
+      - name: Compile translations (windows)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
         run: |
-          cat >VERSION.txt <<EOL
-          build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
-          commit sha: ${{ github.sha }}
-          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          EOL
-          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.F.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+          lang/compile_mo.sh all
+      - name: Build libbacktrace
+        if: matrix.libbacktrace == 1
+        run: |
+          git clone https://github.com/ianlancetaylor/libbacktrace.git
+          cd libbacktrace
+          git checkout 14818b7783eeb9a56c3f0fca78cefd3143f8c5f6
+          ./configure
+          make -j$((`nproc`+0))
+          cp LICENSE ${{ github.workspace }}/LICENSE-libbacktrace.txt
+          sudo make install
+      - name: Build CDDA (linux)
+        if: runner.os == 'Linux' && matrix.android == 'none' && !matrix.wasm
+        run: |
+          make COMPILER=clang++-18 -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} WARN_STALE_DATA=1 PCH=0 bindist
+          mv cataclysmdda-0.J.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+      - name: Build CDDA (WebAssembly)
+        if: matrix.wasm && success()
+        run: |
+          ./build-scripts/build-emscripten.sh
+          ./build-scripts/prepare-web.sh
+          (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
+      - name: Build CDDA (windows msvc)
+        if: runner.os == 'Windows'
+        env:
+          # Enable pretty backtraces
+          BACKTRACE: 1
+          CDDA_RELEASE_BUILD: 1
+          VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+        run: |
+          msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;zzip" msvc-full-features\Cataclysm-vcpkg-static.sln
+          .\build-scripts\windist.ps1
+          mv cataclysmdda-0.J.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
-          cat >VERSION.txt <<EOL
-          build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
-          commit sha: ${{ github.sha }}
-          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          EOL
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 FRAMEWORK=1 UNIVERSAL_BINARY=1 WARN_STALE_DATA=1 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
-      - name: Set up JDK 8 (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
-        uses: actions/setup-java@v2
+      - name: Set up JDK (android)
+        if: runner.os == 'Linux' && matrix.android != 'none'
+        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with:
-          java-version: '8'
+          java-version: '11'
           distribution: 'adopt'   
       - name: Setup Build and Dependencies (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
+        if: runner.os == 'Linux' && matrix.android != 'none'
         run: |
-          cat >VERSION.txt <<EOL
-          build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
-          commit sha: ${{ github.sha }}
-          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          EOL
           sudo apt-get update
           sudo apt-get install gettext          
       - name: Build CDDA (android)
-        if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
+        if: runner.os == 'Linux' && matrix.android != 'none'
         working-directory: ./android
-        run: | 
+        run: |
           echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
           echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
@@ -222,24 +326,6 @@ jobs:
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
-          elif [ ${{ matrix.android }} = bundle ]
-          then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
-      - name: Upload release asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_content_type: ${{ matrix.content }}
-      - name: Trigger GitHub pages rebuild
-        run: |
-          curl --fail --request POST \
-            --url https://api.github.com/repos/${{ github.repository }}/pages/builds \
-            --header "Authorization: Bearer ${{ secrets.USER_TOKEN }}" \
-            --header "Accept: application/vnd.github.v3+json"
+      - run: |
+          gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}

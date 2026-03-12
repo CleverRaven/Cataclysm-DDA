@@ -1,0 +1,771 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "shot_he",
+    "replace": "shot_dragon"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp7",
+    "replace": "fn_p90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46bigmag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk46mag",
+    "replace": "fnp90mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "reloaded_46mm",
+    "replace": "reloaded_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm",
+    "replace": "57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bp_46mm",
+    "replace": "bp_57mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "robofac_gun_46",
+    "replace": "robofac_gun_57"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "unprimed_46mm_casing",
+    "replace": "unprimed_57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "46mm_casing",
+    "replace": "57mm_casing"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_off",
+    "replace": "chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "combatsaw_on",
+    "replace": "chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_off",
+    "replace": "elec_chainsaw_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "e_combatsaw_on",
+    "replace": "elec_chainsaw_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "long_duffelbag",
+    "replace": "duffelbag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light",
+    "replace": "helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_chitin_light",
+    "replace": "xl_helmet_chitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_chitin_light_xs",
+    "replace": "helmet_chitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light",
+    "replace": "helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_helmet_acidchitin_light",
+    "replace": "xl_helmet_acidchitin"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "helmet_acidchitin_light_xs",
+    "replace": "helmet_acidchitin_xs"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_lamp_off",
+    "replace": "electric_lantern"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light",
+    "replace": "reading_light_on"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_light_off",
+    "replace": "reading_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "wearable_atomic_light_off",
+    "replace": "wearable_big_light"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "atomic_coffeepot",
+    "replace": "coffeemaker"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cape_catholic",
+    "replace": "cloak_vampire_red"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "zucchetto",
+    "replace": "kippah"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "homewrecker",
+    "replace": "hammer_sledge"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9",
+    "replace": "glock_17"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_10rd",
+    "replace": "glock17_10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_20rd",
+    "replace": "glock17_22"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_30rd",
+    "replace": "glockbigmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_36rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_50rd",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9mag_72rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "tec9_auto_parts",
+    "replace": "glocksear"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32",
+    "replace": "walther_ppk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "kp32mag",
+    "replace": "ppkmag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calico",
+    "replace": "rugerpcc"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag",
+    "replace": "glock_drum_50rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "calicomag_100rd",
+    "replace": "glock_drum_100rd"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hk_mp5_10_semi",
+    "replace": "glock_40"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mp5_10_mag",
+    "replace": "tdi_10mm_mag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "TDI_10",
+    "replace": "glock_40"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33",
+    "replace": "ruger_1022"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cp33_mag_50",
+    "replace": "ruger1022mag_55"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "p50",
+    "replace": "fn_ps90"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "M6_shotgun",
+    "replace": "u_shotgun"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "savage_111f",
+    "replace": "remington_700_308"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "shotgun_410",
+    "replace": "mossberg_500_410"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "winchester_1887",
+    "replace": "winchester_1897"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "remington_870_breacher",
+    "replace": "mossberg_590_shockwave"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762",
+    "replace": "aksemi"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag10",
+    "replace": "akmag10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bren2_762mag30",
+    "replace": "akmag30"
+  },
+  {
+    "type": "MIGRATION",
+    "id": [ "integrated_hooves", "integrated_rabbit_feet" ],
+    "replace": "wristwatch"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_armguard_lightplate",
+    "replace": "xl_armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_armguard_lightplate",
+    "replace": "armor_lc_armguard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_legguard_lightplate",
+    "replace": "xl_armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_legguard_lightplate",
+    "replace": "armor_lc_leg_guard"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "weather_reader",
+    "replace": "geiger_off"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_machete",
+    "replace": "machete"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem2",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem3",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "toastem4",
+    "replace": "toastem"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sewage",
+    "replace": "water_sewage"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "brick_kiln",
+    "replace": "kiln"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "mre_strawberry_cake",
+    "replace": "mre_chocolate_cake"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp7",
+    "replace": "cereal_fp1",
+    "variant": "foodios"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp6",
+    "replace": "cereal_fp1",
+    "variant": "fructose"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp5",
+    "replace": "cereal_fp1",
+    "variant": "honey"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "cereal_fp3",
+    "replace": "cereal_fp1",
+    "variant": "brantastic"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "strawberries_cooked",
+    "replace": "strawberries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "blueberries_cooked",
+    "replace": "blueberries"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fruit_cooked",
+    "replace": "apple"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "duster_survivor",
+    "replace": "duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_duster_survivor",
+    "replace": "xl_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_duster_survivor",
+    "replace": "xs_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sleeveless_duster_survivor",
+    "replace": "sleeveless_duster"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "trenchcoat_survivor",
+    "replace": "trenchcoat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sleeveless_trenchcoat_survivor",
+    "replace": "sleeveless_trenchcoat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "lsurvivor_pants",
+    "replace": "aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_lsurvivor_pants",
+    "replace": "xs_aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_lsurvivor_pants",
+    "replace": "xl_aketon_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pants_survivor",
+    "replace": "gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_pants_survivor",
+    "replace": "xl_gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_pants_survivor",
+    "replace": "xs_gambeson_pants_canvas"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "washboard",
+    "replace": "wash_kit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "fsurvivor_jumpsuit",
+    "replace": "lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_fsurvivor_jumpsuit",
+    "replace": "xl_lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_fsurvivor_jumpsuit",
+    "replace": "xs_lsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "h20survivor_jumpsuit",
+    "replace": "survivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_h20survivor_jumpsuit",
+    "replace": "xlsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_h20survivor_jumpsuit",
+    "replace": "xssurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "thick_h20survivor_jumpsuit",
+    "replace": "hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_thick_h20survivor_jumpsuit",
+    "replace": "xl_hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_thick_h20survivor_jumpsuit",
+    "replace": "xs_hsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "h20survivor_jumpsuit_light",
+    "replace": "survivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_h20survivor_jumpsuit_light",
+    "replace": "xlsurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_h20survivor_jumpsuit_light",
+    "replace": "xssurvivor_jumpsuit"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_h20survivor",
+    "replace": "wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor",
+    "replace": "xl_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor",
+    "replace": "xs_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_h20survivor_thick",
+    "replace": "wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor_thick",
+    "replace": "xl_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor_thick",
+    "replace": "xs_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_light",
+    "replace": "wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_h20survivor_light",
+    "replace": "xl_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_h20survivor_light",
+    "replace": "xs_wetsuit_gloves"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor",
+    "replace": "wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor",
+    "replace": "xl_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor",
+    "replace": "xs_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_thick",
+    "replace": "wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor_thick",
+    "replace": "xl_wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor_thick",
+    "replace": "xs_wetsuit_booties_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_h20survivor_light",
+    "replace": "wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_h20survivor_light",
+    "replace": "xl_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_h20survivor_light",
+    "replace": "xs_wetsuit_booties"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor",
+    "replace": "wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor",
+    "replace": "xl_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor",
+    "replace": "xs_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor_thick",
+    "replace": "wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor_thick",
+    "replace": "xl_wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor_thick",
+    "replace": "xs_wetsuit_gloves_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_h20survivor_light",
+    "replace": "wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_h20survivor_light",
+    "replace": "xl_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_h20survivor_light",
+    "replace": "xs_wetsuit_hood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_lsurvivor",
+    "replace": "hood_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_lsurvivor",
+    "replace": "hood_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_lsurvivor",
+    "replace": "hood_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "hood_fsurvivor",
+    "replace": "wetsuit_hood_thick"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_hood_fsurvivor",
+    "replace": "hood_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_hood_fsurvivor",
+    "replace": "hood_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_fsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_fsurvivor",
+    "replace": "boots_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_fsurvivor",
+    "replace": "boots_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_fsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_fsurvivor",
+    "replace": "xl_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_fsurvivor",
+    "replace": "xs_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "boots_lsurvivor",
+    "replace": "boots_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_boots_lsurvivor",
+    "replace": "boots_xlsurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_boots_lsurvivor",
+    "replace": "boots_xssurvivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_lsurvivor",
+    "replace": "gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xl_gloves_lsurvivor",
+    "replace": "xl_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "xs_gloves_lsurvivor",
+    "replace": "xs_gloves_survivor"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "survivor_mess_kit",
+    "replace": "oil_cooker"
+  }
+]

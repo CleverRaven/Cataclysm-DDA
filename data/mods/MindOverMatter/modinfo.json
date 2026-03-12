@@ -1,0 +1,34 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "mindovermatter",
+    "name": "Mind Over Matter",
+    "authors": [ "StandingStorm" ],
+    "maintainers": [ "StandingStorm" ],
+    "description": "Psionic powers for Cataclysm.  The Readme contains extensive information on how the process of gaining and using powers works, so make sure to check it if you're confused.",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "conflicts": [ "aftershock_exoplanet" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STR_VALUE",
+    "//": "Sets a cap on maximum effective strength for characters.",
+    "stype": "int",
+    "value": 35
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_DEX_VALUE",
+    "//": "Sets a cap on maximum effective dexterity for characters.",
+    "stype": "int",
+    "value": 35
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_PER_VALUE",
+    "//": "Sets a cap on maximum effective perception for characters.",
+    "stype": "int",
+    "value": 35
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_hall_straight",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [ { "chunks": [ [ "ls_straight_template_rooms", 60 ], [ "ls_straight_template_chasm", 40 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_hall_curved",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [ { "chunks": [ [ "ls_corner_template_chasm", 70 ], [ "ls_corner_template_rooms", 30 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_hall_tee",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [ { "chunks": [ [ "ls_tee_template_chasm", 50 ], [ "ls_tee_template_rooms", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_hall_four_way",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [ { "chunks": [ [ "ls_4way_template_chasm", 50 ], [ "ls_4way_template_rooms", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth_hall_end",
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "place_nested": [ { "chunks": [ [ "ls_deadend_template_chasm", 30 ], [ "ls_deadend_template_rooms", 70 ] ], "x": 0, "y": 0 } ]
+    }
+  }
+]

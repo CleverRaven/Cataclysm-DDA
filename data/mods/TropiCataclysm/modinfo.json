@@ -1,0 +1,27 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "tropicata",
+    "name": "TropiCataclysm",
+    "authors": [ "Xaritscin" ],
+    "maintainers": [ "Karol1223" ],
+    "description": "Changes the setting from New England to an undisclosed region in Brazil.  Initially based out of Desert Region mod.",
+    "category": "content",
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "desertpack", "classic_zombies", "innawood", "Isolation_Protocol", "no_hope" ],
+    "dependencies": [ "dda" ],
+    "version": "0.80"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "//": "Set to Marabá, eyeballing the rough climate match.",
+    "stype": "float",
+    "value": -5.42
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "stype": "float",
+    "value": -49.13
+  }
+]

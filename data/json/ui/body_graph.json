@@ -1,0 +1,146 @@
+[
+  {
+    "id": "body_graph_template",
+    "type": "widget",
+    "style": "text",
+    "label": "Body Graph",
+    "var": "body_graph",
+    "width": 0,
+    "height": 13,
+    "body_graph": "full_body_widget",
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "compact_body_graph_template",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "height": 7,
+    "body_graph": "compact_full_body_widget"
+  },
+  {
+    "id": "tiny_body_graph_template",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "height": 3,
+    "body_graph": "tiny_full_body_widget"
+  },
+  {
+    "id": "tiny_body_graph_side_template",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "height": 3,
+    "body_graph": "tiny_full_body_side_widget"
+  },
+  {
+    "id": "body_graph",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "label": "Body Graph",
+    "var": "body_graph"
+  },
+  {
+    "id": "compact_body_graph",
+    "type": "widget",
+    "copy-from": "compact_body_graph_template",
+    "label": "Body Graph",
+    "var": "body_graph"
+  },
+  {
+    "id": "tiny_body_graph",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_template",
+    "label": "Body Graph",
+    "var": "body_graph"
+  },
+  {
+    "id": "tiny_body_graph_side",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_side_template",
+    "label": "Body Graph",
+    "var": "body_graph"
+  },
+  {
+    "id": "body_graph_temp",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "label": "Body Graph (temperature)",
+    "var": "body_graph_temp"
+  },
+  {
+    "id": "compact_body_graph_temp",
+    "type": "widget",
+    "copy-from": "compact_body_graph_template",
+    "label": "Body Graph (temperature)",
+    "var": "body_graph_temp"
+  },
+  {
+    "id": "tiny_body_graph_temp",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_template",
+    "label": "Body Graph (temperature)",
+    "var": "body_graph_temp"
+  },
+  {
+    "id": "tiny_body_graph_side_temp",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_side_template",
+    "label": "Body Graph (temperature)",
+    "var": "body_graph_temp"
+  },
+  {
+    "id": "body_graph_encumb",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "label": "Body Graph (encumbrance)",
+    "var": "body_graph_encumb"
+  },
+  {
+    "id": "compact_body_graph_encumb",
+    "type": "widget",
+    "copy-from": "compact_body_graph_template",
+    "label": "Body Graph (encumbrance)",
+    "var": "body_graph_encumb"
+  },
+  {
+    "id": "tiny_body_graph_encumb",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_template",
+    "label": "Body Graph (encumbrance)",
+    "var": "body_graph_encumb"
+  },
+  {
+    "id": "tiny_body_graph_side_encumb",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_side_template",
+    "label": "Body Graph (encumbrance)",
+    "var": "body_graph_encumb"
+  },
+  {
+    "id": "body_graph_status",
+    "type": "widget",
+    "copy-from": "body_graph_template",
+    "label": "Body Graph (status)",
+    "var": "body_graph_status"
+  },
+  {
+    "id": "compact_body_graph_status",
+    "type": "widget",
+    "copy-from": "compact_body_graph_template",
+    "label": "Body Graph (status)",
+    "var": "body_graph_status"
+  },
+  {
+    "id": "tiny_body_graph_status",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_template",
+    "label": "Body Graph (status)",
+    "var": "body_graph_status"
+  },
+  {
+    "id": "tiny_body_graph_side_status",
+    "type": "widget",
+    "copy-from": "tiny_body_graph_side_template",
+    "label": "Body Graph (status)",
+    "var": "body_graph_status"
+  }
+]

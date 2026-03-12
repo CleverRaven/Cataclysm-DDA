@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_beds_0",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 8, "y": 6 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 11, "y": 6 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_beds_1",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 10, "y": 17 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 13, "y": 17 } ]
+    }
+  }
+]

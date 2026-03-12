@@ -1,0 +1,67 @@
+[
+  {
+    "id": [ "BEM_TEMPLATE_SELLER_1", "BEM_TEMPLATE_SELLER_ASK" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "&The mercenary seems uncharacteristically upbeat, or perhaps just drunk.  \"Found this neat gizmo in a lab run a few days ago.\"  <mypronoun> blurts while procuring a small cube of etched glass from <mypossesivepronoun> pocket.  \"Now, I have no use for such a thing, but perhaps you do.  What do you say?  It's yours for 3 coins.\"",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      {
+        "text": "[3 HGC] It's a deal.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 3 },
+          { "u_spawn_item": "standard_template_construct", "count": 1 },
+          "end_conversation"
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Offer to buy it for 2 coins.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "condition": { "not": { "math": [ "has_var(n_dialog_negotiated)" ] } },
+        "success": { "topic": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY" },
+        "failure": { "topic": "BEM_TEMPLATE_SELLER_NO_DEAL" }
+      },
+      { "text": "I don't even know what that is.", "topic": "BEM_TEMPLATE_SELLER_ASK" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY",
+    "type": "talk_topic",
+    "dynamic_line": "Sure whatever, two coins and it's all yours.",
+    "speaker_effect": { "effect": { "npc_add_var": "dialog_negotiated", "value": "yes" } },
+    "responses": [
+      {
+        "text": "[2 HGC] It's a deal then.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_spawn_item": "standard_template_construct", "count": 1 },
+          "end_conversation"
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Oh, it looks like I don't actually have two coins right now…",
+        "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 2 } } },
+        "topic": "TALK_DONE"
+      },
+      { "text": "See you around then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_TEMPLATE_SELLER_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "A 'nanofabricator template', it seems, no idea what it's good for, but it sure looks valuable.  Are you buying it or not?"
+  },
+  {
+    "id": "BEM_TEMPLATE_SELLER_NO_DEAL",
+    "type": "talk_topic",
+    "dynamic_line": "Well I'm sure someone who values it will come around, thanks for hearing the pitch anyways.",
+    "speaker_effect": { "effect": { "npc_add_var": "dialog_negotiated", "value": "yes" } },
+    "responses": [ { "text": "See you around then.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  }
+]

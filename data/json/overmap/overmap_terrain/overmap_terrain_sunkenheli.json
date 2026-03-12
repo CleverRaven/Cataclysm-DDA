@@ -1,0 +1,29 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "sunken_helicopter" ],
+    "name": "sunken heli",
+    "sym": "~",
+    "color": "light_blue",
+    "flags": [ "NO_ROTATE", "LAKE" ],
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "sunken_heli_roof" ],
+    "name": "sunken heli roof",
+    "sym": "~",
+    "color": "light_blue",
+    "flags": [ "NO_ROTATE", "LAKE" ],
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nether_cucumber_lake_bed" ],
+    "name": "nether cucumber lake bed",
+    "sym": "~",
+    "color": "light_blue",
+    "flags": [ "NO_ROTATE", "LAKE" ],
+    "see_cost": "none"
+  }
+]

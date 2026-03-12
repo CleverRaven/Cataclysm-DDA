@@ -1,0 +1,9 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_bio_psi_range_increaser",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "effect_ench_bio_psi_range_increaser", "intensity": 1 } ]
+  }
+]

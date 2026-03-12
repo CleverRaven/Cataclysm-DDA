@@ -1,12 +1,24 @@
 [
   {
+    "type": "mutation",
+    "id": "THRESH_RAPTOR",
+    "name": { "str": "Raptor" },
+    "points": 1,
+    "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
+    "ignored_by": [ "PLANT" ],
+    "threshold": true
+  },
+  {
     "type": "mutation_category",
     "id": "TYRANT",
     "name": "Tyrant",
     "threshold_mut": "THRESH_TYRANT",
-    "mutagen_message": "The gnashing of teeth and rending of flesh calls to you.",
-    "iv_message": "You feel additional teeth working their way into your mouth.",
-    "memorial_message": "Struck by a rogue asteroid."
+    "mutagen_message": "You feel additional teeth working their way into your mouth.",
+    "memorial_message": "Struck by a rogue asteroid.",
+    "vitamin": "mutagen_tyrant"
   },
   {
     "type": "mutation",
@@ -17,6 +29,8 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
+    "ignored_by": [ "PLANT" ],
     "threshold": true
   },
   {
@@ -24,9 +38,9 @@
     "id": "STEGO",
     "name": "Stego",
     "threshold_mut": "THRESH_STEGO",
-    "mutagen_message": "You are the armor.",
-    "iv_message": "Who needs platemail.",
-    "memorial_message": "The end of an era."
+    "mutagen_message": "You feel your skin toughen.  You are the armor.",
+    "memorial_message": "The end of an era.",
+    "vitamin": "mutagen_stego"
   },
   {
     "type": "mutation",
@@ -37,19 +51,49 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", -20 ], [ "REPTILE", -20 ], [ "PLANT", 20 ], [ "MAMMAL", -20 ] ],
+    "ignored_by": [ "BIRD" ],
     "threshold": true
+  },
+  {
+    "type": "mutation_category",
+    "id": "HORNS",
+    "name": "Horns",
+    "threshold_mut": "THRESH_HORNS",
+    "mutagen_message": "You feel your face, scalp, and neck stretch and change into something greater.",
+    "memorial_message": "Got the horns.",
+    "vitamin": "mutagen_horns"
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_HORNS",
+    "name": { "str": "Horns" },
+    "points": 1,
+    "description": "Big, strong, fierce, brave, and a loyal friend, always leading with horns.",
+    "valid": false,
+    "profession": true,
+    "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", -20 ], [ "REPTILE", -20 ], [ "PLANT", 20 ], [ "MAMMAL", -20 ] ],
+    "ignored_by": [ "BIRD" ],
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "HERBIVORE",
+    "copy-from": "HERBIVORE",
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "RUMINANT",
     "copy-from": "RUMINANT",
-    "extend": { "category": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "GRAZER",
     "copy-from": "GRAZER",
-    "extend": { "category": [ "STEGO" ], "threshreq": [ "THRESH_STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
@@ -61,72 +105,61 @@
     "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "TOUGH_FEET",
     "copy-from": "TOUGH_FEET",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "TOUGH",
     "copy-from": "TOUGH",
     "valid": true,
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "TOUGH2",
     "copy-from": "TOUGH2",
     "valid": true,
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "TOUGH3",
     "copy-from": "TOUGH3",
     "valid": true,
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
     "points": 3,
-    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you less dextrous though.",
+    "description": "Your skin is getting tougher.  Greatly improves protection against all sorts of damage.  Makes you less dextrous though.",
     "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
-    "category": [ "STEGO", "TYRANT" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 4,
-        "bash": 4,
-        "bullet": 1
-      }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    "category": [ "STEGO", "TYRANT", "HORNS" ],
+    "changes_to": [ "THICKSKIN3" ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
+    "integrated_armor": [ "integrated_reptilescales" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "points": 4,
-    "description": "Your skin is developing kevlar-like qualities.  Makes you slower though.",
+    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though, and is rather cumbersome.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
     "category": [ "STEGO" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 6,
-        "bash": 6,
-        "bullet": 6
-      }
-    ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 24, "bash": 20 } ],
+    "integrated_armor": [ "integrated_stegoskin" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
@@ -137,14 +170,14 @@
     "description": "You are capable of carrying inhuman amounts - more than others with similar strength could.  Your maximum weight carried is increased by 70%.",
     "prereqs": "STRONGBACK",
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.7,
-    "category": [ "STEGO", "TYRANT" ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.7 } ] } ],
+    "category": [ "STEGO", "TYRANT", "HORNS" ]
   },
   {
     "type": "mutation",
     "id": "DEFT",
     "copy-from": "DEFT",
-    "extend": { "category": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -156,7 +189,7 @@
     "type": "mutation",
     "id": "ANIMALEMPATH",
     "copy-from": "ANIMALEMPATH",
-    "extend": { "category": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -174,13 +207,13 @@
     "type": "mutation",
     "id": "SLOWLEARNER",
     "copy-from": "SLOWLEARNER",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "VEGETARIAN",
     "copy-from": "VEGETARIAN",
-    "extend": { "category": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -198,7 +231,7 @@
     "type": "mutation",
     "id": "ANTIJUNK",
     "copy-from": "ANTIJUNK",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -208,9 +241,9 @@
   },
   {
     "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "id": "SKIN_PEELING",
+    "copy-from": "SKIN_PEELING",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -226,9 +259,21 @@
   },
   {
     "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NAILS",
+    "copy-from": "NAILS",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -250,7 +295,7 @@
     "visibility": 10,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your mouth has reshaped to accomodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
+    "description": "Your mouth has reshaped to accommodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_TYRANT" ],
@@ -259,8 +304,8 @@
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
-      "attack_text_u": "You tear into %s with your serrated teeth",
-      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth",
+      "attack_text_u": "You tear into %s with your serrated teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 30 },
@@ -269,9 +314,48 @@
   },
   {
     "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "STEGO", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
-    "extend": { "category": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_POINTED",
+    "copy-from": "HORNS_POINTED",
+    "extend": { "category": [ "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_CURLED",
+    "copy-from": "HORNS_CURLED",
+    "extend": { "category": [ "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_TRI",
+    "name": { "str": "Triceratops Horns" },
+    "description": "You have three long, pointed horns, like those of a triceratops.  They allow you to make a strong piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
+    "prereqs": [ "HORNS_POINTED", "HORNS_CURLED" ],
+    "attacks": {
+      "attack_text_u": "You stab %s with your three pointed horns!",
+      "attack_text_npc": "%1$s stabs %2$s with their three pointed horns!",
+      "chance": 33,
+      "base_damage": { "damage_type": "stab", "amount": 36 }
+    },
+    "copy-from": "HORNS_POINTED",
+    "extend": { "category": [ "HORNS" ], "threshreq": [ "THRESH_HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -283,7 +367,7 @@
     "type": "mutation",
     "id": "TAIL_THICK",
     "copy-from": "TAIL_THICK",
-    "extend": { "category": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -300,19 +384,19 @@
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You smash %s with your tail",
-      "attack_text_npc": "%1$s smashes %2$s with their tail",
+      "attack_text_u": "You smash %s with your tail!",
+      "attack_text_npc": "%1$s smashes %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 24 },
       "strength_damage": { "damage_type": "stab", "amount": 2 }
     },
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
@@ -358,32 +442,56 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HUGE",
     "copy-from": "HUGE",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "SLIT_NOSTRILS",
     "copy-from": "SLIT_NOSTRILS",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "UGLY",
+    "copy-from": "UGLY",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFORMED",
+    "copy-from": "DEFORMED",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
@@ -394,8 +502,26 @@
   },
   {
     "type": "mutation",
+    "id": "THIRST",
+    "copy-from": "THIRST",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST2",
+    "copy-from": "THIRST2",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "THIRST3",
     "copy-from": "THIRST3",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PONDEROUS1",
+    "copy-from": "PONDEROUS1",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
@@ -406,14 +532,123 @@
   },
   {
     "type": "mutation",
+    "id": "COLDBLOOD",
+    "copy-from": "COLDBLOOD",
+    "extend": { "category": [ "STEGO", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD2",
     "copy-from": "COLDBLOOD2",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD3",
+    "copy-from": "COLDBLOOD3",
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACK",
+    "copy-from": "STRONGBACK",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "copy-from": "FANGS",
+    "extend": { "category": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_CLUB",
+    "copy-from": "TAIL_CLUB",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET",
+    "copy-from": "FLEET",
+    "extend": { "category": [ "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "HORNS", "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BEAK",
+    "copy-from": "BEAK",
+    "extend": { "category": [ "HORNS", "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTEATER",
+    "copy-from": "LIGHTEATER",
+    "extend": { "category": [ "HORNS", "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GIZZARD",
+    "copy-from": "GIZZARD",
+    "extend": { "category": [ "HORNS", "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOOVES",
+    "copy-from": "HOOVES",
+    "extend": { "category": [ "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PACK_LEADER",
+    "name": { "str": "Pack Leader" },
+    "points": 4,
+    "description": "Puny as they may seem, a leader needs a pack, and some of those hairless bipeds may yet prove some worth.  You gain combat skills at an elevated rate, and maintain a level of critical thinking that supports cooperation.",
+    "social_modifiers": { "intimidate": 4 },
+    "purifiable": false,
+    "prereqs": [ "GRAZER" ],
+    "prereqs2": [ "HORNS" ],
+    "threshreq": [ "THRESH_HORNS" ],
+    "category": [ "HORNS" ]
   }
 ]

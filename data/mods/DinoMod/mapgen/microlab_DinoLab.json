@@ -1,9 +1,7 @@
 [
   {
     "type": "mapgen",
-    "method": "json",
     "om_terrain": [ "microlab_DinoLab_sub_entry" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -43,7 +41,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface_connector" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -84,7 +81,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -128,7 +124,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_surface_roof" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -163,7 +158,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -199,7 +193,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -234,7 +227,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -269,7 +261,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -305,7 +296,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -343,7 +333,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -378,7 +367,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -413,7 +401,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -448,7 +435,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -483,7 +469,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -518,7 +503,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -553,7 +537,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -590,7 +573,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -625,7 +607,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -659,8 +640,183 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ [ "microlab_DinoLab" ] ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "^|FFF|c  c|  |c  c|     ",
+        " ||||||||||  |||||||||| ",
+        " |D      D|  |^^^^|ccc| ",
+        " |@@    @@|       2   2 ",
+        "^|D   T  D|       |   | ",
+        "||@@    @@|  |2(((||||||",
+        "r|        2  |       O| ",
+        "r|||||2||||  |  RR   O| ",
+        "r|l  | | l|  |  RR   O| ",
+        " |l  | 2 l|  |       O| ",
+        "2||||||||||22|  |-tt-|||",
+        "           YY|  |-((--|^",
+        "           YY|  |-@Ti-|^",
+        "|||||2||||||||5G|-@ ;-||",
+        " |        |---5----2--| ",
+        " | cc  cc |-p   Y   p-| ",
+        " | cc  cc |-p   7   p-|t",
+        " |     cc |-p   / T p-|t",
+        "||     cc |-         -||",
+        " |2|||    |-(- -(-   -| ",
+        " |   |dh d|-T-6-T-ppp-| ",
+        " 2   |dddd|-----------| ",
+        " |||||||||||||||||||||| ",
+        "     |ttt |^^| cc |     "
+      ],
+      "palettes": [ "microlab_DinoLab" ],
+      "terrain": { "G": "t_card_science" },
+      "furniture": { "7": "f_autodoc", "/": "f_autodoc_couch", "T": "f_counter", "p": "f_counter" },
+      "items": {
+        "p": { "item": "bionics", "chance": 20 },
+        "T": [
+          { "item": "bionics_sci", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "bionics", "chance": 100, "repeat": [ 1, 3 ] }
+        ],
+        "7": { "item": "autodoc_supplies", "chance": 100 }
+      },
+      "place_loot": [ { "item": "anesthetic_kit", "x": 20, "y": 15, "ammo": 100 } ],
+      "place_monsters": [ { "monster": "GROUP_BIO_DINO_PRED", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "monster": { "T": { "monster": "mon_tyrannosaurus_bio_op" } },
+      "computers": {
+        "6": {
+          "name": "Dinosaur surgery room computer",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 3,
+          "options": [
+            { "name": "Open Storage Chambers", "security": 5, "action": "release_bionics" },
+            { "name": "Manifest", "action": "list_bionics" }
+          ],
+          "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_DinoLab" ] ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |------------------|6 ",
+        "  |-F   cccccc -lll -|r ",
+        "|||-F          2   c-||2",
+        "  |---  cc pp  -  h6-|  ",
+        "  |-F   cc pt  - h c-|c ",
+        "  |-F   cc pp  -cccc-|c ",
+        "  |---         -((((-|  ",
+        "2|G            2   t-|||",
+        "  5  T----22----  @@-|  ",
+        "  5  T-h       5   t-|  ",
+        "||-lll-66      5    -|||",
+        " |-----(((222---------|c",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        "c|-                  -|c",
+        "||-0 0 0 0 0 0 0 0 0 -||",
+        "c|-0 0 0 0 0 0 0 0 0 -|F",
+        " |--------------------|F",
+        " |||||||||||||||||||||||",
+        " cccc|c   |^^|    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab_DinoLab" ],
+      "terrain": { "0": "t_vat", "G": "t_card_science" },
+      "furniture": { "t": "f_counter", "p": "f_counter" },
+      "monster": { "T": { "monster": "mon_tyrannosaurus_juvenile" } },
+      "item": { "0": { "item": "tyrant_sample" }, "t": { "item": "iv_mutagen_tyrant" } },
+      "place_monsters": [ { "monster": "GROUP_BIO_DINO_PRED", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_DinoLab" ] ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |------------------|6 ",
+        "  |-F   cccccc -lll -|r ",
+        "|||-F          2   c-||2",
+        "  |---  cc pp  -  h6-|  ",
+        "  |-F   cc pt  - h c-|c ",
+        "  |-F   cc pp  -cccc-|c ",
+        "  |---         -((((-|  ",
+        "2|G            2   t-|||",
+        "  5  T----22----  @@-|  ",
+        "  5  T-h       5   t-|  ",
+        "||-lll-66      5    -|||",
+        " |-----(((222---------|c",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        "c|-                  -|c",
+        "||-0 0 0 0 0 0 0 0 0 -||",
+        "c|-0 0 0 0 0 0 0 0 0 -|F",
+        " |--------------------|F",
+        " |||||||||||||||||||||||",
+        " cccc|c   |^^|    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab_DinoLab" ],
+      "terrain": { "0": "t_vat", "G": "t_card_science" },
+      "furniture": { "t": "f_counter", "p": "f_counter" },
+      "monster": { "T": { "monster": "mon_deinonychus" } },
+      "item": { "0": { "item": "raptor_sample" }, "t": { "item": "iv_mutagen_raptor" } },
+      "place_monsters": [ { "monster": "GROUP_BIO_DINO_PRED", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_DinoLab" ] ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     | cc 2  2 cc |     ",
+        "     |    |^^|    |cccc ",
+        "  ||||||||||||||||||||c ",
+        "  |------------------|6 ",
+        "  |-F   cccccc -lll -|r ",
+        "|||-F          2   c-||2",
+        "  |---  cc pp  -  h6-|  ",
+        "  |-F   cc pt  - h c-|c ",
+        "  |-F   cc pp  -cccc-|c ",
+        "  |---         -((((-|  ",
+        "2|G            2   t-|||",
+        "  5  T----22----  @@-|  ",
+        "  5  T-h       5   t-|  ",
+        "||-lll-66      5    -|||",
+        " |-----(((222---------|c",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        " |-0 0 0 0   0 0 0 0 -| ",
+        "c|-                  -|c",
+        "||-0 0 0 0 0 0 0 0 0 -||",
+        "c|-0 0 0 0 0 0 0 0 0 -|F",
+        " |--------------------|F",
+        " |||||||||||||||||||||||",
+        " cccc|c   |^^|    |  cc ",
+        "    c|c   2  2    |     "
+      ],
+      "palettes": [ "microlab_DinoLab" ],
+      "terrain": { "0": "t_vat", "G": "t_card_science" },
+      "furniture": { "t": "f_counter", "p": "f_counter" },
+      "monster": { "T": { "monster": "mon_stegosaurus" } },
+      "item": { "0": { "item": "stego_sample" }, "t": { "item": "iv_mutagen_stego" } },
+      "place_monsters": [ { "monster": "GROUP_BIO_DINO_HERB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -690,10 +846,10 @@
         "          |  |          "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -701,7 +857,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -731,10 +886,10 @@
         "          |  5          "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -742,7 +897,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -772,10 +926,10 @@
         "     ||||||  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -783,7 +937,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -813,10 +966,10 @@
         "     |    |  |    |     "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -824,7 +977,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -854,10 +1006,10 @@
         "     |    |  |     |    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -865,7 +1017,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -895,10 +1046,10 @@
         "   |      |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -906,7 +1057,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -936,10 +1086,10 @@
         "   ||||||||  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -947,7 +1097,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -977,10 +1126,10 @@
         "   |      |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -988,7 +1137,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1018,10 +1166,10 @@
         "   |      |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -1029,7 +1177,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1059,10 +1206,10 @@
         "   |      |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -1070,7 +1217,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1100,10 +1246,10 @@
         "   |      |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }
@@ -1111,7 +1257,6 @@
   {
     "type": "mapgen",
     "om_terrain": [ [ "microlab_DinoLab_edge" ] ],
-    "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -1141,10 +1286,10 @@
         "     |    |  |||||||    "
       ],
       "place_nested": [
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
+        { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } }
       ],
       "palettes": [ "microlab_DinoLab" ]
     }

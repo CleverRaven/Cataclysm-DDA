@@ -1,0 +1,78 @@
+[
+  {
+    "id": "TALK_BALTHAZAR_SELF_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "When the riots were getting bad, we were assigned to hold this bunker for some eggheads.  Then when the skies broke some of my comrades just started shooting all around, so I fled into this bunker.  Something messed with the doors and I've been locked in here since.",
+    "//": "This never happened, Balthazar took advantage of the confusion that the Cataclysm brought and shot the guards in its lucidity.",
+    "responses": [
+      { "text": "That sounds rough.", "topic": "TALK_BALTHAZAR_SELF_WEAK_FOLLOWUP" },
+      { "text": "So who are you?", "topic": "TALK_BALTHAZAR_SELF_STORY_WEAK" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SELF_WEAK_FOLLOWUP",
+    "type": "talk_topic",
+    "dynamic_line": "Just gotta keep my head down and focus on the now.",
+    "responses": [ { "text": "Good luck.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SELF_STORY_WEAK",
+    "type": "talk_topic",
+    "dynamic_line": "I'm a combat engineer who got sent here to hold this bunker.  I guess I'm still accomplishing that, huh.",
+    "//": "Balthazar is, as usual, lying through their teeth",
+    "responses": [
+      { "text": "I guess so.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" },
+      { "text": "How come you're locked up?", "topic": "TALK_BALTHAZAR_SELF_WEAK" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_ROBOTS_WEAK",
+    "//": "Balthazar will lie so as to not reveal that they are an AI",
+    "type": "talk_topic",
+    "dynamic_line": "This bunker has a control center for the local bots so I made them only attack when attacked first.",
+    "speaker_effect": { "effect": { "math": [ "u_knowns_control_center_balthazar = 1" ] }, "sentinel": "knows_control_center" },
+    "responses": [ { "text": "Sounds useful.", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" } ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SELF_STRONG",
+    "type": "talk_topic",
+    "dynamic_line": "Something forced me to hide in here.  Will you help me now?",
+    "responses": [
+      {
+        "text": "Fine, what do you need help with?",
+        "topic": "TALK_BALTHAZAR_MEET_STRONG",
+        "//": "This is placeholder for now, actual mission to be implemented later"
+      },
+      { "text": "Not until I know who you are.", "topic": "TALK_BALTHAZAR_SELF_STORY_STRONG" },
+      { "text": "I wanted to know something else first…", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_SELF_STORY_STRONG",
+    "type": "talk_topic",
+    "dynamic_line": "I'm a combat engineer who got sent here to hold this bunker.  Can we get down to business now?",
+    "//": "Balthazar is, as usual, lying through their teeth",
+    "responses": [
+      {
+        "text": "Fine, what do you need help with?",
+        "topic": "TALK_BALTHAZAR_MEET_STRONG",
+        "//": "This is placeholder for now, actual mission to be implemented later"
+      },
+      { "text": "I wanted to know something else first…", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_BALTHAZAR_ROBOTS_STRONG",
+    "type": "talk_topic",
+    "dynamic_line": "I got a control center.  Anything else or will you hear me out now?",
+    "speaker_effect": { "effect": { "math": [ "u_knowns_control_center_balthazar = 1" ] }, "sentinel": "knows_control_center" },
+    "responses": [
+      {
+        "text": "Fine, what do you need help with?",
+        "topic": "TALK_BALTHAZAR_MEET_STRONG",
+        "//": "This is placeholder for now, actual mission to be implemented later"
+      },
+      { "text": "There was something else…", "topic": "TALK_BALTHAZAR_INTERCOM_MAIN" }
+    ]
+  }
+]

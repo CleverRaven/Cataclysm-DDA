@@ -39,7 +39,7 @@
     "entries": [
       { "item": "boxer_briefs" },
       { "item": "socks" },
-      { "item": "robofac_jumpsuit" },
+      { "item": "jumpsuit", "variant": "robofac" },
       { "item": "boots" },
       { "item": "hat_ball" },
       { "item": "gloves_work" }
@@ -60,7 +60,7 @@
     "id": "HUB01_SNarayana_Intro",
     "dynamic_line": {
       "u_has_trait": "PROF_HUB01_ANCILLIARY",
-      "yes": "Oooh, the NEW person.  So, you're not just some rumour they cooked up as a team building exercise.  I'm Sunil, welcome to the underground.",
+      "yes": "Oooh, the NEW person.  So, you're not just some rumor they cooked up as a team building exercise.  I'm Sunil, welcome to the underground.",
       "no": "Who the fuck are you?  How did you get down here?  Security!"
     },
     "responses": [
@@ -73,7 +73,7 @@
       {
         "text": "Nice to meet you too.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_met_SNarayana", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "u_add_var": "general_meeting_u_met_SNarayana", "value": "yes" },
         "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" }
       }
     ]
