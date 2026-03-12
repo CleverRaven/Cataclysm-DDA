@@ -1576,6 +1576,37 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     return ret;
 }
 
+std::pair<std::string, nc_color> display::snow_depth_text_color( const Character &u )
+{
+    if( u.posz() < 0 ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    const map &here = get_map();
+    if( !here.is_outside( u.pos_bub() ) || here.is_roofed( u.pos_bub() ) ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    const double depth = get_weather().get_snow_depth_mm( u.pos_abs_omt() );
+    if( depth < 1.0 ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    std::string text;
+    nc_color color;
+    if( depth >= 500 ) {
+        text = _( "Deep snow" );
+        color = c_white;
+    } else if( depth >= 250 ) {
+        text = _( "Snow" );
+        color = c_light_blue;
+    } else if( depth >= 100 ) {
+        text = _( "Light snow" );
+        color = c_light_cyan;
+    } else {
+        text = _( "Dusting" );
+        color = c_cyan;
+    }
+    return std::make_pair( text, color );
+}
+
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
     if( u.posz() < 0 ) {

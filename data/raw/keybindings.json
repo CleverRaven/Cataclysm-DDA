@@ -2063,6 +2063,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_CONNECTION_VISIBILITY",
+    "category": "APP_INTERACT",
+    "name": "Toggle connection visibility on/off",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" }, { "input_method": "gamepad", "key": "L_RADIAL_W" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",

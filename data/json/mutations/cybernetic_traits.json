@@ -122,5 +122,57 @@
         "electric": 0
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_LEFT",
+    "name": { "str": "Bionic Arm (left)" },
+    "description": "Your left arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_RIGHT",
+    "name": { "str": "Bionic Arm (right)" },
+    "description": "Your right arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_LEFT",
+    "name": { "str": "Bionic Leg (left)" },
+    "description": "Your left leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_RIGHT",
+    "name": { "str": "Bionic Leg (right)" },
+    "description": "Your right leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
+      }
+    ]
   }
 ]

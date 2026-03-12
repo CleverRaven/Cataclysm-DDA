@@ -531,6 +531,12 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     fake_mon.zombify_into = mon.id;
     // looks like "corpse" + original mon
     fake_mon.looks_like = "corpse_" + mon.id.str();
+    // disable upgrades - pseudo-dormant monsters exist briefly and must not
+    // change type before they fire their dormant trap setup attack
+    fake_mon.upgrades = false;
+    // just in case, clear the upgrade targets too
+    fake_mon.upgrade_into = mtype_id::NULL_ID();
+    fake_mon.upgrade_group = mongroup_id::NULL_ID();
     // set the hp to 5
     fake_mon.hp = 5;
     // set the speed to 1

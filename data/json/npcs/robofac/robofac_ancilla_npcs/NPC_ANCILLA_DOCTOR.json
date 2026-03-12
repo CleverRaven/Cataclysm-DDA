@@ -28,6 +28,17 @@
         "rigid": true,
         "strict": true,
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+      },
+      {
+        "group": "NC_ANCILLA_DOCTOR_bionics_LENS",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
+          ]
+        }
       }
     ],
     "shopkeeper_price_rules": [
@@ -77,6 +88,12 @@
       { "item": "bio_robofac_xmarm", "prob": 100, "count": [ 1, 2 ] },
       { "item": "bio_robofac_xmback", "prob": 100, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_DOCTOR_bionics_LENS",
+    "subtype": "collection",
+    "entries": [ { "item": "bio_robofac_xmlens", "prob": 100, "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

@@ -316,7 +316,12 @@ TEST_CASE( "Wield_test", "[wield]" )
                 }
 
                 AND_WHEN( "trying to wield contained item" ) {
-                    REQUIRE_FALSE( guy.wield( *knife_loc ) );
+                    REQUIRE( guy.wield( *knife_loc ) );
+
+                    THEN( "you wield the knife, not the sheath" ) {
+                        REQUIRE( guy.get_wielded_item() );
+                        CHECK( guy.get_wielded_item()->typeId() == itype_knife_combat );
+                    }
                 }
 
                 AND_WHEN( "trying to wield contained item_location" ) {

@@ -165,6 +165,7 @@ std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 
 std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
+std::pair<std::string, nc_color> snow_depth_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
 
 // Get visible threats by cardinal direction - Already colorized
