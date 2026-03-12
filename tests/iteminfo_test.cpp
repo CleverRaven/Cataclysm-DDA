@@ -1074,21 +1074,18 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
         std::vector<iteminfo_parts> cov_warm_suit = {
             iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH
         };
-        int faux_fur_suit_cov = faux_fur_suit.get_avg_coverage();
-        int faux_fur_suit_warmth = faux_fur_suit.get_warmth();
-        REQUIRE( faux_fur_suit_cov > 0 );
-        REQUIRE( faux_fur_suit_warmth > 0 );
+        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
+        REQUIRE( faux_fur_suit.get_warmth() == 5 );
         CHECK( item_info_str( faux_fur_suit, cov_warm_suit )
                ==
                "--\n"
                "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>" + std::to_string( faux_fur_suit_cov ) +
-               "</color>%: The <color_c_cyan>head</color>. The <color_c_cyan>l. arm</color>. The <color_c_cyan>l. leg</color>.\n"
+               "  <color_c_yellow>50</color>%: The <color_c_cyan>head</color>. The <color_c_cyan>l. arm</color>. The <color_c_cyan>l. leg</color>.\n"
                "  <color_c_yellow>100</color>%: The <color_c_cyan>r. arm</color>. The <color_c_cyan>r. leg</color>. The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Warmth</color>"
-               "  <color_c_yellow>" + std::to_string( faux_fur_suit_warmth ) +
-               "</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
-        verify_item_coverage(
+               "  <color_c_yellow>5</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
+
+        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );       verify_item_coverage(
         faux_fur_suit, {
             { bodypart_id( "torso" ), 100 },
             { bodypart_id( "leg_l" ), 50 },
