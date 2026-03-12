@@ -426,8 +426,50 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_BIONICS",
     "type": "talk_topic",
-    "dynamic_line": "Sure, what are you looking for?",
+    "dynamic_line": {
+      "math": [ "robofac_exodii_cbm_knowledge >= 20" ],
+      "yes": {
+        "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ],
+        "yes": "Sure, what can I do ya' for?",
+        "no": "&The Doc looks you over carefully.  \"Well, you still got all your fingers and toes, so I guess you're not here for the new prosthetics.  What can I do for you?\""
+      },
+      "no": "Sure, what can I do ya' for?"
+    }
     "responses": [
+      {
+        "text": "New prosthetics?  What do you mean?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_INTRO",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] } },
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs", "value": "yes" }
+      },
+      {
+        "text": "So about those cybernetic arms and legs… think you could replace one of my normal limbs with one?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs", "value": "yes" }
+      },
+      {
+        "text": "I was wondering if you could install a cybernetic limb…",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] }
+          ]
+        }
+      },
       {
         "text": "I was wondering if you could install a cybernetic implant…",
         "topic": "TALK_DONE",
@@ -564,5 +606,208 @@
     "id": "TALK_ANCILLA_DOCTOR_WORK",
     "dynamic_line": "It takes resources to keep this show running: disinfectant, antibiotics, anesthetics, so on.  I'll give you a great price if you bring any of those.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_ANCILLA_DOCTOR" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_INTRO",
+    "dynamic_line": "That's right.\"  The doctor pulls out a vacuum-sealed package containing what is clearly a high-tech prosthetic arm, not too unlike those you saw before the Cataclysm.\n\n\"That annoying prick across the street has made some progress on those killer robots, I guess, and we figured out a way to improve standard prosthetics.  Missing limbs seems to be increasingly common.  Anyway, it's not superhuman stuff like some of these bionics, but it'll function like a normal limb, as long as you can keep it powered.  The benefit over the old-school stuff is the power, and that you control them with your neurobionic interface, and thus your brain, yeah?  So you may not be stronger or faster, but hey, at least your muscles won't get tired as easy.  Because you don't have'em!  Hah!",
+    "responses": [
+      { "text": "I'll keep that in mind in case I lose a limb.  See you around.", "topic": "TALK_DONE" },
+      {
+        "text": "Actually… could you just cut off one of my limbs and install one of those instead?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP" },
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs", "value": "yes" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
+    "dynamic_line": "&The Doc stares at you for a long moment, confusedly.  \"Give me a second.\"\n\nThe doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup.  In fact, I've been authorized to give you a discount.  You'll be the first of our new and improved Cybenetic Enhancements Program, yeah?",
+    "responses": [
+      { "text": "Alright, let's talk about limb replacement.", "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1" },
+      { "text": "I'll keep that in mind.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1",
+    "dynamic_line": "Let's get you checked out.  Climb up onto the automated surgical suite here, yeah?",
+    "responses": [
+      {
+        "text": "[Climb onto the bed by the surgical robot]",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2_yes",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "THRESH_FISH" } },
+            { "not": { "u_has_trait": "THRESH_SLIME" } },
+            { "not": { "u_has_trait": "THRESH_SPIDER" } },
+            { "not": { "u_has_trait": "THRESH_BATRACHIAN" } },
+            { "not": { "u_has_trait": "THRESH_URSINE" } },
+            { "not": { "u_has_trait": "THRESH_BEAST" } },
+            { "not": { "u_has_trait": "THRESH_BIRD" } },
+            { "not": { "u_has_trait": "THRESH_CATTLE" } },
+            { "not": { "u_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "u_has_trait": "THRESH_CHIMERA" } },
+            { "not": { "u_has_trait": "THRESH_CHIROPTERAN" } },
+            { "not": { "u_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "u_has_trait": "THRESH_MOUSE" } },
+            { "not": { "u_has_trait": "THRESH_FELINE" } },
+            { "not": { "u_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "u_has_trait": "THRESH_INSECT" } },
+            { "not": { "u_has_trait": "THRESH_RABBIT" } },
+            { "not": { "u_has_trait": "THRESH_LIZARD" } },
+            { "not": { "u_has_trait": "THRESH_PLANT" } },
+            { "not": { "u_has_trait": "THRESH_RAPTOR" } },
+            { "not": { "u_has_trait": "THRESH_TROGLOBITE" } },
+            { "not": { "u_has_trait": "THRESH_RAT" } },
+            { "not": { "u_has_trait": "THRESH_LUPINE" } }
+          ]
+        }
+      },
+      {
+        "text": "[Climb onto the bed by the surgical robot]",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2_mutant",
+        "condition": {
+          "or": [
+            { "u_has_trait": "THRESH_FISH" },
+            { "u_has_trait": "THRESH_SLIME" },
+            { "u_has_trait": "THRESH_SPIDER" },
+            { "u_has_trait": "THRESH_BATRACHIAN" },
+            { "u_has_trait": "THRESH_URSINE" },
+            { "u_has_trait": "THRESH_BEAST" },
+            { "u_has_trait": "THRESH_BIRD" },
+            { "u_has_trait": "THRESH_CATTLE" },
+            { "u_has_trait": "THRESH_CEPHALOPOD" },
+            { "u_has_trait": "THRESH_CHIMERA" },
+            { "u_has_trait": "THRESH_CHIROPTERAN" },
+            { "u_has_trait": "THRESH_CRUSTACEAN" },
+            { "u_has_trait": "THRESH_MOUSE" },
+            { "u_has_trait": "THRESH_FELINE" },
+            { "u_has_trait": "THRESH_GASTROPOD" },
+            { "u_has_trait": "THRESH_INSECT" },
+            { "u_has_trait": "THRESH_RABBIT" },
+            { "u_has_trait": "THRESH_LIZARD" },
+            { "u_has_trait": "THRESH_PLANT" },
+            { "u_has_trait": "THRESH_RAPTOR" },
+            { "u_has_trait": "THRESH_TROGLOBITE" },
+            { "u_has_trait": "THRESH_RAT" },
+            { "u_has_trait": "THRESH_LUPINE" }
+          ]
+        }
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2_mutant",
+    "dynamic_line": "&The Doc spends a long moment clacking away on the keyboard, until the machine beeps several times.  He scowls.  He does it again.  It beeps again.  Then he looks at you.  \"Well, lookin' at you this should have been obvious, but the machine is throwing all kinds of errors when I try to process you for a limb replacement.  I think your - well, let's call it anatomy - isn't suited for it.  It doesn't even know where to start.  You're too far gone, pal.",
+    "responses": [
+      { "text": "Well, I guess that's that.  Maybe in another life.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2_yes",
+    "dynamic_line": "&The Doc spends a long moment clacking away on the keyboard, until the machine beeps several times.  \"Yup, all looks good.  Healthy as a horse.  Well, good enough for the machine, at least.  What can I do ya' for?  Not sure yet if you have any cybernetics installed that won't swap over, but if you do, I'll remove them first.\n\n\"Oh, and the important parts.  Firstly, it'll take 6 hours, and I don't have the equipment to keep you hydrated, so come fed and healthy.  Second, it's 20 HGC per limb - and that's the discounted price, remember.\"",
+    "responses": [
+      {
+        "text": "[20 HGC] Swap out my right arm for a basic bionic arm.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_arms" },
+          { "u_add_trait": "THRESH_CYBORG" },
+          { "u_add_trait": "BIONIC_ARM_BASIC_RIGHT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Swap out my left arm for a basic bionic arm.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_arms" },
+          { "u_add_trait": "THRESH_CYBORG" },
+          { "u_add_trait": "BIONIC_ARM_BASIC_LEFT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Swap out my right leg for a basic bionic leg.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_legs" },
+          { "u_add_trait": "THRESH_CYBORG" },
+          { "u_add_trait": "BIONIC_LEG_BASIC_RIGHT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Swap out my left leg for a basic bionic leg.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_legs" },
+          { "u_add_trait": "THRESH_CYBORG" },
+          { "u_add_trait": "BIONIC_LEG_BASIC_LEFT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_DONE" }
+    ]
   }
 ]
