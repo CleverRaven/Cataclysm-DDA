@@ -385,7 +385,7 @@
     "name_multiple": "leathery arms",
     "accusative": { "ctxt": "bodypart_accusative", "str": "leathery arm" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "leathery arms" },
-    "heading": "R. Arm",
+    "heading": "r. arm",
     "main_part": "arm_bat_r",
     "opposite_part": "arm_bat_l",
     "side": "right",
