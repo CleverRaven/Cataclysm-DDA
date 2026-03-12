@@ -3366,4 +3366,22 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
         CHECK( wrm.find( "Warmth" ) == std::string::npos );
         CHECK( brt.find( "Breathability" ) == std::string::npos );
     }
+
+    SECTION( "coverage value correct for default human" ) {
+        clear_avatar();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_COVERAGE } );
+        CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
+        CHECK( info.find( arms_frag ) != std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
+    }
+
+    SECTION( "coverage value correct for alt-arm character" ) {
+        make_alt_arm_viewer();
+        item longshirt( itype_test_longshirt );
+        std::string info = item_info_str( longshirt, { iteminfo_parts::ARMOR_COVERAGE } );
+        CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
+        CHECK( info.find( alt_arms_frag ) != std::string::npos );
+        CHECK( info.find( torso_frag ) != std::string::npos );
+    }
 }
