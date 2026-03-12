@@ -547,7 +547,7 @@
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "category": [ "BIRD" ],
     "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
+    "prereqs": [ "ARM_FEATHERS" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "strict_threshreq": true,
@@ -555,8 +555,20 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "flags": [ "WINGS_2", "WING_GLIDE" ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "lose": "hand_l" },
+          { "gain": "arm_wing_bird_l" },
+          { "gain": "arm_wing_bird_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

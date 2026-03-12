@@ -272,7 +272,6 @@ static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
-static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -7812,10 +7811,9 @@ bool Character::can_fly()
         return true;
     }
     // TODO: Remove grandfathering traits in after Limb Stuff
-    if( has_flag( json_flag_WINGS_2 ) ||
-        has_flag( json_flag_WING_GLIDE ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+    if( has_flag( json_flag_WINGS_2 ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
 
-        if( 100 * weight_carried() / weight_capacity() > 50 || !has_two_arms_lifting() ) {
+        if( 100 * weight_carried() / weight_capacity() > 50 ) {
             return false;
         }
         return true;

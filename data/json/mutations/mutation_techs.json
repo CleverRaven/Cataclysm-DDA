@@ -356,6 +356,27 @@
     "messages": [ "You peck %s", "<npcname> pecks %s" ],
     "description": "A bird peck.",
     "attack_vectors": [ "vector_bird_peck" ],
+    "condition": { "not": { "u_has_trait": "WINGS_BIRD" } },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_PECK_IF_WINGS",
+    "//": "More likely to peck if you have wings",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": 2,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "condition": { "u_has_trait": "WINGS_BIRD" },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
@@ -444,6 +465,17 @@
     "messages": [ "You snip %s with your pincer", "<npcname> snips %s with their pincer" ],
     "description": "A basic crustacean punch",
     "attack_vectors": [ "vector_crab_pincer" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_WING_SLAP",
+    "name": "Wing Slap",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You slap %s with your wings", "<npcname> slaps %s with their wings" ],
+    "description": "A slap of the wings.",
+    "attack_vectors": [ "vector_wing_slap" ],
+    "flat_bonuses": [ { "stat": "movecost", "scale": 20 } ]
   },
   {
     "type": "technique",
