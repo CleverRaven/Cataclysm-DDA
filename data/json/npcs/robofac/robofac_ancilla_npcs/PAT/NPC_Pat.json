@@ -1432,7 +1432,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_LENS_3",
     "type": "talk_topic",
-    "dynamic_line": "&After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.  This thing's fahkin' nuts, pal.  I just pretuned your software radio doohickey to our frequency.  Long as that helmet's powered up, I can link in.  No prob.  Can also give me a shout over the radio, yeah?  I dunno where you keep the fuckin' trigger for the walkie, but if it's in your ass don't go butt dialin' me while you're in the head, yeah?\"",
+    "dynamic_line": "&After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.  This thing's fahkin' nuts, pal.  I just pretuned your software radio doohickey to our frequency.  Long as that helmet's powered up, I can link in.  No prob.  Can also give me a shout over the radio, yeah?  I dunno where you keep the fahkin' trigger for the walkie, but if it's in your ass don't go butt dialin' me while you're in the head, yeah?\"",
     "responses": [
       {
         "text": "Hah, will do, Pat.  Thanks.  I wanted to ask talk about something else, too.",
