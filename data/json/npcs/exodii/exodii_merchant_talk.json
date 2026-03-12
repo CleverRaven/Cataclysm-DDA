@@ -139,20 +139,24 @@
           "u_has_bionics": "bio_robofac_xmback",
           "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
           "no": {
-            "u_has_effect": "u_exodii_interaction_timer_short",
-            "yes": [
-              "Back in a blink and a whiff, eh?",
-              { "gendered_line": "Forgot sommat?", "relevant_genders": [ "u" ] },
-              "Ah, a returnin', an I'm ken."
-            ],
+            "u_has_bionics": "bio_robofac_xmlens",
+            "yes": "&The towering mass of metal rests its hands on its exotic rifle, albeit rather naturally and calmly.  After a brief pause, a hefty finger gently toggles a safety switch on the side of the firearm: *click*.",
             "no": {
-              "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
+              "u_has_effect": "u_exodii_interaction_timer_short",
               "yes": [
-                "&\"And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
-                "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
-                "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
+                "Back in a blink and a whiff, eh?",
+                { "gendered_line": "Forgot sommat?", "relevant_genders": [ "u" ] },
+                "Ah, a returnin', an I'm ken."
               ],
-              "no": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and raises its hand in a surprisingly natural motion of greeting.  A gravelly voice resonates from unseen speakers in the steel frame.  Its tone is bizarrely normal, in complete contrast with everything else around you.  \"Oy, you ain't dead.  Lookin' t'trade?\"  The accent sounds vaguely British, but not familiar; like a terrible imitation of Cockney."
+              "no": {
+                "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
+                "yes": [
+                  "&\"And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
+                  "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
+                  "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
+                ],
+                "no": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and raises its hand in a surprisingly natural motion of greeting.  A gravelly voice resonates from unseen speakers in the steel frame.  Its tone is bizarrely normal, in complete contrast with everything else around you.  \"Oy, you ain't dead.  Lookin' t'trade?\"  The accent sounds vaguely British, but not familiar; like a terrible imitation of Cockney."
+              }
             }
           }
         }
@@ -188,7 +192,8 @@
           "or": [
             { "u_has_bionics": "bio_robofac_xmarm" },
             { "u_has_bionics": "bio_robofac_xmleg" },
-            { "u_has_bionics": "bio_robofac_xmback" }
+            { "u_has_bionics": "bio_robofac_xmback" },
+            { "u_has_bionics": "bio_robofac_xmlens" }
           ]
         }
       },
@@ -200,7 +205,8 @@
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
@@ -214,7 +220,8 @@
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         }
       },
@@ -226,7 +233,8 @@
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         }
       },
@@ -238,7 +246,8 @@
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         }
       },
@@ -250,7 +259,8 @@
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         }
       },
@@ -261,7 +271,8 @@
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "topic": "TALK_DONE"
@@ -273,7 +284,8 @@
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "topic": "TALK_DONE"
@@ -286,7 +298,8 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing"
@@ -299,7 +312,8 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete"
@@ -318,7 +332,8 @@
             },
             { "not": { "u_has_bionics": "bio_robofac_xmarm" } },
             { "not": { "u_has_bionics": "bio_robofac_xmleg" } },
-            { "not": { "u_has_bionics": "bio_robofac_xmback" } }
+            { "not": { "u_has_bionics": "bio_robofac_xmback" } },
+            { "not": { "u_has_bionics": "bio_robofac_xmlens" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue"
