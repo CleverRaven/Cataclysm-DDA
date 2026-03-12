@@ -521,7 +521,7 @@
     "visibility": 3,
     "ugliness": 2,
     "flags": [ "WEBBED_HANDS" ],
-    "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
+    "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ], [ "arm_bat_l", 10 ], [ "arm_bat_r", 10 ] ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "enchantments": [
       { "values": [ { "value": "DEXTERITY", "add": -1 } ] },
