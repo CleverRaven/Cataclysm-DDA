@@ -901,6 +901,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );
 
+    //In its 1920 Manual of Horse Management, The U.S. Cavalry suggested a horse should not be asked to carry more than 20% of its body weight. This assumed a combined weight of rider, saddle, bridle, and other equipment.
     optional( jo, was_loaded, "mountable_weight_ratio", mountable_weight_ratio, 0.2f );
 
     optional( jo, was_loaded, "attack_cost", attack_cost, numeric_bound_reader<int> {0}, 100 );
