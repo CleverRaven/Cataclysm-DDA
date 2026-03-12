@@ -1,0 +1,22 @@
+[
+  {
+    "id": "tech_xe_ma_arvore_venom_attack_spell",
+    "type": "SPELL",
+    "name": { "str": "Nightshade's Touch Effect", "//~": "NO_I18N" },
+    "description": { "str": "Spell cast by the target of nightshade's touch", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "NON_MAGICAL", "RANDOM_DURATION" ],
+    "damage_type": "biological",
+    "effect": "attack",
+    "shape": "blast",
+    "magic_type": "xedra_arvore_magick",
+    "spell_class": "ARVORE",
+    "skill": "gramarye",
+    "min_dot": { "math": [ "0.3 * u_has_arvore_jagged_claw_out" ] },
+    "max_dot": { "math": [ "0.3 * u_has_arvore_jagged_claw_out" ] },
+    "min_duration": { "math": [ "800 * u_has_arvore_jagged_claw_out" ] },
+    "max_duration": { "math": [ "2000 * u_has_arvore_jagged_claw_out" ] }
+  }
+]

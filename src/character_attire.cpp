@@ -262,6 +262,13 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
                                             it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
     }
 
+    if( it.has_flag( flag_ROBOFAC_LENS_ACCESSORY ) &&
+        ( !worn_with_flag( flag_ROBOFAC_LENS_HELMET ) ) ) {
+        return ret_val<void>::make_failure( ( is_avatar() ?
+                                              _( "You can't wear that without a LENS helmet." )
+                                              : string_format( _( "%s can't wear that without a LENS helmet." ), get_name() ) ) );
+    }
+
     return ret_val<void>::make_success();
 }
 

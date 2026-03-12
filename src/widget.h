@@ -95,6 +95,7 @@ enum class widget_var : int {
     veh_fuel_text,  // Current/total fuel for active vehicle engine, color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
+    snow_depth_text, // Snow depth at player's OMT, color string
     weather_text,   // Weather/sky conditions (if visible), color string
     wielding_text,  // Currently wielded weapon or item name
     wielding_simple_text,  // Currently wielded weapon or item name, without mode and ammo

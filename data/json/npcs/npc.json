@@ -182,6 +182,17 @@
   },
   {
     "type": "npc",
+    "id": "survivor_lab_mutant",
+    "//": "A still-sane mutant human who escaped from a XEDRA facility and is willing to interact with the player.",
+    "name_suffix": "mutant",
+    "class": "NC_LAB_MUTANT",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_WARY",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "NPC_homeless_survivor",
     "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
