@@ -360,7 +360,7 @@
     "type": "profession",
     "id": "xe_offworld_cyborg",
     "name": { "male": "Xedra Offworld Team: Six-Million Dollar Man", "female": "Xedra Offworld Team: Six-Million Dollar Woman" },
-    "description": "Part of Xedra's Offworld Acquisitions team, you participated in a number of missions offworld, but on one mission what you can only describe as a \"fucking wizard\" collapsed a building on top of you.  While XEDRA managed to extract you and save your life, they could not save your left arm and leg. They offered to let you retire with a nice pension, but they also told you there was a way you could return to field work. You leapt at the chance.",
+    "description": "Part of Xedra's Offworld Acquisitions team, you participated in a number of missions offworld, but on one mission what you can only describe as a \"fucking wizard\" collapsed a building on top of you.  While XEDRA managed to extract you and save your life, they could not save your left arm and leg.  They offered to let you retire with a nice pension, but they also told you there was a way you could return to field work.  You leapt at the chance.",
     "traits": [ "XEDRA_CYBORG", "BIONIC_ARM_BASIC_LEFT", "BIONIC_LEG_BASIC_LEFT" ],
     "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
     "points": 8,
