@@ -1085,7 +1085,8 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
                "<color_c_white>Warmth</color>"
                "  <color_c_yellow>5</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
 
-        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );       verify_item_coverage(
+        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
+        verify_item_coverage(
         faux_fur_suit, {
             { bodypart_id( "torso" ), 100 },
             { bodypart_id( "leg_l" ), 50 },
