@@ -313,6 +313,8 @@ extern const flag_id flag_REQUIRES_BALANCE;
 extern const flag_id flag_REQUIRES_TINDER;
 extern const flag_id flag_RESTRICT_HANDS;
 extern const flag_id flag_REVIVE_SPECIAL;
+extern const flag_id flag_ROBOFAC_LENS_ACCESSORY;
+extern const flag_id flag_ROBOFAC_LENS_HELMET;
 extern const flag_id flag_ROLLER_INLINE;
 extern const flag_id flag_ROLLER_ONE;
 extern const flag_id flag_ROLLER_QUAD;

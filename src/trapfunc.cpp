@@ -535,7 +535,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
         }
         if( !you->is_mounted() ) {
             ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
-            if( rng( 5, 20 ) > you->dex_cur ) {
+            if( rng( 5, 20 ) > you->get_dex() ) {
                 you->hurtall( rng( 1, 4 ), nullptr );
             }
         }
@@ -658,7 +658,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
-            shots = ( one_in( 8 ) || one_in( 20 - you->str_max ) ? 2 : 1 );
+            shots = ( one_in( 8 ) || one_in( 20 - you->get_str_base() ) ? 2 : 1 );
             if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
@@ -1332,7 +1332,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
     const int throwing_skill_level = round( you.get_skill_level( skill_throw ) );
-    const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
+    const int roll = rng( throwing_skill_level, throwing_skill_level + you.get_str() + you.get_dex() );
     map &here = get_map();
     if( roll < diff ) {
         you.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );

@@ -208,6 +208,11 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+void debug_reset_error_observed()
+{
+    error_observed = false;
+}
+
 // saved in game::serialize
 bool debug_mode = false;
 

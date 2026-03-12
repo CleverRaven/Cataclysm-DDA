@@ -300,6 +300,34 @@
     "similar_bodypart": "beak_bottom"
   },
   {
+    "id": "beak_woodpecker_nares",
+    "copy-from": "beak_nares",
+    "type": "sub_body_part",
+    "parent": "beak_woodpecker",
+    "similar_bodypart": "beak_nares"
+  },
+  {
+    "id": "beak_woodpecker_top",
+    "copy-from": "beak_top",
+    "type": "sub_body_part",
+    "parent": "beak_woodpecker",
+    "similar_bodypart": "beak_top"
+  },
+  {
+    "id": "beak_woodpecker_tip",
+    "copy-from": "beak_tip",
+    "type": "sub_body_part",
+    "parent": "beak_woodpecker",
+    "similar_bodypart": "beak_tip"
+  },
+  {
+    "id": "beak_woodpecker_bottom",
+    "copy-from": "beak_bottom",
+    "type": "sub_body_part",
+    "parent": "beak_woodpecker",
+    "similar_bodypart": "beak_bottom"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
@@ -318,6 +346,198 @@
     "parent": "crustacean_pincer_r",
     "side": "right",
     "opposite": "hand_fingers_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_l",
+    "name": "left feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_shoulder_l",
+    "opposite": "arm_feathers_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_l",
+    "name": "left feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_upper_l",
+    "opposite": "arm_feathers_upper_r",
+    "max_coverage": 35
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_l",
+    "name": "left feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_elbow_l",
+    "opposite": "arm_feathers_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_l",
+    "name": "lower left feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_l",
+    "side": "left",
+    "similar_bodypart": "arm_lower_l",
+    "opposite": "arm_feathers_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_shoulder_r",
+    "name": "right feathered shoulder",
+    "name_multiple": "feathered shoulders",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_shoulder_r",
+    "opposite": "arm_feathers_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_upper_r",
+    "name": "right feathered upper arm",
+    "name_multiple": "feathered upper arms",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_upper_r",
+    "opposite": "arm_feathers_upper_l",
+    "max_coverage": 35
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_elbow_r",
+    "name": "right feathered elbow",
+    "name_multiple": "feathered elbows",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_elbow_r",
+    "opposite": "arm_feathers_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_feathers_lower_r",
+    "name": "lower right feathered arms",
+    "name_multiple": "lower feathered arms",
+    "parent": "arm_feathers_r",
+    "side": "right",
+    "similar_bodypart": "arm_lower_r",
+    "opposite": "arm_feathers_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_shoulder_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "left",
+    "similar_bodypart": "arm_shoulder_l",
+    "opposite": "arm_wing_bird_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_upper_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left upper wing",
+    "name_multiple": "upper wings",
+    "side": "left",
+    "opposite": "arm_wing_bird_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_elbow_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing joint",
+    "name_multiple": "wing joints",
+    "side": "left",
+    "opposite": "arm_wing_bird_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_lower_l",
+    "parent": "arm_wing_bird_l",
+    "name": "lower left wings",
+    "name_multiple": "lower wing",
+    "side": "left",
+    "opposite": "arm_wing_bird_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_fingers_l",
+    "parent": "arm_wing_bird_l",
+    "name": "left wing talons",
+    "name_multiple": "wing talons",
+    "side": "left",
+    "similar_bodypart": "hand_fingers_l",
+    "opposite": "arm_wing_bird_fingers_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_shoulder_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "right",
+    "similar_bodypart": "arm_shoulder_r",
+    "opposite": "arm_wing_bird_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_upper_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right upper wing",
+    "name_multiple": "upper wings",
+    "side": "right",
+    "opposite": "arm_wing_bird_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_elbow_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing joint",
+    "name_multiple": "wing joints",
+    "side": "right",
+    "opposite": "arm_wing_bird_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_lower_r",
+    "parent": "arm_wing_bird_r",
+    "name": "lower right wing",
+    "name_multiple": "lower wings",
+    "side": "right",
+    "opposite": "arm_wing_bird_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bird_fingers_r",
+    "parent": "arm_wing_bird_r",
+    "name": "right wing talons",
+    "name_multiple": "wing talons",
+    "side": "right",
+    "similar_bodypart": "hand_fingers_r",
+    "opposite": "arm_wing_bird_fingers_l",
+    "max_coverage": 5
   },
   {
     "id": "arm_insect_upper_l",
@@ -470,9 +690,49 @@
     "name": "right terminus"
   },
   {
+    "id": "vine_sublimb_ur",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_upper_r",
+    "side": "right",
+    "opposite": "vine_sublimb_ul",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_ul",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_upper_l",
+    "side": "left",
+    "opposite": "vine_sublimb_ur",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_lr",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_lower_r",
+    "side": "right",
+    "opposite": "vine_sublimb_ll",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
+    "id": "vine_sublimb_ll",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "vine_limb_lower_l",
+    "side": "left",
+    "opposite": "vine_sublimb_lr",
+    "name_multiple": "vines",
+    "name": "vine"
+  },
+  {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 30,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_sole_r",
@@ -482,7 +742,7 @@
   {
     "id": "hoof_wall_l",
     "type": "sub_body_part",
-    "max_coverage": 35,
+    "max_coverage": 40,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_wall_r",
@@ -492,7 +752,7 @@
   {
     "id": "hoof_fetlock_l",
     "type": "sub_body_part",
-    "max_coverage": 20,
+    "max_coverage": 30,
     "parent": "hoof_l",
     "side": "left",
     "opposite": "hoof_fetlock_r",
@@ -502,7 +762,7 @@
   {
     "id": "hoof_sole_r",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 30,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_sole_l",
@@ -512,7 +772,7 @@
   {
     "id": "hoof_wall_r",
     "type": "sub_body_part",
-    "max_coverage": 35,
+    "max_coverage": 40,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_wall_l",
@@ -522,7 +782,7 @@
   {
     "id": "hoof_fetlock_r",
     "type": "sub_body_part",
-    "max_coverage": 20,
+    "max_coverage": 30,
     "parent": "hoof_r",
     "side": "left",
     "opposite": "hoof_fetlock_l",

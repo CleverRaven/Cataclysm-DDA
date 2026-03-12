@@ -246,7 +246,6 @@ input_context game::get_player_input( std::string &action )
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
         for( const action_id id : {
-            ACTION_TOGGLE_MAP_MEMORY,
             ACTION_CENTER,
             ACTION_SHIFT_N,
             ACTION_SHIFT_NE,
@@ -2141,10 +2140,6 @@ static bool has_vehicle_control( avatar &player_character )
 static void do_deathcam_action( const action_id &act, avatar &player_character )
 {
     switch( act ) {
-        case ACTION_TOGGLE_MAP_MEMORY:
-            player_character.toggle_map_memory();
-            break;
-
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x();
             player_character.view_offset.y() = g->driving_view_offset.y();
@@ -2378,11 +2373,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
+                    const bool use_grab_routing =
+                        has_grabbed_single_tile_vehicle( player_character, here );
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
-                        destination_preview =
-                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        if( use_grab_routing ) {
+                            destination_preview = route_with_grab( here, player_character,
+                                                                   pathfinding_target::point( auto_travel_destination ),
+                                                                   player_character.get_path_avoid() );
+                        } else {
+                            destination_preview =
+                                here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        }
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );

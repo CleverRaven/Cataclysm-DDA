@@ -780,7 +780,7 @@ std::optional<int> iuse::anticonvulsant( Character *p, item *, const tripoint_bu
 {
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
-    time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 10_minutes );
+    time_duration duration = 8_hours - p->get_str() * rng( 0_turns, 10_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_hours;
     }
@@ -825,7 +825,7 @@ std::optional<int> iuse::coke( Character *p, item *, const tripoint_bub_ms & )
 {
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
     /** @EFFECT_STR reduces duration of coke */
-    time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
+    time_duration duration = 20_minutes - 1_seconds * p->get_str() + rng( 0_minutes, 1_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_minutes; // Symmetry would cause problems :-/
     }
@@ -840,7 +840,7 @@ std::optional<int> iuse::coke( Character *p, item *, const tripoint_bub_ms & )
 std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
 {
     /** @EFFECT_STR reduces duration of meth */
-    time_duration duration = 1_minutes * ( 60 - p->str_cur );
+    time_duration duration = 1_minutes * ( 60 - p->get_str() );
     if( p->has_amount( itype_apparatus, 1 ) && p->use_charges_if_avail( itype_fire, 1 ) ) {
         p->add_msg_if_player( m_neutral, _( "You smoke your meth." ) );
         p->add_msg_if_player( m_good, _( "The world seems to sharpen." ) );
@@ -866,7 +866,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint_bub_ms & )
     if( duration > 0_turns ) {
         // meth actually inhibits hunger, weaker characters benefit more
         /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
-        int hungerpen = p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max );
+        int hungerpen = p->get_str_base() < 5 ? 35 : 40 - ( 2 * p->get_str_base() );
         if( hungerpen > 0 ) {
             p->mod_hunger( -hungerpen );
         }
@@ -914,7 +914,7 @@ std::optional<int> iuse::poison( Character *p, item *it, const tripoint_bub_ms &
         return std::nullopt;
     }
     /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
-    if( p->has_trait( trait_EATPOISON ) && ( !one_in( p->str_cur / 2 ) ) ) {
+    if( p->has_trait( trait_EATPOISON ) && ( !one_in( p->get_str() / 2 ) ) ) {
         return 1;
     }
     p->add_effect( effect_poison, 1_hours );
@@ -1334,7 +1334,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mod_pain( 90 );
         p.hurtall( rng( 40, 65 ), nullptr ); // No good way to say "lose half your current HP"
         /** @EFFECT_INT slightly reduces sleep duration when eating Mycus+goo */
-        p.fall_asleep( 10_hours - p.int_cur *
+        p.fall_asleep( 10_hours - p.get_int() *
                        1_minutes ); // Hope you were eating someplace safe.  Mycus v. goo in your guts is no joke.
         for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
@@ -1346,7 +1346,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
         /** @EFFECT_INT reduces sleep duration when eating wrong color Marloss */
-        p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
+        p.fall_asleep( 40_minutes - 1_minutes * p.get_int() / 2 );
         for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1460,7 +1460,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint_bub_ms & )
         p->add_msg_if_player( m_good,
                               _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze…" ) );
         /** @EFFECT_INT slightly reduces sleep duration when eating Mycus */
-        p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
+        p->fall_asleep( 5_hours - p->get_int() * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
         g->invalidate_main_ui_adaptor();
@@ -3377,10 +3377,6 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
 
     int explosion_radius = 3;
     int effect_roll = rng( 1, 4 );
-    auto buff_stat = [&]( int &current_stat, int modify_by ) {
-        int modified_stat = current_stat + modify_by;
-        current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
-    };
     avatar &player_character = get_avatar();
     switch( effect_roll ) {
         case 1:
@@ -3406,23 +3402,37 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
                         critter.get_speed_base() * rng_float( 1.1, 2.0 ) );
                     critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
                 } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
+                    int modified_stat = 0;
                     /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                    buff_stat( person->str_max, rng( 0, person->str_max / 2 ) );
+                    modified_stat = person->get_str_base() + rng( 0, person->get_str_base() / 2 );
+                    person->set_str_base( std::max( person->get_str_base(), std::min( 15, modified_stat ) ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                    buff_stat( person->dex_max, rng( 0, person->dex_max / 2 ) );
+                    modified_stat = person->get_dex_base() + rng( 0, person->get_dex_base() / 2 );
+                    person->set_dex_base( std::max( person->get_dex_base(), std::min( 15, modified_stat ) ) );
                     /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                    buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
+                    modified_stat = person->get_int_base() + rng( 0, person->get_int_base() / 2 );
+                    person->set_int_base( std::max( person->get_int_base(), std::min( 15, modified_stat ) ) );
                     /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                    buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
+                    modified_stat = person->get_per_base() + rng( 0, person->get_per_base() / 2 );
+                    person->set_per_base( std::max( person->get_per_base(), std::min( 15, modified_stat ) ) );
                 } else if( player_character.pos_bub() == dest ) {
+                    int modified_stat = 0;
                     /** @EFFECT_STR_MAX increases possible granade str buff */
-                    buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
+                    modified_stat = player_character.get_str_base() + rng( 0, player_character.get_str_base() / 2 );
+                    player_character.set_str_base( std::max( player_character.get_str_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                    buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
+                    modified_stat = player_character.get_dex_base() + rng( 0, player_character.get_dex_base() / 2 );
+                    player_character.set_dex_base( std::max( player_character.get_dex_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_INT_MAX increases possible granade int buff */
-                    buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
+                    modified_stat = player_character.get_int_base() + rng( 0, player_character.get_int_base() / 2 );
+                    player_character.set_int_base( std::max( player_character.get_int_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     /** @EFFECT_PER_MAX increases possible granade per buff */
-                    buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
+                    modified_stat = player_character.get_per_base() + rng( 0, player_character.get_per_base() / 2 );
+                    player_character.set_per_base( std::max( player_character.get_per_base(),
+                                                   std::min( 15, modified_stat ) ) );
                     player_character.recalc_hp();
                     for( const bodypart_id &bp : player_character.get_all_body_parts(
                              get_body_part_flags::only_main ) ) {
@@ -3449,22 +3459,26 @@ std::optional<int> iuse::granade_act( Character *, item *it, const tripoint_bub_
                     critter.set_hp( rng( 1, critter.get_hp() ) );
                 } else if( npc *const person = creatures.creature_at<npc>( dest ) ) {
                     /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                    person->str_max -= rng( 0, person->str_max / 2 );
+                    person->set_str_base( person->get_str_base() - rng( 0, person->get_str_base() / 2 ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                    person->dex_max -= rng( 0, person->dex_max / 2 );
+                    person->set_dex_base( person->get_dex_base() - rng( 0, person->get_dex_base() / 2 ) );
                     /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                    person->int_max -= rng( 0, person->int_max / 2 );
+                    person->set_int_base( person->get_int_base() - rng( 0, person->get_int_base() / 2 ) );
                     /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                    person->per_max -= rng( 0, person->per_max / 2 );
+                    person->set_per_base( person->get_per_base() - rng( 0, person->get_per_base() / 2 ) );
                 } else if( player_character.pos_bub() == dest ) {
                     /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                    player_character.str_max -= rng( 0, player_character.str_max / 2 );
+                    player_character.set_str_base( player_character.get_str_base()
+                                                   - rng( 0, player_character.get_str_base() / 2 ) );
                     /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                    player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
+                    player_character.set_dex_base( player_character.get_dex_base()
+                                                   - rng( 0, player_character.get_dex_base() / 2 ) );
                     /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                    player_character.int_max -= rng( 0, player_character.int_max / 2 );
+                    player_character.set_int_base( player_character.get_int_base()
+                                                   - rng( 0, player_character.get_int_base() / 2 ) );
                     /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                    player_character.per_max -= rng( 0, player_character.per_max / 2 );
+                    player_character.set_per_base( player_character.get_per_base()
+                                                   - rng( 0, player_character.get_per_base() / 2 ) );
                     player_character.recalc_hp();
                     for( const bodypart_id &bp : player_character.get_all_body_parts(
                              get_body_part_flags::only_main ) ) {
@@ -4545,7 +4559,7 @@ static int chop_moves( Character *p, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->get_arm_str();
+    const int attr = it->has_flag( flag_POWERED ) ? p->get_dex() : p->get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
@@ -5480,7 +5494,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             /** @EFFECT_INT speeds up hacking preparation */
             /** @EFFECT_COMPUTER speeds up hacking preparation */
             const time_duration move_cost = time_duration::from_moves<int>( std::max( 100,
-                                            1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) ) );
+                                            1000 - static_cast<int>( p->get_int() * 10 - p->get_skill_level( skill_computer ) * 10 ) ) );
             const int monster_temp_id = get_creature_tracker().temporary_id( *z );
             p->assign_activity( robot_control_activity_actor( move_cost, monster_temp_id ) );
 
@@ -7196,7 +7210,7 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
 
     /** @EFFECT_COMPUTER increases chance of bypassing vehicle security system */
     int roll = dice( round( p.get_skill_level( skill_computer ) ) + 2,
-                     p.int_cur ) - ( advanced ? 50 : 25 );
+                     p.get_int() ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
     if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
@@ -7592,11 +7606,21 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         for( const recipe * const &r : get_avatar().get_learned_recipes().in_category(
                  crafting_category_CC_FOOD ) ) {
             if( multicooked_subcats.count( r->subcategory ) > 0 ) {
-                dishes.push_back( r );
-                const bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                          crafting_inv, r->get_component_filter() );
+                std::vector<const recipe *> recipes_to_add;
+                if( r->is_nested() ) {
+                    for( const recipe_id &rid : r->nested_category_data ) {
+                        recipes_to_add.push_back( &rid.obj() );
+                    }
+                } else {
+                    recipes_to_add.push_back( r );
+                }
 
-                dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
+                for( const recipe * const &rec : recipes_to_add ) {
+                    dishes.push_back( rec );
+                    const bool can_make = rec->deduped_requirements().can_make_with_inventory(
+                                              crafting_inv, rec->get_component_filter() );
+                    dmenu.addentry( counter++, can_make, -1, rec->result_name( /*decorated=*/true ) );
+                }
             }
         }
 
@@ -7691,8 +7715,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         /** @EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker */
 
         /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
-        if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
-            rng( 20, 35 ) ) {
+        if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->get_int()
+            > rng( 20, 35 ) ) {
 
             p->practice( skill_electronics, rng( 5, 20 ) );
             p->practice( skill_fabrication, rng( 5, 20 ) );
@@ -7751,7 +7775,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
 
         /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
         avatar &player = get_avatar();
-        if( player.int_cur + player.get_skill_level( skill_cooking ) + player.get_skill_level(
+        if( player.get_int() + player.get_skill_level( skill_cooking ) + player.get_skill_level(
                 skill_survival ) > 16 ) {
             add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
         }

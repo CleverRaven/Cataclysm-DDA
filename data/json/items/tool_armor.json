@@ -2253,7 +2253,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "description": "A custom-made leather gasmask faced with Nomex.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1250 ml",
@@ -2301,7 +2301,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_fsurvivor",
     "looks_like": "mask_fsurvivor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2311,7 +2311,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_fsurvivor",
     "looks_like": "mask_fsurvivor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2367,7 +2367,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "description": "A gas mask handcrafted from treated leather with a steel faceplate overtop.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1350 ml",
@@ -2420,7 +2420,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_hsurvivor",
     "looks_like": "mask_hsurvivor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2430,7 +2430,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_hsurvivor",
     "looks_like": "mask_hsurvivor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2439,7 +2439,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "description": "A half-face gasmask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
     "weight": "341 g",
     "volume": "625 ml",
@@ -2478,7 +2478,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_lsurvivor",
     "looks_like": "mask_lsurvivor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
@@ -2488,7 +2488,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_lsurvivor",
     "looks_like": "mask_lsurvivor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
   },
@@ -2497,7 +2497,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "description": "A gas mask handcrafted from treated leather.  It must be prepared before use.",
     "weight": "682 g",
     "volume": "1250 ml",
@@ -2544,7 +2544,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_survivor",
     "looks_like": "mask_survivor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2554,7 +2554,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_survivor",
     "looks_like": "mask_survivor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2912,6 +2912,194 @@
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
     "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "papr_half_mask",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "//": "Based on Optrel Swiss Air",
+    "name": { "str": "half-face PAPR mask" },
+    "category": "clothing",
+    "description": "A lightweight, form-fitting mask that straps over your mouth and nose.  The mask has pre-installed tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it will only function when paired with an active PAPR blower unit.  Safety goggles are advised!  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE", "PAPR_MASK" ],
+    "weight": "400 g",
+    "volume": "500 ml",
+    "price": "300 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mask_dust",
+    "color": "light_gray",
+    "warmth": 12,
+    "material_thickness": 2,
+    "environmental_protection": 3,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "armor": [ { "encumbrance": 10, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "welding_papr_helmet",
+    "//": "Based on 3M Adflo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "PAPR welding helmet" },
+    "looks_like": "welding_mask",
+    "description": "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely with compromising its ability to filter air.  Activate it to prepare it, or to push the welding mask up onto your head.",
+    "weight": "857 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 40,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK", "SUN_GLASSES", "FLASH_PROTECTION" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
+    ],
+    "use_action": [
+      "GASMASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You raise the welding shield.",
+        "target": "welding_papr_helmet_raised",
+        "menu_text": "Raise welding shield"
+      }
+    ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "welding_papr_helmet_raised",
+    "//": "Based on 3M Adflo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "copy-from": "welding_papr_helmet",
+    "name": { "str": "PAPR welding helmet (raised)", "str_pl": "PAPR welding helmets (raised)" },
+    "looks_like": "welding_mask_raised",
+    "description": "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely with compromising its ability to filter air.  The welding mask it raised.  Activate it to prepare it, or to push the welding mask back down over your face.",
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "use_action": [
+      "GASMASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You lower the welding shield.",
+        "target": "welding_papr_helmet",
+        "menu_text": "Lower welding shield"
+      }
+    ]
   },
   {
     "id": "basic_papr_belt_off",
@@ -3320,7 +3508,7 @@
     "category": "armor",
     "symbol": "[",
     "color": "dark_gray",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES" ],
     "price": "400 USD",
@@ -3377,7 +3565,7 @@
     "copy-from": "mask_h20survivor",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "SPAWN_ACTIVE" ],
     "turns_per_charge": 60,
@@ -3397,7 +3585,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES", "OVERSIZE", "PREFIX_XL" ],
@@ -3415,7 +3603,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "use_action": {
@@ -3432,7 +3620,7 @@
     "copy-from": "mask_h20survivorxl",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [
       "VARSIZE",
@@ -3462,7 +3650,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [

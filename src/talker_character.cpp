@@ -132,22 +132,22 @@ int talker_character_const::get_artifact_resonance() const
 
 int talker_character_const::str_cur() const
 {
-    return me_chr_const->str_cur;
+    return me_chr_const->get_str();
 }
 
 int talker_character_const::dex_cur() const
 {
-    return me_chr_const->dex_cur;
+    return me_chr_const->get_dex();
 }
 
 int talker_character_const::int_cur() const
 {
-    return me_chr_const->int_cur;
+    return me_chr_const->get_int();
 }
 
 int talker_character_const::per_cur() const
 {
-    return me_chr_const->per_cur;
+    return me_chr_const->get_per();
 }
 
 int talker_character_const::attack_speed() const
@@ -182,22 +182,22 @@ void talker_character::set_pos( tripoint_abs_ms new_pos )
 
 void talker_character::set_str_max( int value )
 {
-    me_chr->str_max = value;
+    me_chr->set_str_base( value );
 }
 
 void talker_character::set_dex_max( int value )
 {
-    me_chr->dex_max = value;
+    me_chr->set_dex_base( value );
 }
 
 void talker_character::set_int_max( int value )
 {
-    me_chr->int_max = value;
+    me_chr->set_int_base( value );
 }
 
 void talker_character::set_per_max( int value )
 {
-    me_chr->per_max = value;
+    me_chr->set_per_base( value );
 }
 
 void talker_character::set_str_bonus( int value )
@@ -227,22 +227,22 @@ void talker_character::set_cash( int value )
 
 int talker_character_const::get_str_max() const
 {
-    return me_chr_const->str_max;
+    return me_chr_const->get_str_base();
 }
 
 int talker_character_const::get_dex_max() const
 {
-    return me_chr_const->dex_max;
+    return me_chr_const->get_dex_base();
 }
 
 int talker_character_const::get_int_max() const
 {
-    return me_chr_const->int_max;
+    return me_chr_const->get_int_base();
 }
 
 int talker_character_const::get_per_max() const
 {
-    return me_chr_const->per_max;
+    return me_chr_const->get_per_base();
 }
 
 int talker_character_const::get_str_bonus() const

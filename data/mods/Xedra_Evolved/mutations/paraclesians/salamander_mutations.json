@@ -719,14 +719,7 @@
     "active": true,
     "valid": false,
     "enchantments": [ "ench_salamander_wings_flame" ],
-    "flags": [ "WINGS_2" ],
     "//": "Damage taken from Spiked Tail",
-    "attacks": {
-      "attack_text_u": "You buffet %s with your fiery wings!",
-      "attack_text_npc": "%1$s buffets %2$s with their fiery wings!",
-      "chance": 20,
-      "base_damage": { "damage_type": "heat", "amount": 20 }
-    },
     "transform": {
       "target": "SALAMANDER_SUMMON_WINGS",
       "msg_transform": "The wings on your back gutter and die.",

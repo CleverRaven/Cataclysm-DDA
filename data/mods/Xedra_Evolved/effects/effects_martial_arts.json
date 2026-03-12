@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_ma_arvore_beneath_falling_tree_weakpoints_bonus",
+    "name": [ "Falling Tree" ],
+    "desc": [ "Your armor has been reduced." ],
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 0.4 } ] } ]
+  }
+]

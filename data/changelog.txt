@@ -196,6 +196,12 @@ Add `TOUCH_REQUIRED` flag for spells
 Armor shapeshifted into your form has a special message when trying to take it off
 Add `MUTATED_ANATOMY_ONLY` flag for gear that can only be worn by mutants
 Add PLANT_BLOOD monster flag, apply to defender of the wood in XE
+Add parabolic solar cooker -- a deployable, fuel-free cooking heat source
+Add drag feasibility and weight gates to zone sort batching
+Pat uses dialogue instead of pop-up messages
+Simplified Rubik's mission option dialogue
+Ancilla doc can repair cybernetics
+Hub 01 cyborgs are not welcome at the Exodii castle
 
 
 
@@ -433,6 +439,15 @@ HEW system can detect shimmering portals
 [Old Lab Removal] Removing old lab specials
 Hub 01 chop shop with Hub & Exodii missions
 Mission to explore a failed Exodii node for Rubik
+Mission to sell the Exodii warehouse to Hub 01
+Hub 01 mission: Circuit Safari
+Challenge scenario involving zombie hordes following player's general location
+Pat can comment on Circuit Safari and cyborg players
+New stories to tell at the Ancilla bar
+The Exodii Hunter, a CBM merchant, will visit the Ancilla bar
+Hub 01 CBM interface and AutoDoc overhaul
+Hub 01 cybernetics: XM-ARM, -LEG, and -BACK
+Make vines limbs
 
 
 ## Interface:
@@ -583,8 +598,11 @@ Show objective directions on overmap
 Allow resuming hacksaw cutting metal with different tools
 Add missing components to view priority from crafting menu
 Add deprioritize components of a recipe to the crafting menu
-Holster iuse just list items in pockets that are flagged as holsters
-Add goodbye option to Smokes' conversation hub
+Add the ability to whitelist the contents of a pocket
+Show total/spare sapce of MOLLE item in item info.
+Remove ability to toggle map memory from the players control
+Filter item info body part display by viewing character's anatomy
+debug map editor ImGui conversion
 
 
 ## Mods:
@@ -1057,6 +1075,10 @@ Add an enchantment that modifies the 'free dodges' stat introduced for Martial A
 [Bombastic Perks] Add more prerequisites for perks
 [Xedra Evolved] Make Nether Sorcery learnable
 New Mod Megacity.
+[Mods]  Multiple mods have added supernatural means of blocking attacks from monsters more than 2 sizes up from the PC 
+[XE] Tier 5 vampires are predators who have extinguished all feeling from their hearts.
+[Xedra Evolved] `gramarye` skill for Fae powers replaces Deduction for Fae themed characters
+Master archer playstyle perk for Bombastic Perks
 
 
 
@@ -1198,6 +1220,10 @@ Remove above-and-beyond damage bonus on mutation natural weapon crits
 Slit Nostrils cause a breathing limb score penalty, not a mouth encumbrance penalty
 Clothing is subject to more considerations when sustaining damage from unarmed attacks
 Stat boost CBMs require power
+Blocking costs Stamina
+Can't block attacks from creatures two sizes greater than you
+Being poisoned penalizes your health
+Easier lying to Rubik about selling the warehouse to Hub 01
 
 
 ## Bugfixes:
@@ -1653,6 +1679,32 @@ Respect terrain/vehicle zone binding during sorting
 Fix shapeshifted gear disappearing when you become `incorporeal`
 Fix auto-move aborting after opening vehicle doors, and sort vehicle cargo from terrain UNSORTED zones
 Fix fire starting deleting firewood instead of fueling the fire
+Prevent zone sorting from overflowing items to adjacent tiles
+Fix devices action_name translation
+Stop NPCs teaching you unlearnable proficiencies
+Your pets won't walk into fire and traps anymore
+Fix zone sorting infinite loop with appliances and premature termination
+Fix sub_body_part string extractor crash on copy-from objects
+Add missing bounds checks for fake_part_at in vehicle damage and door closing
+Fix TextColoredParagraph breaking words mid-character
+Fix nondeterministic mutable overmap special placement
+fix visual glitches with a few mutations
+Respect external settings for character stat limits
+Fix flaky hunger test caused by stored_kcal/height desync in clear_character
+No CBM interface if you can't have CBMs
+Fix silent monster loss during horde materialization
+Fix zone sort batching ignoring walls when picking detour targets
+Fix flaky dormant monster materialization test
+Fix flaky liquid_projectiles_applies_effect test
+calculate the encumbrance of attached molle compatible pouch correctly
+Fix zone sorting and auto-move hangs when dragging a shopping cart
+Fix multicooker crashes when using nested recipe
+condiment bottles so they spawn sealed in supermarkets.
+Fix main pathfinder routing through open air on upper floors
+Fix flaky vehicle ramp test
+LIXA fall EOC triggers properly if you step on tile instead of examine it
+Fix segfault in scent_map::update after failed out-of-bounds teleport
+Fix non-deterministic hp_max in test helper clear_character()
 
 
 ## Performance:
@@ -1693,6 +1745,8 @@ Speed up tests with faster map teardown
 Even faster tests with less map memory manipulation
 Optimize grab-aware pathfinding during zone sorting
 Batch zone sorting pickups from nearby sources
+Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
+Save map size by not serializing unnecessary item components.
 
 
 ## Infrastructure:
@@ -1888,6 +1942,21 @@ move ACT_START_FIRE to activity_actor
 Change default test sort order to lexicographical
 multi-activity overhaul part 8: simplify multi-activity backlogging
 Add dimension travel to the event bus for EOCs to use
+Use snmalloc which claims atomic-free same-thread alloc/dealloc and other speed wins
+Completely remove legacy point pools from character creation
+Add IWYU suggested fixes to PRs via reviewdog
+Skip test labeler for non-PR and cancelled workflow runs
+Fix CI skip-detection job references, test Makefile parallel safety, and test tag syntax
+Update vendored Catch2 to v2.13.10
+Fix overmap determinism test failure from static city init
+Converts various materials and flags entries from strings to arrays
+Add consistency checks for dangling references and fix existing ones
+Traits can control skill display
+Fix test labeler failing on nonexistent label removal
+Use suggestion blocks for IWYU review comments
+Add --rng-seed-fuzz flag to rerun tests with varying RNG seeds
+Fix test labeler skipping PRs from fork master branches
+Fix flaky Damage_type_effectiveness_vs_monster_resistance test
 
 
 ## Build:
@@ -1921,6 +1990,7 @@ Fix clang 21 warnings
 Upgrade vcpkg baseline
 Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
+Cache vcpkg installed packages in MSVC CI
 
 
 ## I18N and A11Y:

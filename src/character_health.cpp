@@ -455,7 +455,7 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    // Previously calculated as 2_gram * std::max( 1, str_cur )
+    // Previously calculated as 2_gram * std::max( 1, get_str() )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
@@ -1746,7 +1746,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
-            if( one_in( 50 + int_cur ) ) {
+            if( one_in( 50 + get_int() ) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
@@ -1756,7 +1756,7 @@ void Character::check_needs_extremes()
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
-            if( one_in( 100 + int_cur ) ) {
+            if( one_in( 100 + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
         } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
@@ -1801,10 +1801,10 @@ void Character::check_needs_extremes()
             }
             // else you pass out for 20 hours, guaranteed
 
-            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
+            // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + get_int()) at lethal sleep deprivation)
             // Note: these can coexist with sleepiness-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
-            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
+            if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + get_int() ) ) {
                 fall_asleep( 30_seconds );
             }
 
@@ -1814,7 +1814,7 @@ void Character::check_needs_extremes()
 
             if( can_pass_out && calendar::once_every( 10_minutes ) ) {
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
-                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
+                if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + get_per() ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
@@ -3218,7 +3218,8 @@ stat_mod Character::get_weight_penalty() const
 {
     stat_mod ret;
     const float bmi = get_bmi_fat();
-    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) * str_max );
+    ret.strength = std::floor( ( 1.0f - ( bmi / character_weight_category::normal ) ) *
+                               get_str_base() );
     ret.dexterity = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
     ret.intelligence = ret.dexterity;
     return ret;

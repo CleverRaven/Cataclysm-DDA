@@ -2436,6 +2436,14 @@ void Item_factory::check_definitions() const
                                       type->default_container->c_str() );
             }
         }
+        if( !type->repairs_like.is_empty() && !has_template( type->repairs_like ) ) {
+            msg += string_format( "invalid repairs_like %s\n", type->repairs_like.c_str() );
+        }
+        if( type->source_monster != mtype_id::NULL_ID() &&
+            !type->source_monster.is_valid() ) {
+            msg += string_format( "invalid source_monster %s\n",
+                                  type->source_monster.c_str() );
+        }
 
         for( const auto &e : type->emits ) {
             if( !e.is_valid() ) {
@@ -2468,6 +2476,27 @@ void Item_factory::check_definitions() const
             static const std::set<std::string> allowed_ctypes = { "FOOD", "DRINK", "MED", "INVALID" };
             if( allowed_ctypes.count( type->comestible->comesttype ) == 0 ) {
                 msg += string_format( "Invalid comestible type %s\n", type->comestible->comesttype );
+            }
+            if( !type->comestible->cooks_like.is_empty() &&
+                !has_template( type->comestible->cooks_like ) ) {
+                msg += string_format( "invalid cooks_like %s\n",
+                                      type->comestible->cooks_like.c_str() );
+            }
+            if( !type->comestible->smoking_result.is_null() &&
+                !type->comestible->smoking_result.is_empty() &&
+                !has_template( type->comestible->smoking_result ) ) {
+                msg += string_format( "invalid smoking_result %s\n",
+                                      type->comestible->smoking_result.c_str() );
+            }
+            if( type->comestible->rot_spawn.rot_spawn_monster != mtype_id::NULL_ID() &&
+                !type->comestible->rot_spawn.rot_spawn_monster.is_valid() ) {
+                msg += string_format( "invalid rot_spawn monster %s\n",
+                                      type->comestible->rot_spawn.rot_spawn_monster.c_str() );
+            }
+            if( type->comestible->rot_spawn.rot_spawn_group != mongroup_id::NULL_ID() &&
+                !type->comestible->rot_spawn.rot_spawn_group.is_valid() ) {
+                msg += string_format( "invalid rot_spawn group %s\n",
+                                      type->comestible->rot_spawn.rot_spawn_group.c_str() );
             }
         }
         if( type->brewable ) {

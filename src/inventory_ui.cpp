@@ -245,14 +245,8 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) const {
-        std::string string_to_format;
-        if( compact ) {
-            string_to_format = _( "%s/%s : %s/%s : max %s" );
-        } else {
-            string_to_format = _( "(remains %s, %s) max length %s" );
-        }
-        return string_format( string_to_format,
+    std::string to_formatted_string() const {
+        return string_format( _( "(remains %s, %s) max length %s" ),
                               unit_to_string( total_capacity - actual_capacity, true, true ),
                               unit_to_string( total_capacity_weight - actual_capacity_weight, true, true ),
                               unit_to_string( max_containable_length, true ) );
@@ -373,7 +367,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
     json.member( "unload_auto_contain", unload_auto_contain );
     json.member( "hide_entries_override", hide_entries_override );
-    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
     json.member( "overmap_show_map_notes", overmap_show_map_notes );
@@ -429,6 +422,8 @@ void uistatedata::serialize( JsonOut &json ) const
     overmap_sidebar_state.serialize( json );
     json.member( "consume_menu_uistate" );
     consume_uistate.serialize( json );
+    json.member( "editmap_uistate" );
+    editmap_state.serialize( json );
 
     json.member( "input_history" );
     json.start_object();
@@ -468,7 +463,11 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
     jo.read( "unload_auto_contain", unload_auto_contain );
     jo.read( "hide_entries_override", hide_entries_override );
-    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+
+    //TODO: remove in 0.J
+    bool migrate_editmap_nsa_viewmode = false;
+    jo.read( "editmap_nsa_viewmode", migrate_editmap_nsa_viewmode );
+
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
     jo.read( "overmap_show_map_notes", overmap_show_map_notes );
@@ -492,6 +491,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "tileset_zoom", tileset_zoom );
     jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
     jo.read( "overmap_sidebar_uistate", overmap_sidebar_state );
+    jo.read( "editmap_uistate", editmap_state );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -819,7 +819,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
                         total_capacity_weight,
                         max_containable_length
                     };
-                    std::string formatted_string = container_data.to_formatted_string( false );
+                    std::string formatted_string = container_data.to_formatted_string();
 
                     text = text + string_format( " %s", formatted_string );
                 }
@@ -2721,7 +2721,7 @@ inventory_selector::header_stats inventory_selector::get_pocket_summary_header_s
                                                            other_spaces[i].first->is_restricted()
                                                          );
                     other_space_strings.push_back( string_format( "%s %s%s", str1, str2,
-                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%s)", other_spaces_copies[i] ) : "" ) )
+                                                   ( other_spaces_copies[i] > 1 ? string_format( " (%d)", other_spaces_copies[i] ) : "" ) )
                                                  );
                 }
                 if( other_spaces_display_truncated ) {
@@ -2952,7 +2952,7 @@ inventory_selector::header_stats_line inventory_selector::build_pocket_stats_lin
         header_stats_tab_stop,
         free_pocket_str2,
         header_stats_tab_stop,
-        ( free_pocket_copies > 1 ? string_format( " (%s)", free_pocket_copies ) : "" ),
+        ( free_pocket_copies > 1 ? string_format( " (%d)", free_pocket_copies ) : "" ),
         header_stats_tab_stop,
         " | ",
         colorize( _( "Max: " ), color_label ),

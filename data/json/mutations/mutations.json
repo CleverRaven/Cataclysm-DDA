@@ -1016,7 +1016,7 @@
     "id": "NO_CBM_INSTALLATION",
     "name": { "str": "Oversensitive System" },
     "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
-    "cancels": [ "CBM_Interface" ],
+    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface" ],
     "points": -8,
     "player_display": true,
     "starting_trait": true,
@@ -1355,6 +1355,7 @@
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "points": 2,
+    "random_start_allowed": false,
     "starting_trait": true,
     "chargen_allow_npc": false,
     "valid": false,
@@ -1367,6 +1368,7 @@
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "points": 1,
+    "random_start_allowed": false,
     "starting_trait": true,
     "chargen_allow_npc": false,
     "valid": false,
@@ -2443,8 +2445,8 @@
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "points": -8,
     "starting_trait": true,
+    "random_start_allowed": false,
     "purifiable": false,
-    "valid": false,
     "vitamin_cost": 300,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
@@ -4682,12 +4684,12 @@
     "name": { "str": "Bat Ears" },
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "category": [ "CHIROPTERAN" ],
-    "types": [ "HEARING" ],
+    "types": [ "HEARING", "EARS" ],
     "prereqs": [ "GOODHEARING" ],
     "points": 5,
     "vitamin_cost": 210,
     "visibility": 8,
-    "ugliness": 8,
+    "ugliness": 2,
     "flags": [ "HEARING_PROTECTION", "SAFECRACK_NO_TOOL" ],
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.3 } ] } ],
     "//": "A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM."
@@ -4726,7 +4728,7 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.",
     "category": [ "RAPTOR", "BIRD" ],
     "changes_to": [ "WINGS_BIRD" ],
     "points": 2,
@@ -4734,13 +4736,11 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 2,
-    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 50 },
-      { "part": "arm_r", "neutral": 50 },
-      { "part": "hand_l", "neutral": 10 },
-      { "part": "hand_r", "neutral": 10 }
+    "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_feathers_l" }, { "gain": "arm_feathers_r" } ]
+      }
     ]
   },
   {
@@ -4853,16 +4853,9 @@
     "ugliness": 5,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "attacks": [
-      {
-        "attack_text_u": "You jackhammer into %s with your beak!",
-        "attack_text_npc": "%1$s jackhammer into %2$s with their beak!",
-        "body_part": "mouth",
-        "chance": 15,
-        "hardcoded_effect": true
-      }
-    ],
-    "wet_protection": [ { "part": "mouth", "ignored": 2 } ]
+    "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_woodpecker" } ] } ],
+    "armor": [ { "parts": [ "head", "beak" ], "bash": 3 } ]
   },
   {
     "type": "mutation",
@@ -6911,12 +6904,23 @@
     "ugliness": 5,
     "flags": [ "VINE_RAPPEL" ],
     "encumbrance_always": [ [ "torso", 10 ] ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_r') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_r') > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_l') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_l') > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },
@@ -6940,12 +6944,23 @@
     "ugliness": 6,
     "flags": [ "VINE_RAPPEL" ],
     "spawn_item": { "type": "vine_30", "message": "You detach a vine from your body." },
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "vine_limb_upper_r > 15" ] }, { "math": [ "vine_limb_lower_r > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "vine_limb_upper_l > 15" ] }, { "math": [ "vine_limb_lower_l > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },

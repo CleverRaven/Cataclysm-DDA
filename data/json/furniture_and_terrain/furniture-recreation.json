@@ -9,6 +9,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": 8,
+    "mass": "35 kg",
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
     "crafting_pseudo_item": "pseudo_exercise_machine",
     "examine_action": "workout",
@@ -133,6 +134,7 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
+    "mass": "10 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "bash": {
       "str_min": 6,
@@ -152,6 +154,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": 12,
+    "mass": "77 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "item": "arcade_machine",
@@ -174,6 +177,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 8,
+    "mass": "77 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
@@ -224,6 +228,7 @@
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 8,
+    "mass": "27 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -269,6 +274,7 @@
     "color": "dark_gray",
     "move_cost_mod": 2,
     "required_str": 8,
+    "mass": "20 kg",
     "looks_like": "f_ergometer",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
     "crafting_pseudo_item": "pseudo_ergometer_mechanical",
@@ -311,6 +317,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 12,
+    "mass": "17 kg",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -348,6 +355,7 @@
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 12,
+    "mass": "15 kg",
     "looks_like": "f_treadmill",
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
     "crafting_pseudo_item": "pseudo_treadmill_mechanical",
@@ -421,6 +429,7 @@
     "move_cost_mod": 6,
     "coverage": 70,
     "required_str": 8,
+    "mass": "317 kg",
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
@@ -445,6 +454,7 @@
     "coverage": 50,
     "max_volume": "3750 ml",
     "required_str": 7,
+    "mass": "17 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
@@ -631,6 +641,7 @@
     "color": "brown",
     "move_cost_mod": 9,
     "required_str": 5,
+    "mass": "16 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_archery_target_box",
     "item": "archery_target_box",
@@ -645,6 +656,7 @@
     "color": "yellow",
     "move_cost_mod": 9,
     "required_str": 6,
+    "mass": "30 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "crafting_pseudo_item": "pseudo_archery_target_bale",
     "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },

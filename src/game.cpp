@@ -2507,161 +2507,163 @@ tripoint_rel_omt game::mouse_edge_scrolling_overmap( input_context &ctxt )
 
 input_context get_default_mode_input_context()
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
-    // Because those keys move the character, they don't pan, as their original name says
-    ctxt.set_iso( true );
-    ctxt.register_action( "UP", to_translation( "Move north" ) );
-    ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
-    ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move south" ) );
-    ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move west" ) );
-    ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
-    ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
-    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
-    ctxt.register_action( "toggle_map_memory" );
-    ctxt.register_action( "center" );
-    ctxt.register_action( "shift_n" );
-    ctxt.register_action( "shift_ne" );
-    ctxt.register_action( "shift_e" );
-    ctxt.register_action( "shift_se" );
-    ctxt.register_action( "shift_s" );
-    ctxt.register_action( "shift_sw" );
-    ctxt.register_action( "shift_w" );
-    ctxt.register_action( "shift_nw" );
-    ctxt.register_action( "cycle_move" );
-    ctxt.register_action( "cycle_move_reverse" );
-    ctxt.register_action( "reset_move" );
-    ctxt.register_action( "toggle_run" );
-    ctxt.register_action( "toggle_crouch" );
-    ctxt.register_action( "toggle_prone" );
-    ctxt.register_action( "open_movement" );
-    ctxt.register_action( "open" );
-    ctxt.register_action( "close" );
-    ctxt.register_action( "smash" );
-    ctxt.register_action( "loot" );
-    ctxt.register_action( "examine" );
-    ctxt.register_action( "examine_and_pickup" );
-    ctxt.register_action( "interact", to_translation( "Interact with tile" ) );
-    ctxt.register_action( "advinv" );
-    ctxt.register_action( "pickup" );
-    ctxt.register_action( "pickup_all" );
-    ctxt.register_action( "grab" );
-    ctxt.register_action( "haul" );
-    ctxt.register_action( "haul_toggle" );
-    ctxt.register_action( "butcher" );
-    ctxt.register_action( "chat" );
-    ctxt.register_action( "look" );
-    ctxt.register_action( "peek" );
-    ctxt.register_action( "listitems" );
-    ctxt.register_action( "zones" );
-    ctxt.register_action( "inventory" );
-    ctxt.register_action( "compare" );
-    ctxt.register_action( "organize" );
-    ctxt.register_action( "apply" );
-    ctxt.register_action( "apply_wielded" );
-    ctxt.register_action( "wear" );
-    ctxt.register_action( "take_off" );
-    ctxt.register_action( "eat" );
-    ctxt.register_action( "open_consume" );
-    ctxt.register_action( "read" );
-    ctxt.register_action( "wield" );
-    ctxt.register_action( "pick_style" );
-    ctxt.register_action( "reload_item" );
-    ctxt.register_action( "reload_weapon" );
-    ctxt.register_action( "reload_wielded" );
-    ctxt.register_action( "insert" );
-    ctxt.register_action( "unload" );
-    ctxt.register_action( "throw" );
-    ctxt.register_action( "throw_wielded" );
-    ctxt.register_action( "fire" );
-    ctxt.register_action( "cast_spell" );
-    ctxt.register_action( "recast_spell" );
-    ctxt.register_action( "fire_burst" );
-    ctxt.register_action( "select_fire_mode" );
-    ctxt.register_action( "select_default_ammo" );
-    ctxt.register_action( "drop" );
-    ctxt.register_action( "unload_container" );
-    ctxt.register_action( "drop_adj" );
-    ctxt.register_action( "bionics" );
-    ctxt.register_action( "mutations" );
-    ctxt.register_action( "medical" );
-    ctxt.register_action( "bodystatus" );
-    ctxt.register_action( "sort_armor" );
-    ctxt.register_action( "wait" );
-    ctxt.register_action( "craft" );
-    ctxt.register_action( "recraft" );
-    ctxt.register_action( "long_craft" );
-    ctxt.register_action( "construct" );
-    ctxt.register_action( "disassemble" );
-    ctxt.register_action( "sleep" );
-    ctxt.register_action( "control_vehicle" );
-    ctxt.register_action( "auto_travel_mode" );
-    ctxt.register_action( "safemode" );
-    ctxt.register_action( "autosafe" );
-    ctxt.register_action( "autoattack" );
-    ctxt.register_action( "ignore_enemy" );
-    ctxt.register_action( "whitelist_enemy" );
-    ctxt.register_action( "workout" );
-    ctxt.register_action( "save" );
-    ctxt.register_action( "quicksave" );
+    static input_context default_ctxt = [] {
+        input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
+        // Because those keys move the character, they don't pan, as their original name says
+        ctxt.set_iso( true );
+        ctxt.register_action( "UP", to_translation( "Move north" ) );
+        ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
+        ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
+        ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
+        ctxt.register_action( "DOWN", to_translation( "Move south" ) );
+        ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
+        ctxt.register_action( "LEFT", to_translation( "Move west" ) );
+        ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
+        ctxt.register_action( "pause" );
+        ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
+        ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
+        ctxt.register_action( "center" );
+        ctxt.register_action( "shift_n" );
+        ctxt.register_action( "shift_ne" );
+        ctxt.register_action( "shift_e" );
+        ctxt.register_action( "shift_se" );
+        ctxt.register_action( "shift_s" );
+        ctxt.register_action( "shift_sw" );
+        ctxt.register_action( "shift_w" );
+        ctxt.register_action( "shift_nw" );
+        ctxt.register_action( "cycle_move" );
+        ctxt.register_action( "cycle_move_reverse" );
+        ctxt.register_action( "reset_move" );
+        ctxt.register_action( "toggle_run" );
+        ctxt.register_action( "toggle_crouch" );
+        ctxt.register_action( "toggle_prone" );
+        ctxt.register_action( "open_movement" );
+        ctxt.register_action( "open" );
+        ctxt.register_action( "close" );
+        ctxt.register_action( "smash" );
+        ctxt.register_action( "loot" );
+        ctxt.register_action( "examine" );
+        ctxt.register_action( "examine_and_pickup" );
+        ctxt.register_action( "interact", to_translation( "Interact with tile" ) );
+        ctxt.register_action( "advinv" );
+        ctxt.register_action( "pickup" );
+        ctxt.register_action( "pickup_all" );
+        ctxt.register_action( "grab" );
+        ctxt.register_action( "haul" );
+        ctxt.register_action( "haul_toggle" );
+        ctxt.register_action( "butcher" );
+        ctxt.register_action( "chat" );
+        ctxt.register_action( "look" );
+        ctxt.register_action( "peek" );
+        ctxt.register_action( "listitems" );
+        ctxt.register_action( "zones" );
+        ctxt.register_action( "inventory" );
+        ctxt.register_action( "compare" );
+        ctxt.register_action( "organize" );
+        ctxt.register_action( "apply" );
+        ctxt.register_action( "apply_wielded" );
+        ctxt.register_action( "wear" );
+        ctxt.register_action( "take_off" );
+        ctxt.register_action( "eat" );
+        ctxt.register_action( "open_consume" );
+        ctxt.register_action( "read" );
+        ctxt.register_action( "wield" );
+        ctxt.register_action( "pick_style" );
+        ctxt.register_action( "reload_item" );
+        ctxt.register_action( "reload_weapon" );
+        ctxt.register_action( "reload_wielded" );
+        ctxt.register_action( "insert" );
+        ctxt.register_action( "unload" );
+        ctxt.register_action( "throw" );
+        ctxt.register_action( "throw_wielded" );
+        ctxt.register_action( "fire" );
+        ctxt.register_action( "cast_spell" );
+        ctxt.register_action( "recast_spell" );
+        ctxt.register_action( "fire_burst" );
+        ctxt.register_action( "select_fire_mode" );
+        ctxt.register_action( "select_default_ammo" );
+        ctxt.register_action( "drop" );
+        ctxt.register_action( "unload_container" );
+        ctxt.register_action( "drop_adj" );
+        ctxt.register_action( "bionics" );
+        ctxt.register_action( "mutations" );
+        ctxt.register_action( "medical" );
+        ctxt.register_action( "bodystatus" );
+        ctxt.register_action( "sort_armor" );
+        ctxt.register_action( "wait" );
+        ctxt.register_action( "craft" );
+        ctxt.register_action( "recraft" );
+        ctxt.register_action( "long_craft" );
+        ctxt.register_action( "construct" );
+        ctxt.register_action( "disassemble" );
+        ctxt.register_action( "sleep" );
+        ctxt.register_action( "control_vehicle" );
+        ctxt.register_action( "auto_travel_mode" );
+        ctxt.register_action( "safemode" );
+        ctxt.register_action( "autosafe" );
+        ctxt.register_action( "autoattack" );
+        ctxt.register_action( "ignore_enemy" );
+        ctxt.register_action( "whitelist_enemy" );
+        ctxt.register_action( "workout" );
+        ctxt.register_action( "save" );
+        ctxt.register_action( "quicksave" );
 #if !defined(RELEASE)
-    ctxt.register_action( "quickload" );
+        ctxt.register_action( "quickload" );
 #endif
-    ctxt.register_action( "SUICIDE" );
-    ctxt.register_action( "player_data" );
-    ctxt.register_action( "map" );
-    ctxt.register_action( "sky" );
-    ctxt.register_action( "missions" );
-    ctxt.register_action( "factions" );
-    ctxt.register_action( "morale" );
-    ctxt.register_action( "messages" );
-    ctxt.register_action( "help" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "open_options" );
-    ctxt.register_action( "open_autopickup" );
-    ctxt.register_action( "open_autonotes" );
-    ctxt.register_action( "open_safemode" );
-    ctxt.register_action( "open_distraction_manager" );
-    ctxt.register_action( "open_color" );
-    ctxt.register_action( "open_world_mods" );
-    ctxt.register_action( "debug" );
-    ctxt.register_action( "debug_scent" );
-    ctxt.register_action( "debug_scent_type" );
-    ctxt.register_action( "debug_temp" );
-    ctxt.register_action( "debug_visibility" );
-    ctxt.register_action( "debug_lighting" );
-    ctxt.register_action( "debug_radiation" );
-    ctxt.register_action( "debug_hour_timer" );
-    ctxt.register_action( "debug_mode" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "SUICIDE" );
+        ctxt.register_action( "player_data" );
+        ctxt.register_action( "map" );
+        ctxt.register_action( "sky" );
+        ctxt.register_action( "missions" );
+        ctxt.register_action( "factions" );
+        ctxt.register_action( "morale" );
+        ctxt.register_action( "messages" );
+        ctxt.register_action( "help" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action( "open_options" );
+        ctxt.register_action( "open_autopickup" );
+        ctxt.register_action( "open_autonotes" );
+        ctxt.register_action( "open_safemode" );
+        ctxt.register_action( "open_distraction_manager" );
+        ctxt.register_action( "open_color" );
+        ctxt.register_action( "open_world_mods" );
+        ctxt.register_action( "debug" );
+        ctxt.register_action( "debug_scent" );
+        ctxt.register_action( "debug_scent_type" );
+        ctxt.register_action( "debug_temp" );
+        ctxt.register_action( "debug_visibility" );
+        ctxt.register_action( "debug_lighting" );
+        ctxt.register_action( "debug_radiation" );
+        ctxt.register_action( "debug_hour_timer" );
+        ctxt.register_action( "debug_mode" );
+        ctxt.register_action( "zoom_out" );
+        ctxt.register_action( "zoom_in" );
 #if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
-    ctxt.register_action( "toggle_fullscreen" );
+        ctxt.register_action( "toggle_fullscreen" );
 #endif
-    ctxt.register_action( "toggle_pixel_minimap" );
-    ctxt.register_action( "toggle_panel_adm" );
-    ctxt.register_action( "reload_tileset" );
-    ctxt.register_action( "toggle_auto_features" );
-    ctxt.register_action( "toggle_auto_pulp_butcher" );
-    ctxt.register_action( "toggle_auto_mining" );
-    ctxt.register_action( "toggle_auto_foraging" );
-    ctxt.register_action( "toggle_auto_pickup" );
-    ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action( "toggle_prevent_occlusion" );
-    ctxt.register_action( "diary" );
-    ctxt.register_action( "action_menu" );
-    ctxt.register_action( "main_menu" );
-    ctxt.register_action( "item_action_menu" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "CLICK_AND_DRAG" );
-    ctxt.register_action( "SEC_SELECT" );
-    return ctxt;
+        ctxt.register_action( "toggle_pixel_minimap" );
+        ctxt.register_action( "toggle_panel_adm" );
+        ctxt.register_action( "reload_tileset" );
+        ctxt.register_action( "toggle_auto_features" );
+        ctxt.register_action( "toggle_auto_pulp_butcher" );
+        ctxt.register_action( "toggle_auto_mining" );
+        ctxt.register_action( "toggle_auto_foraging" );
+        ctxt.register_action( "toggle_auto_pickup" );
+        ctxt.register_action( "toggle_thief_mode" );
+        ctxt.register_action( "toggle_prevent_occlusion" );
+        ctxt.register_action( "diary" );
+        ctxt.register_action( "action_menu" );
+        ctxt.register_action( "main_menu" );
+        ctxt.register_action( "item_action_menu" );
+        ctxt.register_action( "ANY_INPUT" );
+        ctxt.register_action( "COORDINATE" );
+        ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "SELECT" );
+        ctxt.register_action( "CLICK_AND_DRAG" );
+        ctxt.register_action( "SEC_SELECT" );
+        return ctxt;
+    }();
+    return default_ctxt;
 }
 
 vehicle *game::remoteveh()
@@ -5268,7 +5270,7 @@ bool game::npc_menu( npc &who )
         float prof_bonus = u.get_skill_level( skill_firstaid );
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
+        const bool precise = prof_bonus * 4 + u.get_per() >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == examine_status ) {
@@ -5733,8 +5735,9 @@ void game::peek( const tripoint_bub_ms &p )
 ////////////////////////////////////////////////////////////////////////////////////////////
 std::optional<tripoint_bub_ms> game::look_debug()
 {
-    editmap edit;
-    return edit.edit();
+    editmap_ui editmap;
+    editmap.handle_action();
+    return std::nullopt;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -5840,15 +5843,25 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
             return dist_a < dist_b ? a : b;
         }
     };
+    const bool use_grab_routing = has_grabbed_single_tile_vehicle( who, here );
+
     route_t shortest_route;
     for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
-        who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
-            return is_dangerous_tile( p );
-        } );
+        route_t route;
+        if( use_grab_routing ) {
+            route = route_with_grab( here, who, pathfinding_target::point( p ),
+            [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        } else {
+            route = here.route( who.pos_bub(), pathfinding_target::point( p ),
+            who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        }
         if( route.empty() ) {
             continue; // no route
         }
@@ -7405,7 +7418,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
     // That function call is:
-    // x_in_y(1+u.dex_cur/2, 40)
+    // x_in_y(1+u.get_dex()/2, 40)
     const int magic_number_78 = 78;
 
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
@@ -7419,7 +7432,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
                !here.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || here.veh_at( dest_loc ) ) &&
-               u.dex_cur < magic_number_78 &&
+               u.get_dex() < magic_number_78 &&
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
@@ -7704,7 +7717,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
-            one_in( 80 + u.dex_cur + u.int_cur ) ) {
+            one_in( 80 + u.get_dex() + u.get_int() ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_sleepiness( 1 );
         }
@@ -7997,7 +8010,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( here.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
         !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
-        !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
+        !x_in_y( 1 + u.get_dex() / 2.0, 40 ) &&
         ( !u.in_vehicle && !here.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         const int sharp_damage = rng( 1, 10 );
@@ -10655,7 +10668,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
-    slip /= std::max( 1, u.dex_cur + u.str_cur );
+    slip /= std::max( 1, u.get_dex() + u.get_str() );
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %.0f%%", slip );
 

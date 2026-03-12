@@ -239,10 +239,6 @@ npc::npc()
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
-    str_max = 0;
-    dex_max = 0;
-    int_max = 0;
-    per_max = 0;
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -275,14 +271,10 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         setID( g->assign_npc_id() );
     }
 
-    str_cur = std::max( s_str, 0 );
-    str_max = std::max( s_str, 0 );
-    dex_cur = std::max( s_dex, 0 );
-    dex_max = std::max( s_dex, 0 );
-    per_cur = std::max( s_per, 0 );
-    per_max = std::max( s_per, 0 );
-    int_cur = std::max( s_int, 0 );
-    int_max = std::max( s_int, 0 );
+    set_str_base( s_str );
+    set_dex_base( s_dex );
+    set_per_base( s_per );
+    set_int_base( s_int );
 
     set_body();
     recalc_hp();
@@ -616,10 +608,10 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     randomize_height();
     // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
     set_base_age( rng( 18, 55 ) );
-    str_max = dice( 4, 3 );
-    dex_max = dice( 4, 3 );
-    int_max = dice( 4, 3 );
-    per_max = dice( 4, 3 );
+    int str_base = dice( 4, 3 );
+    int dex_base = dice( 4, 3 );
+    int int_base = dice( 4, 3 );
+    int per_base = dice( 4, 3 );
 
     if( tem_id.is_valid() ) {
         const npc_template &tem = tem_id.obj();
@@ -630,16 +622,16 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
             personality.altruism = tem.personality->altruism;
         }
         if( tem.str.has_value() ) {
-            str_max = tem.str.value();
+            str_base = tem.str.value();
         }
         if( tem.dex.has_value() ) {
-            dex_max = tem.dex.value();
+            dex_base = tem.dex.value();
         }
         if( tem.intl.has_value() ) {
-            int_max = tem.intl.value();
+            int_base = tem.intl.value();
         }
         if( tem.per.has_value() ) {
-            per_max = tem.per.value();
+            per_base = tem.per.value();
         }
         if( tem.height.has_value() ) {
             set_base_height( tem.height.value() );
@@ -656,10 +648,10 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         myclass = type;
     }
 
-    str_max += myclass->roll_strength();
-    dex_max += myclass->roll_dexterity();
-    int_max += myclass->roll_intelligence();
-    per_max += myclass->roll_perception();
+    set_str_base( str_base + myclass->roll_strength() );
+    set_dex_base( dex_base + myclass->roll_dexterity() );
+    set_int_base( int_base + myclass->roll_intelligence() );
+    set_per_base( per_base + myclass->roll_perception() );
 
     personality.aggression += myclass->roll_aggression();
     personality.bravery += myclass->roll_bravery();
@@ -1323,16 +1315,16 @@ void npc::starting_weapon( const npc_class_id &type )
             //You should be able to wield your starting weapon
             if( !meets_stat_requirements( *weapon ) ) {
                 if( weapon->get_min_str() > get_str() ) {
-                    str_max = weapon->get_min_str();
+                    set_str_base( weapon->get_min_str() );
                 }
                 if( weapon->type->min_dex > get_dex() ) {
-                    dex_max = weapon->type->min_dex;
+                    set_dex_base( weapon->type->min_dex );
                 }
                 if( weapon->type->min_int > get_int() ) {
-                    int_max = weapon->type->min_int;
+                    set_int_base( weapon->type->min_int );
                 }
                 if( weapon->type->min_per > get_per() ) {
-                    per_max = weapon->type->min_per;
+                    set_per_base( weapon->type->min_per );
                 }
             }
         }
@@ -1583,23 +1575,56 @@ static void choose_best_MA_style( npc *you )
 
 bool npc::wield( item &it )
 {
-    // dont unwield if you already wield the item
     if( is_wielding( it ) ) {
         return true;
     }
-    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded item
-    if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
-        stow_item( *get_wielded_item() );
-    }
-    if( !Character::wield( it ) ) {
-        return false;
-    }
-    if( get_wielded_item() ) {
-        // add_msg_if_player_sees does no internal npc name replacement
-        add_msg_if_player_sees( *this, m_info, replace_with_npc_name( _( "<npcname> wields a %s." ) ),
-                                get_wielded_item()->tname() );
+
+    item extracted;
+
+    item_location wielded = get_wielded_item();
+    if( has_wield_conflicts( it ) ) {
+        if( wielded && wielded->has_item( it ) ) {
+            // Item is inside the wielded container. Check wieldability
+            // before extracting - once extracted, reinsertion is not
+            // guaranteed (container may be stowed into a different pocket).
+            if( !can_wield( it ).success() ) {
+                return false;
+            }
+            // Compute retrieval cost while we still have the container
+            // reference. Uses item_retrieve_cost for skill-scaled draw
+            // speed, matching wield_contents semantics.
+            int retrieve_mv = item_retrieve_cost( it, *wielded );
+            extracted = it;
+            wielded->remove_item( it );
+            stow_item( *get_wielded_item() );
+            if( !Character::wield( extracted, retrieve_mv ) ) {
+                // can_wield passed above, so this should not happen.
+                // If it does, put the item into inventory or drop it.
+                map &here = get_map();
+                if( can_stash( extracted ) ) {
+                    i_add( extracted, true, nullptr, nullptr, true, false );
+                } else {
+                    here.add_item_or_charges( pos_bub( here ), extracted );
+                }
+                return false;
+            }
+        } else {
+            stow_item( *get_wielded_item() );
+            if( !Character::wield( it ) ) {
+                return false;
+            }
+        }
+    } else {
+        if( !Character::wield( it ) ) {
+            return false;
+        }
     }
 
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info,
+                                replace_with_npc_name( _( "<npcname> wields a %s." ) ),
+                                get_wielded_item()->tname() );
+    }
     choose_best_MA_style( this );
     invalidate_range_cache();
     return true;
@@ -1694,7 +1719,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    npc_values.fear += ( you.str_max / 4 ) - 2;
+    npc_values.fear += ( you.get_str_base() / 4 ) - 2;
 
     // is your health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {

@@ -100,5 +100,11 @@
     "id": "Militia Lodge",
     "copy-from": "Militia Lodge",
     "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "robofac_strip_mall",
+    "copy-from": "robofac_strip_mall",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
   }
 ]

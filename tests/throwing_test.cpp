@@ -66,9 +66,9 @@ static void reset_player( Character &you, const throw_test_pstats &pstats,
     clear_character( you );
     CHECK( !you.in_vehicle );
     you.setpos( here, pos );
-    you.str_max = pstats.str;
-    you.dex_max = pstats.dex;
-    you.per_max = pstats.per;
+    you.set_str_base( pstats.str );
+    you.set_dex_base( pstats.dex );
+    you.set_per_base( pstats.per );
     you.set_str_bonus( 0 );
     you.set_per_bonus( 0 );
     you.set_dex_bonus( 0 );

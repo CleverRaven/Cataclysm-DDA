@@ -602,6 +602,16 @@
   },
   {
     "type": "terrain",
+    "id": "t_nanofab_body_broken",
+    "name": "broken nanofabricator",
+    "copy-from": "t_nanofab_body",
+    "symbol": "%",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3D printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.  It is broken beyond repair and it is generally nothing but a useless hunk of steel.",
+    "color": "dark_gray",
+    "delete": { "flags": [ "NANOFAB_TABLE" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_nanofab",
     "name": "nanofabricator control panel",
     "symbol": "&",
