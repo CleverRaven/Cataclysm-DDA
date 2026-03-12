@@ -17,7 +17,6 @@
             { "compare_string": [ "INVENTOR", { "context_val": "school" } ] },
             { "compare_string": [ "IERDE", { "context_val": "school" } ] },
             { "compare_string": [ "HOMULLUS", { "context_val": "school" } ] },
-            { "compare_string": [ "SALAMANDER", { "context_val": "school" } ] },
             { "compare_string": [ "UNDINE", { "context_val": "school" } ] },
             { "compare_string": [ "SYLPH", { "context_val": "school" } ] },
             { "compare_string": [ "VAMPIRE", { "context_val": "school" } ] }
