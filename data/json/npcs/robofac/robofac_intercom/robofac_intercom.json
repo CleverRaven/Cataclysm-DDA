@@ -91,6 +91,17 @@
           ]
         },
         "refusal": "You're not yet qualified to buy this"
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_LENS",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
+          ]
+        }
       }
     ],
     "shopkeeper_blacklist": "robofac_blacklist"
@@ -124,6 +135,18 @@
     "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
     "subtype": "collection",
     "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_LENS",
+    "subtype": "collection",
+    "entries": [
+      { "item": "robofac_lens_helmet", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "robofac_lens_mask_bal", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "robofac_lens_mask_filter", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "robofac_lens_mask_gas", "prob": 70, "count": [ 1, 2 ] },
+      { "item": "robofac_lens_mask_papr", "prob": 70, "count": [ 1, 2 ] }
+    ]
   },
   {
     "id": "robofac_blacklist",

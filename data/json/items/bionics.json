@@ -1597,5 +1597,16 @@
     "price": "45 kUSD 500 USD",
     "price_postapoc": "500 USD",
     "difficulty": 9
+  },
+  {
+    "id": "bio_robofac_xmlens",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Hub 01 XM-LENS" },
+    "description": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into their Low-latency ExoNeural Sensory system, a scalp cybernetic implant which allows a neurobionic interface to communicate with external devices.  Installing this cybernetic will remove all of the hair on your head, but you'll have the benefit of being able to directly couple your brain to Hub 01 LENS headgear.",
+    "price": "4 kUSD 500 USD",
+    "price_postapoc": "100 USD",
+    "difficulty": 4
   }
 ]
