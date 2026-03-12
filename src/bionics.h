@@ -161,6 +161,8 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
+    /** When true, activating this bionic from the bionics menu will instantly remove the CBM with no chance of failure. */
+    bool activate_remove_cbm = false;
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**If true this bionic emits heat when producing power*/
