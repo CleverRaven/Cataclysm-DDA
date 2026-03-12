@@ -373,6 +373,18 @@
         ]
       },
       {
+        "text": "Check out this new Hub 01 headgear - they call it a LENS helmet.  Think we can use it?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LENS_1",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_LENS_upgrade" } ] } },
+            { "u_has_items": { "item": "robofac_lens_helmet", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        }
+      },
+      {
         "text": "Let's talk about one of our jobs.",
         "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] }
@@ -766,6 +778,17 @@
           { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
           { "u_add_var": "robofac_pat_remaking_earpiece", "value": "yes" }
         ]
+      },
+      {
+        "text": "Could you set up my new LENS helmet?  I've taken out any mods and software I need.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LENS_REMAKE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_LENS_upgrade" } ] },
+            { "u_has_items": { "item": "robofac_lens_helmet", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        }
       },
       {
         "text": "It's been a day.  Is the earpiece done?",
@@ -1389,6 +1412,56 @@
       },
       { "text": "Maybe some other time.  See you around.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_1",
+    "type": "talk_topic",
+    "dynamic_line": "What in the evah-lovin' fahk is that supposed to be?  Jesus Christ.  Lemme see that thing.\"  Pat takes the helmet, puts it on, and starts the laugh.  \"There ain't even a goddamn visor on this thing.  Hah!\"\n\nPat takes off the helmet and wipes a hand over its smooth exterior, looking it over closely.",
+    "responses": [ { "text": "Yeah, well, think you can make it work for our comm system?", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_2" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_2",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright, alright let me take a look… yup… there.  Yeah, figures.  Lucky for us our employah's are cheap bastahds.  They slapped a fahkin' USB port on it.  Nothin' says \"sci-fi bullshit\" like a port ripped off a fahkin office printah\".\n\nPat sparks their car battery, hooks their laptop up to it, and boots it up.  \"Hang on a sec.",
+    "responses": [
+      { "text": "[Wait quietly and patiently]", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" },
+      { "text": "[Laugh and relax]", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" },
+      { "text": "Make it quick, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_3",
+    "type": "talk_topic",
+    "dynamic_line": "&After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.  This thing's fahkin' nuts, pal.  I just pretuned your software radio doohickey to our frequency.  Long as that helmet's powered up, I can link in.  No prob.  Can also give me a shout over the radio, yeah?  I dunno where you keep the fuckin' trigger for the walkie, but if it's in your ass don't go butt dialin' me while you're in the head, yeah?\"",
+    "responses": [
+      {
+        "text": "Hah, will do, Pat.  Thanks.  I wanted to ask talk about something else, too.",
+        "topic": "TALK_ROBOFAC_MERC_PAT"
+      },
+      { "text": "Hah, will do, Pat.  Thanks.  See you around.", "topic": "TALK_DONE" }
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "robofac_pat_gave_LENS_upgrade", "value": "yes" },
+        { "u_consume_item": "robofac_lens_helmet", "count": 1, "popup": true },
+        { "u_spawn_item": "robofac_lens_helmet_pat" }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_REMAKE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat boots up their laptop and hooks it to the LENS USB port.  After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.\"",
+    "responses": [
+      { "text": "Thanks, Pat.  I wanted to ask talk about something else, too.", "topic": "TALK_ROBOFAC_MERC_PAT" },
+      { "text": "Thanks, Pat.  See you around.", "topic": "TALK_DONE" }
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "u_consume_item": "robofac_lens_helmet", "count": 1, "popup": true },
+        { "u_spawn_item": "robofac_lens_helmet_pat" }
+      ]
+    }
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
