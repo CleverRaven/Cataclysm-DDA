@@ -611,7 +611,7 @@
   },
   {
     "type": "sub_body_part",
-    "id": "arm_feathers_lower_r",
+    "id": "arm_leathery_lower_r",
     "name": "lower right leathery arms",
     "name_multiple": "lower leathery arms",
     "parent": "arm_leathery_r",
