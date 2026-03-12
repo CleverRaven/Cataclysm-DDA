@@ -339,6 +339,12 @@
     "extend": { "flags": [ "TEEP_IMMUNE", "TELEKIN_IMMUNE" ], "armor": { "psi_photokinetic_damage": -80 } }
   },
   {
+    "id": "mon_lieutenant_shadow",
+    "copy-from": "mon_lieutenant_shadow",
+    "type": "MONSTER",
+    "extend": { "armor": { "psi_photokinetic_damage": -80 } }
+  },
+  {
     "id": "mon_thing",
     "copy-from": "mon_thing",
     "type": "MONSTER",
