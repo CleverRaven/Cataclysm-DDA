@@ -68,6 +68,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "PARACLESIAN_BIRTH_GRAMARYE",
+    "name": "Paraclesian Birth",
+    "description": "By dint of your birth you already have some knowledge of how the universe really works.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "gramarye" } ],
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "HOMULLUS_SOCIAL",
     "name": "Born with the gift of gab.",
     "description": "You've never met another person but already you are ready for the conversations that will ensue.",

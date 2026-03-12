@@ -680,7 +680,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_NURTURE_GREEN" ],
+    "hobbies": [ "PARACLESIAN_BIRTH_GRAMARYE", "ARVORE_NURTURE_GREEN" ],
     "items": {
       "both": {
         "entries": [
@@ -738,7 +738,7 @@
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "SALAMANDER_FIRE_DANCE" ],
+    "hobbies": [ "PARACLESIAN_BIRTH_GRAMARYE", "SALAMANDER_FIRE_DANCE" ],
     "items": {
       "both": {
         "entries": [
