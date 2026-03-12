@@ -1268,7 +1268,7 @@
       },
       {
         "type": "effect_on_conditions",
-        "description": "Hail Pat on the radio",
+        "menu_text": "Hail Pat on the radio",
         "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
@@ -1357,7 +1357,7 @@
       },
       {
         "type": "effect_on_conditions",
-        "description": "Hail Pat on the radio",
+        "menu_text": "Hail Pat on the radio",
         "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
