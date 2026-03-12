@@ -381,7 +381,7 @@
   {
     "type": "body_part",
     "id": "arm_leathery_r",
-    "copy-from": "arm_leathery_r",
+    "copy-from": "arm_leathery_l",
     "name": "leathery arm",
     "name_multiple": "leathery arms",
     "accusative": { "ctxt": "bodypart_accusative", "str": "leathery arm" },
