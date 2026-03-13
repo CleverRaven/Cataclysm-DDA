@@ -14,6 +14,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_variant.h"
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -47,6 +48,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "proficiency.h"
+#include "stats_tracker.h"
 #include "stomach.h"
 #include "talker.h"
 #include "translations.h"
@@ -56,6 +58,8 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+class event_statistic;
 
 /*
 General guidelines for writing dialogue functions
@@ -128,6 +132,18 @@ double option_eval( const_dialogue const &d, char /* scope */,
                     std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
 {
     return get_option<float>( params[0].str( d ), true );
+}
+
+double event_statistic_eval( const_dialogue const &d, char /* scope */,
+                             std::vector<diag_value> const &params,
+                             diag_kwargs const & /* kwargs */ )
+{
+    string_id<event_statistic> stat_id( params[0].str( d ) );
+    if( !stat_id.is_valid() ) {
+        throw math::runtime_error( R"(Unknown event_statistic "%s")", stat_id.str() );
+    }
+    cata_variant val = get_stats().value_of( stat_id );
+    return diag_value( val ).dbl( d );
 }
 
 double addiction_intensity_eval( const_dialogue const &d, char scope,
@@ -1513,6 +1529,29 @@ void npc_trust_ass( double val, dialogue &d, char scope,
     d.actor( is_beta( scope ) )->set_npc_trust( val );
 }
 
+double gender_eval( const_dialogue const &d, char scope,
+                    std::vector<diag_value> const & /* params */,
+                    diag_kwargs const & /* kwargs */ )
+{
+    // This has no talker overload because it's only relevant to characters.
+    const Character *maybe_guy = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( maybe_guy ) {
+        return maybe_guy->male;
+    } else {
+        return 0;
+    }
+}
+
+void gender_ass( double val, dialogue &d, char scope,
+                 std::vector<diag_value> const & /* params */, diag_kwargs const & /* kwargs */ )
+{
+    // This has no talker overload because it's only relevant to characters.
+    Character *maybe_guy_maybe_girl_soon = d.actor( is_beta( scope ) )->get_character();
+    if( maybe_guy_maybe_girl_soon ) {
+        maybe_guy_maybe_girl_soon->male = val;
+    }
+}
+
 double calories_eval( const_dialogue const &d, char scope,
                       std::vector<diag_value> const & /* params */, diag_kwargs const &kwargs )
 {
@@ -1712,6 +1751,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "event_statistic", { "g", 1, event_statistic_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_eval, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_eval, faction_trust_ass } },
@@ -1720,6 +1760,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "faction_power", { "g", 1, faction_power_eval, faction_power_ass } },
     { "faction_size", { "g", 1, faction_size_eval, faction_size_ass } },
     { "field_strength", { "ung", 1, field_strength_eval, {}, { "location" } } },
+    { "gender", { "un", 0, gender_eval, gender_ass } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },

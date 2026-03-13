@@ -1012,9 +1012,7 @@ action_id input_context::display_menu( bool permit_execute_action )
         // avoiding inception!
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
-#if defined(WIN32) || defined(TILES)
     ctxt.set_timeout( 50 );
-#endif
 
     // has the user changed something?
     bool changed = false;

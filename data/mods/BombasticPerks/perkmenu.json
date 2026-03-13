@@ -286,7 +286,7 @@
           },
           { "set_string_var": "perk_percussive_entry", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires strength 12, the <trait_name:perk_STR_UP_2> perk, or the <trait_name:perk_way_closedfist> perk.",
+            "set_string_var": "Requires strength 12, the <trait_name:perk_STR_UP_2> perk, or the <trait_name:perk_way_closedfist> perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -333,7 +333,7 @@
           },
           { "set_string_var": "perk_built_tough", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:FLIMSY>, <trait_name:FLIMSY2>, <trait_name:FLIMSY3>, or <trait_name:GLASSJAW>.",
+            "set_string_var": "Must not have <trait_name:FLIMSY>, <trait_name:FLIMSY2>, <trait_name:FLIMSY3>, or <trait_name:GLASSJAW>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -355,7 +355,7 @@
           },
           { "set_string_var": "perk_thick_skin", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_built_tough> and perk level 6.",
+            "set_string_var": "Must have <trait_name:perk_built_tough> and perk level 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -607,30 +607,6 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
-        "text": "Gain [<trait_name:perk_bloody_mess>]",
-        "effect": [
-          { "set_string_var": "<trait_name:perk_bloody_mess>", "target_var": { "context_val": "trait_name" } },
-          {
-            "set_string_var": "<trait_description:perk_bloody_mess>",
-            "target_var": { "context_val": "trait_description" }
-          },
-          { "set_string_var": "perk_bloody_mess", "target_var": { "context_val": "trait_id" } },
-          {
-            "set_string_var": "Must not have <trait_name:perk_surgical_strikes>",
-            "target_var": { "context_val": "trait_requirement_description" },
-            "i18n": true
-          },
-          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } } },
-          {
-            "set_string_var": "Taking this means you can't take <trait_name:perk_surgical_strikes>",
-            "target_var": { "context_val": "trait_additional_details" },
-            "i18n": true
-          }
-        ],
-        "topic": "TALK_PERK_MENU_SELECT"
-      },
-      {
         "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } },
         "text": "Gain [<trait_name:perk_surgical_strikes>]",
         "effect": [
@@ -833,7 +809,7 @@
           },
           { "set_string_var": "perk_reduced_falling_damage", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have <trait_name:perk_tuck_and_roll> and athletics 7, the Parkour Expert proficiency, or dexterity 13 and athletics 5.",
+            "set_string_var": "Must have <trait_name:perk_tuck_and_roll> and athletics 7, the Parkour Expert proficiency, or dexterity 13 and athletics 5",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -866,7 +842,7 @@
           },
           { "set_string_var": "perk_grit_your_teeth", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:perk_built_tough> perk.\n\nMust not have the <trait_name:MORE_PAIN>, <trait_name:MORE_PAIN2>, or <trait_name:MORE_PAIN3> Traits",
+            "set_string_var": "Must have the <trait_name:perk_built_tough> perk\n\nMust not have the <trait_name:MORE_PAIN>, <trait_name:MORE_PAIN2>, or <trait_name:MORE_PAIN3> Traits",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1107,7 +1083,7 @@
           },
           { "set_string_var": "perk_blood_drinker", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have the <trait_name:SQUEAMISH>, <trait_name:VEGETARIAN>, <trait_name:HERBIVORE>, or <trait_name:VEGAN> traits.",
+            "set_string_var": "Must not have the <trait_name:SQUEAMISH>, <trait_name:VEGETARIAN>, <trait_name:HERBIVORE>, or <trait_name:VEGAN> traits",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1273,7 +1249,7 @@
           },
           { "set_string_var": "perk_crafty_hands", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires fabrication 4, food preparation 4, tailoring 4, electronics 4, or chemistry 4.",
+            "set_string_var": "Requires fabrication 4, food preparation 4, tailoring 4, electronics 4, or chemistry 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1303,7 +1279,7 @@
           },
           { "set_string_var": "perk_sleepy", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_nocturnal> or <trait_name:INSOMNIA>.",
+            "set_string_var": "Must not have <trait_name:perk_nocturnal> or <trait_name:INSOMNIA>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1347,7 +1323,7 @@
           },
           { "set_string_var": "perk_early_to_rise", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_nocturnal>.",
+            "set_string_var": "Must not have <trait_name:perk_nocturnal>",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1428,7 +1404,7 @@
           },
           { "set_string_var": "perk_situational_uncanny_dodge", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires Dodging 8 and the Lucky Dodge perk.",
+            "set_string_var": "Requires Dodging 8 and the Lucky Dodge perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1611,7 +1587,7 @@
           },
           { "set_string_var": "perk_dream_armor", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:SLEEPY> trait or the <trait_name:perk_sleepy> perk.  Must not have <trait_name:WAKEFUL>, <trait_name:WAKEFUL2>, or <trait_name:WAKEFUL3> traits.",
+            "set_string_var": "Must have the <trait_name:SLEEPY> trait or the <trait_name:perk_sleepy> perk.  Must not have <trait_name:WAKEFUL>, <trait_name:WAKEFUL2>, or <trait_name:WAKEFUL3> traits",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1892,6 +1868,25 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_yeoman" } },
+        "text": "Gain [<trait_name:perk_yeoman>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_yeoman>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_yeoman>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_yeoman", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires archery 8",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('archery') >= 8" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_empath" } },
         "text": "Gain [<trait_name:perk_empath>]",
         "effect": [
@@ -2034,7 +2029,7 @@
           },
           { "set_string_var": "perk_nocturnal", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have <trait_name:perk_early_to_rise> or <trait_name:perk_sleepy> perks.",
+            "set_string_var": "Must not have <trait_name:perk_early_to_rise> or <trait_name:perk_sleepy> perks",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2116,11 +2111,35 @@
           },
           { "set_string_var": "perk_speedballing", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the <trait_name:ADDICTIVE> or <trait_name:STIMBOOST> traits.",
+            "set_string_var": "Must have the <trait_name:ADDICTIVE> or <trait_name:STIMBOOST> traits",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_any_trait": [ "ADDICTIVE", "STIMBOOST" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
+        "text": "Gain [<trait_name:perk_bloody_mess>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_bloody_mess>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_bloody_mess>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_bloody_mess", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "perk_surgical_strikes" } } },
+          {
+            "set_string_var": "Taking this means you can't take <trait_name:perk_surgical_strikes>",
+            "target_var": { "context_val": "trait_additional_details" },
+            "i18n": true
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
@@ -2154,7 +2173,7 @@
           },
           { "set_string_var": "perk_forge_blood", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires fabrication 5",
+            "set_string_var": "Requires fabrication 6",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2314,7 +2333,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_bird", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2347,7 +2366,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_feline", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2380,7 +2399,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_insect", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2413,7 +2432,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_lupine", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2446,7 +2465,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_plant", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -2479,7 +2498,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_spider", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought perk.",
+            "set_string_var": "Must not have another Stormwrought perk",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },

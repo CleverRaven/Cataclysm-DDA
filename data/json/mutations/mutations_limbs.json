@@ -284,9 +284,8 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -302,7 +301,17 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 4,
-    "ugliness": 5
+    "ugliness": 5,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_insect_good_l" },
+          { "gain": "arm_insect_good_r" },
+          { "gain": "insect_hand_l" },
+          { "gain": "insect_hand_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -372,7 +381,12 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ]
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -538,7 +552,7 @@
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "category": [ "BIRD" ],
     "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
+    "prereqs": [ "ARM_FEATHERS" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "strict_threshreq": true,
@@ -546,8 +560,17 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "flags": [ "WINGS_2", "WING_GLIDE" ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_wing_bird_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_wing_bird_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -702,6 +725,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "points": 1,
     "vitamin_cost": 130,
+    "ugliness": 2,
     "visibility": 7,
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
@@ -864,9 +888,19 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_rabbit_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -922,7 +956,15 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_r" } ]
+      }
     ],
     "triggers": [
       [
@@ -972,8 +1014,12 @@
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "hoof_l" }, { "gain": "hoof_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "hoof_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "hoof_r" } ]
       }
     ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
@@ -1076,8 +1122,12 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "enchantments": [
       {
-        "condition": "ALWAYS",
-        "modified_bodyparts": [ { "lose": "foot_l" }, { "lose": "foot_r" }, { "gain": "avian_talon_l" }, { "gain": "avian_talon_r" } ]
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "avian_talon_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "avian_talon_r" } ]
       }
     ]
   },

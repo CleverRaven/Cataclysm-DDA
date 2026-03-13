@@ -1,0 +1,111 @@
+[
+  {
+    "id": "xe_bio_data_shunt",
+    "type": "bionic",
+    "name": { "str": "Data Shunt, basic" },
+    "description": "CBM which gives you the ability to slot in and out data cores to give yourself proficiencies.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_DATA_SHUNT_BP" ],
+    "passive_pseudo_items": [ "data_core_slots" ],
+    "cant_remove_reason": "You'd have an open hole going through your skull to your brain."
+  },
+  {
+    "id": "xe_bio_dataslot_giant_hunter",
+    "type": "bionic",
+    "name": { "str": "Datacore: Giant Hunting" },
+    "description": "A removable data core that can be slotted into a data core for temporary knowledge of a proficiency.  This one teaches you how best to bring down giant humanoids in combat.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_wp_hulk" ]
+  },
+  {
+    "id": "xe_bio_dataslot_cyborg_hunting",
+    "type": "bionic",
+    "name": { "str": "Datacore: Cyborg Hunting" },
+    "description": "A brain implant that grants instinctual knowledge about the weakpoints of cyborgs.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_wp_cyborg" ]
+  },
+  {
+    "id": "xe_bio_dataslot_migo_weakpoints",
+    "type": "bionic",
+    "name": { "str": "Datacore: Mi-go Hunting" },
+    "description": "A brain implant that grants instinctual knowledge about the weakpoints of Mi-go.",
+    "activate_remove_cbm": true,
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_wp_mi-go_basic" ]
+  },
+  {
+    "id": "xe_bio_dataslot_lockpicking",
+    "type": "bionic",
+    "name": { "str": "Datacore: Lockpicking" },
+    "description": "A brain implant that grants instinctual knowledge about the principles of lockpicking.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_lockpicking", "prof_lockpicking_expert" ]
+  },
+  {
+    "id": "xe_bio_dataslot_game_ui",
+    "type": "bionic",
+    "name": { "str": "Datacore: Trap Highlight UI" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "description": "A brain implant causes your visual cortex to highlight likely traps.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_spotting" ]
+  },
+  {
+    "id": "xe_bio_dataslot_EOD",
+    "type": "bionic",
+    "name": { "str": "Datacore: Trap Disposal" },
+    "description": "A brain implant that grants instinctual knowledge about how to disarm many types of traps.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "learned_proficiencies": [ "prof_disarming" ]
+  },
+  {
+    "id": "xe_bio_dataslot_parkour",
+    "type": "bionic",
+    "name": { "str": "Datacore: Parkour" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "description": "A brain implant that grants the ability to free run across difficult terrains.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 1 ] ],
+    "learned_proficiencies": [ "prof_parkour" ]
+  },
+  {
+    "id": "xe_bio_dataslot_muay_thai",
+    "type": "bionic",
+    "name": { "str": "Datacore: Muay Thai" },
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "description": "A brain implant that grants the knowledge of Muay Thai martial arts.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "occupied_bodyparts": [ [ "data_shunt", 3 ] ],
+    "known_ma_styles": [ "style_muay_thai" ]
+  },
+  {
+    "id": "xe_bio_dataslot_helicopter_pilot",
+    "type": "bionic",
+    "name": { "str": "Datacore: Helicopter Pilot" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "activate_remove_cbm": true,
+    "installation_requirement": "data_core_install",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_REMOVABLE" ],
+    "occupied_bodyparts": [ [ "data_shunt", 2 ] ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  }
+]

@@ -219,6 +219,12 @@
     "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "8 days", "cost_multiplier": 5 } ]
   },
   {
+    "id": "GROUP_RABBIT_WILD",
+    "type": "monstergroup",
+    "default": "mon_wild_rabbit",
+    "monsters": [ { "monster": "mon_wild_rabbit_blinker", "weight": 10, "cost_multiplier": 1 } ]
+  },
+  {
     "id": "GROUP_DEERS",
     "type": "monstergroup",
     "monsters": [

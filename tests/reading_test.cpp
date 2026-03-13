@@ -193,13 +193,13 @@ TEST_CASE( "character_reading_speed", "[reading][character][speed]" )
     WHEN( "character has below-average intelligence" ) {
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
-            dummy.int_max = 7;
+            dummy.set_int_base( 7 );
             CHECK( dummy.read_speed() * 60 == 6180 );
-            dummy.int_max = 6;
+            dummy.set_int_base( 6 );
             CHECK( dummy.read_speed() * 60 == 6480 );
-            dummy.int_max = 5;
+            dummy.set_int_base( 5 );
             CHECK( dummy.read_speed() * 60 == 6780 );
-            dummy.int_max = 4;
+            dummy.set_int_base( 4 );
             CHECK( dummy.read_speed() * 60 == 7200 );
         }
     }
@@ -207,13 +207,13 @@ TEST_CASE( "character_reading_speed", "[reading][character][speed]" )
     WHEN( "character has above-average intelligence" ) {
 
         THEN( "reading speed gets faster as intelligence increases" ) {
-            dummy.int_max = 9;
+            dummy.set_int_base( 9 );
             CHECK( dummy.read_speed() * 60 == 5700 );
-            dummy.int_max = 10;
+            dummy.set_int_base( 10 );
             CHECK( dummy.read_speed() * 60 == 5460 );
-            dummy.int_max = 12;
+            dummy.set_int_base( 12 );
             CHECK( dummy.read_speed() * 60 == 5100 );
-            dummy.int_max = 14;
+            dummy.set_int_base( 14 );
             CHECK( dummy.read_speed() * 60 == 4800 );
         }
     }
@@ -272,7 +272,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {
-            dummy.int_max = 8;
+            dummy.set_int_base( 8 );
             REQUIRE( dummy.get_int() == 8 );
             REQUIRE( dummy.read_speed() * 60 == 6000 ); // 60s, "normal"
 
@@ -286,7 +286,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         }
 
         WHEN( "player has below average intelligence" ) {
-            dummy.int_max = 6;
+            dummy.set_int_base( 6 );
             REQUIRE( dummy.get_int() == 6 );
             REQUIRE( dummy.read_speed() * 60 == 6480 ); // 65s
 
@@ -298,7 +298,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         }
 
         WHEN( "player has above average intelligence" ) {
-            dummy.int_max = 10;
+            dummy.set_int_base( 10 );
             REQUIRE( dummy.get_int() == 10 );
             REQUIRE( dummy.read_speed() * 60 == 5460 ); // 55s
 

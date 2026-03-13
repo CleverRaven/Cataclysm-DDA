@@ -448,7 +448,7 @@
     "volume": "50 ml",
     "price": "16 USD",
     "price_postapoc": "10 cent",
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
@@ -463,7 +463,7 @@
     "volume": "23 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]

@@ -8,6 +8,6 @@
     "valid": false,
     "purifiable": false,
     "types": [ "Equipment" ],
-    "flags": "WALL_CLING"
+    "flags": [ "WALL_CLING" ]
   }
 ]

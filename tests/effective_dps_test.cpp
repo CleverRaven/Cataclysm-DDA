@@ -158,8 +158,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         monster mummy( pseudo_debug_mon );
 
         SECTION( "STR 6, DEX 6" ) {
-            dummy.str_max = 6;
-            dummy.dex_max = 6;
+            dummy.set_str_base( 6 );
+            dummy.set_dex_base( 6 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 20.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 26.0f ).epsilon( 0.15f ) );
@@ -167,8 +167,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 8, DEX 10" ) {
-            dummy.str_max = 8;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 8 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 32.0f ).epsilon( 0.15f ) );
@@ -176,8 +176,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
         }
 
         SECTION( "STR 10, DEX 10" ) {
-            dummy.str_max = 10;
-            dummy.dex_max = 10;
+            dummy.set_str_base( 10 );
+            dummy.set_dex_base( 10 );
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 27.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 34.0f ).epsilon( 0.15f ) );
@@ -247,10 +247,10 @@ TEST_CASE( "accuracy_increases_success", "[accuracy][dps]" )
 static void make_experienced_tester( avatar &test_guy )
 {
     clear_character( test_guy );
-    test_guy.str_max = 10;
-    test_guy.dex_max = 10;
-    test_guy.int_max = 10;
-    test_guy.per_max = 10;
+    test_guy.set_str_base( 10 );
+    test_guy.set_dex_base( 10 );
+    test_guy.set_int_base( 10 );
+    test_guy.set_per_base( 10 );
     test_guy.set_str_bonus( 0 );
     test_guy.set_dex_bonus( 0 );
     test_guy.set_int_bonus( 0 );

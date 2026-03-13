@@ -184,5 +184,41 @@
       "terrain": { "E": "t_metal_floor", "O": "t_metal_floor" },
       "furniture": { "O": "f_string_dimension_pylon", "E": "f_string_dimension_housing" }
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "string_dimension_small_ziggurat_0_inert",
+    "object": {
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,  v              v  ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,         @          ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,  v              v  ,,",
+        ",,                    ,,",
+        ",,                    ,,",
+        ",,,,,,,,,,,,,a,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ",": "t_rock_floor_no_roof", "a": "t_string_gates_mech_control_inert", "v": "t_metal_floor", "@": "t_metal_floor" },
+      "monster": { "@": { "monster": "mon_tindalos" } },
+      "furniture": { "v": "f_vent_inert" }
+    }
   }
 ]

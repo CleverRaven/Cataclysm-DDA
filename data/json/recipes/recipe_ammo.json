@@ -1019,7 +1019,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welding_kit", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
       [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ]
     ],
     "components": [

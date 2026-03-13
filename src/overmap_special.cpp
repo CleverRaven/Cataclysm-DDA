@@ -297,27 +297,29 @@ void overmap_special::load( const JsonObject &jo, const std::string_view src )
         eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
         has_eoc_ = true;
     }
-    switch( subtype_ ) {
-        case overmap_special_subtype::fixed: {
-            shared_ptr_fast<fixed_overmap_special_data> fixed_data =
-                make_shared_fast<fixed_overmap_special_data>();
-            optional( jo, was_loaded, "overmaps", fixed_data->terrains );
-            if( is_special ) {
-                optional( jo, was_loaded, "connections", fixed_data->connections );
+    if( !was_loaded ) {
+        switch( subtype_ ) {
+            case overmap_special_subtype::fixed: {
+                shared_ptr_fast<fixed_overmap_special_data> fixed_data =
+                    make_shared_fast<fixed_overmap_special_data>();
+                optional( jo, was_loaded, "overmaps", fixed_data->terrains );
+                if( is_special ) {
+                    optional( jo, was_loaded, "connections", fixed_data->connections );
+                }
+                data_ = std::move( fixed_data );
+                break;
             }
-            data_ = std::move( fixed_data );
-            break;
+            case overmap_special_subtype::mutable_: {
+                shared_ptr_fast<mutable_overmap_special_data> mutable_data =
+                    make_shared_fast<mutable_overmap_special_data>( id );
+                mutable_data->load( jo, was_loaded );
+                data_ = std::move( mutable_data );
+                break;
+            }
+            default:
+                jo.throw_error( string_format( "subtype %s not implemented",
+                                               io::enum_to_string( subtype_ ) ) );
         }
-        case overmap_special_subtype::mutable_: {
-            shared_ptr_fast<mutable_overmap_special_data> mutable_data =
-                make_shared_fast<mutable_overmap_special_data>( id );
-            mutable_data->load( jo, was_loaded );
-            data_ = std::move( mutable_data );
-            break;
-        }
-        default:
-            jo.throw_error( string_format( "subtype %s not implemented",
-                                           io::enum_to_string( subtype_ ) ) );
     }
 
     optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );

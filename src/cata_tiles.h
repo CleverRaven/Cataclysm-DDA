@@ -18,6 +18,8 @@
 #include <utility>
 #include <vector>
 
+#include <stdint.h>
+
 #include "animation.h"
 #include "calendar.h"
 #include "coordinates.h"
@@ -42,7 +44,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 enum class direction : unsigned int;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 enum class visibility_type : int;
 
 extern void set_displaybuffer_rendertarget();

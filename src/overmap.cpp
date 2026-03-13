@@ -1042,7 +1042,8 @@ bool overmap::generate_sub( const int z )
 {
     cata_assert( z < 0 );
 
-    bool requires_sub = false;
+    //TODO: This forces every sub level to generate, otherwise this function doesn't get called for anything below -2 currently.
+    bool requires_sub = true;
     std::vector<point_om_omt> subway_points;
     std::vector<point_om_omt> sewer_points;
 
@@ -1419,7 +1420,9 @@ void overmap::place_special_forced( const overmap_special_id &special_id,
                                     const tripoint_om_omt &p,
                                     om_direction::type dir )
 {
-    static city invalid_city;
+    // Dummy city for place_special's road-connection fallback.
+    // "" avoids city() default ctor that eats RNG via SNIPPET.
+    static const city invalid_city( "" );
     place_special( *special_id, p, dir, invalid_city, false, true );
 }
 /**

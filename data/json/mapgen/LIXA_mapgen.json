@@ -103,6 +103,7 @@
           "chat_topics": [ "LIXA_presentation_computer_main" ]
         }
       },
+      "traps": { "_": "tr_lixa_fall_down" },
       "place_item": [ { "item": "microwave", "x": 41, "y": 33, "chance": 1 }, { "item": "id_LIXA", "x": 14, "y": 14, "chance": 1 } ],
       "place_monster": [
         { "monster": "mon_zombie_soldier_lixa_police", "x": [ 1, 13 ], "y": [ 14, 23 ], "chance": 50 },
@@ -345,7 +346,8 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_infinite_shaft_no_roof" },
+      "traps": { "_": "tr_lixa_climbing_fall_down" }
     }
   },
   {

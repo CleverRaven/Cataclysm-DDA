@@ -422,9 +422,9 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "ITEM",
     "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Diamond Cornea CBM" },
+    "name": { "str": "Ocular Amplifiers CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of diamond corneas which greatly enhance the user's vision, granting a +2 bonus to perception.",
+    "description": "A set of occult amplifiers which greatly enhance the user's vision, granting a +2 bonus to perception.",
     "price": "8 kUSD",
     "price_postapoc": "30 USD",
     "weight": "100 g",
@@ -877,6 +877,20 @@
     "description": "A wireless communications device that integrates with the ear canal to enable hands-free communication over radio waves.",
     "price": "500 USD",
     "price_postapoc": "10 USD",
+    "weight": "100 g",
+    "difficulty": 4
+  },
+  {
+    "id": "bio_radio_pat",
+    "copy-from": "bionic_general",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Modified Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A wireless communications device that integrates with the ear canal to enable hands-free communication over radio waves.  This one has custom software for communicating with your pal Pat.",
+    "price": "500 USD",
+    "price_postapoc": "10 USD",
+    "flags": [ "TRADER_AVOID" ],
     "weight": "100 g",
     "difficulty": 4
   },
@@ -1550,5 +1564,49 @@
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3
+  },
+  {
+    "id": "bio_robofac_xmleg",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Hub 01 XM-LEG" },
+    "description": "The Hub 01 Lower Extremity Gaitframe, a powered, implanted exoskeleton for the true frontier cyborg.  A metal frame attaches to the legs via anchoring pins driven deep into the hips, femurs, knees, and shinbones.  Internal anchors and electronic interfaces couple the device to one's muscles, connective tissues, and neurobionic interface.  The frame covering the knee and lower leg has clips custom-fit for Hub 01 greaves, and the hip has an external battery compartment.  When powered, movement speed is increased by 15%, obstacles can be traversed with 50% higher efficiency, and carry weight is increased by 30kg.  Unpowered, they are a very encumbering.",
+    "price": "45 kUSD 500 USD",
+    "price_postapoc": "500 USD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_robofac_xmarm",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Hub 01 XM-ARM" },
+    "description": "The Hub 01 Arm Reinforcement Motionframe, a powered, implanted exoskeleton for the true frontier cyborg.  A metal frame attaches to the arms via anchoring pins driven deep into flesh and bone.  Internal anchors and electronic interfaces couple the device to one's muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment and the elbows and lower arms have clips custom-fit for Hub 01 vambraces.  When powered, recoil is reduced by 30%, shot dispersion is reduced by 10%, throw distance is increased by 50%, and objects are thrown 25% harder.  Unpowered, they are a very encumbering.",
+    "price": "45 kUSD 500 USD",
+    "price_postapoc": "500 USD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_robofac_xmback",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Hub 01 XM-BACK" },
+    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, a powered, implanted exoskeleton for the true frontier cyborg.  A metal frame attaches to the back and neck via anchoring pins driven deep into flesh and bone.  Internal anchors and electronic interfaces couple the device to one's muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment on the lower back.  When powered, the frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving one's ability to throw and absorb recoil.  Unpowered, it is very encumbering.",
+    "price": "45 kUSD 500 USD",
+    "price_postapoc": "500 USD",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_robofac_xmlens",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "ITEM",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "name": { "str": "Hub 01 XM-LENS" },
+    "description": "Body area sensor networks were developed as unobtrusive, chip-free personalized medical devices, typically in the form of thin adhesive pads.  Hub 01 has adapted this technology into their Low-latency ExoNeural Sensory system, a scalp cybernetic implant which allows a neurobionic interface to communicate with external devices.  Installing this cybernetic will remove all of the hair on your head, but you'll have the benefit of being able to directly couple your brain to Hub 01 LENS headgear.",
+    "price": "4 kUSD 500 USD",
+    "price_postapoc": "100 USD",
+    "difficulty": 4
   }
 ]

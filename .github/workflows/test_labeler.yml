@@ -9,7 +9,8 @@ jobs:
   labeling:
     if: >-
       github.repository == 'CleverRaven/Cataclysm-DDA' &&
-      github.event.workflow_run.event == 'pull_request'
+      github.event.workflow_run.event == 'pull_request' &&
+      (github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure')
     runs-on: ubuntu-latest
     steps:
     - name: setLabel
@@ -40,9 +41,15 @@ jobs:
         run_id: ${{ github.event.workflow_run.id }}
         name: basic-build
         allow_forks: false
+        if_no_artifact_found: warn
     - name: set-basic-build-success
       id: set-basic-build-success
-      run: echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
+      run: |
+        if [[ -f basic-build ]]; then
+          echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
+        else
+          echo "basic-build-success=false" >> $GITHUB_OUTPUT
+        fi
     - name: Download pr id artifact
       uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
       with:
@@ -50,9 +57,15 @@ jobs:
         run_id: ${{ github.event.workflow_run.id }}
         name: pull_request_id
         allow_forks: false
+        if_no_artifact_found: warn
     - name: set-pr-id
       id: set-pr-id
-      run: echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT
+      run: |
+        if [[ -f pull_request_id ]]; then
+          echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT
+        else
+          echo "pr-id=" >> $GITHUB_OUTPUT
+        fi
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
       uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
@@ -76,15 +89,20 @@ jobs:
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
               console.log("The PR ID artifact does not contain a pull request number.")
             } else {
-              try {
-                github.rest.issues.removeLabel({
+              const { data: labels } = await github.rest.issues.listLabelsOnIssue({
+                issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const labelName = '${{ steps.setLabel.outputs.label }}';
+              if (labels.some(l => l.name === labelName)) {
+                await github.rest.issues.removeLabel({
                   issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  name: '${{ steps.setLabel.outputs.label }}'
-                })
-              } catch (e) {
-                console.log(e)
+                  name: labelName
+                });
+              } else {
+                console.log(`Label "${labelName}" not present on PR, skipping removal.`);
               }
             }
-            

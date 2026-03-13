@@ -2101,8 +2101,8 @@ class item : public visitable
         void set_random_fault_of_type( const std::string &fault_type, bool force = false,
                                        bool message = true );
 
-        /** Removes the fault from the item, if such is presented. */
-        void remove_fault( const fault_id &fault_id );
+        /** Removes the fault from the item, if such is presented. Returns true if a fault was removed */
+        bool remove_fault( const fault_id &fault_id );
 
         /** Checks all the faults in item, and if there is any of this type, removes it. */
         void remove_single_fault_of_type( const std::string &fault_type );
@@ -2349,6 +2349,9 @@ class item : public visitable
          * Returns the average coverage of each piece of data this item
          */
         int get_avg_coverage( const cover_type &type = cover_type::COVER_DEFAULT ) const;
+        // Filtered overload: only counts body parts present in relevant_parts
+        int get_avg_coverage( const body_part_set &relevant_parts,
+                              const cover_type &type = cover_type::COVER_DEFAULT ) const;
         /**
          * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).
@@ -3160,6 +3163,9 @@ class item : public visitable
         * top-level items in standard pockets */
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
+
+        std::list<item *> all_holstered_items();
+        std::list<const item *> all_holstered_items() const;
 
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;

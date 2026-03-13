@@ -33,12 +33,21 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "mapgen_test_nested",
-    "object": { "mapgensize": [ 1, 1 ], "place_terrain": [ { "ter": "t_pillar", "x": 0, "y": 0 } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ],
+      "place_terrain": [ { "ter": "t_pillar", "x": 0, "y": 0 } ]
+    }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "mapgen_test_nested",
-    "object": { "mapgensize": [ 2, 2 ], "terrain": { " ": "t_region_groundcover" }, "furniture": { " ": "f_armchair" } }
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ],
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_armchair" }
+    }
   },
   {
     "type": "mapgen",

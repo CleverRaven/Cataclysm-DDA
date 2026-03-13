@@ -191,7 +191,7 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
                            true, false, true );
 }
 
-TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
+TEST_CASE( "monster_throwing_sanity_test", "[throwing] [balance]" )
 {
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map_without_vision();

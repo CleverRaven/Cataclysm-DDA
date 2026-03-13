@@ -160,6 +160,11 @@
     "//": "Monster can see creatures even when they're invisible"
   },
   {
+    "id": "PLANT_BLOOD",
+    "type": "monster_flag",
+    "//": "Monster bleeds sap"
+  },
+  {
     "id": "PERMANENT_INVISIBILITY",
     "type": "monster_flag",
     "//": "The monster is PERMANENTLY invisible.  Be careful about using this one"

@@ -836,7 +836,7 @@ static std::string training_select_menu( const Character &c, const std::string &
     }
     for( const proficiency_id &p : c.known_proficiencies() ) {
         std::string entry = string_format( "%s: %s", _( "Proficiency" ), p->name() );
-        nmenu.addentry( i, p->is_teachable(), MENU_AUTOASSIGN, entry );
+        nmenu.addentry( i, p->can_learn() && p->is_teachable(), MENU_AUTOASSIGN, entry );
         trainlist.emplace_back( p.c_str() );
         i++;
     }
@@ -5126,6 +5126,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
             // Now let's actually transfer the items!
             for( item *transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
+                transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
 
                 auto remove_items_filter = [&]( const item & it ) {
@@ -5141,6 +5142,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
             int number_transferred = 0;
             for( item *transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
+                transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
 
                 // Count now, while the item still exists

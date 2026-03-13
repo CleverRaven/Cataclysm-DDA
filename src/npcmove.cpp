@@ -2865,7 +2865,7 @@ bool npc::wont_hit_friend( const tripoint_bub_ms &tar, const item &it, bool thro
         // TODO: Extract common functions with turret target selection
         units::angle safe_angle_ally = safe_angle;
         units::angle ally_angle = coord_to_angle( pos_bub(), ally.pos_bub() );
-        units::angle angle_diff = units::fabs( ally_angle - target_angle );
+        units::angle angle_diff = units::abs( ally_angle - target_angle );
         angle_diff = std::min( 360_degrees - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
@@ -4198,6 +4198,13 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
+        if( node == &weap ) {
+            // Weapon is already evaluated above with danger multiplier.
+            // Return NEXT to visit its contents (items inside containers
+            // that might be better weapons). CONTAINER pockets only -
+            // gun mags/mods are in non-CONTAINER pockets, not visited.
+            return VisitResponse::NEXT;
+        }
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()

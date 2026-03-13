@@ -199,6 +199,7 @@ struct mutation_branch {
         bool startingtrait = false;
         // If false, NPCs cannot receive this trait during chargen
         bool chargen_allow_npc = true;
+        bool random_start_allowed = true;
         bool activated     = false;
         translation activation_msg;
         // Should it activate as soon as it is gained?

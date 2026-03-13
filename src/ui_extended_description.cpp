@@ -10,6 +10,7 @@
 #include "mapdata.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "text.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -70,8 +71,7 @@ static void draw_graffiti_text( const tripoint_bub_ms &p )
     }
 }
 
-void draw_extended_description( const std::vector<std::string> &description, const uint64_t width,
-                                cataimgui::scroll &s )
+void draw_extended_description( const std::vector<std::string> &description, cataimgui::scroll &s )
 {
     cataimgui::set_scroll( s );
 
@@ -79,7 +79,8 @@ void draw_extended_description( const std::vector<std::string> &description, con
         if( s == "--" ) {
             ImGui::Separator();
         } else {
-            cataimgui::draw_colored_text( s, c_light_gray, width );
+            cataimgui::TextColoredParagraph( c_light_gray, s );
+            ImGui::NewLine();
         }
     }
 }
@@ -159,7 +160,7 @@ void extended_description_window::draw_creature_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::creature;
         if( !creature_description.empty() ) {
-            draw_extended_description( creature_description, str_width_to_pixels( TERMX ), info_scroll );
+            draw_extended_description( creature_description, info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You do not see any creature here." ), c_light_gray );
         }
@@ -178,7 +179,7 @@ void extended_description_window::draw_furniture_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::furniture;
         if( !furniture_description.empty() ) {
-            draw_extended_description( furniture_description, str_width_to_pixels( TERMX ), info_scroll );
+            draw_extended_description( furniture_description, info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You do not see any furniture here." ), c_light_gray );
         }
@@ -198,7 +199,7 @@ void extended_description_window::draw_terrain_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::terrain;
         if( !terrain_description.empty() ) {
-            draw_extended_description( terrain_description, str_width_to_pixels( TERMX ), info_scroll );
+            draw_extended_description( terrain_description, info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You can't see the terrain here." ), c_light_gray );
         }
@@ -218,7 +219,7 @@ void extended_description_window::draw_vehicle_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::vehicle;
         if( !veh_app_description.empty() ) {
-            draw_extended_description( veh_app_description, str_width_to_pixels( TERMX ), info_scroll );
+            draw_extended_description( veh_app_description, info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You can't see vehicles or appliances here." ), c_light_gray );
         }

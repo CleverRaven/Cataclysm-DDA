@@ -616,6 +616,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lab_subway",
+    "copy-from": "lab_subway",
+    "name": "subway",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "derelict_property",
     "copy-from": "derelict_property",
     "name": "derelict property",
@@ -953,6 +960,46 @@
     "copy-from": "airliner_1c",
     "name": "crash trail",
     "sym": "*",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_1", "farm_horse_track_2" ],
+    "copy-from": "farm_horse_track_1",
+    "name": "track",
+    "sym": "-",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_1" ],
+    "copy-from": "farm_horse_track_large_1",
+    "name": "track",
+    "sym": "┌",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_2" ],
+    "copy-from": "farm_horse_track_large_2",
+    "name": "track",
+    "sym": "┐",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_3" ],
+    "copy-from": "farm_horse_track_large_3",
+    "name": "track",
+    "sym": "└",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_horse_track_large_4" ],
+    "copy-from": "farm_horse_track_large_4",
+    "name": "track",
+    "sym": "┘",
     "color": "light_gray"
   },
   {

@@ -687,13 +687,9 @@ void Character::load( const JsonObject &data )
     Creature::load( data );
 
     // stats
-    data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
-    data.read( "dex_cur", dex_cur );
     data.read( "dex_max", dex_max );
-    data.read( "int_cur", int_cur );
     data.read( "int_max", int_max );
-    data.read( "per_cur", per_cur );
     data.read( "per_max", per_max );
 
     data.read( "str_bonus", str_bonus );
@@ -1369,13 +1365,9 @@ void Character::store( JsonOut &json ) const
     }
 
     // stat
-    json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
     json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
     json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
     json.member( "per_max", per_max );
 
     json.member( "str_bonus", str_bonus );
@@ -1670,8 +1662,6 @@ void avatar::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "show_map_memory", show_map_memory );
-
     json.member( "assigned_invlet" );
     json.start_array();
     for( const auto &iter : inv->assigned_invlet ) {
@@ -1814,8 +1804,6 @@ void avatar::load( const JsonObject &data )
     if( active_mission && active_mission->has_failed() ) {
         update_active_mission();
     }
-
-    data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
         inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
@@ -2986,7 +2974,9 @@ void item::io( Archive &archive )
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
-    archive.io( "components", components, io::empty_default_tag() );
+    if( !has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+        archive.io( "components", components, io::empty_default_tag() );
+    }
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );

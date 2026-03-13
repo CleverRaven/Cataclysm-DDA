@@ -210,6 +210,11 @@ void limitDebugClass( int );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset the error observation flag (for seed-fuzz test reruns).
+ */
+void debug_reset_error_observed();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg

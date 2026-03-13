@@ -382,6 +382,7 @@ asshat
 assistive
 asswagon
 asswipe
+Asterios
 astrodon
 astrodons
 astrolaspis
@@ -2923,6 +2924,8 @@ highschool
 hijab
 hijabs
 Himalayan
+hindpaw
+hindpaws
 Hindu
 Hinduism
 Hingham
