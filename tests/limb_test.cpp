@@ -40,7 +40,7 @@ static const character_modifier_id character_modifier_liquid_consume_mod( "liqui
 static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
 
 static const efftype_id effect_mending( "mending" );
-static const efftype_id effect_winded_arm_r( "winded_arm_r" );
+static const efftype_id effect_winded_arm( "winded_arm" );
 
 static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS" );
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
@@ -137,7 +137,7 @@ TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
     dude.set_part_hp_cur( body_part_test_bird_wing_r, 100 );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 1 );
     // Disable it with a windage effect
-    dude.add_effect( effect_winded_arm_r, 1_hours, body_part_test_bird_wing_r, false, 1, true );
+    dude.add_effect( effect_winded_arm, 1_hours, body_part_test_bird_wing_r, false, 1, true );
     REQUIRE( dude.get_effects_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ).size() == 1 );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
 
