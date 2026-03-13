@@ -830,6 +830,106 @@
     "name": "right front dactyl"
   },
   {
+    "id": "leg_crab_basis_rl",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_crab_rear_l",
+    "side": "left",
+    "opposite": "leg_crab_basis_rr",
+    "name_multiple": "left rear bases",
+    "name": "left rear basis"
+  },
+  {
+    "id": "leg_crab_merus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_crab_rear_l",
+    "side": "left",
+    "opposite": "leg_crab_merus_rr",
+    "name_multiple": "left rear meri",
+    "name": "left rear merus"
+  },
+  {
+    "id": "leg_crab_carpus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "leg_crab_rear_l",
+    "side": "left",
+    "opposite": "leg_crab_carpus_rr",
+    "name_multiple": "left rear carpi",
+    "name": "left rear carpus"
+  },
+  {
+    "id": "leg_crab_manus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "leg_crab_rear_l",
+    "side": "left",
+    "opposite": "leg_crab_manus_rr",
+    "name_multiple": "left rear manuses",
+    "name": "left rear manus"
+  },
+  {
+    "id": "leg_crab_dactyl_rl",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_crab_rear_l",
+    "side": "left",
+    "opposite": "leg_crab_dactyl_rr",
+    "name_multiple": "left rear dactyls",
+    "name": "left rear dactyl"
+  },
+  {
+    "id": "leg_crab_basis_rr",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_crab_rear_r",
+    "side": "right",
+    "opposite": "leg_crab_basis_rl",
+    "name_multiple": "right rear bases",
+    "name": "right rear basis"
+  },
+  {
+    "id": "leg_crab_merus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "leg_crab_rear_r",
+    "side": "right",
+    "opposite": "leg_crab_merus_rl",
+    "name_multiple": "right rear meri",
+    "name": "right rear merus"
+  },
+  {
+    "id": "leg_crab_carpus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "leg_crab_rear_r",
+    "side": "right",
+    "opposite": "leg_crab_carpus_rl",
+    "name_multiple": "right rear carpi",
+    "name": "right rear carpus"
+  },
+  {
+    "id": "leg_crab_manus_rl",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "leg_crab_rear_r",
+    "side": "right",
+    "opposite": "leg_crab_manus_rl",
+    "name_multiple": "right rear manuses",
+    "name": "right rear manus"
+  },
+  {
+    "id": "leg_crab_dactyl_rl",
+    "type": "sub_body_part",
+    "max_coverage": 5,
+    "parent": "leg_crab_rear_r",
+    "side": "right",
+    "opposite": "leg_crab_dactyl_rl",
+    "name_multiple": "right rear dactyls",
+    "name": "right rear dactyl"
+  },
+  {
     "id": "hoof_sole_l",
     "type": "sub_body_part",
     "max_coverage": 30,
