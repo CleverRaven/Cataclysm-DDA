@@ -2548,8 +2548,7 @@ int known_magic::max_mana( const Character &guy ) const
                                    enchant_vals::mod::MAX_MANA, true );
 
     units::mass bionics_weight = guy.bionics_weight();
-    units::mass bodyweight = guy.bodyweight();
-    const float penalty_calc = std::sqrt( bionics_weight / ( bionics_weight + bodyweight ) );
+    const float penalty_calc = bionics_weight / ( bionics_weight + 50_kilogram ) );
     const float bionic_penalty = guy.enchantment_cache->modify_value(
                                      enchant_vals::mod::BIONIC_MANA_PENALTY, unaugmented_mana * penalty_calc );
 
