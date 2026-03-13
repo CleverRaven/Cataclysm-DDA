@@ -560,7 +560,7 @@
     "subtype": "collection",
     "id": "boxed_ruger_lcr_38",
     "container-item": "box_pistol",
-    "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader5", "prob": 5 } ]
+    "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader6", "prob": 5 } ]
   },
   {
     "type": "item_group",
