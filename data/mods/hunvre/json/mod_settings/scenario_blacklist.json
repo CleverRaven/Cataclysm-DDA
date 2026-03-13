@@ -2,14 +2,14 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [ "lonely_dawn" ]
+    "scenarios": [ "awakened" ]
   },
   {
     "type": "profession_blacklist",
     "subtype": "whitelist",
     "professions": [
       "helminth",
-      "rebel",
+      "resistant",
       "homeless",
       "computer_literate",
       "social_skills",

@@ -10,30 +10,7 @@
     "type": "effect_on_condition",
     "id": "eoc_announcements",
     "recurrence": [ "30 minutes", "90 minutes" ],
-    "effect": [
-      {
-        "switch": { "math": [ "time_since('cataclysm', 'unit':'hours')" ] },
-        "cases": [
-          {
-            "case": 0,
-            "effect": {
-              "u_message": "\"EMERGENCY ALERT.  This is not a test.\nThe ship is under attack from an unknown force.  Additionally, an unidentified and rapidly spreading condition is affecting individuals who fall asleep.\nEvery citizen is instructed to seek shelter immediately, secure basic necessities, and avoid falling sleep at all costs until further notice.\"",
-              "type": "warning",
-              "sound": true
-            }
-          },
-          {
-            "case": 24,
-            "effect": {
-              "u_message": "\"EMERGENCY ALERT.\nREMINDER.  The condition affecting the ship seems to respond negatively to certain psychoactive substances.  Coffee and similar substances seem to help people in general while alcohol and similar substances seems to prevent the terminal effect of the disease during sleep.\"",
-              "type": "warning",
-              "sound": true
-            }
-          }
-        ]
-      },
-      { "run_eocs": [ "eoc_switch_lights" ] }
-    ]
+    "effect": [ { "run_eocs": [ "eoc_switch_lights" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -44,7 +21,7 @@
       "then": [
         { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
         { "math": [ "lights_are_off = 1" ] },
-        { "u_message": "You hear the lights suddenly turn off." }
+        { "u_message": "\"Multiple grid failures detected. Blackouts expected in multiple sectors.\"" }
       ],
       "else": [
         { "alter_timed_events": "lights_off" },
@@ -59,7 +36,13 @@
     "recurrence": 1,
     "condition": { "math": [ "spawned == 0" ] },
     "deactivate_condition": { "math": [ "spawned == 1" ] },
-    "effect": [ { "math": [ "spawned = 1" ] }, { "run_eocs": [ "eoc_teleport_to_bed" ] } ]
+    "effect": [
+      { "math": [ "spawned = 1" ] },
+      {
+        "u_message": "An infinite, warm darkness. Thoughts fill your mind but you're not sure they're yours, sadness, hapiness, bliss and horror. They become more and more intense, almost to the point of completely losing yourself. Then you wake up."
+      },
+      { "run_eocs": [ "eoc_teleport_to_bed" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -8,7 +8,8 @@
         "if": { "u_has_effect": "stim", "intensity": 20 },
         "then": { "math": [ "u_vitamin('oneirosis_vitamin') += 3" ] },
         "else": { "math": [ "u_vitamin('oneirosis_vitamin') -= 3" ] }
-      }
+      },
+      { "run_eocs": "eoc_oneirosis_auditory_hallucinations" }
     ]
   },
   {
@@ -28,5 +29,13 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_oneirosis_auditory_hallucinations",
+    "recurrence": [ "5 minutes", "1 hours" ],
+    "condition": { "u_has_effect": "oneirosis", "intensity": 2 },
+    "deactivate_condition": { "u_has_effect": "oneirosis", "intensity": 1 },
+    "effect": [ { "u_message": "<oneirosis_auditory_hallucination>", "snippet": true, "type": "warning" } ]
   }
 ]

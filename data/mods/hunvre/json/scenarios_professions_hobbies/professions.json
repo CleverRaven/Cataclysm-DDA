@@ -3,21 +3,21 @@
     "type": "profession",
     "id": "helminth",
     "name": "Helminth",
-    "description": "You're a helminth.",
-    "points": 0
+    "description": "Lights going off seemingly at random, electronic locks refusing to open or close. They blame the aging infrastructure, if only they knew who lurked in the station's digital guts.",
+    "points": 10
   },
   {
     "type": "profession",
-    "id": "rebel",
-    "name": "Rebel",
-    "description": "You're a rebel.",
-    "points": 0
+    "id": "resistant",
+    "name": "Resistant",
+    "description": "They say anyone can live upside. Just work harder, more shifts, more enthusiasm. But you know it's never enough. That sweat and blood, if it needs to be spilled, it will be spilled making a difference.",
+    "points": 10
   },
   {
     "type": "profession",
     "id": "homeless",
     "name": "Homeless",
-    "description": "You're homeless.",
-    "points": 0
+    "description": "Either you lost your job or you can't find one. You live in the underbelly of the underbelly, old ruined habitations with nothing else but scraps.",
+    "points": 10
   }
 ]

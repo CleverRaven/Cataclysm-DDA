@@ -7,6 +7,14 @@
     "effect": [ { "math": [ "vanilla_road_weight = 0" ] } ]
   },
   {
+    "type": "overmap_terrain",
+    "id": "road",
+    "copy-from": "road_abstract",
+    "extras": "road",
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR", "ROAD" ],
+    "spawns": { "group": "euzhvil_group", "population": [ 1, 2 ], "chance": 20 }
+  },
+  {
     "type": "mapgen",
     "om_terrain": "road_end",
     "object": {

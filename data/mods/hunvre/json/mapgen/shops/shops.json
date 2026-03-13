@@ -16,6 +16,6 @@
     "travel_cost_type": "structure",
     "see_cost": "high",
     "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK" ],
-    "spawns": { "group": "euzhvil_group", "population": [ 10, 11 ], "chance": 100 }
+    "spawns": { "group": "euzhvil_group", "population": [ 1, 3 ], "chance": 50 }
   }
 ]
