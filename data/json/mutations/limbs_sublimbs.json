@@ -586,7 +586,7 @@
     "name_multiple": "leathery shoulders",
     "parent": "arm_leathery_r",
     "side": "right",
-    "similar_bodypart": "arm_bat_r",
+    "similar_bodypart": "arm_shoulder_r",
     "opposite": "arm_leathery_shoulder_r"
   },
   {
