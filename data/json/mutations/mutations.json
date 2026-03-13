@@ -3886,7 +3886,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.02 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 },
-          { "value": "MAX_HP", "add": 14 }
+          { "value": "MAX_HP", "add": 14 },
+          { "value": "WEIGHT", "multiply": 0.15 }
         ]
       }
     ]
@@ -3906,7 +3907,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.04 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 },
-          { "value": "MAX_HP", "add": 21 }
+          { "value": "MAX_HP", "add": 21 },
+          { "value": "WEIGHT", "multiply": 0.25 }
         ]
       }
     ]
@@ -3930,7 +3932,8 @@
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
           { "value": "DODGE_CHANCE", "add": -1 },
-          { "value": "CARRY_WEIGHT", "multiply": 0.15 }
+          { "value": "CARRY_WEIGHT", "multiply": 0.15 },
+          { "value": "WEIGHT", "multiply": 0.05 }
         ]
       }
     ]
@@ -4022,7 +4025,15 @@
     "ugliness": 1,
     "bodytemp_modifiers": [ 200, 200 ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 },
+          { "value": "WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4761,7 +4772,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 },
+          { "value": "WEIGHT", "multiply": -0.05 }
         ]
       }
     ]
@@ -4783,7 +4795,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.4 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.4 },
+          { "value": "WEIGHT", "multiply": -0.1 }
         ]
       }
     ]
