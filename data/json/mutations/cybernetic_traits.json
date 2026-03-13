@@ -130,6 +130,7 @@
     "description": "Your left arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
@@ -143,6 +144,7 @@
     "description": "Your right arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
@@ -156,6 +158,8 @@
     "description": "Both of your arms and hands have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "types": [ "ARMS", "HANDS" ],
     "enchantments": [
       {
         "modified_bodyparts": [
@@ -169,6 +173,27 @@
           { "gain": "hand_bionic_basic_r" }
         ]
       }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "SLIME_HANDS",
+      "WINGS_BIRD",
+      "ARM_FEATHERS",
+      "QUILLS",
+      "BARBS",
+      "WEBBED",
+      "PAWS",
+      "PAWS_LITTLE",
+      "PAWS_LARGE",
+      "CRUSTACEAN_CLAW",
+      "WINGS_BAT",
+      "ARM_TENTACLES",
+      "CLAWS_TENTACLE",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK"
     ]
   },
   {
@@ -178,6 +203,7 @@
     "description": "Your left leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
@@ -191,6 +217,7 @@
     "description": "Your right leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
     "enchantments": [
       {
         "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
@@ -204,6 +231,8 @@
     "description": "Both of your legs and feet have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
     "points": 0,
     "valid": false,
+    "purifiable": false,
+    "types": [ "LEGS", "FEET", "SOLES" ],
     "enchantments": [
       {
         "modified_bodyparts": [
@@ -217,6 +246,30 @@
           { "gain": "foot_bionic_basic_r" }
         ]
       }
+    ],
+    "cancels": [
+      "BENDY2",
+      "BENDY3",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR",
+      "BIRD_LEGS",
+      "LEGS_BAT",
+      "CRAB_LEGS",
+      "STRONG_LEGS",
+      "ANIMAL_FEET",
+      "HOOKED_TOES",
+      "HOOVES",
+      "RABBIT_FEET",
+      "ROOTS1",
+      "ROOTS2",
+      "ROOTS3",
+      "RAP_TALONS",
+      "WEBBED_FEET",
+      "PADDED_FEET",
+      "TOUGH_FEET"
     ]
   }
 ]
