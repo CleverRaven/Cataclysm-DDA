@@ -279,7 +279,8 @@
     "type": "MONSTER_FACTION",
     "name": "herbivore_domestic",
     "base_faction": "herbivore",
-    "by_mood": [ "herbivore" ]
+    "by_mood": [ "herbivore" ],
+    "neutral": [ "pig" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -328,7 +329,7 @@
     "type": "MONSTER_FACTION",
     "name": "pig",
     "base_faction": "herbivore",
-    "neutral": [ "herbivore" ]
+    "neutral": [ "herbivore", "herbivore_domestic" ]
   },
   {
     "type": "MONSTER_FACTION",
