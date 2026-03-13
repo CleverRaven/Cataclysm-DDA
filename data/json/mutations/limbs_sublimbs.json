@@ -790,7 +790,7 @@
     "name": "right front basis"
   },
   {
-    "id": "leg_crab_carpus_fr",
+    "id": "leg_crab_merus_fr",
     "type": "sub_body_part",
     "max_coverage": 40,
     "parent": "leg_crab_front_r",
@@ -890,7 +890,7 @@
     "name": "right rear basis"
   },
   {
-    "id": "leg_crab_merus_rl",
+    "id": "leg_crab_merus_rr",
     "type": "sub_body_part",
     "max_coverage": 40,
     "parent": "leg_crab_rear_r",
@@ -900,7 +900,7 @@
     "name": "right rear merus"
   },
   {
-    "id": "leg_crab_carpus_rl",
+    "id": "leg_crab_carpus_rr",
     "type": "sub_body_part",
     "max_coverage": 25,
     "parent": "leg_crab_rear_r",
@@ -910,7 +910,7 @@
     "name": "right rear carpus"
   },
   {
-    "id": "leg_crab_manus_rl",
+    "id": "leg_crab_manus_rr",
     "type": "sub_body_part",
     "max_coverage": 25,
     "parent": "leg_crab_rear_r",
@@ -920,7 +920,7 @@
     "name": "right rear manus"
   },
   {
-    "id": "leg_crab_dactyl_rl",
+    "id": "leg_crab_dactyl_rr",
     "type": "sub_body_part",
     "max_coverage": 5,
     "parent": "leg_crab_rear_r",
