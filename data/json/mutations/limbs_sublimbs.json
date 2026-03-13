@@ -572,8 +572,8 @@
   {
     "type": "sub_body_part",
     "id": "arm_leathery_lower_l",
-    "name": "lower left leathery arms",
-    "name_multiple": "lower leathery arms",
+    "name": "left leathery lower arms",
+    "name_multiple": "leathery lower arms",
     "parent": "arm_leathery_l",
     "side": "left",
     "similar_bodypart": "arm_lower_l",
@@ -612,8 +612,8 @@
   {
     "type": "sub_body_part",
     "id": "arm_leathery_lower_r",
-    "name": "lower right leathery arms",
-    "name_multiple": "lower leathery arms",
+    "name": "right leathery lower arm",
+    "name_multiple": "leathery lower arms",
     "parent": "arm_leathery_r",
     "side": "right",
     "similar_bodypart": "arm_lower_r",
