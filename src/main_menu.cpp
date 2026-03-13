@@ -480,7 +480,7 @@ void main_menu::init_strings()
     }
     vNewGameHints.clear();
     vNewGameHints.emplace_back(
-        _( "Allows you to fully customize points pool, scenario, and character's profession, stats, traits, skills and other parameters." ) );
+        _( "Allows you to fully customize scenario, character's profession, stats, traits, skills and other parameters." ) );
     vNewGameHints.emplace_back( _( "Select from one of previously created character templates." ) );
     vNewGameHints.emplace_back(
         _( "Creates random character, but lets you preview the generated character and the scenario and change character and/or scenario if needed." ) );
