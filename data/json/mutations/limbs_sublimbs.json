@@ -546,6 +546,7 @@
     "name_multiple": "leathery shoulders",
     "parent": "arm_leathery_l",
     "side": "left",
+    "max_coverage": 20,
     "similar_bodypart": "arm_shoulder_l",
     "opposite": "arm_leathery_shoulder_r"
   },
@@ -556,6 +557,7 @@
     "name_multiple": "leathery upper arms",
     "parent": "arm_leathery_l",
     "side": "left",
+    "max_coverage": 40,
     "similar_bodypart": "arm_upper_l",
     "opposite": "arm_leathery_upper_r"
   },
@@ -566,6 +568,7 @@
     "name_multiple": "leathery elbows",
     "parent": "arm_leathery_l",
     "side": "left",
+    "max_coverage": 5,
     "similar_bodypart": "arm_elbow_l",
     "opposite": "arm_leathery_elbow_r"
   },
@@ -576,6 +579,7 @@
     "name_multiple": "leathery lower arms",
     "parent": "arm_leathery_l",
     "side": "left",
+    "max_coverage": 35,
     "similar_bodypart": "arm_lower_l",
     "opposite": "arm_leathery_lower_r"
   },
@@ -586,6 +590,7 @@
     "name_multiple": "leathery shoulders",
     "parent": "arm_leathery_r",
     "side": "right",
+    "max_coverage": 20,
     "similar_bodypart": "arm_shoulder_r",
     "opposite": "arm_leathery_shoulder_r"
   },
@@ -596,6 +601,7 @@
     "name_multiple": "leathery upper arms",
     "parent": "arm_leathery_r",
     "side": "right",
+    "max_coverage": 40,
     "similar_bodypart": "arm_upper_r",
     "opposite": "arm_leathery_upper_l"
   },
@@ -606,6 +612,7 @@
     "name_multiple": "leathery elbows",
     "parent": "arm_leathery_r",
     "side": "right",
+    "max_coverage": 5,
     "similar_bodypart": "arm_elbow_r",
     "opposite": "arm_leathery_elbow_l"
   },
@@ -616,6 +623,7 @@
     "name_multiple": "leathery lower arms",
     "parent": "arm_leathery_r",
     "side": "right",
+    "max_coverage": 35,
     "similar_bodypart": "arm_lower_r",
     "opposite": "arm_leathery_lower_l"
   },
