@@ -7672,7 +7672,7 @@
     "id": "assassin",
     "name": "Assassin",
     "requirement": "achievement_kill_100_monsters",
-    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, — you are all alone now.",
+    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
     "npc_background": "BG_survival_story_CRIMINAL",
     "points": 6,
     "skills": [
