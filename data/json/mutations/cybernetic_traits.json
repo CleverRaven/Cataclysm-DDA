@@ -159,7 +159,7 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "types": [ "ARMS", "HANDS" ],
+    "types": [ "ARMS", "HANDS", "CLAWS" ],
     "enchantments": [
       {
         "modified_bodyparts": [
@@ -193,7 +193,13 @@
       "INSECT_ARMS",
       "INSECT_ARMS_OK",
       "ARACHNID_ARMS",
-      "ARACHNID_ARMS_OK"
+      "ARACHNID_ARMS_OK",
+      "NAILS",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "CLAWS_RETRACT"
     ]
   },
   {
@@ -269,7 +275,14 @@
       "RAP_TALONS",
       "WEBBED_FEET",
       "PADDED_FEET",
-      "TOUGH_FEET"
+      "TOUGH_FEET",
+      "BADKNEES",
+      "STRONGKNEES",
+      "REALLYBADKNEES",
+      "FLEET2",
+      "RAP_TALONS",
+      "LEGS_BAT",
+      "SCUTTLE"
     ]
   }
 ]
