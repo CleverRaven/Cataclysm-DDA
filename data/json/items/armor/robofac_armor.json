@@ -1320,6 +1320,67 @@
     "tool_ammo": "battery"
   },
   {
+    "id": "robofac_lens_helmet_pat",
+    "copy-from": "robofac_lens_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "modified Hub 01 LENS helmet" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_robofac_lens_helmet_pat",
+            "condition": {
+              "and": [ { "u_has_bionics": "bio_robofac_xmlens" }, { "u_has_worn_with_flag": "BLIND" }, { "u_has_worn_with_flag": "DEAF" } ]
+            },
+            "effect": [
+              { "transform_item": "robofac_lens_helmet_pat_on", "active": true },
+              {
+                "u_message": "You flick on your LENS system.\n\"HELLO CEP#03\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nPat's Frequency:  ONLINE.\nTargeting HUD:    ONLINE."
+              }
+            ],
+            "false_effect": { "u_message": "ERROR: NO LENS SYSTEM DETECTED" }
+          }
+        ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ]
+  },
+  {
+    "id": "robofac_lens_helmet_pat_on",
+    "copy-from": "robofac_lens_helmet_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "modified Hub 01 LENS helmet (on)" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  You are currently connected to Pat's system.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your LENS system and cybernetic HUD switch off, leaving you in darkness.",
+        "target": "robofac_lens_helmet_pat"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "revert_to": "robofac_lens_helmet_pat",
+    "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_AR_activate" ] }
+  },
+  {
     "id": "robofac_lens_helmet_on",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
