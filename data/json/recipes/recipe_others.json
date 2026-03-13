@@ -1326,7 +1326,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 90 ], [ "clay_refractory", 5 ] ],
-    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "graphite", 12500 ], [ "chunk_graphite", 1 ] ], [ [ "material_sand", 10 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "graphite", 12500 ] ], [ [ "material_sand", 10 ] ] ]
   },
   {
     "type": "recipe",
