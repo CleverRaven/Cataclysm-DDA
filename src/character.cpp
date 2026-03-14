@@ -5259,6 +5259,10 @@ void Character::cancel_activity()
     }
     if( activity && activity.can_resume() ) {
         activity.allow_distractions();
+        // Don't auto-resume after explicit cancellation.  The stamina
+        // "continue after a break" path uses assign_activity() (not
+        // cancel_activity) to push to backlog, so this is safe.
+        activity.auto_resume = false;
         backlog.push_front( activity );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled

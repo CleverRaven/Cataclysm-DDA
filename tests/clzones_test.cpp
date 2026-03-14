@@ -1,6 +1,7 @@
 #include <climits>
 #include <functional>
 #include <initializer_list>
+#include <list>
 #include <optional>
 #include <set>
 #include <string>
@@ -2252,4 +2253,34 @@ TEST_CASE( "zone_sort_think_prunes_empty_sources", "[zones][items][activities][s
     CHECK( !dummy.activity );
     // Apple should have been delivered to the food zone
     CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
+}
+
+// Activities with multi_activity=true get auto_resume=true on assignment.
+// cancel_activity() must clear auto_resume before pushing to the backlog,
+// otherwise resume_backlog_activity() (called right after in
+// cancel_activity_query) immediately restores the activity, making it
+// impossible for the player to cancel.  Regression test for #85838/#85840.
+TEST_CASE( "cancel_activity_clears_auto_resume_for_multi_type",
+           "[zones][activities][cancel]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+
+    // unload_loot has multi_activity: true in player_activities.json,
+    // so assign_activity(actor) sets auto_resume = true.
+    dummy.assign_activity( unload_loot_activity_actor() );
+    REQUIRE( dummy.activity );
+    REQUIRE( dummy.activity.is_multi_type() );
+    REQUIRE( dummy.activity.auto_resume );
+
+    // Simulate what cancel_activity_query does when the player presses '.'
+    // and confirms: cancel_activity() followed by resume_backlog_activity().
+    dummy.cancel_activity();
+    dummy.resume_backlog_activity();
+
+    // The activity must stay cancelled -- not silently restored.
+    CHECK( !dummy.activity );
+    CHECK( ( dummy.backlog.empty() ||
+             !dummy.backlog.front().auto_resume ) );
 }
