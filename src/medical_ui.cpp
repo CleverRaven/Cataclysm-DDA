@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <functional>
 #include <imgui/imgui.h>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <set>
@@ -9,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "enum_traits.h"
 #include "activity_actor_definitions.h"
 #include "avatar_action.h"
 #include "bodypart.h"
@@ -23,6 +23,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
