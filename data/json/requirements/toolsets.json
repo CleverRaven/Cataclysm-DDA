@@ -187,7 +187,7 @@
   {
     "id": "welding_alloys",
     "type": "requirement",
-    "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
+    "//": "Crafting items made of aluminum alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "integrated_welder", 30 ], [ "oxy_torch", 1 ] ] ],

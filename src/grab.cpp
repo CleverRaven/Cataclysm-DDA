@@ -206,7 +206,6 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     grabbed_vehicle->invalidate_mass();
 
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
-    int mc = 0;
     // worst case scenario strength required to move vehicle.
     const int max_str_req = grabbed_vehicle->total_mass( here ) / 10_kilogram;
     // actual strength required to move vehicle.
@@ -221,7 +220,6 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     bool valid_wheels = false;
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-    const auto &wheel_indices = grabbed_vehicle->wheelcache;
     valid_wheels = grabbed_vehicle->valid_wheel_config( here );
     if( valid_wheels ) {
         //check for bad push/pull angle
@@ -241,27 +239,13 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
             bad_veh_angle = invalid_veh_face || invalid_veh_turndir;
             if( bad_veh_angle ) {
                 str_req = max_str_req;
+            } else {
+                str_req = grabbed_vehicle->drag_str_req_at( here,
+                          grabbed_vehicle->pos_bub( here ) );
             }
         } else {
-            str_req = max_str_req / 10;
-            //determine movecost for terrain touching wheels
-            const tripoint_bub_ms vehpos = grabbed_vehicle->pos_bub( here );
-            for( int p : wheel_indices ) {
-                const tripoint_bub_ms wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
-                const int mapcost = here.move_cost( wheel_pos, grabbed_vehicle );
-                mc += str_req * mapcost / wheel_indices.size();
-            }
-            //set strength check threshold
-            //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
-            if( wheel_indices.size() > 4 || wheel_indices.size() == 1 ) {
-                str_req = mc / 4 + 1;
-            } else {
-                str_req = mc / wheel_indices.size() + 1;
-            }
-            //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
-            str_req /= grabbed_vehicle->k_traction( here, here.vehicle_wheel_traction( *grabbed_vehicle ) );
-            // If it would be easier not to use the wheels, don't use the wheels.
-            str_req = std::min( str_req, max_str_req );
+            str_req = grabbed_vehicle->drag_str_req_at( here,
+                      grabbed_vehicle->pos_bub( here ) );
         }
     } else {
         str_req = max_str_req;
@@ -439,7 +423,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         return false;
     }
 
-    for( int p : wheel_indices ) {
+    for( int p : grabbed_vehicle->wheelcache ) {
         if( one_in( 2 ) ) {
             vehicle_part &vp_wheel = grabbed_vehicle->part( p );
             tripoint_bub_ms wheel_p = grabbed_vehicle->bub_part_pos( here, vp_wheel );

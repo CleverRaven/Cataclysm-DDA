@@ -563,7 +563,7 @@
   {
     "id": "bio_eye_enhancer",
     "type": "bionic",
-    "name": { "str": "Occular Amplifiers" },
+    "name": { "str": "Ocular Amplifiers" },
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception while powered.  However, you suffer penalties while unpowered.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "enchantments": [
@@ -1104,6 +1104,14 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "passive_pseudo_items": [ "fake_radio" ]
+  },
+  {
+    "id": "bio_radio_pat",
+    "type": "bionic",
+    "name": { "str": "Modified Infolink" },
+    "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.  This one has custom software for communicating with your pal Pat.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "passive_pseudo_items": [ "fake_radio", "integrated_pat_transponder", "integrated_pat_radio" ]
   },
   {
     "id": "bio_radscrubber",
@@ -1649,6 +1657,106 @@
         "condition": "ALWAYS",
         "values": [ { "value": "THROW_STR", "multiply": 0.5 }, { "value": "THROW_DAMAGE", "multiply": 0.25 } ]
       }
+    ]
+  },
+  {
+    "id": "bio_robofac_xmleg",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-LEG" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered by swappable battery packs, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 30kg of extra weight.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "LEG_TENTACLES",
+      "LEG_TENT_BRACE",
+      "GASTROPOD_FOOT",
+      "GASTROPOD_BALANCE",
+      "INSECT_RESERVOIR"
+    ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmleg" ]
+  },
+  {
+    "id": "bio_robofac_xmarm",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-ARM" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [
+      "AMORPHOUS",
+      "BENDY2",
+      "BENDY3",
+      "WINGS_BIRD",
+      "HUGE",
+      "HUGE_OK",
+      "SMALL2",
+      "SMALL_OK",
+      "WINGS_BAT",
+      "INSECT_ARMS",
+      "INSECT_ARMS_OK",
+      "ARACHNID_ARMS",
+      "ARACHNID_ARMS_OK",
+      "ARM_TENTACLES",
+      "ARM_TENTACLES_4",
+      "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE"
+    ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmarm" ]
+  },
+  {
+    "id": "bio_robofac_xmback",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-BACK" },
+    "description": "An advanced exoskeleton implanted into your flesh and bone.  When powered, your frame is exceptionally stable, increasing carry weight by 35% and modestly improving absorbed recoil and throwing ability.  Activate the integrated item to toggle power.",
+    "occupied_bodyparts": [ [ "torso", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK", "INSECT_RESERVOIR" ],
+    "passive_pseudo_items": [ "integrated_bio_robofac_xmback" ]
+  },
+  {
+    "id": "bio_robofac_xmlens",
+    "type": "bionic",
+    "name": { "str": "Hub 01 XM-LENS" },
+    "description": "Your scalp skin houses chip-free electronics which allow your neurobionic interface to communicate with compatible LENS gear.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "mutation_conflicts": [ "AMORPHOUS", "HUGE", "HUGE_OK", "SMALL2", "SMALL_OK" ],
+    "canceled_mutations": [
+      "hair_beaded",
+      "hair_body_length",
+      "hair_braid",
+      "hair_bun",
+      "hair_buzzcut",
+      "hair_crewcut",
+      "hair_curls",
+      "hair_detective",
+      "hair_extremely_long",
+      "hair_fro",
+      "hair_long",
+      "hair_long_mohawk",
+      "hair_long_over_eye",
+      "hair_medium",
+      "hair_messy",
+      "hair_modern",
+      "hair_mohawk",
+      "hair_mullet",
+      "hair_ponytail",
+      "hair_puff",
+      "hair_punk_long",
+      "hair_short",
+      "hair_short_no_fringe",
+      "hair_short_over_eye",
+      "hair_super_princess",
+      "hair_twintails",
+      "hair_very_long",
+      "natural_hair_growth"
     ]
   }
 ]

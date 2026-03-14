@@ -1,7 +1,7 @@
 #include <array>
-#include <cmath>
 #include <cstddef>
 #include <initializer_list>
+#include <utility>
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
@@ -355,6 +355,13 @@ void TextColoredParagraph( nc_color default_color, std::string_view str,
     TextEx( str.substr( s, std::string::npos ), wrap_width, colors.back() );
 }
 
+void TextColoredParagraphNewline( nc_color default_color, std::string_view str,
+                                  std::optional<Segment> value, float wrap_width )
+{
+    cataimgui::TextColoredParagraph( default_color, str, std::move( value ), wrap_width );
+    ImGui::NewLine();
+}
+
 static std::string trim_substring( std::string_view text, float width )
 {
     std::string ellipsis = "\u2026";
@@ -366,26 +373,32 @@ static std::string trim_substring( std::string_view text, float width )
 
     // estimate number of visible characters by ellipsis width
     int visible_chars = width / ellipsis_width;
-    float last_free = 0.f;
+    std::string trimmed_str = utf8_truncate( std::string( text ), visible_chars );
+    trimmed_str += ellipsis;
+    float trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
 
-    do {
-        std::string trimmed_str = utf8_truncate( std::string( text ), visible_chars );
-        trimmed_str += ellipsis;
-        float trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
+    // only shrink or grow the guesstimated string to avoid infinite loops
+    bool shrink = trimmed_width > width;
 
-        // number of characters we can still draw or drew too much
-        // estimated by average character width of trimmed string
-        float free_chars = ( width - trimmed_width ) / ( trimmed_width / utf8_width( trimmed_str ) );
-
-        if( free_chars >= 1.f && last_free != free_chars ) {
-            visible_chars += std::floor( free_chars );
-            last_free = free_chars;
-        } else if( free_chars < 0 ) {
-            visible_chars += std::floor( free_chars );
+    while( true ) {
+        if( shrink && trimmed_width > width ) {
+            // we're still too long, so shrink
+            visible_chars--;
+        } else if( !shrink && width > trimmed_width ) {
+            // we didn't reach available width yet, so grow
+            visible_chars++;
+        } else if( !shrink && width < trimmed_width ) {
+            // we overshot, so go back one and switch mode to shrinking to hit the else branch next time
+            visible_chars--;
+            shrink = true;
         } else {
             return trimmed_str;
         }
-    } while( true );
+
+        trimmed_str = utf8_truncate( std::string( text ), visible_chars );
+        trimmed_str += ellipsis;
+        trimmed_width = ImGui::CalcTextSize( trimmed_str.c_str(), nullptr, true ).x;
+    }
 }
 
 static std::string trim_by_width( std::string_view text, float width )

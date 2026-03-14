@@ -1859,6 +1859,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_is_near_a_fire",
+    "//": "Hidden effect, used in Salamander spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_featherfall",
     "name": [ "" ],
     "desc": [ "" ],

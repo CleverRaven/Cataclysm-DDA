@@ -230,6 +230,23 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "xe_datacores",
+    "//": "Itemgroup for datacore items in Xedra Offices and Labs.",
+    "entries": [
+      { "item": "xe_bio_dataslot_giant_hunter", "prob": 1 },
+      { "item": "xe_bio_dataslot_cyborg_hunting", "prob": 2 },
+      { "item": "xe_bio_dataslot_migo_weakpoints", "prob": 3 },
+      { "item": "xe_bio_dataslot_lockpicking", "prob": 4 },
+      { "item": "xe_bio_dataslot_game_ui", "prob": 5 },
+      { "item": "xe_bio_dataslot_parkour", "prob": 3 },
+      { "item": "xe_bio_dataslot_helicopter_pilot", "prob": 4 },
+      { "item": "xe_bio_dataslot_muay_thai", "prob": 1 },
+      { "item": "xe_bio_dataslot_EOD", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "xed_books_crafting",
     "//": "Itemgroup for crafting recipes in Xedra Offices and Labs.",
     "entries": [ { "item": "book_moons_tears_ingot", "prob": 10 } ]

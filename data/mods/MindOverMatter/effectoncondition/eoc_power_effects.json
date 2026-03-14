@@ -234,7 +234,7 @@
         }
       ]
     },
-    "effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
+    "effect": [ { "run_eocs": "EOC_MOM_PSYCHIC_VAMPIRE_HEAL_HP" } ]
   },
   {
     "type": "effect_on_condition",
@@ -526,6 +526,12 @@
         "allow_cancel": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_HEAL_HP",
+    "//": "Overridden by mod_interactions/bombastic_perks when that mod is loaded",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",

@@ -1641,7 +1641,7 @@ void Character::disp_info( bool customize_character )
     }
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    const std::vector<const Skill *> player_skill = Skill::get_skills_for_chr_display( *this,
     [&]( const Skill & a, const Skill & b ) {
         return a.get_sort_rank() < b.get_sort_rank();
     } );

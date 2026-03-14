@@ -884,7 +884,7 @@
     "dynamic_line": "Interesting.  If you could provide us the item, we could direct research on it for a standard work week for a fee of two HGC; after that, we will let you know if any progress has been made and return the item as-is.  Please remove any batteries or other attachments before providing it.",
     "responses": [
       {
-        "text": "[2 HGC, anchor] See you in five days.",
+        "text": "[2 HGC, s02a cleansuit] See you in five days.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 2 } },

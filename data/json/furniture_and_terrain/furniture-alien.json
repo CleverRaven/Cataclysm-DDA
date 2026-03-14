@@ -915,6 +915,42 @@
   },
   {
     "type": "furniture",
+    "id": "f_string_dimension_pylon_inert",
+    "name": "inert column",
+    "description": "A floor-to-ceiling cylinder wrapped neatly and tightly in thick copper wire.  It has no markings, but the cables connected to the base suggest that it generates or receives some kind of power.  Perhaps it once worked, but it is now still and silent.",
+    "symbol": "O",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 12, 37 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "string_dimension_computer", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_inert",
+    "description": "A metal vent on the floor.",
+    "copy-from": "f_vent_cold_air2_stream",
+    "symbol": "~",
+    "color": "light_gray"
+  },
+  {
+    "type": "furniture",
     "id": "f_string_dimension_housing",
     "name": "metal container",
     "looks_like": "f_safe_c",

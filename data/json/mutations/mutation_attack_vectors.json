@@ -43,9 +43,28 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_bird_woodpecker_peck",
+    "limbs": [ "beak_woodpecker" ],
+    "contact_area": [ "beak_woodpecker_tip" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_wing_slap",
+    "limbs": [ "arm_wing_bird_l", "arm_wing_bird_r" ],
+    "contact_area": [ "arm_wing_bird_lower_r", "arm_wing_bird_lower_l" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_vine_limb",
+    "limbs": [ "vine_limb_upper_r", "vine_limb_upper_l", "vine_limb_lower_r", "vine_limb_lower_l" ],
+    "contact_area": [ "vine_sublimb_ur", "vine_sublimb_ul", "vine_sublimb_lr", "vine_sublimb_ll" ]
   },
   {
     "type": "attack_vector",

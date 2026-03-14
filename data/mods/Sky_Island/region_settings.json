@@ -13,6 +13,12 @@
     "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND", "SKY_ISLAND_NO_RAID_SPAWN" ] } }
   },
   {
+    "type": "weather_generator",
+    "id": "sky_island_weather",
+    "copy-from": "default",
+    "weather_black_list": [ "early_portal_storm", "portal_storm", "distant_portal_storm", "close_portal_storm" ]
+  },
+  {
     "type": "region_settings",
     "id": "default_skyisland",
     "rivers": null,
@@ -27,7 +33,7 @@
     "map_extras": "no_map_extras",
     "place_roads": false,
     "place_specials": true,
-    "weather": "default",
+    "weather": "sky_island_weather",
     "default_oter": [
       "open_air",
       "open_air",

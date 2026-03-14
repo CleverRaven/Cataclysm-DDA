@@ -4118,6 +4118,10 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Persists across do_turn calls so batching fires even when the initial
         // pickup exhausted moves. Reset after the batching check evaluates.
         bool picked_up_this_pass = false; // NOLINT(cata-serialize)
+        // Worst terrain tile on route to destination for drag feasibility checks.
+        // Computed once when dropoff_coords is first populated in stage_do,
+        // persists across do_turn re-entries within the same source.
+        std::optional<tripoint_bub_ms> drag_worst_tile; // NOLINT(cata-serialize)
 
         // Returns all picked up items to the source tile and clears sorting state.
         // Used when routing to a destination fails.

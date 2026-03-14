@@ -33,10 +33,13 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "options_helpers.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -58,6 +61,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather_type.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -67,6 +71,7 @@ static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
+static const furn_str_id furn_f_solar_cooker( "f_solar_cooker" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -90,6 +95,7 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
 static const itype_id itype_fake_anvil( "fake_anvil" );
+static const itype_id itype_fake_solar_cooker( "fake_solar_cooker" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_heavy_atomic_battery_cell( "heavy_atomic_battery_cell" );
@@ -104,6 +110,7 @@ static const itype_id itype_manual_electronics( "manual_electronics" );
 static const itype_id itype_manual_tailor( "manual_tailor" );
 static const itype_id itype_meat( "meat" );
 static const itype_id itype_motor_micro( "motor_micro" );
+static const itype_id itype_oil_cooker( "oil_cooker" );
 static const itype_id itype_plastic_chunk( "plastic_chunk" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_polycarbonate_sheet( "polycarbonate_sheet" );
@@ -121,7 +128,6 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_solder_wire( "solder_wire" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_soldering_iron_portable( "soldering_iron_portable" );
-static const itype_id itype_survivor_mess_kit( "survivor_mess_kit" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_storage_battery( "test_storage_battery" );
@@ -190,6 +196,8 @@ static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" )
 static const vpart_id vpart_water_faucet( "water_faucet" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
+static const weather_type_id weather_cloudy( "cloudy" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -1017,14 +1025,15 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
-    SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
+    SECTION( "clean_water_in_loaded_oil_cooker" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( itype_popcan_stove, 500 ) );
         item plastic_bottle( itype_bottle_plastic );
         plastic_bottle.put_in(
             item( itype_water, calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( itype_survivor_mess_kit, 500 ) );
+        tools.emplace_back( itype_pot );
+        tools.push_back( tool_with_ammo( itype_oil_cooker, 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
@@ -1281,7 +1290,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 
-TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
+TEST_CASE( "crafting_skill_gain", "[skill] [crafting] [slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
@@ -2471,6 +2480,77 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                         CHECK( rack.ammo_remaining( ) == 300 );
                     }
                 }
+            }
+        }
+        clear_map_without_vision();
+    }
+    GIVEN( "a deployed solar cooker" ) {
+        REQUIRE( here.furn_set( furn1_pos, furn_f_solar_cooker ) );
+
+        WHEN( "it is a clear day with sufficient sunlight" ) {
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero + 12_hours );
+            REQUIRE( here.is_outside( furn1_pos ) );
+
+            THEN( "crafting inventory contains the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 1 );
+            }
+        }
+
+        WHEN( "it is nighttime" ) {
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
+            }
+        }
+
+        WHEN( "it is cloudy" ) {
+            scoped_weather_override weather_overcast( weather_cloudy );
+            set_time( calendar::turn_zero + 12_hours );
+            REQUIRE( here.is_outside( furn1_pos ) );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
+            }
+        }
+
+        WHEN( "the tile is indoors" ) {
+            const ter_id ter_concrete_wall( "t_concrete_wall" );
+            const ter_id ter_concrete_floor( "t_thconc_floor" );
+            const ter_id ter_flat_roof( "t_flat_roof" );
+            // Build a 5x5 walled room with floor inside and roof above
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos, 2 ) ) {
+                if( square_dist( pt, furn1_pos ) == 2 ) {
+                    REQUIRE( here.ter_set( pt, ter_concrete_wall ) );
+                }
+            }
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos, 1 ) ) {
+                if( pt != furn1_pos ) {
+                    REQUIRE( here.ter_set( pt, ter_concrete_wall ) );
+                } else {
+                    REQUIRE( here.ter_set( pt, ter_concrete_floor ) );
+                }
+            }
+            for( const tripoint_bub_ms &pt : points_in_radius( furn1_pos + tripoint::above, 2 ) ) {
+                REQUIRE( here.ter_set( pt, ter_flat_roof ) );
+            }
+            // Re-place the furniture on the floor
+            REQUIRE( here.furn_set( furn1_pos, furn_f_solar_cooker ) );
+            here.set_outside_cache_dirty( furn1_pos.z() );
+            here.build_outside_cache( furn1_pos.z() );
+            REQUIRE_FALSE( here.is_outside( furn1_pos ) );
+
+            scoped_weather_override weather_clear( WEATHER_CLEAR );
+            set_time( calendar::turn_zero + 12_hours );
+
+            THEN( "crafting inventory does NOT contain the solar cooker pseudo-tool" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_fake_solar_cooker ) == 0 );
             }
         }
         clear_map_without_vision();

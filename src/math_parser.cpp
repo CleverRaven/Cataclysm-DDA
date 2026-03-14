@@ -64,13 +64,14 @@ std::optional<double> get_number( std::string_view token )
     // FIXME: port to std::from_chars once double conversion is supported
     std::istringstream conv( std::string{ token } );
     conv.imbue( std::locale::classic() );
-    double val{};
+    std::optional<double> ret;
+    double val = 0;
     conv >> val;
     if( conv && conv.eof() ) {
-        return val;
+        ret.emplace( val );
     }
 
-    return {};
+    return ret;
 }
 
 constexpr std::optional<pmath_func> get_function( std::string_view token )

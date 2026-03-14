@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_innawood_sorcerer_bridge",
+    "effect": [ { "run_eocs": "EOC_on_kill_check_exp_sorcerer" } ]
+  }
+]

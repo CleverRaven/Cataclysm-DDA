@@ -349,13 +349,34 @@
   {
     "type": "technique",
     "id": "TECH_BIRD_PECK",
-    "name": "Bite",
+    "name": "Peck",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "weighting": -1,
+    "weighting": -2,
     "messages": [ "You peck %s", "<npcname> pecks %s" ],
     "description": "A bird peck.",
     "attack_vectors": [ "vector_bird_peck" ],
+    "condition": { "not": { "u_has_trait": "WINGS_BIRD" } },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.45 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_PECK_IF_WINGS",
+    "//": "More likely to peck if you have wings",
+    "name": "Bite",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": 2,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_peck" ],
+    "condition": { "u_has_trait": "WINGS_BIRD" },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
@@ -367,7 +388,7 @@
   {
     "type": "technique",
     "id": "TECH_BIRD_PECK_GRABBED",
-    "name": "Bite",
+    "name": "Peck",
     "crit_ok": true,
     "unarmed_allowed": true,
     "melee_allowed": true,
@@ -392,6 +413,50 @@
   },
   {
     "type": "technique",
+    "id": "TECH_BIRD_WOODPECKER_PECK",
+    "name": "Peck",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_woodpecker_peck" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -2.5 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BIRD_WOODPECKER_PECK_GRABBED",
+    "name": "Peck",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "messages": [ "You peck %s", "<npcname> pecks %s" ],
+    "description": "A bird peck.",
+    "attack_vectors": [ "vector_bird_woodpecker_peck" ],
+    "condition": {
+      "or": [
+        { "u_has_effect": "grabbed", "bodypart": "arm_r" },
+        { "u_has_effect": "grabbed", "bodypart": "arm_l" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_r" },
+        { "u_has_effect": "grabbed", "bodypart": "hand_l" }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -2.5 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_CRAB_PUNCH",
     "//": "This is just base punch for crabs",
     "name": "Punch",
@@ -400,6 +465,47 @@
     "messages": [ "You snip %s with your pincer", "<npcname> snips %s with their pincer" ],
     "description": "A basic crustacean punch",
     "attack_vectors": [ "vector_crab_pincer" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_WING_SLAP",
+    "name": "Wing Slap",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You slap %s with your wings", "<npcname> slaps %s with their wings" ],
+    "description": "A slap of the wings.",
+    "attack_vectors": [ "vector_wing_slap" ],
+    "flat_bonuses": [ { "stat": "movecost", "scale": 20 } ]
+  },
+  {
+    "type": "technique",
+    "id": "VINE_LIMB_WHIP",
+    "name": "Vine whip",
+    "messages": [ "You whip %s with your vines", "<npcname> whips %s with their vines" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_vine_limb" ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VINE_LIMB_TRIP",
+    "name": "Vine trip",
+    "messages": [ "Your vines snake around %s and knock them down", "<npcname> knocks down %s with their vines" ],
+    "weighting": -2,
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_vine_limb" ],
+    "condition": { "and": [ { "math": [ "u_val('size') >= n_val('size')" ] } ] },
+    "tech_effects": [ { "id": "downed", "chance": 100, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": -3 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   },
   {
     "type": "technique",

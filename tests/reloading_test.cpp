@@ -180,7 +180,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
 
 }
 
-TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_casings", "[reload] [gun]" )
 {
 
     SECTION( "empty gun" ) {
@@ -246,7 +246,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_magazine", "[reload] [gun]" )
 {
     SECTION( "empty gun" ) {
         item gun( itype_glock_19 );
@@ -514,7 +514,7 @@ TEST_CASE( "liquid_reloading", "[reload]" )
     }
 }
 
-TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
+TEST_CASE( "speedloader_reloading", "[reload] [gun]" )
 {
     SECTION( "empty gun" ) {
         item gun( itype_sw_610 );
@@ -638,7 +638,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
+TEST_CASE( "gunmod_reloading", "[reload] [gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
         item gun( itype_debug_modular_m4_carbine );
@@ -804,7 +804,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_integral_magazine", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -825,7 +825,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     REQUIRE( gun->remaining_ammo_capacity() == 0 );
 }
 
-TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -868,7 +868,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( dummy.has_item( *speedloader ) );
 }
 
-TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_swappable_magazine", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -945,7 +945,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
     }
 }
 
-TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
+TEST_CASE( "automatic_reloading_action", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -1130,7 +1130,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 }
 
 // TODO: nested containers and frozen liquids.
-TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
+TEST_CASE( "reload_liquid_container", "[reload] [liquid]" )
 {
     Character &dummy = get_avatar();
     clear_avatar();

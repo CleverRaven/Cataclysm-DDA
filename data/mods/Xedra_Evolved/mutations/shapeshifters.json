@@ -40,7 +40,7 @@
     ],
     "flags": [ "MEND_ALL", "HERITAGE", "NO_CBM_INSTALLATION" ],
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ] } ],
-    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {

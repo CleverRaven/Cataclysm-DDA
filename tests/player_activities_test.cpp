@@ -144,7 +144,8 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
 
         auto safecracking_setup = [&dummy]( int perception,
         int skill_level, bool has_proficiency ) -> void {
-            dummy.per_max = perception;
+            dummy.set_per_base( perception );
+            dummy.set_per_bonus( 0 );
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );

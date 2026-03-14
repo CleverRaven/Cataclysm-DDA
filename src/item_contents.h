@@ -462,6 +462,8 @@ class item_contents
         std::vector<item> additional_pockets;
         // TODO make this work with non torso items
         units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
+        // Similar to additional_pockets_volume but respect volume_encumber_modifier of the pocket
+        units::volume additional_pockets_effective_volume = 0_ml; // NOLINT(cata-serialize)
 
         /** An abstraction for how many 'spaces' of this item have been used attaching additional pockets. */
         int additional_pockets_space_used = 0; // NOLINT(cata-serialize)

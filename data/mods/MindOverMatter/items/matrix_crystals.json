@@ -355,6 +355,21 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "id": "matrix_crystal_teleportation_artifact",
+    "name": { "str_sp": "strange crystal, blue" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
+    "color": "green",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "looks_like": "matrix_crystal_teleportation",
+    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_vitakinesis",
     "name": { "str_sp": "strange crystal, green" },

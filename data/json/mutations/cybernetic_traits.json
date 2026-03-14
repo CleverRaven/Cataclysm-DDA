@@ -20,6 +20,39 @@
   },
   {
     "type": "mutation",
+    "id": "Hub01_CBM_Interface",
+    "name": { "str": "Hub 01 Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.  You also have a USB port installed behind your ear.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion",
+    "name": { "str": "Minor brain lesion" },
+    "points": 0,
+    "description": "You have a minor brain lesion and some leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -1 }, { "value": "DEXTERITY", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface_brain_lesion_2",
+    "name": { "str": "Major brain lesion" },
+    "points": 0,
+    "description": "You have a major brain lesion and lots of leftover metal in your brain - the remnants of removing and reinstalling a CBM interface.  Twice.  Smart move.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "DEXTERITY", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "EXODII_BODY_1",
     "flags": [ "Exodii_Body" ],
     "name": { "str": "Exodii cyborg framework - style 1a" },
@@ -87,6 +120,102 @@
         "bullet": 10,
         "acid": 25,
         "electric": 0
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_LEFT",
+    "name": { "str": "Bionic Arm (left)" },
+    "description": "Your left arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_RIGHT",
+    "name": { "str": "Bionic Arm (right)" },
+    "description": "Your right arm and hand have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_ARM_BASIC_BOTH",
+    "name": { "str": "Bionic Arms" },
+    "description": "Both of your arms and hands have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "hand_l" },
+          { "gain": "arm_bionic_basic_l" },
+          { "gain": "hand_bionic_basic_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "gain": "arm_bionic_basic_r" },
+          { "gain": "hand_bionic_basic_r" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_LEFT",
+    "name": { "str": "Bionic Leg (left)" },
+    "description": "Your left leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_RIGHT",
+    "name": { "str": "Bionic Leg (right)" },
+    "description": "Your right leg and foot have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIONIC_LEG_BASIC_BOTH",
+    "name": { "str": "Bionic Legs" },
+    "description": "Both of your legs and feet have been replaced by bionic equivalents.  They no longer bleed or feel discomfort, but they cannot heal and need power to operate.",
+    "points": 0,
+    "valid": false,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "gain": "leg_bionic_basic_l" },
+          { "gain": "foot_bionic_basic_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "leg_bionic_basic_r" },
+          { "gain": "foot_bionic_basic_r" }
+        ]
       }
     ]
   }

@@ -215,28 +215,6 @@
         ]
       },
       {
-        "text": "These glasses are a bit clunky.  Think we can improve them at all?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
-        "condition": {
-          "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
-            { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } }
-          ]
-        }
-      },
-      {
-        "text": "We've had these glasses for a while.  They're clunky, fragile, and go through batteries pretty quick.  Think we can improve them at all?",
-        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
-        "condition": {
-          "and": [
-            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
-            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
-            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] }
-          ]
-        }
-      },
-      {
         "text": "So, no easy way to say this, but I let some robots turn me into a cyborg.  Pretty cool, yeah?",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG",
         "condition": {
@@ -245,8 +223,7 @@
             { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] } },
             { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] }
           ]
-        },
-        "effect": { "u_add_var": "robofac_pat_knows_u_cyborg", "value": "yes" }
+        }
       },
       {
         "text": "So, remember that whole cyborg thing?  I managed to get an AR system implanted.  Think we can use it to communicate and share info?",
@@ -263,6 +240,87 @@
         "effect": { "u_add_var": "robofac_pat_said_no_to_exodii_AR_CBM", "value": "yes" }
       },
       {
+        "text": "Have you heard about the Cybernetic Enhancements Program?  Doc Stevens across the street hooked me up with a cybernetic interface, believe it or not.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01",
+        "condition": {
+          "and": [
+            { "u_has_trait": "Hub01_CBM_Interface" },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_hub01_cyborg" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_said_no_to_exodii_AR_CBM" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "robofac_pat_knows_u_cyborg", "value": "yes" },
+          { "u_add_var": "robofac_pat_knows_u_hub01_cyborg", "value": "yes" }
+        ]
+      },
+      {
+        "text": "Hey, remember that whole cyborg thing?  Have you heard about the Cybernetic Enhancements Program with Doc Stevens, across the street?  I've upgraded to a new cybernetic interface that has a USB port, believe it or not.  Maybe we can use it to communicate.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01",
+        "condition": {
+          "and": [
+            { "u_has_trait": "Hub01_CBM_Interface" },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_hub01_cyborg" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_said_no_to_exodii_AR_CBM" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_transponder_CBM" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_said_use_the_earpiece" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "robofac_pat_knows_u_hub01_cyborg", "value": "yes" }
+      },
+      {
+        "text": "Hey, remember that whole cyborg thing?  Have you heard about the Cybernetic Enhancements Program with Doc Stevens, across the street?  I've upgraded to a new cybernetic interface that has a USB port, believe it or not.  Think we can use my integrated AR system now?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR",
+        "condition": {
+          "and": [
+            { "u_has_trait": "Hub01_CBM_Interface" },
+            { "u_has_items": { "item": "integrated_ar", "count": 1 } },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_said_no_to_exodii_AR_CBM" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_hub01_cyborg" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_said_use_the_earpiece" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_transponder_CBM" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "robofac_pat_knows_u_hub01_cyborg", "value": "yes" }
+      },
+      {
+        "text": "I picked up an Integrated AR System CBM.  Think we can use my integrated electronics to communicate, now?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR",
+        "condition": {
+          "and": [
+            { "u_has_trait": "Hub01_CBM_Interface" },
+            { "u_has_items": { "item": "integrated_ar", "count": 1 } },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_hub01_cyborg" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_said_use_the_earpiece" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_transponder_CBM" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "I picked up an Infolink CBM.  Think we can use my integrated electronics to communicate, now?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_YES",
+        "condition": {
+          "and": [
+            { "u_has_trait": "Hub01_CBM_Interface" },
+            { "u_has_items": { "item": "integrated_ar", "count": 1 } },
+            { "u_has_bionics": "bio_radio" },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_said_use_the_earpiece" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_hub01_cyborg" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_transponder_CBM" } ] } }
+          ]
+        }
+      },
+      {
         "text": "Hey, check out this military-grade AR unit.  Think we can do something with it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
         "condition": {
@@ -275,7 +333,7 @@
         }
       },
       {
-        "text": "Hey, check out this military-grade AR unit.  Think we can do something with it?",
+        "text": "Hey, check out this Hub 01 AR unit.  Think we can do something with it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_HVAH",
         "condition": {
           "and": [
@@ -313,6 +371,18 @@
             ]
           }
         ]
+      },
+      {
+        "text": "Check out this new Hub 01 headgear - they call it a LENS helmet.  Think we can use it?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LENS_1",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_LENS_upgrade" } ] } },
+            { "u_has_items": { "item": "robofac_lens_helmet", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        }
       },
       {
         "text": "Let's talk about one of our jobs.",
@@ -362,6 +432,25 @@
           "and": [
             { "compare_string": [ "yes", { "u_val": "robofac_pat_partners" } ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_mws_4" } ] }
+          ]
+        }
+      },
+      {
+        "text": "About the equipment we use…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_GEAR_MENU",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] }
+      },
+      {
+        "text": "Let's talk about when we lost contact earlier…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LOST_SIGNAL",
+        "condition": {
+          "or": [
+            { "math": [ "robofac_pat_lost_signal_highlands == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_spider_dimension == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] },
+            { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
           ]
         }
       },
@@ -542,6 +631,217 @@
     "responses": [ { "text": "[Have a chat then say goodbye]", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_ROBOFAC_MERC_PAT_LOST_SIGNAL",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, I was tryin' to ping ya' for a while.  What happened?",
+    "responses": [
+      {
+        "text": "I was standing in a bit of water during a portal storm, and next thing I know, I found myself in some sort of field?  Stretched as far as the eye could see.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_highlands",
+        "condition": { "math": [ "robofac_pat_lost_signal_highlands == 1" ] }
+      },
+      {
+        "text": "I got tangled up in these webs, and then all of a sudden I'm in some sort of cavern, with the biggest spider I've ever seen.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_spider_dimension",
+        "condition": { "math": [ "robofac_pat_lost_signal_spider_dimension == 1" ] }
+      },
+      {
+        "text": "I was standing on the roof of that cabin in a portal storm, when everything just…  it's like I was in a world of just, cabins.  Forever.  Repeating themselves.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_cabin_reverb",
+        "condition": { "math": [ "robofac_pat_lost_signal_cabin_reverb == 1" ] }
+      },
+      {
+        "text": "I was standing up on a radio tower during a portal storm, when everything just…  I don't really know, it's like I fell.  But then there were radio towers.  Forever.  Repeating themselves.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_radiosphere",
+        "condition": { "math": [ "robofac_pat_lost_signal_radiosphere == 1" ] }
+      },
+      {
+        "text": "Honestly, Pat, I don't even known what to say about this place, yet.  [ALPHA TEST LABYRINTH]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_labyrinth",
+        "condition": { "math": [ "robofac_pat_lost_signal_labyrinth == 1" ] }
+      },
+      {
+        "text": "You know that glowing string I was carrying around?  It started moving in the portal storm, and then I was in this…  place.  It's hard to describe.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_lost_signal_string_dimension",
+        "condition": { "math": [ "robofac_pat_lost_signal_string_dimension == 1" ] }
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_GEAR_MENU",
+    "type": "talk_topic",
+    "dynamic_line": "Whatsup?",
+    "responses": [
+      {
+        "text": "These glasses are a bit clunky.  Think we can improve them at all?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_NO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "not": { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_gear_improvement" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "We've had these glasses for a while.  They're clunky, fragile, and go through batteries pretty quick.  Think we can improve them at all?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_started_earpiece" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('14 d')" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_talked_about_gear_improvement" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "What do you need if I want another pair of AR glasses?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_NO",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+        "effect": { "u_add_var": "robofac_pat_told_u_about_remaking_glasses", "value": "yes" }
+      },
+      {
+        "text": "Could I get another pair of AR glasses?  Here are the electronics you need.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_glasses" } ] },
+            { "u_has_items": { "item": "eink_tablet_pc", "count": 2 } },
+            { "u_has_items": { "item": "ar_glasses_advanced", "count": 1 } },
+            { "u_has_items": { "item": "two_way_radio", "count": 2 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "eink_tablet_pc", "count": 2, "popup": true },
+          { "u_consume_item": "ar_glasses_advanced", "count": 1, "popup": true },
+          { "u_consume_item": "two_way_radio", "count": 2, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_remaking_glasses", "value": "yes" }
+        ]
+      },
+      {
+        "text": "Could I get another pair of AR glasses?  Here's 10 HGC for supplies.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_gear" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_glasses" } ] },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_add_var": "robofac_pat_remaking_glasses", "value": "yes" }
+        ]
+      },
+      {
+        "text": "It's been a day.  Are the AR glasses done?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_DONE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_remaking_glasses" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "ar_glasses_advanced_pat", "count": 1 },
+          { "math": [ "robofac_timer_waiting_on_pat = time('now')" ] },
+          { "u_lose_var": "robofac_pat_remaking_glasses" }
+        ]
+      },
+      {
+        "text": "What do you need if I want another earpiece?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_NO",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] },
+        "effect": { "u_add_var": "robofac_pat_told_u_about_remaking_earpiece", "value": "yes" }
+      },
+      {
+        "text": "Could I get another earpiece?  Here's a couple HGC for supplies.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_YES",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] },
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_told_u_about_remaking_earpiece" } ] },
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
+          { "u_add_var": "robofac_pat_remaking_earpiece", "value": "yes" }
+        ]
+      },
+      {
+        "text": "Could you set up my new LENS helmet?  I've taken out any mods and software I need.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_LENS_REMAKE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_gave_LENS_upgrade" } ] },
+            { "u_has_items": { "item": "robofac_lens_helmet", "count": 1 } },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "It's been a day.  Is the earpiece done?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_DONE",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "robofac_pat_remaking_earpiece" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "math": [ "time_since(robofac_timer_waiting_on_pat) >= time('1 d')" ] }
+          ]
+        },
+        "effect": [ { "u_spawn_item": "pat_earpiece", "count": 1 }, { "u_lose_var": "robofac_pat_remaking_earpiece" } ]
+      },
+      { "text": "Let's talk about something else…", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_NO",
+    "type": "talk_topic",
+    "dynamic_line": "Pair'a advanced AR glasses, 2 two-way radios, and 2 tablet PCs.  Or, ya' cough up 10 HGC, and I'll scrounge up the pahts myself.  Cool?",
+    "responses": [ { "text": "Cool.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_NO",
+    "type": "talk_topic",
+    "dynamic_line": "No prob.  Just cough up 2 HGC, and I'll scrounge up the pahts myself.  Cool?",
+    "responses": [ { "text": "Cool.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_YES",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whips out their soldering iron and starts to clear their desk.  \"Wicked.  Come back tomorrah.\"",
+    "responses": [ { "text": "Thanks, Pat.  See you tomorrow.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_YES",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whips out their soldering iron and starts to clear their desk.  \"Wicked.  Come back tomorrah.\"",
+    "responses": [ { "text": "Thanks, Pat.  See you tomorrow.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_AR_GLASSES_DONE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat picks up a new pair of modified AR glasses, wipes the lenses, and hands them over to you.  \"Careful with this set, yeah?\"",
+    "responses": [ { "text": "Thanks, Pat.  See you later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_REMAKE_EARPIECE_DONE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat whistles sharply and tosses the earpiece in the air.  You catch it.  Pat chuckles.  \"Don' lose that one, got it?\"",
+    "responses": [ { "text": "Thanks, Pat.  See you later.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_1",
     "type": "talk_topic",
     "dynamic_line": "Actually, yeah, I been thinkin' about this a lot.  I'm probably bettah suited stayin' heah, an' you're bettah out in the field.  I'm wonderin' if maybe we team up.  Partners.  Whaddaya think?",
@@ -584,7 +884,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_MISSION_FRIEND_2b",
     "type": "talk_topic",
-    "dynamic_line": "Lemme see heah… Well, hole-lee shit, fuck yeah it'll work!  That thing's probably got a radio built in, yeah?  In that case, just get a radio and a tablet for me, for parts.",
+    "dynamic_line": "Lemme see heah… Well, hole-lee shit, fahk yeah it'll work!  That thing's probably got a radio built in, yeah?  In that case, just get a radio and a tablet for me, for parts.",
     "responses": [
       {
         "text": "I like it.  I'll find a two-way radio and an E-ink tablet PC.",
@@ -630,7 +930,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_PAT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.",
+    "dynamic_line": "Check this shit out, eh?  So ya' wear the glasses like normal, but I've made a leg-strap for the other bits.  The tablet heah is useless for ya', we just need it for extra processin' powah to run the long range radiowave emitter and receiver.  The pictures you send'll be shit, but it should work, long as you aren't stupid enough to drive off to Texas or some shit.  Ya' stick that earbud in ya' ear, and we should be able to chat.  Here's the trick - toggle the recording switch on, and I'll be able to collect pictures and audio now and again, and I'll keep an eye on the feed, even though it may be slow n' ugly.  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fahkin' good advice and info.",
     "responses": [ { "text": "Sounds great.  Guess we'll talk soon.", "topic": "TALK_DONE" } ]
   },
   {
@@ -643,20 +943,330 @@
     "id": "TALK_ROBOFAC_MERC_PAT_IMPROVE_GEAR_YES",
     "type": "talk_topic",
     "dynamic_line": "I think this is about as good as my post-apocalyptic engineering will take us, eh?  Unless our employer chips in, or you can dig up one of those cutting-edge military AR units, I think we're S-O-L.",
-    "responses": [ { "text": "Yeah, alright.  Maybe sometime in the future.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
+    "responses": [
+      {
+        "text": "Yeah, alright.  Maybe sometime in the future.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "effect": { "u_add_var": "robofac_pat_talked_about_gear_improvement", "value": "yes" }
+      }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG",
     "type": "talk_topic",
-    "dynamic_line": "Well, no kiddin' huh?  If it wasn't for the whole end'a'the'world thing, I'd call ya' crazy, but this freakin' world keeps gettin' weirder by the day.  On the bright side, maybe you can score some kinda fancy implant so we can ditch the ugly-ass AR glasses, yeah?  Lemme know if ya' find one, nut-ckle-head, hah!  Get it?  Nuts n' bolts.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "&The radio is silent for a moment, then Pat chirps back in, laughing.  \"Yeah, right.  Come by heah sometime and show me your integrated toastah, and maybe I'll believe ya'.\"",
+      "no": "&Pat stares at you for a second, and then starts to laugh.  \"Oh, yah?  Well, no kiddin' huh?  If it wasn't for the whole end'a'the'world thing, I'd call ya' crazy, but this freakin' world keeps gettin' weirder by the day… wait, wait, wait, nah.  You're fahkin' with me, right?  Almost had me!\""
+    },
+    "responses": [
+      {
+        "text": "[Use your Infolink to chirp Pat's radio]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_radio" }
+          ]
+        }
+      },
+      {
+        "text": "[Open your finger and show off the Fingerhack]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_fingerhack" }
+          ]
+        }
+      },
+      {
+        "text": "[Light up your LED Tattoo]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_tattoo_led" }
+          ]
+        }
+      },
+      {
+        "text": "[Open your finger and show off the Fingerpick]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_lockpick" }
+          ]
+        }
+      },
+      {
+        "text": "[Show off your Shotgun Arm] This…  is my BOOMSTICK!",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_shotgun" }
+          ]
+        }
+      },
+      {
+        "text": "[Arm and trigger your Alarm System]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_alarm" }
+          ]
+        }
+      },
+      {
+        "text": "[Extend your Bionic Claws] Check it out, bub.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_claws" }
+          ]
+        }
+      },
+      {
+        "text": "[Do some sick moves using your Uncanny Dodge]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_uncanny_dodge" }
+          ]
+        }
+      },
+      {
+        "text": "[Charge up your EMP Projector to make a cool noise]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_emp_armgun" }
+          ]
+        }
+      },
+      {
+        "text": "[Light your Finger Lighter] Need a light?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_lighter" }
+          ]
+        }
+      },
+      {
+        "text": "[Wiggle your Squeeky Ankles] Well, I didn't say it was anything useful…",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_ankles" }
+          ]
+        }
+      },
+      {
+        "text": "[Loudly ZAP your Super Stun Gun]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_taser" }
+          ]
+        }
+      },
+      {
+        "text": "[Use your Weather Reader to perfectly recite current atmospheric conditions] Who needs a weather station when you've got implants?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_meteorologist" }
+          ]
+        }
+      },
+      {
+        "text": "[Briefly activate your Cloaking Device]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_cloak" }
+          ]
+        }
+      },
+      {
+        "text": "[Activate your Chain Lightning to cast a bolt between your hands]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_chain_lightning" }
+          ]
+        }
+      },
+      {
+        "text": "[Show off your Fingertip Razors and wiggle your eyebrows]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_razors" }
+          ]
+        }
+      },
+      {
+        "text": "[Activate your Protective Lenses]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_armor_eyes" }
+          ]
+        }
+      },
+      {
+        "text": "[Warp your face using your Facial Distortion]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_face_mask" }
+          ]
+        }
+      },
+      {
+        "text": "[Blink in space using Probability Travel]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_probability_travel" }
+          ]
+        }
+      },
+      {
+        "text": "[Show off your Monomolecular Blade]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_blade" }
+          ]
+        }
+      },
+      {
+        "text": "[Unroll your Cable Charger from your hip] This is my charging system, believe it or not.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_cable" }
+          ]
+        }
+      },
+      {
+        "text": "[Zap the wall with your Finger Laser]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_laser" }
+          ]
+        }
+      },
+      {
+        "text": "[Show off your Intravenous Needletip]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_syringe" }
+          ]
+        }
+      },
+      {
+        "text": "[Fire up your Integrated Multimeter and start touching things on Pat's desk]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_multimeter" }
+          ]
+        }
+      },
+      {
+        "text": "[Use your Artificial Night Generator to dim the room]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_night" }
+          ]
+        }
+      },
+      {
+        "text": "[Fire up your Integrated Circuitry Toolkit and touch a bit on solder on the desk]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_electrokit" }
+          ]
+        }
+      },
+      {
+        "text": "[Show off your Autonomous Surgical Scalpels]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_surgical_razor" }
+          ]
+        }
+      },
+      {
+        "text": "[ZIT-ZIT-ZOOO - whir up the impact wrench in your Integrated Multitool]",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_tools" }
+          ]
+        }
+      },
+      {
+        "text": "Maybe I'll visit in person…",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] },
+        "topic": "TALK_ROBOFAC_MERC_PAT"
+      },
+      { "text": "Yeah, just kidding…", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
+    "type": "talk_topic",
+    "dynamic_line": "Well holy shit!  That's freakin' nuts!  Maybe you can score some kinda fancy implant so we can ditch the ugly-ass AR glasses, yeah?  Lemme know if ya' find one, ya' nut-ckle-head, hah!  Get it?  Nuts n' bolts.",
     "responses": [
       {
         "text": "Actually, I have an implanted AR system.  Think you could use it?",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_EXODII_AR",
         "condition": { "and": [ { "u_has_items": { "item": "integrated_ar", "count": 1 } }, { "u_has_trait": "CBM_Interface" } ] },
-        "effect": { "u_add_var": "robofac_pat_said_no_to_exodii_AR_CBM", "value": "yes" }
+        "effect": [
+          { "u_add_var": "robofac_pat_said_no_to_exodii_AR_CBM", "value": "yes" },
+          { "u_add_var": "robofac_pat_knows_u_cyborg", "value": "yes" }
+        ]
       },
-      { "text": "Yeah, alright.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+      {
+        "text": "Yeah, alright.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "effect": { "u_add_var": "robofac_pat_knows_u_cyborg", "value": "yes" }
+      }
     ]
   },
   {
@@ -669,6 +1279,103 @@
         "topic": "TALK_ROBOFAC_MERC_PAT"
       }
     ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01",
+    "type": "talk_topic",
+    "dynamic_line": "I have, I have.  I hear they're stickin' radios in the skull's of some mercs.  You too, eh?  Crazy shit.  Maybe you can score some kinda fancy implant so we can ditch the ugly-ass AR glasses, yeah?  Lemme know if ya' find one, ya' nut-ckle-head, hah!  Get it?  Nuts n' bolts.",
+    "responses": [
+      {
+        "text": "Actually, I have an implanted AR system.  Think you could use it?",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR",
+        "condition": { "and": [ { "u_has_items": { "item": "integrated_ar", "count": 1 } }, { "u_has_trait": "Hub01_CBM_Interface" } ] }
+      },
+      { "text": "Yeah, alright.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR",
+    "type": "talk_topic",
+    "dynamic_line": "No shit?  You also got some kind of internal radio we can use?  If so, I'll plug my computah heah into your USB port, and see what we can do.  Platonically, of course.",
+    "responses": [
+      {
+        "text": "Yup, I have an Infolink CBM, too.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_YES",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+            { "u_has_bionics": "bio_radio" }
+          ]
+        }
+      },
+      {
+        "text": "No, I don't have an internal radio CBM.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_NO",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+        "effect": { "u_add_var": "robofac_pat_said_use_the_earpiece", "value": "yes" }
+      },
+      {
+        "text": "Maybe I should come talk to you in person about this.  I'll swing by sometime.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+      },
+      { "text": "Let's talk about this some other time.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_NO",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ],
+      "yes": "Well, I guess an integrated radio'd be nice, but just use the earpiece you have for the headset, yeah?  It should work with that USB port just the same.",
+      "no": "&Pat reaches into their pocket and pulls out a small earpiece with some inline electronics.  \"Heah, I've been workin' on this for a while.  You can plug it right into your USB port there, and stick this part here in your ear.  If the earpiece is active, I'll be able to chat and talk with you, yeah?  Turn it off if you need privacy.\""
+    },
+    "responses": [
+      {
+        "text": "Great, I'll just use the earpiece for now.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] }
+      },
+      {
+        "text": "Huh, cool.  Thanks, Pat.  Talk to you soon.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_finished_earpiece" } ] } },
+        "effect": [ { "u_spawn_item": "pat_earpiece", "count": 1 }, { "u_lose_var": "robofac_pat_finished_earpiece" } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_YES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
+      "yes": "Absolutely.  Come by heah sometime and show me, and we'll see what we can do.",
+      "no": "&Pat pulls out their laptop, sparks the makeshift car battery they use to power it, then boots it up.  \"Alright, now we're talkin'.  Like I said, I'll have to plug into your USB jack, Jack.  Ready?\""
+    },
+    "responses": [
+      {
+        "text": "Sure, I'll come by in person.",
+        "topic": "TALK_ROBOFAC_MERC_PAT",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] }
+      },
+      {
+        "text": "[Give Pat access to your USB port] Let's do it.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_INSTALLED",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ] } },
+        "effect": [
+          { "u_add_var": "robofac_pat_gave_transponder_CBM", "value": "yes" },
+          { "u_lose_bionic": "bio_radio" },
+          { "u_add_bionic": "bio_radio_pat" }
+        ]
+      },
+      { "text": "Actually, let's talk about this some other time.", "topic": "TALK_ROBOFAC_MERC_PAT" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_HUB01_AR_INFOLINK_INSTALLED",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat plugs their laptop into your USB port and starts to clack away.  After 10 minutes, you hear a BEEP.  Your Infolink resets, and Pat unplugs you.  \"All done.  The Hub made that shit theah easy.  All I had to do… well, it isn't impahtant.  Should be able to toggle ya' integrated transpondah to keep connected to me, now.  You can also just call me up on the comm, now, yeah?\"",
+    "responses": [ { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_PAT_MAKE_EARPIECE_MVAS",
@@ -707,9 +1414,59 @@
     ]
   },
   {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_1",
+    "type": "talk_topic",
+    "dynamic_line": "What in the evah-lovin' fahk is that supposed to be?  Jesus Christ.  Lemme see that thing.\"  Pat takes the helmet, puts it on, and starts the laugh.  \"There ain't even a goddamn visor on this thing.  Hah!\"\n\nPat takes off the helmet and wipes a hand over its smooth exterior, looking it over closely.",
+    "responses": [ { "text": "Yeah, well, think you can make it work for our comm system?", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_2" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_2",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright, alright let me take a look… yup… there.  Yeah, figures.  Lucky for us our employah's are cheap bastahds.  They slapped a fahkin' USB port on it.  Nothin' says \"sci-fi bullshit\" like a port ripped off a fahkin office printah\".\n\nPat sparks their car battery, hooks their laptop up to it, and boots it up.  \"Hang on a sec.",
+    "responses": [
+      { "text": "[Wait quietly and patiently]", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" },
+      { "text": "[Laugh and relax]", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" },
+      { "text": "Make it quick, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_LENS_3" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_3",
+    "type": "talk_topic",
+    "dynamic_line": "&After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.  This thing's fahkin' nuts, pal.  I just pretuned your software radio doohickey to our frequency.  Long as that helmet's powered up, I can link in.  No prob.  Can also give me a shout over the radio, yeah?  I dunno where you keep the fahkin' trigger for the walkie, but if it's in your ass don't go butt dialin' me while you're in the head, yeah?\"",
+    "responses": [
+      {
+        "text": "Hah, will do, Pat.  Thanks.  I wanted to ask talk about something else, too.",
+        "topic": "TALK_ROBOFAC_MERC_PAT"
+      },
+      { "text": "Hah, will do, Pat.  Thanks.  See you around.", "topic": "TALK_DONE" }
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "robofac_pat_gave_LENS_upgrade", "value": "yes" },
+        { "u_consume_item": "robofac_lens_helmet", "count": 1, "popup": true },
+        { "u_spawn_item": "robofac_lens_helmet_pat" }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_LENS_REMAKE",
+    "type": "talk_topic",
+    "dynamic_line": "&Pat boots up their laptop and hooks it to the LENS USB port.  After a few minutes, Pat disconnects their laptop from the helmet.  \"Hey, look at that.  No sweat.\"",
+    "responses": [
+      { "text": "Thanks, Pat.  I wanted to ask talk about something else, too.", "topic": "TALK_ROBOFAC_MERC_PAT" },
+      { "text": "Thanks, Pat.  See you around.", "topic": "TALK_DONE" }
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "u_consume_item": "robofac_lens_helmet", "count": 1, "popup": true },
+        { "u_spawn_item": "robofac_lens_helmet_pat" }
+      ]
+    }
+  },
+  {
     "id": "TALK_ROBOFAC_MERC_PAT_GIVE_EARPIECE",
     "type": "talk_topic",
-    "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fuckin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
+    "dynamic_line": "Right, so check this shit out.  I rigged up'a small radio transponder to an earpiece.  Just put it in your ear, plug it in'ta the port there on the headset, switch it on, and as long as your AR headset is on, I can see, heah, and talk.  Wicked, eh?  You just keep that transmitter-receiver toggled on and I'll do what I can to give you some wicked fahkin' good advice and info.  On my end, I'll sell data to the Hub to keep me afloat, and you keep whatever comes out of the jobs.",
     "responses": [ { "text": "Wicked.  Guess we'll talk soon, Pat.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {

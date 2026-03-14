@@ -79,7 +79,7 @@
     "description": "Upon gaining this ability the Sylph gains the ability to breathe without oxygen.  This will prevent damage from a lack of oxygen.",
     "category": [ "SYLPH" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_sylph_breath" ]
+    "flags": [ "GILLS", "INHALED_TOXIN_IMMUNE", "SUFFOCATION_IMMUNE" ]
   },
   {
     "type": "mutation",
