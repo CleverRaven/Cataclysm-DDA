@@ -776,7 +776,7 @@
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
   },
-    {
+  {
     "type": "effect_type",
     "id": "winded_crab_leg",
     "name": [ "Winded" ],
