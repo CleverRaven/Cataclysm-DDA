@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <deque>
 #include <cstdlib>
 #include <list>
 #include <memory>
@@ -774,13 +775,17 @@ namespace zone_sorting
 namespace
 {
 struct zone_route_cache {
+    static constexpr size_t max_entries = 200;
+
     tripoint_bub_ms start;
     object_type grab_type = object_type::NONE;
     tripoint_rel_ms grab_point;
     int arm_str = 0;
     units::mass veh_mass = 0_gram;
-    // (destination center, route). Empty route means unreachable.
-    std::vector<std::pair<tripoint_bub_ms, std::vector<tripoint_bub_ms>>> entries;
+    // destination -> route. Empty route means unreachable.
+    std::unordered_map<tripoint_bub_ms, std::vector<tripoint_bub_ms>> entries;
+    // FIFO eviction order -- front is oldest.
+    std::deque<tripoint_bub_ms> insertion_order;
     bool initialized = false;
 
     void ensure_valid( const Character &who ) {
@@ -809,21 +814,31 @@ struct zone_route_cache {
             arm_str = cur_arm_str;
             veh_mass = cur_veh_mass;
             entries.clear();
+            insertion_order.clear();
             initialized = true;
         }
     }
 
     const std::vector<tripoint_bub_ms> *find( const tripoint_bub_ms &dest ) const {
-        for( const auto &e : entries ) {
-            if( e.first == dest ) {
-                return &e.second;
-            }
+        auto it = entries.find( dest );
+        if( it != entries.end() ) {
+            return &it->second;
         }
         return nullptr;
     }
 
     void store( const tripoint_bub_ms &dest, std::vector<tripoint_bub_ms> route ) {
-        entries.emplace_back( dest, std::move( route ) );
+        auto it = entries.find( dest );
+        if( it != entries.end() ) {
+            it->second = std::move( route );
+            return;
+        }
+        while( entries.size() >= max_entries && !insertion_order.empty() ) {
+            entries.erase( insertion_order.front() );
+            insertion_order.pop_front();
+        }
+        entries.emplace( dest, std::move( route ) );
+        insertion_order.push_back( dest );
     }
 };
 
