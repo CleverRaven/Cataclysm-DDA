@@ -4741,6 +4741,7 @@
     "name": { "str": "Feathered Arms" },
     "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.",
     "category": [ "RAPTOR", "BIRD" ],
+    "types": [ "ARMS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "points": 2,
     "mixed_effect": true,
