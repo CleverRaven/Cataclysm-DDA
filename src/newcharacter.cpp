@@ -714,18 +714,6 @@ void Character::add_random_hobby( std::vector<profession_id> &choices )
     }
 }
 
-static int calculate_cumulative_experience( int level )
-{
-    int sum = 0;
-
-    while( level > 0 ) {
-        sum += 10000 * level * level;
-        level--;
-    }
-
-    return sum;
-}
-
 bool avatar::create( character_type type, const std::string &tempname )
 {
     loading_ui::done();
@@ -852,20 +840,14 @@ bool avatar::create( character_type type, const std::string &tempname )
 
 void Character::set_skills_from_hobbies( bool no_override )
 {
-    // 2 for an average person
-    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
-    // 1.2 for an average person, always a bit higher than base amount
-    float knowledge_modifier = 1.0f + get_int() / 40.0f;
-    // Grab skills from hobbies and train
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
-            if( no_override && get_skill_level( e.first ) != 0 ) {
+            if( no_override ) {
                 continue;
             }
-            // Train our skill
-            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
-            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
-                    knowledge_modifier, true );
+            if( get_skill_level( e.first ) < e.second ) {
+                set_skill_level( e.first, e.second );
+            }
         }
     }
 }
@@ -3105,6 +3087,14 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                         break;
                     }
                 }
+                for( const profession *hobby : u.hobbies ) {
+                    for( auto &hobby_skill : hobby->skills() ) {
+                        if( hobby_skill.first == thisSkill->ident() ) {
+                            prof_skill_level = std::max( prof_skill_level, hobby_skill.second );
+                            break;
+                        }
+                    }
+                }
             }
             const point opt_pos( 1, y );
             std::string skill_text;
@@ -4000,50 +3990,33 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
             int line = 1;
             bool has_skills = false;
-            profession::StartingSkillList list_skills = you.prof->skills();
 
             for( const Skill *&elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
 
                 // Handle skills from professions
                 if( pool != pool_type::TRANSFER ) {
-                    profession::StartingSkillList::iterator i = list_skills.begin();
-                    while( i != list_skills.end() ) {
-                        if( i->first == elem->ident() ) {
-                            level += i->second;
+                    for( auto &prof_skill : you.prof->skills() ) {
+                        if( prof_skill.first == elem->ident() ) {
+                            level += prof_skill.second;
                             break;
                         }
-                        ++i;
                     }
                 }
 
                 // Handle skills from hobbies
-                int leftover_exp = 0;
-                int exp_to_level = 10000 * ( level + 1 ) * ( level + 1 );
-                for( const profession *profession : you.hobbies ) {
-                    profession::StartingSkillList hobby_skills = profession->skills();
-                    profession::StartingSkillList::iterator i = hobby_skills.begin();
-                    while( i != hobby_skills.end() ) {
-                        if( i->first == elem->ident() ) {
-                            int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
-                            // Calculate Level up to find final level and remaining exp
-                            while( skill_exp_bonus >= exp_to_level ) {
-                                level++;
-                                skill_exp_bonus -= exp_to_level;
-                                exp_to_level = 10000 * ( level + 1 ) * ( level + 1 );
-                            }
-                            leftover_exp = skill_exp_bonus;
+                for( const profession *hobby : you.hobbies ) {
+                    for( auto &hobby_skill : hobby->skills() ) {
+                        if( hobby_skill.first == elem->ident() ) {
+                            level = std::max( level, hobby_skill.second );
                             break;
                         }
-                        ++i;
                     }
                 }
 
                 if( level > 0 ) {
-                    const int exp_percent = 100 * leftover_exp / exp_to_level;
-                    mvwprintz( w_skills, point( 0, line ), c_light_gray,
-                               elem->name() + ":" );
-                    right_print( w_skills, line, 1, c_light_gray, string_format( "%d(%2d%%)", level, exp_percent ) );
+                    mvwprintz( w_skills, point( 0, line ), c_light_gray, elem->name() + ":" );
+                    right_print( w_skills, line, 1, c_light_gray, string_format( "%d", level ) );
                     line++;
                     has_skills = true;
                 }

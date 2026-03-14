@@ -109,13 +109,15 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     reset_caches( a_zlev, t_zlev );
     CHECK( you.sees( here, target_monster ) == expect_vision );
     if( special_attack == nullptr ) {
+        // FIXME: This should be a reach attack!
         CHECK( you.melee_attack( target_monster, false ) == expect_attack );
     }
 }
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
                                    const std::string &monster_ter, const std::string &target_ter,
-                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent )
+                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent,
+                                   const bool on_stairs = false )
 {
     clear_map_without_vision();
     map &here = get_map();
@@ -133,7 +135,11 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                 here.ter_set( target_location + more_offset, target_ledge );
             }
         }
-        test_monster_attack( offset, expected_vertical, expected_vertical );
+        if( on_stairs ) {
+            test_monster_attack( offset, false, expected_adjacent );
+        } else {
+            test_monster_attack( offset, expected_vertical, expected_vertical );
+        }
         if( ledge ) {
             here.ter_set( target_location, target_ledge );
         }
@@ -177,9 +183,9 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
     }
 
     monster_attack_zlevel( "attack_up_stairs", tripoint::above, "t_stairs_up", "t_stairs_down",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack_down_stairs", tripoint::below, "t_stairs_down", "t_stairs_up",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack through ceiling", tripoint::above, "t_floor", "t_floor",
                            false, false, false );
     monster_attack_zlevel( "attack through floor", tripoint::below, "t_floor", "t_floor",

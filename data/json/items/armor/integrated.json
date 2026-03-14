@@ -953,6 +953,10 @@
           "animal_paw_r",
           "leg_l",
           "leg_r",
+          "leg_crab_front_l",
+          "leg_crab_front_r",
+          "leg_crab_rear_l",
+          "leg_crab_rear_r",
           "arm_l",
           "arm_r",
           "arm_insect_l",
@@ -1065,6 +1069,12 @@
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 95,
+        "encumbrance": 3
       }
     ]
   },
@@ -1155,6 +1165,12 @@
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 95,
+        "encumbrance": 3
       }
     ]
   },
@@ -1433,6 +1449,12 @@
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.3 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 100,
+        "encumbrance": 8
       }
     ]
   },

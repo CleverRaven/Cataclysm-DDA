@@ -541,15 +541,15 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
                     tripoint_bub_ms below( p + tripoint::below );
                     if( valid_move( p, below, false, true ) ) {
                         if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
-                            // Otherwise this would have been a huge fall
-                            path_data_layer &layer = pf.get_layer( p.z() - 1 );
-                            // From cur, not p, because we won't be walking on air
-                            pf.add_point( layer.gscore[parent_index] + 10,
-                                          layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                            // From cur, not p, because we won't be walking on air.
+                            // Use outer layer (cur.z()) for gscore -- the destination
+                            // layer may contain stale data at parent_index.
+                            int new_g = layer.gscore[parent_index] + 10;
+                            pf.add_point( new_g, new_g + 2 * rl_dist( below, t ),
                                           cur, below );
                         }
 
-                        // Close p, because we won't be walking on it
+                        // Close p on the current z-level -- we won't walk on air
                         layer.closed[index] = true;
                         continue;
                     }
@@ -561,9 +561,8 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
                 tripoint_bub_ms below( p + tripoint::below );
                 if( valid_move( p, below, false, true ) ) {
                     if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
-                        path_data_layer &layer_below = pf.get_layer( p.z() - 1 );
-                        pf.add_point( layer_below.gscore[parent_index] + 10,
-                                      layer_below.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                        int new_g = layer.gscore[parent_index] + 10;
+                        pf.add_point( new_g, new_g + 2 * rl_dist( below, t ),
                                       cur, below );
                     }
                 }
@@ -596,9 +595,10 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
                 if( !inbounds( dest ) ) {
                     continue;
                 }
-                path_data_layer &layer = pf.get_layer( dest.z() );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                // Use outer layer (cur.z()) for gscore -- the destination
+                // layer may contain stale data at parent_index.
+                int new_g = layer.gscore[parent_index] + 2;
+                pf.add_point( new_g, new_g + 2 * rl_dist( dest, t ),
                               cur, dest );
             }
         }
@@ -614,48 +614,44 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
                 if( !inbounds( dest ) ) {
                     continue;
                 }
-                path_data_layer &layer = pf.get_layer( dest.z() );
-                pf.add_point( layer.gscore[parent_index] + 2,
-                              layer.score[parent_index] + 2 * rl_dist( dest, t ),
+                int new_g = layer.gscore[parent_index] + 2;
+                pf.add_point( new_g, new_g + 2 * rl_dist( dest, t ),
                               cur, dest );
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
             valid_move( cur, cur + tripoint::above, false, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z() + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
                 if( !inbounds( above ) ) {
                     continue;
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                int new_g = layer.gscore[parent_index] + 4;
+                pf.add_point( new_g, new_g + 2 * rl_dist( above, t ),
                               cur, above );
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
             valid_move( cur, cur + tripoint::above, false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z() + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
                 if( !inbounds( above ) ) {
                     continue;
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                int new_g = layer.gscore[parent_index] + 4;
+                pf.add_point( new_g, new_g + 2 * rl_dist( above, t ),
                               cur, above );
             }
         }
         if( cur.z() > min.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
             valid_move( cur, cur + tripoint::below, false, true, true ) ) {
-            path_data_layer &layer = pf.get_layer( cur.z() - 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms below( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() - 1 );
                 if( !inbounds( below ) ) {
                     continue;
                 }
-                pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
+                int new_g = layer.gscore[parent_index] + 4;
+                pf.add_point( new_g, new_g + 2 * rl_dist( below, t ),
                               cur, below );
             }
         }

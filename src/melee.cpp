@@ -574,7 +574,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, true ) ) {
+    if( !is_adjacent( &t, false ) ) {
         return false;
     }
 
@@ -812,7 +812,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // lacks the room to build up momentum on a slash.
         // In the case of a pike, the mass of the pole behind the wielder
         // should they choose to employ it up close will unbalance them.
-        if( cur_weap.reach_range( *this ) > 1 && !reach_attacking &&
+        if( cur_weap.reach_range( *this ).first > 1 && !reach_attacking &&
             cur_weap.has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
@@ -1022,6 +1022,20 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     }
 
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
+}
+
+bool Character::can_reach_attack( const Creature &target ) const
+{
+    item_location maybe_weapon = get_wielded_item();
+    int vert_reach = 0;
+    if( maybe_weapon ) {
+        vert_reach = maybe_weapon->current_reach_range( *this ).second;
+    }
+
+    if( std::abs( pos_bub().z() - target.pos_bub().z() ) > vert_reach ) {
+        return false;
+    }
+    return true;
 }
 
 void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
@@ -2817,7 +2831,7 @@ double Character::melee_value( const item &weap ) const
     // start with average effective dps against a range of enemies
     double my_value = weap.average_dps( *this );
 
-    float reach = weap.reach_range( *this );
+    float reach = weap.reach_range( *this ).first;
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
