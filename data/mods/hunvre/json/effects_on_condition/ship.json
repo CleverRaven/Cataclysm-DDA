@@ -39,7 +39,7 @@
     "effect": [
       { "math": [ "spawned = 1" ] },
       {
-        "u_message": "An infinite, warm darkness. Thoughts fill your mind but you're not sure they're yours, sadness, hapiness, bliss and horror. They become more and more intense, almost to the point of completely losing yourself. Then you wake up."
+        "u_message": "An infinite, warm darkness. Thoughts fill your mind but you're not sure they're yours, sadness, happiness, bliss and horror. They become more and more intense, almost to the point of completely losing yourself. Then you wake up."
       },
       { "run_eocs": [ "eoc_teleport_to_bed" ] }
     ]
