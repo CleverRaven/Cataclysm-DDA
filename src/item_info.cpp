@@ -2660,12 +2660,18 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                                   "This book contains %u crafting recipes. ",
                                                   num_crafting_recipes ), num_crafting_recipes ) );
                                                                   
-                if ((known_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (learnable_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (unlearnable_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (practice_recipe_list.size() > MAX_ENUMERATED_ITEMS)) {
-                    !is_expanded ?
-                    lines.back() += string_format(_( "Press '<color_light_cyan>%s</color>' to expand and view all recipes."), input_context("INVENTORY").get_desc( "TOGGLE_RECIPE_DISPLAY_EXTENDED" ) ) :
-                    lines.back() += string_format(_( "Press '<color_light_cyan>%s</color>' to collapse and hide recipes."), input_context("INVENTORY").get_desc( "TOGGLE_RECIPE_DISPLAY_EXTENDED" ) );
+                    if ((known_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (learnable_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (unlearnable_recipe_list.size() > MAX_ENUMERATED_ITEMS) || (practice_recipe_list.size() > MAX_ENUMERATED_ITEMS)) {
+                        !is_expanded ?
+                        lines.back() += string_format(_( "Press '<color_light_cyan>%s</color>' to expand and view all recipes."), input_context("INVENTORY").get_desc( "TOGGLE_RECIPE_DISPLAY_EXTENDED" ) ) :
+                        lines.back() += string_format(_( "Press '<color_light_cyan>%s</color>' to collapse and hide recipes."), input_context("INVENTORY").get_desc( "TOGGLE_RECIPE_DISPLAY_EXTENDED" ) );
+                        }
                 }
-                }
+
+                std::sort( known_recipe_list.begin(), known_recipe_list.end(), localized_compare );
+                std::sort( learnable_recipe_list.begin(), learnable_recipe_list.end(), localized_compare );
+                std::sort( unlearnable_recipe_list.begin(), unlearnable_recipe_list.end(), localized_compare );
+                std::sort( practice_recipe_list.begin(), practice_recipe_list.end(), localized_compare );
+
                 if( !known_recipe_list.empty() ) {
                     lines.emplace_back( _( "You already know how to craft:" ) );
                     !is_expanded ? lines.emplace_back( enumerate_lcsorted_with_limit( known_recipe_list ) ) :
@@ -2986,6 +2992,10 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             insert_separation_line( info );
             info.emplace_back( "DESCRIPTION", recipe_line );
             info.emplace_back( "DESCRIPTION", source_line );
+
+            std::sort( known_recipe_list.begin(), known_recipe_list.end(), localized_compare );
+            std::sort( learnable_recipe_list.begin(), learnable_recipe_list.end(), localized_compare );
+            std::sort( unlearnable_recipe_list.begin(), unlearnable_recipe_list.end(), localized_compare );
 
             if( !known_recipe_list.empty() ) {
                 const std::string recipe_line =
