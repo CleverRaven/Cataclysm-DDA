@@ -1227,6 +1227,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                             continue;
                         }
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
                     if( you.get_moves() <= 0 ) {
                         return std::nullopt;
@@ -1243,6 +1244,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                             }
                         }
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
 
                     // destroy fully unloaded magazines
@@ -1261,9 +1263,9 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                 for( item *contained : it->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                     if( zone_sorting::can_unload( contained ) ) {
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
                 }
-                moved_something = true;
 
             }
 

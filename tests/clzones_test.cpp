@@ -36,6 +36,8 @@ static const itype_id itype_556( "556" );
 static const itype_id itype_ammolink223( "ammolink223" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
+static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_chem_washing_soda( "chem_washing_soda" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
@@ -50,6 +52,7 @@ static const ter_str_id ter_t_wall( "t_wall" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
+static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
@@ -2214,6 +2217,44 @@ TEST_CASE( "route_cache_invalidation_on_mass_change",
     dummy.grab( object_type::NONE );
     zone_manager::get_manager().clear();
     clear_map_without_vision();
+}
+
+// #85827: bottle with liquid at UNSORTED+UNLOAD_ALL tile hangs sorting.
+// unload_item unconditionally sets moved_something=true after the pocket
+// unload loops even when nothing was actually unloaded (liquid fails
+// can_unload), causing infinite nullopt re-entry in stage_do.
+TEST_CASE( "zone_sort_unload_liquid_container_hang", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos = tripoint_bub_ms::zero + tripoint::east;
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    dummy.set_pos_abs_only( start_abs );
+
+    const tripoint_bub_ms chem_pos = start_pos + tripoint( 3, 0, 0 );
+    here.ter_set( chem_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start_abs );
+    create_tile_zone( "Chemical", zone_type_LOOT_CHEMICAL, here.get_abs( chem_pos ) );
+
+    // Bottle with liquid first -- no matching food zone, so zt_id is NULL_ID
+    // but unload_item still runs (UNLOAD_ALL + empty dest_set).
+    // Chemical after -- has a valid dest, makes has_items_to_sort return true.
+    item bottle( itype_bottle_glass );
+    item milk( itype_test_milk );
+    REQUIRE( milk.made_of( phase_id::LIQUID ) );
+    REQUIRE( bottle.put_in( milk, pocket_type::CONTAINER ).success() );
+    here.add_item_or_charges( start_pos, bottle );
+    here.add_item_or_charges( start_pos, item( itype_chem_washing_soda ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
 }
 
 // Large UNSORTED zone with many empty tiles and one item adjacent to the
