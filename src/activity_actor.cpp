@@ -4763,12 +4763,6 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint_bub_ms &src_bub = here.get_bub( src );
         if( !check_only ) {
-            // Budget: each source evaluation costs 1 move to prevent
-            // unbounded can_do/requirements/route work in a single frame.
-            you.mod_moves( -1 );
-            if( you.get_moves() <= 0 ) {
-                return true;
-            }
             if( !here.inbounds( src_bub ) ) {
                 if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
                     // activity cancelled
@@ -12923,12 +12917,6 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
     // iterate over zone positions and look for items to move
     for( const tripoint_abs_ms &src : src_sorted ) {
-        // Budget: each source evaluation costs 1 move (populate_items,
-        // has_items_to_sort, zone lookups). Yield before mutating state.
-        you.mod_moves( -1 );
-        if( you.get_moves() <= 0 ) {
-            return false;
-        }
         placement = src;
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
@@ -12946,6 +12934,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         bool ignore_contents = zone_sorting::ignore_contents( you, src );
 
         if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
+            coord_set.erase( src );
             continue;
         }
 
@@ -12968,12 +12957,11 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         }
 
         if( !has_items_to_work_on ) {
+            coord_set.erase( src );
             continue;
         }
 
         bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
-        // before we move any item, check if player is at or
-        // adjacent to the loot source tile
         if( !is_adjacent_or_closer ) {
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "zone_sort THINK: routing to source (%d,%d,%d) from (%d,%d)",
@@ -12992,6 +12980,12 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                        src.x(), src.y(), src.z() );
         stage = DO;
         break;
+    }
+    if( stage != DO && !coord_set.empty() ) {
+        // Remaining entries are filtered by unreachable_sources, have
+        // full destinations, or were past the route probe cutoff.
+        // Clear so the activity ends cleanly instead of re-scanning.
+        coord_set.clear();
     }
     return true;
 }
