@@ -755,7 +755,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
-    "dynamic_line": "&The Doc stares at you confusedly.  \"Give me a second.\"\n\nThe doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup, we're a go.  In fact, I've been authorized to give you a discount.  You'll be the first of the new Cybenetic Limb Enhancement Program, yeah?",
+    "dynamic_line": "&The Doc stares at you confusedly.  \"Give me a second.\"\n\nThe doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup, we're a go.  In fact, I've been authorized to give you a discount.  You'll be the first of the new Cybernetic Limb Enhancement Program, yeah?",
     "responses": [
       {
         "text": "Alright, let's talk about limb replacement.",
