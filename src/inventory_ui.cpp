@@ -4028,10 +4028,8 @@ void inventory_selector::action_examine( const item_location &sitem )
         data.on_data_changed = [&data, &sitem, this]() {
         data.vItemDisplay.clear();
         sitem->info( true, data.vItemDisplay );
-        shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-        if( current_ui ) {
-        current_ui->mark_resize();
-    }
+        data.vItemDisplay.insert(data.vItemDisplay.begin(),
+    { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
     };
     data.handle_scrolling = true;
     data.arrow_scrolling = true;
