@@ -4763,6 +4763,12 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint_bub_ms &src_bub = here.get_bub( src );
         if( !check_only ) {
+            // Budget: each source evaluation costs 1 move to prevent
+            // unbounded can_do/requirements/route work in a single frame.
+            you.mod_moves( -1 );
+            if( you.get_moves() <= 0 ) {
+                return true;
+            }
             if( !here.inbounds( src_bub ) ) {
                 if( zone_sorting::sorter_out_of_bounds( you, current_activity ) ) {
                     // activity cancelled
@@ -12872,6 +12878,19 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             best_route = 0;
         } else {
             const int dist = zone_sorting::route_length( you, p_bub );
+            // Budget: each route probe costs 1 move to prevent unbounded
+            // A* work in a single frame. Charged before the INT_MAX check
+            // because unreachable probes explore the full search space.
+            you.mod_moves( -1 );
+            if( you.get_moves() <= 0 ) {
+                if( dist != INT_MAX ) {
+                    computed.emplace_back( dist, candidates[i].second );
+                } else {
+                    unreachable_sources.emplace( candidates[i].second );
+                }
+                cutoff = i + 1;
+                break;
+            }
             if( dist == INT_MAX ) {
                 unreachable_sources.emplace( candidates[i].second );
                 continue;
@@ -12904,6 +12923,12 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
     // iterate over zone positions and look for items to move
     for( const tripoint_abs_ms &src : src_sorted ) {
+        // Budget: each source evaluation costs 1 move (populate_items,
+        // has_items_to_sort, zone lookups). Yield before mutating state.
+        you.mod_moves( -1 );
+        if( you.get_moves() <= 0 ) {
+            return false;
+        }
         placement = src;
 
         const tripoint_bub_ms src_bub = here.get_bub( src );
@@ -13150,6 +13175,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 return_items_to_source( you, src_bub );
                 unreachable_sources.emplace( src );
                 stage = THINK;
+                you.mod_moves( -1 );
             }
             return;
         }
@@ -13170,6 +13196,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                        "zone_sort DO: NOT adjacent to src (dist=%d), back to THINK",
                        square_dist( you.pos_bub(), src_bub ) );
         stage = THINK;
+        you.mod_moves( -1 );
         return;
     }
 
@@ -13502,6 +13529,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             coord_set.erase( src );
         }
         stage = THINK;
+        you.mod_moves( -1 );
         dropoff_coords.clear();
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
         // Purge item_locations invalidated by inventory restacking.
@@ -13521,6 +13549,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: all picked items lost (merged?), back to THINK" );
             coord_set.erase( src );
             stage = THINK;
+            you.mod_moves( -1 );
             dropoff_coords.clear();
             return;
         }
@@ -13537,8 +13566,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
             }
         }
+        int dest_dist = INT_MAX;
         if( picked_up_this_pass ) {
-            int dest_dist = INT_MAX;
             for( const tripoint_abs_ms &dest : dropoff_coords ) {
                 if( square_dist( abspos, dest ) <= 1 ) {
                     dest_dist = 0;
@@ -13552,6 +13581,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 dest_dist = std::min( dest_dist, rd );
             }
 
+            // Skip entire batch candidate scan when all destinations are
+            // unreachable -- the Chebyshev filter (cheb >= dest_dist) would
+            // pass everything through, causing O(N) unfiltered A* probes.
+            if( dest_dist == INT_MAX ) {
+                picked_up_this_pass = false;
+            }
+        }
+        if( picked_up_this_pass ) {
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -13769,6 +13806,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return_items_to_source( you, src_bub );
             unreachable_sources.emplace( src );
             stage = THINK;
+            you.mod_moves( -1 );
             return;
         }
 
@@ -13788,6 +13826,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
             return_items_to_source( you, src_bub );
             stage = THINK;
+            you.mod_moves( -1 );
         }
 
     } else if( !you.has_destination() ) {
@@ -13796,6 +13835,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         return_items_to_source( you, src_bub );
         unreachable_sources.emplace( src );
         stage = THINK;
+        you.mod_moves( -1 );
     }
 }
 

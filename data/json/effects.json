@@ -776,6 +776,22 @@
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
   },
+    {
+    "type": "effect_type",
+    "id": "winded_crab_leg",
+    "name": [ "Winded" ],
+    "desc": [ "You're short of breath.  One of your crab legs has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.95 },
+      { "limb_score": "move_speed", "modifier": 0.9 },
+      { "limb_score": "footing", "modifier": 0.85 },
+      { "limb_score": "balance", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
   {
     "type": "effect_type",
     "id": "no_power_leg",
