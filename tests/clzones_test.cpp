@@ -2216,3 +2216,40 @@ TEST_CASE( "route_cache_invalidation_on_mass_change",
     clear_map_without_vision();
 }
 
+// Large UNSORTED zone with many empty tiles and one item adjacent to the
+// player. stage_think should prune empty sources from coord_set so it
+// reaches the tile with the item instead of re-scanning empties forever.
+TEST_CASE( "zone_sort_think_prunes_empty_sources", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+
+    // 20x20 UNSORTED zone -- 400 tiles, mostly empty
+    const tripoint_abs_ms zone_start = here.get_abs( start_pos - point( 10, 10 ) );
+    const tripoint_abs_ms zone_end = here.get_abs( start_pos + point( 9, 9 ) );
+    zone_manager &zm = zone_manager::get_manager();
+    zm.add( "Unsorted", zone_type_LOOT_UNSORTED, faction_your_followers,
+            false, true, zone_start, zone_end );
+
+    // Destination zone adjacent to player
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( dest_pos ) );
+
+    // Item at the player's tile (adjacent to dest) so process_activity
+    // can deliver it without auto-move
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
+    // Apple should have been delivered to the food zone
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
+}
