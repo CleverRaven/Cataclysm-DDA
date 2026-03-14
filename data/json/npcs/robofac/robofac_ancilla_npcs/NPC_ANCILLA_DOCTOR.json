@@ -263,7 +263,8 @@
             "then": [
               { "u_lose_trait": "CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
-              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+              { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
             ]
           },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
@@ -294,7 +295,8 @@
             "then": [
               { "u_lose_trait": "CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
-              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+              { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
             ]
           },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
@@ -320,6 +322,7 @@
         "text": "[Exchange your Exodii CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
         "effect": [
           { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
