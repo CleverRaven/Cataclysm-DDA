@@ -1068,6 +1068,12 @@ static constexpr double melt_rate_per_deg_per_hour = 2.0;
 // Maximum snow depth in mm
 static constexpr double max_snow_depth = 800.0;
 
+// Snow depth is tracked at z=0 only; weather is uniform across z-levels.
+static tripoint_abs_omt ground_level_omt( const tripoint_abs_omt &omt )
+{
+    return tripoint_abs_omt( omt.x(), omt.y(), 0 );
+}
+
 void weather_manager::update_snow_depth()
 {
     if( !calendar::once_every( 1_minutes ) ) {
@@ -1088,57 +1094,67 @@ void weather_manager::update_snow_depth()
 
     if( weather_id == WEATHER_NULL ) {
         // No valid weather yet - just keep timestamps current
-        const tripoint_abs_omt player_omt = get_player_character().pos_abs_omt();
-        auto it = snow_depth_map.find( player_omt );
-        if( it != snow_depth_map.end() ) {
-            it->second.last_update = calendar::turn;
+        for( auto &pair : snow_depth_map ) {
+            pair.second.last_update = calendar::turn;
         }
         return;
     }
 
-    const tripoint_abs_omt player_omt = get_player_character().pos_abs_omt();
-    omt_snow_state &state = snow_depth_map[player_omt];
-
-    time_duration dt = calendar::turn - state.last_update;
-    if( dt > max_snow_catchup ) {
-        dt = max_snow_catchup;
+    // Ensure the player's current OMT is tracked, seeded from nearest neighbor
+    const tripoint_abs_omt player_omt = ground_level_omt(
+                                            get_player_character().pos_abs_omt() );
+    if( snow_depth_map.find( player_omt ) == snow_depth_map.end() ) {
+        omt_snow_state seeded;
+        seeded.depth_mm = get_snow_depth_mm( player_omt );
+        seeded.last_update = calendar::turn;
+        snow_depth_map[player_omt] = seeded;
     }
-    if( dt <= 0_seconds ) {
+
+    const bool is_snowing = weather_id->precip != precip_class::none && !weather_id->rains;
+    const double accum_rate = is_snowing ?
+                              precip_mm_per_hour( weather_id->precip ) * snow_water_ratio : 0.0;
+    const bool is_melting = temperature > 0_C;
+    const double melt_rate = is_melting ?
+                             melt_rate_per_deg_per_hour * units::to_celsius( temperature ) : 0.0;
+
+    for( auto &pair : snow_depth_map ) {
+        omt_snow_state &state = pair.second;
+
+        time_duration dt = calendar::turn - state.last_update;
+        if( dt > max_snow_catchup ) {
+            dt = max_snow_catchup;
+        }
+        if( dt <= 0_seconds ) {
+            state.last_update = calendar::turn;
+            continue;
+        }
+
+        const double hours = to_seconds<double>( dt ) / 3600.0;
+
+        if( accum_rate > 0 ) {
+            state.depth_mm += accum_rate * hours;
+        }
+        if( is_melting && state.depth_mm > 0 ) {
+            state.depth_mm -= melt_rate * hours;
+        }
+
+        state.depth_mm = std::clamp( state.depth_mm, 0.0, max_snow_depth );
         state.last_update = calendar::turn;
-        return;
     }
-
-    const double hours = to_seconds<double>( dt ) / 3600.0;
-
-    // Accumulation: snow weather (precipitation that doesn't rain)
-    if( weather_id->precip != precip_class::none && !weather_id->rains ) {
-        state.depth_mm += precip_mm_per_hour( weather_id->precip ) * snow_water_ratio * hours;
-    }
-
-    // Melt: temperature above 0C
-    if( temperature > 0_C && state.depth_mm > 0 ) {
-        const double degrees_above = units::to_celsius( temperature );
-        state.depth_mm -= melt_rate_per_deg_per_hour * degrees_above * hours;
-    }
-
-    state.depth_mm = std::clamp( state.depth_mm, 0.0, max_snow_depth );
-    state.last_update = calendar::turn;
 }
 
 double weather_manager::get_snow_depth_mm( const tripoint_abs_omt &omt_pos ) const
 {
-    auto it = snow_depth_map.find( omt_pos );
+    const tripoint_abs_omt ground_pos = ground_level_omt( omt_pos );
+    auto it = snow_depth_map.find( ground_pos );
     if( it != snow_depth_map.end() ) {
         return it->second.depth_mm;
     }
-    // Seed from nearest same-z neighbor that has data
+    // Seed from nearest neighbor that has data
     double best_depth = 0.0;
     int best_dist = INT_MAX;
     for( const auto &pair : snow_depth_map ) {
-        if( pair.first.z() != omt_pos.z() ) {
-            continue;
-        }
-        const int dist = square_dist( omt_pos, pair.first );
+        const int dist = square_dist( ground_pos, pair.first );
         if( dist < best_dist ) {
             best_dist = dist;
             best_depth = pair.second.depth_mm;

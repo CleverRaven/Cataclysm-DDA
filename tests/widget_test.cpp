@@ -938,6 +938,7 @@ TEST_CASE( "thirst_and_hunger_widgets", "[widget]" )
 
 TEST_CASE( "widgets_showing_movement_cost", "[widget][move_cost]" )
 {
+    clear_map();
     widget cost_num_w = widget_test_move_cost_num.obj();
 
     avatar &ava = get_avatar();
