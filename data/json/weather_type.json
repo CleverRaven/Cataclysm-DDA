@@ -254,7 +254,7 @@
     "precip": "none",
     "rains": false,
     "sound_category": "silent",
-    "priority": 20,
+    "priority": 15,
     "required_weathers": [ "clear", "sunny", "fog" ],
     "condition": {
       "and": [
@@ -281,7 +281,7 @@
     "precip": "none",
     "rains": false,
     "sound_category": "silent",
-    "priority": 20,
+    "priority": 15,
     "required_weathers": [ "clear", "sunny", "mist" ],
     "condition": {
       "and": [
