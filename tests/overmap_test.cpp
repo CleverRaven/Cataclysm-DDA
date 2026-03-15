@@ -495,7 +495,46 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point::north_west ) ), 0 } );
     // Don't inherit overmap state from initialization or previous tests.
     overmap_buffer.clear();
-    for( int attempt_no = 0; attempt_no < 3; ++attempt_no ) {
+
+    // Build the set of terrain types we expect to find. Anything still in this
+    // set after generation is reported as missing.
+    std::unordered_set<oter_type_id> yet_to_be_seen;
+    {
+        std::unordered_set<oter_type_id> dedup;
+        for( const oter_t &ter : overmap_terrains::get_all() ) {
+            oter_type_id id = ter.get_type_id();
+            oter_type_str_id id_s = id.id();
+            if( id_s.is_empty() || id_s.is_null() || !dedup.insert( id ).second ) {
+                continue;
+            }
+            if( id->has_flag( oter_flags::should_not_spawn ) ) {
+                continue;
+            }
+            const recipe_id recipe( id_s.c_str() );
+            if( recipe.is_valid() && recipe->is_blueprint() ) {
+                continue;
+            }
+            if( id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway ) ) {
+                continue;
+            }
+            bool is_whitelisted = false;
+            for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
+                std::cmatch m;
+                if( std::regex_match( id_s.c_str(), m, wl ) &&
+                    m.prefix().length() == 0 && m.suffix().length() == 0 ) {
+                    is_whitelisted = true;
+                    break;
+                }
+            }
+            if( !is_whitelisted ) {
+                yet_to_be_seen.insert( id );
+            }
+        }
+    }
+
+    constexpr int max_attempts = 3;
+    for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
+         ++attempt_no ) {
         // First we just touch all the overmaps in an area to cause them to generate.
         for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 3 ) ) {
             point_abs_omt omt_start = project_to<coords::omt>( om_cur );
@@ -519,6 +558,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                         tripoint_abs_omt tp( p, z );
                         oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
                         auto iter_bool = stats.emplace( id, tp );
+                        if( iter_bool.second ) {
+                            yet_to_be_seen.erase( id );
+                        }
                         iter_bool.first->second.last_observed = tp;
                         ++iter_bool.first->second.count;
                     }
@@ -574,54 +616,19 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         overmap_buffer.reset();
     }
 
-    std::unordered_set<oter_type_id> done;
-    std::vector<oter_type_id> missing;
+    // Check that no SHOULD_NOT_SPAWN terrain was generated.
+    for( const auto &entry : stats ) {
+        if( entry.first->has_flag( oter_flags::should_not_spawn ) ) {
+            CAPTURE( entry.first );
+            FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
+        }
+    }
 
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    for( const oter_t &ter : overmap_terrains::get_all() ) {
-        oter_type_id id = ter.get_type_id();
-        oter_type_str_id id_s = id.id();
-        if( id_s.is_empty() || id_s.is_null() ) {
-            continue;
-        }
-        if( done.insert( id ).second ) {
-            CAPTURE( id );
-            auto it = stats.find( id );
-            const bool found = it != stats.end();
-            const bool should_be_found = !id->has_flag( oter_flags::should_not_spawn );
-
-            if( found == should_be_found ) {
-                continue;
-            }
-
-            // We also want to skip any terrain that's the result of a faction
-            // camp construction recipe
-            const recipe_id recipe( id_s.c_str() );
-            if( recipe.is_valid() && recipe->is_blueprint() ) {
-                continue;
-            }
-
-            if( found ) {
-                FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else {
-                //oceans and highways are not guaranteed to be inside the checked overmap radius
-                bool is_whitelisted = id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway );
-                for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
-                    std::cmatch m;
-                    is_whitelisted = is_whitelisted || (
-                                         // ensure the full string matches. Don't accept substrings.
-                                         std::regex_match( id_s.c_str(), m, wl ) && m.prefix().length() == 0 && m.suffix().length() == 0 );
-                }
-                if( !is_whitelisted ) {
-                    missing.emplace_back( id_s );
-                }
-            }
-        }
-    }
-
     {
+        std::vector<oter_type_id> missing( yet_to_be_seen.begin(), yet_to_be_seen.end() );
         size_t num_missing = missing.size();
         CAPTURE( num_missing );
         constexpr size_t max_to_report = 100;
