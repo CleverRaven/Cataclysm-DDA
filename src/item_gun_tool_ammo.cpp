@@ -50,7 +50,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_scale_constants.h"
@@ -689,22 +688,7 @@ damage_instance item::base_damage_thrown() const
     return type->thrown_damage;
 }
 
-static int vert_reach_range( int horizontal_range )
-{
-    // Some future proofing. If you're debugging this fatal I hope you're the one that changed it!
-    const int vertical_tile_math = trig_dist( tripoint::zero, tripoint::above );
-    if( vertical_tile_math > 1 ) {
-        cata_fatal( "function expects vertical range of one due to hardcoded modifier" );
-    }
-
-    // Future vertical distance.
-    const int that_hardcoded_modifier = 4;
-    // Purposeful integer math, remainder is discarded. e.g. 3 / 4 = 0, not 0.75. Only integers are kept.
-    const int vert_res = horizontal_range / that_hardcoded_modifier;
-    return vert_res;
-}
-
-std::pair<int, int> item::reach_range( const Character &guy ) const
+int item::reach_range( const Character &guy ) const
 {
     int res = 1;
     int reach_attack_add = has_flag( flag_REACH_ATTACK ) ? has_flag( flag_REACH3 ) ? 2 : 1 : 0;
@@ -730,12 +714,10 @@ std::pair<int, int> item::reach_range( const Character &guy ) const
         }
     }
 
-    const int vert_res = vert_reach_range( res );
-
-    return std::pair<int, int>( res, vert_res );
+    return res;
 }
 
-std::pair<int, int> item::current_reach_range( const Character &guy ) const
+int item::current_reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -757,9 +739,7 @@ std::pair<int, int> item::current_reach_range( const Character &guy ) const
         }
     }
 
-    const int vert_res = vert_reach_range( res );
-
-    return std::pair<int, int>( res, vert_res );
+    return res;
 }
 
 bool item::has_technique( const matec_id &tech ) const

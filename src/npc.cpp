@@ -1665,7 +1665,7 @@ void npc::invalidate_range_cache()
         confident_range_cache = confident_shoot_range( *weapon,
                                 most_accurate_aiming_method_limit( *weapon ) );
     } else {
-        confident_range_cache = weapon->reach_range( *this ).first;
+        confident_range_cache = weapon->reach_range( *this );
     }
 }
 

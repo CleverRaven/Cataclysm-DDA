@@ -746,15 +746,12 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
     const item_location weapon = you.get_wielded_item();
-    int reach = weapon ? weapon->reach_range( you ).first : std::max( 1,
+    int reach = weapon ? weapon->reach_range( you ) : std::max( 1,
                 static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
         if( reach == 1 && !you.is_adjacent( c, true ) ) {
-            return true;
-        }
-        if( !you.can_reach_attack( *c ) ) { // target on different z-level
             return true;
         }
         if( !c->is_npc() ) {

@@ -512,7 +512,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = weapon.get_item();
-    ui.range = weapon ? weapon->current_reach_range( you ).first : 1;
+    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
     restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
@@ -3136,10 +3136,6 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
         valid_pos.z() = clamp( valid_pos.z(), -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z() = clamp( valid_pos.z() - src.z(), -fov_3d_z_range, fov_3d_z_range ) + src.z();
-        // Or across z-levels (in melee)
-        if( mode == TargetMode::Reach && src.z() != new_pos.z() ) {
-            return false;
-        }
 
         new_traj = here.find_clear_path( src, valid_pos );
         if( range == 1 ) {
@@ -3401,8 +3397,6 @@ void target_ui::update_status()
         // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
         // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
         status = Status::OutOfRange;
-    } else if( mode == TargetMode::Reach && src.z() != dst.z() ) {
-        status = Status::OutOfRange;
     } else {
         status = Status::Good;
     }
@@ -3644,7 +3638,7 @@ void target_ui::update_ammo_range_from_gun_mode()
         }
     } else {
         if( relevant->gun_current_mode().melee() ) {
-            range = relevant->current_reach_range( *you ).first;
+            range = relevant->current_reach_range( *you );
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();
@@ -3745,7 +3739,7 @@ bool target_ui::action_switch_mode()
     } else {
         if( relevant->gun_current_mode().melee() ) {
             refresh = true;
-            range = relevant->current_reach_range( *you ).first;
+            range = relevant->current_reach_range( *you );
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();

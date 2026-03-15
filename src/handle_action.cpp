@@ -1783,7 +1783,7 @@ static void fire()
 
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
-    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ).first > 1 ) {
+    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
         reach_attack( you );
         return;
     }
