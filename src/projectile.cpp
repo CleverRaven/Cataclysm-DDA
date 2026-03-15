@@ -187,8 +187,18 @@ void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
             // apply aoe_effects (but not on_hit_effects, this one is in apply_effects_nodamage())
             for( const aoe_effect &eff : ae.aoe_effects ) {
                 for( Creature *cr : here.get_creatures_in_radius_circ( p, eff.radius ) ) {
-                    cr->add_effect( effect_source( source ), eff.effect, eff.duration, false, rng( eff.intensity_min,
-                                    eff.intensity_max ) );
+                    if( eff.all_bp ) {
+                        for( const bodypart_id &bp : cr->get_all_body_parts() ) {
+                            cr->add_effect( effect_source( source ), eff.effect, eff.duration, bp,
+                                            false, rng( eff.intensity_min, eff.intensity_max ) );
+                        }
+                    } else {
+                        const int hits = rng( eff.hits_amount.first, eff.hits_amount.second );
+                        for( int i = 0; i < hits; ++i ) {
+                            cr->add_effect( effect_source( source ), eff.effect, eff.duration, cr->random_body_part( true ),
+                                            false, rng( eff.intensity_min, eff.intensity_max ) );
+                        }
+                    }
                 }
             }
 
