@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "integrated_nobreathe" ],
+    "id": [ "integrated_nobreathe", "integrated_sylph_breath" ],
     "type": "MIGRATION",
     "replace": "manual_swimming"
   }

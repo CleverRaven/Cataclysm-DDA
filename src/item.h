@@ -798,17 +798,19 @@ class item : public visitable
 
         /*
          * Max range of melee attack this weapon can be used for.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int reach_range( const Character &guy ) const;
+        std::pair<int, int> reach_range( const Character &guy ) const;
 
         /*
          * Max range of melee attack this weapon can be used for in its current state.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int current_reach_range( const Character &guy ) const;
+        std::pair<int, int> current_reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
@@ -2349,6 +2351,9 @@ class item : public visitable
          * Returns the average coverage of each piece of data this item
          */
         int get_avg_coverage( const cover_type &type = cover_type::COVER_DEFAULT ) const;
+        // Filtered overload: only counts body parts present in relevant_parts
+        int get_avg_coverage( const body_part_set &relevant_parts,
+                              const cover_type &type = cover_type::COVER_DEFAULT ) const;
         /**
          * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).

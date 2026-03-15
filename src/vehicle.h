@@ -531,6 +531,8 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
+        // set by power_parts() on deficit, cleared by grid resolution on recovery
+        bool power_disabled = false; // NOLINT(cata-serialize)
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -1808,6 +1810,15 @@ class vehicle
          * Affects safe velocity, acceleration and handling difficulty.
          */
         float k_traction( map &here, float wheel_traction_area ) const;
+        // k_traction with explicit mass (for projected drag feasibility checks).
+        float k_traction( map &here, float wheel_traction_area, units::mass mass ) const;
+
+        // Drag strength required to move this vehicle through tile_pos at
+        // given mass.  For single-tile wheeled vehicles.  Returns the str_req
+        // that must be <= get_arm_str() for dragging to succeed.
+        int drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos,
+                             units::mass projected_mass ) const;
+        int drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos ) const;
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.

@@ -151,7 +151,7 @@ void swap( monster &z )
 
     ///\EFFECT_STR increases chance to successfully swap positions with your pet
     ///\EFFECT_DEX increases chance to successfully swap positions with your pet
-    if( !one_in( ( player_character.str_cur + player_character.dex_cur ) / 6 ) ) {
+    if( !one_in( ( player_character.get_str() + player_character.get_dex() ) / 6 ) ) {
         bool t = z.has_effect( effect_tied );
         if( t ) {
             z.remove_effect( effect_tied );
@@ -175,7 +175,7 @@ void push( monster &z )
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
 
     ///\EFFECT_STR increases chance to successfully push your pet
-    if( one_in( player_character.str_cur ) ) {
+    if( one_in( player_character.get_str() ) ) {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
         return;
     }

@@ -987,7 +987,6 @@
     "hitsize_min": 12,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 35, "armor_penetration": 10 } ],
     "dodgeable": true,
-    "blockable": false,
     "effects": [ { "id": "downed", "chance": 95, "duration": [ 1, 2 ] } ],
     "hit_dmg_u": "%1$s pulls its arm back and swings wide, smashing into your %2$s!",
     "hit_dmg_npc": "%1$s pulls its arm back and swings wide, smashing into <npcname>'s %2$s!",

@@ -112,12 +112,7 @@
     "recurrence": [ "16 hours", "16 hours" ],
     "condition": { "u_has_trait": "BLOOD_OF_SAINTS" },
     "global": true,
-    "effect": [
-      { "run_eocs": "EOC_REDUCE_VAMPVIRUS" },
-      { "run_eocs": "EOC_REDUCE_VAMPVIRUS1" },
-      { "run_eocs": "EOC_REDUCE_VAMPVIRUS2" },
-      { "run_eocs": "EOC_REDUCE_VAMPVIRUS3" }
-    ]
+    "effect": [ { "run_eocs": "EOC_REDUCE_VAMPVIRUS" }, { "run_eocs": "EOC_REDUCE_VAMPVIRUS3" } ]
   },
   {
     "id": "bloodthorne_druid_bandage_01",

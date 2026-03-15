@@ -776,6 +776,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_solar_cooker",
+    "name": "Set Up Solar Cooker"
+  },
+  {
+    "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
   },

@@ -790,6 +790,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_xe_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -1852,6 +1856,13 @@
     "desc": [ "Your burning internal organs are making it more difficult to aim." ],
     "rating": "bad",
     "base_mods": { "hit_mod": [ -3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_is_near_a_fire",
+    "//": "Hidden effect, used in Salamander spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",

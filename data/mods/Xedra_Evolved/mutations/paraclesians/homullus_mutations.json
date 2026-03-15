@@ -330,6 +330,37 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_ELECTRONICS",
+    "name": { "str": "Veins Like Circuits" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "For almost all of recorded history, even tool-using history, humanity had not harnessed lightning, and most of the Fair Folk still have little understanding of electrical devices.  This ability gives you an almost-instinctive understanding of circuits, however, allowing you to develop the electronics skill normally and providing a bonus to its use.",
+    "prereqs": [ "PER_UP", "PER_UP_2", "PER_ALPHA" ],
+    "prereqs2": [ "HOMULLUS_SKIN_2", "HOMULLUS_SKIN_3" ],
+    "category": [ "HOMULLUS" ],
+    "purifiable": false,
+    "craft_skill_bonus": [ [ "electronics", 2 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CAN_USE_COMPUTERS",
+    "name": { "str": "Man-Machine Mind" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have developed an intuitive understanding of computers.  You can develop the computer skill normally and gain a bonus to its use.",
+    "prereqs": [ "INT_UP", "INT_UP_2", "INT_ALPHA" ],
+    "prereqs2": [ "HOMULLUS_EYES" ],
+    "category": [ "HOMULLUS" ],
+    "purifiable": false,
+    "enchantments": [
+      { "condition": { "math": [ "u_skill('computer') <= 7" ] }, "skills": [ { "value": "computers", "add": 2 } ] },
+      { "condition": { "math": [ "u_skill('computer') <= 8" ] }, "skills": [ { "value": "computers", "add": 1 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CBM_INSTALL",
     "name": "Cybernetic Integration",
     "points": 2,
@@ -338,6 +369,8 @@
     "description": "Your flesh and bones can instinctively shift to allow manually installing cybernetics.  You no longer need external aid to install CBMs.",
     "category": [ "HOMULLUS" ],
     "purifiable": false,
+    "prereqs": [ "HOMULLUS_CAN_USE_ELECTRONICS" ],
+    "prereqs2": [ "HOMULLUS_CAN_USE_COMPUTERS" ],
     "flags": [ "MANUAL_CBM_INSTALLATION" ]
   },
   {
@@ -375,7 +408,7 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
+    "description": "You are capable of storing bionic power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
     "category": [ "HOMULLUS" ],
     "purifiable": false,
     "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
@@ -576,6 +609,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed is increased.",
+    "prereqs": [ "HOMULLUS_CAN_USE_COMPUTERS", "HOMULLUS_CAN_USE_ELECTRONICS" ],
     "changes_to": [ "HOMULLUS_CRAFTING_BONUS_2" ],
     "category": [ "HOMULLUS" ],
     "purifiable": false,
@@ -662,6 +696,7 @@
     "category": [ "HOMULLUS" ],
     "purifiable": false,
     "prereqs": [ "HOMULLUS_GAIN_INTEGRATED_TOOLS" ],
+    "prereqs2": [ "HOMULLUS_CAN_USE_COMPUTERS" ],
     "integrated_armor": [ "integrated_homullus_electrohack" ]
   },
   {

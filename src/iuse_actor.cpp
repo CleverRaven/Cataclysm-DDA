@@ -143,8 +143,8 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
-static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+static const json_character_flag json_flag_NO_LIMB_FIRST_AID( "NO_LIMB_FIRST_AID" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
@@ -1066,7 +1066,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         skill_offset += p->get_skill_level( sk ) / 2.0f;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
-    if( difficulty < 0 || rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
+    if( difficulty < 0 || rng( 0, p->get_int() / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "You deploy the %s wrong.  It is hostile!" ), newmon.name() );
         } else {
@@ -1858,7 +1858,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Fail dex roll, potentially lose more parts.
     /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.dex_cur ) {
+    if( dice( 3, 4 ) > p.get_dex() ) {
         efficiency *= 0.95;
     }
 
@@ -2467,7 +2467,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
 
     std::string desc = "music";
     /** @EFFECT_PER increases morale bonus when playing an instrument */
-    const int morale_effect = fun + fun_bonus * p->per_cur;
+    const int morale_effect = fun + fun_bonus * p->get_per();
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p->is_avatar() ) {
             desc = random_entry( player_descriptions ).translated();
@@ -3232,7 +3232,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
-    float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
+    float damage_chance = ( difficulty - skill - ( tool_quality + pl.get_dex() ) / 5.0f ) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
@@ -3811,7 +3811,7 @@ static bodypart_id pick_part_to_heal(
                          ( ( healer.get_skill_level( skill_firstaid ) +
                              ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
                              ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
-                           healer.per_cur >= 20 );
+                           healer.get_per() >= 20 );
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
@@ -3820,8 +3820,8 @@ static bodypart_id pick_part_to_heal(
             return healed_part;
         }
 
-        if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
-            add_msg( m_info, _( "You can't use first aid on a bionic limb." ) );
+        if( healed_part->has_flag( json_flag_NO_LIMB_FIRST_AID ) ) {
+            add_msg( m_info, _( "You can't use first aid on that limb." ) );
             continue;
         }
 
@@ -5719,9 +5719,9 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + round( p->get_skill_level( used_skill ) ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
-    rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
+    rn += rng( 0, p->get_dex() / 2 );                    // Dexterity
     /** @EFFECT_PER randomly improves clothing modification efforts */
-    rn += rng( 0, p->per_cur / 2 );                    // Perception
+    rn += rng( 0, p->get_per() / 2 );                    // Perception
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {

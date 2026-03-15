@@ -358,6 +358,55 @@
   },
   {
     "type": "profession",
+    "id": "xe_offworld_cyborg",
+    "name": { "male": "Xedra Offworld Team: Six-Million Dollar Man", "female": "Xedra Offworld Team: Six-Million Dollar Woman" },
+    "description": "Part of Xedra's Offworld Acquisitions team, you participated in a number of missions offworld, but on one mission what you can only describe as a \"fucking wizard\" collapsed a building on top of you.  While XEDRA managed to extract you and save your life, they could not save your left arm and leg.  They offered to let you retire with a nice pension, but they also told you there was a way you could return to field work.  You leapt at the chance.",
+    "traits": [ "XEDRA_CYBORG", "BIONIC_ARM_BASIC_LEFT", "BIONIC_LEG_BASIC_LEFT" ],
+    "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
+    "points": 8,
+    "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_batteries", "bio_power_storage", "bio_power_storage", "bio_power_storage" ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 4, "name": "pistol" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "deduction" },
+      { "level": 4, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
+          { "item": "medium_battery_cell", "charges": 56 },
+          { "item": "medium_battery_cell", "charges": 56 },
+          { "item": "medium_battery_cell", "charges": 56 },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
     "id": "xe_eater",
     "name": "Mobile Task Force: Upsilon 4 \"Devourers\"",
     "description": "Being part of Upsilon 4, you were always at the front of your unit, protecting other operatives from danger ahead using your eater's abilities.  This one was no different, but something went really wrong.",
@@ -631,7 +680,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_NURTURE_GREEN" ],
+    "hobbies": [ "PARACLESIAN_BIRTH_GRAMARYE", "ARVORE_NURTURE_GREEN" ],
     "items": {
       "both": {
         "entries": [
@@ -689,7 +738,7 @@
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "SALAMANDER_FIRE_DANCE" ],
+    "hobbies": [ "PARACLESIAN_BIRTH_GRAMARYE", "SALAMANDER_FIRE_DANCE" ],
     "items": {
       "both": {
         "entries": [

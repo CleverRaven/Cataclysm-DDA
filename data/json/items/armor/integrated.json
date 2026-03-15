@@ -35,6 +35,10 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "vine_limb_upper_r",
+          "vine_limb_upper_l",
+          "vine_limb_lower_r",
+          "vine_limb_lower_l",
           "torso",
           "head",
           "tail"
@@ -74,7 +78,26 @@
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "vine_limb_upper_r",
+          "vine_limb_upper_l",
+          "vine_limb_lower_r",
+          "vine_limb_lower_l",
+          "torso",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 9
       }
@@ -122,6 +145,10 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "vine_limb_upper_r",
+          "vine_limb_upper_l",
+          "vine_limb_lower_r",
+          "vine_limb_lower_l",
           "torso",
           "head"
         ],
@@ -168,7 +195,17 @@
           { "type": "wood", "covered_by_mat": 100, "thickness": 4.5 },
           { "type": "wood", "covered_by_mat": 50, "thickness": 5.5 }
         ],
-        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "head" ],
+        "covers": [
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "vine_limb_upper_r",
+          "vine_limb_upper_l",
+          "vine_limb_lower_r",
+          "vine_limb_lower_l",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 8
       },
@@ -223,6 +260,10 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "vine_limb_upper_r",
+          "vine_limb_upper_l",
+          "vine_limb_lower_r",
+          "vine_limb_lower_l",
           "torso",
           "head"
         ],
@@ -568,6 +609,54 @@
     ]
   },
   {
+    "id": "integrated_rabbitfur",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "rabbit fur" },
+    "description": "Soft, fluffy fur for a soft, fluffy rabbit.",
+    "weight": "350 g",
+    "volume": "350 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "white",
+    "warmth": 12,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "animal_paw_rabbit_l",
+          "animal_paw_rabbit_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "tail"
+        ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "mouth", "muzzle" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_lynx_fur",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -634,6 +723,12 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "insect_hand_l",
+          "insect_hand_r",
           "torso",
           "head",
           "tail"
@@ -694,6 +789,12 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "insect_hand_l",
+          "insect_hand_r",
           "torso",
           "head",
           "tail"
@@ -755,6 +856,12 @@
           "leg_r",
           "arm_l",
           "arm_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "insect_hand_l",
+          "insect_hand_r",
           "torso",
           "head",
           "tail"
@@ -846,8 +953,18 @@
           "animal_paw_r",
           "leg_l",
           "leg_r",
+          "leg_crab_front_l",
+          "leg_crab_front_r",
+          "leg_crab_rear_l",
+          "leg_crab_rear_r",
           "arm_l",
           "arm_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "insect_hand_l",
+          "insect_hand_r",
           "torso",
           "head",
           "tail"
@@ -906,15 +1023,24 @@
       },
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 95,
         "encumbrance": 2
       },
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 95,
         "encumbrance": 3
       },
@@ -934,7 +1060,7 @@
       },
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 } ],
-        "covers": [ "hand_l", "hand_r", "crustacean_pincer_r" ],
+        "covers": [ "hand_l", "hand_r", "crustacean_pincer_r", "insect_hand_l", "insect_hand_r" ],
         "coverage": 85,
         "encumbrance": 3
       },
@@ -942,6 +1068,12 @@
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 } ],
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
+        "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 95,
         "encumbrance": 3
       }
     ]
@@ -987,15 +1119,24 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.6 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 95,
         "encumbrance": 1
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.5 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 95,
         "encumbrance": 2
       },
@@ -1024,6 +1165,12 @@
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 95,
+        "encumbrance": 3
       }
     ]
   },
@@ -1068,15 +1215,24 @@
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.6 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.4 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 90,
         "encumbrance": 7
       },
@@ -1134,15 +1290,24 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.3 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 100,
         "encumbrance": 4
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 90,
         "encumbrance": 5
       },
@@ -1239,15 +1404,24 @@
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.1 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 100,
         "encumbrance": 8
       },
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.9 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 90,
         "encumbrance": 9
       },
@@ -1275,6 +1449,12 @@
         "covers": [ "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r" ],
         "coverage": 90,
         "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.3 } ],
+        "covers": [ "leg_crab_front_l", "leg_crab_front_r", "leg_crab_rear_l", "leg_crab_rear_r" ],
+        "coverage": 100,
+        "encumbrance": 8
       }
     ]
   },
@@ -1310,15 +1490,24 @@
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [
+          "arm_upper_l",
+          "arm_lower_l",
+          "arm_upper_r",
+          "arm_lower_r",
+          "arm_insect_upper_l",
+          "arm_insect_lower_l",
+          "arm_insect_upper_r",
+          "arm_insect_lower_r"
+        ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.4 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "covers": [ "arm_l", "arm_r", "arm_insect_l", "arm_insect_r", "arm_insect_good_l", "arm_insect_good_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r", "arm_insect_elbow_l", "arm_insect_elbow_r" ],
         "coverage": 90,
         "encumbrance": 6
       },
@@ -1615,7 +1804,7 @@
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 0
       }
     ]
   },
@@ -2094,5 +2283,250 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "integrated_bio_robofac_xmleg",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-LEG (off)" },
+    "description": "The Hub 01 Lower Extremity Gaitframe, or LEG, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your legs, with anchoring pins implanted deep into the sides of your hips, femurs, and knees, twisting at the lower leg into a metal plate with pins anchored to your shin bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame covering the knee and lower leg has clips custom-fit for Hub 01 greaves, and there is a hip-mounted battery compartment.  When powered, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 20kg of extra weight.  Unpowered, they are a significant burden.  Activate them to toggle power.",
+    "weight": "1600 g",
+    "volume": "5000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "environmental_protection": 0,
+    "warmth": 5,
+    "flags": [
+      "SKINTIGHT",
+      "INTEGRATED",
+      "CAN_USE_IN_DARK",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "COMBAT_TOGGLEABLE",
+      "STURDY",
+      "WATER_FRIENDLY",
+      "MUNDANE",
+      "PADDED",
+      "TRADER_AVOID"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 200,
+        "description": "Clips for armored greaves.",
+        "item_restriction": [
+          "robofac_basic_greaves",
+          "robofac_rubber_greaves",
+          "robofac_nomex_greaves",
+          "robofac_kevlar_greaves",
+          "robofac_military_greaves"
+        ]
+      },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You activate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg_on" }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.15 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "add": 20000 }
+        ]
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "integrated_bio_robofac_xmleg_on",
+    "copy-from": "integrated_bio_robofac_xmleg",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-LEG (on)" },
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" }
+    ],
+    "power_draw": "37 W",
+    "revert_to": "integrated_bio_robofac_xmleg"
+  },
+  {
+    "id": "integrated_bio_robofac_xmarm",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-ARM (off)" },
+    "description": "The Hub 01 Arm Reinforcement Motionframe, or ARM, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your arms and hands, with anchoring pins implanted deep into your joints and bones, twisting at the wrist into a thin, glove-like matrix of implanted steel.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment and the elbows and lower arms have clips custom-fit for Hub 01 vambraces.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Unpowered, they are a significant burden.  Activate them to toggle power.",
+    "weight": "1600 g",
+    "volume": "5000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "environmental_protection": 0,
+    "warmth": 5,
+    "flags": [
+      "SKINTIGHT",
+      "INTEGRATED",
+      "CAN_USE_IN_DARK",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "COMBAT_TOGGLEABLE",
+      "STURDY",
+      "WATER_FRIENDLY",
+      "MUNDANE",
+      "PADDED",
+      "TRADER_AVOID"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "3 kg",
+        "moves": 200,
+        "description": "Clips for armored vambraces.",
+        "item_restriction": [
+          "robofac_basic_vambraces",
+          "robofac_rubber_vambraces",
+          "robofac_nomex_vambraces",
+          "robofac_kevlar_vambraces",
+          "robofac_military_vambraces"
+        ]
+      },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You activate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm_on" }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.1 },
+          { "value": "THROW_STR", "multiply": 0.5 },
+          { "value": "THROW_DAMAGE", "multiply": 0.25 }
+        ]
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "integrated_bio_robofac_xmarm_on",
+    "copy-from": "integrated_bio_robofac_xmarm",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-ARM (on)" },
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm" }
+    ],
+    "power_draw": "37 W",
+    "revert_to": "integrated_bio_robofac_xmarm"
+  },
+  {
+    "id": "integrated_bio_robofac_xmback",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-BACK (off)" },
+    "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along the back of your shoulders, your spine, and upper waist, with anchoring pins implanted deep into your joints and bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment at the lower back.  When powered, your frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absorb recoil.  Unpowered, it is a significant burden.  Activate it to toggle power.",
+    "weight": "1600 g",
+    "volume": "5000 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "environmental_protection": 0,
+    "warmth": 5,
+    "flags": [
+      "SKINTIGHT",
+      "INTEGRATED",
+      "CAN_USE_IN_DARK",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "COMBAT_TOGGLEABLE",
+      "STURDY",
+      "WATER_FRIENDLY",
+      "MUNDANE",
+      "PADDED",
+      "TRADER_AVOID"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "torso" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You activate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback_on" }
+    ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ACTIVE",
+        "values": [
+          { "value": "CARRY_WEIGHT", "multiply": 0.35 },
+          { "value": "RECOIL_MODIFIER", "multiply": -0.05 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.05 },
+          { "value": "THROW_STR", "multiply": 0.05 },
+          { "value": "THROW_DAMAGE", "multiply": 0.05 }
+        ]
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "integrated_bio_robofac_xmback_on",
+    "copy-from": "integrated_bio_robofac_xmback",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 XM-BACK (on)" },
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
+    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "torso" ] } ],
+    "use_action": [
+      { "type": "transform", "msg": "You deactivate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback" }
+    ],
+    "power_draw": "37 W",
+    "revert_to": "integrated_bio_robofac_xmback"
   }
 ]

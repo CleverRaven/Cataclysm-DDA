@@ -17,6 +17,19 @@
     "value": "mega_mega_city"
   },
   {
+    "id": "FAKE_UNUSED_FLAG",
+    "type": "json_flag",
+    "name": "",
+    "//COMMENT": "Fake flag used for an empty whitelist."
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter",
+    "copy-from": "Evac Shelter",
+    "//COMMENT": "Oops! Not so unused now, are you? Well we need to spawn somewhere, so this will have to do. For now.",
+    "extend": { "flags": [ "FAKE_UNUSED_FLAG" ] }
+  },
+  {
     "type": "region_settings",
     "id": "mega_mega_city",
     "copy-from": "default",
@@ -26,7 +39,13 @@
     "forests": null,
     "lakes": null,
     "highways": null,
-    "cities": "mega_mega_city_settings"
+    "cities": "mega_mega_city_settings",
+    "feature_flag_settings": { "extend": { "whitelist": [ "FAKE_UNUSED_FLAG" ] } }
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "evacuee" ]
   },
   {
     "type": "EXTERNAL_OPTION",

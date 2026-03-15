@@ -2077,29 +2077,47 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
         return;
     }
     map &here = get_map();
+
+    struct queued_node {
+        tripoint_abs_ms pos;
+        horde_map::node_type node;
+    };
+    std::vector<queued_node> to_spawn;
     for( std::unordered_map<tripoint_abs_ms, horde_entity> *monster_tree : monster_bucket ) {
-        for( std::pair<const tripoint_abs_ms, horde_entity> &monster_entry : *monster_tree ) {
-            const tripoint_bub_ms local = here.get_bub( monster_entry.first );
-            // The monster position must be local to the main map when added to the game
-            if( !spawn_nonlocal ) {
-                cata_assert( here.inbounds( local ) );
-            }
-            // TODO: This needs to verify that the monster can be placed, otherwise it will fail with a debugmsg in creature_tracker::add()
-            monster *placed = nullptr;
-            if( monster_entry.second.monster_data ) {
-                placed = g->place_critter_around( make_shared_fast<monster>
-                                                  ( *monster_entry.second.monster_data ),
-                                                  local, 1, true );
-                // TODO: make sure entity data such as destination is synched
-            } else {
-                placed = g->place_critter_around( monster_entry.second.type_id->id, local, 1 );
-            }
-            if( placed ) {
-                placed->on_load();
-            }
+        for( auto it = monster_tree->begin(); it != monster_tree->end(); ) {
+            auto cur = it++;
+            tripoint_abs_ms pos = cur->first;
+            to_spawn.push_back( queued_node{ pos, monster_tree->extract( cur ) } );
         }
     }
     om.hordes.clear_chunk( current_submap_loc );
+
+    // Deterministic order, preserving bucket sequence as tie-break.
+    std::stable_sort( to_spawn.begin(), to_spawn.end(),
+    []( const queued_node & a, const queued_node & b ) {
+        return a.pos < b.pos;
+    } );
+
+    for( queued_node &entry : to_spawn ) {
+        const tripoint_bub_ms local = here.get_bub( entry.pos );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
+        monster *placed = nullptr;
+        if( entry.node.mapped().monster_data ) {
+            placed = g->place_critter_around( make_shared_fast<monster>(
+                                                  *entry.node.mapped().monster_data ),
+                                              local, 1, true );
+            // TODO: make sure entity data such as destination is synched
+        } else {
+            placed = g->place_critter_around( entry.node.mapped().type_id->id, local, 1 );
+        }
+        if( placed ) {
+            placed->on_load();
+        } else {
+            om.hordes.insert( std::move( entry.node ) );
+        }
+    }
 }
 
 void overmapbuffer::spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count )

@@ -39,7 +39,7 @@
     "type": "talk_topic",
     "id": "COMP_LS_SD_Download_Data",
     "//": "for Rubik's quest to download the data",
-    "dynamic_line": "&The screen starts to auto-populate with green text, and the process speeds up rapidly until it is just a blur.  It suddenly stops and the terminal beeps - you then here a ka-thunk as the storage device is ejected from the machine.",
+    "dynamic_line": "&The screen starts to auto-populate with green text, and the process speeds up rapidly until it is just a blur.  It suddenly stops and the terminal beeps - you then hear a ka-thunk as the storage device is ejected from the machine.",
     "responses": [
       {
         "text": "[Take the Exodii electronic storage device]",

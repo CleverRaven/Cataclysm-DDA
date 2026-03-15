@@ -158,6 +158,25 @@
     }
   },
   {
+    "type": "terrain",
+    "id": "t_string_gates_mech_control_inert",
+    "name": "rotary lever",
+    "description": "A heavy-duty metal lever with two settings, each marked by an alien symbol.  Toggling it back and forth does nothing.",
+    "symbol": "6",
+    "color": "cyan_red",
+    "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [ { "item": "mc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
     "type": "gate",
     "id": "t_string_gates_mech_control",
     "door": "t_door_metal_locked",
@@ -183,5 +202,25 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_distress_beacon",
+    "name": "scrap metal thing",
+    "looks_like": "t_scrap_wall",
+    "description": "Part of a structure that almost looks like a small version of Earth's lunar lander.  It has exposed electronics and deployed stabilizers made of cobbled together scrap metal.  The ground at its feet appears to have been scorched long ago.",
+    "symbol": "-",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal crying!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
+    }
   }
 ]

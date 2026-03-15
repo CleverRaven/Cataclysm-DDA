@@ -1,11 +1,14 @@
+#include <climits>
 #include <functional>
 #include <initializer_list>
+#include <list>
 #include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_item_handling.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -34,8 +37,11 @@ static const itype_id itype_556( "556" );
 static const itype_id itype_ammolink223( "ammolink223" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
+static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_chem_washing_soda( "chem_washing_soda" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
+static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
 static const itype_id itype_test_milk( "test_milk" );
 static const itype_id
 itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
@@ -47,6 +53,7 @@ static const ter_str_id ter_t_wall( "t_wall" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
+static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
@@ -1037,8 +1044,8 @@ TEST_CASE( "zone_sorting_adjacent_ground_delivery",
     CHECK( !dummy.activity );
 }
 
-// Terrain UNSORTED zone should only sort ground items, not vehicle cargo.
-// Vehicle parked on the same tile should have its cargo left untouched.
+// Terrain UNSORTED zone with grabbed cart at source: ground items get sorted,
+// but the grabbed cart's cargo is protected (used for transport, not as source).
 TEST_CASE( "zone_sorting_vehicle_on_terrain_unsorted_both_items",
            "[zones][items][activities][sorting][vehicle]" )
 {
@@ -1100,7 +1107,9 @@ TEST_CASE( "zone_sorting_vehicle_on_terrain_unsorted_both_items",
     CHECK( !dummy.activity );
 }
 
-// Vehicle UNSORTED zone should only sort vehicle cargo items, not ground items.
+// Vehicle UNSORTED zone with grabbed cart: vehicle zone lets cart cargo be
+// sorted (user explicitly marked the cart). Ground items also eligible since
+// any unsorted zone makes all items at the tile sortable.
 TEST_CASE( "zone_sorting_vehicle_unsorted_zone_ground_items_ignored",
            "[zones][items][activities][sorting][vehicle]" )
 {
@@ -1155,9 +1164,11 @@ TEST_CASE( "zone_sorting_vehicle_unsorted_zone_ground_items_ignored",
     dummy.assign_activity( zone_sort_activity_actor() );
     process_activity( dummy );
 
-    // Vehicle cargo sorted, ground item untouched
-    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
-    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    // Both vehicle cargo and ground items sorted (vehicle zone present,
+    // so cart cargo is not protected; ground items always eligible)
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );
     CHECK( !dummy.activity );
 }
 
@@ -1218,6 +1229,71 @@ TEST_CASE( "zone_sorting_both_zones_at_same_position",
     process_activity( dummy );
 
     // All items sorted
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );
+    CHECK( !dummy.activity );
+}
+
+// Terrain-only UNSORTED zone with a non-grabbed vehicle (like a parked van):
+// vehicle cargo should be sorted alongside ground items.
+TEST_CASE( "zone_sorting_terrain_zone_sorts_non_grabbed_vehicle_cargo",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source tile south
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    // Create terrain UNSORTED zone BEFORE spawning vehicle
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Spawn a vehicle at source but do NOT grab it (simulates a parked van)
+    vehicle *van = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                     src_pos, 0_degrees, 0, 0 );
+    REQUIRE( van != nullptr );
+    van->set_owner( dummy );
+    // No grab - this is a parked vehicle
+
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.cache_vzones();
+    REQUIRE( mgr.has_terrain( zone_type_LOOT_UNSORTED, src_abs ) );
+    REQUIRE( !mgr.has_vehicle( zone_type_LOOT_UNSORTED, src_abs ) );
+
+    // Destination: terrain LOOT_FOOD zone adjacent
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Place items on ground AND in vehicle cargo
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    std::optional<vpart_reference> cargo = here.veh_at( src_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    cargo->vehicle().add_item( here, cargo->part(), item( itype_test_apple ) );
+
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Both ground and vehicle cargo items sorted (no grab, so no cart
+    // protection - terrain zone sorts everything at the tile)
     CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 2 );
     CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
     CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 0 );
@@ -1419,4 +1495,833 @@ TEST_CASE( "zone_sorting_batches_into_grabbed_vehicle",
         total += count_items_or_charges( cart_pos, itype_test_apple, cargo );
     }
     CHECK( total == 20 );
+}
+
+// When both vehicle cargo and ground at the destination are full, items should
+// stay at the source rather than overflowing to adjacent tiles.
+TEST_CASE( "zone_sorting_adjacent_dest_both_full",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source south of player with UNSORTED zone
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Destination east of player with cart and LOOT_FOOD zone
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      dest_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::east );
+
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Fill vehicle cargo to capacity
+    std::optional<vpart_reference> cargo = here.veh_at( dest_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 700; i++ ) {
+        item filler( itype_test_apple );
+        if( !cargo->vehicle().add_item( here, cargo->part(), filler ) ) {
+            break;
+        }
+    }
+    REQUIRE( cargo->items().free_volume() < item( itype_test_apple ).volume() );
+
+    // Fill ground at destination to capacity (bypass capacity checks)
+    const item filler_item( itype_test_apple );
+    while( here.free_volume( dest_pos ) >= filler_item.volume() ) {
+        here.add_item( dest_pos, filler_item );
+    }
+    REQUIRE( here.free_volume( dest_pos ) < filler_item.volume() );
+
+    // Place food at source
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item stays at source - dest was completely full
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    CHECK( !dummy.activity );
+
+    // No items spilled onto adjacent tiles (excluding src which has 1 apple)
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            const tripoint_bub_ms neighbor = dest_pos + tripoint( dx, dy, 0 );
+            if( neighbor == src_pos || neighbor == start_pos ) {
+                continue;
+            }
+            CHECK( here.i_at( neighbor ).empty() );
+        }
+    }
+}
+
+// When a ground-only destination is full, items stay at source.
+TEST_CASE( "zone_sorting_adjacent_ground_dest_full",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source south with UNSORTED zone
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Destination north with LOOT_FOOD zone (no vehicle)
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::north;
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    // Fill ground at destination
+    const item filler_item( itype_test_apple );
+    while( here.free_volume( dest_pos ) >= filler_item.volume() ) {
+        here.add_item( dest_pos, filler_item );
+    }
+    REQUIRE( here.free_volume( dest_pos ) < filler_item.volume() );
+
+    // Place food at source
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Item stays at source
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    CHECK( !dummy.activity );
+
+    // No spill to adjacent tiles
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            const tripoint_bub_ms neighbor = dest_pos + tripoint( dx, dy, 0 );
+            if( neighbor == src_pos || neighbor == start_pos ) {
+                continue;
+            }
+            CHECK( here.i_at( neighbor ).empty() );
+        }
+    }
+}
+
+// Vehicle-only zone with full cargo: item stays at source, no ground fallback.
+TEST_CASE( "zone_sorting_vehicle_dest_cargo_full_ground_fallback",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Source south with UNSORTED
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+
+    // Cart east with vehicle-bound LOOT_FOOD zone, cargo full
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::east;
+    const tripoint_abs_ms cart_abs = here.get_abs( cart_pos );
+    here.ter_set( cart_pos, ter_t_floor );
+
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      cart_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::east );
+
+    // Vehicle-bound zone
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, cart_abs, true );
+
+    // Fill cargo
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 700; i++ ) {
+        item filler( itype_test_apple );
+        if( !cargo->vehicle().add_item( here, cargo->part(), filler ) ) {
+            break;
+        }
+    }
+    REQUIRE( cargo->items().free_volume() < item( itype_test_apple ).volume() );
+
+    // Place food at source
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Vehicle-only zone with full cargo: item stays at source, no ground fallback
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    CHECK( count_items_or_charges( cart_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( !dummy.activity );
+}
+
+// When a terrain-bound zone (e.g. LOOT_FOOD) sits on a tile with a vehicle
+// appliance (e.g. fridge/cart), items in vehicle cargo should be recognized as
+// "already sorted" and not re-picked. Without the fix, sort_skip_item only
+// checks has_terrain for ground items and has_vehicle for cargo items, so cargo
+// items at a terrain-bound zone are never skipped, causing an infinite loop.
+TEST_CASE( "zone_sorting_terrain_zone_vehicle_cargo_no_loop",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    // Cart south of player with terrain-bound UNSORTED + LOOT_FOOD zones
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_abs_ms src_abs = here.get_abs( src_pos );
+    here.ter_set( src_pos, ter_t_floor );
+
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      src_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::south );
+
+    // Terrain-bound zones (default veh=false). This is the bug scenario:
+    // zone binding is terrain, but items are in vehicle cargo.
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, src_abs );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, src_abs );
+
+    // Place food in cart cargo
+    std::optional<vpart_reference> cargo = here.veh_at( src_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    cargo->vehicle().add_item( here, cargo->part(), item( itype_test_apple ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+
+    // Bounded loop: process_activity would hang on the infinite loop bug
+    int turns = 0;
+    const int max_turns = 20;
+    do {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+        turns++;
+    } while( dummy.activity && turns < max_turns );
+
+    REQUIRE( turns < max_turns );
+    CHECK( !dummy.activity );
+
+    // Food stays in cart cargo (recognized as already at LOOT_FOOD destination)
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, cargo ) == 1 );
+    // No duplication on ground
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+}
+
+// When source has items going to different zone types (FOOD vs DRINK), the
+// activity should sort ALL of them across multiple internal passes, not just
+// the first batch. The bug: after delivering one batch, num_processed is not
+// reset when picked_up_stuff empties. The repopulated items list is shorter
+// (delivered items removed), so the stale offset overshoots and the remaining
+// items are never seen. The source gets erased and the activity terminates
+// with "sorted out every item possible" while items still remain.
+TEST_CASE( "zone_sorting_multi_dest_processes_all_items",
+           "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    // Layout: dest1 is 1 tile north of source, player 1 tile south.
+    // When the sort picks up the first item (apple, destined for PFOOD
+    // at dest1) and routes to adjacent(dest1), the A* finds source tile
+    // (60,60) as the closest qualifying neighbor. The player teleports
+    // there, drops the apple at dest1, and resumes stage_do still
+    // adjacent to source. The stale num_processed offset (incremented
+    // when the second item was skipped for having a different dest)
+    // causes the items loop to start past the remaining item.
+    //
+    //   dest1 (PFOOD)    (60,59)
+    //   source (UNSORTED) (60,60)   <-- A* endpoint: adj to dest1
+    //   player start      (60,61)
+    //
+    //   dest2 (FOOD) far away at (55,60)
+
+    const tripoint_bub_ms start_pos( 60, 61, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    const tripoint_bub_ms src_pos( 60, 60, 0 );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+
+    // PFOOD dest: 1 tile north of source. Route from player (60,61) to
+    // adj(60,59) finds source (60,60) as closest qualifying tile (dist 1).
+    // Player ends up at source after delivery -- still adjacent, no THINK reset.
+    const tripoint_bub_ms pfood_pos( 60, 59, 0 );
+    here.ter_set( pfood_pos, ter_t_floor );
+    create_tile_zone( "PFood", zone_type_LOOT_PFOOD, here.get_abs( pfood_pos ) );
+
+    // FOOD dest: far away so it's not adjacent from the delivery endpoint
+    const tripoint_bub_ms food_pos( 55, 60, 0 );
+    here.ter_set( food_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( food_pos ) );
+
+    // test_apple -> LOOT_PFOOD (perishable), test_bitter_almond -> LOOT_FOOD
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+    here.add_item_or_charges( src_pos, item( itype_test_bitter_almond ) );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+    REQUIRE( count_items_or_charges( src_pos, itype_test_bitter_almond, std::nullopt ) == 1 );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+
+    // Simulate auto-move via teleport. route_to_destination nulls the activity
+    // and sets destination_point; we teleport there and restart.
+    int teleports = 0;
+    const int max_teleports = 30;
+    do {
+        int turns = 0;
+        while( dummy.activity && turns < 200 ) {
+            dummy.mod_moves( dummy.get_speed() );
+            while( dummy.get_moves() > 0 && dummy.activity ) {
+                dummy.activity.do_turn( dummy );
+            }
+            turns++;
+        }
+        if( dummy.destination_point ) {
+            dummy.setpos( here, here.get_bub( *dummy.destination_point ) );
+            if( dummy.has_destination_activity() ) {
+                dummy.start_destination_activity();
+            } else {
+                dummy.clear_destination();
+            }
+            teleports++;
+        }
+    } while( ( dummy.activity || dummy.destination_point ) && teleports < max_teleports );
+
+    REQUIRE( teleports < max_teleports );
+
+    // Both items should be gone from source - sorted to their destinations
+    CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+    CHECK( count_items_or_charges( src_pos, itype_test_bitter_almond, std::nullopt ) == 0 );
+}
+
+// Without a grabbed vehicle, zone sorting should stop picking up items once
+// carried weight exceeds the player's weight capacity.  Prevents the player
+// from overloading themselves while auto-sorting.
+TEST_CASE( "zone_sorting_no_grab_weight_gate",
+           "[zones][items][activities][sorting][weight]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    // Backpack for stashing items (large volume, won't be the bottleneck)
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // Use a below-average STR to cover weaker characters (Refugee Center
+    // beggars and similar NPCs can have very poor stats).
+    // str 6: weight_capacity = 13 + 6*4 = 37 kg.
+    // Each boulder is 10 kg.  After picking up 3 (30 kg), the fourth would
+    // push carried weight to 40 kg > 37 kg, so the weight gate should block it.
+    dummy.set_str_base( 6 );
+    dummy.set_str_bonus( 0 );
+    const int num_boulders = 5;
+
+    // Source: UNSORTED at player position
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    here.ter_set( start_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    for( int i = 0; i < num_boulders; i++ ) {
+        here.add_item_or_charges( start_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    // Destination: LOOT_FOOD 8 tiles south (non-adjacent, forces pickup-then-route)
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    for( int y = start_pos.y(); y <= dest_pos.y(); ++y ) {
+        here.ter_set( tripoint_bub_ms( start_pos.x(), y, 0 ), ter_t_floor );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Weight gate should have blocked some items from being picked up.
+    const int remaining = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
+    int carried = 0;
+    dummy.visit_items( [&carried]( const item * it, const item * ) {
+        if( it->typeId() == itype_test_heavy_boulder ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    CAPTURE( remaining );
+    CAPTURE( carried );
+    CAPTURE( dummy.weight_carried().value() );
+    CAPTURE( dummy.weight_capacity().value() );
+    // Should have picked up some but not all
+    CHECK( carried > 0 );
+    CHECK( carried < num_boulders );
+    CHECK( remaining > 0 );
+    // Carried weight should be at or below capacity
+    CHECK( dummy.weight_carried() <= dummy.weight_capacity() );
+}
+
+// With a grabbed cart, zone sorting should stop loading items into the cart
+// once the projected mass would exceed the player's drag strength on the
+// worst terrain tile of the delivery route.
+TEST_CASE( "zone_sorting_drag_weight_gate",
+           "[zones][items][activities][sorting][weight][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    // Low strength so the drag gate triggers at reasonable weights.
+    // str 4 -> arm_str ~4, weight_capacity = 13+16 = 29 kg
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    // Backpack for overflow items
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    // Cart adjacent to player (south) and grab it
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    // Leave terrain as grass (default from clear_map) -- no ROAD/FLAT flags,
+    // so traction is poor and drag becomes harder.
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      cart_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, tripoint_rel_ms::south );
+    REQUIRE( dummy.get_grab_type() == object_type::VEHICLE );
+
+    // Source: UNSORTED at player position (set to floor so items are accessible)
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    here.ter_set( start_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    const int num_boulders = 20;
+    for( int i = 0; i < num_boulders; i++ ) {
+        here.add_item_or_charges( start_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    // Destination: LOOT_FOOD 8 tiles south.  Route goes over grass, which
+    // has poor traction and makes dragging harder.
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int arm_str = dummy.get_arm_str();
+    CAPTURE( arm_str );
+    CAPTURE( cart->total_mass( here ).value() );
+
+    // Verify drag_str_req_at produces meaningful values on grass
+    {
+        // With just the cart's own mass, drag should be easy
+        const int easy_req = cart->drag_str_req_at( here, dest_pos );
+        CAPTURE( easy_req );
+        CHECK( easy_req <= arm_str );
+
+        // Find the threshold mass where drag gate trips
+        int threshold_kg = -1;
+        for( int extra_kg = 10; extra_kg <= 300; extra_kg += 10 ) {
+            units::mass proj = cart->total_mass( here ) + extra_kg * 1_kilogram;
+            int req = cart->drag_str_req_at( here, dest_pos, proj );
+            if( req > arm_str ) {
+                threshold_kg = extra_kg;
+                break;
+            }
+        }
+        CAPTURE( threshold_kg );
+        REQUIRE( threshold_kg > 0 );
+
+        units::mass heavy = cart->total_mass( here ) + 200_kilogram;
+        const int hard_req = cart->drag_str_req_at( here, dest_pos, heavy );
+        CAPTURE( hard_req );
+        REQUIRE( hard_req > arm_str );
+    }
+
+    // Verify worst_drag_tile_on_route works for our layout
+    {
+        std::vector<tripoint_abs_ms> test_dropoffs = { here.get_abs( dest_pos ) };
+        auto worst = zone_sorting::worst_drag_tile_on_route( dummy, test_dropoffs );
+        REQUIRE( worst.has_value() );
+        if( worst ) {
+            int req_at_worst = cart->drag_str_req_at( here, *worst,
+                               cart->total_mass( here ) + 200_kilogram );
+            CAPTURE( req_at_worst );
+            CAPTURE( worst->x() );
+            CAPTURE( worst->y() );
+            REQUIRE( req_at_worst > arm_str );
+        }
+    }
+
+    // Also directly test that drag gate would catch late items
+    {
+        units::mass after_10 = cart->total_mass( here ) + 100_kilogram;
+        std::vector<tripoint_abs_ms> test_drops = { here.get_abs( dest_pos ) };
+        auto wt = zone_sorting::worst_drag_tile_on_route( dummy, test_drops );
+        if( wt ) {
+            int req10 = cart->drag_str_req_at( here, *wt, after_10 );
+            CAPTURE( req10 );
+            // After loading 10 boulders (100kg), should exceed arm_str
+            REQUIRE( req10 > arm_str );
+        }
+    }
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    // Count items in cart cargo
+    int in_cart = 0;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    if( cargo.has_value() ) {
+        in_cart = count_items_or_charges( cart_pos, itype_test_heavy_boulder, cargo );
+    }
+    int at_source = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
+    int carried = 0;
+    dummy.visit_items( [&carried]( const item * it, const item * ) {
+        if( it->typeId() == itype_test_heavy_boulder ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    CAPTURE( in_cart );
+    CAPTURE( carried );
+    CAPTURE( at_source );
+    // Drag gate should have limited how many went into the cart.
+    // Some items may overflow to inventory (body weight gate applies there too).
+    // The key check: not all items were picked up.
+    CHECK( in_cart + carried + at_source == num_boulders );
+    CHECK( at_source > 0 );
+}
+
+static void build_open_area( map &here, const tripoint_bub_ms &center, int radius = 15 )
+{
+    for( int x = center.x() - radius; x <= center.x() + radius; x++ ) {
+        for( int y = center.y() - radius; y <= center.y() + radius; y++ ) {
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_t_floor );
+        }
+    }
+}
+
+static vehicle *setup_grabbed_cart( avatar &dummy, map &here,
+                                    const tripoint_bub_ms &player_pos,
+                                    const tripoint_rel_ms &grab_dir )
+{
+    dummy.setpos( here, player_pos );
+    dummy.clear_destination();
+
+    const tripoint_bub_ms cart_pos = player_pos + grab_dir;
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      cart_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    dummy.grab( object_type::VEHICLE, grab_dir );
+    REQUIRE( dummy.get_grab_type() == object_type::VEHICLE );
+    REQUIRE( cart->get_points().size() == 1 );
+    return cart;
+}
+
+TEST_CASE( "route_with_grab_strength_gating",
+           "[zones][pathfinding][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms dest_pos( 60, 70, 0 );
+
+    build_open_area( here, tripoint_bub_ms( 60, 65, 0 ) );
+
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::south );
+
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    const int low_str = 4;
+    dummy.set_str_base( low_str );
+    dummy.set_str_bonus( 0 );
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 200; i++ ) {
+        if( !cargo->vehicle().add_item( here, cargo->part(),
+                                        item( itype_test_heavy_boulder ) ) ) {
+            break;
+        }
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int drag_req = cart->drag_str_req_at( here, start_pos + tripoint::south );
+    CAPTURE( drag_req );
+    CAPTURE( dummy.get_arm_str() );
+    REQUIRE( drag_req > dummy.get_arm_str() );
+
+    dummy.setpos( here, start_pos + tripoint::north );
+    dummy.setpos( here, start_pos );
+    CHECK( zone_sorting::route_length( dummy, dest_pos ) == INT_MAX );
+
+    dummy.set_str_base( 20 );
+    dummy.set_str_bonus( 0 );
+    REQUIRE( dummy.get_arm_str() >= drag_req );
+
+    dummy.setpos( here, start_pos + tripoint::north );
+    dummy.setpos( here, start_pos );
+    CHECK( zone_sorting::route_length( dummy, dest_pos ) != INT_MAX );
+
+    dummy.grab( object_type::NONE );
+    clear_map_without_vision();
+}
+
+TEST_CASE( "route_cache_invalidation_on_mass_change",
+           "[zones][pathfinding][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms dest_pos( 60, 70, 0 );
+
+    build_open_area( here, tripoint_bub_ms( 60, 65, 0 ) );
+
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::south );
+
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const int len_before = zone_sorting::route_length( dummy, dest_pos );
+    CHECK( len_before != INT_MAX );
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::south;
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo.has_value() );
+    for( int i = 0; i < 200; i++ ) {
+        if( !cargo->vehicle().add_item( here, cargo->part(),
+                                        item( itype_test_heavy_boulder ) ) ) {
+            break;
+        }
+    }
+
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+
+    const int drag_req = cart->drag_str_req_at( here, cart_pos );
+    CAPTURE( drag_req );
+    CAPTURE( dummy.get_arm_str() );
+    REQUIRE( drag_req > dummy.get_arm_str() );
+
+    const int len_after = zone_sorting::route_length( dummy, dest_pos );
+    CHECK( len_after == INT_MAX );
+
+    dummy.grab( object_type::NONE );
+    zone_manager::get_manager().clear();
+    clear_map_without_vision();
+}
+
+// #85827: bottle with liquid at UNSORTED+UNLOAD_ALL tile hangs sorting.
+// unload_item unconditionally sets moved_something=true after the pocket
+// unload loops even when nothing was actually unloaded (liquid fails
+// can_unload), causing infinite nullopt re-entry in stage_do.
+TEST_CASE( "zone_sort_unload_liquid_container_hang", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos = tripoint_bub_ms::zero + tripoint::east;
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    dummy.set_pos_abs_only( start_abs );
+
+    const tripoint_bub_ms chem_pos = start_pos + tripoint( 3, 0, 0 );
+    here.ter_set( chem_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start_abs );
+    create_tile_zone( "Chemical", zone_type_LOOT_CHEMICAL, here.get_abs( chem_pos ) );
+
+    // Bottle with liquid first -- no matching food zone, so zt_id is NULL_ID
+    // but unload_item still runs (UNLOAD_ALL + empty dest_set).
+    // Chemical after -- has a valid dest, makes has_items_to_sort return true.
+    item bottle( itype_bottle_glass );
+    item milk( itype_test_milk );
+    REQUIRE( milk.made_of( phase_id::LIQUID ) );
+    REQUIRE( bottle.put_in( milk, pocket_type::CONTAINER ).success() );
+    here.add_item_or_charges( start_pos, bottle );
+    here.add_item_or_charges( start_pos, item( itype_chem_washing_soda ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
+}
+
+// Large UNSORTED zone with many empty tiles and one item adjacent to the
+// player. stage_think should prune empty sources from coord_set so it
+// reaches the tile with the item instead of re-scanning empties forever.
+TEST_CASE( "zone_sort_think_prunes_empty_sources", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+
+    // 20x20 UNSORTED zone -- 400 tiles, mostly empty
+    const tripoint_abs_ms zone_start = here.get_abs( start_pos - point( 10, 10 ) );
+    const tripoint_abs_ms zone_end = here.get_abs( start_pos + point( 9, 9 ) );
+    zone_manager &zm = zone_manager::get_manager();
+    zm.add( "Unsorted", zone_type_LOOT_UNSORTED, faction_your_followers,
+            false, true, zone_start, zone_end );
+
+    // Destination zone adjacent to player
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( dest_pos ) );
+
+    // Item at the player's tile (adjacent to dest) so process_activity
+    // can deliver it without auto-move
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
+    // Apple should have been delivered to the food zone
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
+}
+
+// Activities with multi_activity=true get auto_resume=true on assignment.
+// cancel_activity() must clear auto_resume before pushing to the backlog,
+// otherwise resume_backlog_activity() (called right after in
+// cancel_activity_query) immediately restores the activity, making it
+// impossible for the player to cancel.  Regression test for #85838/#85840.
+TEST_CASE( "cancel_activity_clears_auto_resume_for_multi_type",
+           "[zones][activities][cancel]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+
+    // unload_loot has multi_activity: true in player_activities.json,
+    // so assign_activity(actor) sets auto_resume = true.
+    dummy.assign_activity( unload_loot_activity_actor() );
+    REQUIRE( dummy.activity );
+    REQUIRE( dummy.activity.is_multi_type() );
+    REQUIRE( dummy.activity.auto_resume );
+
+    // Simulate what cancel_activity_query does when the player presses '.'
+    // and confirms: cancel_activity() followed by resume_backlog_activity().
+    dummy.cancel_activity();
+    dummy.resume_backlog_activity();
+
+    // The activity must stay cancelled -- not silently restored.
+    CHECK( !dummy.activity );
+    CHECK( ( dummy.backlog.empty() ||
+             !dummy.backlog.front().auto_resume ) );
 }

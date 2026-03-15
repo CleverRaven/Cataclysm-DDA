@@ -93,14 +93,14 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctalk.h"
 #include "npc_opinion.h"
+#include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "overmap_ui.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -126,8 +126,6 @@
 #include "uilist.h"
 #include "uistate.h"
 #include "units.h"
-#include "weather.h"
-#include "weather_type.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
@@ -137,6 +135,9 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_type.h"
+#include "wound.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -982,7 +983,7 @@ static int hack_level( const Character &who, item_location &tool )
     // tool_quality_modifier may increase or reduce the success chance of hacking
     return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
                   static_cast<float>
-                  ( who.int_cur ) / 2.0f - 8 );
+                  ( who.get_int() ) / 2.0f - 8 );
 }
 
 static hack_result hack_attempt( Character &who, item_location &tool )
@@ -3330,7 +3331,7 @@ int lockpick_activity_actor::lockpicking_moves(
         /** @EFFECT_DEX speeds up door lock picking */
         return to_moves<int>(
                    std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.get_dex() ) / 4.0f +
                                      weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }
@@ -3412,8 +3413,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
-    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
-                                          who.int_cur ) / 9.0f;
+    const float weighted_stat_average = ( 6.0f * who.get_dex() + 2.0f * who.get_per() +
+                                          who.get_int() ) / 9.0f;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
@@ -7026,7 +7027,7 @@ void robot_control_activity_actor::finish( player_activity &act, Character &who 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = who.get_skill_level( skill_computer );
-    const float randomized_skill = rng( 2, who.int_cur ) + computer_skill;
+    const float randomized_skill = rng( 2, who.get_int() ) + computer_skill;
     float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
@@ -10037,7 +10038,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
 
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) ) {
+    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.get_per() - 2 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos_bub(), calendar::turn );
         // map::put_items_from_loc can create multiple items and merge them into one stack.
@@ -10207,6 +10208,92 @@ std::unique_ptr<activity_actor> mend_item_activity_actor::deserialize( JsonValue
 
     data.read( "mended_item", actor.mended_item );
     data.read( "mended_fault", actor.mended_fault );
+    data.read( "mending_method", actor.mending_method );
+
+    return actor.clone();
+}
+
+void fix_wound_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( initial_moves );
+    act.moves_left = act.moves_total;
+}
+
+void fix_wound_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    bodypart *bp = who.get_part( healed_bp );
+
+    if( !bp->has_wound( mended_wound ) ) {
+        // wound naturally disappeared while we tried to treat it
+        return;
+    }
+    if( mending_method.is_empty() ) {
+        debugmsg( "missing wound fix for ACT_TREAT_WOUND." );
+        return;
+    }
+    if( !mending_method.is_valid() ) {
+        debugmsg( "invalid wound fix '%s' for ACT_TREAT_WOUND.", mending_method.str() );
+        return;
+    }
+    const wound_fix &fix = *mending_method;
+    const requirement_data &reqs = fix.get_requirements();
+    const inventory &inv = who.crafting_inventory();
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+        add_msg( m_info, _( "You are currently unable to heal the %s." ), healed_bp->name.translated() );
+        return;
+    }
+    for( const auto &e : reqs.get_components() ) {
+        who.consume_items( e );
+    }
+    for( const auto &e : reqs.get_tools() ) {
+        who.consume_tools( e );
+    }
+    who.invalidate_crafting_inventory();
+
+    for( const wound_type_id &id : fix.wounds_removed ) {
+        bp->remove_wound( id );
+    }
+
+    for( const wound_type_id &id : fix.wounds_added ) {
+        bp->add_wound( id );
+    }
+
+    if( fix.mod_hp ) {
+        bp->mod_hp_cur( fix.mod_hp );
+    }
+
+    for( const auto& [skill_id, level] : fix.skills ) {
+        who.practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+    }
+
+    for( const wound_proficiency &wound_prof : fix.proficiencies ) {
+        who.practice_proficiency( wound_prof.prof, fix.time );
+    }
+
+    add_msg( m_good, fix.success_msg.translated() );
+}
+
+void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "healed_bp", healed_bp );
+    jsout.member( "mended_wound", mended_wound );
+    jsout.member( "mending_method", mending_method );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> fix_wound_activity_actor::deserialize( JsonValue &jsin )
+{
+    fix_wound_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "healed_bp", actor.healed_bp );
+    data.read( "mended_wound", actor.mended_wound );
     data.read( "mending_method", actor.mending_method );
 
     return actor.clone();
@@ -11676,7 +11763,7 @@ void fire_start_activity_actor::do_turn( player_activity &act, Character &who )
     map &here = get_map();
     tripoint_bub_ms where = here.get_bub( fire_placement );
     if( !here.is_flammable( where ) ) {
-        try_fuel_fire( act, who, true );
+        try_fuel_fire( who, where );
         if( !here.is_flammable( where ) ) {
             if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, where ) ||
                 here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, where ) ) {
@@ -13111,6 +13198,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     // in stage_do when items are picked up from the new source.
     dropoff_coords.clear();
     picked_up_stuff.clear();
+    drag_worst_tile.reset();
 
     // Clear unreachable_sources when position or grab state changed -
     // both affect which tiles are reachable. force_clear_unreachable handles
@@ -13171,6 +13259,19 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             best_route = 0;
         } else {
             const int dist = zone_sorting::route_length( you, p_bub );
+            // Budget: each route probe costs 1 move to prevent unbounded
+            // A* work in a single frame. Charged before the INT_MAX check
+            // because unreachable probes explore the full search space.
+            you.mod_moves( -1 );
+            if( you.get_moves() <= 0 ) {
+                if( dist != INT_MAX ) {
+                    computed.emplace_back( dist, candidates[i].second );
+                } else {
+                    unreachable_sources.emplace( candidates[i].second );
+                }
+                cutoff = i + 1;
+                break;
+            }
             if( dist == INT_MAX ) {
                 unreachable_sources.emplace( candidates[i].second );
                 continue;
@@ -13220,6 +13321,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         bool ignore_contents = zone_sorting::ignore_contents( you, src );
 
         if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
+            coord_set.erase( src );
             continue;
         }
 
@@ -13242,12 +13344,11 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         }
 
         if( !has_items_to_work_on ) {
+            coord_set.erase( src );
             continue;
         }
 
         bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
-        // before we move any item, check if player is at or
-        // adjacent to the loot source tile
         if( !is_adjacent_or_closer ) {
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "zone_sort THINK: routing to source (%d,%d,%d) from (%d,%d)",
@@ -13266,6 +13367,12 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                        src.x(), src.y(), src.z() );
         stage = DO;
         break;
+    }
+    if( stage != DO && !coord_set.empty() ) {
+        // Remaining entries are filtered by unreachable_sources, have
+        // full destinations, or were past the route probe cutoff.
+        // Clear so the activity ends cleanly instead of re-scanning.
+        coord_set.clear();
     }
     return true;
 }
@@ -13369,11 +13476,30 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                         return;
                     }
 
-                    // FIXME HACK: teleports item onto ground
-                    you.mod_moves( -you.item_handling_cost( **iter ) );
-                    std::vector<item_location> dropped_crap = put_into_vehicle_or_drop_ret_locs( you,
-                            item_drop_reason::deliberate, { **iter }, here.get_bub( drop_dest ) );
-                    if( !dropped_crap.empty() ) {
+                    // Place item at destination directly. Zone binding
+                    // determines the fallback chain: vehicle-only zones skip
+                    // ground, everything else tries cargo then ground.
+                    const zone_type_id drop_zt = mgr.get_near_zone_type_for_item( **iter,
+                                                 drop_dest, 0, fac_id );
+                    const bool vehicle_only = drop_zt != zone_type_id::NULL_ID() &&
+                                              mgr.has_vehicle( drop_zt, drop_dest, fac_id ) &&
+                                              !mgr.has_terrain( drop_zt, drop_dest, fac_id );
+                    bool placed = false;
+                    const tripoint_bub_ms drop_bub = here.get_bub( drop_dest );
+                    if( std::optional<vpart_reference> ovp = here.veh_at( drop_bub ).cargo() ) {
+                        item copy( **iter );
+                        if( ovp->vehicle().add_item( here, ovp->part(), copy ) ) {
+                            placed = true;
+                        }
+                    }
+                    if( !placed && !vehicle_only ) {
+                        item copy( **iter );
+                        item_location ground = here.add_item_or_charges_ret_loc(
+                                                   drop_bub, copy, false );
+                        placed = ground.get_item() != nullptr;
+                    }
+                    if( placed ) {
+                        you.mod_moves( -you.item_handling_cost( **iter ) );
                         if( const vehicle_cursor *veh_curs = iter->veh_cursor() ) {
                             vehicle &cart_with_items = veh_curs->veh;
                             cart_with_items.remove_item( cart_with_items.part( veh_curs->part ), iter->get_item() );
@@ -13430,20 +13556,17 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 return_items_to_source( you, src_bub );
                 unreachable_sources.emplace( src );
                 stage = THINK;
+                you.mod_moves( -1 );
             }
             return;
         }
     }
 
-    // Rotate virtual-batch state when a batch has been fully delivered.
+    // Reset iteration state when a batch has been fully delivered.
     // Must happen before items.begin() + num_processed arithmetic below.
-    bool had_virtual_batch = false;
     if( picked_up_stuff.empty() ) {
-        had_virtual_batch = virtual_pickup_active;
         virtual_pickup_active = false;
-        if( had_virtual_batch ) {
-            num_processed = 0;
-        }
+        num_processed = 0;
     }
 
     bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
@@ -13454,6 +13577,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                        "zone_sort DO: NOT adjacent to src (dist=%d), back to THINK",
                        square_dist( you.pos_bub(), src_bub ) );
         stage = THINK;
+        you.mod_moves( -1 );
         return;
     }
 
@@ -13462,14 +13586,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     zone_sorting::unload_sort_options zone_unload_options = zone_sorting::set_unload_options( you, src,
             false );
 
-    // Which UNSORTED zone types exist at src? Items only participate in
-    // sorting if the source zone matches their binding (vehicle vs terrain).
-    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
-    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
-
     const std::optional<vpart_reference> vp = here.veh_at( src_bub ).cargo();
+
+    // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
+    // zone), it's being used for transport - don't re-sort its cargo.
+    // If there IS a vehicle zone on the cart, the user explicitly wants
+    // the cart's cargo sorted.
+    const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
+    bool skip_cart_cargo = false;
+    if( !src_has_vehicle_unsorted && you.is_avatar() &&
+        you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+        const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
+        skip_cart_cargo = ( cart_pos == src_bub );
+    }
+
     // Track whether any sortable item failed pickup due to carry/cart capacity.
     bool cart_or_carry_blocked = false;
+    // Track whether the drag gate specifically blocked any item (no first-item
+    // exception, so items can be permanently unsortable via cart).
+    bool drag_gate_fired = false;
+    // Track whether the knock-down gate blocked any item (item so heavy it
+    // would cause the character to collapse under its weight).
+    bool knockdown_gate_fired = false;
     // picked_up_this_pass is a member variable that persists across do_turn
     // calls so batching still fires when move exhaustion splits pickup and
     // batching into separate turns. Reset after the batching check evaluates.
@@ -13479,16 +13617,12 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         ++num_processed;
         item &thisitem = *it->first;
 
-        // Skip items that don't match the source zone binding
-        if( it->second && !src_has_vehicle_unsorted ) {
-            continue;
-        }
-        if( !it->second && !src_has_terrain_unsorted ) {
+        if( it->second && skip_cart_cargo ) {
             continue;
         }
 
         if( zone_sorting::sort_skip_item( you, it->first, other_activity_items,
-                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ), src, it->second ) ) {
+                                          mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ), src ) ) {
             continue;
         }
 
@@ -13526,13 +13660,24 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     continue;
                 }
                 item copy_thisitem( thisitem );
-                // Try vehicle cargo at destination first, fall back to ground
+                // Vehicle-only zones don't fall back to ground placement.
+                // All other zones (terrain, dual-bound) try cargo first, then ground.
+                // No overflow to adjacent tiles in either case.
+                const bool vehicle_only = mgr.has_vehicle( zt_id, dest, fac_id ) &&
+                                          !mgr.has_terrain( zt_id, dest, fac_id );
+                bool placed = false;
                 if( std::optional<vpart_reference> ovp = here.veh_at( dest_bub ).cargo() ) {
-                    if( !ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
-                        here.add_item_or_charges( dest_bub, copy_thisitem );
+                    if( ovp->vehicle().add_item( here, ovp->part(), copy_thisitem ) ) {
+                        placed = true;
                     }
-                } else {
-                    here.add_item_or_charges( dest_bub, copy_thisitem );
+                }
+                if( !placed && !vehicle_only ) {
+                    item_location ground = here.add_item_or_charges_ret_loc( dest_bub, copy_thisitem,
+                                           false );
+                    placed = ground.get_item() != nullptr;
+                }
+                if( !placed ) {
+                    continue;
                 }
                 you.mod_moves( -you.item_handling_cost( copy_thisitem ) );
                 if( it->second ) {
@@ -13609,6 +13754,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                                thisitem.tname(), dest_set.size() );
                 continue;
             }
+            if( !drag_worst_tile ) {
+                drag_worst_tile = zone_sorting::worst_drag_tile_on_route( you, dropoff_coords );
+            }
         }
 
         item_location thisitem_loc;
@@ -13632,6 +13780,20 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 const tripoint_bub_ms cart_position = you.pos_bub() + you.as_avatar()->grab_point;
                 if( std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
                     vehicle &veh = ovp->vehicle();
+                    bool drag_ok = true;
+                    if( drag_worst_tile ) {
+                        units::mass projected = veh.total_mass( here ) + copy_thisitem.weight();
+                        if( veh.drag_str_req_at( here, *drag_worst_tile, projected ) >
+                            you.get_arm_str() ) {
+                            drag_ok = false;
+                        }
+                    }
+                    if( !drag_ok ) {
+                        // Cart would be too heavy to drag - stop loading.
+                        cart_or_carry_blocked = true;
+                        drag_gate_fired = true;
+                        continue;
+                    }
                     std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
                             copy_thisitem );
                     if( vehstack ) {
@@ -13641,6 +13803,24 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
             }
             if( !thisitem_loc ) {
+                if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+                    // Knock-down gate: never pick up items so heavy they would
+                    // cause the character to collapse (exceed max_pickup_capacity).
+                    // TODO: handle these items via hauling instead of skipping them.
+                    if( you.weight_carried() + copy_thisitem.weight() > you.max_pickup_capacity() ) {
+                        cart_or_carry_blocked = true;
+                        knockdown_gate_fired = true;
+                        continue;
+                    }
+                    // No-grab weight gate: stop picking up when over capacity.
+                    // Always allow at least one item so heavy things like corpses
+                    // can be sorted one at a time.
+                    if( !picked_up_stuff.empty() &&
+                        you.weight_carried() + copy_thisitem.weight() > you.weight_capacity() ) {
+                        cart_or_carry_blocked = true;
+                        continue;
+                    }
+                }
                 thisitem_loc = you.try_add( copy_thisitem );
             }
             if( !thisitem_loc ) {
@@ -13703,6 +13883,14 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     }
 
     if( picked_up_stuff.empty() ) {
+        if( drag_gate_fired ) {
+            you.add_msg_if_player( m_info,
+                                   _( "Could not sort some items: the cart would be too heavy to drag." ) );
+        }
+        if( knockdown_gate_fired ) {
+            you.add_msg_if_player( m_info,
+                                   _( "Could not sort some items: too heavy to carry." ) );
+        }
         bool cart_at_source = false;
         if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
             const tripoint_bub_ms cart_pos = you.pos_bub() + you.as_avatar()->grab_point;
@@ -13722,6 +13910,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             coord_set.erase( src );
         }
         stage = THINK;
+        you.mod_moves( -1 );
         dropoff_coords.clear();
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
         // Purge item_locations invalidated by inventory restacking.
@@ -13741,6 +13930,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: all picked items lost (merged?), back to THINK" );
             coord_set.erase( src );
             stage = THINK;
+            you.mod_moves( -1 );
             dropoff_coords.clear();
             return;
         }
@@ -13750,11 +13940,36 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // If so, detour there first to batch pickups into one delivery trip.
         // Only attempt if we actually picked something up this call (freeze gate).
         if( picked_up_this_pass ) {
-            int dest_dist = INT_MAX;
+            // No-grab weight gate: skip batching if already over capacity
+            if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+                if( you.weight_carried() > you.weight_capacity() ) {
+                    picked_up_this_pass = false;
+                }
+            }
+        }
+        int dest_dist = INT_MAX;
+        if( picked_up_this_pass ) {
             for( const tripoint_abs_ms &dest : dropoff_coords ) {
-                dest_dist = std::min( dest_dist, square_dist( abspos, dest ) );
+                if( square_dist( abspos, dest ) <= 1 ) {
+                    dest_dist = 0;
+                    break;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( dest );
+                if( !here.inbounds( dest_bub ) ) {
+                    continue;
+                }
+                const int rd = zone_sorting::route_length( you, dest_bub );
+                dest_dist = std::min( dest_dist, rd );
             }
 
+            // Skip entire batch candidate scan when all destinations are
+            // unreachable -- the Chebyshev filter (cheb >= dest_dist) would
+            // pass everything through, causing O(N) unfiltered A* probes.
+            if( dest_dist == INT_MAX ) {
+                picked_up_this_pass = false;
+            }
+        }
+        if( picked_up_this_pass ) {
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -13762,8 +13977,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 batch_cart_vp = here.veh_at( cart_pos ).cargo();
             }
 
-            // Build distance-sorted candidates, mirroring THINK's filters
-            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            // Build distance-sorted candidates using A* route distances.
+            // Pre-sort by Chebyshev (lower bound on route distance) and use it
+            // as a cheap filter before expensive A* calls.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_presorted;
             for( const tripoint_abs_ms &candidate : coord_set ) {
                 if( candidate == src ) {
                     continue;
@@ -13779,11 +13996,39 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                                                         zone_sorting::ignore_contents( you, candidate ) ) ) {
                     continue;
                 }
-                const int cand_dist = square_dist( abspos, candidate );
-                if( cand_dist >= dest_dist ) {
+                const int cheb = square_dist( abspos, candidate );
+                if( cheb >= dest_dist ) {
+                    // Chebyshev is a lower bound on route distance, so this
+                    // candidate can't possibly be closer than the destination.
                     continue;
                 }
-                batch_candidates.emplace_back( cand_dist, candidate );
+                batch_presorted.emplace_back( cheb, candidate );
+            }
+            std::sort( batch_presorted.begin(), batch_presorted.end(),
+                       []( const std::pair<int, tripoint_abs_ms> &a,
+            const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+
+            // Compute actual A* route distances for survivors.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            for( const auto &[cheb, candidate] : batch_presorted ) {
+                if( cheb <= 1 ) {
+                    // Adjacent -- no pathfinding needed.
+                    batch_candidates.emplace_back( 0, candidate );
+                    continue;
+                }
+                const tripoint_bub_ms cand_bub = here.get_bub( candidate );
+                const int rdist = zone_sorting::route_length( you, cand_bub );
+                if( rdist == INT_MAX ) {
+                    unreachable_sources.emplace( candidate );
+                    continue;
+                }
+                if( rdist >= dest_dist ) {
+                    // Closer by Chebyshev but not by actual route distance.
+                    continue;
+                }
+                batch_candidates.emplace_back( rdist, candidate );
             }
             std::sort( batch_candidates.begin(), batch_candidates.end(),
                        []( const std::pair<int, tripoint_abs_ms> &a,
@@ -13810,7 +14055,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     }
                     if( zone_sorting::sort_skip_item( you, it, other_activity_items,
                                                       mgr.has( zone_type_LOOT_IGNORE_FAVORITES, candidate, fac_id ),
-                                                      candidate, from_veh ) ) {
+                                                      candidate ) ) {
                         continue;
                     }
                     // Destination compatibility: exact zone-type match
@@ -13830,14 +14075,27 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     if( !shares_dest ) {
                         continue;
                     }
-                    // Per-item capacity check
+                    // Per-item capacity check with weight gates
                     bool fits = false;
                     if( batch_cart_vp &&
                         batch_cart_vp->items().free_volume() >= it->volume() ) {
-                        fits = true;
+                        if( drag_worst_tile ) {
+                            const vehicle &bv = batch_cart_vp->vehicle();
+                            units::mass projected = bv.total_mass( here ) + it->weight();
+                            fits = ( bv.drag_str_req_at( here, *drag_worst_tile, projected ) <=
+                                     you.get_arm_str() );
+                        } else {
+                            fits = true;
+                        }
                     }
                     if( !fits && you.can_stash( *it ) ) {
-                        fits = true;
+                        if( you.is_avatar() &&
+                            you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
+                            fits = true;
+                        } else {
+                            fits = ( you.weight_carried() + it->weight() <=
+                                     you.weight_capacity() );
+                        }
                     }
                     if( fits ) {
                         should_batch = true;
@@ -13929,6 +14187,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return_items_to_source( you, src_bub );
             unreachable_sources.emplace( src );
             stage = THINK;
+            you.mod_moves( -1 );
             return;
         }
 
@@ -13948,6 +14207,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
             return_items_to_source( you, src_bub );
             stage = THINK;
+            you.mod_moves( -1 );
         }
 
     } else if( !you.has_destination() ) {
@@ -13956,6 +14216,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         return_items_to_source( you, src_bub );
         unreachable_sources.emplace( src );
         stage = THINK;
+        you.mod_moves( -1 );
     }
 }
 

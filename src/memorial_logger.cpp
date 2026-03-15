@@ -273,15 +273,15 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Stats
     file << _( "Final Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_cur )
-         << indent << string_format( _( "Dex %d" ), u.dex_cur )
-         << indent << string_format( _( "Int %d" ), u.int_cur )
-         << indent << string_format( _( "Per %d" ), u.per_cur ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex() )
+         << indent << string_format( _( "Int %d" ), u.get_int() )
+         << indent << string_format( _( "Per %d" ), u.get_per() ) << eol;
     file << _( "Base Stats:" ) << eol;
-    file << indent << string_format( _( "Str %d" ), u.str_max )
-         << indent << string_format( _( "Dex %d" ), u.dex_max )
-         << indent << string_format( _( "Int %d" ), u.int_max )
-         << indent << string_format( _( "Per %d" ), u.per_max ) << eol;
+    file << indent << string_format( _( "Str %d" ), u.get_str_base() )
+         << indent << string_format( _( "Dex %d" ), u.get_dex_base() )
+         << indent << string_format( _( "Int %d" ), u.get_int_base() )
+         << indent << string_format( _( "Per %d" ), u.get_per_base() ) << eol;
     file << eol;
 
     //Last 20 messages
@@ -682,6 +682,22 @@ void memorial_logger::notify( const cata::event &e )
             if( ch == avatar_id ) {
                 add( pgettext( "memorial_male", "Became one with the Mycus." ),
                      pgettext( "memorial_female", "Became one with the Mycus." ) );
+            }
+            break;
+        }
+        case event_type::dermatik_eggs_hatch: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                add( pgettext( "memorial_male", "Dermatik eggs hatched." ),
+                     pgettext( "memorial_female", "Dermatik eggs hatched." ) );
+            }
+            break;
+        }
+        case event_type::dermatik_eggs_injected: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                add( pgettext( "memorial_male", "Injected with dermatik eggs." ),
+                     pgettext( "memorial_female", "Injected with dermatik eggs." ) );
             }
             break;
         }

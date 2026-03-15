@@ -2,14 +2,13 @@
 #include "activity_item_handling.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <array>
 #include <climits>
 #include <cmath>
+#include <deque>
 #include <cstdlib>
 #include <list>
 #include <memory>
 #include <optional>
-#include <queue>
 #include <set>
 #include <string>
 #include <tuple>
@@ -770,476 +769,86 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 namespace zone_sorting
 {
 
-// Number of grab direction slots: 3x3 grid encoding (x+1)*3 + (y+1), index 4 = center = unused.
-static constexpr int GRAB_DIRS = 9;
-
-static int grab_to_idx( const tripoint_rel_ms &g )
-{
-    return ( g.x() + 1 ) * 3 + ( g.y() + 1 );
-}
-
-static tripoint_rel_ms idx_to_grab( int idx )
-{
-    return tripoint_rel_ms( idx / 3 - 1, idx % 3 - 1, 0 );
-}
-
-static int grab_state_index( const point_bub_ms &pos, int grab_idx )
-{
-    return ( pos.x() * MAPSIZE_Y + pos.y() ) * GRAB_DIRS + grab_idx;
-}
-
-static point_bub_ms state_to_pos( int state_idx )
-{
-    int pos_idx = state_idx / GRAB_DIRS;
-    return point_bub_ms( pos_idx / MAPSIZE_Y, pos_idx % MAPSIZE_Y );
-}
-
-// Estimate vehicle drag difficulty using FLAT/ROAD terrain flags (matching
-// wheel terrain_modifiers): non-FLAT +4, FLAT non-ROAD +3, FLAT+ROAD +0.
-static int veh_drag_cost( const map &here, const tripoint_bub_ms &pos )
-{
-    const int base = here.move_cost_ter_furn( pos );
-    if( base <= 0 ) {
-        return 0;
-    }
-    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAT, pos ) ) {
-        return base + 4;
-    }
-    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_ROAD, pos ) ) {
-        return base + 3;
-    }
-    return base;
-}
-
-// Check if a tile would cause a vehicle collision, matching part_collision
-// logic: impassable tiles block, bashable non-flat terrain/furniture blocks.
-// allow_doors: pull moves pass true (vehicle follows player through opened
-// doors); push/zigzag pass false (vehicle goes to unvisited tiles).
-static bool tile_blocks_vehicle( const map &here, const tripoint_bub_ms &pos,
-                                 bool allow_doors = true )
-{
-    const int ter_furn_cost = here.move_cost_ter_furn( pos );
-
-    // Impassable terrain (walls, closed windows, locked doors).
-    if( ter_furn_cost == 0 ) {
-        if( allow_doors ) {
-            // Openable doors: player opens them during auto-move, vehicle follows.
-            const bool is_door = ( here.ter( pos ).obj().open &&
-                                   here.ter( pos ).obj().has_flag( ter_furn_flag::TFLAG_DOOR ) ) ||
-                                 ( here.has_furn( pos ) && here.furn( pos ).obj().open &&
-                                   here.furn( pos ).obj().has_flag( ter_furn_flag::TFLAG_DOOR ) );
-            if( is_door ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Flat ground (move_cost 2) never causes collision.
-    if( ter_furn_cost == 2 ) {
-        return false;
-    }
-
-    // Bashable non-flat terrain/furniture causes collision (bushes, open
-    // windows, fences). NOCOLLIDE excluded (e.g. railroad tracks).
-    if( here.is_bashable_ter_furn( pos, false ) &&
-        !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, pos ) ) {
-        return true;
-    }
-
-    return false;
-}
-
 // Cache routes computed by route_length() for reuse by route_to_destination().
 // Avoids recomputing the same A* when the sorter probes route distance and
 // then immediately routes to the same destination.
 namespace
 {
 struct zone_route_cache {
+    static constexpr size_t max_entries = 200;
+
     tripoint_bub_ms start;
     object_type grab_type = object_type::NONE;
     tripoint_rel_ms grab_point;
-    // (destination center, route). Empty route means unreachable.
-    std::vector<std::pair<tripoint_bub_ms, std::vector<tripoint_bub_ms>>> entries;
+    int arm_str = 0;
+    units::mass veh_mass = 0_gram;
+    // destination -> route. Empty route means unreachable.
+    std::unordered_map<tripoint_bub_ms, std::vector<tripoint_bub_ms>> entries;
+    // FIFO eviction order -- front is oldest.
+    std::deque<tripoint_bub_ms> insertion_order;
     bool initialized = false;
 
     void ensure_valid( const Character &who ) {
         object_type gt = object_type::NONE;
         tripoint_rel_ms gp;
+        int cur_arm_str = 0;
+        units::mass cur_veh_mass = 0_gram;
         if( who.is_avatar() ) {
             gt = who.as_avatar()->get_grab_type();
             gp = who.as_avatar()->grab_point;
+            if( gt == object_type::VEHICLE ) {
+                map &here = get_map();
+                const tripoint_bub_ms veh_pos = who.pos_bub() + gp;
+                const optional_vpart_position ovp = here.veh_at( veh_pos );
+                if( ovp && ovp->vehicle().get_points().size() == 1 ) {
+                    cur_arm_str = who.get_arm_str();
+                    cur_veh_mass = ovp->vehicle().total_mass( here );
+                }
+            }
         }
-        if( !initialized || start != who.pos_bub() || grab_type != gt || grab_point != gp ) {
+        if( !initialized || start != who.pos_bub() || grab_type != gt ||
+            grab_point != gp || arm_str != cur_arm_str || veh_mass != cur_veh_mass ) {
             start = who.pos_bub();
             grab_type = gt;
             grab_point = gp;
+            arm_str = cur_arm_str;
+            veh_mass = cur_veh_mass;
             entries.clear();
+            insertion_order.clear();
             initialized = true;
         }
     }
 
     const std::vector<tripoint_bub_ms> *find( const tripoint_bub_ms &dest ) const {
-        for( const auto &e : entries ) {
-            if( e.first == dest ) {
-                return &e.second;
-            }
+        auto it = entries.find( dest );
+        if( it != entries.end() ) {
+            return &it->second;
         }
         return nullptr;
     }
 
     void store( const tripoint_bub_ms &dest, std::vector<tripoint_bub_ms> route ) {
-        entries.emplace_back( dest, std::move( route ) );
+        auto it = entries.find( dest );
+        if( it != entries.end() ) {
+            it->second = std::move( route );
+            return;
+        }
+        while( entries.size() >= max_entries && !insertion_order.empty() ) {
+            entries.erase( insertion_order.front() );
+            insertion_order.pop_front();
+        }
+        entries.emplace( dest, std::move( route ) );
+        insertion_order.push_back( dest );
     }
 };
 
 zone_route_cache g_route_cache;
 } // namespace
 
-// Check if a straight push or pull path works, skipping the full A*.
-// Only applies when grab direction is aligned with travel direction
-// (push) or opposite (pull), and every tile on the line is passable
-// for both the player and the dragged vehicle.
-static std::vector<tripoint_bub_ms> try_straight_grab_path(
-    const map &here, const tripoint_bub_ms &start, const pathfinding_target &target,
-    const tripoint_rel_ms &cur_grab, vehicle &grabbed_veh )
-{
-    const tripoint_bub_ms &dest = target.center;
-    const point d( dest.x() - start.x(), dest.y() - start.y() );
-    const point ad( std::abs( d.x ), std::abs( d.y ) );
-
-    // Must be a pure cardinal or diagonal direction
-    if( ( ad.x != ad.y && ad.x > 0 && ad.y > 0 ) || ( ad.x == 0 && ad.y == 0 ) ) {
-        return {};
-    }
-
-    const point s( d.x > 0 ? 1 : ( d.x < 0 ? -1 : 0 ), d.y > 0 ? 1 : ( d.y < 0 ? -1 : 0 ) );
-    const tripoint_rel_ms dir( s.x, s.y, 0 );
-
-    const bool is_push = cur_grab == dir;
-    const bool is_pull = cur_grab == -dir;
-    if( !is_push && !is_pull ) {
-        return {};
-    }
-
-    const int num_steps = std::max( ad.x, ad.y );
-    std::vector<tripoint_bub_ms> route;
-    route.reserve( num_steps );
-
-    tripoint_bub_ms player = start;
-    tripoint_bub_ms vehicle_pos = start + cur_grab;
-
-    for( int step = 0; step < num_steps; step++ ) {
-        const tripoint_bub_ms next_player = player + dir;
-        tripoint_bub_ms next_vehicle;
-        if( is_push ) {
-            next_vehicle = vehicle_pos + dir;
-        } else {
-            // Pull: vehicle follows to player's old position
-            next_vehicle = player;
-        }
-
-        // Player passability (exclude grabbed vehicle - it vacates on push)
-        if( here.move_cost( next_player, &grabbed_veh ) == 0 ) {
-            return {};
-        }
-
-        // Vehicle passability
-        if( tile_blocks_vehicle( here, next_vehicle, is_pull ) ) {
-            return {};
-        }
-        const optional_vpart_position ovp_check = here.veh_at( next_vehicle );
-        if( ovp_check && &ovp_check->vehicle() != &grabbed_veh ) {
-            return {};
-        }
-
-        route.push_back( next_player );
-        if( target.contains( next_player ) ) {
-            return route;
-        }
-
-        player = next_player;
-        vehicle_pos = next_vehicle;
-    }
-
-    return {};
-}
-
-// State is (player_position, grab_direction), so it finds routes where
-// both the player and the dragged vehicle can physically move.
-// Returns an empty vector if no path exists or if the player isn't
-// dragging a single-tile vehicle.
-static std::vector<tripoint_bub_ms> route_with_grab(
-    const map &here, const Character &you, const pathfinding_target &target )
-{
-    std::vector<tripoint_bub_ms> ret;
-
-    if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
-        return ret;
-    }
-
-    const tripoint_bub_ms start = you.pos_bub();
-    const tripoint_rel_ms start_grab = you.as_avatar()->grab_point;
-    const tripoint_bub_ms veh_pos = start + start_grab;
-    const optional_vpart_position ovp = here.veh_at( veh_pos );
-    if( !ovp ) {
-        add_msg_debug( debugmode::DF_ACTIVITY,
-                       "route_with_grab: no vehicle at grab point (%d,%d,%d)+(%d,%d,%d)",
-                       start.x(), start.y(), start.z(),
-                       start_grab.x(), start_grab.y(), start_grab.z() );
-        return ret;
-    }
-    vehicle &grabbed_veh = ovp->vehicle();
-    if( grabbed_veh.get_points().size() > 1 ) {
-        add_msg_debug( debugmode::DF_ACTIVITY,
-                       "route_with_grab: multi-tile vehicle (%zu parts), skipping",
-                       grabbed_veh.get_points().size() );
-        return ret;
-    }
-
-    add_msg_debug( debugmode::DF_ACTIVITY,
-                   "route_with_grab: start=(%d,%d) grab=(%d,%d) target=(%d,%d) r=%d",
-                   start.x(), start.y(), start_grab.x(), start_grab.y(),
-                   target.center.x(), target.center.y(), target.r );
-
-    // Fast path: if grab is aligned with travel direction, check the
-    // straight line before spinning up the full A* with its 157K-state arrays.
-    ret = try_straight_grab_path( here, start, target, start_grab, grabbed_veh );
-    if( !ret.empty() ) {
-        add_msg_debug( debugmode::DF_ACTIVITY,
-                       "route_with_grab: straight line path len=%zu", ret.size() );
-        return ret;
-    }
-
-    const int max_length = you.get_pathfinding_settings().max_length;
-    const int pad = 16;
-    const tripoint_bub_ms &t = target.center;
-
-    point_bub_ms min_bound( std::min( start.x(), t.x() ) - pad,
-                            std::min( start.y(), t.y() ) - pad );
-    point_bub_ms max_bound( std::max( start.x(), t.x() ) + pad,
-                            std::max( start.y(), t.y() ) + pad );
-    min_bound.x() = std::max( min_bound.x(), 0 );
-    min_bound.y() = std::max( min_bound.y(), 0 );
-    max_bound.x() = std::min( max_bound.x(), MAPSIZE_X );
-    max_bound.y() = std::min( max_bound.y(), MAPSIZE_Y );
-
-    const int total_states = MAPSIZE_X * MAPSIZE_Y * GRAB_DIRS;
-
-    // Reuse heap-allocated arrays across calls
-    static std::vector<bool> closed;
-    static std::vector<bool> open;
-    static std::vector<int> gscore;
-    static std::vector<int> parent;
-
-    if( static_cast<int>( closed.size() ) != total_states ) {
-        closed.resize( total_states );
-        open.resize( total_states );
-        gscore.resize( total_states );
-        parent.resize( total_states );
-    }
-
-    // Only closed and open need clearing. gscore and parent retain stale data
-    // but are never read for states where open[state] is false, which is reset
-    // above. This invariant must be maintained if the A* logic is modified.
-    std::fill( closed.begin(), closed.end(), false );
-    std::fill( open.begin(), open.end(), false );
-
-    // Priority queue: (f-score, state_index), smallest f-score first
-    using pq_entry = std::pair<int, int>;
-    std::priority_queue<pq_entry, std::vector<pq_entry>, std::greater<>> pq;
-
-    const int start_grab_idx = grab_to_idx( start_grab );
-    const int start_state = grab_state_index( start.xy(), start_grab_idx );
-    gscore[start_state] = 0;
-    open[start_state] = true;
-    parent[start_state] = start_state;
-    // Tighter heuristic: minimum cost per tile is 4 (player move_cost=2 +
-    // vehicle drag=2 on flat road), minus 2 for one possible sideways move
-    // (vehicle stays put, cost=2). Uses square_dist (Chebyshev = min steps)
-    // instead of rl_dist to stay admissible regardless of trigdist setting.
-    pq.emplace( std::max( 0, 4 * square_dist( start, t ) - 2 ), start_state );
-
-    // Movement offsets: W, E, N, S, NE, SW, NW, SE
-    constexpr std::array<int, 8> x_off{ { -1,  1,  0,  0,  1, -1, -1, 1 } };
-    constexpr std::array<int, 8> y_off{ {  0,  0, -1,  1, -1,  1, -1, 1 } };
-
-    bool done = false;
-    int found_state = -1;
-    int states_explored = 0;
-
-    while( !pq.empty() ) {
-        const auto [cur_score, cur_state] = pq.top();
-        pq.pop();
-
-        if( closed[cur_state] ) {
-            continue;
-        }
-
-        states_explored++;
-        const int cur_g = gscore[cur_state];
-        if( cur_g > max_length ) {
-            add_msg_debug( debugmode::DF_ACTIVITY,
-                           "route_with_grab: ABORTED max_length=%d explored=%d grab=(%d,%d)",
-                           max_length, states_explored, start_grab.x(), start_grab.y() );
-            return ret;
-        }
-
-        const point_bub_ms cur_pos = state_to_pos( cur_state );
-        const int cur_grab_idx = cur_state % GRAB_DIRS;
-        const tripoint_rel_ms cur_grab = idx_to_grab( cur_grab_idx );
-        const tripoint_bub_ms cur3d( cur_pos, start.z() );
-
-        if( target.contains( cur3d ) ) {
-            done = true;
-            found_state = cur_state;
-            break;
-        }
-
-        closed[cur_state] = true;
-
-        for( size_t i = 0; i < 8; i++ ) {
-            const point_bub_ms next_pos( cur_pos.x() + x_off[i], cur_pos.y() + y_off[i] );
-
-            if( next_pos.x() < min_bound.x() || next_pos.x() >= max_bound.x() ||
-                next_pos.y() < min_bound.y() || next_pos.y() >= max_bound.y() ) {
-                continue;
-            }
-
-            const tripoint_bub_ms next3d( next_pos, start.z() );
-
-            // Player passability (ignore grabbed vehicle - it vacates the tile on push)
-            int tile_cost = here.move_cost( next3d, &grabbed_veh );
-            if( tile_cost == 0 ) {
-                // Allow closed doors (cost 4, matching main pathfinder).
-                // Exclude windows - multi-step open, vehicle can't follow through.
-                const bool is_door = ( here.ter( next3d ).obj().open &&
-                                       here.ter( next3d ).obj().has_flag( ter_furn_flag::TFLAG_DOOR ) ) ||
-                                     ( here.furn( next3d ).obj().open &&
-                                       here.furn( next3d ).obj().has_flag( ter_furn_flag::TFLAG_DOOR ) );
-                if( is_door ) {
-                    tile_cost = 4;
-                } else {
-                    continue;
-                }
-            }
-
-            const tripoint_rel_ms dp( x_off[i], y_off[i], 0 );
-            tripoint_rel_ms dp_veh = -cur_grab;
-            tripoint_rel_ms next_grab = cur_grab;
-            bool vehicle_moves = true;
-            bool is_zigzag = false;
-            bool is_push = false;
-
-            if( dp == cur_grab ) {
-                // PUSH: vehicle moves in same direction as player
-                dp_veh = dp;
-                is_push = true;
-            } else if( std::abs( dp.x() + dp_veh.x() ) != 2 &&
-                       std::abs( dp.y() + dp_veh.y() ) != 2 ) {
-                // SIDEWAYS: vehicle stays put, grab rotates
-                next_grab = -( dp + dp_veh );
-                vehicle_moves = false;
-            } else if( ( dp.x() == cur_grab.x() || dp.y() == cur_grab.y() ) &&
-                       cur_grab.x() != 0 && cur_grab.y() != 0 ) {
-                // ZIGZAG: player is diagonal to vehicle, moves partially away
-                dp_veh.x() = dp.x() == -dp_veh.x() ? 0 : dp_veh.x();
-                dp_veh.y() = dp.y() == -dp_veh.y() ? 0 : dp_veh.y();
-                next_grab = -dp_veh;
-                is_zigzag = true;
-            } else {
-                // PULL: vehicle moves to player's old position
-                next_grab = -dp;
-                // dp_veh stays as -cur_grab (initialized above)
-            }
-
-            // Vehicle terrain cost: FLAT/ROAD flag penalties for dragging.
-            int veh_terrain_cost = 0;
-
-            if( vehicle_moves ) {
-                const tripoint_bub_ms veh_new( cur_pos + cur_grab.xy() + dp_veh.xy(), start.z() );
-                // Use veh_at() for other-vehicle check - multi-tile vehicles have
-                // passable parts (aisles) where move_cost > 0 but collision still occurs.
-                const optional_vpart_position ovp_new = here.veh_at( veh_new );
-                const bool other_veh = ovp_new && &ovp_new->vehicle() != &grabbed_veh;
-                // Push/zigzag: vehicle goes to unvisited tiles, doors stay closed.
-                const bool allow_doors = !( is_push || is_zigzag );
-                const bool veh_blocked = other_veh || tile_blocks_vehicle( here, veh_new, allow_doors );
-                if( veh_blocked ) {
-                    // Zigzag recovery: fall back to pull when vehicle move collides.
-                    // Only for zigzag - game doesn't recover push collisions.
-                    if( is_zigzag ) {
-                        dp_veh = -cur_grab;
-                        next_grab = -dp;
-                        const tripoint_bub_ms veh_recover( cur_pos + cur_grab.xy() + dp_veh.xy(),
-                                                           start.z() );
-                        const optional_vpart_position ovp_rec = here.veh_at( veh_recover );
-                        const bool rec_other_veh = ovp_rec && &ovp_rec->vehicle() != &grabbed_veh;
-                        if( rec_other_veh || tile_blocks_vehicle( here, veh_recover ) ) {
-                            continue;
-                        }
-                        veh_terrain_cost = veh_drag_cost( here, veh_recover );
-                    } else {
-                        continue;
-                    }
-                } else {
-                    veh_terrain_cost = veh_drag_cost( here, veh_new );
-                }
-            }
-
-            const int next_grab_idx = grab_to_idx( next_grab );
-            const int next_state = grab_state_index( next_pos, next_grab_idx );
-
-            if( closed[next_state] ) {
-                continue;
-            }
-
-            // Diagonal penalty (same as main A*)
-            const bool diagonal = cur_pos.x() != next_pos.x() && cur_pos.y() != next_pos.y();
-            const int newg = cur_g + tile_cost + veh_terrain_cost + ( diagonal ? 1 : 0 );
-
-            if( open[next_state] && newg >= gscore[next_state] ) {
-                continue;
-            }
-
-            open[next_state] = true;
-            gscore[next_state] = newg;
-            parent[next_state] = cur_state;
-            const int h = std::max( 0, 4 * square_dist( next3d, t ) - 2 );
-            pq.emplace( newg + h, next_state );
-        }
-    }
-
-    if( !done ) {
-        add_msg_debug( debugmode::DF_ACTIVITY,
-                       "route_with_grab: NO PATH FOUND (%d,%d) grab=(%d,%d) to (%d,%d) explored=%d bounds=(%d,%d)-(%d,%d)",
-                       start.x(), start.y(), start_grab.x(), start_grab.y(),
-                       target.center.x(), target.center.y(), states_explored,
-                       min_bound.x(), min_bound.y(), max_bound.x(), max_bound.y() );
-        return ret;
-    }
-
-    // Reconstruct path: collect player positions from found_state back to start
-    int trace = found_state;
-    while( trace != start_state ) {
-        const point_bub_ms pos = state_to_pos( trace );
-        ret.emplace_back( pos, start.z() );
-        trace = parent[trace];
-    }
-    std::reverse( ret.begin(), ret.end() );
-
-    add_msg_debug( debugmode::DF_ACTIVITY,
-                   "route_with_grab: found path len=%zu from (%d,%d) to (%d,%d) first_step=(%d,%d)",
-                   ret.size(), start.x(), start.y(),
-                   target.center.x(), target.center.y(),
-                   ret.empty() ? -1 : ret.front().x(), ret.empty() ? -1 : ret.front().y() );
-    return ret;
-}
-
 bool route_to_destination( Character &you, player_activity &act,
                            const tripoint_bub_ms &dest, zone_activity_stage &stage )
 {
-    const map &here = get_map();
+    map &here = get_map();
     std::vector<tripoint_bub_ms> route;
 
     // Check if route_length() already computed a path for this destination.
@@ -1258,20 +867,12 @@ bool route_to_destination( Character &you, player_activity &act,
     if( route.empty() && !from_cache ) {
         // Use grab-aware A* when dragging a single-tile vehicle - searches over
         // (position, grab_direction) state so both player and cart can move.
-        if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-            const tripoint_bub_ms veh_pos = you.pos_bub() + you.as_avatar()->grab_point;
-            const optional_vpart_position ovp = here.veh_at( veh_pos );
-            if( ovp && ovp->vehicle().get_points().size() == 1 ) {
-                // Single-tile vehicle: use grab-aware A*. If no path found,
-                // treat as unreachable (don't fall back to player-only routing
-                // which would cause cart collisions).
-                used_grab_routing = true;
-                route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
-            } else {
-                // Multi-tile vehicle or no vehicle at grab point: use normal
-                // pathfinding (grab-aware A* doesn't support multi-tile).
-                route = here.route( you, pathfinding_target::adjacent( dest ) );
-            }
+        if( has_grabbed_single_tile_vehicle( you, here ) ) {
+            // Single-tile vehicle: use grab-aware A*. If no path found,
+            // treat as unreachable (don't fall back to player-only routing
+            // which would cause cart collisions).
+            used_grab_routing = true;
+            route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
         } else {
             route = here.route( you, pathfinding_target::adjacent( dest ) );
         }
@@ -1301,8 +902,7 @@ bool route_to_destination( Character &you, player_activity &act,
 
 bool sort_skip_item( Character &you, const item *it,
                      const std::vector<item_location> &other_activity_items,
-                     bool ignore_favorite, const tripoint_abs_ms &src,
-                     bool from_vehicle )
+                     bool ignore_favorite, const tripoint_abs_ms &src )
 {
     const zone_manager &mgr = zone_manager::get_manager();
 
@@ -1336,18 +936,17 @@ bool sort_skip_item( Character &you, const item *it,
     const faction_id fac_id = _fac_id( you );
     const zone_type_id zt_id = mgr.get_near_zone_type_for_item( *it, you.pos_abs(),
                                MAX_VIEW_DISTANCE, fac_id );
-    // Skip items already at their destination. Use binding-aware lookup so a
-    // vehicle item is only considered "at destination" if the destination zone
-    // is bound to vehicle cargo, and likewise for ground items.
-    // LOOT_CUSTOM and LOOT_ITEM_GROUP need filter-based checking below.
+    // Skip items already at their destination regardless of whether the zone
+    // is bound to terrain or vehicle cargo. Delivery tries cargo first, so
+    // items often land in vehicle storage even at terrain-bound zones (e.g.,
+    // a fridge appliance on a LOOT_FOOD tile). Binding-agnostic check
+    // prevents infinite re-sort loops in that situation.
     if( zt_id != zone_type_LOOT_CUSTOM && zt_id != zone_type_LOOT_ITEM_GROUP &&
-        ( from_vehicle ? mgr.has_vehicle( zt_id, src, fac_id )
-          : mgr.has_terrain( zt_id, src, fac_id ) ) ) {
+        mgr.has( zt_id, src, fac_id ) ) {
         return true;
     }
-    // Custom and item-group zones: check filters with binding awareness
     if( ( zt_id == zone_type_LOOT_CUSTOM || zt_id == zone_type_LOOT_ITEM_GROUP ) &&
-        mgr.custom_loot_has( src, it, zt_id, fac_id, from_vehicle ) ) {
+        mgr.custom_loot_has( src, it, zt_id, fac_id ) ) {
         return true;
     }
 
@@ -1448,9 +1047,10 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
 
     *pickup_failure = false;
 
-    // Which UNSORTED zone types exist at src? Items only participate in
-    // sorting if the source zone matches their binding (vehicle vs terrain).
-    const bool src_has_terrain_unsorted = mgr.has_terrain( zone_type_LOOT_UNSORTED, src, fac_id );
+    // Any UNSORTED zone at src (terrain or vehicle) makes all items at that
+    // tile eligible for sorting. The terrain/vehicle distinction only matters
+    // at the destination (where items get placed), not at the source.
+    const bool src_has_unsorted = mgr.has( zone_type_LOOT_UNSORTED, src, fac_id );
     const bool src_has_vehicle_unsorted = mgr.has_vehicle( zone_type_LOOT_UNSORTED, src, fac_id );
 
     // When grabbed cart sits on the source tile, items stay in cart cargo
@@ -1463,12 +1063,17 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
     }
 
+    // When the grabbed cart is at a terrain-only unsorted zone (no vehicle
+    // zone), it's being used for transport - don't re-sort its cargo.
+    // If there IS a vehicle zone on the cart, the user explicitly wants
+    // the cart's cargo sorted.
+    const bool skip_cart_cargo = virtual_pickup_available && !src_has_vehicle_unsorted;
+
     for( std::pair<item *, bool> it_pair : items ) {
-        // Skip items that don't match the source zone binding
-        if( it_pair.second && !src_has_vehicle_unsorted ) {
+        if( !src_has_unsorted ) {
             continue;
         }
-        if( !it_pair.second && !src_has_terrain_unsorted ) {
+        if( it_pair.second && skip_cart_cargo ) {
             continue;
         }
 
@@ -1498,7 +1103,7 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
         }
 
         if( sort_skip_item( you, it, other_activity_items,
-                            zone_unload_options.ignore_favorite, src, it_pair.second ) ) {
+                            zone_unload_options.ignore_favorite, src ) ) {
             continue;
         }
 
@@ -1622,6 +1227,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                             continue;
                         }
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
                     if( you.get_moves() <= 0 ) {
                         return std::nullopt;
@@ -1638,6 +1244,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                             }
                         }
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
 
                     // destroy fully unloaded magazines
@@ -1656,9 +1263,9 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                 for( item *contained : it->all_items_top( pocket_type::MAGAZINE_WELL ) ) {
                     if( zone_sorting::can_unload( contained ) ) {
                         unload_teleport_item( contained );
+                        moved_something = true;
                     }
                 }
-                moved_something = true;
 
             }
 
@@ -1748,23 +1355,58 @@ int route_length( const Character &you, const tripoint_bub_ms &dest )
         return cached->empty() ? INT_MAX : static_cast<int>( cached->size() );
     }
 
-    const map &here = get_map();
+    map &here = get_map();
     std::vector<tripoint_bub_ms> route;
 
-    if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-        const tripoint_bub_ms veh_pos = you.pos_bub() + you.as_avatar()->grab_point;
-        const optional_vpart_position ovp = here.veh_at( veh_pos );
-        if( ovp && ovp->vehicle().get_points().size() == 1 ) {
-            route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
-        } else {
-            route = here.route( you, pathfinding_target::adjacent( dest ) );
-        }
+    if( has_grabbed_single_tile_vehicle( you, here ) ) {
+        route = route_with_grab( here, you, pathfinding_target::adjacent( dest ) );
     } else {
         route = here.route( you, pathfinding_target::adjacent( dest ) );
     }
 
     g_route_cache.store( dest, route );
     return route.empty() ? INT_MAX : static_cast<int>( route.size() );
+}
+
+std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
+    const Character &who, const std::vector<tripoint_abs_ms> &dropoff_coords )
+{
+    if( !who.is_avatar() ||
+        who.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
+        return std::nullopt;
+    }
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = who.pos_bub() + who.as_avatar()->grab_point;
+    const optional_vpart_position ovp = here.veh_at( veh_pos );
+    if( !ovp || ovp->vehicle().get_points().size() != 1 ) {
+        return std::nullopt;
+    }
+    if( dropoff_coords.empty() ) {
+        return std::nullopt;
+    }
+    const tripoint_bub_ms dest_bub = here.get_bub( dropoff_coords.front() );
+    // Trigger route computation and caching in g_route_cache.
+    const int rlen = route_length( who, dest_bub );
+    if( rlen == INT_MAX || rlen == 0 ) {
+        return std::nullopt;
+    }
+    g_route_cache.ensure_valid( who );
+    const std::vector<tripoint_bub_ms> *route = g_route_cache.find( dest_bub );
+    if( !route || route->empty() ) {
+        return std::nullopt;
+    }
+    vehicle &veh = ovp->vehicle();
+    const units::mass cur_mass = veh.total_mass( here );
+    int worst_req = 0;
+    std::optional<tripoint_bub_ms> worst_tile;
+    for( const tripoint_bub_ms &pos : *route ) {
+        const int req = veh.drag_str_req_at( here, pos, cur_mass );
+        if( req > worst_req ) {
+            worst_req = req;
+            worst_tile = pos;
+        }
+    }
+    return worst_tile;
 }
 } //namespace zone_sorting
 
@@ -3569,7 +3211,7 @@ static int chop_moves( Character &you, item &it )
     const int quality = it.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it.has_flag( flag_POWERED ) ? you.dex_cur : you.get_arm_str();
+    const int attr = it.has_flag( flag_POWERED ) ? you.get_dex() : you.get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = you.get_num_crafting_helpers( 3 );
@@ -4628,14 +4270,14 @@ int get_auto_consume_moves( Character &you, const bool food )
 }
 
 // Try to add fuel to a fire. Return true if there is both fire and fuel; return false otherwise.
-bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fire )
+bool try_fuel_fire( Character &you, std::optional<tripoint_bub_ms> fire_target )
 {
     const tripoint_bub_ms pos = you.pos_bub();
     std::vector<tripoint_bub_ms> adjacent = closest_points_first( pos, 1, PICKUP_RANGE );
 
     map &here = get_map();
     std::optional<tripoint_bub_ms> best_fire =
-        starting_fire ? here.get_bub( act.placement ) : find_best_fire( adjacent, pos );
+        fire_target ? fire_target : find_best_fire( adjacent, pos );
 
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
         return false;
@@ -4672,7 +4314,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
-    if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
+    if( !fire_target && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
         return true;
     }
 

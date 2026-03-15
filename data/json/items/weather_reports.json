@@ -310,5 +310,18 @@
     "volume": "4 ml",
     "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_void_spider_lair",
+    "name": { "str": "HEW printout NLL8" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"NLL8\".  Most of the document is coded in a series of complex equations and data that you cannot understand, but there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  The bottom of the sheet has an spiky line-chart labeled \"GC-MS\" - the peaks of the lines are labeled with coded dots you cannot interpret.",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "weight": "1 g",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

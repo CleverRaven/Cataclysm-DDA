@@ -3704,6 +3704,38 @@ class mend_item_activity_actor : public activity_actor
         fault_fix_id mending_method;
 };
 
+class fix_wound_activity_actor : public activity_actor
+{
+    public:
+        fix_wound_activity_actor( time_duration initial_moves, bodypart_id healed_bp,
+                                  wound_type_id mended_wound, wound_fix_id mending_method ) :
+            initial_moves( initial_moves ), healed_bp( healed_bp ),
+            mended_wound( mended_wound ), mending_method( mending_method ) { }
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TREAT_WOUND( "ACT_TREAT_WOUND" );
+            return ACT_TREAT_WOUND;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<fix_wound_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        fix_wound_activity_actor() = default;
+        time_duration initial_moves; // NOLINT(cata-serialize)
+        bodypart_id healed_bp;
+        wound_type_id mended_wound;
+        wound_fix_id mending_method;
+};
+
 class gunmod_add_activity_actor : public activity_actor
 {
     public:
@@ -4136,6 +4168,10 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Persists across do_turn calls so batching fires even when the initial
         // pickup exhausted moves. Reset after the batching check evaluates.
         bool picked_up_this_pass = false; // NOLINT(cata-serialize)
+        // Worst terrain tile on route to destination for drag feasibility checks.
+        // Computed once when dropoff_coords is first populated in stage_do,
+        // persists across do_turn re-entries within the same source.
+        std::optional<tripoint_bub_ms> drag_worst_tile; // NOLINT(cata-serialize)
 
         // Returns all picked up items to the source tile and clears sorting state.
         // Used when routing to a destination fails.

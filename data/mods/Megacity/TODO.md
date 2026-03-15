@@ -1,9 +1,5 @@
 Hi, thanks for reading. This is a brief overview of the things I (Renech) am looking to do with this mod, and that might be accepted if you PR them before I do:
 
--Disable/blacklist all populated overmap specials. Bandit fort in particular can spawn in cities and is really inappropriate! But also including things like the refugee center, etc. They're just eating up CPU time right now, despite never being placeable.
-
--Minor: Whitelist a single start location
-
 -Some better form of placing the cities so they truly do overlap and every tile is filled in. There should be **zero** fields, forests, or non-urban buildings.
 
 -Better handling of the city "commercial district" vs suburbia. Right now the suburbia is immense; I want small pockets of surburbia buttressed by enormous oceans of high-rise and commercial buildings.

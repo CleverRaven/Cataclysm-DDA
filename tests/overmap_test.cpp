@@ -786,3 +786,71 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
     }
 
 }
+
+TEST_CASE( "overmap_generation_is_deterministic", "[overmap]" )
+{
+    // Verify that overmap generation produces identical results when the RNG
+    // engine starts from the same state.  Catches stale distribution cache
+    // bugs and any other hidden nondeterminism in the generation pipeline.
+
+    // NOLINTNEXTLINE(cata-determinism)
+    const cata_default_random_engine saved_engine = rng_get_engine();
+
+    map &main_map = get_map();
+    const point_abs_om origin = project_to<coords::om>( main_map.get_abs_sub().xy() );
+
+    // Generate a 2x2 cluster of overmaps (origin + 3 neighbors).
+    const std::vector<point_abs_om> cluster = closest_points_first( origin, 0, 1 );
+
+    constexpr int runs = 3;
+    std::vector<std::vector<oter_id>> snapshots( runs );
+
+    for( int run = 0; run < runs; ++run ) {
+        overmap_buffer.clear();
+        rng_get_engine() = saved_engine;
+
+        // Touch all overmaps in the cluster to trigger generation.
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt = project_to<coords::omt>( om );
+            overmap_buffer.ter( { omt, 0 } );
+        }
+
+        // Snapshot every z=0 tile across the cluster.
+        std::vector<oter_id> &snap = snapshots[run];
+        snap.reserve( cluster.size() * OMAPX * OMAPY );
+        for( const point_abs_om &om : cluster ) {
+            const point_abs_omt omt_start = project_to<coords::omt>( om );
+            const point_abs_omt omt_end = omt_start + point::south_east * OMAPX;
+            for( int y = omt_start.y(); y < omt_end.y(); ++y ) {
+                for( int x = omt_start.x(); x < omt_end.x(); ++x ) {
+                    snap.push_back( overmap_buffer.ter( { point_abs_omt( x, y ), 0 } ) );
+                }
+            }
+        }
+    }
+
+    // Compare each run against the first.
+    for( int run = 1; run < runs; ++run ) {
+        REQUIRE( snapshots[run].size() == snapshots[0].size() );
+        bool match = true;
+        for( size_t i = 0; i < snapshots[0].size(); ++i ) {
+            if( snapshots[run][i] != snapshots[0][i] ) {
+                // Report the first mismatch with tile coordinates.
+                const int tiles_per_om = OMAPX * OMAPY;
+                const int om_idx = static_cast<int>( i ) / tiles_per_om;
+                const int local = static_cast<int>( i ) % tiles_per_om;
+                const int y = local / OMAPX;
+                const int x = local % OMAPX;
+                CAPTURE( run, om_idx, x, y );
+                CAPTURE( snapshots[0][i]->id );
+                CAPTURE( snapshots[run][i]->id );
+                FAIL( "overmap terrain mismatch between run 0 and run " << run );
+                match = false;
+                break;
+            }
+        }
+        if( match ) {
+            SUCCEED( "run " << run << " matches run 0" );
+        }
+    }
+}

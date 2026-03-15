@@ -93,6 +93,13 @@ These are defined in JSON as `martial_art`, which sets rules for usage and appli
     "melee_allowed": true,               // Effect is applied when you have some melee weapon equipped
     "strictly_unarmed": true,            // Effect is applied only when you have no weapon whatsoever, even unarmed weapons
     "wall_adjacent": true,               // Effect is applied when you stand near the wall
+    "stealthy": true,                    // While you have this effect, your footsteps have half the normal sound
+    "quiet": true,                       // While you have this effect, your attacks make no sound
+    "melee_bash_damage_cap_bonus": true, // Your melee skill increases your maximum bashing damage
+    "required_buffs_any": [ "mma_buff_tiger_claw_oncrit" ],    // This effect requires any of the named buffs to be applied
+    "required_buffs_all": [ "mma_buff_panzer_static1" ],    // This effect requires all of the named buffs to be applied
+    "forbidden_buffs_any": [ "mma_buff_hylian_static2", "mma_buff_hylian_static3" ],   // This effect is forbidden if any of the named buffs are applied
+    "forbidden_buffs_all": [ "mma_buff_tiger_claw_onmove" ],   // This effect is forbidden if all of the named buffs are applied
     "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed
     "max_stacks": 8,                     // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
     "bonus_blocks": 1,                   // Extra blocks per turn
@@ -126,7 +133,7 @@ Techniques are special attacks performed while using a given MA style.  These ar
   "unarmed_allowed": true,               // Can an unarmed character use this technique
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ],    // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed
   "melee_allowed": true,                 // Means that ANY melee weapon can be used, NOT just the MAs weapons
-  "powerful_knockback": true,            //
+  "powerful_knockback": true,            // Currently not hooked up to code
   "skill_requirements": [ { "name": "melee", "level": 3 } ],    // Skills and their minimum levels required to use this technique. Can be any skill
   "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],    // Minimum weapon damage required to use this technique. Can be any damage type
   "required_buffs_any": [ "eskrima_hit_buff" ],    // This technique requires any of the named buffs to be active
@@ -211,7 +218,7 @@ Bonuses can be defined with the following values:
 
 Field            | Description
 ----             |----
-`stat`           | Affected statistic.  Can be any of: `hit`, `dodge`, `block`, `speed`, `movecost`, `damage`, `armor`, `arpen`.
+`stat`           | Affected statistic.  Can be any of: `hit`, `dodge`, `block`, `speed`, `movecost`, `damage`, `armor`, `arpen`, `crit_chance`, `block_effectiveness`.
 `type`           | Damage type for the affected statistic (`bash`, `cut`, `heat`, etc.).   Only needed if the affected statistic is either `damage`, `armor`, or `arpen`.
 `scale`          | Value of the bonus.
 `scaling-stat`   | (Optional) Stat used for scaling.  Can be any of the four classic stats (`str`, `dex`, `int`, `per`) or any skill (`bashing`, `dodge`, `unarmed`, `rifles`, `spellcraft`, etc.).  If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat/skill.

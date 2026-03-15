@@ -246,7 +246,6 @@ input_context game::get_player_input( std::string &action )
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
         for( const action_id id : {
-            ACTION_TOGGLE_MAP_MEMORY,
             ACTION_CENTER,
             ACTION_SHIFT_N,
             ACTION_SHIFT_NE,
@@ -1784,7 +1783,7 @@ static void fire()
 
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
-    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ).first > 1 ) {
         reach_attack( you );
         return;
     }
@@ -2141,10 +2140,6 @@ static bool has_vehicle_control( avatar &player_character )
 static void do_deathcam_action( const action_id &act, avatar &player_character )
 {
     switch( act ) {
-        case ACTION_TOGGLE_MAP_MEMORY:
-            player_character.toggle_map_memory();
-            break;
-
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x();
             player_character.view_offset.y() = g->driving_view_offset.y();
@@ -2378,11 +2373,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else {
                 point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
+                    const bool use_grab_routing =
+                        has_grabbed_single_tile_vehicle( player_character, here );
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
-                        destination_preview =
-                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        if( use_grab_routing ) {
+                            destination_preview = route_with_grab( here, player_character,
+                                                                   pathfinding_target::point( auto_travel_destination ),
+                                                                   player_character.get_path_avoid() );
+                        } else {
+                            destination_preview =
+                                here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        }
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );
@@ -2405,6 +2408,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                                                   tripoint_rel_ms( dest_delta, 0 );
                 const ter_id ter_before = here.ter( dest_tile );
                 const furn_id furn_before = here.furn( dest_tile );
+                int veh_door_part_before = -1;
+                if( const optional_vpart_position ovp = here.veh_at( dest_tile ) ) {
+                    veh_door_part_before = ovp->vehicle().next_part_to_open(
+                                               ovp->part_index(), true );
+                }
                 if( !avatar_action::move( player_character, here, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     add_msg_debug( debugmode::DF_ACTIVITY,
@@ -2417,13 +2425,22 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     // General auto-move safety: catches cases where move() returns true
                     // ("handled") but the player didn't actually move. Covers grabbed
                     // vehicle collisions, NPC interactions, and any future similar cases.
-                    // Check if terrain/furniture changed (door opened) - if so, next
-                    // step will walk through, so don't abort.
+                    // Check if terrain, furniture, or a vehicle part changed (door/trunk
+                    // opened) - if so, next step will walk through, so don't abort.
                     const ter_id ter_after = here.ter( dest_tile );
                     const furn_id furn_after = here.furn( dest_tile );
-                    if( ter_before != ter_after || furn_before != furn_after ) {
+                    bool veh_part_opened = false;
+                    if( const optional_vpart_position ovp = here.veh_at( dest_tile ) ) {
+                        // If there was an openable part before but not now, a vehicle
+                        // door/trunk/hatch was opened by avatar_action::move.
+                        const int openable_now = ovp->vehicle().next_part_to_open(
+                                                     ovp->part_index(), true );
+                        veh_part_opened = ( veh_door_part_before >= 0 && openable_now < 0 ) ||
+                                          ( veh_door_part_before >= 0 && openable_now != veh_door_part_before );
+                    }
+                    if( ter_before != ter_after || furn_before != furn_after || veh_part_opened ) {
                         add_msg_debug( debugmode::DF_ACTIVITY,
-                                       "auto_move: pos unchanged but ter/furn changed at (%d,%d), continuing",
+                                       "auto_move: pos unchanged but ter/furn/veh changed at (%d,%d), continuing",
                                        dest_tile.x(), dest_tile.y() );
                     } else {
                         add_msg_debug( debugmode::DF_ACTIVITY,
@@ -2984,7 +3001,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MEDICAL:
-            player_character.disp_medical();
+            if( player_character.disp_medical() ) {
+                return false;
+            }
             break;
 
         case ACTION_BODYSTATUS:

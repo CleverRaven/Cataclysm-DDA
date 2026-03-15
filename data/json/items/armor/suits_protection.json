@@ -2618,7 +2618,7 @@
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
         ],
-        "covers": [ "mouth", "muzzle" ],
+        "covers": [ "mouth", "muzzle", "beak" ],
         "coverage": 95,
         "cover_ranged": 10,
         "encumbrance": 0,

@@ -516,7 +516,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = weapon.get_item();
-    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
+    ui.range = weapon ? weapon->current_reach_range( you ).first : 1;
 
     restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
@@ -1716,7 +1716,7 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
+    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.get_str();
     you.set_activity_level( 10 * str_ratio );
 
     // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
@@ -3149,6 +3149,10 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
         valid_pos.z() = clamp( valid_pos.z(), -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z() = clamp( valid_pos.z() - src.z(), -fov_3d_z_range, fov_3d_z_range ) + src.z();
+        // Or across z-levels (in melee)
+        if( mode == TargetMode::Reach && src.z() != new_pos.z() ) {
+            return false;
+        }
 
         new_traj = here.find_clear_path( src, valid_pos );
         if( range == 1 ) {
@@ -3313,8 +3317,17 @@ void target_ui::update_target_list()
             targets.push_back( target->pos_bub() );
         }
     }
+    // Sort hostile creatures first, then by distance within each group.
+    creature_tracker &creatures = get_creature_tracker();
     std::sort( targets.begin(), targets.end(), [&]( const tripoint_bub_ms lhs,
     const tripoint_bub_ms rhs ) {
+        const Creature *cl = creatures.creature_at( lhs, true );
+        const Creature *cr = creatures.creature_at( rhs, true );
+        const bool lhs_hostile = cl && cl->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        const bool rhs_hostile = cr && cr->attitude_to( *you ) == Creature::Attitude::HOSTILE;
+        if( lhs_hostile != rhs_hostile ) {
+            return lhs_hostile;
+        }
         return rl_dist_exact( lhs, you->pos_bub() ) < rl_dist_exact( rhs, you->pos_bub() );
     } );
 }
@@ -3401,6 +3414,8 @@ void target_ui::update_status()
         // We're out of range. This can happen if we switch from long-ranged
         // gun mode to short-ranged. We can, of course, move the cursor into range automatically,
         // but that would be rude. Instead, wait for directional keys/etc. and *then* move the cursor.
+        status = Status::OutOfRange;
+    } else if( mode == TargetMode::Reach && src.z() != dst.z() ) {
         status = Status::OutOfRange;
     } else {
         status = Status::Good;
@@ -3643,7 +3658,7 @@ void target_ui::update_ammo_range_from_gun_mode()
         }
     } else {
         if( relevant->gun_current_mode().melee() ) {
-            range = relevant->current_reach_range( *you );
+            range = relevant->current_reach_range( *you ).first;
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();
@@ -3744,7 +3759,7 @@ bool target_ui::action_switch_mode()
     } else {
         if( relevant->gun_current_mode().melee() ) {
             refresh = true;
-            range = relevant->current_reach_range( *you );
+            range = relevant->current_reach_range( *you ).first;
         } else {
             ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                    relevant->gun_current_mode().target->ammo_data();

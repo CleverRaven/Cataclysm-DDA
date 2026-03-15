@@ -119,7 +119,7 @@ static void test_archery_balance( const itype_id &weapon_type, const itype_id &a
     }
 }
 
-TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
+TEST_CASE( "archery_damage_thresholds", "[balance] [archery]" )
 {
     // undodgable bolt fired with a guaranteed crit 10 times
 

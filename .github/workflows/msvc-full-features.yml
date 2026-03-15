@@ -98,6 +98,12 @@ jobs:
       env:
         RUNNER_WORKSPACE: ${{ runner.workspace }}
 
+    - name: Cache vcpkg installed packages
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: msvc-full-features/vcpkg_installed
+        key: vcpkg-installed-${{ hashFiles('msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/x64-windows-static.cmake') }}-1b6e030cf096faf4f82d7b7025de8b2abee3e3df
+
     - name: Download ccache
       uses: robinraju/release-downloader@368754b9c6f47c345fcfbf42bcb577c2f0f5f395 # v1.9
       with:

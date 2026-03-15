@@ -1644,6 +1644,29 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                                                         text_alignment::left ) );
                         }
 
+                        if( g->display_overlay_state( ACTION_DISPLAY_SNOW_DEPTH ) && !invisible[0] ) {
+                            const double snow_mm = get_weather().get_snow_depth_mm(
+                                                       project_to<coords::omt>( here.get_abs( pos ) ) );
+                            short color;
+                            const short bold = 8;
+                            if( snow_mm >= 500 ) {
+                                color = catacurses::white + bold;
+                            } else if( snow_mm >= 250 ) {
+                                color = catacurses::cyan + bold;
+                            } else if( snow_mm >= 100 ) {
+                                color = catacurses::blue + bold;
+                            } else if( snow_mm >= 1 ) {
+                                color = catacurses::green + bold;
+                            } else {
+                                color = catacurses::dark_gray;
+                            }
+
+                            std::string snow_str = string_format( "%.0f", snow_mm );
+                            here.overlay_strings_cache.emplace( player_to_screen( point_bub_ms( x, y ) ),
+                                                                formatted_text( snow_str, color,
+                                                                        text_alignment::left ) );
+                        }
+
                         if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
                             g->displaying_visibility_creature && !invisible[0] ) {
                             const bool visibility = g->displaying_visibility_creature->sees( here, pos );

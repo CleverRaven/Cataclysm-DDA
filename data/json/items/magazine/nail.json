@@ -9,7 +9,7 @@
     "weight": "60 g",
     "volume": "250 ml",
     "price": "19 USD 20 cent",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "nail",

@@ -1141,12 +1141,12 @@ TEST_CASE( "uncraft_sanity_check", "[item]" )
         }
 
         const units::mass item_weight = target.type->weight;
-        const units::mass weight_difference = units::fabs( sum_of_components_weight - item_weight );
+        const units::mass weight_difference = units::abs( sum_of_components_weight - item_weight );
         const units::mass weight_tolerance = tolerance * item_weight;
         const bool is_within_tolerance = weight_difference <= weight_tolerance;
 
         if( !is_within_tolerance ) {
-            INFO( string_format( "Item %s weight %s gram, but it's uncrafting recipe (including crafting with 'reversible: true') has components with total weight of %s gram.  It should be within %.0f%%.",
+            INFO( string_format( "Item %s weight %d gram, but it's uncrafting recipe (including crafting with 'reversible: true') has components with total weight of %d gram.  It should be within %.0f%%.",
                                  target.typeId().str(), to_gram( item_weight ),
                                  to_gram( sum_of_components_weight ), tolerance * 100.f ) );
             CHECK( is_within_tolerance );
@@ -1181,8 +1181,7 @@ TEST_CASE( "uncraft_blacklist_is_pruned", "[item]" )
         for( const item_comp &c : target.get_uncraft_components() ) {
             sum_of_components_weight += c.type->weight * c.count;
         }
-
-        const units::mass weight_difference = units::fabs( sum_of_components_weight - item_weight );
+        const units::mass weight_difference = units::abs( sum_of_components_weight - item_weight );
         const units::mass weight_tolerance = tolerance * item_weight;
         const bool is_within_tolerance = weight_difference <= weight_tolerance;
 

@@ -143,6 +143,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
             mon_flag_PHOTOPHOBIC,
+            mon_flag_PLANT_BLOOD,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
@@ -280,6 +281,7 @@ void set_mon_flag_ids()
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
     mon_flag_PHOTOPHOBIC = mon_flag_id( "PHOTOPHOBIC" );
+    mon_flag_PLANT_BLOOD = mon_flag_id( "PLANT_BLOOD" );
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
@@ -458,7 +460,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_veggy ) || has_flag( mon_flag_PLANT_BLOOD ) ) {
         return fd_blood_veggy;
     }
     if( made_of( material_iflesh ) ) {

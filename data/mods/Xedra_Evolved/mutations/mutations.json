@@ -591,8 +591,8 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_TRUCE",
-    "name": { "str": "Vampire's Truce" },
-    "description": "The hidden trait that makes other vampires not attack you first.  It should be hidden.",
+    "name": { "str": "Vampire's Truce", "//~": "NO_I18N" },
+    "description": { "str": "The hidden trait that makes other vampires not attack you first.  It should be hidden.", "//~": "NO_I18N" },
     "points": 1,
     "valid": false,
     "purifiable": false,
@@ -1482,7 +1482,7 @@
     "id": "BLOOD_DRINKER",
     "name": { "str": "Fully fueled by the Blood" },
     "points": 0,
-    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
+    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs and feelings.  The only thing you need and care about now is blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -1624,9 +1624,12 @@
   {
     "type": "mutation",
     "id": "MENTOR_PEACE",
-    "name": { "str": "Mentor's peace" },
     "points": 0,
-    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+    "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
+    "description": {
+      "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields and makes them react to attacks by vanishing in mist.",
+      "//~": "NO_I18N"
+    },
     "//": "Until NPC_DEATH can work, I'm using a forcefield so they can't perma-die before vanishing forever.  I tried to use an evasion effect so the message would be more fitting but it interfered with the hit_me.",
     "//2": "<npcname> and %1$s both failed to work for dialogue-based vanishing, so until it is fixed these messages will refer to the mentor's title.",
     "starting_trait": false,

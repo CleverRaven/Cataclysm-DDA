@@ -266,6 +266,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL: return "DISPLAY_SCENTS_TYPE_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_TEMP: return "DISPLAY_TEMP";
+        case debug_menu::debug_menu_index::DISPLAY_SNOW_DEPTH: return "DISPLAY_SNOW_DEPTH";
         case debug_menu::debug_menu_index::DISPLAY_VEHICLE_AI: return "DISPLAY_VEHICLE_AI";
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
@@ -965,6 +966,7 @@ static int info_uilist()
         { uilist_entry( debug_menu_index::DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
         { uilist_entry( debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
         { uilist_entry( debug_menu_index::DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+        { uilist_entry( debug_menu_index::DISPLAY_SNOW_DEPTH, true, 'W', _( "Toggle display snow depth" ) ) },
         { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
         { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
         { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
@@ -1927,35 +1929,31 @@ static void control_npc_menu()
 static void character_edit_stats_menu( Character &you )
 {
     uilist smenu;
-    smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), you.str_max );
-    smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), you.dex_max );
-    smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), you.int_max );
-    smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), you.per_max );
+    smenu.addentry( 0, true, 'S', "%s: %d", _( "Base strength" ), you.get_str_base() );
+    smenu.addentry( 1, true, 'D', "%s: %d", _( "Base dexterity" ), you.get_dex_base() );
+    smenu.addentry( 2, true, 'I', "%s: %d", _( "Base intelligence" ), you.get_int_base() );
+    smenu.addentry( 3, true, 'P', "%s: %d", _( "Base perception" ), you.get_per_base() );
     smenu.query();
-    int *bp_ptr = nullptr;
-    switch( smenu.ret ) {
-        case 0:
-            bp_ptr = &you.str_max;
-            break;
-        case 1:
-            bp_ptr = &you.dex_max;
-            break;
-        case 2:
-            bp_ptr = &you.int_max;
-            break;
-        case 3:
-            bp_ptr = &you.per_max;
-            break;
-        default:
-            break;
-    }
 
-    if( bp_ptr != nullptr ) {
-        int value = *bp_ptr;
-        if( query_int( value, true, _( "Set the stat to?" ) ) && value >= 0 ) {
-            *bp_ptr = value;
-            you.reset_stats();
+    int value = -1;
+    if( query_int( value, true, _( "Set the base stat to?" ) ) && value >= 0 ) {
+        switch( smenu.ret ) {
+            case 0:
+                you.set_str_base( value );
+                break;
+            case 1:
+                you.set_dex_base( value );
+                break;
+            case 2:
+                you.set_int_base( value );
+                break;
+            case 3:
+                you.set_per_base( value );
+                break;
+            default:
+                break;
         }
+        you.reset_stats();
     }
 }
 
@@ -4328,6 +4326,9 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
+            break;
+        case debug_menu_index::DISPLAY_SNOW_DEPTH:
+            g->display_toggle_overlay( ACTION_DISPLAY_SNOW_DEPTH );
             break;
         case debug_menu_index::DISPLAY_VEHICLE_AI:
             g->display_toggle_overlay( ACTION_DISPLAY_VEHICLE_AI );
