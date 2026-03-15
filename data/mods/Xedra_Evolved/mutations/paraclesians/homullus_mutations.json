@@ -331,7 +331,7 @@
   {
     "type": "mutation",
     "id": "HOMULLUS_CAN_USE_ELECTRONICS",
-    "name": { "str": "Circuits Like Veins" },
+    "name": { "str": "Veins Like Circuits" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
