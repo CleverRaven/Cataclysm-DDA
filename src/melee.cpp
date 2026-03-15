@@ -1030,6 +1030,8 @@ bool Character::can_reach_attack( const Creature &target ) const
     int vert_reach = 0;
     if( maybe_weapon ) {
         vert_reach = maybe_weapon->current_reach_range( *this ).second;
+    } else {
+        vert_reach = null_item_reference().current_reach_range( *this ).second;
     }
 
     if( std::abs( pos_bub().z() - target.pos_bub().z() ) > vert_reach ) {
