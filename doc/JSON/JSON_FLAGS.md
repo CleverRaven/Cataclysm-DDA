@@ -1542,6 +1542,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WRITE_MESSAGE``` This item could be used to write messages on signs.
+- ```NO_MANUAL_ACTIVATION``` Prevents item from being activated by player/NPCs. Currently used for items that should be activated by throwing, like Molotovs
 
 
 ### `use_action`

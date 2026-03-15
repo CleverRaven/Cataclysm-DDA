@@ -247,6 +247,8 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const flag_id json_flag_NO_MANUAL_ACTIVATION( "NO_MANUAL_ACTIVATION" );
+
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
@@ -9264,6 +9266,9 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
                                             it.tname() );
     } else if( it.is_broken() ) {
         return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
+                                            it.tname() );
+    } else if( it.has_flag( json_flag_NO_MANUAL_ACTIVATION ) ) {
+        return ret_val<void>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
     }
     return actor->can_use( p, it, here, pos );
