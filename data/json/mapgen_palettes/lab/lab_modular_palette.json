@@ -120,7 +120,7 @@
       "o": [ { "item": "saline_bottle_random", "chance": 100 } ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 10 },
-        { "item": "SUS_bathroom_cabinet", "chance": 20 },
+        { "item": "SUS_bathroom_cabinet", "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 20 },
         { "item": "harddrugs", "chance": 2 }
       ],
@@ -464,7 +464,7 @@
       "V": { "item": "mut_lab", "chance": 50 },
       "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "8": [
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 45, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs", "chance": 2 }
       ],
@@ -590,7 +590,7 @@
       "V": { "item": "softdrugs", "chance": 50 },
       "Y": { "item": "SUS_trash_trashcan", "chance": 30 },
       "8": [
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs", "chance": 2 }
       ],
