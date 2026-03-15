@@ -3886,7 +3886,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.02 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 },
-          { "value": "MAX_HP", "add": 14 }
+          { "value": "MAX_HP", "add": 14 },
+          { "value": "WEIGHT", "multiply": 0.15 }
         ]
       }
     ]
@@ -3906,7 +3907,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.04 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 },
-          { "value": "MAX_HP", "add": 21 }
+          { "value": "MAX_HP", "add": 21 },
+          { "value": "WEIGHT", "multiply": 0.25 }
         ]
       }
     ]
@@ -3930,7 +3932,8 @@
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
           { "value": "DODGE_CHANCE", "add": -1 },
-          { "value": "CARRY_WEIGHT", "multiply": 0.15 }
+          { "value": "CARRY_WEIGHT", "multiply": 0.15 },
+          { "value": "WEIGHT", "multiply": 0.05 }
         ]
       }
     ]
@@ -4022,7 +4025,15 @@
     "ugliness": 1,
     "bodytemp_modifiers": [ 200, 200 ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 },
+          { "value": "WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4730,6 +4741,7 @@
     "name": { "str": "Feathered Arms" },
     "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.",
     "category": [ "RAPTOR", "BIRD" ],
+    "types": [ "ARMS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "points": 2,
     "mixed_effect": true,
@@ -4739,7 +4751,12 @@
     "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
     "enchantments": [
       {
-        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_feathers_l" }, { "gain": "arm_feathers_r" } ]
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "gain": "arm_feathers_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "gain": "arm_feathers_r" } ]
       }
     ]
   },
@@ -4761,7 +4778,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 },
+          { "value": "WEIGHT", "multiply": -0.05 }
         ]
       }
     ]
@@ -4783,7 +4801,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.4 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.4 },
+          { "value": "WEIGHT", "multiply": -0.1 }
         ]
       }
     ]
@@ -4961,6 +4980,9 @@
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
       },
       {
+        "condition": {
+          "and": [ { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } }, { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } } ]
+        },
         "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
       }
     ]

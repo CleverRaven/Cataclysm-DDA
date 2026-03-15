@@ -141,6 +141,7 @@
           { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true },
           { "math": [ "u_timer_hub_waiting_on_autodoc = time('now')" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_add_var": "dialogue_hub_u_waiting_on_autodoc", "value": "yes" }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE"
@@ -152,6 +153,7 @@
           { "u_consume_item": "exodii_chop_shop_head", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI", "success": true },
           { "math": [ "u_timer_hub_waiting_on_autodoc = time('now')" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_add_var": "dialogue_hub_u_waiting_on_autodoc", "value": "yes" }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_CIRCUIT_SAFARI_COMPLETE_ALT"

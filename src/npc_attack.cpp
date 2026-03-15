@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
@@ -262,7 +263,7 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
     }
     int target_distance = rl_dist( source.pos_bub(), location );
     if( !source.is_adjacent( critter, true ) ) {
-        if( target_distance <= weapon.reach_range( source ) ) {
+        if( target_distance <= weapon.reach_range( source ).first ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
@@ -419,7 +420,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     // rating against armored targets
     double damage{ weapon.base_damage_melee().total_damage() };
     damage *= 100.0 / weapon.attack_time( source );
-    const int reach_range{ weapon.reach_range( source ) };
+    const int reach_range{ weapon.reach_range( source ).first };
     const int distance_to_me = clamp( rl_dist( source.pos_bub(), critter->pos_bub() ) - reach_range, 0,
                                       10 );
     // Multiplier of 0.5f to 1.5f based on distance
