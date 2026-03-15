@@ -18,6 +18,7 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_appliance.h"
@@ -609,4 +610,90 @@ TEST_CASE( "grid_power_cross_turn_recovery", "[vehicle][power][grid]" )
     here.vehmove();
     CHECK( lamp_veh.part( consumer_idx ).enabled );
     CHECK_FALSE( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "cable_survives_target_outside_reality_bubble", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    // Place an appliance to connect to
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    std::optional<item> battery_item( itype_test_storage_battery );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery,
+                     player_character, battery_item );
+
+    const optional_vpart_position target_vp = here.veh_at( battery_pos );
+    REQUIRE( target_vp.has_value() );
+
+    // Create a cord and link one end to the appliance (single-ended link).
+    // This simulates a tool/item connected to a vehicle via cable.
+    item cord( itype_test_power_cord );
+    ret_val<void> result = cord.link_to( target_vp, link_state::vehicle_port );
+    REQUIRE( result.success() );
+    REQUIRE( cord.has_link_data() );
+    REQUIRE( cord.link().target == link_state::vehicle_port );
+
+    // Where the cord "sits" on the map
+    const tripoint_bub_ms cord_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+    // Initialize s_bub_pos so process_link doesn't trigger a length check
+    cord.link().s_bub_pos = cord_pos;
+
+    // Drop the cord on the map so process() works correctly
+    here.add_item( cord_pos, cord );
+    item &map_cord = here.i_at( cord_pos ).only_item();
+    REQUIRE( map_cord.has_link_data() );
+    REQUIRE( map_cord.link().target == link_state::vehicle_port );
+
+    SECTION( "cable disconnects when in-bounds target vehicle is gone" ) {
+        // Set target to an in-bounds position with no vehicle, expire the reference.
+        // This simulates a genuinely missing vehicle -- should disconnect.
+        tripoint_bub_ms empty_pos( HALF_MAPSIZE_X + 10, HALF_MAPSIZE_Y + 10, 0 );
+        map_cord.link().t_abs_pos = here.get_abs( empty_pos );
+        map_cord.link().t_veh = safe_reference<vehicle>();
+
+        map_cord.process( here, nullptr, cord_pos );
+
+        CHECK_FALSE( map_cord.has_link_data() );
+    }
+
+    SECTION( "cable survives when target is out of bounds" ) {
+        // Set target to an OOB position and expire the reference.
+        // This simulates a vehicle whose submap was unloaded during a bubble
+        // transition -- it still exists, just not accessible right now.
+        tripoint_abs_ms oob_pos = here.get_abs( battery_pos ) +
+                                  tripoint( MAPSIZE_X * 2, MAPSIZE_Y * 2, 0 );
+        REQUIRE_FALSE( here.inbounds( oob_pos ) );
+
+        map_cord.link().t_abs_pos = oob_pos;
+        map_cord.link().t_veh = safe_reference<vehicle>();
+
+        map_cord.process( here, nullptr, cord_pos );
+
+        // Cable should still be connected -- target is just out of the bubble
+        CHECK( map_cord.has_link_data() );
+        CHECK( map_cord.link().target == link_state::vehicle_port );
+    }
+
+    SECTION( "OOB length check does not false-positive disconnect" ) {
+        // Set target to OOB but keep the vehicle reference valid.
+        // Move the cord position so length_check_needed triggers.
+        // Stale OOB positions should not cause false over-extension.
+        tripoint_abs_ms oob_pos = here.get_abs( battery_pos ) +
+                                  tripoint( MAPSIZE_X * 2, MAPSIZE_Y * 2, 0 );
+        REQUIRE_FALSE( here.inbounds( oob_pos ) );
+
+        map_cord.link().t_abs_pos = oob_pos;
+        // Keep t_veh valid (pointing to the real vehicle)
+        // but force a length check by changing s_bub_pos
+        tripoint_bub_ms moved_pos( HALF_MAPSIZE_X + 5, HALF_MAPSIZE_Y + 2, 0 );
+
+        map_cord.process( here, nullptr, moved_pos );
+
+        // Cable should survive -- stale OOB positions are unreliable for length
+        CHECK( map_cord.has_link_data() );
+        CHECK( map_cord.link().target == link_state::vehicle_port );
+    }
 }
