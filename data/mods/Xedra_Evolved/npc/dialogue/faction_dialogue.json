@@ -1,0 +1,115 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "Can you teach me about those glowing boxes?",
+        "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+            { "math": [ "n_skill('computers) >= 5" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "text": "Can you teach me about those glowing boxes?",
+        "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_NO",
+        "condition": {
+          "and": [
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+            { "math": [ "n_skill('computers) < 5" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Can you teach me how to use your thinking machines?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_SURE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+            { "math": [ "n_skill('computers) >= 5" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
+            }
+          ]
+        },
+        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+      },
+      {
+        "text": "Can you teach me how to use your thinking machines?",
+        "topic": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_NO",
+        "condition": {
+          "and": [
+            { "u_has_trait": "HOMULLUS" },
+            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+            { "math": [ "n_skill('computers) < 5" ] },
+            {
+              "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_COMPUTERS_SURE",
+    "dynamic_line": [ "Box-  You mean, phones?  Computers?  Oh, sure.  Just let me know when." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_COMPUTERS_NO",
+    "dynamic_line": [ "Box-  You mean, phones?  Computers?  I'm sorry, I don't really know much about that stuff." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_low", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_SURE",
+    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  I'm sorry, I don't really know much about that stuff." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_high", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_NO",
+    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  I'm sorry, I don't really know much about that stuff." ],
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_FRIEND",
+        "effect": { "npc_add_var": "asked_faction_npc_about_paraclesian_computer_teaching_low", "value": "yes" }
+      }
+    ]
+  }
+]
