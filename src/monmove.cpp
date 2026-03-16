@@ -1902,9 +1902,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through tile above them, except they may attack other monsters
+    // through the surface above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -2057,7 +2057,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
             ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
         ) && ( here.is_divable( destination ) ||
-               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) );
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ||
+               // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
+               ( has_flag( mon_flag_AQUATIC ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
