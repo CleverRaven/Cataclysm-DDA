@@ -1233,7 +1233,8 @@ void monster::move()
                     continue;
                 }
                 const Attitude att = attitude_to( *target );
-                if( att == Attitude::HOSTILE && !is_z_move ) {
+                if( att == Attitude::HOSTILE &&
+                    ( !is_z_move || here.on_matching_stairs( pos_bub(), candidate ) ) ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
@@ -1919,7 +1920,8 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     Character &player_character = get_player_character();
     const bool sees_player = sees( here, player_character );
     // Targeting player location
-    if( p == player_character.pos_bub() && p.z() == pos_bub().z() ) {
+    if( p == player_character.pos_bub() &&
+        ( p.z() == pos_bub().z() || here.on_matching_stairs( pos_bub(), p ) ) ) {
         if( sees_player ) {
             return melee_attack( player_character );
         } else {

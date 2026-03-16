@@ -574,7 +574,8 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, false ) ) {
+    if( !is_adjacent( &t, false ) &&
+        !get_map().on_matching_stairs( pos_bub(), t.pos_bub() ) ) {
         return false;
     }
 
@@ -1026,6 +1027,13 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 
 bool Character::can_reach_attack( const Creature &target ) const
 {
+    if( pos_bub().z() == target.pos_bub().z() ) {
+        return true;
+    }
+    if( get_map().on_matching_stairs( pos_bub(), target.pos_bub() ) ) {
+        return true;
+    }
+
     item_location maybe_weapon = get_wielded_item();
     int vert_reach = 0;
     if( maybe_weapon ) {
