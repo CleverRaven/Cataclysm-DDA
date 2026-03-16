@@ -770,6 +770,9 @@ class map
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings,
                         PathfindingFlags p_special ) const;
+        // Re-enables appliance parts that were disabled by power_parts() deficit
+        // when the connected grid actually has battery charge available.
+        void resolve_appliance_grid_power();
     public:
 
         // Vehicles: Common to 2D and 3D
@@ -1052,6 +1055,10 @@ class map
         bool has_flag_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
+
+        // Returns true if a and b are on matching stairs connecting them
+        // across exactly one z-level (one has GOES_UP, the other GOES_DOWN).
+        bool on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const;
 
         // Bashable
         /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */

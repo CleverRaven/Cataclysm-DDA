@@ -714,6 +714,71 @@ void map::on_vehicle_moved( const int smz )
     set_pathfinding_cache_dirty( smz );
 }
 
+void map::resolve_appliance_grid_power()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    std::unordered_set<vehicle *> resolved;
+
+    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+        const level_cache *cache = get_cache_lazy( zlev );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
+            if( !veh->is_appliance() ) {
+                continue;
+            }
+            if( resolved.count( veh ) ) {
+                continue;
+            }
+            bool has_power_disabled = false;
+            for( const vpart_reference &vp : veh->get_all_parts() ) {
+                if( vp.part().power_disabled ) {
+                    has_power_disabled = true;
+                    break;
+                }
+            }
+            if( !has_power_disabled ) {
+                continue;
+            }
+            // found a candidate -- resolve its entire grid
+            std::map<vehicle *, float> grid = veh->search_connected_vehicles( *this );
+            int total_charge = 0;
+            for( const auto &[grid_veh, loss] : grid ) {
+                total_charge += grid_veh->battery_power_level().first;
+            }
+            if( total_charge > 0 ) {
+                for( const auto &[grid_veh, loss] : grid ) {
+                    if( !grid_veh->is_appliance() ) {
+                        continue;
+                    }
+                    for( const vpart_reference &vp : grid_veh->get_all_parts() ) {
+                        vehicle_part &pt = vp.part();
+                        if( !pt.power_disabled ) {
+                            continue;
+                        }
+                        if( pt.is_unavailable() ) {
+                            pt.power_disabled = false;
+                            continue;
+                        }
+                        if( pt.enabled ) {
+                            // user re-enabled it manually, just clear the flag
+                            pt.power_disabled = false;
+                            continue;
+                        }
+                        pt.enabled = true;
+                        pt.power_disabled = false;
+                    }
+                }
+            }
+            for( const auto &[grid_veh, loss] : grid ) {
+                resolved.insert( grid_veh );
+            }
+        }
+    }
+}
+
 void map::vehmove()
 {
     // give vehicles movement points
@@ -781,6 +846,8 @@ void map::vehmove()
         veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
+
+    resolve_appliance_grid_power();
 
     // refresh vehicle zones for moved vehicles
     zone_manager::get_manager().cache_vzones( this );
@@ -3238,6 +3305,25 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms 
 
     return current_submap->get_ter( l ).obj().has_flag( flag ) ||
            current_submap->get_furn( l ).obj().has_flag( flag );
+}
+
+bool map::on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const
+{
+    if( a.xy() != b.xy() ) {
+        return false;
+    }
+    const int dz = b.z() - a.z();
+    if( std::abs( dz ) != 1 ) {
+        return false;
+    }
+    const tripoint_bub_ms &lower = dz > 0 ? a : b;
+    const tripoint_bub_ms &upper = dz > 0 ? b : a;
+    if( has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, lower ) ||
+        has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, upper ) ) {
+        return false;
+    }
+    return has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) &&
+           has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper );
 }
 
 // End of 3D flags

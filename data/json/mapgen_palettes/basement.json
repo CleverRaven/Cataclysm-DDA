@@ -59,7 +59,7 @@
       ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 50 },
-        { "item": "SUS_bathroom_cabinet", "chance": 50 },
+        { "item": "SUS_bathroom_cabinet", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "harddrugs_residential", "chance": 2 }
       ],

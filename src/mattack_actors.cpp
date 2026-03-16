@@ -1,6 +1,7 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <functional>
 #include <iterator>
 #include <limits>
@@ -38,6 +39,7 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "melee.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -530,14 +532,41 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
+    if( range == 1 && !z.is_adjacent( target, /*bool allow_z_levels =*/ false ) ) {
+        return nullptr;
+    }
+
     if( range > 1 ) {
-        if( !z.sees( here, *target ) ||
-            !here.clear_path( z.pos_bub( here ), target->pos_bub( here ), range, 1, 200 ) ) {
+        if( !z.sees( here, *target ) ) {
             return nullptr;
         }
 
-    } else if( !z.is_adjacent( target, false ) ) {
-        return nullptr;
+        const int horiz_dist = rl_dist( z.pos_bub().xy(), target->pos_bub().xy() );
+
+        // Little patch until trig_dist updates. Hopefully you aren't reading this in 2030+ :)
+        const int vert_distance_scale = 4;
+        const int vert_dist = std::abs( z.pos_bub().z() - target->pos_bub().z() ) * vert_distance_scale;
+
+        if( horiz_dist + vert_dist > range ) {
+            return nullptr;
+        }
+
+        std::vector<tripoint_bub_ms> path = line_to( z.pos_bub(), target->pos_bub(), 0, 0 );
+        path.pop_back(); // Last point is our target
+
+        // Scaled-down reimplementation of Character::reach_attack() with character-specific values removed.
+        for( const tripoint_bub_ms &path_point : path ) {
+            Creature *collateral_damage = get_creature_tracker().creature_at( path_point );
+            if( collateral_damage ) {
+                return nullptr; // Something else in the way, can't attack
+            }
+            // All ranged melee specials are considered to be "Spear" type attacks or otherwise capable of passing through thin obstacles
+            if( here.impassable( path_point ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) {
+                return nullptr; // Wall or something
+            }
+        }
+        return target; // Nothing in the way, is in range, we can hit it!
     }
 
     return target;
@@ -805,7 +834,7 @@ bool melee_actor::call( monster &z ) const
 
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+    int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ) );
 
     // Pick bodyparts hit
     std::vector<bodypart_id> bodyparts_hit;

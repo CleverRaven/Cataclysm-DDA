@@ -9,22 +9,37 @@
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "options_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
+#include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_appliance.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather_type.h"
 
 static const efftype_id effect_blind( "blind" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id itype_test_high_drain_lamp( "test_high_drain_lamp" );
+static const itype_id itype_test_power_cord( "test_power_cord" );
 static const itype_id itype_test_power_cord_25_loss( "test_power_cord_25_loss" );
+static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
+static const itype_id itype_test_storage_battery( "test_storage_battery" );
 
+static const vpart_id vpart_ap_test_high_drain_lamp( "ap_test_high_drain_lamp" );
+static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
+static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 
@@ -340,3 +355,345 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
     }
 }
 
+static void connect_power_cord( const tripoint_bub_ms &src_pos, const tripoint_bub_ms &dst_pos )
+{
+    map &here = get_map();
+    const optional_vpart_position target_vp = here.veh_at( dst_pos );
+    const optional_vpart_position source_vp = here.veh_at( src_pos );
+    REQUIRE( target_vp.has_value() );
+    REQUIRE( source_vp.has_value() );
+    REQUIRE( &target_vp->vehicle() != &source_vp->vehicle() );
+
+    item cord( itype_test_power_cord );
+    ret_val<void> result = cord.link_to( target_vp, source_vp, link_state::vehicle_port );
+    REQUIRE( result.success() );
+}
+
+// Helper: find the index of the first part with ENABLED_DRAINS_EPOWER on a vehicle
+static int find_consumer_part_idx( vehicle &veh )
+{
+    for( const vpart_reference &vp : veh.get_all_parts() ) {
+        if( vp.info().has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
+            return vp.part_index();
+        }
+    }
+    return -1;
+}
+
+TEST_CASE( "power_parts_sets_power_disabled_flag_on_deficit", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms lamp_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+
+    // Use the 1 kW lamp so power_to_energy_bat produces a non-zero delta
+    // deterministically (1 kW * 1s = 1 kJ, roll_remainder(1.0) = 1 always).
+    std::optional<item> battery_item( itype_test_storage_battery );
+    std::optional<item> lamp_item( itype_test_high_drain_lamp );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, lamp_pos, vpart_ap_test_high_drain_lamp, player_character, lamp_item );
+
+    connect_power_cord( battery_pos, lamp_pos );
+
+    vehicle &lamp_veh = here.veh_at( lamp_pos )->vehicle();
+    vehicle &bat_veh = here.veh_at( battery_pos )->vehicle();
+    const int consumer_idx = find_consumer_part_idx( lamp_veh );
+    REQUIRE( consumer_idx != -1 );
+
+    // Drain battery completely
+    bat_veh.discharge_battery( here, 100000000 );
+    REQUIRE( bat_veh.fuel_left( here, fuel_type_battery ) == 0 );
+
+    // Force the consumer enabled so power_parts() can disable it
+    lamp_veh.part( consumer_idx ).enabled = true;
+    lamp_veh.part( consumer_idx ).power_disabled = false;
+
+    calendar::turn += 1_turns;
+    here.vehmove();
+
+    // power_parts() should have disabled the consumer AND set the flag.
+    // Note: resolve_appliance_grid_power() runs after but won't re-enable
+    // because the battery is at 0.
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).enabled );
+    CHECK( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "grid_power_resolution_reenables_appliances", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms lamp_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+
+    std::optional<item> battery_item( itype_test_storage_battery );
+    std::optional<item> lamp_item( itype_test_standing_lamp );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, lamp_pos, vpart_ap_test_standing_lamp, player_character, lamp_item );
+
+    connect_power_cord( battery_pos, lamp_pos );
+
+    vehicle &lamp_veh = here.veh_at( lamp_pos )->vehicle();
+    vehicle &bat_veh = here.veh_at( battery_pos )->vehicle();
+    const int consumer_idx = find_consumer_part_idx( lamp_veh );
+    REQUIRE( consumer_idx != -1 );
+
+    // Simulate the state after power_parts() deficit: consumer disabled with flag set.
+    // (The deficit fires stochastically via roll_remainder for small consumers like -20W,
+    // so we set the state directly rather than waiting for random rounding.)
+    lamp_veh.part( consumer_idx ).enabled = false;
+    lamp_veh.part( consumer_idx ).power_disabled = true;
+
+    // Battery has charge -- resolution should re-enable the consumer
+    REQUIRE( bat_veh.fuel_left( here, fuel_type_battery ) > 0 );
+
+    calendar::turn += 1_turns;
+    here.vehmove();
+    CHECK( lamp_veh.part( consumer_idx ).enabled );
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "grid_power_no_recovery_without_power", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms lamp_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+
+    std::optional<item> battery_item( itype_test_storage_battery );
+    std::optional<item> lamp_item( itype_test_standing_lamp );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, lamp_pos, vpart_ap_test_standing_lamp, player_character, lamp_item );
+
+    connect_power_cord( battery_pos, lamp_pos );
+
+    vehicle &lamp_veh = here.veh_at( lamp_pos )->vehicle();
+    vehicle &bat_veh = here.veh_at( battery_pos )->vehicle();
+    const int consumer_idx = find_consumer_part_idx( lamp_veh );
+    REQUIRE( consumer_idx != -1 );
+
+    // Simulate power deficit state
+    lamp_veh.part( consumer_idx ).enabled = false;
+    lamp_veh.part( consumer_idx ).power_disabled = true;
+
+    // Drain all battery power
+    bat_veh.discharge_battery( here, 100000000 );
+    REQUIRE( bat_veh.fuel_left( here, fuel_type_battery ) == 0 );
+
+    calendar::turn += 1_turns;
+    here.vehmove();
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).enabled );
+    CHECK( lamp_veh.part( consumer_idx ).power_disabled );
+
+    // another turn, still no power
+    calendar::turn += 1_turns;
+    here.vehmove();
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).enabled );
+    CHECK( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "user_disabled_appliance_not_reenabled", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms lamp_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+
+    std::optional<item> battery_item( itype_test_storage_battery );
+    std::optional<item> lamp_item( itype_test_standing_lamp );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, lamp_pos, vpart_ap_test_standing_lamp, player_character, lamp_item );
+
+    connect_power_cord( battery_pos, lamp_pos );
+
+    vehicle &lamp_veh = here.veh_at( lamp_pos )->vehicle();
+    const int consumer_idx = find_consumer_part_idx( lamp_veh );
+    REQUIRE( consumer_idx != -1 );
+
+    // user manually disables the lamp (power_disabled stays false)
+    lamp_veh.part( consumer_idx ).enabled = false;
+    lamp_veh.part( consumer_idx ).power_disabled = false;
+
+    calendar::turn += 1_turns;
+    here.vehmove();
+
+    // resolution should not touch user-disabled parts
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).enabled );
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "non_appliance_vehicle_not_auto_recovered", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+
+    // build a regular (non-appliance) vehicle with a frame, battery, and a consumer part
+    const tripoint_bub_ms veh_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, veh_pos, 0_degrees, 0, 0 );
+    REQUIRE( veh != nullptr );
+    const int frame_idx = veh->install_part( here, point_rel_ms::zero, vpart_frame );
+    REQUIRE( frame_idx != -1 );
+    const int bat_idx = veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery );
+    REQUIRE( bat_idx != -1 );
+    veh->refresh();
+    here.add_vehicle_to_cache( veh );
+
+    // charge battery, then drain it
+    veh->charge_battery( here, 500 );
+    REQUIRE( veh->fuel_left( here, fuel_type_battery ) > 0 );
+
+    // the small_storage_battery vehicle is NOT an appliance
+    REQUIRE_FALSE( veh->is_appliance() );
+
+    // manually simulate a power deficit disable
+    veh->part( bat_idx ).enabled = false;
+    veh->part( bat_idx ).power_disabled = true;
+
+    calendar::turn += 1_turns;
+    here.vehmove();
+
+    // resolution should skip non-appliance vehicles
+    CHECK_FALSE( veh->part( bat_idx ).enabled );
+}
+
+TEST_CASE( "grid_power_cross_turn_recovery", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms lamp_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+
+    std::optional<item> battery_item( itype_test_storage_battery );
+    std::optional<item> lamp_item( itype_test_standing_lamp );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, lamp_pos, vpart_ap_test_standing_lamp, player_character, lamp_item );
+
+    connect_power_cord( battery_pos, lamp_pos );
+
+    vehicle &lamp_veh = here.veh_at( lamp_pos )->vehicle();
+    vehicle &bat_veh = here.veh_at( battery_pos )->vehicle();
+    const int consumer_idx = find_consumer_part_idx( lamp_veh );
+    REQUIRE( consumer_idx != -1 );
+
+    // Simulate power deficit state with drained battery
+    bat_veh.discharge_battery( here, 100000000 );
+    REQUIRE( bat_veh.fuel_left( here, fuel_type_battery ) == 0 );
+    lamp_veh.part( consumer_idx ).enabled = false;
+    lamp_veh.part( consumer_idx ).power_disabled = true;
+
+    // second turn, still no power -- flag persists
+    calendar::turn += 1_turns;
+    here.vehmove();
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).enabled );
+    CHECK( lamp_veh.part( consumer_idx ).power_disabled );
+
+    // third turn, charge battery -- should recover
+    bat_veh.charge_battery( here, 1000 );
+    REQUIRE( bat_veh.fuel_left( here, fuel_type_battery ) > 0 );
+    calendar::turn += 1_turns;
+    here.vehmove();
+    CHECK( lamp_veh.part( consumer_idx ).enabled );
+    CHECK_FALSE( lamp_veh.part( consumer_idx ).power_disabled );
+}
+
+TEST_CASE( "cable_survives_target_outside_reality_bubble", "[vehicle][power][grid]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    // Place an appliance to connect to
+    const tripoint_bub_ms battery_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    std::optional<item> battery_item( itype_test_storage_battery );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery,
+                     player_character, battery_item );
+
+    const optional_vpart_position target_vp = here.veh_at( battery_pos );
+    REQUIRE( target_vp.has_value() );
+
+    // Create a cord and link one end to the appliance (single-ended link).
+    // This simulates a tool/item connected to a vehicle via cable.
+    item cord( itype_test_power_cord );
+    ret_val<void> result = cord.link_to( target_vp, link_state::vehicle_port );
+    REQUIRE( result.success() );
+    REQUIRE( cord.has_link_data() );
+    REQUIRE( cord.link().target == link_state::vehicle_port );
+
+    // Where the cord "sits" on the map
+    const tripoint_bub_ms cord_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y + 2, 0 );
+    // Initialize s_bub_pos so process_link doesn't trigger a length check
+    cord.link().s_bub_pos = cord_pos;
+
+    // Drop the cord on the map so process() works correctly
+    here.add_item( cord_pos, cord );
+    item &map_cord = here.i_at( cord_pos ).only_item();
+    REQUIRE( map_cord.has_link_data() );
+    REQUIRE( map_cord.link().target == link_state::vehicle_port );
+
+    SECTION( "cable disconnects when in-bounds target vehicle is gone" ) {
+        // Set target to an in-bounds position with no vehicle, expire the reference.
+        // This simulates a genuinely missing vehicle -- should disconnect.
+        tripoint_bub_ms empty_pos( HALF_MAPSIZE_X + 10, HALF_MAPSIZE_Y + 10, 0 );
+        map_cord.link().t_abs_pos = here.get_abs( empty_pos );
+        map_cord.link().t_veh = safe_reference<vehicle>();
+
+        map_cord.process( here, nullptr, cord_pos );
+
+        CHECK_FALSE( map_cord.has_link_data() );
+    }
+
+    SECTION( "cable survives when target is out of bounds" ) {
+        // Set target to an OOB position and expire the reference.
+        // This simulates a vehicle whose submap was unloaded during a bubble
+        // transition -- it still exists, just not accessible right now.
+        tripoint_abs_ms oob_pos = here.get_abs( battery_pos ) +
+                                  tripoint( MAPSIZE_X * 2, MAPSIZE_Y * 2, 0 );
+        REQUIRE_FALSE( here.inbounds( oob_pos ) );
+
+        map_cord.link().t_abs_pos = oob_pos;
+        map_cord.link().t_veh = safe_reference<vehicle>();
+
+        map_cord.process( here, nullptr, cord_pos );
+
+        // Cable should still be connected -- target is just out of the bubble
+        CHECK( map_cord.has_link_data() );
+        CHECK( map_cord.link().target == link_state::vehicle_port );
+    }
+
+    SECTION( "OOB length check does not false-positive disconnect" ) {
+        // Set target to OOB but keep the vehicle reference valid.
+        // Move the cord position so length_check_needed triggers.
+        // Stale OOB positions should not cause false over-extension.
+        tripoint_abs_ms oob_pos = here.get_abs( battery_pos ) +
+                                  tripoint( MAPSIZE_X * 2, MAPSIZE_Y * 2, 0 );
+        REQUIRE_FALSE( here.inbounds( oob_pos ) );
+
+        map_cord.link().t_abs_pos = oob_pos;
+        // Keep t_veh valid (pointing to the real vehicle)
+        // but force a length check by changing s_bub_pos
+        tripoint_bub_ms moved_pos( HALF_MAPSIZE_X + 5, HALF_MAPSIZE_Y + 2, 0 );
+
+        map_cord.process( here, nullptr, moved_pos );
+
+        // Cable should survive -- stale OOB positions are unreliable for length
+        CHECK( map_cord.has_link_data() );
+        CHECK( map_cord.link().target == link_state::vehicle_port );
+    }
+}

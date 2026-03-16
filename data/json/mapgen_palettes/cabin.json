@@ -144,7 +144,7 @@
       "s": [
         { "item": "SUS_bathroom_sink", "chance": 60 },
         { "item": "SUS_hair_drawer", "chance": 30 },
-        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 60, "repeat": [ 1, 4 ] },
         { "item": "SUS_bathroom_medicine", "chance": 20 },
         { "item": "harddrugs_residential", "chance": 2 }
       ],
