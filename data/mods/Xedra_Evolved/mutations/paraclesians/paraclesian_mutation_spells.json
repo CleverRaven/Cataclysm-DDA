@@ -3,7 +3,8 @@
     "type": "enchantment",
     "id": "ench_paraclesian_modern_technology_computer_ignorance",
     "condition": { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-    "skills": [ { "value": "computers", "add": -10 } ]
+    "skills": [ { "value": "computers", "add": -10 } ],
+    "ench_effects": [ { "effect": "effect_paraclesian_cannot_use_computers_flag", "intensity": 1 } ]
   },
   {
     "type": "enchantment",
@@ -20,7 +21,8 @@
         { "not": { "u_has_trait": "HOMULLUS_CAN_USE_COMPUTERS" } }
       ]
     },
-    "skills": [ { "value": "computers", "add": -10 } ]
+    "skills": [ { "value": "computers", "add": -10 } ],
+    "ench_effects": [ { "effect": "effect_paraclesian_cannot_use_computers_flag", "intensity": 1 } ]
   },
   {
     "type": "enchantment",
