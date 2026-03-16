@@ -54,5 +54,27 @@
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.25,
     "time_to_learn": "24 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_paraclesian_computer_understanding",
+    "category": "prof_misc_craft",
+    "name": { "str": "Fundamentals of Computers" },
+    "description": "The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy.",
+    "can_learn": true,
+    "time_to_learn": "48 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_paraclesian_electronics_understanding",
+    "category": "prof_misc_craft",
+    "name": { "str": "Fundamentals of Electronics" },
+    "description": "The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy.",
+    "can_learn": true,
+    "time_to_learn": "48 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2
   }
 ]

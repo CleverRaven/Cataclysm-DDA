@@ -47,7 +47,8 @@
     "empathize_with": [ "IERDE" ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
-    "chargen_allow_npc": false
+    "chargen_allow_npc": false,
+    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
   },
   {
     "type": "mutation",
@@ -99,6 +100,8 @@
     "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE", "HERITAGE", "NO_CBM_INSTALLATION" ],
     "chargen_allow_npc": false,
     "enchantments": [
+      "ench_paraclesian_modern_technology_computer_ignorance",
+      "ench_paraclesian_modern_technology_electronics_ignorance",
       {
         "condition": {
           "and": [
@@ -169,7 +172,8 @@
     "empathize_with": [ "SALAMANDER" ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
-    "chargen_allow_npc": false
+    "chargen_allow_npc": false,
+    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
   },
   {
     "type": "mutation",
@@ -182,6 +186,8 @@
     "purifiable": false,
     "points": 2,
     "enchantments": [
+      "ench_paraclesian_modern_technology_computer_ignorance",
+      "ench_paraclesian_modern_technology_electronics_ignorance",
       {
         "values": [
           { "value": "WEAKNESS_TO_WATER", "add": -0.000347 },
@@ -277,7 +283,11 @@
     "empathize_with": [ "HOMULLUS" ],
     "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
     "flags": [ "HERITAGE" ],
-    "chargen_allow_npc": false
+    "chargen_allow_npc": false,
+    "enchantments": [
+      "ench_paraclesian_homullus_modern_technology_computer_ignorance",
+      "ench_paraclesian_homullus_modern_technology_electronics_ignorance"
+    ]
   },
   {
     "type": "mutation",
@@ -327,7 +337,8 @@
     "empathize_with": [ "SYLPH" ],
     "no_empathize_with": [ "HUMAN" ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
-    "chargen_allow_npc": false
+    "chargen_allow_npc": false,
+    "enchantments": [ "ench_paraclesian_modern_technology_computer_ignorance", "ench_paraclesian_modern_technology_electronics_ignorance" ]
   },
   {
     "type": "mutation",

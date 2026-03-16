@@ -1,5 +1,39 @@
 [
   {
+    "type": "enchantment",
+    "id": "ench_paraclesian_modern_technology_computer_ignorance",
+    "condition": { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+    "skills": [ { "value": "computers", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_paraclesian_modern_technology_electronics_ignorance",
+    "condition": { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+    "skills": [ { "value": "electronics", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_paraclesian_homullus_modern_technology_computer_ignorance",
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
+        { "not": { "u_has_trait": "HOMULLUS_CAN_USE_COMPUTERS" } }
+      ]
+    },
+    "skills": [ { "value": "computers", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_paraclesian_homullus_modern_technology_electronics_ignorance",
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+        { "not": { "u_has_trait": "HOMULLUS_CAN_USE_ELECTRONICS" } }
+      ]
+    },
+    "skills": [ { "value": "electronics", "add": -10 } ]
+  },
+  {
     "id": "xe_fey_magick",
     "type": "magic_type",
     "energy_source": "MANA",
