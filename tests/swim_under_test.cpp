@@ -58,6 +58,7 @@ TEST_CASE( "monsters_cannot_attack_through_swim_under", "[swim_under][melee]" )
 {
     clear_map_and_put_player_underground();
     clear_vehicles();
+    clear_avatar();
     map &here = get_map();
 
     // Set up walkway at fish position, regular floor adjacent
@@ -106,8 +107,6 @@ TEST_CASE( "monsters_cannot_attack_through_swim_under", "[swim_under][melee]" )
 
         Character &player = get_player_character();
         player.setpos( here, adjacent_pos );
-        clear_character( player );
-
         REQUIRE( fish.is_underwater() );
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, fish_pos ) );
 
@@ -181,6 +180,7 @@ TEST_CASE( "player_can_walk_over_swim_under_creatures", "[swim_under][movement]"
 {
     clear_map_and_put_player_underground();
     clear_vehicles();
+    clear_avatar();
     scoped_weather_override sunny_weather( weather_sunny );
     map &here = get_map();
 
@@ -191,10 +191,6 @@ TEST_CASE( "player_can_walk_over_swim_under_creatures", "[swim_under][movement]"
         monster &fish = spawn_test_monster( mon_sewer_fish.str(), fish_pos );
         fish.underwater = true;
 
-        Character &player = get_player_character();
-        player.setpos( here, adjacent_pos );
-        clear_character( player );
-        player.set_moves( 200 );
         REQUIRE( fish.is_underwater() );
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, fish_pos ) );
 
@@ -217,6 +213,7 @@ TEST_CASE( "creatures_under_swim_under_are_invisible", "[swim_under][vision]" )
 {
     clear_map_and_put_player_underground();
     clear_vehicles();
+    clear_avatar();
     scoped_weather_override sunny_weather( weather_sunny );
     map &here = get_map();
 
