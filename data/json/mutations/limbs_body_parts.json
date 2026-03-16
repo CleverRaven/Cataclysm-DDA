@@ -410,6 +410,7 @@
     "temp_mod": [ -300, -100 ],
     "squeamish_penalty": 5,
     "drench_capacity": 15,
+    "conditional_flags": [ "WING_ARMS", "WINGS_2" ],
     "limb_scores": [ [ "manip", 0.2, 0.4 ], [ "grip", 0.2 ], [ "lift", 0.3 ], [ "balance", 0.1 ], [ "block", 0.4 ], [ "swim", 0.3 ] ],
     "smash_message": "You smash the %s.",
     "smash_efficiency": 0.3,
