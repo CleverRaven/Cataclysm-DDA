@@ -5595,7 +5595,8 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
         return std::nullopt;
     }
     if( p->has_flag( json_flag_CANNOT_USE_COMPUTERS ) ) {
-        p->add_msg_if_player( m_info, _( "You push some buttons but have no idea how to get it to work." ) );
+        p->add_msg_if_player( m_info,
+                              _( "You push some buttons but have no idea how to get it to work." ) );
         return std::nullopt;
     }
     if( p->has_trait( trait_ILLITERATE ) ) {
