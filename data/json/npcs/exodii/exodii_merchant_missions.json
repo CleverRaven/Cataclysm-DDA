@@ -718,7 +718,10 @@
     },
     "responses": [
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_3_explain" },
-      { "text": "What if the worst has happened, and they're dead?", "topic": "TALK_EXODII_MERCHANT_mission_3_advice_dead" },
+      {
+        "text": "What if the worst has happened, and they're dead?",
+        "topic": "TALK_EXODII_MERCHANT_mission_3_advice_dead"
+      },
       {
         "text": "So one of those scientists from the bunker abducted one of your people?  An exodii with a red frame?  You want me to find them?  I'll do it.",
         "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
