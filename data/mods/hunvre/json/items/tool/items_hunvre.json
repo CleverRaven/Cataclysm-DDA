@@ -4,13 +4,33 @@
     "copy-from": "smart_phone",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "helminth apparatus" },
-    "description": "A popular, fancy smartphone.  Capable of taking photos with its integrated camera and illuminating an area with its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
+    "name": { "str": "helminth smartphone" },
+    "description": "This otherwise regular smartphone allows you to interact with the ship using sets of preprogrammed functions.",
     "use_action": [
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
+      {
+        "type": "mp3",
+        "transform": "smartphone_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      {
+        "target": "smart_phone_flashlight",
+        "msg": "You activate the flashlight app.",
+        "menu_text": "Turn on flashlight",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" },
       {
         "type": "effect_on_conditions",
-        "menu_text": "Interact with stuff",
-        "effect_on_conditions": [ "EOC_INTERACT_AIRLOCK" ]
+        "menu_text": "Switch the lights",
+        "effect_on_conditions": [ "eoc_switch_lights" ]
       }
     ]
   }
