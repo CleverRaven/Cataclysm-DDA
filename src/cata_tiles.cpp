@@ -3981,6 +3981,17 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
     Creature::Attitude attitude;
     Character &you = get_player_character();
     const Creature *pcritter = get_creature_tracker().creature_at( p, true );
+    // creature_at returns monsters first. If the monster is underwater beneath a
+    // solid surface (invisible), fall back to the player/NPC sharing the tile.
+    if( pcritter != nullptr && pcritter->is_underwater() &&
+        here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) &&
+        !you.is_underwater() ) {
+        if( you.pos_bub() == p ) {
+            pcritter = &you;
+        } else {
+            pcritter = get_creature_tracker().creature_at<npc>( p );
+        }
+    }
     const bool always_visible = pcritter && pcritter->has_flag( mon_flag_ALWAYS_VISIBLE );
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {

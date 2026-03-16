@@ -300,7 +300,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
-static const json_character_flag json_flag_CANT_USE_COMPUTERS( "CANT_USE_COMPUTERS" );
+static const json_character_flag json_flag_CANNOT_USE_COMPUTERS( "CANNOT_USE_COMPUTERS" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
@@ -4264,14 +4264,14 @@ void game::use_computer( const tripoint_bub_ms &p )
         return;
     }
     if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
-        add_msg( m_info, _( "Without hands you, can't use a computer." ) );
+        add_msg( m_info, _( "Without hands, you can't use a computer." ) );
         return;
     }
     if( u.has_effect( effect_incorporeal ) ) {
         add_msg( m_info, _( "You lack the substance to use the computer." ) );
         return;
     }
-    if( u.has_flag( json_flag_CANT_USE_COMPUTERS ) ) {
+    if( u.has_flag( json_flag_CANNOT_USE_COMPUTERS ) ) {
         add_msg( m_info, _( "You don't have any idea how to use this thing." ) );
         return;
     }
@@ -8082,42 +8082,48 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     }
 
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest_loc ) ) {
-        // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
-        // Immobile monsters can't be displaced.
         monster &critter = *mon_ptr;
-        // TODO: handling for ridden creatures other than players mount.
-        if( !critter.has_effect( effect_ridden ) ) {
-            if( u.is_mounted() ) {
-                std::vector<tripoint_bub_ms> maybe_valid;
-                for( const tripoint_bub_ms &jk : here.points_in_radius( critter.pos_bub(), 1 ) ) {
-                    if( is_empty( jk ) ) {
-                        maybe_valid.push_back( jk );
+        // Creatures under a solid surface coexist with the player on the tile
+        if( critter.is_underwater() &&
+            here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, dest_loc ) ) {
+            // Fish stays under the walkway/ice, no displacement needed
+        } else {
+            // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
+            // Immobile monsters can't be displaced.
+            // TODO: handling for ridden creatures other than players mount.
+            if( !critter.has_effect( effect_ridden ) ) {
+                if( u.is_mounted() ) {
+                    std::vector<tripoint_bub_ms> maybe_valid;
+                    for( const tripoint_bub_ms &jk : here.points_in_radius( critter.pos_bub(), 1 ) ) {
+                        if( is_empty( jk ) ) {
+                            maybe_valid.push_back( jk );
+                        }
                     }
-                }
-                bool moved = false;
-                while( !maybe_valid.empty() ) {
-                    if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
-                        add_msg( _( "You push the %s out of the way." ), critter.name() );
-                        moved = true;
+                    bool moved = false;
+                    while( !maybe_valid.empty() ) {
+                        if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
+                            add_msg( _( "You push the %s out of the way." ), critter.name() );
+                            moved = true;
+                        }
                     }
-                }
-                if( !moved ) {
-                    add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
-                    return point_rel_sm::zero;
-                }
-            } else {
-                // Force the movement even though the player is there right now.
-                const bool moved = critter.move_to( u.pos_bub(), /*force=*/false, /*step_on_critter=*/true );
-                if( moved ) {
-                    add_msg( _( "You displace the %s." ), critter.name() );
+                    if( !moved ) {
+                        add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
+                        return point_rel_sm::zero;
+                    }
                 } else {
-                    add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
-                    return point_rel_sm::zero;
+                    // Force the movement even though the player is there right now.
+                    const bool moved = critter.move_to( u.pos_bub(), /*force=*/false, /*step_on_critter=*/true );
+                    if( moved ) {
+                        add_msg( _( "You displace the %s." ), critter.name() );
+                    } else {
+                        add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+                        return point_rel_sm::zero;
+                    }
                 }
+            } else if( !u.has_effect( effect_riding ) ) {
+                add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+                return point_rel_sm::zero;
             }
-        } else if( !u.has_effect( effect_riding ) ) {
-            add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
-            return point_rel_sm::zero;
         }
     }
 
