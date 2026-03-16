@@ -362,10 +362,10 @@
     "purifiable": false,
     "active": true,
     "activated_is_setup": true,
-    "activated_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
-    "processed_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ],
     "time": "1 s",
-    "//": "This should have a mana cost here instead of within the EoC once that's possible."
+    "mana": true,
+    "cost": 4,
+    "processed_eocs": [ "EOC_SALAMANDER_FIRE_FOOSTEPS" ]
   },
   {
     "type": "mutation",
@@ -699,12 +699,12 @@
     "purifiable": false,
     "threshreq": [ "THRESH_SALAMANDER" ],
     "active": true,
-    "transform": {
-      "target": "SALAMANDER_SUMMON_WINGS_ON",
-      "msg_transform": "Flaming wings extend from your back!",
-      "active": true,
-      "moves": 50
-    }
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": "3 s",
+    "activation_msg": "Flaming wings extend from your back!",
+    "enchantments": [ "ench_salamander_wings_flame" ]
   },
   {
     "type": "mutation",
@@ -719,7 +719,6 @@
     "active": true,
     "valid": false,
     "enchantments": [ "ench_salamander_wings_flame" ],
-    "//": "Damage taken from Spiked Tail",
     "transform": {
       "target": "SALAMANDER_SUMMON_WINGS",
       "msg_transform": "The wings on your back gutter and die.",

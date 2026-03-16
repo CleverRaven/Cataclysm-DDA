@@ -120,8 +120,8 @@
       {
         "pocket_type": "MAGAZINE",
         "rigid": true,
-        "ammo_restriction": { "38": 5 },
-        "allowed_speedloaders": [ "38_speedloader5" ]
+        "ammo_restriction": { "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
       }
     ]
   },

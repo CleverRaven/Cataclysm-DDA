@@ -1,6 +1,7 @@
 #include <climits>
 #include <functional>
 #include <initializer_list>
+#include <list>
 #include <optional>
 #include <set>
 #include <string>
@@ -36,6 +37,8 @@ static const itype_id itype_556( "556" );
 static const itype_id itype_ammolink223( "ammolink223" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
+static const itype_id itype_bottle_glass( "bottle_glass" );
+static const itype_id itype_chem_washing_soda( "chem_washing_soda" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
@@ -50,6 +53,7 @@ static const ter_str_id ter_t_wall( "t_wall" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
+static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
@@ -2216,3 +2220,108 @@ TEST_CASE( "route_cache_invalidation_on_mass_change",
     clear_map_without_vision();
 }
 
+// #85827: bottle with liquid at UNSORTED+UNLOAD_ALL tile hangs sorting.
+// unload_item unconditionally sets moved_something=true after the pocket
+// unload loops even when nothing was actually unloaded (liquid fails
+// can_unload), causing infinite nullopt re-entry in stage_do.
+TEST_CASE( "zone_sort_unload_liquid_container_hang", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos = tripoint_bub_ms::zero + tripoint::east;
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+    dummy.set_pos_abs_only( start_abs );
+
+    const tripoint_bub_ms chem_pos = start_pos + tripoint( 3, 0, 0 );
+    here.ter_set( chem_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start_abs );
+    create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start_abs );
+    create_tile_zone( "Chemical", zone_type_LOOT_CHEMICAL, here.get_abs( chem_pos ) );
+
+    // Bottle with liquid first -- no matching food zone, so zt_id is NULL_ID
+    // but unload_item still runs (UNLOAD_ALL + empty dest_set).
+    // Chemical after -- has a valid dest, makes has_items_to_sort return true.
+    item bottle( itype_bottle_glass );
+    item milk( itype_test_milk );
+    REQUIRE( milk.made_of( phase_id::LIQUID ) );
+    REQUIRE( bottle.put_in( milk, pocket_type::CONTAINER ).success() );
+    here.add_item_or_charges( start_pos, bottle );
+    here.add_item_or_charges( start_pos, item( itype_chem_washing_soda ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
+}
+
+// Large UNSORTED zone with many empty tiles and one item adjacent to the
+// player. stage_think should prune empty sources from coord_set so it
+// reaches the tile with the item instead of re-scanning empties forever.
+TEST_CASE( "zone_sort_think_prunes_empty_sources", "[zones][items][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+
+    // 20x20 UNSORTED zone -- 400 tiles, mostly empty
+    const tripoint_abs_ms zone_start = here.get_abs( start_pos - point( 10, 10 ) );
+    const tripoint_abs_ms zone_end = here.get_abs( start_pos + point( 9, 9 ) );
+    zone_manager &zm = zone_manager::get_manager();
+    zm.add( "Unsorted", zone_type_LOOT_UNSORTED, faction_your_followers,
+            false, true, zone_start, zone_end );
+
+    // Destination zone adjacent to player
+    const tripoint_bub_ms dest_pos = start_pos + tripoint::east;
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( dest_pos ) );
+
+    // Item at the player's tile (adjacent to dest) so process_activity
+    // can deliver it without auto-move
+    here.add_item_or_charges( start_pos, item( itype_test_apple ) );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    process_activity( dummy );
+
+    CHECK( !dummy.activity );
+    // Apple should have been delivered to the food zone
+    CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 1 );
+}
+
+// Activities with multi_activity=true get auto_resume=true on assignment.
+// cancel_activity() must clear auto_resume before pushing to the backlog,
+// otherwise resume_backlog_activity() (called right after in
+// cancel_activity_query) immediately restores the activity, making it
+// impossible for the player to cancel.  Regression test for #85838/#85840.
+TEST_CASE( "cancel_activity_clears_auto_resume_for_multi_type",
+           "[zones][activities][cancel]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+
+    // unload_loot has multi_activity: true in player_activities.json,
+    // so assign_activity(actor) sets auto_resume = true.
+    dummy.assign_activity( unload_loot_activity_actor() );
+    REQUIRE( dummy.activity );
+    REQUIRE( dummy.activity.is_multi_type() );
+    REQUIRE( dummy.activity.auto_resume );
+
+    // Simulate what cancel_activity_query does when the player presses '.'
+    // and confirms: cancel_activity() followed by resume_backlog_activity().
+    dummy.cancel_activity();
+    dummy.resume_backlog_activity();
+
+    // The activity must stay cancelled -- not silently restored.
+    CHECK( !dummy.activity );
+    CHECK( ( dummy.backlog.empty() ||
+             !dummy.backlog.front().auto_resume ) );
+}

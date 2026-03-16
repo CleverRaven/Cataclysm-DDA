@@ -1156,6 +1156,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
+        bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**

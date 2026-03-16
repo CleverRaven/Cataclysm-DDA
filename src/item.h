@@ -798,17 +798,19 @@ class item : public visitable
 
         /*
          * Max range of melee attack this weapon can be used for.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int reach_range( const Character &guy ) const;
+        std::pair<int, int> reach_range( const Character &guy ) const;
 
         /*
          * Max range of melee attack this weapon can be used for in its current state.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int current_reach_range( const Character &guy ) const;
+        std::pair<int, int> current_reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.

@@ -489,6 +489,7 @@
         "effect": [
           { "u_consume_item": "HEW_printout_data_exodii", "count": 1, "popup": true },
           { "math": [ "HEW_exodii_data_sold++" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_EXODII"
@@ -561,6 +562,7 @@
         "effect": [
           { "u_consume_item": "HEW_printout_data_physics_lab", "count": 1, "popup": true },
           { "math": [ "HEW_physics_lab_data_sold++" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PHYSICS_LAB"

@@ -41,7 +41,7 @@
       {
         "condition": { "math": [ "ship_can_travel == 1" ] },
         "text": "Pilot the ship",
-        "topic": "THI_CONTROL_MANUAL_READY",
+        "topic": "THI_CONTROL_CONTROL_READY",
         "show_always": true,
         "show_reason": "Invalid course.  Destination must be clear of obstacles and at least 5 map tiles away.",
         "effect": { "run_eocs": "EOC_SHIP_THI_MANUAL_CONTROL" }

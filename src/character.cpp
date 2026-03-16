@@ -5259,6 +5259,10 @@ void Character::cancel_activity()
     }
     if( activity && activity.can_resume() ) {
         activity.allow_distractions();
+        // Don't auto-resume after explicit cancellation.  The stamina
+        // "continue after a break" path uses assign_activity() (not
+        // cancel_activity) to push to backlog, so this is safe.
+        activity.auto_resume = false;
         backlog.push_front( activity );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
@@ -6268,6 +6272,10 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
             }
         }
         bool in_range = std::round( rl_dist_exact( pos_abs(), critter.pos_abs() ) ) <= range;
+        if( melee && !can_reach_attack( critter ) )
+        {
+            in_range = false;
+        }
         bool valid_target = this != &critter && pos_abs() != critter.pos_abs() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
         return valid_target && in_range && can_see;
     } );

@@ -50,6 +50,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_scale_constants.h"
@@ -688,7 +689,22 @@ damage_instance item::base_damage_thrown() const
     return type->thrown_damage;
 }
 
-int item::reach_range( const Character &guy ) const
+static int vert_reach_range( int horizontal_range )
+{
+    // Some future proofing. If you're debugging this fatal I hope you're the one that changed it!
+    const int vertical_tile_math = trig_dist( tripoint::zero, tripoint::above );
+    if( vertical_tile_math > 1 ) {
+        cata_fatal( "function expects vertical range of one due to hardcoded modifier" );
+    }
+
+    // Future vertical distance.
+    const int that_hardcoded_modifier = 4;
+    // Purposeful integer math, remainder is discarded. e.g. 3 / 4 = 0, not 0.75. Only integers are kept.
+    const int vert_res = horizontal_range / that_hardcoded_modifier;
+    return vert_res;
+}
+
+std::pair<int, int> item::reach_range( const Character &guy ) const
 {
     int res = 1;
     int reach_attack_add = has_flag( flag_REACH_ATTACK ) ? has_flag( flag_REACH3 ) ? 2 : 1 : 0;
@@ -714,10 +730,12 @@ int item::reach_range( const Character &guy ) const
         }
     }
 
-    return res;
+    const int vert_res = vert_reach_range( res );
+
+    return std::pair<int, int>( res, vert_res );
 }
 
-int item::current_reach_range( const Character &guy ) const
+std::pair<int, int> item::current_reach_range( const Character &guy ) const
 {
     int res = 1;
 
@@ -739,7 +757,9 @@ int item::current_reach_range( const Character &guy ) const
         }
     }
 
-    return res;
+    const int vert_res = vert_reach_range( res );
+
+    return std::pair<int, int>( res, vert_res );
 }
 
 bool item::has_technique( const matec_id &tech ) const
@@ -2783,6 +2803,12 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     if( !link().t_veh ) {
         vehicle *found_veh = vehicle::find_vehicle( here, link().t_abs_pos );
         if( !found_veh ) {
+            if( last_t_abs_pos_is_oob ) {
+                // Target is outside the reality bubble -- its submap is probably
+                // just unloaded. Skip processing this turn; the cable will
+                // reconnect when the target submap loads back in.
+                return false;
+            }
             return reset_link( true, carrier, -2, true, pos );
         }
         if( debug_mode ) {

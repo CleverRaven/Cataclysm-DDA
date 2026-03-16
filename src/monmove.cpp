@@ -1159,7 +1159,14 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos_bub(), destination );
         tripoint_bub_ms loc = pos_bub();
-        for( tripoint_bub_ms &candidate : squares_closer_to( loc, destination ) ) {
+        std::vector<tripoint_bub_ms> options = squares_closer_to( loc, destination );
+        if( destination.z() < loc.z() )  {
+            // HACK: Consider moving straight downward (because we might be flying!)
+            tripoint_bub_ms directly_below( loc.x(), loc.y(), loc.z() - 1 );
+            // EXTRA SUPER DUPER HACK: Put it at the front so it's checked first.
+            options.insert( options.begin(), directly_below );
+        }
+        for( tripoint_bub_ms &candidate : options ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1178,7 +1185,8 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
-            if( candidate.z() != pos_abs().z() ) {
+            const bool is_z_move = candidate.z() != pos_abs().z();
+            if( is_z_move ) {
                 bool can_z_move = true;
                 if( !here.valid_move( pos_bub(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
@@ -1225,7 +1233,8 @@ void monster::move()
                     continue;
                 }
                 const Attitude att = attitude_to( *target );
-                if( att == Attitude::HOSTILE ) {
+                if( att == Attitude::HOSTILE &&
+                    ( !is_z_move || here.on_matching_stairs( pos_bub(), candidate ) ) ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
@@ -1894,9 +1903,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through tile above them, except they may attack other monsters
+    // through the surface above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -1911,7 +1920,8 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     Character &player_character = get_player_character();
     const bool sees_player = sees( here, player_character );
     // Targeting player location
-    if( p == player_character.pos_bub() ) {
+    if( p == player_character.pos_bub() &&
+        ( p.z() == pos_bub().z() || here.on_matching_stairs( pos_bub(), p ) ) ) {
         if( sees_player ) {
             return melee_attack( player_character );
         } else {
@@ -2049,7 +2059,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
             ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
         ) && ( here.is_divable( destination ) ||
-               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) );
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ||
+               // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
+               ( has_flag( mon_flag_AQUATIC ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
