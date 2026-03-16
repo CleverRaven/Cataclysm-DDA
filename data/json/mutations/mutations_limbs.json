@@ -552,9 +552,17 @@
     "vitamin_cost": 190,
     "visibility": 9,
     "ugliness": 4,
-    "flags": [ "WING_GLIDE", "WINGS_2" ],
-    "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_wing_bat_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_wing_bat_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
