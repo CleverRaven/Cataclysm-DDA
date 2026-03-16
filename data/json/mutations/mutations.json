@@ -5033,6 +5033,7 @@
         "condition": {
           "and": [
             { "not": "u_has_weapon" },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } },
             {
               "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (23 - u_skill('unarmed') - (u_val('dexterity') / 2 ) ), 2)" ] } }
             }
