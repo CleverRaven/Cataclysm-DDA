@@ -11,7 +11,7 @@
     "type": "profession",
     "id": "resistant",
     "name": "Resistant",
-    "description": "They say anyone can live upside.  Just work harder, more shifts, more enthusiasm. But you know it's never enough. That sweat and blood, if it needs to be spilled, it will be spilled making a difference.",
+    "description": "They say anyone can live upside.  Just work harder, more shifts, more enthusiasm.  But you know it's never enough.  That sweat and blood, if it needs to be spilled, it will be spilled making a difference.",
     "points": 10,
     "traits": [ "MARTIAL_ARTS5" ]
   },
@@ -19,7 +19,7 @@
     "type": "profession",
     "id": "homeless",
     "name": "Homeless",
-    "description": "Either you lost your job or you can't find one. You live in the underbelly of the underbelly, old ruined habitations with nothing else but scraps.",
+    "description": "Either you lost your job or you can't find one.  You live in the underbelly of the underbelly, old ruined habitations with nothing else but scraps.",
     "points": 15
   }
 ]
