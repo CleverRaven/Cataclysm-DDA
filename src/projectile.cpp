@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "ammo_effect.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "condition.h"
