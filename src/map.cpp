@@ -3307,6 +3307,25 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms 
            current_submap->get_furn( l ).obj().has_flag( flag );
 }
 
+bool map::on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const
+{
+    if( a.xy() != b.xy() ) {
+        return false;
+    }
+    const int dz = b.z() - a.z();
+    if( std::abs( dz ) != 1 ) {
+        return false;
+    }
+    const tripoint_bub_ms &lower = dz > 0 ? a : b;
+    const tripoint_bub_ms &upper = dz > 0 ? b : a;
+    if( has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, lower ) ||
+        has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, upper ) ) {
+        return false;
+    }
+    return has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) &&
+           has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper );
+}
+
 // End of 3D flags
 
 // returns 0 if not damageable
