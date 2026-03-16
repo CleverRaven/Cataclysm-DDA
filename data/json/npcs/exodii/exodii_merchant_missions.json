@@ -49,7 +49,7 @@
     "id": "EXODII_MISSION_CHOP_SHOP",
     "type": "mission_definition",
     "name": { "str": "Recover the Missing Exodii" },
-    "description": "Rubik believes a missing Exodii scout is being kept hostage, or worse, has been killed, by members of Hub 01.  Rubik says the scout will look a bit like him: a mostly-metal cyborg, but with a recognizeable red frame.  I either need to rescue the Exodii, or bring back a piece of their \"body\" as proof that they have perished.",
+    "description": "Rubik believes a missing Exodii scout is being kept hostage, or worse, has been killed, by members of Hub 01.  Rubik says the scout will look a bit like him: a mostly-metal cyborg, but with a recognizable red frame.  I either need to rescue the Exodii, or bring back a piece of their \"body\" as proof that they have perished.",
     "goal": "MGOAL_NULL",
     "destination": "robofac_strip_mall_x1y0",
     "difficulty": 5,
