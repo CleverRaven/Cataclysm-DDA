@@ -609,6 +609,31 @@
   },
   {
     "type": "material",
+    "id": "textile",
+    "name": "Fabric Blend",
+    "density": 0.5,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "chip_resist": 6,
+    "breathability": "AVERAGE",
+    "wind_resist": 70,
+    "repaired_with": "cotton_patchwork",
+    "salvaged_into": "cotton_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 0.05, "smoke": 1, "burn": 0.015 },
+      { "fuel": 0.1, "smoke": 1, "burn": 0.04 },
+      { "fuel": 0.2, "smoke": 1, "burn": 0.06 }
+    ],
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 },
+    "repair_difficulty": 1
+  },
+  {
+    "type": "material",
     "id": "cotton",
     "name": "Cotton Blend",
     "density": 0.5,
