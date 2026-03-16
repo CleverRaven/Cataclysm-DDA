@@ -4740,7 +4740,50 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     player_activity current_act_copy = act;
     activity_id current_activity = current_act_copy.id();
 
-    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_locations( you );
+    // Prevent zero-move spinning from auto_resume backlog restore.
+    if( !check_only ) {
+        you.mod_moves( -1 );
+    }
+
+    // Cache checked-and-failed sources so the move budget makes
+    // progress across turns. Stored as a static because multi_zone
+    // actors get cloned through the backlog (member state won't
+    // persist). Fetch activities bypass it (dynamic requirement state).
+    struct source_cache {
+        std::unordered_set<tripoint_abs_ms> sources;
+        size_t initial_count = 0;
+        activity_id act_type = activity_id::NULL_ID();
+        tripoint_abs_ms origin;
+        character_id who;
+        unsigned int zone_count = 0;
+    };
+    static source_cache cache;
+
+    const bool use_cache = !check_only && current_activity != ACT_FETCH_REQUIRED;
+    const unsigned int cur_zone_count = zone_manager::get_manager().size();
+
+    bool cache_hit = use_cache &&
+                     cache.act_type == current_activity &&
+                     cache.origin == abspos &&
+                     cache.who == you.getID() &&
+                     cache.zone_count == cur_zone_count &&
+                     ( !cache.sources.empty() || cache.initial_count == 0 );
+
+    std::unordered_set<tripoint_abs_ms> src_set;
+    if( cache_hit ) {
+        src_set = cache.sources;
+    } else {
+        src_set = multi_activity_locations( you );
+        if( use_cache ) {
+            cache.initial_count = src_set.size();
+            cache.sources = src_set;
+            cache.act_type = current_activity;
+            cache.origin = abspos;
+            cache.who = you.getID();
+            cache.zone_count = cur_zone_count;
+        }
+    }
+
     std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
@@ -4789,11 +4832,25 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
         if( req_res == requirement_check_result::RETURN_EARLY ) {
-            // activity cancelled
+            // Fetch dispatched -- prune so we don't re-trigger it.
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
             return false;
         }
         req_fail_reason.convert_requirement_check_result( req_res );
         if( req_fail_reason.check_skip_location() ) {
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
+            // Charge 1 move for expensive skips (zone/inventory scan).
+            if( !check_only &&
+                multi_activity_actor::activity_reason_continue( act_info.reason ) ) {
+                you.mod_moves( -1 );
+                if( you.get_moves() <= 0 ) {
+                    break;
+                }
+            }
             continue;
         }
 
@@ -4803,6 +4860,9 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
         if( !route_result ) {
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
             continue;
         }
         if( *route_result ) {

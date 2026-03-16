@@ -27,9 +27,11 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -60,6 +62,7 @@ static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
+static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 
 namespace
 {
@@ -2324,4 +2327,68 @@ TEST_CASE( "cancel_activity_clears_auto_resume_for_multi_type",
     CHECK( !dummy.activity );
     CHECK( ( dummy.backlog.empty() ||
              !dummy.backlog.front().auto_resume ) );
+}
+
+// #85853: selecting Vehicle Repair from zone activities freezes the game
+// when the VEHICLE_REPAIR zone is large and repair items are unavailable.
+// simulate_turn must bound per-frame work and prune checked sources.
+TEST_CASE( "multi_zone_vehicle_repair_large_zone_no_hang",
+           "[zones][activities][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    dummy.activity = player_activity();
+    dummy.backlog.clear();
+    dummy.clear_destination();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+
+    // Place a shopping cart and damage it so parts are repairable.
+    // Without repair items or skills, every tile triggers check_requirements
+    // and gets pruned from the cache.
+    const tripoint_bub_ms veh_pos = start_pos + tripoint( 2, 0, 0 );
+    here.ter_set( veh_pos, ter_t_floor );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                     veh_pos, 0_degrees, 0, 0 );
+    REQUIRE( veh != nullptr );
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        veh->set_hp( vpr.part(), vpr.part().info().durability / 2, false );
+    }
+
+    // 20x20 VEHICLE_REPAIR zone -- 400 tiles, mostly empty
+    const tripoint_abs_ms zone_start = here.get_abs( start_pos - point( 10, 10 ) );
+    const tripoint_abs_ms zone_end = here.get_abs( start_pos + point( 9, 9 ) );
+    zone_manager &zm = zone_manager::get_manager();
+    zm.add( "Vehicle Repair", zone_type_VEHICLE_REPAIR, faction_your_followers,
+            false, true, zone_start, zone_end );
+
+    // No repair items given -- every tile should fail check_requirements
+    dummy.assign_activity( multi_vehicle_repair_activity_actor() );
+
+    // Turn-limited loop -- pattern from act_build_test.cpp.
+    // Without the fix, this either hangs (unbounded single-frame work)
+    // or exceeds the turn limit (re-scanning failed sources every turn).
+    int turns = 0;
+    const int max_turns = 50;
+    while( ( !dummy.activity.is_null() || dummy.is_auto_moving() ) && turns < max_turns ) {
+        dummy.set_moves( dummy.get_speed() );
+        if( dummy.is_auto_moving() ) {
+            dummy.setpos( here, here.get_bub( *dummy.destination_point ) );
+            here.build_map_cache( dummy.posz() );
+            dummy.start_destination_activity();
+        }
+        if( dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+        turns++;
+    }
+
+    CHECK( !dummy.activity );
+    // Should finish quickly -- not use all 50 turns
+    CHECK( turns < max_turns );
 }
