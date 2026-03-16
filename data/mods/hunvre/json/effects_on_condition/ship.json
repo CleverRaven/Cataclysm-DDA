@@ -21,7 +21,7 @@
       "then": [
         { "custom_light_level": 0, "length": "9999 days", "key": "lights_off" },
         { "math": [ "lights_are_off = 1" ] },
-        { "u_message": "\"Multiple grid failures detected. Blackouts expected in multiple sectors.\"" }
+        { "u_message": "\"Multiple grid failures detected.  Blackouts expected in multiple sectors.\"" }
       ],
       "else": [
         { "alter_timed_events": "lights_off" },
@@ -39,7 +39,7 @@
     "effect": [
       { "math": [ "spawned = 1" ] },
       {
-        "u_message": "An infinite, warm darkness. Thoughts fill your mind but you're not sure they're yours, sadness, happiness, bliss and horror. They become more and more intense, almost to the point of completely losing yourself. Then you wake up."
+        "u_message": "An infinite, warm darkness.  Thoughts fill your mind but you're not sure they're yours, sadness, happiness, bliss and horror.  They become more and more intense, almost to the point of completely losing yourself.  Then you wake up."
       },
       { "run_eocs": [ "eoc_teleport_to_bed" ] }
     ]
