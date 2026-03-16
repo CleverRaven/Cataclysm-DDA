@@ -2675,7 +2675,7 @@ void Character::mod_power_level( const units::energy &npower )
     if( npower < 0_kJ && !has_power() ) {
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !bp->no_power_effect.is_null() ) {
-                add_effect( bp->no_power_effect, 5_turns );
+                add_effect( bp->no_power_effect, 5_turns, bp );
             }
         }
     }

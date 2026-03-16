@@ -491,11 +491,6 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs( const Creature &mon ) const;
 
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_windage_effect() const;
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_no_power_effect() const;
-
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
