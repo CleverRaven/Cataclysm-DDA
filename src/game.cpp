@@ -300,7 +300,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
-static const json_character_flag json_flag_CANT_USE_COMPUTERS( "CANT_USE_COMPUTERS" );
+static const json_character_flag json_flag_CANNOT_USE_COMPUTERS( "CANNOT_USE_COMPUTERS" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
@@ -4264,14 +4264,14 @@ void game::use_computer( const tripoint_bub_ms &p )
         return;
     }
     if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
-        add_msg( m_info, _( "Without hands you, can't use a computer." ) );
+        add_msg( m_info, _( "Without hands, you can't use a computer." ) );
         return;
     }
     if( u.has_effect( effect_incorporeal ) ) {
         add_msg( m_info, _( "You lack the substance to use the computer." ) );
         return;
     }
-    if( u.has_flag( json_flag_CANT_USE_COMPUTERS ) ) {
+    if( u.has_flag( json_flag_CANNOT_USE_COMPUTERS ) ) {
         add_msg( m_info, _( "You don't have any idea how to use this thing." ) );
         return;
     }
