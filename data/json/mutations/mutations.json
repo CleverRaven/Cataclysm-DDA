@@ -5018,7 +5018,7 @@
     "type": "mutation",
     "id": "MUCUS_SECRETION2",
     "name": { "str": "Acidic Secretion" },
-    "description": "Your mucus has developed an acidic component that seems to soften your prey up.",
+    "description": "Your mucus has developed an acidic component that seems to soften your prey up.  When attacking unarmed, sometimes your slime will hit your target as well.",
     "category": [ "GASTROPOD" ],
     "prereqs": [ "MUCUS_SECRETION" ],
     "points": 3,
@@ -5026,13 +5026,19 @@
     "visibility": 2,
     "ugliness": 2,
     "flags": [ "IRRITANT_IMMUNE" ],
-    "attacks": {
-      "attack_text_u": "You smear slime on %s!",
-      "attack_text_npc": "%1$s smears slime on %2$s!",
-      "body_part": "torso",
-      "chance": 23,
-      "base_damage": { "damage_type": "acid", "amount": 6 }
-    }
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            {
+              "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (23 - u_skill('unarmed') - (u_val('dexterity') / 2 ) ) , 2)" ] } }
+            }
+          ]
+        },
+        "melee_damage_bonus": [ { "type": "acid", "add": { "math": [ "rng(2, ( (u_skill('unarmed') / 2) + 3) )" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
