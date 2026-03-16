@@ -9057,7 +9057,7 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( p->has_flag( json_flag_CANNOT_USE_COMPUTERS) ) {
+    if( p->has_flag( json_flag_CANNOT_USE_COMPUTERS ) ) {
         p->add_msg_if_player( m_info, _( "You push some buttons but it's all meaningless to you." ) );
         return std::nullopt;
     }
