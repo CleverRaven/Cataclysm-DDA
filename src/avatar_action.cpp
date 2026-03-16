@@ -379,8 +379,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
     if( monster *const mon_ptr = creatures.creature_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
-        if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet ) ) {
+        // Creatures swimming under a solid surface don't block surface movement
+        if( critter.is_underwater() &&
+            m.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, dest_loc ) ) {
+            // They're under the walkway/ice, player walks over them
+        } else if( critter.friendly == 0 &&
+                   !critter.has_effect( effect_pet ) ) {
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
