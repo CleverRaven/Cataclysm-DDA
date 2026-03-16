@@ -628,6 +628,110 @@
     "opposite": "arm_leathery_lower_l"
   },
   {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_shoulder_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "left",
+    "similar_bodypart": "arm_shoulder_l",
+    "opposite": "arm_wing_bat_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_upper_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left upper wing",
+    "name_multiple": "upper wings",
+    "side": "left",
+    "opposite": "arm_wing_bat_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_elbow_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing joint",
+    "name_multiple": "wing joints",
+    "side": "left",
+    "opposite": "arm_wing_bat_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_lower_l",
+    "parent": "arm_wing_bat_l",
+    "name": "lower left wings",
+    "name_multiple": "lower wing",
+    "side": "left",
+    "opposite": "arm_wing_bat_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_fingers_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing talons",
+    "name_multiple": "wing talons",
+    "side": "left",
+    "similar_bodypart": "hand_fingers_l",
+    "opposite": "arm_wing_bat_fingers_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_shoulder_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "right",
+    "similar_bodypart": "arm_shoulder_r",
+    "opposite": "arm_wing_bat_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_upper_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right upper wing",
+    "name_multiple": "upper wings",
+    "side": "right",
+    "opposite": "arm_wing_bat_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_elbow_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing joint",
+    "name_multiple": "wing joints",
+    "side": "right",
+    "opposite": "arm_wing_bat_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_lower_r",
+    "parent": "arm_wing_bat_r",
+    "name": "lower right wing",
+    "name_multiple": "lower wings",
+    "side": "right",
+    "opposite": "arm_wing_bat_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_fingers_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing talons",
+    "name_multiple": "wing talons",
+    "side": "right",
+    "similar_bodypart": "hand_fingers_r",
+    "opposite": "arm_wing_bat_fingers_l",
+    "max_coverage": 5
+  },
+  {
     "id": "arm_insect_upper_l",
     "type": "sub_body_part",
     "max_coverage": 45,
