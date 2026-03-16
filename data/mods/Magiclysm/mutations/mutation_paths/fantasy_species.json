@@ -977,6 +977,7 @@
     "type": "mutation",
     "id": "DOWN",
     "copy-from": "DOWN",
+    "prereqs": [ "FEATHERS", "RAVEN_FEATHERS" ],
     "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   },
   {
