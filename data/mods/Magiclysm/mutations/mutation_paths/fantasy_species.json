@@ -947,9 +947,19 @@
   },
   {
     "type": "mutation",
-    "id": "FEATHERS",
-    "copy-from": "FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+    "id": "RAVEN_FEATHERS",
+    "name": { "str": "Feathers" },
+    "description": "Dark feathers cover your entire body, providing a marginal protection against attacks and minor protection from cold.  They also provide a natural waterproofing.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "SKIN_ROUGH" ],
+    "leads_to": [ "DOWN" ],
+    "points": 2,
+    "vitamin_cost": 160,
+    "visibility": 10,
+    "ugliness": 0,
+    "bodytemp_modifiers": [ 50, 100 ],
+    "integrated_armor": [ "integrated_raven_feathers" ]
   },
   {
     "type": "mutation",
@@ -967,6 +977,7 @@
     "type": "mutation",
     "id": "DOWN",
     "copy-from": "DOWN",
+    "prereqs": [ "FEATHERS", "RAVEN_FEATHERS" ],
     "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   },
   {
