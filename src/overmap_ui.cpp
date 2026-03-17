@@ -2540,7 +2540,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                                opts.sight_points ) || debug_horde ;
     const bool show_hordes = blink && opts.showhordes && can_see_horde;
     const int horde_size = show_hordes ? overmap_buffer.get_horde_size( omp,
-                           horde_map_flavors::active ) : 0;
+                           horde_map_flavors::active | horde_map_flavors::idle ) : 0;
 
     if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
