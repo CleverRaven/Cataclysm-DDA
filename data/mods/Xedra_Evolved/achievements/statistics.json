@@ -24,5 +24,18 @@
     "stat_type": "count",
     "event_transformation": "avatar_vampire_kills",
     "description": { "str": "vampire killed", "str_pl": "vampires killed" }
+  },
+  {
+    "id": "num_avatar_casts_banish",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_casts_banish",
+    "description": { "str_sp": "banishes cast" }
+  },
+  {
+    "id": "avatar_casts_banish",
+    "type": "event_transformation",
+    "event_transformation": "avatar_casts_banish",
+    "value_constraints": { "spell_effect": { "equals": [ "effect_id", "banishment" ] } }
   }
 ]
