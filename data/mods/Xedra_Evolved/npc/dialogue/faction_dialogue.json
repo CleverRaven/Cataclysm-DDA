@@ -256,7 +256,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_ELECTRONICS_SURE",
-    "dynamic_line": [ "Gal-what?  Yeah, I can teach you.  Just let me know when." ],
+    "dynamic_line": [ "Gal-what?  Wait, you mean electronics?  Yeah, I can teach you.  Just let me know when." ],
     "responses": [
       {
         "text": "Thank you.",
