@@ -100,6 +100,11 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "afs_computer_off",
+    "furniture": [ { "result": "f_console_broken", "valid_furniture": [ "f_console" ], "message": "The console shuts down." } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "transform_gratings",
     "terrain": [
       {
