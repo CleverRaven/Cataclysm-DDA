@@ -685,7 +685,7 @@ void veh_app_interact::populate_app_actions( map &here )
         app_actions.emplace_back( [this]() {
             hide();
         } );
-        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
+        imenu.addentry( -1, true, 0, _( "Hide/Unhide wiring" ) );
     }
 #endif
 
