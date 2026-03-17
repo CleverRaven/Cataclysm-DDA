@@ -9,9 +9,9 @@
         "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_SURE",
         "condition": {
           "and": [
-            { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
             { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers) >= 4" ] },
+            { "math": [ "n_skill('computers') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
             }
@@ -24,9 +24,9 @@
         "topic": "TALK_TEACH_PARACLESIAN_COMPUTERS_NO",
         "condition": {
           "and": [
-            { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ] },
+            { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
             { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers) < 4" ] },
+            { "math": [ "n_skill('computers') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
             }
@@ -40,7 +40,7 @@
           "and": [
             { "u_has_trait": "HOMULLUS" },
             { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers) >= 4" ] },
+            { "math": [ "n_skill('computers') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
             }
@@ -55,7 +55,7 @@
           "and": [
             { "u_has_trait": "HOMULLUS" },
             { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers) < 4" ] },
+            { "math": [ "n_skill('computers') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
             }
@@ -69,13 +69,15 @@
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) >= 4" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
             }
           ]
         },
-        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
       },
       {
         "text": "What are these devices filled with lightning?  Can you teach me about them?",
@@ -84,7 +86,7 @@
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) < 4" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
             }
@@ -98,13 +100,15 @@
           "and": [
             { "u_has_trait": "SYLPH" },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) >= 4" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
             }
           ]
         },
-        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
       },
       {
         "text": "I can feel the lightning in these mortal artifacts.  Can you tell me how to harness it?",
@@ -113,7 +117,7 @@
           "and": [
             { "u_has_trait": "SYLPH" },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) < 4" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
             }
@@ -127,13 +131,15 @@
           "and": [
             { "u_has_trait": "HOMULLUS" },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) >= 4" ] },
+            { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
             }
           ]
         },
-        "effect": { "math": [ "n_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent', 'direct': true) += 100" ] }
+        "effect": {
+          "math": [ "n_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent', 'direct': true) += 100" ]
+        }
       },
       {
         "text": "Can you teach me to use these galvanic mechanisms?",
@@ -142,7 +148,7 @@
           "and": [
             { "u_has_trait": "HOMULLUS" },
             { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
-            { "math": [ "n_skill('electronics) < 4" ] },
+            { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
             }
@@ -178,7 +184,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TEACH_PARACLESIAN_HOMULLUS_COMPUTERS_SURE",
-    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  I'm sorry, I don't really know much about that stuff." ],
+    "dynamic_line": [ "\"Thinking machines\"? You mean computers?  Oh, sure, if you want." ],
     "responses": [
       {
         "text": "Thank you.",
