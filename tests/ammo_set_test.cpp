@@ -95,7 +95,8 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" 
                 cz75mag_20rd.ammo_set( ammo308_id, 15 );
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75mag_20rd\"" ) {
-                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 308 for cz75mag_20rd" ) );
+                CHECK_THAT( dmsg,
+                            Catch::Matchers::EndsWith( "Tried to set invalid ammo of 308 for cz75mag_20rd" ) );
                 AND_THEN( "magazine has 0 round of null" ) {
                     CHECK( cz75mag_20rd.ammo_remaining( ) == 0 );
                     CHECK( cz75mag_20rd.ammo_current().is_null() );
