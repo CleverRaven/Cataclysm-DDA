@@ -95,7 +95,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" 
                 cz75mag_20rd.ammo_set( ammo308_id, 15 );
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75mag_20rd\"" ) {
-                CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75mag_20rd" ) );
+                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 308 for cz75mag_20rd" ) );
                 AND_THEN( "magazine has 0 round of null" ) {
                     CHECK( cz75mag_20rd.ammo_remaining( ) == 0 );
                     CHECK( cz75mag_20rd.ammo_current().is_null() );
@@ -177,7 +177,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" 
                 m24.ammo_set( ammo9mm_id, 2 );
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 9mm for M24\"" ) {
-                CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 9mm for M24" ) );
+                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 9mm for M24" ) );
                 AND_THEN( "gun has 0 round of null" ) {
                     CHECK( m24.ammo_remaining( ) == 0 );
                     CHECK( m24.ammo_current().is_null() );
@@ -287,7 +287,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_with_magazine",
                 cz75.ammo_set( ammo308_id, 15 );
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75\"" ) {
-                CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
+                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
                 AND_THEN( "gun has 0 round of null" ) {
                     CHECK( cz75.ammo_remaining( ) == 0 );
                     CHECK( cz75.ammo_current().is_null() );
@@ -367,7 +367,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75\"" ) {
                 REQUIRE( !dmsg.empty() );
-                CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
+                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
                 AND_THEN( "gun w/o magazine has 0 round of null" ) {
                     CHECK( cz75.ammo_remaining( ) == 0 );
                     CHECK( cz75.ammo_current().is_null() );
@@ -393,7 +393,7 @@ TEST_CASE( "ammo_set_items_with_CONTAINER_pockets", "[ammo_set][magazine][ammo]"
                 box.ammo_set( ammo9mm_id, 10 );
             } );
             THEN( "get debugmsg with \"Tried to set invalid ammo of 9mm for box_small\"" ) {
-                CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 9mm for box_small" ) );
+                CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "Tried to set invalid ammo of 9mm for box_small" ) );
                 AND_THEN( "small box still empty" ) {
                     REQUIRE_FALSE( box.is_gun() );
                     REQUIRE_FALSE( box.is_magazine() );
