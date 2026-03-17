@@ -2251,7 +2251,7 @@ void item_contents::add_pocket( const item &pocket_item )
         // need to update it once it's stored in the contents list
         ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->volume_capacity();
-        effective_nonrigid_volume += i_pocket->volume_capacity() *
+        effective_nonrigid_volume += ( i_pocket->volume_capacity() - i_pocket->magazine_well() ) *
                                      i_pocket->get_pocket_data()->volume_encumber_modifier;
     }
     additional_pockets_volume += total_nonrigid_volume;
@@ -2279,7 +2279,7 @@ item item_contents::remove_pocket( int index )
     units::volume effective_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_container_pockets() ) {
         total_nonrigid_volume += i_pocket->volume_capacity();
-        effective_nonrigid_volume += i_pocket->volume_capacity() *
+        effective_nonrigid_volume += ( i_pocket->volume_capacity() - i_pocket->magazine_well() ) *
                                      i_pocket->get_pocket_data()->volume_encumber_modifier;
 
         // move items from the consolidated pockets to the item that will be returned
@@ -2637,8 +2637,8 @@ float item_contents::relative_encumbrance() const
         }
         // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
         float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
-        nonrigid_volume += pocket.contents_volume() * modifier;
-        nonrigid_max_volume += pocket.volume_capacity() * modifier;
+        nonrigid_volume += std::max( 0_ml, ( pocket.contents_volume() - pocket.magazine_well() ) ) * modifier;
+        nonrigid_max_volume += ( pocket.volume_capacity() - pocket.magazine_well() ) * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         // volume exceeds capacity and will spill until 1 or lower if picked up, so assume 1
