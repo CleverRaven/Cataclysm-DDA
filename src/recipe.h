@@ -110,6 +110,20 @@ struct batch_savings {
     batch_savings() : data( none{} ) {}
 };
 
+struct recipe_step {
+    translation name;
+    int64_t time = 0;  // movement points
+    float exertion = 0.0f;
+    std::vector<recipe_proficiency> proficiencies;
+    batch_savings batch_info;
+    // Stored as requirement_id refs during load, resolved during finalize
+    std::vector<std::pair<requirement_id, int>> reqs_internal;
+    // Populated during finalize from reqs_internal
+    requirement_data requirements;
+
+    void load( const JsonObject &jo, const std::string &recipe_name, int step_index );
+};
+
 class recipe
 {
         friend class recipe_dictionary;
@@ -221,6 +235,7 @@ class recipe
         std::pair<int, time_duration> morale_modifier;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        // For step recipes, use get_proficiencies() instead -- this field is empty.
         std::vector<recipe_proficiency> proficiencies;
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
@@ -266,6 +281,24 @@ class recipe
 
         // How active of exercise this recipe is
         float exertion_level() const;
+
+        // Recipe steps support
+        bool has_steps() const {
+            return !steps_.empty();
+        }
+        const std::vector<recipe_step> &steps() const {
+            return steps_;
+        }
+        // Returns aggregate proficiencies for step recipes, or the legacy
+        // proficiencies field for stepless recipes.  This is a conservative
+        // whole-recipe approximation used for display, gating, approximate
+        // learning, and approximate failure/success math.
+        const std::vector<recipe_proficiency> &get_proficiencies() const {
+            return has_steps() ? aggregate_proficiencies_ : proficiencies;
+        }
+        // Per-step proficiency time malus (uses step's own proficiency list)
+        static float proficiency_time_maluses_for_step(
+            const Character &crafter, const recipe_step &step );
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string( const std::map<skill_id, int> & ) const;
@@ -340,6 +373,7 @@ class recipe
     private:
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
+        void finalize_step_proficiencies();
 
         recipe_id id = recipe_id::NULL_ID();
         std::vector<std::pair<recipe_id, mod_id>> src;
@@ -379,6 +413,11 @@ class recipe
 
         /** Deduped version constructed from the above requirements_ */
         deduped_requirement_data deduped_requirements_;
+
+        /** Recipe steps (empty for stepless/legacy recipes) */
+        std::vector<recipe_step> steps_;
+        /** Aggregate proficiency view for step recipes (empty for stepless) */
+        std::vector<recipe_proficiency> aggregate_proficiencies_;
 
         std::set<std::string> flags;
 
