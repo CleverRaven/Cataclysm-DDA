@@ -2637,7 +2637,8 @@ float item_contents::relative_encumbrance() const
         }
         // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
         float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
-        nonrigid_volume += std::max( 0_ml, ( pocket.contents_volume() - pocket.magazine_well() ) ) * modifier;
+        nonrigid_volume += std::max( 0_ml,
+                                     ( pocket.contents_volume() - pocket.magazine_well() ) ) * modifier;
         nonrigid_max_volume += ( pocket.volume_capacity() - pocket.magazine_well() ) * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
