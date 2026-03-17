@@ -9,7 +9,7 @@
     "variants": [
       {
         "id": "60mm_shell_m720",
-        "name": { "str": "M720A1 60 mm mortar shell (HE)", "str_pl": "M720A1 60 mm mortar shells (HE)" },
+        "name": { "str": "M720A1 60mm mortar shell (HE)", "str_pl": "M720A1 60mm mortar shells (HE)" },
         "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets."
       }
     ],
@@ -39,7 +39,7 @@
     "variants": [
       {
         "id": "60mm_shell_m768",
-        "name": { "str": "M768 60 mm mortar shell (HE)", "str_pl": "M768 60 mm mortar shells (HE)" },
+        "name": { "str": "M768 60mm mortar shell (HE)", "str_pl": "M768 60mm mortar shells (HE)" },
         "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.  This one is more modern version, more safe and more powerful, but uses more simple impact fuze."
       }
     ],
