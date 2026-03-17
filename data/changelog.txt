@@ -203,11 +203,7 @@ Simplified Rubik's mission option dialogue
 Ancilla doc can repair cybernetics
 Hub 01 cyborgs are not welcome at the Exodii castle
 Add event_statistic() dialogue function to math parser
-Exodii labyrinth resets each visit
 Per-overmap-tile snow depth tracking with movement penalty
-Accommodate to changes with templates in README.md
-Giving Hub 01 info on the Exodii advances their knowledge of them/CBMs
-
 
 
 ## Content:
@@ -454,17 +450,8 @@ Hub 01 CBM interface and AutoDoc overhaul
 Hub 01 cybernetics: XM-ARM, -LEG, and -BACK
 Make vines limbs
 The Yrax do things.
-Small Exodii specials in the string dimension
-Turn woodpecker beak into a body part
 You can start as a mutant in TCL with a specific tree
 Add bionic limbs
-Hub 01 LENS cybernetic system
-Hub/Ancilla CBM garage & progress tracker
-Make bird wings limbs
-Pat can use the LENS to comm you
-Add leathery arms as bodypart (between webbed hands and bat wings)
-Make crab legs a body part(s)
-Add `looks_like` to heavy ballistic vest
 Hub 01 will install & repair basic bionic limbs
 
 
@@ -1099,21 +1086,9 @@ New Mod Megacity.
 [XE] Tier 5 vampires are predators who have extinguished all feeling from their hearts.
 [Xedra Evolved] `gramarye` skill for Fae powers replaces Deduction for Fae themed characters
 Master archer playstyle perk for Bombastic Perks
-[Xedra Evolved] Make Salamander On Wings of Flame actual wings
-[Xedra Evolved] Karma Arms/devil tail edits
-Aftershock: Fix minor vahagn errors
-[Xedra Evolved] Switch Breathe Without Air to using flags
-[Xedra Evolved] Add mouth coverage to Paraclesian skins
 [Xedra Evolved] Add Lashing Bough style, the Arvore martial art
-[MoM] A shadow? is vulnerable to photokinetic damage
 XE Proficiency CBMs
-[Xedra Evolved] Add Offworld Acquisitions specialist: The Six Million Dollar (Wo)man
-[Xedra Evolved] Add Salamander magic type
-[Xedra Evolved] Add `gramarye` version of the Paraclesian Birth hobby
 [Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
-[MoM] Update vitakinetic debuffs to use enchants
-[Xedra Evolved] Add two homullus traits, improving electronics and computer skills
-
 
 
 ## Balance:
@@ -1258,15 +1233,6 @@ Blocking costs Stamina
 Can't block attacks from creatures two sizes greater than you
 Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
-Make butter un-fun to eat directly
-Some mutations have a small effect on your body weight
-Some interactions between bionic limbs and mutations
-Diversification of Vehicle Spawns
-Remove reach attacks across z-levels
-Some more interactions between bionic limbs and mutations
-SPM CBM and XM-ARM/LEG CBMs not compatible with bionic limbs
-Add missing types definitions to several limbs
-Remove chunk of graphite from recipe for clay crucible
 
 
 ## Bugfixes:
@@ -1748,16 +1714,8 @@ Fix flaky vehicle ramp test
 LIXA fall EOC triggers properly if you step on tile instead of examine it
 Fix segfault in scent_map::update after failed out-of-bounds teleport
 Fix non-deterministic hp_max in test helper clear_character()
-Vines as limbs bugfixes
 Fix infinite trade exploit from missing faction ownership in bulk trade
-Fix NPC failing to wield weapons from inside wielded container
-Fix random 'Active items found on copied submap' debugmsg during mapgen
-Set sleek scale encumbrance to zero
-Hoof subpart max coverage adds up to 100
 Prevent pseudo-dormant monsters from upgrading before going dormant
-Fix armor average coverage including phantom limbs from similar_bodypart expansion
-Fix the calorie calculation error for rehydrated corn kernels
-Fix typo in Pat's robo nickname snippet
 Fix character generation with custom XP scaling
 Fix zone activity hangs from unbounded single-frame work
 Stop pig murderers
