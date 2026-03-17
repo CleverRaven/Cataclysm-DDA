@@ -300,6 +300,8 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "intensity_max": 3,     // max intensity of the field; default intensity_min
       "radius": 5,            // radius of a field to spawn; default 1
       "chance": 100,          // probability to apply the field on each separate creature in area, from 1 to 100; default 100
+      "all_bp": false,        // if true, effect is applied evenly on all limbs, otherwise applies at random limbs hits_amount of times
+      "hits_amount": [ 1, 3 ] // how many instances this effect will be applied onto body, a-la spread across multiple limbs
     } 
   ],
   "do_flashbang": false,     // Creates a hardcoded flashbang explosion; default false

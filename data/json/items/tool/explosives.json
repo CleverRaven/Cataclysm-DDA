@@ -764,7 +764,8 @@
       "WATER_EXTINGUISH",
       "DESTROY_ON_CHARGE_USE",
       "SPAWN_ACTIVE",
-      "ACT_ON_RANGED_HIT"
+      "ACT_ON_RANGED_HIT",
+      "NO_MANUAL_ACTIVATION"
     ]
   },
   {
@@ -808,7 +809,8 @@
       "WATER_EXTINGUISH",
       "DESTROY_ON_CHARGE_USE",
       "SPAWN_ACTIVE",
-      "ACT_ON_RANGED_HIT"
+      "ACT_ON_RANGED_HIT",
+      "NO_MANUAL_ACTIVATION"
     ]
   },
   {

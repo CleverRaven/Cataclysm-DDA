@@ -2092,6 +2092,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_MANUAL_ACTIVATION",
+    "//": "This item cannot be activated by player or NPC, only by some internal game means like by throwing",
+    "type": "json_flag"
+  },
+  {
     "id": "BACKBLAST",
     "type": "json_flag"
   },
