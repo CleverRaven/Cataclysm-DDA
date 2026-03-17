@@ -1,0 +1,9 @@
+[
+  {
+    "id": "LIXA_spit_light",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "LIXA_spit_light",
+    "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 4 }
+  }
+]
