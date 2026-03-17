@@ -10,8 +10,8 @@
         "condition": {
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
-            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers') >= 4" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
             }
@@ -25,8 +25,8 @@
         "condition": {
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
-            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers') < 4" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
             }
@@ -39,8 +39,8 @@
         "condition": {
           "and": [
             { "u_has_trait": "HOMULLUS" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers') >= 4" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_high" } ] }
             }
@@ -54,8 +54,8 @@
         "condition": {
           "and": [
             { "u_has_trait": "HOMULLUS" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_computer_understanding" } },
-            { "math": [ "n_skill('computers') < 4" ] },
+            { "math": [ "u_proficiency('prof_paraclesian_computer_understanding', 'format': 'percent') < 100" ] },
+            { "math": [ "n_skill('computer') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_computer_teaching_low" } ] }
             }
@@ -68,7 +68,7 @@
         "condition": {
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
@@ -85,7 +85,7 @@
         "condition": {
           "and": [
             { "u_has_any_trait": [ "ARVORE", "IERDE", "SALAMANDER", "UNDINE" ] },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
@@ -99,7 +99,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "SYLPH" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
@@ -116,7 +116,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "SYLPH" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
@@ -130,7 +130,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "HOMULLUS" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') >= 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_high" } ] }
@@ -147,7 +147,7 @@
         "condition": {
           "and": [
             { "u_has_trait": "HOMULLUS" },
-            { "not": { "u_has_proficiency": "prof_paraclesian_electronics_understanding" } },
+            { "math": [ "u_proficiency('prof_paraclesian_electronics_understanding', 'format': 'percent') < 100" ] },
             { "math": [ "n_skill('electronics') < 4" ] },
             {
               "not": { "compare_string": [ "yes", { "npc_val": "asked_faction_npc_about_paraclesian_electronics_teaching_low" } ] }
