@@ -71,6 +71,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "trait_group.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -95,6 +96,9 @@ static const matype_id style_none( "style_none" );
 
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
+
+static const trait_group::Trait_group_tag
+Trait_group_NPC_starting_traits( "NPC_starting_traits" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -590,6 +594,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
     reset_cardio_acc();
 
     if( is_npc() ) {
+        for( const trait_and_var &cur : trait_group::traits_from( Trait_group_NPC_starting_traits ) ) {
+            if( !has_conflicting_trait( cur.trait ) ) {
+                set_mutation( cur.trait, cur.trait->variant( cur.variant ) );
+            }
+        }
         as_npc()->randomize_personality();
         as_npc()->generate_personality_traits();
         initialize();
