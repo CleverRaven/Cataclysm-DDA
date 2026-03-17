@@ -2409,6 +2409,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_paraclesian_cannot_use_computers_flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_see_fae",
     "name": [ "Wyrd Sight" ],
     "desc": [ "You can sense nearby creatures that come from under the hill." ],
