@@ -1075,6 +1075,13 @@ void Character::load( const JsonObject &data )
 
     morale->load( data );
 
+    // morale->load() only restores morale points, not mutation active flags.
+    // Activate mutations so update_masochist_bonus / update_constrained_penalty
+    // compute correct values when stat changes or item equips fire below.
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        morale->on_mutation_gain( mut );
+    }
+
     _skills->clear();
     JsonObject skill_data = data.get_object( "skills" );
     skill_data.allow_omitted_members();
