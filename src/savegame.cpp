@@ -1675,6 +1675,8 @@ void game::unserialize_master( const JsonValue &jv )
             next_mission_id = jsin.get_int();
         } else if( name == "next_npc_id" ) {
             next_npc_id.deserialize( jsin );
+        } else if( name == "next_item_uid" ) {
+            jsin.read( next_item_uid );
         } else if( name == "active_missions" ) {
             mission::unserialize_all( jsin );
         } else if( name == "factions" ) {
@@ -1876,6 +1878,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "next_mission_id", next_mission_id );
         json.member( "next_npc_id", next_npc_id );
+        json.member( "next_item_uid", next_item_uid );
 
         json.member( "active_missions" );
         mission::serialize_all( json );
