@@ -104,7 +104,7 @@
       "terrain": {
         ".": "t_railroad_rubble",
         "#": "t_wall_w",
-        "*": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_interior_locked", 2 ] ],
+        "*": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_locked", 2 ] ],
         "+": [ "t_door_c", "t_door_locked_interior" ],
         "§": "t_card_military",
         "o": "t_reinforced_glass"
