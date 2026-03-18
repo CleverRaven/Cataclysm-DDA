@@ -34,6 +34,8 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_corpse( "corpse" );
@@ -212,12 +214,11 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
-        item_group_id grp_bottle_water( "test_bottle_water" );
-        const item_group::ItemList items = item_group::items_from( grp_bottle_water );
+        const item_group::ItemList items = item_group::items_from( Item_spawn_data_test_bottle_water );
 
         // make sure only water bottles are in this group
         REQUIRE( items.size() == 1 );
-        REQUIRE( item_group::group_contains_item( grp_bottle_water, itype_water_clean ) );
+        REQUIRE( item_group::group_contains_item( Item_spawn_data_test_bottle_water, itype_water_clean ) );
 
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
@@ -229,6 +230,22 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
         water.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Thirsty and hungry" ) {
+        // When both thirsty and hungry, thirst takes priority
+        // (npc_thirst comes before npc_hunger in sequential_until_done)
+        test_npc.set_thirst( 700 );
+        test_npc.set_hunger( 500 );
+        test_npc.set_stored_kcal( 1000 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "drink_water" );
     }
 }
 

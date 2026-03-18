@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdio>
 #include <functional>
@@ -56,6 +57,20 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
+
+class overmap_test_helper
+{
+    public:
+        static void set_highway_connections(
+            overmap &om,
+            const std::array<tripoint_om_omt, 4> &conns ) {
+            om.highway_connections = conns;
+        }
+        static const std::array<tripoint_om_omt, 4> &get_highway_connections(
+            const overmap &om ) {
+            return om.highway_connections;
+        }
+};
 
 static std::vector<oter_flags> all_oter_flags()
 {
@@ -792,6 +807,106 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
         CHECK( bounds.back() == pos + p.second );
     }
 
+}
+
+TEST_CASE( "highway_connections_default_to_invalid", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    point_abs_om pos;
+    bool found = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        if( !overmap_buffer.has( candidate ) ) {
+            pos = candidate;
+            found = true;
+            break;
+        }
+    }
+    REQUIRE( found );
+
+    // Heap-allocated because overmap's map_layer arrays overflow the stack.
+    auto om = std::make_unique<overmap>( pos );
+    const auto &conns = overmap_test_helper::get_highway_connections( *om );
+    for( int i = 0; i < 4; i++ ) {
+        CAPTURE( i );
+        CHECK( conns[i] == tripoint_om_omt::invalid );
+        CHECK( conns[i] != tripoint_om_omt::zero );
+    }
+}
+
+TEST_CASE( "highway_neighbor_missing_connections_no_crash", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    // Find a clean block with no on-disk saves.
+    point_abs_om cluster_origin;
+    bool found_cluster = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        bool block_clean = true;
+        for( const point_abs_om &p : closest_points_first( candidate, 0, 4 ) ) {
+            if( overmap_buffer.has( p ) ) {
+                block_clean = false;
+                break;
+            }
+        }
+        if( block_clean ) {
+            cluster_origin = candidate;
+            found_cluster = true;
+            break;
+        }
+    }
+    overmap_buffer.clear();
+    REQUIRE( found_cluster );
+
+    // Generate a radius-2 cluster, leaving an ungenerated ring around it.
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 0, 2 ) ) {
+        const point_abs_omt omt = project_to<coords::omt>( om_pos );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    }
+
+    // Find a boundary highway overmap with a valid outward connection
+    // toward an ungenerated neighbor.
+    overmap *target = nullptr;
+    point_abs_om target_pos;
+    int outward_dir = -1;
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 2, 2 ) ) {
+        overmap *om = overmap_buffer.get_existing( om_pos );
+        if( om == nullptr ) {
+            continue;
+        }
+        const auto &conns = overmap_test_helper::get_highway_connections( *om );
+        for( int i = 0; i < 4; i++ ) {
+            if( conns[i] == tripoint_om_omt::zero || conns[i] == tripoint_om_omt::invalid ) {
+                continue;
+            }
+            const point_abs_om neighbor = om_pos + four_adjacent_offsets[i];
+            if( overmap_buffer.get_existing( neighbor ) == nullptr ) {
+                target = om;
+                target_pos = om_pos;
+                outward_dir = i;
+                break;
+            }
+        }
+        if( target != nullptr ) {
+            break;
+        }
+    }
+    REQUIRE( target != nullptr );
+
+    // Corrupt to simulate old-save or cascading failure.
+    overmap_test_helper::set_highway_connections( *target, {
+        tripoint_om_omt::zero, tripoint_om_omt::zero,
+        tripoint_om_omt::zero, tripoint_om_omt::zero
+    } );
+
+    // Generate the neighbor that reads the corrupted connection.
+    const point_abs_om victim = target_pos + four_adjacent_offsets[outward_dir];
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        const point_abs_omt omt = project_to<coords::omt>( victim );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    } );
+
+    CHECK_THAT( dmsg, !Catch::Contains( "highway connections not initialized" ) );
 }
 
 TEST_CASE( "overmap_generation_is_deterministic", "[overmap]" )

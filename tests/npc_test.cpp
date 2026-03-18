@@ -5,6 +5,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <unordered_set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -12,11 +13,13 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
+#include "debug.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -28,6 +31,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -59,6 +63,7 @@ static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -744,4 +749,57 @@ TEST_CASE( "npc_extracts_weapon_from_wielded_container", "[npc_ai]" )
 
     // The backpack should no longer be wielded
     CHECK( hostile.get_wielded_item()->typeId() != itype_debug_backpack );
+}
+
+TEST_CASE( "npc_needs_bt_diagnostic_during_move", "[npc][behavior]" )
+{
+    // RAII: save and restore debug globals so later tests are unaffected
+    restore_on_out_of_scope<bool> restore_debug( debug_mode );
+    restore_on_out_of_scope<std::unordered_set<debugmode::debug_filter>>
+            restore_filters( debugmode::enabled_filters );
+
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+
+    // Make NPC hungry with food available
+    guy.set_hunger( 500 );
+    guy.set_stored_kcal( 1000 );
+    guy.i_add( item( itype_sandwich_cheese_grilled ) );
+
+    SECTION( "filter enabled - BT goal appears in messages" ) {
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+        debugmode::enabled_filters.emplace( debugmode::DF_NPC_NEEDS );
+
+        Messages::clear_messages();
+        guy.set_moves( 100 );
+        guy.move();
+
+        const auto msgs = Messages::recent_messages( 100 );
+        bool found_bt_msg = false;
+        for( const auto &msg : msgs ) {
+            if( msg.second.find( "BT needs goal" ) != std::string::npos ) {
+                found_bt_msg = true;
+                CHECK( msg.second.find( "eat_food" ) != std::string::npos );
+                break;
+            }
+        }
+        CHECK( found_bt_msg );
+    }
+
+    SECTION( "filter absent - no BT evaluation" ) {
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+        // DF_NPC_NEEDS deliberately NOT added
+
+        Messages::clear_messages();
+        guy.set_moves( 100 );
+        guy.move();
+
+        const auto msgs = Messages::recent_messages( 100 );
+        for( const auto &msg : msgs ) {
+            CHECK( msg.second.find( "BT needs goal" ) == std::string::npos );
+        }
+    }
 }

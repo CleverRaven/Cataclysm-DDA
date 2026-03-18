@@ -1063,7 +1063,11 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
-        for( const recipe_proficiency &prof : making.proficiencies ) {
+        for( const recipe_proficiency &prof : making.get_proficiencies() ) {
+            // Required profs (time_multiplier == 0) gate access, not learning
+            if( prof.time_multiplier == 0.0f ) {
+                continue;
+            }
             if( !p->_proficiencies->has_learned( prof.id ) &&
                 prof.id->can_learn() &&
                 p->_proficiencies->has_prereqs( prof.id ) ) {
@@ -1166,7 +1170,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
                    total_skill_modifiers, get_int() / 4.f );
 
     // Missing proficiencies penalize skill level
-    for( const recipe_proficiency &recip : making.proficiencies ) {
+    for( const recipe_proficiency &recip : making.get_proficiencies() ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
             total_skill_modifiers -= recip.skill_penalty;
         }
