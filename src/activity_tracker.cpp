@@ -26,7 +26,7 @@ void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
     // Cap at effective 99% sleepiness mod reduction since mod interactions can reduce sleepiness gain to 0
     if( sleepiness_mod <= 0.0f ) {
         sleepiness_mod = 0.01f;
-    } 
+    }
     if( average_activity() < LIGHT_EXERCISE ) {
         // cata_assert( sleepiness_mod > 0.0f );
         low_activity_ticks += std::min( 1.0f,
