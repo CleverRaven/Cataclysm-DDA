@@ -1918,6 +1918,9 @@ int npc::assigned_missions_value() const
     return ret;
 }
 
+// Legacy need ranking. Scores each need 0-20, sorts by urgency.
+// The behavior tree (npc_behavior.json + character_oracle.cpp)
+// is the intended replacement for survival needs. See #28681.
 void npc::decide_needs()
 {
     const item_location weapon = get_wielded_item();

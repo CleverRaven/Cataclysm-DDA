@@ -193,6 +193,9 @@ std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
+// Legacy need ranking used by decide_needs() and set_omt_destination().
+// The behavior tree (npc_behavior.json) is the intended replacement
+// for immediate survival needs (warmth, food, water). See #28681.
 enum npc_need {
     need_none,
     need_ammo, need_weapon, need_gun,
