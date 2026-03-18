@@ -2033,6 +2033,26 @@ void creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+void unique_special_deck_state::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "successes", successes );
+    json.member( "deck_size", deck_size );
+    json.member( "successes_remain", successes_remain );
+    json.member( "cards_remain", cards_remain );
+    json.member( "to_place", to_place );
+    json.end_object();
+}
+
+void unique_special_deck_state::deserialize( const JsonObject &json )
+{
+    json.read( "successes", successes );
+    json.read( "deck_size", deck_size );
+    json.read( "successes_remain", successes_remain );
+    json.read( "cards_remain", cards_remain );
+    json.read( "to_place", to_place );
+}
+
 void overmap_global_state::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2042,6 +2062,7 @@ void overmap_global_state::serialize( JsonOut &json ) const
     json.member( "unique_special_count", unique_special_count );
     json.member( "overmap_highway_intersection_grid", highway_intersections );
     json.member( "major_river_count", major_river_count );
+    json.member( "unique_special_decks", unique_special_decks );
 
     json.end_object();
 }
@@ -2071,6 +2092,8 @@ void overmap_global_state::deserialize( const JsonObject &json )
         json.read( "overmap_highway_intersection_grid", highway_intersections );
     }
     json.read( "major_river_count", major_river_count );
+    unique_special_decks.clear();
+    json.read( "unique_special_decks", unique_special_decks );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
