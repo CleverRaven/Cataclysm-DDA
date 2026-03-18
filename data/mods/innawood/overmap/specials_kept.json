@@ -11,7 +11,6 @@
       { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
@@ -20,7 +19,6 @@
     "id": "Standing stones",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones" } ],
     "locations": [ "forest" ],
-    "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
     "rotate": false,
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
@@ -33,7 +31,6 @@
       { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under_north" }
     ],
     "locations": [ "forest" ],
-    "city_sizes": [ 0, 12 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
@@ -47,7 +44,6 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
-    "city_distance": [ 8, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -59,7 +55,6 @@
       { "point": [ 0, 0, -1 ], "overmap": "cave_underground_innawood" }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 8, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -72,7 +67,6 @@
       { "point": [ 0, 0, -2 ], "overmap": "cave_rat_innawood" }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 8, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
@@ -81,7 +75,6 @@
     "id": "Pond",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_field_north" } ],
     "locations": [ "field" ],
-    "city_distance": [ 15, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -90,7 +83,6 @@
     "id": "Hot Springs",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
     "locations": [ "field" ],
-    "city_distance": [ 15, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -102,7 +94,6 @@
       { "point": [ 0, 0, -1 ], "overmap": "ws_giant_sinkhole_2_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
@@ -148,8 +139,6 @@
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -195,8 +184,6 @@
       { "point": [ 5, 5, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -215,8 +202,6 @@
       { "point": [ 2, 2, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -268,8 +253,6 @@
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -321,8 +304,6 @@
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -374,8 +355,6 @@
       { "point": [ 6, 5, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -434,8 +413,6 @@
       { "point": [ 6, 6, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -470,8 +447,6 @@
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -506,8 +481,6 @@
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -542,8 +515,6 @@
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   },
@@ -578,8 +549,6 @@
       { "point": [ 4, 4, 0 ], "overmap": "lake_surface" }
     ],
     "locations": [ "lake_surface" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
   }
