@@ -457,6 +457,7 @@ game::game() :
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
+    next_item_uid( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
@@ -673,6 +674,7 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
+    next_item_uid = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -3608,6 +3610,11 @@ character_id game::assign_npc_id()
     character_id ret = next_npc_id;
     ++next_npc_id;
     return ret;
+}
+
+int64_t game::assign_item_uid()
+{
+    return next_item_uid++;
 }
 
 Creature *game::is_hostile_nearby()

@@ -2919,6 +2919,14 @@ void item::io( Archive &archive )
         return i.get_id().str();
     }, io::required_tag() );
 
+    // Persistent unique identifier for item instances
+    archive.io( "uid", uid_, item_uid() );
+    if constexpr( Archive::is_input::value ) {
+        if( !uid_.is_valid() ) {
+            uid_ = item_uid( generate_next_item_uid() );
+        }
+    }
+
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );

@@ -4,6 +4,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 #include <functional>
 #include <iosfwd>
@@ -676,6 +677,7 @@ class game
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
         character_id assign_npc_id();
+        int64_t assign_item_uid();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close( bool dangerous = false );
         field_entry *is_in_dangerous_field();
@@ -1249,6 +1251,7 @@ class game
         bool bVMonsterLookFire = false;
         character_id next_npc_id; // NOLINT(cata-serialize)
         int next_mission_id = 0; // NOLINT(cata-serialize)
+        int64_t next_item_uid = 1; // NOLINT(cata-serialize)
         // Keep track of follower NPC IDs
         std::set<character_id> follower_ids; // NOLINT(cata-serialize)
 
