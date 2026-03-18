@@ -642,36 +642,42 @@
     "id": "mon_eigenspectre_1",
     "copy-from": "mon_eigenspectre_1",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_2",
     "copy-from": "mon_eigenspectre_2",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "PHOTOKIN_MONSTER_IMMUNE", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
-  },
-  {
-    "id": "mon_eigenspectre_2",
-    "copy-from": "mon_eigenspectre_3",
-    "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "PHOTOKIN_MONSTER_IMMUNE", "TELEKIN_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_3",
+    "copy-from": "mon_eigenspectre_3",
+    "type": "MONSTER",
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
+  },
+  {
+    "id": "mon_eigenspectre_3_echo",
     "copy-from": "mon_eigenspectre_3_echo",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   },
   {
     "id": "mon_eigenspectre_4",
     "copy-from": "mon_eigenspectre_4",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   },
   {
     "id": "mon_living_vector",
     "copy-from": "mon_living_vector",
     "type": "MONSTER",
-    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL", "TELEKIN_IMMUNE" ]
+    "species": [ "NETHER_EMANATION", "TELEKIN_PUSHPULL_NULL" ],
+    "extend": { "flags": [ "TELEKIN_IMMUNE" ] }
   }
 ]
