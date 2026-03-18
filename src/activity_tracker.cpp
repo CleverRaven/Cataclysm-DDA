@@ -23,10 +23,13 @@ void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
 {
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
     // As sleepiness_mod approaches zero, low_activity_ticks and reduction approach infinity which in turn make tracker approach - infinity before being capped at 0.
-    // Skip the math and just automatically set tracker to 0.
-    if( sleepiness_mod <= 0.0f ) {
+    // Cap at effective
+    if( sleepiness_mod <= 0.0f && !has_flag( json_character_flag_UNSLEEPING_OKAY ) ) {
         tracker = 0;
     } else {
+        if( sleepiness_mod <= 0.0f ) {
+            sleepiness_mod = 0.01f;
+        }
         if( average_activity() < LIGHT_EXERCISE ) {
             // cata_assert( sleepiness_mod > 0.0f );
             low_activity_ticks += std::min( 1.0f,
