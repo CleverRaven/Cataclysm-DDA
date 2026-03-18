@@ -5710,9 +5710,14 @@ talk_effect_fun_t::func f_ranged_attack( bool is_npc )
 
 talk_effect_fun_t::func f_die( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
+    return [is_npc]( dialogue & d ) {
         map &here = get_map();
         d.actor( is_npc )->die( &here );
+        if( is_npc ) {
+            d.has_beta = false;
+        } else {
+            d.has_alpha = false;
+        }
     };
 }
 
@@ -5735,7 +5740,7 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
     }
 
     return [remove_corpse, supress_message, remove_from_creature_tracker,
-                   is_npc]( dialogue const & d ) {
+                   is_npc]( dialogue & d ) {
         map &here = get_map();
 
         if( d.actor( is_npc )->get_monster() ) {
@@ -5753,6 +5758,11 @@ talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view m
         }
 
         d.actor( is_npc )->die( &here );
+        if( is_npc ) {
+            d.has_beta = false;
+        } else {
+            d.has_alpha = false;
+        }
     };
 }
 
