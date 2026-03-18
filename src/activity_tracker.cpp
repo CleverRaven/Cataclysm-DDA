@@ -51,7 +51,6 @@ void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
         low_activity_ticks = 0.0f;
 
         tracker -= std::max( reduction, 1 );
-        
     }
 
     // If happens to be no reduction, character is not (as) hypoglycemic
