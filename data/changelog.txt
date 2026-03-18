@@ -202,7 +202,8 @@ Pat uses dialogue instead of pop-up messages
 Simplified Rubik's mission option dialogue
 Ancilla doc can repair cybernetics
 Hub 01 cyborgs are not welcome at the Exodii castle
-
+Add event_statistic() dialogue function to math parser
+Per-overmap-tile snow depth tracking with movement penalty
 
 
 ## Content:
@@ -448,6 +449,10 @@ The Exodii Hunter, a CBM merchant, will visit the Ancilla bar
 Hub 01 CBM interface and AutoDoc overhaul
 Hub 01 cybernetics: XM-ARM, -LEG, and -BACK
 Make vines limbs
+The Yrax do things.
+You can start as a mutant in TCL with a specific tree
+Add bionic limbs
+Hub 01 will install & repair basic bionic limbs
 
 
 ## Interface:
@@ -603,6 +608,8 @@ Show total/spare sapce of MOLLE item in item info.
 Remove ability to toggle map memory from the players control
 Filter item info body part display by viewing character's anatomy
 debug map editor ImGui conversion
+Prioritize hostile targets over neutral when firing
+Show cable connections for appliances
 
 
 ## Mods:
@@ -1079,7 +1086,9 @@ New Mod Megacity.
 [XE] Tier 5 vampires are predators who have extinguished all feeling from their hearts.
 [Xedra Evolved] `gramarye` skill for Fae powers replaces Deduction for Fae themed characters
 Master archer playstyle perk for Bombastic Perks
-
+[Xedra Evolved] Add Lashing Bough style, the Arvore martial art
+XE Proficiency CBMs
+[Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
 
 
 ## Balance:
@@ -1705,6 +1714,17 @@ Fix flaky vehicle ramp test
 LIXA fall EOC triggers properly if you step on tile instead of examine it
 Fix segfault in scent_map::update after failed out-of-bounds teleport
 Fix non-deterministic hp_max in test helper clear_character()
+Fix infinite trade exploit from missing faction ownership in bulk trade
+Prevent pseudo-dormant monsters from upgrading before going dormant
+Fix character generation with custom XP scaling
+Fix zone activity hangs from unbounded single-frame work
+Stop pig murderers
+Fix snow depth inconsistencies across OMTs and z-levels
+Re-enable appliances after transient power grid deficit
+Fix zone sort stalling on large zones with mostly empty tiles
+Fix zone sort hang with liquid containers at unload zones
+Fix zone activities ignoring player cancel
+Fix cables permanently disconnecting when target leaves reality bubble
 
 
 ## Performance:
@@ -1957,6 +1977,10 @@ Use suggestion blocks for IWYU review comments
 Add --rng-seed-fuzz flag to rerun tests with varying RNG seeds
 Fix test labeler skipping PRs from fork master branches
 Fix flaky Damage_type_effectiveness_vs_monster_resistance test
+Remove redundant pull_request trigger from IWYU Suggester workflow
+Reset calendar and weather between test cases
+Add map::is_roofed() API with vertical walk-up for precipitation checks
+Make iteminfo coverage/warmth test value-independent
 
 
 ## Build:
