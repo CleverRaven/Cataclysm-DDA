@@ -4,8 +4,6 @@
     "id": "Ravine Mutable",
     "subtype": "mutable",
     "locations": [ "field", "forest_with_swamp", "subterranean_empty" ],
-    "city_distance": [ 0, -1 ],
-    "city_sizes": [ 0, -1 ],
     "priority": 3,
     "occurrences": [ 0, 2 ],
     "flags": [ "WILDERNESS" ],
