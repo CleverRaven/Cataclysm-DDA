@@ -12143,7 +12143,8 @@ bool pulp_activity_actor::can_pulp( item &corpse, Character &you )
 
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
-        if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
+        if( you.query_yn(
+                _( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) ) {
             too_long_to_pulp = true;
         } else {
             too_long_to_pulp_interrupted = true;
