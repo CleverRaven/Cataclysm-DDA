@@ -166,7 +166,8 @@ void play_activity_sound( const std::string &id, const std::string &variant,
                           const std::string &season, int volume );
 void end_activity_sounds();
 void generate_gun_sound( const Character &source_arg, const item &firing );
-void generate_melee_sound( const item &weapon, const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit,
+void generate_melee_sound( const item &weapon, const tripoint_bub_ms &source,
+                           const tripoint_bub_ms &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
