@@ -869,7 +869,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_autumn_wither_with_age" ],
+        "u_roll_remainder": [ "changeling_autumn_time_withers_mighty_warrior" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

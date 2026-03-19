@@ -436,6 +436,40 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_character",
+    "name": [ "Time Fells the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "melee", "multiply": -1 },
+          { "value": "stabbing", "multiply": -1 },
+          { "value": "bashing", "multiply": -1 },
+          { "value": "cutting", "multiply": -1 },
+          { "value": "dodge", "multiply": -1 },
+          { "value": "gun", "multiply": -1 },
+          { "value": "archery", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_monster",
+    "name": [ "Age Withers the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "base_mods": { "hit_mod": [ -10 ], "dodge_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
