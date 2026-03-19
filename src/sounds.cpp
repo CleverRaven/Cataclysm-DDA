@@ -1466,7 +1466,7 @@ void sfx::sound_thread::operator()() const
         skill_variant = "default";
     }
     
-    if( weapon_id != itype_id::NULL_ID() && has_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night ) ) {
+    if( has_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night ) ) {
         play_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night,
                             vol_src, ang_src, 0.8, 1.2 );
     } else {
@@ -1478,7 +1478,7 @@ void sfx::sound_thread::operator()() const
         const int sleep_time = weapon_volume * ( targ_mon ? rng( 12, 16 ) : rng( 9, 12 ) );
         std::string melee_hit_material = ( targ_mon && material == "steel" ) ? "melee_hit_metal" : "melee_hit_flesh";
     
-        if( weapon_id != itype_id::NULL_ID() && has_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors, night ) ) {
+        if( has_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors, night ) ) {
             std::this_thread::sleep_for( std::chrono::milliseconds( sleep_time ) );
             play_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors,
                                 night, vol_targ, ang_targ, 0.8, 1.2 );
