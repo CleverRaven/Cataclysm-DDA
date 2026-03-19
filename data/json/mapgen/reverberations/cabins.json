@@ -31,7 +31,18 @@
         "              ~         "
       ],
       "palettes": [ "cabin_palette" ],
-      "place_nested": [ { "chunks": [ "cabin_reverberation_trench_1_surface", "cabin_reverberation_trench_2_surface" ], "x": 0, "y": 0 } ],
+      "place_nested": [
+        {
+          "chunks": [
+            "cabin_reverberation_trench_1_surface",
+            "cabin_reverberation_trench_2_surface",
+            "cabin_reverberation_trench_3_surface",
+            "cabin_reverberation_trench_4_surface"
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ],
       "terrain": { "0": "t_region_soil", "b": "t_region_groundcover", " ": "t_region_groundcover", "8": "t_floor" },
       "furniture": {
         " ": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 10 ], [ "f_bluebell", 50 ], [ "f_lily", 30 ], [ "f_flower_tulip", 30 ] ]

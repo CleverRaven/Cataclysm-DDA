@@ -32,7 +32,6 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
-        { "chunks": [ "cabin_reverberation_trench_1_open_air" ], "x": 0, "y": 0 },
         { "chunks": [ "cabin_reverberation_trench_1_open_air" ], "x": 0, "y": 0, "z": -1 },
         { "chunks": [ "cabin_reverberation_trench_1_open_air" ], "x": 0, "y": 0, "z": -2 },
         { "chunks": [ "cabin_reverberation_trench_1_open_air" ], "x": 0, "y": 0, "z": -3 },
@@ -72,8 +71,7 @@
         "       A                "
       ],
       "terrain": { "A": "t_open_air" },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": { "1": { "chunks": [ [ "highland_1", 20 ] ] } }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -108,8 +106,7 @@
         "       A                "
       ],
       "terrain": { "A": [ [ "t_water_sh", 10 ], [ "t_dirt", 90 ] ] },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": { "1": { "chunks": [ [ "highland_1", 20 ] ] } }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -118,32 +115,31 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "      AA                ",
-        "AA    AA              AA",
-        " A    AA              A ",
-        " A     A              A ",
-        " A     A              A ",
-        " A     A              A ",
-        " A     A              A ",
-        "AA     A              AA",
-        "AAA   AA              AA",
-        "AAAAA AA             AAA",
-        "    AAAA             A  ",
-        "   AAAAA             A  ",
-        "   AAA                  ",
-        "   AAA                  ",
-        "  AAAA                  ",
-        " AAAAA                  ",
-        "AAAAAA    A    A    AAAA",
-        "     A    A    A        ",
-        "     AAA AA    A        ",
-        "     AAAAAAAAAAA        ",
-        "     AAAAAAAAAAA        ",
-        "       A                ",
-        "       A                ",
-        "       A                "
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "terrain": { "A": "t_open_air" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         { "chunks": [ "cabin_reverberation_trench_2_open_air" ], "x": 0, "y": 0, "z": -1 },
@@ -184,8 +180,7 @@
         "       A                "
       ],
       "terrain": { "A": "t_open_air" },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": { "1": { "chunks": [ [ "highland_1", 20 ] ] } }
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -220,8 +215,81 @@
         "       A                "
       ],
       "terrain": { "A": [ [ "t_water_sh", 20 ], [ "t_dirt", 90 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_reverberation_trench_3_surface",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      AA                ",
+        "AA    AA               A",
+        " A    AA                ",
+        " A     A                ",
+        " A     A                ",
+        " A     A                ",
+        " A     A                ",
+        "AA                     A",
+        "AAA                    A",
+        "AAAAA                  A",
+        "    A                   ",
+        "   AA                   ",
+        "   AA                   ",
+        "   AA                   ",
+        "  AAA                   ",
+        " AAAA                   ",
+        "AAAAA                  A",
+        "                        ",
+        "     AAA AA    A        ",
+        "     AAAAAAAAAAA        ",
+        "     AAAAAAAAAAA        ",
+        "       A                ",
+        "       A                ",
+        "       A                "
+      ],
+      "terrain": { "A": [ [ "t_open_air", 1 ], [ "t_region_groundcover", 99 ] ] },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "nested": { "1": { "chunks": [ [ "highland_1", 20 ] ] } }
+      "place_nested": [ { "chunks": [ "cabin_reverberation_trench_2_deep" ], "x": 0, "y": 0, "z": -1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "cabin_reverberation_trench_4_surface",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        { "chunks": [ "cabin_reverberation_trench_1_open_air" ], "x": 0, "y": 0, "z": -1 },
+        { "chunks": [ "cabin_reverberation_trench_1_deep" ], "x": 0, "y": 0, "z": -2 }
+      ]
     }
   }
 ]
