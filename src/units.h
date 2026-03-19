@@ -155,7 +155,7 @@ class quantity
 };
 
 template<typename V, typename U>
-inline quantity<V, U> fabs( quantity<V, U> q )
+inline quantity<V, U> abs( quantity<V, U> q )
 {
     return quantity<V, U>( std::fabs( q.value() ), U{} );
 }
@@ -1275,11 +1275,6 @@ units::energy operator*( const time_duration &time, const units::power &power );
 
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
-
-constexpr inline units::temperature_delta abs( units::temperature_delta x )
-{
-    return from_kelvin_delta( std::abs( to_kelvin_delta( x ) ) );
-}
 
 units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
 

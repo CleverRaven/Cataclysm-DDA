@@ -1,0 +1,50 @@
+[
+  {
+    "id": "BGSS_LAB_MUTANT_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Well, I was doing time before everything went to shit.  Nothing I care to talk about, it's all in the past.  Some government-looking people showed up and told us we were being moved to a different corrections facility and loaded us onto a bus, just like that.  Brought us to some warehouse and ushered us inside.  Underneath was some kind of government lab, and we were gonna be their new test subjects.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "What kind of tests were they doing?", "topic": "BGSS_LAB_MUTANT_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LAB_MUTANT_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, just look at me.  I'm a gods-damned <freaking> freak.  And I got off lucky - I can still TALK to you, some of the poor bastards basically turned into animals, brains and all.  I don't know how the fuck that science stuff they stabbed us with worked, and I'm not sure I WANT to, but a lot of us just went completely insane.  It sure didn't seem to bother those psychopaths in charge any.  And to think WE were the ones in jail.  At least every single one of those monsters is dead now - we made sure of that.",
+    "responses": [
+      { "text": "So how did you escape?", "topic": "BGSS_LAB_MUTANT_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LAB_MUTANT_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Well, the few lucid ones left gathered and we got to planning.  It seemed like the rest of the world was overwhelmingly going to shit and the supply lines were failing, so there was unrest amongst the eggheads and we wanted to be ready.  Eventually there was an earthquake, explosions, and the power went out.  The automated turrets were all down, so we managed to wrangle some of the far-gone mutants into helping us carve our way through security, and killed every scientist we could find.  There was one lady who was locked up for making meth, and she put together a bomb out of some chemicals they had lying around, and we blew open one of the doors to the surface and made our escape.  There was some kind of hell-storm going on outside - maybe you saw it too, giant monsters and a red sky and all kinds of shit - so we piled on a semi real quick and smashed through the guard rails.  We drove until until we were out of gas, and by then things had died down, so we all decided to go our separate ways.  Too much bad memories looking each other in the face and remembering every painful change forced on us.  Bet they're all still alive, though.  Most badass people I've ever met.  Aside from you, of course.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "If there was a way to get cured, would you take it?", "topic": "BGSS_LAB_MUTANT_1_PURIFIER" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LAB_MUTANT_1_PURIFIER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Fuck, I don't know.  Don't ask me that, dude.  Yes, on one hand I'm a freak.  But on the other hand, even if you had some cure and it worked, what would be the point?  The <zombies> don't give a damn.  You clearly don't give a damn.  All it would do is make me less able to survive.  And then all that suffering would be what, for nothing?  Right now I think I just want to play the hand that's been dealt to me.  At least it has its perks.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

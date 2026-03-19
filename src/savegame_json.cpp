@@ -425,7 +425,9 @@ void player_activity::deserialize( const JsonObject &data )
         "ACT_CONSUME_DRINK_MENU", // Remove after 0.J
         "ACT_CONSUME_MEDS_MENU", // Remove after 0.J
         "ACT_ARMOR_LAYERS", // Remove after 0.J
-        "ACT_TRAIN_TEACHER" // Remove after 0.J
+        "ACT_TRAIN_TEACHER", // Remove after 0.J
+        "ACT_TIDY_UP", // Remove after 0.J
+        "ACT_FERTILIZE_PLOT" // Remove after 0.J
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
@@ -685,13 +687,9 @@ void Character::load( const JsonObject &data )
     Creature::load( data );
 
     // stats
-    data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
-    data.read( "dex_cur", dex_cur );
     data.read( "dex_max", dex_max );
-    data.read( "int_cur", int_cur );
     data.read( "int_max", int_max );
-    data.read( "per_cur", per_cur );
     data.read( "per_max", per_max );
 
     data.read( "str_bonus", str_bonus );
@@ -1077,6 +1075,13 @@ void Character::load( const JsonObject &data )
 
     morale->load( data );
 
+    // morale->load() only restores morale points, not mutation active flags.
+    // Activate mutations so update_masochist_bonus / update_constrained_penalty
+    // compute correct values when stat changes or item equips fire below.
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        morale->on_mutation_gain( mut );
+    }
+
     _skills->clear();
     JsonObject skill_data = data.get_object( "skills" );
     skill_data.allow_omitted_members();
@@ -1367,13 +1372,9 @@ void Character::store( JsonOut &json ) const
     }
 
     // stat
-    json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
     json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
     json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
     json.member( "per_max", per_max );
 
     json.member( "str_bonus", str_bonus );
@@ -1668,8 +1669,6 @@ void avatar::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "show_map_memory", show_map_memory );
-
     json.member( "assigned_invlet" );
     json.start_array();
     for( const auto &iter : inv->assigned_invlet ) {
@@ -1812,8 +1811,6 @@ void avatar::load( const JsonObject &data )
     if( active_mission && active_mission->has_failed() ) {
         update_active_mission();
     }
-
-    data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
         inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
@@ -2922,6 +2919,14 @@ void item::io( Archive &archive )
         return i.get_id().str();
     }, io::required_tag() );
 
+    // Persistent unique identifier for item instances
+    archive.io( "uid", uid_, item_uid() );
+    if constexpr( Archive::is_input::value ) {
+        if( !uid_.is_valid() ) {
+            uid_ = item_uid( generate_next_item_uid() );
+        }
+    }
+
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
@@ -2984,7 +2989,9 @@ void item::io( Archive &archive )
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
-    archive.io( "components", components, io::empty_default_tag() );
+    if( !has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+        archive.io( "components", components, io::empty_default_tag() );
+    }
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );

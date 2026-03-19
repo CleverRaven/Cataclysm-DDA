@@ -402,6 +402,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
     "use_action": [
       {
         "type": "transform",
@@ -1228,5 +1229,348 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
       }
     ]
+  },
+  {
+    "id": "robofac_lens_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS helmet" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to toggle power.",
+    "weight": "1400 g",
+    "volume": "1200 ml",
+    "price": "400000 USD",
+    "price_postapoc": "450 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "techniques": [ "WBLOCK_1" ],
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "symbol": "[",
+    "looks_like": "tac_fullhelmet",
+    "color": "dark_gray",
+    "environmental_protection": 16,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 40 }
+    ],
+    "warmth": 30,
+    "flags": [
+      "OVERSIZE",
+      "STURDY",
+      "WATERPROOF",
+      "SUN_GLASSES",
+      "PADDED",
+      "MODULE_HOLDER",
+      "CAN_USE_IN_DARK",
+      "MUNDANE",
+      "ELECTRONIC",
+      "RAINPROOF",
+      "BLIND",
+      "DEAF",
+      "ROBOFAC_LENS_HELMET"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_robofac_lens_helmet",
+            "condition": {
+              "and": [ { "u_has_bionics": "bio_robofac_xmlens" }, { "u_has_worn_with_flag": "BLIND" }, { "u_has_worn_with_flag": "DEAF" } ]
+            },
+            "effect": [
+              { "transform_item": "robofac_lens_helmet_on", "active": true },
+              {
+                "u_message": "You flick on your LENS system.\n\"HELLO CEP#03\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nTargeting HUD:    ONLINE."
+              }
+            ],
+            "false_effect": { "u_message": "ERROR: NO LENS SYSTEM DETECTED" }
+          }
+        ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "robofac_lens_helmet_pat",
+    "copy-from": "robofac_lens_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "modified Hub 01 LENS helmet" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_robofac_lens_helmet_pat",
+            "condition": {
+              "and": [ { "u_has_bionics": "bio_robofac_xmlens" }, { "u_has_worn_with_flag": "BLIND" }, { "u_has_worn_with_flag": "DEAF" } ]
+            },
+            "effect": [
+              { "transform_item": "robofac_lens_helmet_pat_on", "active": true },
+              {
+                "u_message": "You flick on your LENS system.\n\"HELLO CEP#03\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nPat's Frequency:  ONLINE.\nTargeting HUD:    ONLINE."
+              }
+            ],
+            "false_effect": { "u_message": "ERROR: NO LENS SYSTEM DETECTED" }
+          }
+        ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ]
+  },
+  {
+    "id": "robofac_lens_helmet_pat_on",
+    "copy-from": "robofac_lens_helmet_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "modified Hub 01 LENS helmet (on)" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  You are currently connected to Pat's system.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your LENS system and cybernetic HUD switch off, leaving you in darkness.",
+        "target": "robofac_lens_helmet_pat"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "revert_to": "robofac_lens_helmet_pat",
+    "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_AR_activate" ] }
+  },
+  {
+    "id": "robofac_lens_helmet_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "robofac_lens_helmet",
+    "name": { "str_sp": "Hub 01 LENS helmet (on)" },
+    "flags": [
+      "OVERSIZE",
+      "STURDY",
+      "WATERPROOF",
+      "SUN_GLASSES",
+      "PADDED",
+      "MODULE_HOLDER",
+      "CAN_USE_IN_DARK",
+      "MUNDANE",
+      "ELECTRONIC",
+      "RAINPROOF",
+      "SPAWN_ACTIVE",
+      "ZOOM",
+      "THERMOMETER",
+      "HYGROMETER",
+      "BAROMETER",
+      "TWO_WAY_RADIO",
+      "WATCH",
+      "ALARMCLOCK",
+      "PARTIAL_DEAF",
+      "FIX_NEARSIGHT",
+      "FIX_FARSIGHT",
+      "FLASH_PROTECTION",
+      "SWIM_GOGGLES",
+      "NO_TAKEOFF",
+      "ROBOFAC_LENS_HELMET"
+    ],
+    "power_draw": "1 W",
+    "revert_to": "robofac_lens_helmet",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your LENS system and cybernetic HUD switch off, leaving you in darkness.",
+        "target": "robofac_lens_helmet"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "environmental_protection": 16,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 0 }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
+  },
+  {
+    "id": "robofac_lens_mask_bal",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS ballistic mask" },
+    "description": "A ballistic mask with many tiny vents holes, designed to form a tight seal with a Hub 01 LENS helmet.  Warm and cumbersome, but very protective.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "45 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 30,
+    "environmental_protection": 1,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "robofac_lens_mask_filter",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS filter mask" },
+    "description": "A ballistic mask with a built-in filter compartment, designed to form a tight seal with a Hub 01 LENS helmet.  Protects from smoke, dust, and other contaminants quite well.  It must be prepared before use.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "45 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 35,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 3,
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_s"
+  },
+  {
+    "id": "robofac_lens_mask_gas",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS CBRN mask" },
+    "description": "A ballistic CBRN gas mask, designed to form a tight seal with a Hub 01 LENS helmet.  While it is warmer and harder to breath in than a standard or filtered LENS mask, if a filter canister's been screwed into the right-side filter port and the respirator's been prepared, it'll do an admirable job at preventing smoke, gas, and airborne contaminants from taking up residence in your organs.  It must be prepared before use.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "65 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 40,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "robofac_lens_mask_papr",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS PAPR mask" },
+    "description": "A ballistic powered air purifying respirator mask, designed form a tight seal with a Hub 01 LENS helmet.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, or any other LENS mask, easy airflow keeps it relatively cool and comfortable.  However, it will only function to filter air when paired with an active PAPR blower unit.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "65 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 10,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "PAPR_MASK", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
   }
 ]

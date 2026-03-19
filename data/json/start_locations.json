@@ -306,7 +306,13 @@
     "type": "start_location",
     "id": "sloc_library",
     "name": "Library",
-    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3", "urban_library" ]
+    "terrain": [
+      "s_library",
+      "s_library_1",
+      "s_library_2",
+      "s_library_3",
+      { "om_terrain": "urban_library", "om_terrain_match_type": "PREFIX" }
+    ]
   },
   {
     "type": "start_location",
@@ -374,39 +380,15 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_lab_escape_cells",
-    "name": "Experiment Cell",
-    "terrain": [ "lab_escape_cells" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_lab_random",
-    "name": "Science lab",
-    "terrain": [ "lab_stairs" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_lab_finale",
-    "name": "Bottom of a science lab",
-    "terrain": [ "lab_finale" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_ice_lab_stairs",
-    "name": "Frozen science lab",
-    "terrain": [ "ice_lab_stairs" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_ice_lab_finale",
-    "name": "Deep-frozen science lab",
-    "terrain": [ "ice_lab_finale" ]
-  },
-  {
-    "type": "start_location",
     "id": "sloc_lab_concourse_area",
     "name": "Cargo area Trans-Coast Logistics",
     "terrain": [ { "om_terrain": "lab_CORE_2x1_1DN", "om_terrain_match_type": "TYPE" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lab_medical",
+    "name": "Medical area Trans-Coast Logistics",
+    "terrain": [ { "om_terrain": "lab_health_z-3_B", "om_terrain_match_type": "TYPE" } ]
   },
   {
     "type": "start_location",

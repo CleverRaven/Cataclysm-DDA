@@ -1280,6 +1280,11 @@
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
+    "id": "CANNOT_USE_COMPUTERS",
+    "type": "json_flag",
+    "//": "For some reason you're unable to use a computer terminal."
+  },
+  {
     "id": "SKIP_HEALTH",
     "type": "json_flag",
     "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
@@ -1618,6 +1623,11 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
+    "id": "MUTATED_ANATOMY_ONLY",
+    "type": "json_flag",
+    "info": "This can only be worn by those with <info>particular mutated anatomy</info> "
+  },
+  {
     "id": "MORPHIC",
     "type": "json_flag",
     "info": "This is <info>naturally sized to the body</info>."
@@ -1721,6 +1731,11 @@
   {
     "id": "NEEDS_NO_LUBE",
     "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_SUNLIGHT",
+    "type": "json_flag",
+    "info": "This tool only functions in strong direct sunlight.  It will not work indoors, underground, at night, or in overcast weather."
   },
   {
     "id": "MAGICAL",
@@ -2074,6 +2089,11 @@
   },
   {
     "id": "ACT_ON_RANGED_HIT",
+    "type": "json_flag"
+  },
+  {
+    "id": "NO_MANUAL_ACTIVATION",
+    "//": "This item cannot be activated by player or NPC, only by some internal game means like by throwing",
     "type": "json_flag"
   },
   {
@@ -2607,6 +2627,11 @@
     "info": "You have nonhuman ancestry or are not human"
   },
   {
+    "id": "BLOCK_HUGE_ATTACKS",
+    "type": "json_flag",
+    "info": "You are capable of blocking attacks from targets of any size"
+  },
+  {
     "id": "SUFFOCATION_IMMUNE",
     "type": "json_flag",
     "info": "You are immune to being crowd-crushed"
@@ -2949,7 +2974,16 @@
     "id": "PHASE_BACK",
     "type": "json_flag",
     "//": "Terrain / Furniture flag",
-    "name": "Phase back",
-    "info": "This terrain will phase back to its original terrain when no longer modified."
+    "//2": "This terrain will phase back to its original terrain when no longer modified."
+  },
+  {
+    "id": "ROBOFAC_LENS_ACCESSORY",
+    "type": "json_flag",
+    "info": "This item is an accessory for a Hub 01 LENS helmet, and can only be worn with that helmet."
+  },
+  {
+    "id": "ROBOFAC_LENS_HELMET",
+    "type": "json_flag",
+    "info": "This item allows you to wear Hub 01 LENS accessories."
   }
 ]

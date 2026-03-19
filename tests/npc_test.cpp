@@ -5,6 +5,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <unordered_set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -12,11 +13,13 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
+#include "debug.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -28,12 +31,14 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "pocket_type.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -58,6 +63,7 @@ static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -368,7 +374,7 @@ TEST_CASE( "npc-board-player-vehicle" )
         GIVEN( given.first ) {
             npc_boarding_test_data &data = given.second;
             g->place_player( data.player_pos );
-            clear_map();
+            clear_map_without_vision();
             map &here = get_map();
             Character &pc = get_player_character();
 
@@ -456,7 +462,7 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( { 60, 60, 0 } );
 
-    clear_map();
+    clear_map_without_vision();
 
     creature_tracker &creatures = get_creature_tracker();
     Character &player_character = get_player_character();
@@ -575,7 +581,7 @@ TEST_CASE( "npc_can_target_player" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -603,7 +609,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -615,6 +621,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
@@ -643,7 +650,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 {
     g->faction_manager_ptr->create_if_needed();
 
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
 
@@ -655,6 +662,7 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
+    hostile.set_body();
     hostile.mutation_category_level.clear();
     hostile.clear_bionics();
     REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
@@ -690,4 +698,108 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 
     CAPTURE( hostile.get_wielded_item().get_item()->tname() );
     REQUIRE( hostile.get_wielded_item().get_item()->is_gun() );
+}
+
+TEST_CASE( "npc_extracts_weapon_from_wielded_container", "[npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    point five_tiles_south = {0, 5};
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    hostile.clear_worn();
+    hostile.invalidate_crafting_inventory();
+    hostile.inv->clear();
+    hostile.remove_weapon();
+    hostile.clear_mutations();
+    hostile.set_body();
+    hostile.mutation_category_level.clear();
+    hostile.clear_bionics();
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
+
+    // Wield a non-melee container with a melee weapon inside
+    item backpack( itype_debug_backpack );
+    backpack.force_insert_item( item( itype_bat ), pocket_type::CONTAINER );
+    REQUIRE( !backpack.empty() );
+    hostile.set_wielded_item( backpack );
+    REQUIRE( hostile.get_wielded_item() );
+    REQUIRE( !hostile.get_wielded_item()->is_melee() );
+
+    // Trigger danger awareness so the NPC considers switching weapons
+    arm_shooter( player_character, itype_M24 );
+    hostile.regen_ai_cache();
+    CHECK( hostile.danger_assessment() > 1.0f );
+
+    // evaluate_best_weapon should find the bat inside the backpack
+    item *best = hostile.evaluate_best_weapon();
+    item_location wielded = hostile.get_wielded_item();
+    CHECK( best != wielded.get_item() );
+    CHECK( best->typeId() == itype_bat );
+
+    // wield_better_weapon should extract the bat and wield it
+    hostile.wield_better_weapon();
+    REQUIRE( hostile.get_wielded_item() );
+    CHECK( hostile.get_wielded_item()->typeId() == itype_bat );
+
+    // The backpack should no longer be wielded
+    CHECK( hostile.get_wielded_item()->typeId() != itype_debug_backpack );
+}
+
+TEST_CASE( "npc_needs_bt_diagnostic_during_move", "[npc][behavior]" )
+{
+    // RAII: save and restore debug globals so later tests are unaffected
+    restore_on_out_of_scope<bool> restore_debug( debug_mode );
+    restore_on_out_of_scope<std::unordered_set<debugmode::debug_filter>>
+            restore_filters( debugmode::enabled_filters );
+
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+
+    // Make NPC hungry with food available
+    guy.set_hunger( 500 );
+    guy.set_stored_kcal( 1000 );
+    guy.i_add( item( itype_sandwich_cheese_grilled ) );
+
+    SECTION( "filter enabled - BT goal appears in messages" ) {
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+        debugmode::enabled_filters.emplace( debugmode::DF_NPC_NEEDS );
+
+        Messages::clear_messages();
+        guy.set_moves( 100 );
+        guy.move();
+
+        const auto msgs = Messages::recent_messages( 100 );
+        bool found_bt_msg = false;
+        for( const auto &msg : msgs ) {
+            if( msg.second.find( "BT needs goal" ) != std::string::npos ) {
+                found_bt_msg = true;
+                CHECK( msg.second.find( "eat_food" ) != std::string::npos );
+                break;
+            }
+        }
+        CHECK( found_bt_msg );
+    }
+
+    SECTION( "filter absent - no BT evaluation" ) {
+        debug_mode = true;
+        debugmode::enabled_filters.clear();
+        // DF_NPC_NEEDS deliberately NOT added
+
+        Messages::clear_messages();
+        guy.set_moves( 100 );
+        guy.move();
+
+        const auto msgs = Messages::recent_messages( 100 );
+        for( const auto &msg : msgs ) {
+            CHECK( msg.second.find( "BT needs goal" ) == std::string::npos );
+        }
+    }
 }

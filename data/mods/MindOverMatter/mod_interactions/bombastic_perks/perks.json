@@ -25,7 +25,12 @@
     "purifiable": false,
     "valid": false,
     "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep, or perhaps your wakeful meditations have made the process of sleeping more efficient.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
-    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_biokin_metabolism_enhance" } },
+        "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

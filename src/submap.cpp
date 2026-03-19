@@ -405,7 +405,8 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
             this->m->lum[x][y] += copy_from->m->lum[x][y];
 
             for( const item &itm : copy_from->m->itm[x][y] ) {
-                this->m->itm[x][y].emplace( itm );
+                const auto iter = this->m->itm[x][y].emplace( itm );
+                this->active_items.add( *iter, point_sm_ms( x, y ) );
             }
 
             for( std::map<field_type_id, field_entry>::iterator it = copy_from->m->fld[x][y].begin();
@@ -454,10 +455,7 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
         }
     }
 
-    // TODO: Copy the active item cache
-    if( !copy_from->active_items.empty() ) {
-        debugmsg( "Active items found on copied submap which is not supported." );
-    }
+    // Active items from copy_from are re-registered during item copy above.
 
     if( copy_from->last_touched > this->last_touched ) {
         this->last_touched = copy_from->last_touched;

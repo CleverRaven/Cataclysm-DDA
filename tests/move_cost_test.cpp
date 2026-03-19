@@ -78,7 +78,7 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
     avatar &ava = get_avatar();
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // Ensure expected base modifiers
     REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == 1 );
@@ -231,7 +231,7 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
     GIVEN( "Character is uninjured and unencumbered" ) {
         avatar &u = get_avatar();
         clear_avatar();
-        clear_map();
+        clear_map_without_vision();
         u.wear_item( item( itype_sneakers ) );
         u.set_moves( 0 );
 

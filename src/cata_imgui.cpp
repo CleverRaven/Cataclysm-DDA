@@ -1104,6 +1104,16 @@ void cataimgui::EndRightAlign()
     ImGui::EndTable();
 }
 
+bool cataimgui::BeginTabItem( const char *label, bool is_selected, bool *p_open,
+                              ImGuiTabItemFlags flags )
+{
+    if( is_selected ) {
+        return ImGui::BeginTabItem( label, p_open, flags | ImGuiTabItemFlags_SetSelected );
+    } else {
+        return ImGui::BeginTabItem( label, p_open, flags );
+    }
+}
+
 // Use the base terminal palette to reasonably color ImGui elements.
 // This might be useful to easily apply the color theme (chosen via
 // Color Manager, likely) to ImGui with minimal effort.

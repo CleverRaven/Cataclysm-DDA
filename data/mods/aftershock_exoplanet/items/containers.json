@@ -92,6 +92,32 @@
     "flags": [ "COLLAPSE_CONTENTS", "BELT_CLIP" ]
   },
   {
+    "type": "ITEM",
+    "category": "container",
+    "id": "plastic_bowl_fast_food",
+    "name": { "str": "plastic bowl" },
+    "symbol": ")",
+    "description": "A perfectly ordinary disposable plastic bowl.  It has a sealed lid with a wide spigot for drinking or serving.",
+    "copy-from": "base_ceramic_dish",
+    "volume": "625 ml",
+    "price": "0 USD ",
+    "price_postapoc": "0 USD",
+    "material": [ "plastic" ],
+    "longest_side": "13 cm",
+    "pocket_data": [
+      {
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "rigid": true,
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "afs_mre_package",
     "copy-from": "mre_package",
     "type": "ITEM",

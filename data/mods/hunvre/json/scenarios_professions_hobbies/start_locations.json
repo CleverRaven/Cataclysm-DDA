@@ -1,0 +1,10 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_depths",
+    "name": "Depths",
+    "city_distance": [ 10, -1 ],
+    "terrain": [ "outer_space" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]

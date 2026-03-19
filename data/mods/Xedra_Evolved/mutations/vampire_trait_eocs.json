@@ -48,6 +48,7 @@
         "if": { "math": [ "u_vampire_just_drank_fae_blood == 1" ] },
         "then": [ { "math": [ "u_vitamin('drank_fae_blood') += 5" ] }, { "math": [ "u_vampire_just_drank_fae_blood = 0" ] } ]
       },
+      { "run_eocs": "EOC_TIER_5_REMOVE_MORALS" },
       {
         "if": { "and": [ { "math": [ "u_dhampir_have_ever_drunk_blood == 0" ] }, { "u_has_trait": "DHAMPIR_TRAIT" } ] },
         "then": [
@@ -2204,6 +2205,67 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TIER_5_REMOVE_MORALS",
+    "//": "When a tier 4 vampire becomes a tier 5 or when a tier 5 drinks blood, they gain the uncaring trait and lose morality-based traits such as pacifist and vegan.",
+    "//2": "A vampire that somehow regain morals will keep them until the next drink.  Then the thirst will drown all worries and morals.",
+    "//3": " The message is not given upon gaining tier 5, as these EOCs have their own messages.",
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "VEGAN" },
+        "then": [
+          { "u_lose_trait": "VEGAN" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "A wave of crimson drowns your empathy for lesser beings.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "SPIRITUAL" },
+        "then": [
+          { "u_lose_trait": "SPIRITUAL" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "There are no wonders and nothing beyond sight, only the thirst and how you will sate it.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "PACIFIST" },
+        "then": [
+          { "u_lose_trait": "PACIFIST" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [ { "u_message": "Your disdain for violence melts as you drink your fill.", "type": "mixed" } ]
+          }
+        ]
+      },
+      {
+        "if": { "not": { "u_has_trait": "PSYCHOPATH" } },
+        "then": [
+          { "u_add_trait": "PSYCHOPATH" },
+          {
+            "if": { "math": [ "u_shed_morality > 0" ] },
+            "then": [
+              {
+                "u_message": "The blood in your mouth makes you realise that anything that isn't blood isn't worth caring about.",
+                "type": "mixed"
+              }
+            ]
+          }
+        ]
+      },
+      { "math": [ "u_shed_morality++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal",
     "//": "Check if the vampire is underweight or lower for their size category.  If yes, consume some blood to increase their calories.  Conversion rate of 1 blood vitamin to 5 calories, in 500 calories chunks.",
     "//2": "95000 Kcal is within the normal range for a medium-sized character for both short and tall.  This value is then multiplied or divided to account for the player's size category.  The following EOCs are listed according to the code's check order.",
@@ -3114,8 +3176,16 @@
     "id": "EOC_VAMPIRE_UNHOLY_DEVASTATION_BONUSES",
     "eoc_type": "EVENT",
     "required_event": "character_smashes_tile",
-    "condition": { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" },
-    "effect": [ { "u_add_effect": "effect_vampire_unholy_devastation", "duration": 2 } ]
+    "condition": {
+      "and": [ { "u_has_effect": "effect_vampiric_strength" }, { "u_has_trait": "VAMPIRIC_STRENGTH_REFINEMENT_SMASHING_TILES" } ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_vampire_unholy_devastation",
+        "duration": 2,
+        "intensity": { "math": [ "u_effect_intensity('effect_vampire_unholy_devastation') + 1" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

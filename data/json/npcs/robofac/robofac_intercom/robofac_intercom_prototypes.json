@@ -646,7 +646,7 @@
     "dynamic_line": [
       {
         "math": [ "has_var(n_rm13_reverse_engineered)" ],
-        "yes": "Yes, that is within our capabilities.  For ten coins, repairs and adjustments can be completed by tomorrow; we will recharge the internal battery as well.  Please note that if you have made any modifications to the armor, it will be reverted to factory standard as part of the repairs.",
+        "yes": "Yes, that is within our capabilities.  For ten coins, repairs and adjustments can be completed in two weeks; we will recharge the internal battery as well.  Please note that if you have made any modifications to the armor, it will be reverted to factory standard as part of the repairs.",
         "no": "&The camera starts scanning the armor, after a moment the intercom cracks back to life.  \"This technology is currently not within our database, we can probably repair it but we'll need to reverse-engineer it first.  We estimate the repairs to take around a month and a half, and they'll have an increased fee of 12 coins.  Please make sure everything has been removed from the suit before giving it to us.\""
       }
     ],
@@ -884,7 +884,7 @@
     "dynamic_line": "Interesting.  If you could provide us the item, we could direct research on it for a standard work week for a fee of two HGC; after that, we will let you know if any progress has been made and return the item as-is.  Please remove any batteries or other attachments before providing it.",
     "responses": [
       {
-        "text": "[2 HGC, anchor] See you in five days.",
+        "text": "[2 HGC, s02a cleansuit] See you in five days.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
@@ -931,7 +931,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_RESONANCE_SUIT_PT_2",
     "type": "talk_topic",
-    "dynamic_line": "Very well; we will need one coin for materials costs, as well as the anchor itself and the environment suit you wish to combine it with.  As usual, I encourage you to remove everything from the pockets before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
+    "dynamic_line": "Very well; we will need one coin for materials costs, the S02a cleansuit, and our standard issue environment suit.  I encourage you to remove everything from the pockets and battery compartment before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
     "responses": [
       {
         "text": "[1 HGC, cleansuit, environment suit] I'll see you in two days.",

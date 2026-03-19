@@ -27,25 +27,29 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
+static const bodypart_str_id body_part_test_alt_arm_l( "test_alt_arm_l" );
 static const bodypart_str_id body_part_test_bird_foot_l( "test_bird_foot_l" );
 static const bodypart_str_id body_part_test_bird_foot_r( "test_bird_foot_r" );
 static const bodypart_str_id body_part_test_bird_wing_l( "test_bird_wing_l" );
 static const bodypart_str_id body_part_test_bird_wing_r( "test_bird_wing_r" );
 static const bodypart_str_id body_part_test_corvid_beak( "test_corvid_beak" );
 static const bodypart_str_id body_part_test_lizard_tail( "test_lizard_tail" );
+static const bodypart_str_id body_part_test_partial_wing_l( "test_partial_wing_l" );
 
 static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
 static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
 
 static const efftype_id effect_mending( "mending" );
-static const efftype_id effect_winded_arm_r( "winded_arm_r" );
+static const efftype_id effect_winded_arm( "winded_arm" );
 
+static const enchantment_id enchantment_ENCH_TEST_ALT_ARMS( "ENCH_TEST_ALT_ARMS" );
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 static const enchantment_id enchantment_ENCH_TEST_LIZARD_TAIL( "ENCH_TEST_LIZARD_TAIL" );
 
 static const itype_id itype_test_bird_boots( "test_bird_boots" );
 static const itype_id itype_test_jumpsuit_cotton( "test_jumpsuit_cotton" );
 static const itype_id itype_test_liquid( "test_liquid" );
+static const itype_id itype_test_longshirt( "test_longshirt" );
 static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
 static const itype_id itype_test_shackles( "test_shackles" );
 static const itype_id itype_test_winglets( "test_winglets" );
@@ -133,7 +137,7 @@ TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
     dude.set_part_hp_cur( body_part_test_bird_wing_r, 100 );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 1 );
     // Disable it with a windage effect
-    dude.add_effect( effect_winded_arm_r, 1_hours, body_part_test_bird_wing_r, false, 1, true );
+    dude.add_effect( effect_winded_arm, 1_hours, body_part_test_bird_wing_r, false, 1, true );
     REQUIRE( dude.get_effects_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ).size() == 1 );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
 
@@ -184,7 +188,7 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
 
 TEST_CASE( "drying_rate", "[character][limb]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
@@ -307,4 +311,48 @@ TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
     // Backwards population of coverage works as well
     CHECK( bird_boots.covers( body_part_test_bird_foot_l ) );
     CHECK( bird_boots.covers( body_part_test_bird_foot_r ) );
+}
+
+TEST_CASE( "get_avg_coverage_filters_phantom_limbs", "[character][limb][armor]" )
+{
+    item test_shackles( itype_test_shackles );
+
+    SECTION( "fixture wiring" ) {
+        // Partial wing picked up via similar_bodypart with scaled coverage
+        REQUIRE( test_shackles.covers( body_part_test_partial_wing_l ) );
+        REQUIRE( test_shackles.portion_for_bodypart( body_part_test_partial_wing_l ) );
+        REQUIRE( test_shackles.portion_for_bodypart(
+                     body_part_test_partial_wing_l )->coverage == 25 );
+    }
+
+    SECTION( "default human sees only own body parts" ) {
+        clear_avatar();
+        // Default filters by player character (human) - only arm_l/r match
+        CHECK( test_shackles.get_avg_coverage() == 100 );
+
+        item longshirt( itype_test_longshirt );
+        CHECK( longshirt.get_avg_coverage() == 90 );
+    }
+
+    SECTION( "bird character with explicit body_part_set" ) {
+        standard_npc dude( "Test NPC" );
+        create_bird_char( dude );
+        body_part_set bird_parts;
+        bird_parts.fill( dude.get_all_body_parts() );
+
+        // Bird has arm_l/r(100) and test_bird_wing_l/r(100) from this item
+        CHECK( test_shackles.get_avg_coverage( bird_parts ) == 100 );
+    }
+
+    SECTION( "alt-arm character" ) {
+        clear_avatar();
+        Character &viewer = get_player_character();
+        viewer.enchantment_cache->force_add( *enchantment_ENCH_TEST_ALT_ARMS, viewer );
+        viewer.recalculate_bodyparts();
+        REQUIRE( viewer.has_part( body_part_test_alt_arm_l ) );
+
+        item longshirt( itype_test_longshirt );
+        // Default uses player character which now has alt arms
+        CHECK( longshirt.get_avg_coverage() == 90 );
+    }
 }

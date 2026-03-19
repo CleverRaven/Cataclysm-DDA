@@ -18,8 +18,9 @@
       { "skill": "survival", "bonus": { "rng": [ 2, 6 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 3, 5 ] } }
     ],
-    "shopkeeper_item_group": [ { "group": "afs_street_dry_food", "rigid": true } ],
-    "shopkeeper_price_rules": [ { "group": "afs_street_vendor_food", "markup": 10 }, { "group": "afs_street_dry_food", "markup": 10 } ]
+    "restock_interval": "15 seconds",
+    "shopkeeper_item_group": [ { "group": "afs_street_vendor_food", "rigid": true }, { "group": "afs_street_dry_food", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "group": "afs_street_vendor_food", "markup": 4 }, { "group": "afs_street_dry_food", "markup": 10 } ]
   },
   {
     "type": "npc",
@@ -48,15 +49,10 @@
     "id": "afs_street_vendor_food",
     "subtype": "collection",
     "items": [
-      { "item": "afs_streetfood_meat", "count": [ 2, 3 ], "container-item": "ceramic_bowl", "custom-flags": [ "HOT" ] },
-      {
-        "item": "afs_streetfood_veggy",
-        "count": [ 2, 3 ],
-        "container-item": "ceramic_bowl",
-        "custom-flags": [ "HOT" ]
-      },
-      { "item": "afs_soup_meat", "count": [ 2, 3 ], "container-item": "ceramic_bowl", "custom-flags": [ "HOT" ] },
-      { "item": "afs_soup_veggy", "count": [ 2, 3 ], "container-item": "ceramic_bowl", "custom-flags": [ "HOT" ] }
+      { "item": "afs_streetfood_meat", "count": [ 2, 3 ], "container-item": "plastic_bowl_fast_food" },
+      { "item": "afs_streetfood_veggy", "count": [ 2, 3 ], "container-item": "plastic_bowl_fast_food" },
+      { "item": "afs_soup_meat", "count": [ 2, 3 ], "container-item": "plastic_bowl_fast_food" },
+      { "item": "afs_soup_veggy", "count": [ 2, 3 ], "container-item": "plastic_bowl_fast_food" }
     ]
   },
   {
@@ -69,36 +65,10 @@
     "id": [ "NC_SALVOR_STREET_FOOD", "NC_SALVOR_STREET_FOOD_SAFE" ],
     "type": "talk_topic",
     "dynamic_line": "&The food stall is a colorful array of various dishes, and the smell of spices and cooked meats cuts easily through the frozen air.  The vendor  is busy preparing a meal when you approach.\n\"Oh steemd do you see anything you like?\"",
-    "speaker_effect": {
-      "effect": [
-        { "npc_location_variable": { "context_val": "vendor_loc" } },
-        { "mapgen_update": "streetfood_reset", "target_var": { "context_val": "vendor_loc" } }
-      ]
-    },
     "responses": [
       { "text": "I'll have whatever it is you're cooking.", "topic": "TALK_DONE", "effect": [ "start_trade" ] },
       { "text": "Are these things safe to eat?", "topic": "NC_SALVOR_STREET_FOOD_SAFE" }
     ]
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "streetfood_reset_nest",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "rows": [ "Ω" ],
-      "terrain": { "Ω": "t_thconc_floor_no_roof" },
-      "furniture": { "Ω": "f_oven" },
-      "items": { "Ω": { "item": "afs_street_vendor_food" } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "streetfood_reset",
-    "object": {
-      "place_nested": [ { "chunks": [ "streetfood_reset_nest" ], "x": 15, "y": 22 } ],
-      "faction_owner": [ { "id": "UICA", "x": 15, "y": 22 } ]
-    }
   },
   {
     "id": [ "NC_SALVOR_STREET_FOOD_SAFE" ],

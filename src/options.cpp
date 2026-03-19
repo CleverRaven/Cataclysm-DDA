@@ -2832,14 +2832,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
-         to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
-    "story_teller"
-       );
-
-    add_empty_line();
-
     add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ), to_translation(
              "Will you need to complete certain achievements to enable certain scenarios "
              "and professions?  Achievements of saved characters from any world will be "

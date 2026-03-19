@@ -1,0 +1,29 @@
+[
+  {
+    "//": "remover after 0.J",
+    "id": "integrated_giant_pincer",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "sclerotin right pincer" },
+    "description": "A powerful tool for snatching fish or breaking open shells.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "sclerotin" ],
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 10,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "techniques": [ "BRUTAL", "WBLOCK_2" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 6.4 } ],
+        "covers": [ "crustacean_pincer_r" ],
+        "coverage": 80
+      }
+    ]
+  }
+]

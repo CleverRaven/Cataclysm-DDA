@@ -30,6 +30,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
+#include "item_uid.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
 #include "point.h"
@@ -230,6 +231,12 @@ class item : public visitable
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
         safe_reference<item> get_safe_reference();
+
+        /** Persistent unique identifier for this item instance.
+         * Returns const ref to avoid triggering item_uid's copy-generates-new semantics. */
+        const item_uid &uid() const {
+            return uid_;
+        }
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -798,17 +805,19 @@ class item : public visitable
 
         /*
          * Max range of melee attack this weapon can be used for.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int reach_range( const Character &guy ) const;
+        std::pair<int, int> reach_range( const Character &guy ) const;
 
         /*
          * Max range of melee attack this weapon can be used for in its current state.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int current_reach_range( const Character &guy ) const;
+        std::pair<int, int> current_reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
@@ -2101,8 +2110,8 @@ class item : public visitable
         void set_random_fault_of_type( const std::string &fault_type, bool force = false,
                                        bool message = true );
 
-        /** Removes the fault from the item, if such is presented. */
-        void remove_fault( const fault_id &fault_id );
+        /** Removes the fault from the item, if such is presented. Returns true if a fault was removed */
+        bool remove_fault( const fault_id &fault_id );
 
         /** Checks all the faults in item, and if there is any of this type, removes it. */
         void remove_single_fault_of_type( const std::string &fault_type );
@@ -2349,6 +2358,9 @@ class item : public visitable
          * Returns the average coverage of each piece of data this item
          */
         int get_avg_coverage( const cover_type &type = cover_type::COVER_DEFAULT ) const;
+        // Filtered overload: only counts body parts present in relevant_parts
+        int get_avg_coverage( const body_part_set &relevant_parts,
+                              const cover_type &type = cover_type::COVER_DEFAULT ) const;
         /**
          * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).
@@ -3161,6 +3173,9 @@ class item : public visitable
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        std::list<item *> all_holstered_items();
+        std::list<const item *> all_holstered_items() const;
+
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;
 
@@ -3403,6 +3418,7 @@ class item : public visitable
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
+        item_uid uid_; // persistent unique identifier, survives save/load
         /**
          * Current phase state, inherits a default at room temperature from
          * itype and can be changed through item processing.  This is a static

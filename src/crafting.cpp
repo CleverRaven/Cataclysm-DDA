@@ -1063,7 +1063,11 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
-        for( const recipe_proficiency &prof : making.proficiencies ) {
+        for( const recipe_proficiency &prof : making.get_proficiencies() ) {
+            // Required profs (time_multiplier == 0) gate access, not learning
+            if( prof.time_multiplier == 0.0f ) {
+                continue;
+            }
             if( !p->_proficiencies->has_learned( prof.id ) &&
                 prof.id->can_learn() &&
                 p->_proficiencies->has_prereqs( prof.id ) ) {
@@ -1161,12 +1165,12 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
-    total_skill_modifiers += int_cur / 4.0f;
+    total_skill_modifiers += get_int() / 4.0f;
     add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
-                   total_skill_modifiers, int_cur / 4.f );
+                   total_skill_modifiers, get_int() / 4.f );
 
     // Missing proficiencies penalize skill level
-    for( const recipe_proficiency &recip : making.proficiencies ) {
+    for( const recipe_proficiency &recip : making.get_proficiencies() ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
             total_skill_modifiers -= recip.skill_penalty;
         }
@@ -2533,7 +2537,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's too rotten to salvage anything." ) );
     }
 
     // refuse to disassemble items containing monsters/pets
@@ -2904,7 +2908,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + int_cur;
+    int skill_sides = 16 + get_int();
 
     int diff_dice = dis.difficulty;
     int diff_sides = 24; // 16 + 8 (default intelligence)

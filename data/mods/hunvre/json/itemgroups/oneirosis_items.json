@@ -1,0 +1,49 @@
+[
+  {
+    "id": "depressants",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "xanax", 1 ],
+      [ "weed", 1 ],
+      [ "thorazine", 1 ],
+      [ "prozac", 1 ],
+      [ "pills_sleep", 1 ],
+      [ "oxycodone", 1 ],
+      [ "antihistamine", 1 ],
+      [ "nyquil", 1 ],
+      [ "morphine", 1 ],
+      [ "joint", 1 ],
+      [ "heroin", 1 ],
+      [ "hi_q_distillate", 1 ],
+      [ "hi_q_wax", 1 ],
+      [ "hi_q_shatter", 1 ],
+      [ "diazepam", 1 ],
+      [ "codeine", 1 ]
+    ]
+  },
+  {
+    "id": "stimulants",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "raw_coffee_in_container", "prob": 1 },
+      [ "pure_meth", 1 ],
+      [ "meth", 1 ],
+      [ "lsd", 1 ],
+      [ "crack", 1 ],
+      [ "cola_meth", 1 ],
+      [ "coke", 1 ],
+      [ "caffeine", 1 ],
+      [ "caff_gum", 1 ],
+      [ "adderall", 1 ],
+      [ "choco_coffee_beans", 1 ]
+    ]
+  },
+  {
+    "id": "oneirosis_countermeasures",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "depressants", "prob": 1 }, { "group": "stimulants", "prob": 1 } ]
+  }
+]

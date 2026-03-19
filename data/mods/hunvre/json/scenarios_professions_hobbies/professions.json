@@ -1,0 +1,25 @@
+[
+  {
+    "type": "profession",
+    "id": "helminth",
+    "name": "Helminth",
+    "description": "Lights going off seemingly at random, electronic locks refusing to open or close.  They blame the aging infrastructure, if only they knew who lurked in the station's digital guts.",
+    "points": 10,
+    "items": { "both": [ "smart_phone_hunvre" ] }
+  },
+  {
+    "type": "profession",
+    "id": "resistant",
+    "name": "Resistant",
+    "description": "They say anyone can live upside.  Just work harder, more shifts, more enthusiasm.  But you know it's never enough.  That sweat and blood, if it needs to be spilled, it will be spilled making a difference.",
+    "points": 10,
+    "traits": [ "MARTIAL_ARTS5" ]
+  },
+  {
+    "type": "profession",
+    "id": "homeless",
+    "name": "Homeless",
+    "description": "Either you lost your job or you can't find one.  You live in the underbelly of the underbelly, old ruined habitations with nothing else but scraps.",
+    "points": 15
+  }
+]

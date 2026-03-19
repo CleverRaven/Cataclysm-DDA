@@ -9,8 +9,10 @@
 #include <cstdlib>
 #include <exception>
 #include <functional>
+#include <iostream>
 #include <memory>
-#include <ostream>
+#include <optional>
+#include <random>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -27,6 +29,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_allocator.h"
 #include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -47,9 +50,9 @@
 #include "path_info.h"
 #include "point.h"
 #include "rng.h"
-#include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
@@ -62,13 +65,14 @@ static std::string user_dir;
 static bool dont_save{ false };
 static option_overrides_t option_overrides_for_test_suite;
 static std::string error_fmt = "human-readable";
+static int rng_seed_fuzz_iterations = 0;
 
 static std::chrono::system_clock::time_point start_time;
 static std::chrono::system_clock::time_point end_time;
 static bool error_during_initialization{ false };
 static bool fail_to_init_game_state{ false };
 
-static bool needs_game{ false };
+static bool game_initialized{ false };
 
 static std::vector<mod_id> extract_mod_selection( const std::string_view mod_string )
 {
@@ -202,27 +206,38 @@ struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
     void testRunStarting( Catch::TestRunInfo const & ) override {
-        if( needs_game ) {
-            try {
-                init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
-            } catch( ... ) {
-                DebugLog( D_INFO, DC_ALL ) << "Fail to initialize global game state" << std::endl;
-                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-                fail_to_init_game_state = true;
-                throw;
-            }
-            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-            error_during_initialization = debug_has_error_been_observed();
-
-            DebugLog( D_INFO, DC_ALL ) << "Game data loaded, running Catch2 session:" << std::endl;
-        } else {
-            DebugLog( D_INFO, DC_ALL ) << "Running Catch2 session:" << std::endl;
+        DebugLog( D_INFO, DC_ALL ) << "Running Catch2 session:" << std::endl;
+        if( start_time == std::chrono::system_clock::time_point{} ) {
+            start_time = std::chrono::system_clock::now();
         }
-        end_time = start_time = std::chrono::system_clock::now();
+        end_time = start_time;
     }
 
     void testRunEnded( Catch::TestRunStats const & ) override {
         end_time = std::chrono::system_clock::now();
+    }
+
+    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) override {
+        if( !game_initialized && !fail_to_init_game_state ) {
+            bool is_nogame = std::find( testInfo.tags.begin(), testInfo.tags.end(),
+                                        "nogame" ) != testInfo.tags.end();
+            if( !is_nogame ) {
+                try {
+                    init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
+                } catch( ... ) {
+                    DebugLog( D_INFO, DC_ALL ) << "Fail to initialize global game state"
+                                               << std::endl;
+                    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                    fail_to_init_game_state = true;
+                    throw;
+                }
+                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                game_initialized = true;
+                // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+                error_during_initialization = debug_has_error_been_observed();
+                DebugLog( D_INFO, DC_ALL ) << "Game data loaded" << std::endl;
+            }
+        }
     }
 
     void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
@@ -247,16 +262,31 @@ struct CataListener : Catch::TestEventListenerBase {
                         Messages::recent_messages( 0 );
             if( !messages.empty() ) {
                 if( !sectionStats.assertions.allPassed() ) {
-                    stream << "Log messages during failed test:\n";
+                    std::cerr << "Log messages during failed test:\n";
                 } else {
-                    stream << "Log messages during successful test:\n";
+                    std::cerr << "Log messages during successful test:\n";
                 }
             }
             for( const std::pair<std::string, std::string> &message : messages ) {
-                stream << message.first << ": " << message.second << '\n';
+                std::cerr << message.first << ": " << message.second << '\n';
             }
             Messages::clear_messages();
         }
+    }
+
+    void testCaseEnded( Catch::TestCaseStats const &testCaseStats ) override {
+        TestEventListenerBase::testCaseEnded( testCaseStats );
+        if( !game_initialized ) {
+            return;
+        }
+        // Reset lightweight global state that tests commonly modify without
+        // restoring.  Expensive operations like clear_map() stay manual.
+        calendar::turn = calendar::turn_zero;
+        weather_manager &weather = get_weather();
+        weather.weather_override = WEATHER_NULL; // NOLINT(cata-tests-must-restore-global-state)
+        weather.windspeed_override.reset();
+        weather.set_nextweather( calendar::turn );
+        weather.clear_temp_cache();
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
@@ -266,8 +296,8 @@ struct CataListener : Catch::TestEventListenerBase {
         if( result.getResultType() == Catch::ResultWas::FatalErrorCondition ) {
             // We are in a signal handler for a fatal error condition, so print a
             // backtrace
-            stream << "Stack trace at fatal error:\n";
-            debug_write_backtrace( stream );
+            std::cerr << "Stack trace at fatal error:\n";
+            debug_write_backtrace( std::cerr );
         }
 #endif
 
@@ -278,25 +308,16 @@ struct CataListener : Catch::TestEventListenerBase {
 
 CATCH_REGISTER_LISTENER( CataListener )
 
-struct CataCIReporter: Catch::ConsoleReporter {
-    explicit CataCIReporter( Catch::ReporterConfig const &config ) : Catch::ConsoleReporter(
-            config ) {};
+// NOLINTNEXTLINE(cata-test-filename)
+TEST_CASE( "noop_test", "[.]" )
+{
+    CHECK( true );
+}
 
-    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) override {
-        Catch::ConsoleReporter::testCaseStarting( testInfo );
-        std::string tag_string;
-        for( const std::string &tag : testInfo.tags ) {
-            tag_string += string_format( "[%s]", tag );
-        }
-        // NOLINTNEXTLINE(cata-text-style)
-        DebugLog( D_INFO, DC_ALL ) << "  Testing " << testInfo.name << " " << tag_string << "...";
-    }
-};
-
-CATCH_REGISTER_REPORTER( "cata-ci-reporter", CataCIReporter )
 
 int main( int argc, const char *argv[] )
 {
+    cata::init_allocator();
 #if defined(_MSC_VER)
     bool supports_color = _isatty( _fileno( stdout ) );
 #else
@@ -346,6 +367,10 @@ int main( int argc, const char *argv[] )
                  | Opt( limit_debug_level, "number" )
                  ["--set-debug-level-mask"]
                  ( "[CataclysmDDA] Set debug level bitmask - see `enum DebugLevel` in src/debug.h for individual bits definition" )
+                 | Opt( rng_seed_fuzz_iterations, "N" )
+                 ["--rng-seed-fuzz"]
+                 // NOLINTNEXTLINE(cata-text-style)
+                 ( "[CataclysmDDA] Run tests N times with varying RNG seeds, reusing loaded game data. With --rng-seed X: uses X, X+1, ... Without: random seeds." )
                  ;
     session.cli( cli );
 
@@ -411,41 +436,42 @@ int main( int argc, const char *argv[] )
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
         rng_set_engine_seed( seed );
-
+    }
+    if( rng_seed_fuzz_iterations <= 1 ) {
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
-    }
-
-    // Tests not requiring the global game initialized are tagged with [nogame]
-    {
-        using namespace Catch;
-        Config const &config = session.config();
-        std::vector<TestCase> const &tcs = filterTests(
-                                               getAllTestCasesSorted( config ),
-                                               config.testSpec(),
-                                               config
-                                           );
-        for( TestCase const &tc : tcs ) {
-            // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-            needs_game = true;
-            for( std::string const &tag : tc.getTestCaseInfo().tags ) {
-                if( tag == "nogame" ) {
-                    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
-                    needs_game = false;
-                    break;
-                }
-            }
-            if( needs_game ) {
-                break;
-            }
+        if( seed ) {
+            DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
+        } else {
+            DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
         }
     }
 
     try {
-        result = session.run();
+        if( rng_seed_fuzz_iterations > 1 ) {
+            // NOLINTNEXTLINE(cata-determinism)
+            std::minstd_rand0 fuzz_rng(
+                std::chrono::high_resolution_clock::now().time_since_epoch().count() );
+            for( int i = 0; i < rng_seed_fuzz_iterations; i++ ) {
+                unsigned int fuzz_seed = seed ? seed + static_cast<unsigned int>( i ) : fuzz_rng();
+                Catch::ConfigData cd = session.configData();
+                cd.rngSeed = fuzz_seed;
+                session.useConfigData( cd );
+                debug_reset_error_observed();
+                DebugLog( D_INFO, DC_ALL ) << "RNG seed fuzz " << ( i + 1 ) << "/"
+                                           << rng_seed_fuzz_iterations << ", seed: " << fuzz_seed
+                                           << std::endl;
+                result = session.run();
+                if( result != 0 || debug_has_error_been_observed() ) {
+                    DebugLog( D_ERROR, DC_ALL ) << "RNG seed fuzz failed on seed " << fuzz_seed
+                                                << " (iteration " << ( i + 1 ) << ")"
+                                                << std::endl;
+                    break;
+                }
+            }
+        } else {
+            result = session.run();
+        }
     } catch( const std::exception &err ) {
         DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
         DebugLog( D_INFO, DC_ALL ) <<
@@ -453,7 +479,7 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
-    if( world_generator ) {
+    if( game_initialized && world_generator ) {
         std::string world_name = world_generator->active_world->world_name;
         if( result == 0 || dont_save || fail_to_init_game_state ) {
             world_generator->delete_world( world_name, true );
@@ -470,11 +496,13 @@ int main( int argc, const char *argv[] )
     std::chrono::duration<double> elapsed_seconds = end_time - start_time;
     DebugLog( D_INFO, DC_ALL ) << "Finished in " << elapsed_seconds.count() << " seconds";
 
-    if( seed ) {
+    if( rng_seed_fuzz_iterations <= 1 ) {
         // Also print the seed at the end so it can be easily found
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
-    } else {
-        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
+        if( seed ) {
+            DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
+        } else {
+            DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
+        }
     }
 
     if( error_during_initialization ) {

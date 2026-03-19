@@ -152,6 +152,20 @@ struct omt_find_params {
     std::optional<overmap_special_id> om_special = std::nullopt;
 };
 
+// Draw-without-replacement deck for unique special spawn rate control.
+// Virtual deck of Y cards with X successes, drawn once per eligible overmap.
+// Resets on exhaustion. Drawing pauses while to_place > 0. See issue #73618.
+struct unique_special_deck_state {
+    int successes = 0;       // source total: occurrences.min when deck was created
+    int deck_size = 0;       // source total: occurrences.max when deck was created
+    int successes_remain = 0; // success cards remaining in current deck cycle
+    int cards_remain = 0;    // total cards remaining in current deck cycle
+    int to_place = 0;        // successful draws awaiting placement
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &json );
+};
+
 /**
 * Helper struct for dynamic data about the world's overmaps (not including overmap objects themselves).
 * For example: unique overmap special counts, highway intersection locations.
@@ -162,6 +176,9 @@ struct overmap_global_state {
     // This tracks the overmap unique specials we have placed. It is used to
     // Adjust weights of special spawns to correct for things like failure to spawn.
     std::unordered_map<overmap_special_id, int> unique_special_count;
+    // Deck states for unique special spawn frequency control.
+    // Keyed by special ID. Lazily initialized on first access.
+    std::unordered_map<overmap_special_id, unique_special_deck_state> unique_special_decks;
     // Global count of number of overmaps generated for this world.
     int overmap_count = 0;
     // Global count of major rivers generated for this world
@@ -620,6 +637,12 @@ class overmapbuffer
 
         int get_unique_special_count( const overmap_special_id &id );
         int get_overmap_count() const;
+
+        // Get or lazily initialize deck state; resets if constraints changed.
+        unique_special_deck_state &get_deck_state(
+            const overmap_special_id &id, int successes, int deck_size );
+        // Decrement to_place after placement. Only called from place_special_attempt().
+        void consume_deck_placement( const overmap_special_id &id );
         int get_major_river_count() const;
         void inc_major_river_count();
 

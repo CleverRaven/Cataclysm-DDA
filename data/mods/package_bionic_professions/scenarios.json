@@ -20,12 +20,6 @@
   },
   {
     "type": "scenario",
-    "copy-from": "lab_chal",
-    "id": "lab_chal",
-    "extend": { "professions": [ "broken_cyborg" ] }
-  },
-  {
-    "type": "scenario",
     "copy-from": "Mine_bottom",
     "id": "Mine_bottom",
     "extend": { "professions": [ "bionic_worker", "drone_op" ] }

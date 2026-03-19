@@ -304,8 +304,10 @@ struct string_input_params {
     std::optional<translation_or_var> title;
     std::optional<translation_or_var> description;
     std::optional<translation_or_var> default_text;
-    int width{};
     std::optional<str_or_var> identifier;
+    // actual width is this plus title width, 40 is just a number that works
+    int width = 40;
+
     static string_input_params parse_string_input_params( const JsonObject &jo );
 };
 #endif // CATA_SRC_STRING_INPUT_POPUP_H

@@ -54,7 +54,7 @@
 
 enum class om_vision_level : int8_t;
 
-static const efftype_id effect_blind( "blind" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
 
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
 static const ter_str_id ter_t_pit( "t_pit" );
@@ -432,7 +432,7 @@ void game::print_items_info( const tripoint_bub_ms &lp, const catacurses::window
         return;
     } else if( here.has_flag( ter_furn_flag::TFLAG_CONTAINER, lp ) && !here.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
-    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
+    } else if( u.has_effect_with_flag( json_flag_BLIND ) || u.worn_with_flag( flag_BLIND ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
         return;

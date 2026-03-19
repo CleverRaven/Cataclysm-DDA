@@ -11,7 +11,7 @@
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
-      { "item": "matrix_crystal_teleportation", "prob": 10 },
+      { "group": "teleportation_matrix_crystals_group", "prob": 10 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
@@ -29,7 +29,7 @@
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_telekinesis", "prob": 10 },
       { "item": "matrix_crystal_telepathy", "prob": 10 },
-      { "item": "matrix_crystal_teleportation", "prob": 10 },
+      { "group": "teleportation_matrix_crystals_group", "prob": 10 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 10 },
       { "item": "matrix_crystal_coruscating", "prob": 1 }
     ]
@@ -47,7 +47,7 @@
       { "group": "pyrokinetic_matrix_crystals_group", "prob": 1 },
       { "item": "matrix_crystal_telekinesis", "prob": 1 },
       { "item": "matrix_crystal_telepathy", "prob": 1 },
-      { "item": "matrix_crystal_teleportation", "prob": 1 },
+      { "group": "teleportation_matrix_crystals_group", "prob": 1 },
       { "group": "vitakinetic_matrix_crystals_group", "prob": 1 }
     ]
   },
@@ -137,6 +137,15 @@
     "entries": [
       { "group": "pyrokinetic_crystal_awakening_artifact_procgen", "prob": 1 },
       { "group": "pyrokinetic_crystal_artifact_procgen", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "teleportation_matrix_crystals_group",
+    "entries": [
+      { "group": "teleportation_crystal_awakening_artifact_procgen", "prob": 1 },
+      { "group": "teleportation_crystal_artifact_procgen", "prob": 1 }
     ]
   },
   {

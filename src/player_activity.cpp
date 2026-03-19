@@ -211,7 +211,7 @@ void player_activity::do_turn( Character &you )
     synchronize_type_with_actor();
     // Should happen before activity or it may fail due to 0 moves
     if( *this && type->will_refuel_fires() && have_fire ) {
-        have_fire = try_fuel_fire( *this, you );
+        have_fire = try_fuel_fire( you );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -371,7 +371,13 @@ void player_activity::do_turn( Character &you )
     if( !*this ) {
         // Make sure data of previous activity is cleared
         you.activity = player_activity();
-        you.resume_backlog_activity();
+        // Don't resume backlog while auto-moving to a destination --
+        // the destination_activity will restore the right activity on
+        // arrival. Resuming now would re-trigger the same fetch/route
+        // cycle within the same frame.
+        if( !you.has_destination() ) {
+            you.resume_backlog_activity();
+        }
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
         you.drop_invalid_inventory();

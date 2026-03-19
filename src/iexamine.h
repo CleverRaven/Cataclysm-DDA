@@ -18,6 +18,7 @@ class Character;
 class JsonObject;
 class item;
 class item_location;
+class map;
 class time_point;
 class vpart_reference;
 struct itype;
@@ -72,7 +73,6 @@ void cardreader_robofac( Character &you, const tripoint_bub_ms &examp );
 void cardreader_foodplace( Character &you, const tripoint_bub_ms &examp );
 void intercom( Character &you, const tripoint_bub_ms &examp );
 void intercom_balthazar( Character &you, const tripoint_bub_ms &examp );
-void cvdmachine( Character &you, const tripoint_bub_ms &examp );
 void change_appearance( Character &you, const tripoint_bub_ms &examp );
 void rubble( Character &you, const tripoint_bub_ms &examp );
 void chainfence( Character &you, const tripoint_bub_ms &examp );
@@ -139,9 +139,9 @@ void ledge( Character &you, const tripoint_bub_ms &examp );
 void autodoc( Character &you, const tripoint_bub_ms &examp );
 void attunement_altar( Character &you, const tripoint_bub_ms &examp );
 void translocator( Character &you, const tripoint_bub_ms &examp );
-void on_smoke_out( const tripoint_bub_ms &examp,
+void on_smoke_out( map &here, const tripoint_bub_ms &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( Character &, const tripoint_bub_ms &examp );
+void mill_finalize( Character &, map &here, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
 bool smoker_prep( Character &you, const tripoint_bub_ms &examp );

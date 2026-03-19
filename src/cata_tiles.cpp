@@ -1644,6 +1644,29 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                                                         text_alignment::left ) );
                         }
 
+                        if( g->display_overlay_state( ACTION_DISPLAY_SNOW_DEPTH ) && !invisible[0] ) {
+                            const double snow_mm = get_weather().get_snow_depth_mm(
+                                                       project_to<coords::omt>( here.get_abs( pos ) ) );
+                            short color;
+                            const short bold = 8;
+                            if( snow_mm >= 500 ) {
+                                color = catacurses::white + bold;
+                            } else if( snow_mm >= 250 ) {
+                                color = catacurses::cyan + bold;
+                            } else if( snow_mm >= 100 ) {
+                                color = catacurses::blue + bold;
+                            } else if( snow_mm >= 1 ) {
+                                color = catacurses::green + bold;
+                            } else {
+                                color = catacurses::dark_gray;
+                            }
+
+                            std::string snow_str = string_format( "%.0f", snow_mm );
+                            here.overlay_strings_cache.emplace( player_to_screen( point_bub_ms( x, y ) ),
+                                                                formatted_text( snow_str, color,
+                                                                        text_alignment::left ) );
+                        }
+
                         if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
                             g->displaying_visibility_creature && !invisible[0] ) {
                             const bool visibility = g->displaying_visibility_creature->sees( here, pos );
@@ -3958,6 +3981,17 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
     Creature::Attitude attitude;
     Character &you = get_player_character();
     const Creature *pcritter = get_creature_tracker().creature_at( p, true );
+    // creature_at returns monsters first. If the monster is underwater beneath a
+    // solid surface (invisible), fall back to the player/NPC sharing the tile.
+    if( pcritter != nullptr && pcritter->is_underwater() &&
+        here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) &&
+        !you.is_underwater() ) {
+        if( you.pos_bub() == p ) {
+            pcritter = &you;
+        } else {
+            pcritter = get_creature_tracker().creature_at<npc>( p );
+        }
+    }
     const bool always_visible = pcritter && pcritter->has_flag( mon_flag_ALWAYS_VISIBLE );
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
@@ -4428,12 +4462,15 @@ void cata_tiles::init_draw_bullet( const tripoint_bub_ms &p, std::string name )
     bul_pos = p;
     bul_id = std::move( name );
 }
-void cata_tiles::init_draw_hit( const tripoint_bub_ms &p, std::string name )
+void cata_tiles::init_draw_hit( const Creature &critter )
 {
+    hit_animation hit;
+    hit.timestamp = std::chrono::steady_clock::now();
+    hit.creature_ptr = g->shared_from( critter );
     do_draw_hit = true;
-    hit_pos = p;
-    hit_entity_id = std::move( name );
+    hit_animations.push_front( hit );
 }
+
 void cata_tiles::init_draw_line( const tripoint_bub_ms &p, std::vector<tripoint_bub_ms> trajectory,
                                  std::string name, bool target_line )
 {
@@ -4537,9 +4574,15 @@ void cata_tiles::void_bullet()
 }
 void cata_tiles::void_hit()
 {
-    do_draw_hit = false;
-    hit_pos = { -1, -1, -1 };
-    hit_entity_id.clear();
+    const std::chrono::milliseconds max_age = std::chrono::milliseconds( 50 );
+    const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    while( !hit_animations.empty() && now - hit_animations.back().timestamp > max_age ) {
+        hit_animations.pop_back();
+    }
+
+    if( hit_animations.empty() ) {
+        do_draw_hit = false;
+    }
 }
 void cata_tiles::void_line()
 {
@@ -4755,7 +4798,15 @@ void cata_tiles::draw_hit_frame()
 {
     const std::string hit_overlay = "animation_hit";
 
-    draw_from_id_string( hit_overlay, hit_pos, 0, 0, lit_level::LIT, false );
+    for( const hit_animation &hit : hit_animations ) {
+        const shared_ptr_fast<Creature> creature = hit.creature_ptr.lock();
+        if( !creature ) {
+            continue; // creature gone, skip this hit
+        }
+        const tripoint_bub_ms draw_pos = creature->pos_bub();
+
+        draw_from_id_string( hit_overlay, draw_pos, 0, 0, lit_level::LIT, false );
+    }
 }
 void cata_tiles::draw_line()
 {

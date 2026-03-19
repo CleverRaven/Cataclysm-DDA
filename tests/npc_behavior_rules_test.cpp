@@ -40,7 +40,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles();
     clear_avatar();
     Character &player = get_player_character();

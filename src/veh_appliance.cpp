@@ -45,6 +45,10 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+#if defined(TILES)
+#include "sdltiles.h" // To get tile screen positions for draw_appliance_connections()
+#endif
+
 class uilist_impl;
 
 static const itype_id fuel_type_battery( "battery" );
@@ -157,6 +161,10 @@ void veh_app_interact::run( map &here, vehicle &veh, const point_rel_ms &p )
     ap.app_loop( here );
 }
 
+#if defined(TILES)
+static bool showing_connections = true;
+#endif
+
 // Registers general appliance actions from keybindings
 veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
     : a_point( p ), veh( &veh ), ctxt( "APP_INTERACT", keyboard_mode::keycode )
@@ -168,6 +176,9 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "MERGE" );
     ctxt.register_action( "DISCONNECT_GRID" );
+#if defined( TILES )
+    ctxt.register_action( "TOGGLE_CONNECTION_VISIBILITY" );
+#endif
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -233,6 +244,63 @@ void veh_app_interact::init_ui_windows( map &here )
     imenu.border_color = c_white;
     imenu.setup();
 }
+
+#if defined( TILES )
+
+static void draw_imgui_line( point start, point end, uint32_t line_color, float width )
+{
+    ImGui::GetBackgroundDrawList()->AddLine(
+    {static_cast<float>( start.x ), static_cast<float>( start.y )},
+    {static_cast<float>( end.x ), static_cast<float>( end.y )},
+    line_color,
+    width
+    );
+}
+
+static void draw_connection_lines( point start, point end )
+{
+
+    // Yellow-ish. TODO: Expose to styles or inherit from one of our yellows?
+    const uint32_t line_color = IM_COL32( 245, 255, 55, 200 );
+
+    //black (used as bordered outline)
+    const uint32_t line_border_color = IM_COL32( 0, 0, 0, 255 );
+
+    const float line_width = 4.0f;
+
+    draw_imgui_line( start, end, line_border_color, line_width * 3 );
+    draw_imgui_line( start, end, line_color, line_width );
+}
+
+static void draw_appliance_connections( vehicle *veh )
+{
+    if( !showing_connections ) {
+        return; // User toggled off
+    }
+    const map &here = get_map();
+    // Normally drawing happens from the top-left pixel of the tile. We want to draw from the center.
+    const point mid_tile_offset( tilecontext->get_tile_width() / 2,
+                                 tilecontext->get_tile_height() / 2 );
+    // BAD HACK(?): Gets 0 index of vehicle parts
+    point start = tilecontext->player_to_screen( veh->bub_part_pos( here,
+                  veh->part( 0 ) ).xy() ) + mid_tile_offset;
+
+    // draw connections to other vehicles (jumper cable)
+    for( const auto &other_vehicle : veh->search_connected_vehicles( here ) ) {
+        vehicle *that_veh = other_vehicle.first;
+        point end = tilecontext->player_to_screen( that_veh->bub_part_pos( here,
+                    that_veh->part( 0 ) ).xy() ) + mid_tile_offset;
+        draw_connection_lines( start, end );
+    }
+
+    // draw intra-vehicle connections (merged appliances)
+    for( vpart_reference some_part : veh->get_all_parts() ) {
+        point end = tilecontext->player_to_screen( veh->bub_part_pos( here,
+                    some_part.part() ).xy() ) + mid_tile_offset;
+        draw_connection_lines( start, end );
+    }
+}
+#endif
 
 void veh_app_interact::draw_info( map &here )
 {
@@ -549,6 +617,13 @@ void veh_app_interact::hide()
     vp.hidden = !vp.hidden;
 }
 
+#if defined(TILES)
+static void toggle_connections_visibility()
+{
+    showing_connections = !showing_connections;
+}
+#endif
+
 void veh_app_interact::populate_app_actions( map &here )
 {
     vehicle_part *vp;
@@ -598,12 +673,19 @@ void veh_app_interact::populate_app_actions( map &here )
                                    //~ An addendum to Plug In's description, as in: Plug in appliance / merge power grid".
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
 #if defined(TILES)
-    // Hide
+    // Hide connections
+    app_actions.emplace_back( []() {
+        toggle_connections_visibility();
+    } );
+    imenu.addentry( -1, true, ctxt.keys_bound_to( "TOGGLE_CONNECTION_VISIBILITY" ).front(),
+                    ctxt.get_action_name( "TOGGLE_CONNECTION_VISIBILITY" ) );
+
+    // Hide wire vehicle parts
     if( use_tiles && vp->info().has_flag( flag_WIRING ) ) {
         app_actions.emplace_back( [this]() {
             hide();
         } );
-        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
+        imenu.addentry( -1, true, 0, _( "Hide/Unhide wiring" ) );
     }
 #endif
 
@@ -644,6 +726,9 @@ shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor( map &her
             draw_border( w_border, c_white, veh->name, c_white );
             wnoutrefresh( w_border );
             draw_info( here );
+#if defined(TILES)
+            draw_appliance_connections( veh );
+#endif
         } );
     }
     return current_ui;

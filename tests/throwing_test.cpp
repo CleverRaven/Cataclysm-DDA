@@ -66,9 +66,9 @@ static void reset_player( Character &you, const throw_test_pstats &pstats,
     clear_character( you );
     CHECK( !you.in_vehicle );
     you.setpos( here, pos );
-    you.str_max = pstats.str;
-    you.dex_max = pstats.dex;
-    you.per_max = pstats.per;
+    you.set_str_base( pstats.str );
+    you.set_dex_base( pstats.dex );
+    you.set_per_base( pstats.per );
     you.set_str_bonus( 0 );
     you.set_per_bonus( 0 );
     you.set_dex_bonus( 0 );
@@ -171,10 +171,10 @@ static constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8,
 static constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
 static constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
-TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
+TEST_CASE( "basic_throwing_sanity_tests", "[throwing] [balance]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
         test_throwing_player_versus( p, "mon_zombie", itype_rock, 1, lo_skill_base_stats, { 0.78, 0.10 }, { 5, 3 } );
@@ -216,10 +216,10 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     }
 }
 
-TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
+TEST_CASE( "throwing_skill_impact_test", "[throwing] [balance]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // we already cover low stats in the sanity tests and we only cover a few
     // ranges here because what we're really trying to capture is the effect
@@ -304,17 +304,17 @@ static void test_player_kills_monster(
     CHECK( num_failures <= 1 );
 }
 
-TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
+TEST_CASE( "player_kills_zombie_before_reach", "[throwing] [balance] [scenario]" )
 {
     avatar &p = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
         test_player_kills_monster( p, "mon_zombie", itype_rock, 15, 1, lo_skill_base_stats, 500 );
     }
 }
 
-TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
+TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing] [balance]" )
 {
     Character &you = get_avatar();
     clear_avatar();

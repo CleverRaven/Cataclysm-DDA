@@ -34,6 +34,8 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_corpse( "corpse" );
@@ -171,7 +173,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 // Make assertions about loaded behaviors.
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
-    clear_map();
+    clear_map_without_vision();
     calendar::turn = calendar::start_of_cataclysm;
     behavior::tree npc_needs;
     npc_needs.add( &behavior_node_t_npc_needs.obj() );
@@ -212,12 +214,11 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
-        item_group_id grp_bottle_water( "test_bottle_water" );
-        const item_group::ItemList items = item_group::items_from( grp_bottle_water );
+        const item_group::ItemList items = item_group::items_from( Item_spawn_data_test_bottle_water );
 
         // make sure only water bottles are in this group
         REQUIRE( items.size() == 1 );
-        REQUIRE( item_group::group_contains_item( grp_bottle_water, itype_water_clean ) );
+        REQUIRE( item_group::group_contains_item( Item_spawn_data_test_bottle_water, itype_water_clean ) );
 
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
@@ -230,12 +231,28 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         water.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
+    SECTION( "Thirsty and hungry" ) {
+        // When both thirsty and hungry, thirst takes priority
+        // (npc_thirst comes before npc_hunger in sequential_until_done)
+        test_npc.set_thirst( 700 );
+        test_npc.set_hunger( 500 );
+        test_npc.set_stored_kcal( 1000 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "drink_water" );
+    }
 }
 
 TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
 
@@ -275,7 +292,7 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth", monster_location );
 
@@ -329,7 +346,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][behavior]" )
 {
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_flesh_only", monster_location );
 
@@ -388,7 +405,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
 {
     // tests a monster with the ABSORB_ITEMS ability but NOT the SPLIT ability
     const tripoint_bub_ms monster_location( 5, 5, 0 );
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_absorb_only", monster_location );
 

@@ -520,5 +520,12 @@
     "//": "The maximum number of overmaps that an intersection can deviate from its gridded position. Cannot be greater than or equal to row / 2 or column / 2, may cause bugs for > row / 4, column / 4.",
     "stype": "int",
     "value": 2
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MEGACITY",
+    "//": "If true, mapgen will be overwritten to place several large overlapping cities on every overmap. Intended for use only in the megacity mod, using it in other circumstances may cause strange behavior.",
+    "stype": "bool",
+    "value": false
   }
 ]

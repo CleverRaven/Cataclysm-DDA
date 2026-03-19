@@ -1147,7 +1147,7 @@ units::power vehicle::part_vpower_w( map &here, const vehicle_part &vp,
                     muscle_veh_boost_bonus = 8;
                 }
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus +
+                const float muscle_multiplier = muscle_user->get_str() - 8 + athlete_form_bonus +
                                                 muscle_veh_boost_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
@@ -4935,6 +4935,11 @@ double vehicle::coeff_water_drag( map &here ) const
 
 float vehicle::k_traction( map &here, float wheel_traction_area ) const
 {
+    return k_traction( here, wheel_traction_area, weight_on_wheels( here ) );
+}
+
+float vehicle::k_traction( map &here, float wheel_traction_area, units::mass mass ) const
+{
     if( in_deep_water ) {
         return can_float( here ) ? 1.0f : -1.0f;
     }
@@ -4949,12 +4954,41 @@ float vehicle::k_traction( map &here, float wheel_traction_area ) const
     if( fraction_without_traction == 0 ) {
         return 1.0f;
     }
-    const float mass_penalty = fraction_without_traction * to_kilogram( weight_on_wheels( here ) );
+    const float mass_penalty = fraction_without_traction * to_kilogram( mass );
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg_debug( debugmode::DF_VEHICLE, "%s has traction %.2f", name, traction );
 
     // For now make it easy until it gets properly balanced: add a low cap of 0.1
     return std::max( 0.1f, traction );
+}
+
+int vehicle::drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos,
+                              units::mass projected_mass ) const
+{
+    const int max_str = projected_mass / 10_kilogram;
+    if( !sufficient_wheel_config() ) {
+        return max_str;
+    }
+    const int n = static_cast<int>( wheelcache.size() );
+    const int base = max_str / 10;
+    int mc = 0;
+    for( const int p : wheelcache ) {
+        const tripoint_bub_ms wp = tile_pos + part( p ).precalc[0];
+        // Exclude self: at current position the vehicle is on the tile;
+        // at a hypothetical position there is no vehicle, so this is a no-op.
+        const int mapcost = here.move_cost( wp, this );
+        mc += base * mapcost / n;
+    }
+    const int eff = ( n > 4 || n == 1 ) ? 4 : n;
+    int str_req = mc / eff + 1;
+    const float wta = here.vehicle_wheel_traction( *this, tile_pos );
+    str_req = static_cast<int>( str_req / k_traction( here, wta, projected_mass ) );
+    return std::min( str_req, max_str );
+}
+
+int vehicle::drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos ) const
+{
+    return drag_str_req_at( here, tile_pos, total_mass( here ) );
 }
 
 units::power vehicle::static_drag( bool actual ) const
@@ -5563,6 +5597,42 @@ units::power vehicle::total_water_wheel_epower( map &here ) const
     return epower;
 }
 
+units::power vehicle::rated_solar_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : solar_panels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_wind_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : wind_turbines ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_water_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : water_wheels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
 units::power vehicle::net_battery_charge_rate( map &here, bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower( here ) + total_accessory_epower() +
@@ -5723,16 +5793,19 @@ void vehicle::power_parts( map &here )
         // Scoops need a special case since they consume power during actual use
         for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
         // Rechargers need special case since they consume power on demand
         for( const vpart_reference &vp : get_enabled_parts( "RECHARGE" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
 
         for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part &pt = vp.part();
             if( pt.info().epower < 0_W ) {
                 pt.enabled = false;
+                pt.power_disabled = true;
             }
         }
 
@@ -6414,6 +6487,16 @@ std::map<item, int> vehicle::prepare_tools( map &here, const vehicle_part &vp ) 
 {
     std::map<item, int> res;
     for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
+        if( pair.first.is_valid() && pair.first->has_flag( flag_NEEDS_SUNLIGHT ) ) {
+            const tripoint_bub_ms vp_pos = bub_part_pos( here, vp );
+            if( !is_sm_tile_outside( here.get_abs( vp_pos ) ) ) {
+                continue;
+            }
+            const weather_type_id wtype = current_weather( pos_abs() );
+            if( incident_sun_irradiance( wtype, calendar::turn ) <= irradiance::high ) {
+                continue;
+            }
+        }
         item it( pair.first, calendar::turn );
         prepare_tool( here, it );
         res.emplace( it, pair.second > 0 ? pair.second : -1 );
@@ -8005,7 +8088,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         coeff_air_changed = true;
 
         // update the fake part
-        if( vp.has_fake ) {
+        if( vp.has_fake && vp.fake_part_at < static_cast<int>( parts.size() ) ) {
             parts[vp.fake_part_at].base = vp.base;
         }
         // refresh cache in case the broken part has changed the status
@@ -8519,6 +8602,98 @@ void vehicle::update_time( map &here, const time_point &update_to )
             charge_battery( here, energy_bat );
         }
     }
+}
+
+int vehicle::catchup_off_map_renewables( const time_point &now )
+{
+    const time_point update_from = last_update;
+    if( now <= update_from || update_from == time_point( 0 ) ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( sm_pos.z() < 0 ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( now - update_from < 1_minutes ) {
+        return 0;
+    }
+
+    if( solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
+        return 0;
+    }
+
+    const time_duration elapsed = now - update_from;
+    last_update = now;
+
+    int total_energy = 0;
+    const weather_sum accum_weather = sum_conditions( update_from, now, pos_abs() );
+
+    if( !solar_panels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : solar_panels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        double intensity = accum_weather.radiant_exposure / max_sun_irradiance() /
+                           to_seconds<float>( elapsed );
+        int energy_bat = power_to_energy_bat( epower * intensity, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from solar panels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !wind_turbines.empty() ) {
+        // Same TODO as update_time: uses current wind, not weather backfill
+        const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
+        weather_manager &weather = get_weather();
+        units::power epower = 0_W;
+        for( const int p : wind_turbines ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            int windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                                 abs_part_pos( vp ),
+                                                 weather.winddirection, false );
+            if( windpower <= ( weather.windspeed / 10.0 ) ) {
+                continue;
+            }
+            epower += part_epower( vp ) * windpower;
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from wind turbines", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !water_wheels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : water_wheels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_over_water( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from water wheels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    return total_energy;
 }
 
 void vehicle::invalidate_mass()

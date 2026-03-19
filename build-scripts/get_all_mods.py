@@ -92,7 +92,7 @@ for r, d, f in os.walk('data/mods'):
         ident = os.path.basename(mod.path)
         if ident in obsolete_mods:
             continue
-        mods_this_time.append(os.path.basename(mod.path))
+        add_mods([os.path.basename(mod.path)])
     mods_lists.append(','.join(mods_this_time))
     mods_this_time.clear()
 

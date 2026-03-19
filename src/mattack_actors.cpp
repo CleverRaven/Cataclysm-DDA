@@ -1,6 +1,7 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <functional>
 #include <iterator>
 #include <limits>
@@ -38,6 +39,7 @@
 #include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapdata.h"
+#include "melee.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -530,14 +532,41 @@ Creature *melee_actor::find_target( monster &z ) const
         return nullptr;
     }
 
+    if( range == 1 && !z.is_adjacent( target, /*bool allow_z_levels =*/ false ) ) {
+        return nullptr;
+    }
+
     if( range > 1 ) {
-        if( !z.sees( here, *target ) ||
-            !here.clear_path( z.pos_bub( here ), target->pos_bub( here ), range, 1, 200 ) ) {
+        if( !z.sees( here, *target ) ) {
             return nullptr;
         }
 
-    } else if( !z.is_adjacent( target, false ) ) {
-        return nullptr;
+        const int horiz_dist = rl_dist( z.pos_bub().xy(), target->pos_bub().xy() );
+
+        // Little patch until trig_dist updates. Hopefully you aren't reading this in 2030+ :)
+        const int vert_distance_scale = 4;
+        const int vert_dist = std::abs( z.pos_bub().z() - target->pos_bub().z() ) * vert_distance_scale;
+
+        if( horiz_dist + vert_dist > range ) {
+            return nullptr;
+        }
+
+        std::vector<tripoint_bub_ms> path = line_to( z.pos_bub(), target->pos_bub(), 0, 0 );
+        path.pop_back(); // Last point is our target
+
+        // Scaled-down reimplementation of Character::reach_attack() with character-specific values removed.
+        for( const tripoint_bub_ms &path_point : path ) {
+            Creature *collateral_damage = get_creature_tracker().creature_at( path_point );
+            if( collateral_damage ) {
+                return nullptr; // Something else in the way, can't attack
+            }
+            // All ranged melee specials are considered to be "Spear" type attacks or otherwise capable of passing through thin obstacles
+            if( here.impassable( path_point ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) {
+                return nullptr; // Wall or something
+            }
+        }
+        return target; // Nothing in the way, is in range, we can hit it!
     }
 
     return target;
@@ -805,7 +834,7 @@ bool melee_actor::call( monster &z ) const
 
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+    int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ) );
 
     // Pick bodyparts hit
     std::vector<bodypart_id> bodyparts_hit;
@@ -1437,7 +1466,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
 
     add_msg_debug( debugmode::DF_MATTACK,
                    "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d\nGun skill (%s) %d",
-                   tmp.str_cur, tmp.dex_cur, tmp.int_cur, tmp.per_cur,
+                   tmp.get_str(), tmp.get_dex(), tmp.get_int(), tmp.get_per(),
                    gun.gun_skill().c_str(), static_cast<int>( tmp.get_skill_level( throwing ? skill_throw :
                            skill_gun ) ) );
 
@@ -1448,4 +1477,41 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
         z.ammo[ammo_type] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
     return true;
+}
+
+void polymorph_special::load_internal( const JsonObject &jo, const std::string &/*src*/ )
+{
+    // required
+    mon_id = mtype_id( jo.get_string( "mon_id" ) );
+
+    // optional, default true
+    optional( jo, was_loaded, "poly_keep_speed", keep_speed, true );
+    optional( jo, was_loaded, "poly_keep_hp", keep_hp, true );
+    optional( jo, was_loaded, "poly_keep_anger", keep_anger, true );
+}
+
+bool polymorph_special::call( monster &z ) const
+{
+    const int old_speed = z.get_speed_base();
+    const int old_hp = z.get_hp();
+    const int old_anger = z.anger;
+
+    z.poly( mon_id );
+
+    if( keep_speed ) {
+        z.set_speed_base( old_speed );
+    }
+    if( keep_hp ) {
+        z.set_hp( old_hp );
+    }
+    if( keep_anger ) {
+        z.anger = old_anger;
+    }
+
+    return true;
+}
+
+std::unique_ptr<mattack_actor> polymorph_special::clone() const
+{
+    return std::make_unique<polymorph_special>( *this );
 }

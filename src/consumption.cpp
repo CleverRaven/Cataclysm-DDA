@@ -171,6 +171,7 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BLOOD_DRINKER( "BLOOD_DRINKER" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
@@ -1012,8 +1013,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) && !saprophage && !has_trait( trait_SAPROVORE ) &&
+        ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+          ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
                                         food.tname() ),
                          PARASITES );
@@ -1090,10 +1092,10 @@ static int apply_alcohol_effects( Character &p, const item &it, const int streng
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
     time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
-                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.get_str_base() );
     if( p.has_trait( trait_ALCMET ) ) {
         duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
-                   36_seconds, 1_minutes, 1_minutes ) * p.str_max );
+                   36_seconds, 1_minutes, 1_minutes ) * p.get_str_base() );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
@@ -1428,6 +1430,8 @@ void Character::modify_morale( item &food, const int nutr )
             // Reduced penalties
             add_morale( morale_cannibal, moderate_morale_penalty, maximum_stacked_morale_penalty,
                         7_days, 4_days );
+        } else if( has_trait( trait_BLOOD_DRINKER ) ) {
+            add_msg_if_player( m_good, _( "Blood.  Just what you need.  You want more." ) );
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good,
                                _( "You worry that your hunger for human flesh is going to be a liability one of these days." ) );

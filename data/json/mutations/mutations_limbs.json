@@ -167,6 +167,7 @@
     "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "category": [ "SLIME" ],
     "prereqs": [ "SLIMY" ],
+    "types": [ "HANDS" ],
     "points": 1,
     "vitamin_cost": 60,
     "visibility": 5,
@@ -239,7 +240,7 @@
     "name": { "str": "Arachnid Limbs" },
     "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",
     "category": [ "SPIDER" ],
-    "types": [ "HANDS" ],
+    "types": [ "ARMS", "HANDS" ],
     "prereqs": [ "INSECT_ARMS" ],
     "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "changes_to": [ "ARACHNID_ARMS_OK" ],
@@ -259,7 +260,7 @@
     "name": { "str": "Arachnid Arms" },
     "description": "You have four handsome limbs, and then those mutant 'hand' and 'foot' things.  They probably aren't worth concealing.",
     "category": [ "SPIDER" ],
-    "types": [ "HANDS" ],
+    "types": [ "ARMS", "HANDS" ],
     "prereqs": [ "ARACHNID_ARMS" ],
     "prereqs2": [ "POISONOUS", "POISONOUS2", "WEB_RAPPEL" ],
     "threshreq": [ "THRESH_SPIDER" ],
@@ -275,7 +276,7 @@
     "name": { "str": "Insect Limbs" },
     "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more or less uncontrollably, making you feel rather larval.",
     "category": [ "INSECT", "SPIDER" ],
-    "types": [ "HANDS" ],
+    "types": [ "ARMS", "HANDS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
@@ -284,9 +285,8 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
+    "enchantments": [ { "modified_bodyparts": [ { "gain": "arm_insect_l" }, { "gain": "arm_insect_r" } ] } ]
   },
   {
     "type": "mutation",
@@ -294,7 +294,7 @@
     "name": { "str": "Insect Arms" },
     "description": "It's good having all your arms.  Though they're too thin to block or punch, you can fold them inside human-shaped gear if need be.",
     "category": [ "INSECT" ],
-    "types": [ "HANDS" ],
+    "types": [ "ARMS", "HANDS" ],
     "prereqs": [ "INSECT_ARMS" ],
     "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT" ],
@@ -302,17 +302,27 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 4,
-    "ugliness": 5
+    "ugliness": 5,
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_insect_good_l" },
+          { "gain": "arm_insect_good_r" },
+          { "gain": "insect_hand_l" },
+          { "gain": "insect_hand_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "WEBBED",
     "name": { "str": "Webbed Hands" },
     "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN", "CHIROPTERAN" ],
+    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN", "CHIROPTERAN", "CHIMERA", "BEAST" ],
     "types": [ "HANDS" ],
     "leads_to": [ "WEBBED_FEET" ],
-    "changes_to": [ "WINGS_BAT" ],
+    "changes_to": [ "ARMS_BAT" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 60,
@@ -372,8 +382,12 @@
     "visibility": 10,
     "ugliness": 9,
     "restricts_gear": [ "hand_r" ],
-    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ] } ],
-    "integrated_armor": [ "integrated_giant_pincer" ]
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "gain": "crustacean_pincer_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -502,12 +516,35 @@
   },
   {
     "type": "mutation",
+    "id": "ARMS_BAT",
+    "points": -1,
+    "name": { "str": "Leathery Arms" },
+    "description": "You have grown large membranes of skin on your arms, partly covering your wrist and little finger and linking to the webbing in between your fingers.  They're a challenge to fit into normal clothing, and are less dextrous on account of the extra bulk.",
+    "category": [ "CHIROPTERAN", "CHIMERA", "BEAST" ],
+    "types": [ "ARMS" ],
+    "prereqs": [ "WEBBED" ],
+    "changes_to": [ "WINGS_BAT" ],
+    "visibility": 3,
+    "ugliness": 2,
+    "flags": [ "WEBBED_HANDS" ],
+    "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ], [ "arm_leathery_l", 10 ], [ "arm_leathery_r", 10 ] ],
+    "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
+    "enchantments": [
+      { "values": [ { "value": "DEXTERITY", "add": -1 } ] },
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_leathery_l" }, { "gain": "arm_leathery_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "WINGS_BAT",
     "name": { "str": "Bat Wings" },
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "category": [ "CHIROPTERAN" ],
     "types": [ "ARMS", "HANDS" ],
-    "prereqs": [ "WEBBED" ],
+    "prereqs": [ "ARMS_BAT" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "strict_threshreq": true,
     "points": 4,
@@ -515,9 +552,17 @@
     "vitamin_cost": 190,
     "visibility": 9,
     "ugliness": 4,
-    "flags": [ "WING_GLIDE", "WINGS_2" ],
-    "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_wing_bat_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_wing_bat_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -538,8 +583,8 @@
     "name": { "str": "Bird Wings" },
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "category": [ "BIRD" ],
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
+    "types": [ "WINGS", "ARMS" ],
+    "prereqs": [ "ARM_FEATHERS" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "strict_threshreq": true,
@@ -547,8 +592,17 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "flags": [ "WINGS_2", "WING_GLIDE" ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_wing_bird_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_wing_bird_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -581,23 +635,34 @@
     "prereqs": [ "WINGS_STUB" ],
     "points": 1,
     "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "You begin buzzing your wings.",
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 4,
     "flags": [ "WINGS_1" ],
+    "cost": 115,
+    "stamina": true,
+    "time": "1 s",
     "restricts_gear": [ "torso" ],
-    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
+    "active_flags": [ "ONE_STORY_FALL", "MUSCLE_VEH_BOOST" ],
+    "//": "We apply WINGS_INSECT_active as a mutation because there are sound penalties with custom messages hard-coded to its id.",
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ],
+        "mutations": [ "WINGS_INSECT_active" ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "WINGS_INSECT_active",
-    "copy-from": "WINGS_INSECT",
     "name": { "str": "Insect Wings (Buzzing)" },
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "valid": false,
-    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
-    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 },
-    "enchantments": [ "ench_wings_insect_active" ]
+    "points": 0,
+    "player_display": false
   },
   {
     "type": "mutation",
@@ -692,6 +757,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "points": 1,
     "vitamin_cost": 130,
+    "ugliness": 2,
     "visibility": 7,
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
@@ -713,7 +779,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_bovine" } ] } ]
   },
   {
     "type": "mutation",
@@ -730,7 +796,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_raptor" } ] } ]
   },
   {
     "type": "mutation",
@@ -747,8 +813,8 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ] } ],
-    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ]
+    "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_finned" } ] } ]
   },
   {
     "type": "mutation",
@@ -765,7 +831,7 @@
     "allow_soft_gear": true,
     "allowed_items": [ "ALLOWS_TAIL" ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
-    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "gain": "tail_rat" } ] } ]
   },
   {
     "type": "mutation",
@@ -854,9 +920,19 @@
     "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "integrated_armor": [ "integrated_rabbit_feet" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
-    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_rabbit_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_rabbit_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -912,7 +988,15 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "animal_paw_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "animal_paw_r" } ]
+      }
     ],
     "triggers": [
       [
@@ -960,7 +1044,16 @@
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
     "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
-    "integrated_armor": [ "integrated_hooves" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "hoof_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "hoof_r" } ]
+      }
+    ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ]
   },
   {
@@ -978,6 +1071,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_SHORT_LEAP" ]
   },
   {
@@ -995,6 +1090,8 @@
     "visibility": 3,
     "ugliness": 1,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 6000,
     "activated_eocs": [ "EOC_CRUSHING_LEAP" ]
   },
   {
@@ -1029,8 +1126,23 @@
     "ugliness": 9,
     "flags": [ "TOUGH_FEET" ],
     "destroys_gear": true,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.1 } ] } ]
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.1 } ],
+        "modified_bodyparts": [
+          { "lose": "leg_l" },
+          { "lose": "foot_l" },
+          { "lose": "leg_r" },
+          { "lose": "foot_r" },
+          { "gain": "leg_crab_front_l" },
+          { "gain": "leg_crab_front_r" },
+          { "gain": "leg_crab_rear_l" },
+          { "gain": "leg_crab_rear_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1049,10 +1161,22 @@
     "ugliness": 2,
     "flags": [ "TOUGH_FEET" ],
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2500,
     "activated_eocs": [ "EOC_AVIAN_LEAP" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
-    "restricts_gear": [ "foot_l", "foot_r" ]
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "foot_l" }, { "gain": "avian_talon_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "foot_r" }, { "gain": "avian_talon_r" } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1226,6 +1350,7 @@
     "name": { "str": "Tentacle Rakes" },
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "category": [ "CEPHALOPOD" ],
+    "types": [ "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "points": 0,

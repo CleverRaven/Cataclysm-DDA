@@ -971,7 +971,7 @@ void monster::move()
         return;
     }
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        stumble();
+        stumble_involuntary();
         moves = 0;
         return;
     }
@@ -1016,7 +1016,7 @@ void monster::move()
             ( get_dest() == player_character.pos_abs() &&
               pos_abs().z() == player_character.pos_abs().z() ) ) {
             moves = 0;
-            stumble();
+            stumble_voluntary();
             return;
         }
     } else if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
@@ -1024,7 +1024,7 @@ void monster::move()
                    ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
                  && rl_dist( pos_abs(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
-        stumble();
+        stumble_voluntary();
         return;
     }
 
@@ -1159,7 +1159,14 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos_bub(), destination );
         tripoint_bub_ms loc = pos_bub();
-        for( tripoint_bub_ms &candidate : squares_closer_to( loc, destination ) ) {
+        std::vector<tripoint_bub_ms> options = squares_closer_to( loc, destination );
+        if( destination.z() < loc.z() )  {
+            // HACK: Consider moving straight downward (because we might be flying!)
+            tripoint_bub_ms directly_below( loc.x(), loc.y(), loc.z() - 1 );
+            // EXTRA SUPER DUPER HACK: Put it at the front so it's checked first.
+            options.insert( options.begin(), directly_below );
+        }
+        for( tripoint_bub_ms &candidate : options ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1178,7 +1185,8 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
-            if( candidate.z() != pos_abs().z() ) {
+            const bool is_z_move = candidate.z() != pos_abs().z();
+            if( is_z_move ) {
                 bool can_z_move = true;
                 if( !here.valid_move( pos_bub(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
@@ -1225,7 +1233,8 @@ void monster::move()
                     continue;
                 }
                 const Attitude att = attitude_to( *target );
-                if( att == Attitude::HOSTILE ) {
+                if( att == Attitude::HOSTILE &&
+                    ( !is_z_move || here.on_matching_stairs( pos_bub(), candidate ) ) ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
@@ -1320,7 +1329,7 @@ void monster::move()
         }
     } else {
         moves = 0;
-        stumble();
+        stumble_voluntary();
         path.clear();
     }
     if( has_effect( effect_led_by_leash ) ) {
@@ -1894,9 +1903,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through tile above them, except they may attack other monsters
+    // through the surface above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -1911,7 +1920,8 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     Character &player_character = get_player_character();
     const bool sees_player = sees( here, player_character );
     // Targeting player location
-    if( p == player_character.pos_bub() ) {
+    if( p == player_character.pos_bub() &&
+        ( p.z() == pos_bub().z() || here.on_matching_stairs( pos_bub(), p ) ) ) {
         if( sees_player ) {
             return melee_attack( player_character );
         } else {
@@ -1938,7 +1948,11 @@ bool monster::attack_at( const tripoint_bub_ms &p )
         Creature::Attitude attitude = attitude_to( mon );
         // mon_flag_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( mon_flag_ATTACKMON ) ) {
-            return melee_attack( mon );
+            const bool attacked = melee_attack( mon );
+            if( attacked && get_player_view().sees( here, p ) ) {
+                g->draw_hit_mon( p, mon, mon.is_dead() );
+            }
+            return attacked;
         }
 
         return false;
@@ -2045,7 +2059,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
             ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
         ) && ( here.is_divable( destination ) ||
-               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) );
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ||
+               // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
+               ( has_flag( mon_flag_AQUATIC ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
@@ -2347,11 +2364,30 @@ bool monster::push_to( const tripoint_bub_ms &p, const int boost, const size_t d
 }
 
 /**
- * Stumble in a random direction, but with some caveats.
+ * Wander in a random direction, without stepping into water (if not a swimmer)
+ * or into dangerious tiles (if has AVOID_DANGER flag)
  */
-void monster::stumble()
+void monster::stumble_voluntary()
 {
     add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble", name() );
+    stumble_base( true );
+}
+
+/**
+ * Forced stumble in a random direction
+ */
+void monster::stumble_involuntary()
+{
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble_involuntary", name() );
+    stumble_base( false );
+}
+
+
+/**
+ * Stumble in a random direction
+ */
+void monster::stumble_base( const bool is_voluntary )
+{
     // Only move every 10 turns.
     if( !one_in( 10 ) ) {
         return;
@@ -2373,21 +2409,35 @@ void monster::stumble()
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint::below );
-    if( here.valid_move( pos_bub(), below, false, true ) ) {
-        valid_stumbles.push_back( below );
+
+    // When forced to stumble, monsters can't stumble-walk downstairs
+    if( is_voluntary ) {
+        const tripoint_bub_ms below( pos_bub() + tripoint::below );
+        if( here.valid_move( pos_bub(), below, false, true ) ) {
+            valid_stumbles.push_back( below );
+        }
     }
 
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
+
+        // Stop zombies and other non-breathing monsters wandering INTO water
+        // (Unless they can swim/are aquatic)
+        // But let them wander OUT of water if they are there.
+        const bool avoiding_stepping_into_water = avoid_water &&
+                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() );
+
+
+        // If the stumble is voluntary (just moving around), don't step into water or known danger tiles
+        // If monster is made to stumble, they might walk into them even if they wouldn't normally
+        const bool safe_for_voluntary_step = !is_voluntary || ( !avoiding_stepping_into_water &&
+                                             know_danger_at( &here, dest ) );
+
+
         if( can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
-               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
+            safe_for_voluntary_step &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
                 break;

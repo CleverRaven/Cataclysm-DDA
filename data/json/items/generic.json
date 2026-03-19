@@ -1453,6 +1453,21 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_robofac_hound",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken Hub 01 HOUND" },
+    "category": "other",
+    "description": "A broken Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "steel", "plastic" ],
+    "weight": "32700 g",
+    "volume": "105 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
     "id": "broken_science_bot",
     "symbol": ",",
     "color": "green",
@@ -4042,5 +4057,19 @@
     "weight": "230 g",
     "volume": "100 ml",
     "longest_side": "5 cm"
+  },
+  {
+    "type": "ITEM",
+    "id": "exodii_chop_shop_head",
+    "name": { "str_sp": "broken red robotic head" },
+    "weight": "1400 g",
+    "volume": "1400 ml",
+    "color": "red",
+    "symbol": "@",
+    "description": "The broken metal head and partial neck of some sort of robot.  It would almost resemble a helmet, as several parts of the \"face\" are open, allowing one to glance inside, only to find a hollow shell, stained by blood and oil.  A frayed metal spinal cord of wires and tubes hangs from the \"neck.\"",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "qt_steel", "aluminum", "copper" ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

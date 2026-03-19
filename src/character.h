@@ -531,18 +531,14 @@ class Character : public Creature, public visitable
         /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
-        /// @brief Character stats
-        /// @todo Make those protected
+    private:
+        /// @brief Character base stats
         int str_max;
         int dex_max;
         int int_max;
         int per_max;
 
-        int str_cur;
-        int dex_cur;
-        int int_cur;
-        int per_cur;
-
+    public:
         // Used to display pain penalties
         int ppen_str;
         int ppen_dex;
@@ -640,6 +636,11 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        void set_str_base( int nstr );
+        void set_dex_base( int ndex );
+        void set_per_base( int nper );
+        void set_int_base( int nint );
 
         /** Setters for stats shared with other creatures */
         using Creature::mod_speed_bonus;
@@ -1155,6 +1156,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
+        bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
@@ -1944,8 +1946,10 @@ class Character : public Creature, public visitable
         void disp_info( bool customize_character = false );
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Opens the medical window */
-        void disp_medical();
+        /** Opens the medical window. Returns true if window was closed */
+        bool disp_medical();
+        // return true if wound fix was successfully picked
+        bool pick_wound_fix( const bodypart_id &bp_id );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 

@@ -473,6 +473,15 @@ void body_part_type::load( const JsonObject &jo, std::string_view )
         }
     }
 
+    if( jo.has_array( "qualities" ) ) {
+        qualities.clear();
+        for( const JsonObject qual_jo : jo.get_array( "qualities" ) ) {
+            bp_qualities_provided qual;
+            qual.load( qual_jo );
+            qualities.push_back( qual );
+        }
+    }
+
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
         temp_min = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 0 ) );
@@ -509,6 +518,14 @@ void bp_onhit_effect::load( const JsonObject &jo )
     optional( jo, false, "duration", duration, 1 );
     optional( jo, false, "duration_dmg_scaling", duration_dmg_scaling, 0.0f );
     optional( jo, false, "max_duration", max_duration, INT_MAX );
+}
+
+void bp_qualities_provided::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "quality", quality );
+    mandatory( jo, false, "level", level );
+    optional( jo, false, "disable_percent", disable_percent, numeric_bound_reader<float> {0.f, 1.f},
+              0.f );
 }
 
 void body_part_type::reset()
@@ -617,6 +634,13 @@ void body_part_type::check() const
 
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
+    }
+
+    if( !windage_effect.is_valid() ) {
+        debugmsg( "Body part %s has invalid windage_effect %s", id.c_str(), windage_effect.c_str() );
+    }
+    if( !no_power_effect.is_valid() ) {
+        debugmsg( "Body part %s has invalid no_power_effect %s", id.c_str(), no_power_effect.c_str() );
     }
 }
 
@@ -957,11 +981,6 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
-efftype_id bodypart::get_windage_effect() const
-{
-    return id->windage_effect;
-}
-
 bool bodypart::compare_encumbrance_data( const bodypart &bp ) const
 {
     return encumb_data == bp.encumb_data;
@@ -1077,14 +1096,34 @@ std::vector<wound> bodypart::get_wounds() const
     return wounds;
 }
 
-void bodypart::add_wound( wound &wd )
-{
-    wounds.push_back( wd );
-}
-
-void bodypart::add_wound( wound_type_id wd )
+void bodypart::add_wound( const wound &wd )
 {
     wounds.emplace_back( wd );
+}
+
+void bodypart::add_wound( const wound_type_id wd )
+{
+    wounds.emplace_back( wd );
+}
+
+bool bodypart::has_wound( const wound_type_id wd ) const
+{
+    for( const wound &wound : wounds ) {
+        if( wound.type == wd ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void bodypart::remove_wound( const wound_type_id wd )
+{
+    const auto it = std::find_if( wounds.begin(), wounds.end(), [wd]( const wound & existing_wound ) {
+        return existing_wound.type == wd;
+    } );
+    if( it != wounds.end() ) {
+        wounds.erase( it );
+    }
 }
 
 void bodypart::update_wounds( time_duration time_passed )

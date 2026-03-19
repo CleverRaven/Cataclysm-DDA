@@ -1354,6 +1354,21 @@
   },
   {
     "type": "mutation",
+    "id": "perk_smash_boost",
+    "name": { "str": "Smashing for Wimps" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Strong you might not be, but you can still break things down by hitting them the right way.  You get a bonus to your smashing ability that increases the weaker you are.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SMASH_BONUS", "add": { "math": [ "16 - clamp(u_val('strength'), 0, 16)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_speedballing",
     "name": { "str": "Speedballing" },
     "points": 0,
@@ -1488,6 +1503,27 @@
       {
         "condition": { "u_has_wielded_with_ammotype": "22" },
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_yeoman",
+    "name": { "str": "Yeoman" },
+    "description": "In a world of guns, you were born to string a bow.  With such weapons you draw back further, increasing damage and range, and your arrows strike true with unerring accuracy.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [
+          { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+          { "value": "RANGE", "add": 6 }
+        ]
       }
     ]
   },
