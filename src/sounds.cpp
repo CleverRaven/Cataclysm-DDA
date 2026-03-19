@@ -1435,8 +1435,8 @@ sfx::sound_thread::sound_thread( const item &weapon, const tripoint_bub_ms &sour
     }
     ang_targ = get_heard_angle( target );
     weapon_id = weapon.typeId();
-    weapon_skill = weapon ? weapon->melee_skill() : skill_id::NULL_ID();
-    weapon_volume = weapon ? weapon->volume() / 250_ml : 0;
+    weapon_skill = weapon ? weapon.melee_skill() : skill_id::NULL_ID();
+    weapon_volume = weapon ? weapon.volume() / 250_ml : 0;
 }
 
 // Operator overload required for thread API.
