@@ -223,6 +223,7 @@ Each entry in the `"steps"` array is an object with these fields:
 - Proficiency training is limited to the proficiencies listed on the current step.
 - Batch savings are applied per-step and summed.
 - The current step name appears in the crafting progress message.
+- Tool speed modifiers (see `"speed"` in item quality definitions) apply per-step: a tool with `"speed": 0.5` on a quality halves the time of steps requiring that quality, without affecting other steps.
 
 ## Practice recipes
 

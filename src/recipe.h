@@ -27,6 +27,7 @@ class JsonValue;
 class cata_variant;
 class item;
 class item_components;
+class read_only_visitable;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
@@ -301,7 +302,9 @@ class recipe
             const Character &crafter, const recipe_step &step );
         // Per-step time budget in base moves (with proficiency malus and batch savings).
         // Same per-step formula that batch_time() uses internally.
-        double step_budget_moves( const Character &guy, size_t step_idx, int batch ) const;
+        // Optional tool_speeds vector applies per-step speed modifier.
+        double step_budget_moves( const Character &guy, size_t step_idx, int batch,
+                                  const std::vector<float> *tool_speeds = nullptr ) const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string( const std::map<skill_id, int> & ) const;
@@ -324,7 +327,8 @@ class recipe
         bool in_byproducts( const itype_id &it ) const;
         bool has_byproducts() const;
 
-        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants,
+                            const std::vector<float> *tool_speeds = nullptr ) const;
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
@@ -454,5 +458,18 @@ class recipe
         bool check_blueprint_needs = false;
         cata::value_ptr<parameterized_build_reqs> bp_build_reqs;
 };
+
+// ---------- Tool speed modifiers ----------
+
+// Best (lowest) speed modifier for a quality at a given level from available items.
+// Returns 1.0f if no items have a speed modifier for this quality.
+// crafter is used for charged_qualities (ammo_sufficient check).
+float best_quality_speed_modifier( const read_only_visitable &inv,
+                                   const Character &crafter, const quality_id &qual, int level );
+
+// Compute per-step tool speed modifiers for a recipe from the crafter's inventory.
+// Returns a vector with one float per step (1.0 = no modifier).
+// For stepless recipes, returns empty vector.
+std::vector<float> compute_tool_speeds( const recipe &rec, const Character &crafter );
 
 #endif // CATA_SRC_RECIPE_H

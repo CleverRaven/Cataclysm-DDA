@@ -1908,6 +1908,7 @@ class craft_activity_actor : public activity_actor
         std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
         float cached_crafting_speed; // NOLINT(cata-serialize)
         int cached_assistants; // NOLINT(cata-serialize)
+        std::vector<float> cached_tool_speeds; // NOLINT(cata-serialize)
         double cached_base_total_moves; // NOLINT(cata-serialize)
         double cached_cur_total_moves; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)

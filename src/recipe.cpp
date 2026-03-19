@@ -1,6 +1,7 @@
 #include "recipe.h"
 
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <initializer_list>
 #include <memory>
@@ -50,6 +51,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -151,7 +153,7 @@ double batch_savings::apply( double time, int batch_size ) const
 }
 
 int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
-                            size_t assistants ) const
+                            size_t assistants, const std::vector<float> *tool_speeds ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
@@ -164,8 +166,13 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
 
     if( has_steps() ) {
         total_time = 0.0;
-        for( const recipe_step &s : steps_ ) {
-            double step_time = s.time * proficiency_time_maluses_for_step( guy, s ) / multiplier;
+        for( size_t i = 0; i < steps_.size(); ++i ) {
+            const recipe_step &s = steps_[i];
+            double step_time = s.time * proficiency_time_maluses_for_step( guy, s );
+            if( tool_speeds && i < tool_speeds->size() ) {
+                step_time *= ( *tool_speeds )[i];
+            }
+            step_time /= multiplier;
             total_time += s.batch_info.apply( step_time, batch );
         }
     } else {
@@ -179,7 +186,23 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
     } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    const double single_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
+    // Single-item floor: total can't be less than crafting one unit.
+    // For step recipes with tool speed, the floor must also be speed-aware.
+    double single_time;
+    if( has_steps() && tool_speeds ) {
+        single_time = 0.0;
+        for( size_t i = 0; i < steps_.size(); ++i ) {
+            const recipe_step &s = steps_[i];
+            double st = s.time * proficiency_time_maluses_for_step( guy, s );
+            if( i < tool_speeds->size() ) {
+                st *= ( *tool_speeds )[i];
+            }
+            st /= multiplier;
+            single_time += s.batch_info.apply( st, 1 );
+        }
+    } else {
+        single_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
+    }
     if( total_time < single_time ) {
         total_time = single_time;
     }
@@ -1372,12 +1395,93 @@ float recipe::proficiency_time_maluses_for_step(
     return total_malus;
 }
 
-double recipe::step_budget_moves( const Character &guy, size_t step_idx, int batch ) const
+double recipe::step_budget_moves( const Character &guy, size_t step_idx, int batch,
+                                  const std::vector<float> *tool_speeds ) const
 {
     cata_assert( step_idx < steps_.size() );
     const recipe_step &s = steps_[step_idx];
     double t = s.time * proficiency_time_maluses_for_step( guy, s );
+    if( tool_speeds && step_idx < tool_speeds->size() ) {
+        t *= ( *tool_speeds )[step_idx];
+    }
     return s.batch_info.apply( t, batch );
+}
+
+// Crafter-aware quality level check for a single item.
+// Mirrors item::get_quality_nonrecursive but uses the given crafter for
+// charged_qualities instead of get_player_character().
+static int get_quality_for_crafter( const item &it, const quality_id &qual,
+                                    const Character &crafter )
+{
+    int result = INT_MIN;
+    auto qit = it.type->qualities.find( qual );
+    if( qit != it.type->qualities.end() ) {
+        result = qit->second.level;
+    }
+    if( !it.type->charged_qualities.empty() && it.ammo_sufficient( &crafter ) ) {
+        auto cit = it.type->charged_qualities.find( qual );
+        if( cit != it.type->charged_qualities.end() ) {
+            result = std::max( result, cit->second.level );
+        }
+    }
+    return result;
+}
+
+float best_quality_speed_modifier( const read_only_visitable &inv,
+                                   const Character &crafter,
+                                   const quality_id &qual, int level )
+{
+    bool found = false;
+    float best = 1.0f;
+    inv.visit_items( [&]( item * e, item * ) {
+        // Use crafter-aware qualification, not get_quality() which
+        // uses get_player_character() for charged qualities.
+        if( get_quality_for_crafter( *e, qual, crafter ) >= level ) {
+            float s = e->get_quality_speed( qual, level, &crafter );
+            if( !found || s < best ) {
+                best = s;
+                found = true;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    // Character-provided qualities (bionics, mutations) have no speed modifier.
+    if( !found && crafter.has_quality( qual, level ) ) {
+        return 1.0f;
+    }
+    return best;
+}
+
+std::vector<float> compute_tool_speeds( const recipe &rec, const Character &crafter )
+{
+    if( !rec.has_steps() ) {
+        return {};
+    }
+    const read_only_visitable &inv = crafter.crafting_inventory();
+    std::vector<float> result;
+    result.reserve( rec.steps().size() );
+    for( const recipe_step &step : rec.steps() ) {
+        float step_speed = 1.0f;
+        for( const auto &group : step.requirements.get_qualities() ) {
+            bool found = false;
+            float best_in_group = 1.0f;
+            for( const quality_requirement &alt : group ) {
+                // Crafter-aware qualification check (no get_player_character leak)
+                if( !inv.has_quality( alt.type, alt.level, alt.count ) &&
+                    !crafter.has_quality( alt.type, alt.level, alt.count ) ) {
+                    continue;
+                }
+                float s = best_quality_speed_modifier( inv, crafter, alt.type, alt.level );
+                if( !found || s < best_in_group ) {
+                    best_in_group = s;
+                    found = true;
+                }
+            }
+            step_speed *= best_in_group;
+        }
+        result.push_back( std::clamp( step_speed, 0.01f, 100.0f ) );
+    }
+    return result;
 }
 
 float recipe::max_proficiency_time_maluses( const Character & ) const

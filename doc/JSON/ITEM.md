@@ -959,7 +959,10 @@ Gun mods can be defined like this:
 "fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
 "qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
+// Qualities also accept object format: { "id": "SEW", "level": 2, "speed": 0.3 }
+// "speed" is optional (default 1.0). Values < 1.0 make recipe steps using this quality faster.
 "charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
+// charged_qualities also accept the object format with "speed".
 // Only TOOL type items may define the following fields:
 "tool_ammo": [ "NULL" ],        // Ammo types used for reloading
 "charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool

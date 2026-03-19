@@ -1,9 +1,11 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <map>
 #include <optional>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -14,30 +16,45 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "translation.h"
 #include "type_id.h"
+
+class read_only_visitable;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_cudgel( "cudgel" );
+static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
+static const itype_id itype_test_charged_fast_cutter( "test_charged_fast_cutter" );
+static const itype_id itype_test_fast_cutter( "test_fast_cutter" );
+static const itype_id itype_test_slow_cutter( "test_slow_cutter" );
 
 static const proficiency_id proficiency_prof_test_step_a( "prof_test_step_a" );
 static const proficiency_id proficiency_prof_test_step_b( "prof_test_step_b" );
 static const proficiency_id proficiency_prof_test_step_required( "prof_test_step_required" );
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT( "CUT" );
 
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
 static const recipe_id recipe_cudgel_test_steps_basic( "cudgel_test_steps_basic" );
@@ -1353,4 +1370,473 @@ TEST_CASE( "step_recipe_required_prof_no_crash_in_learning", "[recipe][steps][cr
     CHECK( turns > 0 );
 
     CHECK( guy.get_proficiency_practice( proficiency_prof_test_step_a ) > 0.0f );
+}
+
+// ---- Tool speed modifier tests ----
+
+// Helper: place a single item on the ground at avatar origin and refresh crafting inv.
+static void place_tool( const itype_id &tool_id )
+{
+    map &here = get_map();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    here.add_item( origin, item( tool_id ) );
+    get_avatar().invalidate_crafting_inventory();
+}
+
+TEST_CASE( "tool_quality_object_loads", "[recipe][steps][tool_speed]" )
+{
+    // test_fast_cutter uses object quality format with speed
+    const itype *fast = &*itype_test_fast_cutter;
+    REQUIRE( fast != nullptr );
+
+    auto it = fast->qualities.find( qual_CUT );
+    REQUIRE( it != fast->qualities.end() );
+    CHECK( it->second.level == 1 );
+    CHECK( it->second.speed == Approx( 0.5f ) );
+}
+
+TEST_CASE( "tool_quality_array_still_works", "[recipe][steps][tool_speed]" )
+{
+    // knife_hunting uses old array format, speed defaults to 1.0
+    const itype *knife = &*itype_knife_hunting;
+    REQUIRE( knife != nullptr );
+
+    auto it = knife->qualities.find( qual_CUT );
+    REQUIRE( it != knife->qualities.end() );
+    CHECK( it->second.level >= 1 );
+    CHECK( it->second.speed == Approx( 1.0f ) );
+}
+
+TEST_CASE( "tool_quality_speed_only_declared", "[recipe][steps][tool_speed]" )
+{
+    // Speed only applies to the quality it's declared on.
+    // test_fast_cutter has CUT with speed 0.5 but no BUTCHER quality at all.
+    const itype *fast = &*itype_test_fast_cutter;
+    REQUIRE( fast != nullptr );
+
+    auto cut_it = fast->qualities.find( qual_CUT );
+    REQUIRE( cut_it != fast->qualities.end() );
+    CHECK( cut_it->second.speed == Approx( 0.5f ) );
+
+    // BUTCHER must not be present -- verifies the default-speed path:
+    // a missing quality means no speed modifier (effectively 1.0)
+    auto butcher_it = fast->qualities.find( qual_BUTCHER );
+    CHECK( butcher_it == fast->qualities.end() );
+
+    // Also verify a tool that HAS multiple qualities gets speed only on declared ones.
+    // knife_hunting has CUT and BUTCHER, both without speed -> both default to 1.0
+    const itype *knife = &*itype_knife_hunting;
+    REQUIRE( knife != nullptr );
+    auto knife_cut = knife->qualities.find( qual_CUT );
+    REQUIRE( knife_cut != knife->qualities.end() );
+    CHECK( knife_cut->second.speed == Approx( 1.0f ) );
+    auto knife_butcher = knife->qualities.find( qual_BUTCHER );
+    REQUIRE( knife_butcher != knife->qualities.end() );
+    CHECK( knife_butcher->second.speed == Approx( 1.0f ) );
+}
+
+// ---- Tool speed: query infrastructure ----
+
+TEST_CASE( "best_speed_single_item", "[recipe][steps][tool_speed]" )
+{
+    // Single fast tool on ground, query returns its speed
+    clear_avatar();
+    clear_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( get_map(), origin );
+
+    place_tool( itype_test_fast_cutter );
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
+}
+
+TEST_CASE( "best_speed_picks_fastest", "[recipe][steps][tool_speed]" )
+{
+    // Two tools, one fast (0.5) one slow (1.5), should pick fastest
+    clear_avatar();
+    clear_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( get_map(), origin );
+
+    place_tool( itype_test_fast_cutter );
+    place_tool( itype_test_slow_cutter );
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
+}
+
+TEST_CASE( "best_speed_no_modifier_returns_one", "[recipe][steps][tool_speed]" )
+{
+    // knife_hunting has CUT but no speed modifier -> 1.0
+    clear_avatar();
+    clear_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( get_map(), origin );
+
+    place_tool( itype_knife_hunting );
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 1.0f ) );
+}
+
+TEST_CASE( "best_speed_insufficient_level_ignored", "[recipe][steps][tool_speed]" )
+{
+    // test_fast_cutter is CUT level 1; query for CUT level 2 -> doesn't qualify -> 1.0
+    clear_avatar();
+    clear_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( get_map(), origin );
+
+    place_tool( itype_test_fast_cutter );
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    // Level 1 should work
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.5f ) );
+    // Level 2 should not qualify
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 2 ) == Approx( 1.0f ) );
+}
+
+TEST_CASE( "best_speed_slow_tool_returns_above_one", "[recipe][steps][tool_speed]" )
+{
+    // Slow tool (1.5x) is the only qualifying item -- must return 1.5, not 1.0
+    clear_avatar();
+    clear_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( get_map(), origin );
+
+    place_tool( itype_test_slow_cutter );
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 1.5f ) );
+}
+
+TEST_CASE( "best_speed_charged_quality_when_charged", "[recipe][steps][tool_speed]" )
+{
+    // Charged tool (copy-from cordless_drill) with CUT level 2, speed 0.3
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( here, origin );
+
+    // Create the tool and give it a loaded battery magazine
+    item tool( itype_test_charged_fast_cutter );
+    // Insert a charged battery into the magazine well
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    tool.put_in( battery, pocket_type::MAGAZINE_WELL );
+    REQUIRE( tool.ammo_sufficient( &guy ) );
+
+    here.add_item( origin, tool );
+    guy.invalidate_crafting_inventory();
+    const read_only_visitable &inv = guy.crafting_inventory();
+
+    // Level 1 query -- charged quality at level 2 qualifies, speed 0.3
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 1 ) == Approx( 0.3f ) );
+    // Level 2 query -- still qualifies (charged quality is level 2)
+    CHECK( best_quality_speed_modifier( inv, guy, qual_CUT, 2 ) == Approx( 0.3f ) );
+}
+
+// ---- Tool speed: step time integration ----
+
+// cudgel_test_steps_basic: Shape (10m/60000mv, no quals), Sand (5m/30000mv, no quals),
+//                          Finish (5m/30000mv, CUT quality level 1)
+// With all profs known, no tool speed: budgets are 60000, 30000, 30000.
+
+TEST_CASE( "step_budget_with_tool_speed", "[recipe][steps][tool_speed]" )
+{
+    // Finish step with fast cutter (0.5x) -> 15000. Without -> 30000.
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    REQUIRE( r.has_steps() );
+    REQUIRE( r.steps().size() == 3 );
+
+    // Without tool speed: Finish step (idx 2) budget = 30000
+    CHECK( r.step_budget_moves( guy, 2, 1 ) == Approx( 30000.0 ) );
+
+    // With tool speed vector: [1.0, 1.0, 0.5] -- only Finish affected
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+    CHECK( r.step_budget_moves( guy, 0, 1, &speeds ) == Approx( 60000.0 ) );
+    CHECK( r.step_budget_moves( guy, 1, 1, &speeds ) == Approx( 30000.0 ) );
+    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 15000.0 ) );
+}
+
+TEST_CASE( "tool_speed_composes_with_proficiency", "[recipe][steps][tool_speed]" )
+{
+    // Missing prof_B (1.5x malus on Finish), fast cutter (0.5x) -> 30000*1.5*0.5 = 22500
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    // prof_B NOT granted -- Finish step has it with time_multiplier 1.5
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 22500.0 ) );
+}
+
+TEST_CASE( "batch_time_with_tool_speed", "[recipe][steps][tool_speed]" )
+{
+    // batch_time with fast tool < without
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    int64_t time_no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+    int64_t time_with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+
+    // Finish step is 30000 -> 15000 with tool speed, so total drops by 15000
+    CHECK( time_with_speed < time_no_speed );
+    CHECK( time_no_speed - time_with_speed == 15000 );
+}
+
+TEST_CASE( "step_without_qualities_unaffected", "[recipe][steps][tool_speed]" )
+{
+    // Shape and Sand steps have no qualities; tool speed doesn't affect them
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+
+    // Even with a speed vector that has non-1.0 values, steps without
+    // qualities in their requirements should use 1.0 regardless.
+    // (The tool_speed_for_step computation would return 1.0 for them.)
+    // But step_budget_moves takes the vector directly, so the values matter.
+    // This test verifies that the CALLER (compute_tool_speeds) produces 1.0
+    // for steps without quality requirements. For now, test the vector path.
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+    CHECK( r.step_budget_moves( guy, 0, 1, &speeds ) == Approx( 60000.0 ) );
+    CHECK( r.step_budget_moves( guy, 1, 1, &speeds ) == Approx( 30000.0 ) );
+}
+
+TEST_CASE( "slow_tool_increases_step_time", "[recipe][steps][tool_speed]" )
+{
+    // Slow tool (1.5x) on Finish step -> 45000
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    std::vector<float> speeds = { 1.0f, 1.0f, 1.5f };
+    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 45000.0 ) );
+}
+
+TEST_CASE( "mixed_speed_multi_step_invariant", "[recipe][steps][tool_speed]" )
+{
+    // sum(step_budget_moves) ~= batch_time() with the same speed vector
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+
+    double sum = 0.0;
+    for( size_t i = 0; i < r.steps().size(); ++i ) {
+        sum += r.step_budget_moves( guy, i, 1, &speeds );
+    }
+    int64_t bt = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    // batch_time truncates to int64_t; sum is double. Within 1 move.
+    CHECK( std::abs( sum - static_cast<double>( bt ) ) <= 1.0 );
+}
+
+TEST_CASE( "single_item_floor_with_tool_speed", "[recipe][steps][tool_speed]" )
+{
+    // batch=1 with fast tool. The single-item floor in batch_time()
+    // must be speed-aware. Result should be less than without tool speed.
+    clear_avatar();
+    avatar &guy = get_avatar();
+    guy.set_skill_level( skill_fabrication, 10 );
+    guy.add_proficiency( proficiency_prof_test_step_a, true );
+    guy.add_proficiency( proficiency_prof_test_step_b, true );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
+    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+
+    // batch=1 hits the single-item floor. If the floor is NOT speed-aware,
+    // with_speed would equal no_speed (clamped back up). It must be less.
+    CHECK( with_speed < no_speed );
+}
+
+// ---- Tool speed: end-to-end ----
+
+// Variant of setup_step_craft that places a specific tool for CUT quality.
+static void setup_step_craft_with_tool( const recipe_id &rid, const itype_id &cut_tool )
+{
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( here, origin );
+    guy.toggle_trait( trait_DEBUG_CNF );
+
+    const recipe &r = rid.obj();
+    guy.set_skill_level( r.skill_used, r.difficulty + 1 );
+    for( const recipe_proficiency &p : r.get_proficiencies() ) {
+        guy.add_proficiency( p.id, true );
+    }
+
+    for( const std::vector<item_comp> &comp_group : r.simple_requirements().get_components() ) {
+        if( !comp_group.empty() ) {
+            here.add_item( origin, item( comp_group.front().type, calendar::turn,
+                                         comp_group.front().count ) );
+        }
+    }
+    // Place the specified tool for CUT quality instead of knife_hunting
+    here.add_item( origin, item( cut_tool ) );
+    guy.invalidate_crafting_inventory();
+    guy.learn_recipe( &r );
+
+    set_time( calendar::turn_zero + 12_hours );
+    guy.remove_weapon();
+    guy.set_focus( 100 );
+    guy.make_craft( rid, 1 );
+    REQUIRE( guy.activity );
+    REQUIRE( guy.activity.id() == ACT_CRAFT );
+}
+
+TEST_CASE( "craft_completes_faster_with_fast_tool", "[recipe][steps][tool_speed]" )
+{
+    // End-to-end craft with fast cutter takes fewer turns.
+    // Run with normal knife
+    setup_step_craft_with_tool( recipe_cudgel_test_steps_basic, itype_knife_hunting );
+    avatar &guy1 = get_avatar();
+    const int normal_turns = run_craft_to_completion( guy1 );
+
+    // Run with fast cutter (0.5x on CUT quality, Finish step)
+    setup_step_craft_with_tool( recipe_cudgel_test_steps_basic, itype_test_fast_cutter );
+    avatar &guy2 = get_avatar();
+    const int fast_turns = run_craft_to_completion( guy2 );
+
+    // Fast tool should complete in fewer turns
+    CHECK( fast_turns < normal_turns );
+
+    // The difference should be approximately half of the Finish step time
+    // Finish step = 30000mv = 300 turns at 100 moves/turn.
+    // With 0.5x speed: 150 turns. Saved: ~150 turns.
+    int saved = normal_turns - fast_turns;
+    CHECK( saved > 100 );  // at least 100 turns saved (conservative)
+    CHECK( saved < 200 );  // not more than 200 (only Finish step affected)
+}
+
+TEST_CASE( "stepless_recipe_unaffected_by_tool_speed", "[recipe][steps][tool_speed]" )
+{
+    // Non-step recipe time unchanged by tool speed items nearby
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    avatar &guy = get_avatar();
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    guy.setpos( here, origin );
+
+    const recipe &r = recipe_flatbread.obj();
+    REQUIRE( !r.has_steps() );
+
+    guy.set_skill_level( skill_cooking, r.difficulty + 1 );
+    for( const recipe_proficiency &p : r.get_proficiencies() ) {
+        guy.add_proficiency( p.id, true );
+    }
+
+    // batch_time with and without tool speeds should be identical for stepless
+    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    std::vector<float> speeds;  // empty for stepless
+    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    CHECK( no_speed == with_speed );
+}
+
+// ---- Tool speed: validation ----
+
+// ---- Tool speed: crafter-aware qualification in compute_tool_speeds ----
+
+TEST_CASE( "compute_tool_speeds_charged_quality_npc_crafter", "[recipe][steps][tool_speed]" )
+{
+    // Regression: compute_tool_speeds() gates alternatives with inv.has_quality()
+    // which resolves charged qualities via get_player_character(), not the actual
+    // crafter.  This test uses an NPC as crafter to expose the leak.
+    clear_avatar();
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms npc_pos( 60, 60, 0 );
+
+    // Create an NPC at the test position
+    standard_npc crafter_npc( "TestCrafter", npc_pos, {}, 0, 8, 8, 8, 8 );
+    crafter_npc.setpos( here, npc_pos );
+
+    // Place charged fast cutter (charged_qualities CUT level 2 speed 0.3) on ground
+    item tool( itype_test_charged_fast_cutter );
+    item battery( itype_heavy_battery_cell );
+    battery.ammo_set( itype_battery, 100 );
+    tool.put_in( battery, pocket_type::MAGAZINE_WELL );
+    REQUIRE( tool.ammo_sufficient( &crafter_npc ) );
+    here.add_item( npc_pos, tool );
+
+    const recipe &r = recipe_cudgel_test_steps_basic.obj();
+    REQUIRE( r.has_steps() );
+
+    // compute_tool_speeds with the NPC as crafter (not the player character)
+    std::vector<float> speeds = compute_tool_speeds( r, crafter_npc );
+    REQUIRE( speeds.size() == 3 );
+
+    // Steps 0 and 1 have no CUT quality -> 1.0
+    CHECK( speeds[0] == Approx( 1.0f ) );
+    CHECK( speeds[1] == Approx( 1.0f ) );
+    // Step 2 (Finish) has CUT quality -> charged tool should provide 0.3
+    CHECK( speeds[2] == Approx( 0.3f ) );
+}
+
+// Helper to load an item type from inline JSON.  Throws on invalid data.
+static void check_item_quality_throws( const std::string &json )
+{
+    JsonObject jo = json_loader::from_string( json );
+    jo.allow_omitted_members();
+    itype dummy;
+    CHECK_THROWS_AS( dummy.load( jo, "dda" ), JsonError );
+}
+
+TEST_CASE( "tool_speed_zero_rejected", "[recipe][steps][tool_speed]" )
+{
+    check_item_quality_throws( R"({
+        "type": "ITEM", "id": "test_bad_speed_zero",
+        "name": "bad", "description": "bad",
+        "weight": "1 g", "volume": "1 ml",
+        "symbol": "x", "color": "white",
+        "qualities": [ { "id": "CUT", "level": 1, "speed": 0 } ]
+    })" );
+}
+
+TEST_CASE( "tool_speed_negative_rejected", "[recipe][steps][tool_speed]" )
+{
+    check_item_quality_throws( R"({
+        "type": "ITEM", "id": "test_bad_speed_neg",
+        "name": "bad", "description": "bad",
+        "weight": "1 g", "volume": "1 ml",
+        "symbol": "x", "color": "white",
+        "qualities": [ { "id": "CUT", "level": 1, "speed": -1 } ]
+    })" );
 }

@@ -5645,5 +5645,43 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_fast_cutter",
+    "name": { "str": "fast cutter" },
+    "description": "A test tool with fast CUT speed.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_cyan",
+    "qualities": [ { "id": "CUT", "level": 1, "speed": 0.5 } ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_slow_cutter",
+    "name": { "str": "slow cutter" },
+    "description": "A test tool with slow CUT speed.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_red",
+    "qualities": [ { "id": "CUT", "level": 1, "speed": 1.5 } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "test_charged_fast_cutter",
+    "copy-from": "cordless_drill",
+    "name": { "str": "charged fast cutter" },
+    "description": "A test powered tool with fast CUT speed when charged.",
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ { "id": "CUT", "level": 2, "speed": 0.3 } ]
   }
 ]

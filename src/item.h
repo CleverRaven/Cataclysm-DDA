@@ -1076,6 +1076,14 @@ class item : public visitable
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
+        /**
+         * Speed modifier for a quality this item provides at >= level.
+         * Mirrors get_quality() resolution: inherent, charged (if crafter provided),
+         * BOIL special case, contained items.
+         * Returns 1.0f if item doesn't qualify or has no speed modifier.
+         */
+        float get_quality_speed( const quality_id &id, int level,
+                                 const Character *crafter = nullptr ) const;
 
         /**
          * Return true if this item's type is counted by charges

@@ -485,7 +485,9 @@ int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) c
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec );
-    return rec.batch_time( *this, batch_size, modifier, assistants );
+    std::vector<float> tool_speeds = compute_tool_speeds( rec, *this );
+    const std::vector<float> *ts = tool_speeds.empty() ? nullptr : &tool_speeds;
+    return rec.batch_time( *this, batch_size, modifier, assistants, ts );
 }
 
 bool Character::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
