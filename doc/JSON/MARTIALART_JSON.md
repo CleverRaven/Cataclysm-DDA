@@ -162,7 +162,7 @@ Techniques are special attacks performed while using a given MA style.  These ar
   "disarms": true,                       // This technique can disarm the opponent, triggers only against armed NPCs or monsters with the "WIELDED_WEAPON" flag
   "take_weapon": true,                   // Technique will disarm and equip target's weapon if hands are free
   "grab_break": true,                    // This technique may break a grab against the user
-  "aoe": "spin",                         // This technique has an area-of-effect. Doesn't proc against solo targets
+  "aoe": "spin",                         // This technique has an area-of-effect. Doesn't proc against solo targets. Options are `aoe` (attacks adjacent nearby enemies), `impale` (hits target and one enemy behind it), and `wide` (hits enemies in an arc)
   "block_counter": true,                 // This technique may automatically counterattack on a successful block
   "dodge_counter": true,                 // This technique may automatically counterattack on a successful dodge
   "weighting": 2,                        // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
