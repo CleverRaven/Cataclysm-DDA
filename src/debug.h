@@ -279,6 +279,7 @@ enum debug_filter : int {
     DF_NPC_COMBATAI, // npc combat and danger assessment logic
     DF_NPC_ITEMAI, // npc weapon/item logic - weapon choices, decision to reload, etc.
     DF_NPC_MOVEAI, // Pathfinding and movement logic.  For the NPC with places to be.
+    DF_NPC_NEEDS, // NPC behavior tree needs evaluation (npc_behavior.json)
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic

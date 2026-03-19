@@ -41,5 +41,20 @@
     "id": "teleglow",
     "type": "effect_type",
     "immune_flags": [ "TELESTOP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_illuminated",
+    "name": [ "illuminated" ],
+    "desc": [ "You're covered in congealed light!" ],
+    "apply_message": "The sticky globs of light cover you, and begin to burn!",
+    "rating": "bad",
+    "max_duration": "6 seconds",
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 3 ] },
+    "scaling_mods": { "hurt_min": [ 1 ] },
+    "show_in_info": true,
+    "immune_flags": [ "PHOTOKIN_CHAR_IMMUNE" ]
   }
 ]
