@@ -471,6 +471,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_walk_in_silence",
+    "name": [ "Snow-Fox's Stride" ],
+    "desc": [ "With a light step, you can walk across even new-fallen snow at full speed." ],
+    "apply_message": "",
+    "remove_message": "You sink into the snow with a soft crunch.",
+    "max_duration": "12 hours",
+    "flags": [ "SNOWWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
