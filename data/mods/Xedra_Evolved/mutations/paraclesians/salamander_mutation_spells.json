@@ -241,9 +241,7 @@
     "min_range": 10,
     "max_range": 10,
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 250,
-    "final_energy_cost": 150,
-    "energy_increment": -5,
+    "base_energy_cost": { "math": [ "max( (250 + (u_spell_count('school': 'SALAMANDER') * -4.3) + (u_skill('gramarye') * -6.0) ), 150)" ] },
     "base_casting_time": 50
   },
   {
@@ -293,9 +291,7 @@
     "min_duration": 1000,
     "max_duration": 3000,
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 800,
-    "final_energy_cost": 550,
-    "energy_increment": -6,
+    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'SALAMANDER') * -10.9) + (u_skill('gramarye') * -13.1) ), 550)" ] },
     "base_casting_time": 3000,
     "learn_spells": { "salamander_fire_dot_spell": 7 }
   },
@@ -317,17 +313,21 @@
     "shape": "blast",
     "min_dot": 1,
     "max_dot": 1,
-    "min_duration": { "math": [ "(1500 + (u_spell_level('salamander_fire_dot_spell') * 50) * (scaling_factor(u_val('dexterity') ) ) )" ] },
-    "max_duration": { "math": [ "(3500 + (u_spell_level('salamander_fire_dot_spell') * 350) * (scaling_factor(u_val('dexterity') ) ) )" ] },
-    "min_range": { "math": [ "(3 + (u_spell_level('salamander_fire_dot_spell') * 1.1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
-    "max_range": { "math": [ "(3 + (u_spell_level('salamander_fire_dot_spell') * 1.1) * (scaling_factor(u_val('dexterity') ) ) )" ] },
+    "min_duration": {
+      "math": [
+        "( 1259 + (u_spell_count('school': 'SALAMANDER') * 26) + (u_skill('gramarye') * 112) ) * scaling_factor(u_val('dexterity') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 3482 + (u_spell_count('school': 'SALAMANDER') * 85) + (u_skill('gramarye') * 295) ) * scaling_factor(u_val('dexterity') )"
+      ]
+    },
+    "min_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.6) + (u_skill('gramarye') * 1) ), 25)" ] },
+    "max_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.6) + (u_skill('gramarye') * 1) ), 25)" ] },
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 250,
-    "final_energy_cost": 100,
-    "energy_increment": -10,
-    "base_casting_time": 100,
-    "final_casting_time": 40,
-    "casting_time_increment": -6
+    "base_energy_cost": { "math": [ "max( (250 + (u_spell_count('school': 'SALAMANDER') * -6.9) + (u_skill('gramarye') * -8.6) ), 100)" ] },
+    "base_casting_time": { "math": [ "max( (1000 + (u_spell_count('school': 'SALAMANDER') * -8.2) + (u_skill('gramarye') * -12.6) ), 750)" ] }
   },
   {
     "id": "salamander_increase_speed_spell",
@@ -346,18 +346,18 @@
     "difficulty": 6,
     "min_range": 1,
     "min_duration": {
-      "math": [ "(10000 + (u_spell_level('salamander_increase_speed_spell') * 5000) * (scaling_factor(u_val('strength') ) ) )" ]
+      "math": [
+        "( 8952 + (u_spell_count('school': 'SALAMANDER') * 4284) + (u_skill('gramarye') * 9815) ) * scaling_factor(u_val('strength') )"
+      ]
     },
     "max_duration": {
-      "math": [ "(30000 + (u_spell_level('salamander_increase_speed_spell') * 8000) * (scaling_factor(u_val('strength') ) ) )" ]
+      "math": [
+        "( 32485 + (u_spell_count('school': 'SALAMANDER') * 9985) + (u_skill('gramarye') * 22815) ) * scaling_factor(u_val('strength') )"
+      ]
     },
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 550,
-    "final_energy_cost": 250,
-    "energy_increment": -20,
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -4
+    "base_energy_cost": { "math": [ "max( (550 + (u_spell_count('school': 'SALAMANDER') * -8.4) + (u_skill('gramarye') * -11.9) ), 250)" ] },
+    "base_casting_time": { "math": [ "max( (250 + (u_spell_count('school': 'SALAMANDER') * -5.9) + (u_skill('gramarye') * -7.9) ), 100)" ] }
   },
   {
     "id": "salamander_emit_heat",
