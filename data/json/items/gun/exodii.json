@@ -5,7 +5,7 @@
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "Exodii hand mortar" },
-    "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3 x 110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3 x 44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3 x 110 Diyua shells will be *stout*.",
+    "description": "Originating from big game express smoothbores and heavy fowling pieces adapted for wallguns, the Brogyeki '23 is an over/under break action 'pistol' that is (unfortunately?) capable of launching its original 27.3x110 Diyua express slug and shot loads as well as the wide array of payloads in 27.3x44 Diyua.  A simple wire stock collapses neatly along its octagonal barrels, which feature a combination of sighting devices necessary for launching its numerous loads, in addition to the usual Exodii retrofits.  Unless you are a quadrupedal cyborg with this gun in a shock absorbing mount, recoil with the 27.3x110 Diyua shells will be *stout*.",
     "//": "Sturmpistole meets express gun, basically.",
     "weight": "2900 g",
     "volume": "1775 ml",
