@@ -299,6 +299,9 @@ class recipe
         // Per-step proficiency time malus (uses step's own proficiency list)
         static float proficiency_time_maluses_for_step(
             const Character &crafter, const recipe_step &step );
+        // Per-step time budget in base moves (with proficiency malus and batch savings).
+        // Same per-step formula that batch_time() uses internally.
+        double step_budget_moves( const Character &guy, size_t step_idx, int batch ) const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string( const std::map<skill_id, int> & ) const;

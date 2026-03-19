@@ -1372,6 +1372,14 @@ float recipe::proficiency_time_maluses_for_step(
     return total_malus;
 }
 
+double recipe::step_budget_moves( const Character &guy, size_t step_idx, int batch ) const
+{
+    cata_assert( step_idx < steps_.size() );
+    const recipe_step &s = steps_[step_idx];
+    double t = s.time * proficiency_time_maluses_for_step( guy, s );
+    return s.batch_info.apply( t, batch );
+}
+
 float recipe::max_proficiency_time_maluses( const Character & ) const
 {
     if( has_steps() && time > 0 ) {
