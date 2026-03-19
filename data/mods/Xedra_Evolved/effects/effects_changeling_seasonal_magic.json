@@ -460,7 +460,7 @@
   {
     "type": "effect_type",
     "id": "effect_changeling_autumn_wither_with_time_monster",
-    "name": [ "Age Withers the Mightiest Warrior" ],
+    "name": [ "Time Fells the Mightiest Warrior" ],
     "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
     "apply_message": "",
     "remove_message": "Your vigor returns.",

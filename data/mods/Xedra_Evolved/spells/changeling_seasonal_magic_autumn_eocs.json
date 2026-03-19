@@ -142,7 +142,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_AUTUMN_TIME_WITHERS_MIGHTY_WARRIOR",
+    "id": "EOC_CHANGELING_AUTUMN_TIME_FELLS_MIGHTY_WARRIOR",
     "effect": [
       {
         "math": [

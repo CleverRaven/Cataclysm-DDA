@@ -390,9 +390,9 @@
     "max_field_intensity": 1
   },
   {
-    "id": "changeling_autumn_time_withers_mighty_warrior",
+    "id": "changeling_autumn_time_fells_mighty_warrior",
     "type": "SPELL",
-    "name": "Time Withers the Mighiest Warrior",
+    "name": "Time Fells the Mightiest Warrior",
     "description": "The greatest swordsman in the world may win ten thousand duels, but they are powerless against their own mortality.  This glamour cripples the target's martial skill, rendering even a peerless warrior no more dangerous than a newborn infant.  The duration is <color_green>greatly increased</color> in autumn.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
@@ -404,7 +404,8 @@
     "shape": "blast",
     "difficulty": 9,
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CHANGELING_AUTUMN_TIME_WITHERS_MIGHTY_WARRIOR",
+    "effect_str": "EOC_CHANGELING_AUTUMN_TIME_FELLS_MIGHTY_WARRIOR",
+    "components": "spell_components_changeling_dreamsparks_3",
     "min_range": 10,
     "min_duration": {
       "math": [
