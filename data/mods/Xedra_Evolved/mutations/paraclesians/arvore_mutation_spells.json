@@ -322,8 +322,8 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": 15,
     "difficulty": 8,
-    "base_casting_time": { "math": [ "max( (180000 + (u_spell_count('school': 'ARVORE') * -986) + (u_skill('gramarye') * -3185) ), 6000)" ] },
     "magic_type": "xedra_arvore_magick",
+    "base_casting_time": { "math": [ "max( (180000 + (u_spell_count('school': 'ARVORE') * -986) + (u_skill('gramarye') * -3185) ), 6000)" ] },
     "base_energy_cost": { "math": [ "max( (450 + (u_spell_count('school': 'ARVORE') * -4.2) + (u_skill('gramarye') * -6) ), 350)" ] }
   },
   {
