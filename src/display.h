@@ -132,6 +132,8 @@ std::string vehicle_azimuth_text( const Character &u );
 std::pair<std::string, nc_color> vehicle_cruise_text_color( const Character &u );
 // Vehicle percent of fuel remaining for currently running engine
 std::pair<std::string, nc_color> vehicle_fuel_percent_text_color( const Character &u );
+// Vehicle remaining battery percent
+std::pair<std::string, nc_color> vehicle_battery_percent_text_color( const Character &u );
 
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
