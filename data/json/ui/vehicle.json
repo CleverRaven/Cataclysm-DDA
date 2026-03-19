@@ -81,6 +81,11 @@
     "label": "Vehicle",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "vehicle_azimuth_desc_no_label", "vehicle_cruise_desc_no_label", "vehicle_battery_desc_no_label", "vehicle_fuel_desc_no_label" ]
+    "widgets": [
+      "vehicle_azimuth_desc_no_label",
+      "vehicle_cruise_desc_no_label",
+      "vehicle_battery_desc_no_label",
+      "vehicle_fuel_desc_no_label"
+    ]
   }
 ]
