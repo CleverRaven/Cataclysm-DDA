@@ -1475,7 +1475,7 @@ void sfx::sound_thread::operator()() const
         play_variant_sound( "melee_swing", skill_variant, seas_str, indoors, night,
                             vol_src, ang_src, 0.8, 1.2 );
     }
-    
+
     if( hit ) {
         const int sleep_time = weapon_volume * ( targ_mon ? rng( 12, 16 ) : rng( 9, 12 ) );
         std::string melee_hit_material = ( targ_mon &&
