@@ -1364,7 +1364,8 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 namespace sfx
 {
 struct sound_thread {
-    sound_thread( const item &weapon, const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit, bool targ_mon,
+    sound_thread( const item &weapon, const tripoint_bub_ms &source, const tripoint_bub_ms &target,
+                  bool hit, bool targ_mon,
                   const std::string &material );
 
     bool hit;
@@ -1385,9 +1386,9 @@ struct sound_thread {
 };
 } // namespace sfx
 
-void sfx::generate_melee_sound( const item &weapon, const tripoint_bub_ms &source, const tripoint_bub_ms &target,
-                                bool hit,
-                                bool targ_mon,
+void sfx::generate_melee_sound( const item &weapon, const tripoint_bub_ms &source,
+                                const tripoint_bub_ms &target,
+                                bool hit, bool targ_mon,
                                 const std::string &material )
 {
     if( test_mode ) {
@@ -1411,7 +1412,8 @@ void sfx::generate_melee_sound( const item &weapon, const tripoint_bub_ms &sourc
     }
 }
 
-sfx::sound_thread::sound_thread( const item &weapon, const tripoint_bub_ms &source, const tripoint_bub_ms &target,
+sfx::sound_thread::sound_thread( const item &weapon, const tripoint_bub_ms &source,
+                                 const tripoint_bub_ms &target,
                                  const bool hit,
                                  const bool targ_mon, const std::string &material )
     : hit( hit )
@@ -1476,7 +1478,8 @@ void sfx::sound_thread::operator()() const
     
     if( hit ) {
         const int sleep_time = weapon_volume * ( targ_mon ? rng( 12, 16 ) : rng( 9, 12 ) );
-        std::string melee_hit_material = ( targ_mon && material == "steel" ) ? "melee_hit_metal" : "melee_hit_flesh";
+        std::string melee_hit_material = ( targ_mon &&
+                                           material == "steel" ) ? "melee_hit_metal" : "melee_hit_flesh";
     
         if( has_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors, night ) ) {
             std::this_thread::sleep_for( std::chrono::milliseconds( sleep_time ) );
@@ -1996,7 +1999,8 @@ void sfx::play_ambient_variant_sound( const std::string &, const std::string &, 
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const Character &, const item & ) { }
-void sfx::generate_melee_sound( const item &, const tripoint_bub_ms &, const tripoint_bub_ms &, bool, bool,
+void sfx::generate_melee_sound( const item &, const tripoint_bub_ms &, const tripoint_bub_ms &,
+                                bool, bool,
                                 const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
