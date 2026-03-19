@@ -483,8 +483,9 @@ TEST_CASE( "item_location_on_vehicle_cargo_survives_removal",
     clear_vehicles();
 
     // Place a vehicle with cargo -- use a car which has trunk/cargo
+    // Status 0 = fully intact (no random damage that could break the cargo part)
     tripoint_bub_ms veh_pos( 60, 60, 0 );
-    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, -1, 100 );
+    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0, 0 );
     REQUIRE( veh != nullptr );
 
     // Find the largest cargo part (trunk)
@@ -500,6 +501,12 @@ TEST_CASE( "item_location_on_vehicle_cargo_survives_removal",
         }
     }
     REQUIRE( cargo_part_idx >= 0 );
+
+    // Clear any randomly-spawned items so the cargo has room for test items
+    vehicle_stack cargo = veh->get_items( veh->part( cargo_part_idx ) );
+    while( !cargo.empty() ) {
+        cargo.erase( cargo.begin() );
+    }
 
     // Add items to cargo
     std::optional<vehicle_stack::iterator> added_jeans =
@@ -559,7 +566,7 @@ TEST_CASE( "expired_vehicle_cargo_item_location_serializes_as_nowhere",
     clear_vehicles();
 
     tripoint_bub_ms veh_pos( 60, 60, 0 );
-    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, -1, 100 );
+    vehicle *veh = m.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 0, 0 );
     REQUIRE( veh != nullptr );
 
     // Find the largest cargo part
@@ -575,6 +582,12 @@ TEST_CASE( "expired_vehicle_cargo_item_location_serializes_as_nowhere",
         }
     }
     REQUIRE( cargo_part_idx >= 0 );
+
+    // Clear any randomly-spawned items so the cargo has room for test items
+    vehicle_stack cargo2 = veh->get_items( veh->part( cargo_part_idx ) );
+    while( !cargo2.empty() ) {
+        cargo2.erase( cargo2.begin() );
+    }
 
     // Add an item to cargo
     std::optional<vehicle_stack::iterator> added =
