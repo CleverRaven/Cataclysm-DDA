@@ -61,11 +61,23 @@
     "name": "Salamander destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You drink the %s.",
-      "vitamins": [ [ "mutagen_flamekin", 550 ], [ "mutagen", 550 ] ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_XE_DRINK_DESTINY_DRAUGHT_SALAMANDER" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_DRINK_DESTINY_DRAUGHT_SALAMANDER",
+    "effect": [
+      { "math": [ "u_vitamin('mutagen_flamekin') += 550" ] },
+      { "math": [ "u_vitamin('mutagen') += 550" ] },
+      { "u_message": "You drink the Salamander destiny draught.", "type": "info" },
+      {
+        "run_eocs": [
+          "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+          "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+          "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR"
+        ]
+      }
+    ]
   },
   {
     "id": "mutagen_dollkin",
