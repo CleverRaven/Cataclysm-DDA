@@ -174,6 +174,7 @@
 #include "pickup.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "power_network.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -693,6 +694,7 @@ void game::setup()
     clear_zombies();
     critter_tracker->clear_npcs();
     faction_manager_ptr->clear();
+    power_networks_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     timed_events = timed_event_manager();
@@ -2971,6 +2973,11 @@ void game::unique_npc_despawn( const std::string &id )
 spell_events &game::spell_events_subscriber()
 {
     return *spell_events_ptr;
+}
+
+power_network_manager &game::power_networks()
+{
+    return *power_networks_ptr;
 }
 
 void game::disp_NPC_epilogues()
