@@ -2802,6 +2802,8 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "tools_to_continue", tools_to_continue );
     jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
+    jsout.member( "current_step", current_step );
+    jsout.member( "step_progress", step_progress );
     jsout.end_object();
 }
 
@@ -2826,6 +2828,16 @@ void item::craft_data::deserialize( const JsonObject &obj )
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
     batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
+    current_step = obj.get_int( "current_step", 0 );
+    step_progress = obj.get_float( "step_progress", 0.0 );
+    // Validate step index against the recipe's actual step count.
+    if( making && making->has_steps() ) {
+        int max_step = static_cast<int>( making->steps().size() ) - 1;
+        current_step = std::clamp( current_step, 0, max_step );
+    } else {
+        current_step = 0;
+        step_progress = 0.0;
+    }
 }
 
 void item::link_data::serialize( JsonOut &jsout ) const

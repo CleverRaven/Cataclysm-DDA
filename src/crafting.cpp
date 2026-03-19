@@ -1061,9 +1061,17 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     bool this_character_gained = false;
 
+    // For step recipes, use the current step's proficiency list so learning
+    // is targeted to the step being worked on. For stepless recipes, use the
+    // recipe-wide aggregate.
+    const std::vector<recipe_proficiency> &active_profs =
+        making.has_steps()
+        ? making.steps()[craft.get_current_step()].proficiencies
+        : making.get_proficiencies();
+
     for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
-        for( const recipe_proficiency &prof : making.get_proficiencies() ) {
+        for( const recipe_proficiency &prof : active_profs ) {
             // Required profs (time_multiplier == 0) gate access, not learning
             if( prof.time_multiplier == 0.0f ) {
                 continue;

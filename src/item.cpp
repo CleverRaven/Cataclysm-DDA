@@ -4846,6 +4846,40 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
     return craft_data_->cached_tool_selections;
 }
 
+int item::get_current_step() const
+{
+    cata_assert( craft_data_ );
+    if( craft_data_->making && craft_data_->making->has_steps() ) {
+        int max_step = static_cast<int>( craft_data_->making->steps().size() ) - 1;
+        return std::clamp( craft_data_->current_step, 0, max_step );
+    }
+    return 0;
+}
+
+void item::set_current_step( int step )
+{
+    cata_assert( craft_data_ );
+    craft_data_->current_step = step;
+}
+
+double item::get_step_progress() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->step_progress;
+}
+
+void item::set_step_progress( double progress )
+{
+    cata_assert( craft_data_ );
+    craft_data_->step_progress = progress;
+}
+
+void item::mod_step_progress( double delta )
+{
+    cata_assert( craft_data_ );
+    craft_data_->step_progress += delta;
+}
+
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() && !craft_data_->disassembly ) {
