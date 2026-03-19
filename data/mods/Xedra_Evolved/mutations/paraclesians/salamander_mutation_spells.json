@@ -374,15 +374,19 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": 15,
     "difficulty": 6,
-    "min_duration": { "math": [ "(15000 + (u_spell_level('salamander_emit_heat') * 3000) * (scaling_factor(u_val('strength') ) ) )" ] },
-    "max_duration": { "math": [ "(45000 + (u_spell_level('salamander_emit_heat') * 9000) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "min_duration": {
+      "math": [
+        "( 11385 + (u_spell_count('school': 'SALAMANDER') * 1823) + (u_skill('gramarye') * 4552) ) * scaling_factor(u_val('strength') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 48135 + (u_spell_count('school': 'SALAMANDER') * 5842) + (u_skill('gramarye') * 11253) ) * scaling_factor(u_val('strength') )"
+      ]
+    },
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 700,
-    "final_energy_cost": 450,
-    "energy_increment": -25,
-    "base_casting_time": 500,
-    "final_casting_time": 150,
-    "casting_time_increment": -15
+    "base_energy_cost": { "math": [ "max( (700 + (u_spell_count('school': 'SALAMANDER') * -14.4) + (u_skill('gramarye') * -16.5) ), 450)" ] },
+    "base_casting_time": { "math": [ "max( (500 + (u_spell_count('school': 'SALAMANDER') * -14.2) + (u_skill('gramarye') * -16.9) ), 150)" ] }
   },
   {
     "id": "salamander_summon_fire_spirit",
@@ -394,25 +398,30 @@
     "skill": "deduction",
     "teachable": false,
     "spell_class": "SALAMANDER",
-    "max_level": 35,
+    "max_level": 15,
     "difficulty": 3,
     "effect": "summon",
     "effect_str": "GROUP_GENIUS_SALAMANDER",
     "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 8,
-    "damage_increment": 0.5,
-    "min_range": 1,
-    "max_range": 15,
-    "range_increment": 1,
+    "min_damage": { "math": [ "min( (1 + (u_spell_count('school': 'SALAMANDER') * 0.16) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "max_damage": { "math": [ "min( (1 + (u_spell_count('school': 'SALAMANDER') * 0.16) + (u_skill('gramarye') * 0.25) ), 8)" ] },
+    "min_range": { "math": [ "min( (1 + (u_spell_count('school': 'SALAMANDER') * 0.22) + (u_skill('gramarye') * 0.4) ), 15)" ] },
+    "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'SALAMANDER') * 0.22) + (u_skill('gramarye') * 0.4) ), 15)" ] },
     "min_aoe": 2,
     "max_aoe": 2,
+    "min_duration": {
+      "math": [
+        "( 22845 + (u_spell_count('school': 'SALAMANDER') * 2548) + (u_skill('gramarye') * 8165) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 49285 + (u_spell_count('school': 'SALAMANDER') * 5942) + (u_skill('gramarye') * 14953) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
     "magic_type": "xedra_salamader_magick",
     "base_energy_cost": 200,
-    "base_casting_time": 3000,
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "base_casting_time": 3000
   },
   {
     "id": "salamander_summon_firebird_spell",
@@ -431,17 +440,13 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "min_range": { "math": [ "( (u_spell_level('salamander_summon_firebird_spell') * 1) + 2) * scaling_factor(u_val('perception') )" ] },
-    "max_range": { "math": [ "( (u_spell_level('salamander_summon_firebird_spell') * 1) + 2) * scaling_factor(u_val('perception') )" ] },
+    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.42) + (u_skill('gramarye') * 0.65) ), 18)" ] },
+    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.42) + (u_skill('gramarye') * 0.65) ), 18)" ] },
     "min_duration": 3000,
     "max_duration": 3000,
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 400,
-    "final_energy_cost": 250,
-    "energy_increment": -5,
-    "base_casting_time": 300,
-    "final_casting_time": 75,
-    "casting_time_increment": -10
+    "base_energy_cost": { "math": [ "max( (400 + (u_spell_count('school': 'SALAMANDER') * -14.4) + (u_skill('gramarye') * -16.5) ), 250)" ] },
+    "base_casting_time": { "math": [ "max( (300 + (u_spell_count('school': 'SALAMANDER') * -14.2) + (u_skill('gramarye') * -16.9) ), 75)" ] }
   },
   {
     "id": "salamander_ash_breath_spell",
@@ -459,12 +464,8 @@
     "max_level": 15,
     "min_damage": 0,
     "max_damage": 0,
-    "min_range": {
-      "math": [ "min((( (u_spell_level('salamander_ash_breath_spell') * 1.1) + 2) * (scaling_factor(u_val('strength') ) )),20)" ]
-    },
-    "max_range": {
-      "math": [ "min((( (u_spell_level('salamander_ash_breath_spell') * 1.1) + 2) * (scaling_factor(u_val('strength') ) )),20)" ]
-    },
+    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.75) + (u_skill('gramarye') * 1.25) ), 20)" ] },
+    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.75) + (u_skill('gramarye') * 1.25) ), 20)" ] },
     "min_aoe": 60,
     "max_aoe": 60,
     "field_id": "fd_smoke",
@@ -472,12 +473,8 @@
     "max_field_intensity": 3,
     "field_chance": 1,
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 150,
-    "final_energy_cost": 75,
-    "energy_increment": -5,
-    "base_casting_time": 50,
-    "final_casting_time": 25,
-    "casting_time_increment": -2
+    "base_energy_cost": { "math": [ "max( (150 + (u_spell_count('school': 'SALAMANDER') * -3.5) + (u_skill('gramarye') * -4.9) ), 50)" ] },
+    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SALAMANDER') * -6.9) + (u_skill('gramarye') * -8.5) ), 50)" ] }
   },
   {
     "id": "salamander_fire_breath",
@@ -494,27 +491,19 @@
     "damage_type": "heat",
     "difficulty": 5,
     "max_level": 15,
-    "min_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 2) + 15) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 30) * (scaling_factor(u_val('strength') ) )" ] },
-    "min_range": {
-      "math": [ "min((( (u_spell_level('salamander_fire_breath') * 0.25) + 2) * (scaling_factor(u_val('strength') ) )),8)" ]
-    },
-    "max_range": {
-      "math": [ "min((( (u_spell_level('salamander_fire_breath') * 0.25) + 2) * (scaling_factor(u_val('strength') ) )),8)" ]
-    },
-    "min_aoe": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 27) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_aoe": 180,
+    "min_damage": { "math": [ "14 + (u_spell_count('school': 'SALAMANDER') * 1.5) + (u_skill('gramarye') * 5.6)" ] },
+    "max_damage": { "math": [ "27 + (u_spell_count('school': 'SALAMANDER') * 2.6) + (u_skill('gramarye') * 8.9)" ] },
+    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.15) + (u_skill('gramarye') * 0.4) ), 8)" ] },
+    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SALAMANDER') * 0.15) + (u_skill('gramarye') * 0.4) ), 8)" ] },
+    "min_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'SALAMANDER') * 3.6) + (u_skill('gramarye') * 5.5) ), 120)" ] },
+    "max_aoe": { "math": [ "min( (30 + (u_spell_count('school': 'SALAMANDER') * 3.6) + (u_skill('gramarye') * 5.5) ), 120)" ] },
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 3,
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 350,
-    "final_energy_cost": 250,
-    "energy_increment": -5,
-    "base_casting_time": 100,
-    "final_casting_time": 75,
-    "casting_time_increment": -2,
+    "base_energy_cost": { "math": [ "max( (350 + (u_spell_count('school': 'SALAMANDER') * -3.5) + (u_skill('gramarye') * -4.9) ), 250)" ] },
+    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SALAMANDER') * -6.9) + (u_skill('gramarye') * -8.5) ), 75)" ] },
     "sound_type": "combat",
     "sound_description": "a crackle!"
   },
@@ -522,7 +511,7 @@
     "id": "salamander_dash_boom_spell",
     "type": "SPELL",
     "name": { "str": "Fiery Charge" },
-    "description": "Hurl yourself forward in a burst of speed, causing an explosion at your arrive point.",
+    "description": "Hurl yourself forward in a burst of speed, causing an explosion at your arrival point.",
     "valid_targets": [ "hostile", "ground" ],
     "skill": "deduction",
     "teachable": false,
@@ -535,15 +524,11 @@
     "shape": "cone",
     "min_damage": 0,
     "max_damage": 0,
-    "min_range": { "math": [ "(3 + (u_spell_level('salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ] },
-    "max_range": { "math": [ "(3 + (u_spell_level('salamander_dash_boom_spell') * 0.75) * (scaling_factor(u_val('strength') ) ) )" ] },
+    "min_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.29) + (u_skill('gramarye') * 0.46) ), 12)" ] },
+    "max_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.29) + (u_skill('gramarye') * 0.46) ), 12)" ] },
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 350,
-    "final_energy_cost": 200,
-    "energy_increment": -6,
-    "base_casting_time": 200,
-    "final_casting_time": 50,
-    "casting_time_increment": -6
+    "base_energy_cost": { "math": [ "max( (350 + (u_spell_count('school': 'SALAMANDER') * -4.2) + (u_skill('gramarye') * -6.4) ), 200)" ] },
+    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'SALAMANDER') * -5.8) + (u_skill('gramarye') * -7.2) ), 50)" ] }
   },
   {
     "id": "salamander_explosion_trap_spell",
@@ -560,19 +545,11 @@
     "effect": "add_trap",
     "effect_str": "tr_salamander_bomb",
     "shape": "blast",
-    "min_range": {
-      "math": [ "(3 + (u_spell_level('salamander_explosion_trap_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "(3 + (u_spell_level('salamander_explosion_trap_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
+    "min_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.52) + (u_skill('gramarye') * 0.85) ), 20)" ] },
+    "max_range": { "math": [ "min( (3 + (u_spell_count('school': 'SALAMANDER') * 0.52) + (u_skill('gramarye') * 0.85) ), 20)" ] },
     "magic_type": "xedra_salamader_magick",
-    "base_energy_cost": 200,
-    "final_energy_cost": 75,
-    "energy_increment": -6,
-    "base_casting_time": 125,
-    "final_casting_time": 75,
-    "casting_time_increment": -3
+    "base_energy_cost": { "math": [ "max( (200 + (u_spell_count('school': 'SALAMANDER') * -5.8) + (u_skill('gramarye') * -7.2) ), 50)" ] },
+    "base_casting_time": { "math": [ "max( (125 + (u_spell_count('school': 'SALAMANDER') * -2.6) + (u_skill('gramarye') * -3.2) ), 75)" ] }
   },
   {
     "id": "salamander_explosion_trap_spell_activated",
