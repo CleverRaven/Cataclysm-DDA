@@ -5719,6 +5719,28 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint_bub_ms> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
+
+    // Legacy migration: older saves have step recipes with item_counter but no
+    // current_step/step_progress. Derive step state once, before any work or
+    // exertion computation. Guard ensures this runs at most once.
+    if( rec.has_steps() && craft.get_current_step() == 0 &&
+        craft.get_step_progress() == 0.0 && craft.item_counter > 0 ) {
+        // Need base_total_moves for conversion; compute it fresh here.
+        const double migration_base = std::max( 1.0,
+                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) ) );
+        double accumulated = craft.item_counter * migration_base / 10000000.0;
+        for( size_t i = 0; i < rec.steps().size(); ++i ) {
+            double budget = rec.step_budget_moves( crafter, i,
+                                                   craft.get_making_batch_size() );
+            if( accumulated < budget || i == rec.steps().size() - 1 ) {
+                craft.set_current_step( static_cast<int>( i ) );
+                craft.set_step_progress( accumulated );
+                break;
+            }
+            accumulated -= budget;
+        }
+    }
+
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -5768,6 +5790,21 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // This is to ensure we don't over count skill steps
     craft.item_counter = std::min( craft.item_counter, 10000000 );
+
+    // Step transitions: accumulate work and advance through step boundaries.
+    if( rec.has_steps() ) {
+        craft.mod_step_progress( delta_progress );
+        const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
+        while( craft.get_current_step() < last_step_idx ) {
+            const double budget = rec.step_budget_moves( crafter,
+                                  craft.get_current_step(), craft.get_making_batch_size() );
+            if( craft.get_step_progress() < budget ) {
+                break;
+            }
+            craft.set_step_progress( craft.get_step_progress() - budget );
+            craft.set_current_step( craft.get_current_step() + 1 );
+        }
+    }
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
@@ -5879,11 +5916,32 @@ std::string craft_activity_actor::get_progress_message( const player_activity & 
         //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
         return "";
     }
-    return craft_item.get_item()->tname();
+    const item *it = craft_item.get_item();
+    const recipe &making = it->get_making();
+    if( making.has_steps() ) {
+        int step_idx = it->get_current_step();
+        step_idx = std::clamp( step_idx, 0,
+                               static_cast<int>( making.steps().size() ) - 1 );
+        const recipe_step &step = making.steps()[step_idx];
+        return string_format( "%s - %s", it->tname(), step.name.translated() );
+    }
+    return it->tname();
 }
 
 float craft_activity_actor::exertion_level() const
 {
+    if( craft_item ) {
+        const item *it = craft_item.get_item();
+        if( it ) {
+            const recipe &rec = it->get_making();
+            if( rec.has_steps() ) {
+                int step = it->get_current_step();
+                step = std::clamp( step, 0,
+                                   static_cast<int>( rec.steps().size() ) - 1 );
+                return rec.steps()[step].exertion;
+            }
+        }
+    }
     return activity_override;
 }
 

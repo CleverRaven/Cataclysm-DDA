@@ -3,6 +3,7 @@
 *Contents*
 
 - [Recipes](#recipes)
+  - [Recipe steps](#recipe-steps)
   - [Practice recipes](#practice-recipes)
   - [Nested recipes](#nested-recipes)
   - [Recipe requirements](#recipe-requirements)
@@ -137,6 +138,91 @@ It is specified as follows:
 "batch_time_factors": { "mode": "linear": "setup": "12 m" },
 "batch_time_factors": { "mode": "linear": "setup": "12 m", "max": 20 },
 ```
+
+## Recipe steps
+
+Recipes can optionally define a `"steps"` array to split the craft into named phases.  Each step has its own time, activity level, proficiencies, tools, qualities, and batch savings.
+
+When `"steps"` is present, the following fields must appear per-step and must **not** appear at root level: `"time"`, `"activity_level"`, `"tools"`, `"qualities"`, `"proficiencies"`, `"batch_time_factors"`.
+
+`"using"` is also not allowed at root level for step recipes.  Step-level `"using"` is not yet supported.
+
+`"components"` remains at root level.  All other recipe fields (`"result"`, `"skill_used"`, `"difficulty"`, `"book_learn"`, `"autolearn"`, etc.) also remain at root.
+
+Step recipes cannot use `"copy-from"` or `"abstract"`.
+
+### Step fields
+
+Each entry in the `"steps"` array is an object with these fields:
+
+```jsonc
+"name":               // (Mandatory) Translatable string.  Shown in the crafting progress message.
+"time":               // (Mandatory) Duration (e.g. "5 m").  Must be > 0.
+"activity_level":     // (Mandatory) Same values as the recipe-level field.
+"proficiencies":      // (Optional)  Same format as recipe-level.  Only these proficiencies are
+                      //             trained while the craft is in this step.
+"tools":              // (Optional)  Same format as recipe-level.
+"qualities":          // (Optional)  Same format as recipe-level.
+"batch_time_factors": // (Optional)  Same format as recipe-level.
+```
+
+`"components"` at step level is not allowed.
+
+### Example
+
+```jsonc
+{
+  "type": "recipe",
+  "result": "bread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "charges": 10,
+  "components": [
+    [ [ "flour", 22 ], [ "bread_flour", 5 ] ],
+    [ [ "yeast", 1 ] ],
+    [ [ "water_clean", 2 ] ],
+    [ [ "sugar", 4 ] ]
+  ],
+  "steps": [
+    {
+      "name": "Mix dough",
+      "time": "5 m",
+      "activity_level": "MODERATE_EXERCISE",
+      "batch_time_factors": [ 25, 4 ],
+      "proficiencies": [
+        { "proficiency": "prof_food_prep" },
+        { "proficiency": "prof_baking" },
+        { "proficiency": "prof_baking_bread" }
+      ]
+    },
+    {
+      "name": "Let dough rise",
+      "time": "10 m",
+      "activity_level": "NO_EXERCISE",
+      "batch_time_factors": [ 5, 4 ]
+    },
+    {
+      "name": "Bake",
+      "time": "5 m",
+      "activity_level": "LIGHT_EXERCISE",
+      "batch_time_factors": [ 50, 4 ],
+      "qualities": [ { "id": "OVEN", "level": 1 } ],
+      "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ]
+    }
+  ]
+}
+```
+
+### Runtime behavior
+
+- All step tools and qualities are merged and checked at craft start.
+- The craft tracks a single overall progress bar.
+- The activity level changes as the craft moves between steps.
+- Proficiency training is limited to the proficiencies listed on the current step.
+- Batch savings are applied per-step and summed.
+- The current step name appears in the crafting progress message.
 
 ## Practice recipes
 
@@ -409,12 +495,14 @@ error during recipe finalization that your recipe is too complex.  In this
 case, the game may not be able to correctly predict whether it can be crafted.
 
 To work around this issue, if you do not wish to simplify the recipe
-requirements, then you can split your recipe into multiple steps.  For
-example, if we wanted to simplify the above survivor telescope recipe we could
-introduce an intermediate item "survivor eyepiece", which requires one of
-either lens, and then the telescope would require a high-quality lens and an
-eyepiece.  Overall, the requirements are the same, but neither recipe has any
-overlap.
+requirements, you can introduce intermediate items to break the overlap.
+For example, if we wanted to simplify the above survivor telescope recipe we
+could introduce an intermediate item "survivor eyepiece", which requires one
+of either lens, and then the telescope would require a high-quality lens and
+an eyepiece.  Overall, the requirements are the same, but neither recipe has
+any overlap.
+
+Note: this is different from [recipe steps](#recipe-steps), which split a single recipe into named phases with per-step tools and proficiencies but do not create intermediate items.
 
 For more details, see [this pull
 request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
