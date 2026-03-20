@@ -1,0 +1,30 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void",
+    "name": "sprawling plane of black",
+    "description": "There's an otherwordly surface here, black as the depths of the earth.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_door_o",
+    "name": "strange open door",
+    "description": "A wide open door swinging outward, into the darkness, beyond your reach.  A piece of the wooden frame doesn't match, like it has been replaced or repaired.",
+    "symbol": "'",
+    "color": "brown",
+    "looks_like": "t_door_o",
+    "move_cost": 2,
+    "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [
+      "TRANSPARENT",
+      "FLAT",
+      "ROAD",
+      "SUPPORTS_ROOF"
+    ]
+  }
+]

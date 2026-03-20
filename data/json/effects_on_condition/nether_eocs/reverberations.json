@@ -202,5 +202,51 @@
       { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ], "time_in_future": "5 minutes" }
     ],
     "false_effect": [ { "alter_timed_events": "cabin_daylight_cycle" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_INNER_CABINS",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "inner_cabins",
+        "npc_travel_radius": 0,
+        "region_type": "inner_cabins",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold."
+      },
+      {
+        "u_location_variable": { "global_val": "inner_cabins_home_loc" },
+        "target_params": { "om_terrain": "inner_cabins_cabin", "om_special": "inner_cabins_cabin" },
+        "furniture": "f_bed",
+        "target_max_radius": 20
+      },
+      { "u_teleport": { "global_val": "inner_cabins_home_loc" }, "fail_message": "Nope!", "force": true },
+      { "u_message": "You dream you can fly over a vast plane of grass, mist in the air, clouds obscuring the sun.  You see \"home,\" whatever that means.  But there are other places.  Sad places.  And a dark place.\n\nAre you a traveler?  An explorer?  Do you find them?  Or do you enjoy your time here?  Do you just sleep it away?\n\nYou awake in bed.", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_INNER_CABINS_WARPED_CABIN",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "cabins",
+        "npc_travel_radius": 0,
+        "region_type": "cabins",
+        "npc_travel_filter": "none"
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_bed" },
+        "furniture": "f_bed",
+        "target_max_radius": 60
+      },
+      { "u_teleport": { "context_val": "nearest_bed" } },
+      { "u_message": "As you step through the cabin door your movements slow, like you're fighting to run underwater.  You then awake in bed.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] }
+    ],
+    "false_effect" : { "u_message": "Standing at the edge of the void tickles your senses.", "popup": false }
   }
 ]
