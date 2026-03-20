@@ -30,7 +30,7 @@
         "              ~         ",
         "              ~         "
       ],
-      "palettes": [ "cabin_palette" ],
+      "palettes": [ "cabin_palette_reverberation" ],
       "place_nested": [
         {
           "chunks": [
