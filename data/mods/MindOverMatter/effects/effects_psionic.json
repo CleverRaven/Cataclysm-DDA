@@ -2163,7 +2163,8 @@
         },
         "emitter": "emit_pyrokinetic_aura_12"
       }
-    ]
+    ],
+    "flags": [ "SNOWWALKING" ]
   },
   {
     "type": "effect_type",
