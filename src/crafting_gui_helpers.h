@@ -2,6 +2,10 @@
 #ifndef CATA_SRC_CRAFTING_GUI_HELPERS_H
 #define CATA_SRC_CRAFTING_GUI_HELPERS_H
 
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "color.h"
 
 class Character;
@@ -76,5 +80,18 @@ bool recipe_sort_compare(
     const Character &crafter,
     bool a_read, bool b_read,
     bool unread_first );
+
+// Builds the recipe info text for the crafting menu info panel.
+// Returns pre-folded lines at the given fold_width.
+std::vector<std::string> recipe_info(
+    const recipe &recp, const availability &avail,
+    Character &guy, std::string_view qry_comps,
+    int batch_size, int fold_width, const nc_color &color,
+    const std::vector<Character *> &crafting_group );
+
+// Builds the description text for practice recipes.
+// Safe to call on non-practice recipes (returns just the base description).
+std::string practice_recipe_description( const recipe &recp,
+        const Character &crafter );
 
 #endif // CATA_SRC_CRAFTING_GUI_HELPERS_H

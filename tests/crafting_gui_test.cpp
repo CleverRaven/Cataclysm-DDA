@@ -1,5 +1,7 @@
 #include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -8,20 +10,21 @@
 #include "character_attire.h"
 #include "color.h"
 #include "crafting_gui_helpers.h"
+#include "npc.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
+#include "recipe.h"
 #include "type_id.h"
 #include "weather_type.h"
-
-class recipe;
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_billet_wood( "billet_wood" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_family_cookbook( "family_cookbook" );
 static const itype_id itype_fat( "fat" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
@@ -445,4 +448,303 @@ TEST_CASE( "recipe_sort_unread_disabled", "[crafting][gui]" )
     // unread_first=false: read state ignored, craftability dominates
     CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy,
                                 true, false, false ) );
+}
+
+// Helper: join vector of strings for substring searching
+static std::string join_lines( const std::vector<std::string> &lines )
+{
+    std::string result;
+    for( const std::string &l : lines ) {
+        result += l + "\n";
+    }
+    return result;
+}
+
+// Wide fold width to avoid wrapping artifacts in tests
+static const int test_fold_width = 500;
+
+TEST_CASE( "recipe_info_basic_content", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    availability avail( guy, &rec );
+    REQUIRE( avail.can_craft );
+    REQUIRE( avail.has_all_skills );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Primary skill:" ) != std::string::npos );
+    CHECK( output.find( "Time to complete:" ) != std::string::npos );
+    CHECK( output.find( "Activity level:" ) != std::string::npos );
+    CHECK( output.find( "Craftable in the dark?" ) != std::string::npos );
+    CHECK( output.find( "Minor Failure Chance:" ) != std::string::npos );
+    CHECK( output.find( "Catastrophic Failure Chance:" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_byproducts", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE( rec.has_byproducts() );
+    availability avail( guy, &rec );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Byproducts:" ) != std::string::npos );
+    CHECK( output.find( "cracklins" ) != std::string::npos );
+    CHECK( output.find( "test chewing gum" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_recipe_makes", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE( rec.makes_amount() > 1 );
+    availability avail( guy, &rec );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Recipe makes:" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_missing_primary_skill", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 0 );
+    guy.set_skill_level( skill_melee, 0 );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_cudgel_test_no_tools.obj();
+    availability avail( guy, &rec );
+    REQUIRE_FALSE( avail.crafter_has_primary_skill );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "lack the theoretical knowledge" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_would_use_rotten", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    item rotten_fat1( itype_fat );
+    rotten_fat1.set_rot( 1000_hours );
+    guy.i_add( rotten_fat1 );
+    item rotten_fat2( itype_fat );
+    rotten_fat2.set_rot( 1000_hours );
+    guy.i_add( rotten_fat2 );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    availability avail( guy, &rec );
+    REQUIRE( avail.can_craft );
+    REQUIRE( avail.would_use_rotten );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Will use rotten ingredients" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_would_use_favorite", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+    item fav_2x4( itype_2x4 );
+    fav_2x4.set_favorite( true );
+    guy.i_add( fav_2x4 );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_cudgel_test_no_tools.obj();
+    availability avail( guy, &rec );
+    REQUIRE( avail.can_craft );
+    REQUIRE( avail.would_use_favorite );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Will use favorited ingredients" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_proficiency_bonus", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.add_proficiency( proficiency_prof_carving );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_cudgel_simple.obj();
+    availability avail( guy, &rec );
+    REQUIRE( avail.get_proficiency_time_maluses() < avail.get_max_proficiency_time_maluses() );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "faster than normal" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_not_memorized", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE_FALSE( guy.knows_recipe( &rec ) );
+    availability avail( guy, &rec );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Recipe not memorized yet" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_nested_skips_time", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_nested_weapons.obj();
+    REQUIRE( rec.is_nested() );
+    availability avail( guy, &rec );
+
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Time to complete:" ) == std::string::npos );
+}
+
+TEST_CASE( "practice_recipe_description_above_limit", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_survival, 3 ); // above skill_limit 2
+
+    const recipe &rec = recipe_prac_knapping.obj();
+    REQUIRE( rec.practice_data );
+
+    std::string output = practice_recipe_description( rec, guy );
+
+    CHECK( output.find( "will not increase" ) != std::string::npos );
+    CHECK( output.find( "<color_brown>" ) != std::string::npos );
+}
+
+TEST_CASE( "practice_recipe_description_below_limit", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_survival, 1 ); // below skill_limit 2
+
+    const recipe &rec = recipe_prac_knapping.obj();
+    REQUIRE( rec.practice_data );
+
+    std::string output = practice_recipe_description( rec, guy );
+
+    CHECK( output.find( "Practice basic knapping" ) != std::string::npos );
+    CHECK( output.find( "Difficulty range:" ) != std::string::npos );
+    CHECK( output.find( "will not increase" ) != std::string::npos );
+    CHECK( output.find( "<color_brown>" ) == std::string::npos );
+}
+
+TEST_CASE( "recipe_info_known_by_helper", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE_FALSE( guy.knows_recipe( &rec ) );
+
+    // Create an NPC helper who knows the recipe
+    standard_npc helper( "TestHelper" );
+    helper.learn_recipe( &rec );
+    REQUIRE( helper.knows_recipe( &rec ) );
+
+    availability avail( guy, &rec );
+    std::vector<Character *> group = { &guy, &helper };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Recipe not memorized yet" ) != std::string::npos );
+    CHECK( output.find( "Known by:" ) != std::string::npos );
+    CHECK( output.find( "TestHelper" ) != std::string::npos );
+}
+
+TEST_CASE( "recipe_info_written_in_book", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_fat ) );
+    guy.i_add( item( itype_knife_hunting ) );
+    item cookbook( itype_family_cookbook );
+    guy.identify( cookbook );
+    guy.i_add( cookbook );
+    guy.invalidate_crafting_inventory();
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE_FALSE( guy.knows_recipe( &rec ) );
+
+    availability avail( guy, &rec );
+    std::vector<Character *> group = { &guy };
+    std::string output = join_lines(
+                             recipe_info( rec, avail, guy, "", 1, test_fold_width, c_white, group ) );
+
+    CHECK( output.find( "Recipe not memorized yet" ) != std::string::npos );
+    CHECK( output.find( "Written in:" ) != std::string::npos );
+}
+
+TEST_CASE( "practice_recipe_description_non_practice_recipe", "[crafting][gui]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+
+    const recipe &rec = recipe_test_tallow.obj();
+    REQUIRE_FALSE( rec.practice_data );
+
+    // Should not crash -- returns just the base description
+    std::string output = practice_recipe_description( rec, guy );
+    CHECK_FALSE( output.empty() );
 }
