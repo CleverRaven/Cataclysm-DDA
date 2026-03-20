@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_inner_cabins_void",
     "name": "sprawling plane of black",
-    "description": "There's an otherwordly surface here, black as the depths of the earth.",
+    "description": "There's an otherworldly surface here, black as the depths of the earth.",
     "symbol": " ",
     "color": "black",
     "flags": [ "FLAT" ]
