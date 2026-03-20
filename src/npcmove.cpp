@@ -195,6 +195,8 @@ static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" 
 
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
@@ -4593,15 +4595,19 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 //
 // TODO: Cache the results of this, *especially* if there's nothing we want to eat.
-static float rate_food( const item &it, int want_nutr, int want_quench )
+static float rate_food( const Character &who, const item &it, int want_nutr,
+                        int want_quench )
 {
     const auto &food = it.get_comestible();
     if( !food ) {
         return 0.0f;
     }
 
-    // Don't eat it if it's filled with parasites
-    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
+    const bool can_consume_rot = who.has_trait( trait_SAPROPHAGE ) ||
+                                 who.has_trait( trait_SAPROVORE );
+
+    // Don't eat it if it's filled with parasites (saprophages/saprovores are fine with it)
+    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) && !can_consume_rot ) {
         return 0.0;
     }
 
@@ -4614,21 +4620,21 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( !it.type->use_methods.empty() ) {
-        // TODO: Get a good method of telling apart:
-        // raw meat (parasites - don't eat unless mutant)
-        // zed meat (poison - don't eat unless mutant)
-        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
-        // caffeine (fine to consume, but expensive and prevents sleep)
-        // hallucination mushrooms (NPCs don't hallucinate, so don't eat those)
-        // honeycomb (harmless iuse)
-        // royal jelly (way too expensive to eat as food)
-        // mutagenic crap (don't eat, we want player to micromanage muties)
-        // marloss (NPCs don't turn fungal)
-        // weed brownies (small debuff)
-        // seeds (too expensive)
+    // Don't eat medicine as food (NPC self-medication is handled in use_painkiller)
+    if( food->comesttype == "MED" ) {
+        return 0.0f;
+    }
 
-        // For now skip all of those
+    // Reject marloss/mycus items -- player should control the fungal path
+    if( it.has_flag( flag_MYCUS_OK ) ||
+        it.type->use_methods.count( "MARLOSS" ) ||
+        it.type->use_methods.count( "MARLOSS_SEED" ) ||
+        it.type->use_methods.count( "MARLOSS_GEL" ) ) {
+        return 0.0f;
+    }
+
+    // Reject tainted/poisonous items (saprophages/saprovores can handle it)
+    if( it.type->use_methods.count( "POISON" ) && !can_consume_rot ) {
         return 0.0f;
     }
 
@@ -4755,7 +4761,7 @@ bool npc::consume_food()
         }
     } else {
         for( const item_location &food_item : inv_food ) {
-            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            float cur_weight = rate_food( *this, *food_item, want_hunger, want_quench );
             // Note: will_eat is expensive, avoid calling it if possible
             if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
                 best_weight = cur_weight;
