@@ -927,7 +927,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Gasoline Fuel Cell CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 mL of gasoline.",
+    "description": "A small gasoline fuel cell able to convert gasoline to bionic power, together with a heat exhaust and a diffuse network of bio-plastic bladders able to hold up to 500 mL of gasoline. When implanted, the system incurs a moderate amount of torso encumbrance.”,
     "price": "4 kUSD 500 USD",
     "price_postapoc": "20 USD",
     "weight": "600 g",
