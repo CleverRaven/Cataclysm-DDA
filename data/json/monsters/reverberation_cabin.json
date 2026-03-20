@@ -65,7 +65,16 @@
     ],
     "responses": [
       { "text": "[Close your eyes]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_2" },
-      { "text": "[Stand up]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY" }
+      {
+        "text": "[Stand up]",
+        "condition": { "math": [ "u_limb_score('reaction', 'type': 'head') < 0.3" ] },
+        "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY"
+      },
+      {
+        "text": "[Stand up]",
+        "condition":  { "math": [ "u_limb_score('reaction', 'type': 'head') >= 0.3" ] },
+        "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_ESCAPE"
+      }
     ]
   },
   {
@@ -83,5 +92,13 @@
       "&As you move to stand, the shade wipes a hand over your eyes.  Sleep takes you.  Then, there is light beyond your eyelids, and your mind's eye is flooded with red and gold afterimages."
     ],
     "responses": [ { "text": "…", "effect": { "run_eocs": [ "EOC_PORTAL_INNER_CABINS" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_ESCAPE",
+    "dynamic_line": [
+      "&As you move to stand, you see the shade stir.  A buzzing sensation, neither sight nor sound, fills your senses, then passes.  Was it grabbing you?  Just reaching out to touch you?  You don't know, but you roll out of the way and stand up."
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]
