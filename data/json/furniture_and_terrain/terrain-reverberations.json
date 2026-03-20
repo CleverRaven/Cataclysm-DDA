@@ -20,11 +20,6 @@
     "roof": "t_wood_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [
-      "TRANSPARENT",
-      "FLAT",
-      "ROAD",
-      "SUPPORTS_ROOF"
-    ]
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
   }
 ]

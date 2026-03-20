@@ -40,7 +40,11 @@
     "dynamic_line": [
       "&The creature rolls slowly onto its back, staring up at you with stark, white eyes.  \"Lay.  Sleep in the earth.  You can leave this place.  You will be safe.\""
     ],
-    "responses": [ { "text": "Who are you?", "topic": "TALK_CABIN_TUNNEL_SHADOW_WHO" }, { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" }, { "text": "[Move away]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Who are you?", "topic": "TALK_CABIN_TUNNEL_SHADOW_WHO" },
+      { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" },
+      { "text": "[Move away]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -48,7 +52,10 @@
     "dynamic_line": [
       "&The creature releases a slow, tired sigh.  \"Like you, but not like you.  I can escape too.  We must sleep.  It is the only way.\""
     ],
-    "responses": [ { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" }, { "text": "[Move away]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" },
+      { "text": "[Move away]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -56,7 +63,10 @@
     "dynamic_line": [
       "&You lay beside the shade.  It is comfortable, but it is also unfamiliar.  You feel like you could stay here forever, though you might not be comfortable."
     ],
-    "responses": [ { "text": "[Close your eyes]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_2" }, { "text": "[Stand up]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY" } ]
+    "responses": [
+      { "text": "[Close your eyes]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_2" },
+      { "text": "[Stand up]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY" }
+    ]
   },
   {
     "type": "talk_topic",

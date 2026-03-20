@@ -29,7 +29,21 @@
         "........................",
         "........................"
       ],
-      "terrain": { ".": [ [ "t_grass_tall", 8000 ], [ "t_grass_long", 1950 ], [ "t_grass", 50 ], [ "t_shrub_grape", 1 ], [ "t_shrub_peanut", 1 ], [ "t_shrub_raspberry", 1 ], [ "t_shrub_blueberry", 1 ], [ "t_shrub_blackberry", 1 ], [ "t_shrub_strawberry", 1 ], [ "t_shrub_huckleberry", 1 ], [ "t_marloss", 1 ] ] },
+      "terrain": {
+        ".": [
+          [ "t_grass_tall", 8000 ],
+          [ "t_grass_long", 1950 ],
+          [ "t_grass", 50 ],
+          [ "t_shrub_grape", 1 ],
+          [ "t_shrub_peanut", 1 ],
+          [ "t_shrub_raspberry", 1 ],
+          [ "t_shrub_blueberry", 1 ],
+          [ "t_shrub_blackberry", 1 ],
+          [ "t_shrub_strawberry", 1 ],
+          [ "t_shrub_huckleberry", 1 ],
+          [ "t_marloss", 1 ]
+        ]
+      },
       "furniture": {
         ".": [ [ "f_null", 10000 ], [ "f_black_eyed_susan", 1 ], [ "f_bluebell", 1 ], [ "f_lily", 1 ], [ "f_flower_tulip", 1 ] ]
       }
