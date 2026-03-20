@@ -142,7 +142,12 @@
     "id": "EOC_READ_BOOK_SYMBOLS",
     "condition": { "math": [ "u_skill('deduction') >= 3" ] },
     "effect": [ { "run_eocs": [ "EOC_READ_BOOK_SYMBOLS_REAL" ] } ],
-    "false_effect": [ { "u_message": "You read the landmark book on dreaming and it's nature.  You feel like there is something more hidden in the text pertinent to this post Cataclysm world.", "type": "good" } ]
+    "false_effect": [
+      {
+        "u_message": "You read the landmark book on dreaming and it's nature.  You feel like there is something more hidden in the text pertinent to this post Cataclysm world.",
+        "type": "good"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -167,10 +172,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PROFICIENCY_FROM_BOOK_JUNG",
-    "effect": [
-      { "math": [ "u_jung += 1" ] },
-      { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 1" ] }
-    ]
+    "effect": [ { "math": [ "u_jung += 1" ] }, { "math": [ "u_proficiency('prof_lucid_dreaming', 'format': 'percent') += 1" ] } ]
   },
   {
     "id": "book_deduction_lies",
