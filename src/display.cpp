@@ -62,6 +62,7 @@ static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 // Cache for the overmap widget string
@@ -1064,6 +1065,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
             const vehicle_part &vp = veh->part( p );
             if( veh->is_engine_on( vp )
                 && !veh->is_perpetual_type( vp )
+                && !veh->is_engine_type( vp, fuel_type_battery )
                 && !veh->is_engine_type( vp, fuel_type_muscle ) ) {
                 // Get the fuel type of the first engine that is turned on
                 fuel_type = vp.fuel_current();
@@ -1080,6 +1082,29 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     }
 
     return std::make_pair( fuel_text, fuel_color );
+}
+
+std::pair<std::string, nc_color> display::vehicle_battery_percent_text_color( const Character &u )
+{
+    map &here = get_map();
+
+    // Defaults in case no vehicle is found
+    std::string battery_text;
+    nc_color battery_color = c_light_gray;
+
+    const vehicle *veh = vehicle_driven( u );
+    if( veh ) {
+        const int max_battery = veh->fuel_capacity( here, fuel_type_battery );
+        const int cur_battery = veh->fuel_left( here, fuel_type_battery );
+        if( max_battery != 0 ) {
+            int percent = cur_battery * 100 / max_battery;
+            // Simple percent indicator, yellow under 25%, red under 10%
+            battery_text = string_format( "%d %%", percent );
+            battery_color = percent < 10 ? c_red : ( percent < 25 ? c_yellow : c_green );
+        }
+    }
+
+    return std::make_pair( battery_text, battery_color );
 }
 
 // Single-letter move mode (W, R, C, P)

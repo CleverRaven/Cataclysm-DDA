@@ -91,6 +91,7 @@ enum class widget_var : int {
     sundial_time_text,   // Current time - exact if character has a watch, sundial otherwise
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
+    veh_battery_text,  // Current/total battery in vehicle engine, color string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string
     veh_fuel_text,  // Current/total fuel for active vehicle engine, color string
     weariness_text, // Weariness description text, color string
