@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_algo.h"
 #include "cata_compiler_support.h"
@@ -477,7 +478,7 @@ std::vector<const recipe *> recipe_subset::search(
     ctxt.register_action( "QUIT" );
     std::chrono::steady_clock::time_point next_input_check = std::chrono::steady_clock::now();
     for( const recipe *r : recipes ) {
-        if( std::chrono::steady_clock::now() > next_input_check ) {
+        if( !test_mode && std::chrono::steady_clock::now() > next_input_check ) {
             next_input_check = std::chrono::steady_clock::now() + std::chrono::milliseconds( 250 );
             if( ctxt.handle_input( 1 ) == "QUIT" ) {
                 return res;

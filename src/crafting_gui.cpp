@@ -7,7 +7,6 @@
 #include <functional>
 #include <iterator>
 #include <map>
-#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -40,7 +39,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
@@ -102,7 +100,6 @@ bool string_id<crafting_category>::is_valid() const
     return craft_cat_list.is_valid( *this );
 }
 
-static bool query_is_yes( std::string_view query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec,
                                       Character &crafter );
@@ -525,185 +522,6 @@ struct item_info_cache {
     item dummy;
 };
 
-static recipe_subset filter_recipes( const recipe_subset &available_recipes,
-                                     std::string_view qry,
-                                     const Character &crafter,
-                                     const std::function<void( size_t, size_t )> &progress_callback )
-{
-    size_t qry_begin = 0;
-    size_t qry_end = 0;
-    recipe_subset filtered_recipes = available_recipes;
-    do {
-        // Find next ','
-        qry_end = qry.find_first_of( ',', qry_begin );
-
-        std::string qry_filter_str = trim( qry.substr( qry_begin, qry_end - qry_begin ) );
-        // Process filter
-        if( qry_filter_str.size() > 2 && qry_filter_str[1] == ':' ) {
-            switch( qry_filter_str[0] ) {
-                case 't':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::tool, progress_callback );
-                    break;
-
-                case 'c':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::component, progress_callback );
-                    break;
-
-                case 's':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::skill, progress_callback );
-                    break;
-
-                case 'p':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::primary_skill, progress_callback );
-                    break;
-
-                case 'Q':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::quality, progress_callback );
-                    break;
-
-                case 'q':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::quality_result, progress_callback );
-                    break;
-
-                case 'L':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::length, progress_callback );
-                    break;
-
-                case 'V':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::volume, progress_callback );
-                    break;
-
-                case 'M':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::mass, progress_callback );
-                    break;
-
-                case 'v':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::covers, progress_callback );
-                    break;
-
-                case 'e':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::layer, progress_callback );
-                    break;
-
-                case 'd':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::description_result, progress_callback );
-                    break;
-
-                case 'm': {
-                    // get_learned_recipes lists NO nested_recipes
-                    const recipe_subset &learned = crafter.get_learned_recipes();
-                    recipe_subset temp_subset;
-                    if( query_is_yes( qry_filter_str ) ) {
-                        temp_subset = available_recipes.intersection( learned );
-                    } else {
-                        // nested_recipes cannot be learned so don't show them
-                        temp_subset = available_recipes.difference( learned )
-                                      .difference( recipe_dict.all_nested() );
-                    }
-                    filtered_recipes = filtered_recipes.intersection( temp_subset );
-                    break;
-                }
-
-                case 'P':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::proficiency, progress_callback );
-                    break;
-
-                case 'b':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ), crafter,
-                                       recipe_subset::search_type::book, progress_callback );
-                    break;
-
-                case 'l':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::difficulty, progress_callback );
-                    break;
-
-                case 'r': {
-                    recipe_subset result;
-                    for( const itype *e : item_controller->all() ) {
-                        if( lcmatch( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
-                            result.include( recipe_subset( available_recipes,
-                                                           available_recipes.recipes_that_produce( e->get_id() ) ) );
-                        }
-                    }
-                    filtered_recipes = result;
-
-                    break;
-                }
-
-                case 'a':
-                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
-                                       recipe_subset::search_type::activity_level, progress_callback );
-                    break;
-                default:
-                    break;
-            }
-        } else if( qry_filter_str.size() > 1 && qry_filter_str[0] == '-' ) {
-            filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
-                               recipe_subset::search_type::exclude_name, progress_callback );
-        } else {
-            filtered_recipes = filtered_recipes.reduce( qry_filter_str,
-                               recipe_subset::search_type::name,
-                               std::function<void( size_t, size_t )> {} );
-        }
-
-        qry_begin = qry_end + 1;
-    } while( qry_end != std::string::npos );
-    return filtered_recipes;
-}
-
-namespace
-{
-struct SearchPrefix {
-    char key;
-    translation example;
-    translation description;
-};
-} // namespace
-
-static const std::vector<SearchPrefix> prefixes = {
-    //~ Example result description search term
-    { 'q', to_translation( "metal sawing" ), to_translation( "<color_cyan>quality</color> of resulting item" ) },
-    { 'd', to_translation( "reach attack" ), to_translation( "<color_cyan>full description</color> of resulting item (slow)" ) },
-    { 'c', to_translation( "plank" ), to_translation( "<color_cyan>component</color> required to craft" ) },
-    { 'p', to_translation( "tailoring" ), to_translation( "<color_cyan>primary skill</color> used to craft" ) },
-    { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
-    { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
-    { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
-    { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
-    { 'b', to_translation( "chemistry textbook" ), to_translation( "<color_cyan>source</color> of the recipe" ) },
-    { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
-    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
-    { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
-    { 'V', to_translation( "450 ml" ), to_translation( "result can contain item of <color_cyan>volume</color>" ) },
-    { 'M', to_translation( "250 kg" ), to_translation( "result can contain item of <color_cyan>mass</color>" ) },
-    { 'v', to_translation( "head" ), to_translation( "<color_cyan>body part</color> the result covers" ) },
-    { 'e', to_translation( "close to skin" ), to_translation( "<color_cyan>layer</color> the result covers" ) },
-    { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
-};
-
-static const translation filter_help_start = to_translation(
-            "The default is to search result names.  Some single-character prefixes "
-            "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
-            "are separated by commas <color_red>,</color>.\n"
-            "Filtering by difficulty can accept range; "
-            "<color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n"
-            "\n\n"
-            "<color_white>Examples:</color>\n" );
 
 static bool mouse_in_window( std::optional<point> coord, const catacurses::window &w_ )
 {
@@ -717,10 +535,10 @@ static bool mouse_in_window( std::optional<point> coord, const catacurses::windo
     return false;
 }
 
-static void recursively_expance_recipes( std::vector<const recipe *> &current,
-        std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
-        Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
-        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
+static void recursively_expand_recipes( std::vector<const recipe *> &current,
+                                        std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
+                                        Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
+                                        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
 {
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
@@ -737,32 +555,15 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
         }
     }
 
+    const bool want_unread = highlight_unread_recipes && unread_recipes_first;
     std::stable_sort( tmp.begin(), tmp.end(), [
-                       &crafter, &availability_cache, unread_recipes_first,
-                       highlight_unread_recipes
+                       &crafter, &availability_cache, want_unread
     ]( const recipe * const a, const recipe * const b ) {
-        if( highlight_unread_recipes && unread_recipes_first ) {
-            const bool a_read = uistate.read_recipes.count( a->ident() );
-            const bool b_read = uistate.read_recipes.count( b->ident() );
-            if( a_read != b_read ) {
-                return !a_read;
-            }
-        }
-        const bool can_craft_a = availability_cache.at( a ).can_craft;
-        const bool can_craft_b = availability_cache.at( b ).can_craft;
-        if( can_craft_a != can_craft_b ) {
-            return can_craft_a;
-        }
-        if( b->difficulty != a->difficulty ) {
-            return b->difficulty < a->difficulty;
-        }
-        const std::string a_name = a->result_name();
-        const std::string b_name = b->result_name();
-        if( a_name != b_name ) {
-            return localized_compare( a_name, b_name );
-        }
-        return b->time_to_craft( crafter ) <
-               a->time_to_craft( crafter );
+        const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
+        const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
+        return recipe_sort_compare( a, b,
+                                    availability_cache.at( a ), availability_cache.at( b ),
+                                    crafter, a_read, b_read, want_unread );
     } );
 
     current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
@@ -780,8 +581,8 @@ static void expand_recipes( std::vector<const recipe *> &current,
             && uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end()
           ) {
             // add all the recipes from the nests
-            recursively_expance_recipes( current, indent, availability_cache, i, crafter,
-                                         unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
+            recursively_expand_recipes( current, indent, availability_cache, i, crafter,
+                                        unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
         }
     }
 }
@@ -835,7 +636,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
 static bool filter_crafting_recipes( std::string &filterstring )
 {
     int max_example_length = 0;
-    for( const auto &prefix : prefixes ) {
+    for( const SearchPrefix &prefix : prefixes ) {
         max_example_length = std::max( max_example_length, utf8_width( prefix.example.translated() ) );
     }
     std::string spaces( max_example_length, ' ' );
@@ -858,7 +659,7 @@ static bool filter_crafting_recipes( std::string &filterstring )
                            _( "<color_cyan>names</color> to exclude" ) );
     }
 
-    for( const auto &prefix : prefixes ) {
+    for( const SearchPrefix &prefix : prefixes ) {
         int padding = max_example_length - utf8_width( prefix.example.translated() );
         description += string_format(
                            _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
@@ -2021,14 +1822,6 @@ static void deprioritize_components( const recipe &recipe )
     }
 }
 
-static bool query_is_yes( std::string_view query )
-{
-    const std::string_view subquery = query.substr( 2 );
-
-    return subquery == "yes" || subquery == "y" || subquery == "1" ||
-           subquery == "true" || subquery == "t" || subquery == "on" ||
-           subquery == _( "yes" );
-}
 
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {

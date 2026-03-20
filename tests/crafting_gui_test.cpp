@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -11,6 +12,7 @@
 #include "color.h"
 #include "crafting_gui_helpers.h"
 #include "npc.h"
+#include "recipe_dictionary.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -747,4 +749,210 @@ TEST_CASE( "practice_recipe_description_non_practice_recipe", "[crafting][gui]" 
     // Should not crash -- returns just the base description
     std::string output = practice_recipe_description( rec, guy );
     CHECK_FALSE( output.empty() );
+}
+
+// --- Filter engine tests ---
+
+static const std::function<void( size_t, size_t )> no_progress;
+
+static recipe_subset make_subset( const std::vector<const recipe *> &recipes )
+{
+    recipe_subset subset;
+    for( const recipe *r : recipes ) {
+        subset.include( r );
+    }
+    return subset;
+}
+
+TEST_CASE( "filter_by_name", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    recipe_subset result = filter_recipes( subset, "cudgel", guy, no_progress );
+
+    CHECK( result.contains( cudgel ) );
+    CHECK_FALSE( result.contains( tallow ) );
+}
+
+TEST_CASE( "filter_by_name_exclude", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    recipe_subset result = filter_recipes( subset, "-cudgel", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_by_component", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    // cudgel uses 2x4, tallow uses fat
+    recipe_subset result = filter_recipes( subset, "c:fat", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_by_primary_skill", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    // cudgel uses fabrication, tallow uses cooking
+    recipe_subset result = filter_recipes( subset, "p:fabrication", guy, no_progress );
+
+    CHECK( result.contains( cudgel ) );
+    CHECK_FALSE( result.contains( tallow ) );
+}
+
+TEST_CASE( "filter_by_skill", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    // cooking skill's display name is "food handling"
+    recipe_subset result = filter_recipes( subset, "s:food handling", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_by_difficulty_range", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    // cudgel diff 2, tallow diff 3
+    recipe_subset result = filter_recipes( subset, "l:3~5", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_comma_chaining", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    const recipe *meat = &recipe_meat_cooked_test_no_tools.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow, meat } );
+
+    // p:food handling narrows to tallow + meat (both use cooking aka "food handling"),
+    // then -tallow excludes tallow
+    recipe_subset result = filter_recipes( subset, "p:food handling, -tallow", guy, no_progress );
+
+    CHECK( result.contains( meat ) );
+    CHECK_FALSE( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_memorized_yes", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *meat = &recipe_meat_cooked_test_no_tools.obj();
+    // test_tallow is autolearn:false, book_learn only
+    const recipe *tallow = &recipe_test_tallow.obj();
+    // Explicitly learn one recipe instead of relying on autolearn cache
+    guy.learn_recipe( meat );
+
+    REQUIRE( guy.knows_recipe( meat ) );
+    REQUIRE_FALSE( guy.knows_recipe( tallow ) );
+
+    recipe_subset subset = make_subset( { meat, tallow } );
+    recipe_subset result = filter_recipes( subset, "m:yes", guy, no_progress );
+
+    CHECK( result.contains( meat ) );
+    CHECK_FALSE( result.contains( tallow ) );
+}
+
+TEST_CASE( "filter_memorized_no", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    const recipe *meat = &recipe_meat_cooked_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    guy.learn_recipe( meat );
+
+    REQUIRE( guy.knows_recipe( meat ) );
+    REQUIRE_FALSE( guy.knows_recipe( tallow ) );
+
+    recipe_subset subset = make_subset( { meat, tallow } );
+    recipe_subset result = filter_recipes( subset, "m:no", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( meat ) );
+}
+
+TEST_CASE( "filter_by_book", "[crafting][gui][filter]" )
+{
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_cooking, 3 );
+    item cookbook( itype_family_cookbook );
+    guy.identify( cookbook );
+    guy.i_add( cookbook );
+    guy.invalidate_crafting_inventory();
+
+    // test_tallow has book_learn: family_cookbook:1
+    const recipe *tallow = &recipe_test_tallow.obj();
+    // cudgel has no book_learn
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    recipe_subset subset = make_subset( { tallow, cudgel } );
+
+    recipe_subset result = filter_recipes( subset, "b:family", guy, no_progress );
+
+    CHECK( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( cudgel ) );
+}
+
+TEST_CASE( "filter_r_prefix_replaces_not_intersects", "[crafting][gui][filter]" )
+{
+    // Characterization test: the r: branch rebuilds from available_recipes
+    // (the unfiltered superset), not from filtered_recipes.
+    // This means prior filters in a comma chain are lost.
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    const recipe *meat = &recipe_meat_cooked_test_no_tools.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow, meat } );
+
+    // p:food handling narrows to tallow + meat, then r:cudgel replaces with
+    // recipes producing items matching "cudgel" from available_recipes
+    recipe_subset result = filter_recipes( subset, "p:food handling, r:cudgel", guy, no_progress );
+
+    // r: searched available_recipes, ignoring the p:cooking narrowing
+    CHECK( result.contains( cudgel ) );
+    CHECK_FALSE( result.contains( tallow ) );
+    CHECK_FALSE( result.contains( meat ) );
+}
+
+TEST_CASE( "filter_difficulty_malformed_matches_all", "[crafting][gui][filter]" )
+{
+    // Characterization test: malformed difficulty input matches everything.
+    // Non-digit, non-tilde chars trigger early return true in the
+    // recipe_subset::search difficulty parser.
+    Character &guy = setup_character();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    recipe_subset subset = make_subset( { cudgel, tallow } );
+
+    recipe_subset result = filter_recipes( subset, "l:abc", guy, no_progress );
+
+    CHECK( result.contains( cudgel ) );
+    CHECK( result.contains( tallow ) );
 }
