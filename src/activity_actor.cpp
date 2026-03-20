@@ -12907,6 +12907,30 @@ void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 {
     update_other_activity_items();
     zone_activity_actor::do_turn( act, you );
+
+    // True completion: activity nulled AND no auto-move destination pending.
+    // route_to_destination sets destination before nulling; true end does not.
+    if( act.is_null() && !you.has_destination() && viewport_was_active ) {
+        restore_viewport( you );
+    }
+}
+
+void zone_sort_activity_actor::canceled( player_activity &, Character &you )
+{
+    restore_viewport( you );
+}
+
+void zone_sort_activity_actor::restore_viewport( Character &you )
+{
+    if( !viewport_was_active || !you.is_avatar() ) {
+        return;
+    }
+    if( !test_mode ) {
+        g->set_zoom( viewport_saved_zoom );
+        g->mark_main_ui_adaptor_resize();
+    }
+    you.as_avatar()->zone_sort_viewport = {};
+    viewport_was_active = false;
 }
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
@@ -12920,6 +12944,29 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
                        you.get_faction_id() ) ) {
         coord_set.insert( p );
     }
+
+    if( you.is_avatar() && !coord_set.empty() ) {
+        viewport_was_active = true;
+        viewport_saved_zoom = g->get_zoom();
+
+        zone_sorting::viewport_bbox bbox = zone_sorting::calc_zone_bbox( coord_set );
+        int target = zone_sorting::calc_target_zoom(
+                         bbox.width(), bbox.height(),
+                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                         viewport_saved_zoom, viewport_saved_zoom );
+
+        avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+        vp.active = true;
+        vp.center = bbox.centroid;
+        vp.target_zoom = target;
+        vp.bbox_min = bbox.min_corner;
+        vp.bbox_max = bbox.max_corner;
+        if( !test_mode ) {
+            g->set_zoom( target );
+            g->mark_main_ui_adaptor_resize();
+        }
+    }
+
     stage = THINK;
 }
 
@@ -13495,6 +13542,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             if( !drag_worst_tile ) {
                 drag_worst_tile = zone_sorting::worst_drag_tile_on_route( you, dropoff_coords );
             }
+            // Expand viewport bbox to include newly discovered destinations.
+            if( you.is_avatar() && you.as_avatar()->zone_sort_viewport.active ) {
+                avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+                bool grew = false;
+                for( const tripoint_abs_ms &d : dropoff_coords ) {
+                    grew |= zone_sorting::expand_bbox_raw( vp.bbox_min, vp.bbox_max, d );
+                }
+                if( grew ) {
+                    const int bbox_w = vp.bbox_max.x() - vp.bbox_min.x();
+                    const int bbox_h = vp.bbox_max.y() - vp.bbox_min.y();
+                    vp.center.x() = ( vp.bbox_min.x() + vp.bbox_max.x() ) / 2;
+                    vp.center.y() = ( vp.bbox_min.y() + vp.bbox_max.y() ) / 2;
+                    vp.target_zoom = zone_sorting::calc_target_zoom(
+                                         bbox_w, bbox_h,
+                                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                                         g->get_zoom(), viewport_saved_zoom );
+                    if( !test_mode ) {
+                        g->set_zoom( vp.target_zoom );
+                        g->mark_main_ui_adaptor_resize();
+                    }
+                }
+            }
         }
 
         item_location thisitem_loc;
@@ -13991,6 +14060,8 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
     jsout.member( "virtual_pickup_active", virtual_pickup_active );
+    jsout.member( "viewport_was_active", viewport_was_active );
+    jsout.member( "viewport_saved_zoom", viewport_saved_zoom );
 
     jsout.end_object();
 }
@@ -14015,6 +14086,12 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     }
     if( data.has_member( "virtual_pickup_active" ) ) {
         data.read( "virtual_pickup_active", actor.virtual_pickup_active );
+    }
+    if( data.has_member( "viewport_was_active" ) ) {
+        data.read( "viewport_was_active", actor.viewport_was_active );
+    }
+    if( data.has_member( "viewport_saved_zoom" ) ) {
+        data.read( "viewport_saved_zoom", actor.viewport_saved_zoom );
     }
     return actor.clone();
 }

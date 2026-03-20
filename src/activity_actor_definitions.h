@@ -29,6 +29,7 @@
 #include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_fwd.h"
 #include "vehicle.h"
@@ -4083,6 +4084,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         }
 
         void do_turn( player_activity &act, Character &you ) override;
+        void canceled( player_activity &act, Character &you ) override;
 
         void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
@@ -4092,6 +4094,20 @@ class zone_sort_activity_actor : public zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         void update_other_activity_items();
+
+        // Viewport lock: restore zoom and clear Character viewport state.
+        void restore_viewport( Character &you );
+
+        const std::unordered_set<tripoint_abs_ms> &get_coord_set() const {
+            return coord_set;
+        }
+        const std::vector<tripoint_abs_ms> &get_dropoff_coords() const {
+            return dropoff_coords;
+        }
+
+        // Viewport lock state -- serialized for save/load zoom restoration
+        bool viewport_was_active = false;
+        int viewport_saved_zoom = DEFAULT_TILESET_ZOOM;
 
     private:
         std::vector<item_location> other_activity_items;

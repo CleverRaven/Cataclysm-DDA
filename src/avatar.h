@@ -92,6 +92,17 @@ class avatar : public Character
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
 
+        // Zone sort viewport lock state -- ephemeral, not serialized.
+        // Visual lock only; zoom restoration is on the activity actor.
+        struct zone_sort_viewport_t {
+            bool active = false;
+            tripoint_abs_ms center;
+            int target_zoom = 0;
+            tripoint_abs_ms bbox_min;
+            tripoint_abs_ms bbox_max;
+        };
+        zone_sort_viewport_t zone_sort_viewport; // NOLINT(cata-serialize)
+
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void export_as_npc( const cata_path &path );

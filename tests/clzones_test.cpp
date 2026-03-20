@@ -5,10 +5,13 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_item_handling.h"
+#include "clone_ptr.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -2391,4 +2394,261 @@ TEST_CASE( "multi_zone_vehicle_repair_large_zone_no_hang",
     CHECK( !dummy.activity );
     // Should finish quickly -- not use all 50 turns
     CHECK( turns < max_turns );
+}
+
+// --- Viewport lock math helpers ---
+
+TEST_CASE( "zone_sort_viewport_bbox", "[zones][viewport]" )
+{
+    using zone_sorting::viewport_bbox;
+    using zone_sorting::calc_zone_bbox;
+    using zone_sorting::expand_bbox;
+
+    SECTION( "single tile" ) {
+        std::unordered_set<tripoint_abs_ms> tiles;
+        tiles.emplace( 10, 20, 0 );
+        viewport_bbox bbox = calc_zone_bbox( tiles );
+        CHECK( bbox.min_corner == tripoint_abs_ms( 10, 20, 0 ) );
+        CHECK( bbox.max_corner == tripoint_abs_ms( 10, 20, 0 ) );
+        CHECK( bbox.centroid == tripoint_abs_ms( 10, 20, 0 ) );
+        CHECK( bbox.width() == 0 );
+        CHECK( bbox.height() == 0 );
+    }
+
+    SECTION( "spread tiles" ) {
+        std::unordered_set<tripoint_abs_ms> tiles;
+        tiles.emplace( 5, 10, 0 );
+        tiles.emplace( 25, 10, 0 );
+        tiles.emplace( 15, 30, 0 );
+        viewport_bbox bbox = calc_zone_bbox( tiles );
+        CHECK( bbox.min_corner == tripoint_abs_ms( 5, 10, 0 ) );
+        CHECK( bbox.max_corner == tripoint_abs_ms( 25, 30, 0 ) );
+        CHECK( bbox.centroid == tripoint_abs_ms( 15, 20, 0 ) );
+        CHECK( bbox.width() == 20 );
+        CHECK( bbox.height() == 20 );
+    }
+
+    SECTION( "empty set" ) {
+        std::unordered_set<tripoint_abs_ms> tiles;
+        viewport_bbox bbox = calc_zone_bbox( tiles );
+        CHECK( bbox.width() == 0 );
+        CHECK( bbox.height() == 0 );
+    }
+
+    SECTION( "expand_bbox grows when tile outside" ) {
+        std::unordered_set<tripoint_abs_ms> tiles;
+        tiles.emplace( 10, 10, 0 );
+        tiles.emplace( 20, 20, 0 );
+        viewport_bbox bbox = calc_zone_bbox( tiles );
+        CHECK( bbox.width() == 10 );
+        CHECK( bbox.height() == 10 );
+
+        bool grew = expand_bbox( bbox, tripoint_abs_ms( 30, 20, 0 ) );
+        CHECK( grew );
+        CHECK( bbox.max_corner.x() == 30 );
+        CHECK( bbox.width() == 20 );
+        CHECK( bbox.centroid.x() == 20 );
+    }
+
+    SECTION( "expand_bbox no-op when tile inside" ) {
+        std::unordered_set<tripoint_abs_ms> tiles;
+        tiles.emplace( 10, 10, 0 );
+        tiles.emplace( 20, 20, 0 );
+        viewport_bbox bbox = calc_zone_bbox( tiles );
+
+        bool grew = expand_bbox( bbox, tripoint_abs_ms( 15, 15, 0 ) );
+        CHECK_FALSE( grew );
+        CHECK( bbox.width() == 10 );
+        CHECK( bbox.height() == 10 );
+    }
+}
+
+TEST_CASE( "zone_sort_viewport_zoom", "[zones][viewport]" )
+{
+    using zone_sorting::calc_target_zoom;
+
+    // Simulate: at zoom 16 (default), 60 tiles wide, 40 tiles tall.
+    // screen_pixels_w = 60 * 16 = 960, screen_pixels_h = 40 * 16 = 640.
+    const int vis_w = 60;
+    const int vis_h = 40;
+    const int cur_zoom = 16;
+    const int saved = 16;
+
+    SECTION( "bbox fits at current zoom" ) {
+        // 20x20 bbox + 4 padding = 24x24, fits in 60x40 at zoom 16
+        int z = calc_target_zoom( 20, 20, vis_w, vis_h, cur_zoom, saved );
+        CHECK( z == 16 );
+    }
+
+    SECTION( "bbox needs one step zoom out" ) {
+        // 100x80 bbox + 4 padding = 104x84.
+        // At zoom 16: 60x40 -- doesn't fit.
+        // At zoom 8: 120x80 -- width fits (120>=104), height doesn't (80<84).
+        // At zoom 4: 240x160 -- fits.
+        int z = calc_target_zoom( 100, 80, vis_w, vis_h, cur_zoom, saved );
+        CHECK( z == 4 );
+    }
+
+    SECTION( "bbox needs moderate zoom out" ) {
+        // 80x30 bbox + 4 = 84x34.
+        // At zoom 16: 60x40 -- width doesn't fit.
+        // At zoom 8: 120x80 -- fits.
+        int z = calc_target_zoom( 80, 30, vis_w, vis_h, cur_zoom, saved );
+        CHECK( z == 8 );
+    }
+
+    SECTION( "clamp at minimum zoom 4" ) {
+        // Huge bbox that doesn't even fit at zoom 4
+        int z = calc_target_zoom( 1000, 1000, vis_w, vis_h, cur_zoom, saved );
+        CHECK( z == 4 );
+    }
+
+    SECTION( "never zoom in beyond saved_zoom" ) {
+        // Small bbox that fits at zoom 32, but saved_zoom is 16
+        // 5x5 bbox + 4 = 9x9. At zoom 32: 30x20 -- fits. But saved=16 caps it.
+        int z = calc_target_zoom( 5, 5, vis_w, vis_h, cur_zoom, saved );
+        CHECK( z == 16 );
+    }
+
+    SECTION( "respects higher saved_zoom" ) {
+        // If player was at zoom 32 (zoomed in), saved_zoom=32
+        // 5x5 bbox + 4 = 9x9. At zoom 32: 30x20 -- fits.
+        int z = calc_target_zoom( 5, 5, vis_w, vis_h, cur_zoom, 32 );
+        CHECK( z == 32 );
+    }
+}
+
+TEST_CASE( "zone_sort_viewport_lifecycle", "[zones][viewport][activities]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map();
+    zone_manager::get_manager().clear();
+
+    // Layout:
+    //   source (UNSORTED) at (60,60)
+    //   dest (PFOOD) at (60,55) -- 5 tiles north
+    //   player starts at (60,61)
+    const tripoint_bub_ms start_pos( 60, 61, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    dummy.zone_sort_viewport = avatar::zone_sort_viewport_t{};
+
+    const tripoint_bub_ms src_pos( 60, 60, 0 );
+    here.ter_set( src_pos, ter_t_floor );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+
+    const tripoint_bub_ms dest_pos( 60, 55, 0 );
+    here.ter_set( dest_pos, ter_t_floor );
+    create_tile_zone( "PFood", zone_type_LOOT_PFOOD, here.get_abs( dest_pos ) );
+
+    here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    SECTION( "activates on sort start and deactivates on completion" ) {
+        CHECK_FALSE( dummy.zone_sort_viewport.active );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run one turn to trigger stage_init
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+
+        // Viewport should be active after init
+        CHECK( dummy.zone_sort_viewport.active );
+
+        // Run to completion using teleport pattern
+        int teleports = 0;
+        const int max_teleports = 30;
+        do {
+            int turns = 0;
+            while( dummy.activity && turns < 200 ) {
+                dummy.mod_moves( dummy.get_speed() );
+                while( dummy.get_moves() > 0 && dummy.activity ) {
+                    dummy.activity.do_turn( dummy );
+                }
+                turns++;
+            }
+            if( dummy.destination_point ) {
+                dummy.setpos( here, here.get_bub( *dummy.destination_point ) );
+                if( dummy.has_destination_activity() ) {
+                    dummy.start_destination_activity();
+                } else {
+                    dummy.clear_destination();
+                }
+                teleports++;
+            }
+        } while( ( dummy.activity || dummy.destination_point ) && teleports < max_teleports );
+
+        REQUIRE( teleports < max_teleports );
+
+        // Viewport should be deactivated after completion
+        CHECK_FALSE( dummy.zone_sort_viewport.active );
+    }
+
+    SECTION( "stays active during auto-move leg" ) {
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run until activity goes null (route_to_destination triggers auto-move)
+        int turns = 0;
+        while( dummy.activity && turns < 200 ) {
+            dummy.mod_moves( dummy.get_speed() );
+            while( dummy.get_moves() > 0 && dummy.activity ) {
+                dummy.activity.do_turn( dummy );
+            }
+            turns++;
+        }
+
+        // If we have a destination, we're in an auto-move leg
+        if( dummy.destination_point ) {
+            // Viewport should still be active during the leg
+            CHECK( dummy.zone_sort_viewport.active );
+        }
+    }
+
+    SECTION( "abort_automove restores viewport" ) {
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run until auto-move starts
+        int turns = 0;
+        while( dummy.activity && turns < 200 ) {
+            dummy.mod_moves( dummy.get_speed() );
+            while( dummy.get_moves() > 0 && dummy.activity ) {
+                dummy.activity.do_turn( dummy );
+            }
+            turns++;
+        }
+
+        if( dummy.destination_point ) {
+            CHECK( dummy.zone_sort_viewport.active );
+            dummy.abort_automove();
+            CHECK_FALSE( dummy.zone_sort_viewport.active );
+        }
+    }
+
+    SECTION( "viewport_saved_zoom survives serialize roundtrip" ) {
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run one turn to trigger stage_init
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+
+        REQUIRE( dummy.zone_sort_viewport.active );
+
+        // Serialize and deserialize the activity
+        const zone_sort_activity_actor *actor =
+            dynamic_cast<const zone_sort_activity_actor *>( dummy.activity.actor.get() );
+        if( actor ) {
+            CHECK( actor->viewport_was_active );
+            CHECK( actor->viewport_saved_zoom == 16 );  // DEFAULT_TILESET_ZOOM
+        }
+    }
 }

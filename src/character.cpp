@@ -17,6 +17,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "addiction.h"
+#include "clone_ptr.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -116,6 +117,7 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
@@ -1515,6 +1517,11 @@ void Character::clear_destination_activity()
 }
 
 player_activity Character::get_destination_activity() const
+{
+    return destination_activity;
+}
+
+const player_activity &Character::peek_destination_activity() const
 {
     return destination_activity;
 }
@@ -7110,6 +7117,25 @@ void Character::clear_destination()
 
 void Character::abort_automove()
 {
+    // Restore zone sort viewport lock state before clearing destination.
+    // The actor in destination_activity has the authoritative saved_zoom.
+    const bool had_visual_lock = is_avatar() && as_avatar()->zone_sort_viewport.active;
+    const player_activity &dest = peek_destination_activity();
+    if( !dest.is_null() && dest.id() == ACT_MOVE_LOOT ) {
+        if( const auto *a = dynamic_cast<const zone_sort_activity_actor *>(
+                                dest.actor.get() ) ) {
+            if( a->viewport_was_active || had_visual_lock ) {
+                if( !test_mode ) {
+                    g->set_zoom( a->viewport_saved_zoom );
+                    g->mark_main_ui_adaptor_resize();
+                }
+            }
+        }
+    }
+    if( had_visual_lock ) {
+        as_avatar()->zone_sort_viewport = {};
+    }
+
     clear_destination();
     if( g->overmap_data.fast_traveling && is_avatar() ) {
         ui::omap::force_quit();

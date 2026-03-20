@@ -2,6 +2,7 @@
 #include "activity_item_handling.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <deque>
@@ -1407,6 +1408,116 @@ std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
         }
     }
     return worst_tile;
+}
+
+int viewport_bbox::width() const
+{
+    return max_corner.x() - min_corner.x();
+}
+
+int viewport_bbox::height() const
+{
+    return max_corner.y() - min_corner.y();
+}
+
+viewport_bbox calc_zone_bbox( const std::unordered_set<tripoint_abs_ms> &tiles )
+{
+    viewport_bbox bbox;
+    if( tiles.empty() ) {
+        return bbox;
+    }
+    auto it = tiles.begin();
+    bbox.min_corner = *it;
+    bbox.max_corner = *it;
+    ++it;
+    for( ; it != tiles.end(); ++it ) {
+        const tripoint_abs_ms &p = *it;
+        bbox.min_corner.x() = std::min( bbox.min_corner.x(), p.x() );
+        bbox.min_corner.y() = std::min( bbox.min_corner.y(), p.y() );
+        bbox.min_corner.z() = std::min( bbox.min_corner.z(), p.z() );
+        bbox.max_corner.x() = std::max( bbox.max_corner.x(), p.x() );
+        bbox.max_corner.y() = std::max( bbox.max_corner.y(), p.y() );
+        bbox.max_corner.z() = std::max( bbox.max_corner.z(), p.z() );
+    }
+    bbox.centroid.x() = ( bbox.min_corner.x() + bbox.max_corner.x() ) / 2;
+    bbox.centroid.y() = ( bbox.min_corner.y() + bbox.max_corner.y() ) / 2;
+    bbox.centroid.z() = ( bbox.min_corner.z() + bbox.max_corner.z() ) / 2;
+    return bbox;
+}
+
+bool expand_bbox( viewport_bbox &bbox, const tripoint_abs_ms &tile )
+{
+    bool grew = false;
+    if( tile.x() < bbox.min_corner.x() ) {
+        bbox.min_corner.x() = tile.x();
+        grew = true;
+    }
+    if( tile.y() < bbox.min_corner.y() ) {
+        bbox.min_corner.y() = tile.y();
+        grew = true;
+    }
+    if( tile.x() > bbox.max_corner.x() ) {
+        bbox.max_corner.x() = tile.x();
+        grew = true;
+    }
+    if( tile.y() > bbox.max_corner.y() ) {
+        bbox.max_corner.y() = tile.y();
+        grew = true;
+    }
+    if( grew ) {
+        bbox.centroid.x() = ( bbox.min_corner.x() + bbox.max_corner.x() ) / 2;
+        bbox.centroid.y() = ( bbox.min_corner.y() + bbox.max_corner.y() ) / 2;
+    }
+    return grew;
+}
+
+bool expand_bbox_raw( tripoint_abs_ms &bbox_min, tripoint_abs_ms &bbox_max,
+                      const tripoint_abs_ms &tile )
+{
+    bool grew = false;
+    if( tile.x() < bbox_min.x() ) {
+        bbox_min.x() = tile.x();
+        grew = true;
+    }
+    if( tile.y() < bbox_min.y() ) {
+        bbox_min.y() = tile.y();
+        grew = true;
+    }
+    if( tile.x() > bbox_max.x() ) {
+        bbox_max.x() = tile.x();
+        grew = true;
+    }
+    if( tile.y() > bbox_max.y() ) {
+        bbox_max.y() = tile.y();
+        grew = true;
+    }
+    return grew;
+}
+
+int calc_target_zoom( int bbox_w, int bbox_h,
+                      int visible_w, int visible_h, int current_zoom,
+                      int saved_zoom, int padding )
+{
+    const int padded_w = bbox_w + padding;
+    const int padded_h = bbox_h + padding;
+    const int screen_px_w = visible_w * current_zoom;
+    const int screen_px_h = visible_h * current_zoom;
+
+    // 64 = most detail / fewest tiles, 4 = least detail / most tiles
+    static const std::array<int, 5> zoom_levels = { 64, 32, 16, 8, 4 };
+    int best = 4;  // fallback: most zoomed out
+    for( const int z : zoom_levels ) {
+        if( z > saved_zoom ) {
+            continue;  // never zoom in beyond original
+        }
+        const int tiles_w = screen_px_w / z;
+        const int tiles_h = screen_px_h / z;
+        if( tiles_w >= padded_w && tiles_h >= padded_h ) {
+            best = z;
+            break;  // first (largest) that fits
+        }
+    }
+    return best;
 }
 } //namespace zone_sorting
 

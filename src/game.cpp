@@ -41,6 +41,7 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_item_handling.h"
 #include "activity_type.h"
 #include "ascii_art.h"
 #include "auto_note.h"
@@ -232,6 +233,7 @@
 #define UNUSED
 #endif
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
@@ -3307,6 +3309,15 @@ void game::draw( ui_adaptor &ui )
         return;
     }
 
+    try_activate_zone_sort_viewport();
+
+    // Transient view_offset override for zone sort viewport lock.
+    // Restored after rendering so save never sees the locked value.
+    const tripoint_rel_ms real_offset = u.view_offset;
+    if( u.zone_sort_viewport.active ) {
+        u.view_offset = here.get_bub( u.zone_sort_viewport.center ) - u.pos_bub( here );
+    }
+
     ter_view_p.z() = ( u.pos_bub() + u.view_offset ).z();
     here.build_map_cache( ter_view_p.z() );
     here.update_visibility_cache( ter_view_p.z() );
@@ -3337,6 +3348,8 @@ void game::draw( ui_adaptor &ui )
     // much easier to play with them
     // (e.g. for blind players)
     ui.set_cursor( w_terrain, -u.view_offset.xy().raw() + point( POSX, POSY ) );
+
+    u.view_offset = real_offset;
 }
 
 void game::draw_panels( bool force_draw )
@@ -6405,6 +6418,56 @@ int game::get_zoom() const
 #else
     return DEFAULT_TILESET_ZOOM;
 #endif
+}
+
+void game::try_activate_zone_sort_viewport()
+{
+    if( u.zone_sort_viewport.active ) {
+        return;  // already active
+    }
+    if( !u.is_avatar() ) {
+        return;
+    }
+
+    const zone_sort_activity_actor *actor = nullptr;
+
+    if( u.activity && u.activity.id() == ACT_MOVE_LOOT ) {
+        actor = dynamic_cast<const zone_sort_activity_actor *>( u.activity.actor.get() );
+    }
+    if( !actor ) {
+        const player_activity &dest = u.peek_destination_activity();
+        if( !dest.is_null() && dest.id() == ACT_MOVE_LOOT ) {
+            actor = dynamic_cast<const zone_sort_activity_actor *>( dest.actor.get() );
+        }
+    }
+
+    if( !actor || !actor->viewport_was_active ) {
+        return;
+    }
+
+    std::unordered_set<tripoint_abs_ms> all_tiles = actor->get_coord_set();
+    for( const tripoint_abs_ms &d : actor->get_dropoff_coords() ) {
+        all_tiles.insert( d );
+    }
+    if( all_tiles.empty() ) {
+        return;
+    }
+
+    zone_sorting::viewport_bbox bbox = zone_sorting::calc_zone_bbox( all_tiles );
+    int target = zone_sorting::calc_target_zoom(
+                     bbox.width(), bbox.height(),
+                     TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                     get_zoom(), actor->viewport_saved_zoom );
+
+    u.zone_sort_viewport.active = true;
+    u.zone_sort_viewport.center = bbox.centroid;
+    u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.bbox_min = bbox.min_corner;
+    u.zone_sort_viewport.bbox_max = bbox.max_corner;
+    if( !test_mode ) {
+        set_zoom( target );
+        mark_main_ui_adaptor_resize();
+    }
 }
 
 int game::get_moves_since_last_save() const
