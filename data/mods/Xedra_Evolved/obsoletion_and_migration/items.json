@@ -3,5 +3,39 @@
     "id": [ "integrated_nobreathe", "integrated_sylph_breath" ],
     "type": "MIGRATION",
     "replace": "manual_swimming"
+  },
+  {
+    "id": "aura_ward_off_rain",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "name": "Rain Ward",
+    "description": "Thanks to the words of the charm you spoke, you won't get wet.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "symbol": "x",
+    "color": "white",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "RAINPROOF"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ]
   }
 ]

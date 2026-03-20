@@ -187,8 +187,24 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "beak_woodpecker_nares", "beak_woodpecker_top", "beak_woodpecker_tip", "beak_woodpecker_bottom" ],
     "//": "Pecking is not a primary attack for birds but they'll do it if they have to",
-    "techniques": [ "TECH_BIRD_WOODPECKER_PECK", "TECH_BIRD_WOODPECKER_PECK_GRABBED" ],
+    "techniques": [ "TECH_BIRD_WOODPECKER_PECK", "TECH_BIRD_WOODPECKER_PECK_IF_WINGS", "TECH_BIRD_WOODPECKER_PECK_GRABBED" ],
     "unarmed_damage": [ { "damage_type": "stab", "amount": 12 } ]
+  },
+  {
+    "id": "beak_hummingbird",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "name": "beak",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "beak" },
+    "heading": "beak",
+    "heading_multiple": "beaks",
+    "opposite_part": "beak_hummingbird",
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.03, 0.15 ], [ "consume_liquid", 3.0 ], [ "consume_solid", 0.66 ] ],
+    "side": "both",
+    "similar_bodypart": "beak",
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "beak_hummingbird_nares", "beak_hummingbird_top", "beak_hummingbird_tip", "beak_hummingbird_bottom" ]
   },
   {
     "id": "crustacean_pincer_r",

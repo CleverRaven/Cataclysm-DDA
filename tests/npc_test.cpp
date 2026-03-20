@@ -62,9 +62,17 @@ static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_marloss_berry( "marloss_berry" );
+static const itype_id itype_marloss_gel( "marloss_gel" );
+static const itype_id itype_meat( "meat" );
+static const itype_id itype_meat_tainted( "meat_tainted" );
+static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
+static const itype_id itype_space_cake( "space_cake" );
 
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -801,5 +809,75 @@ TEST_CASE( "npc_needs_bt_diagnostic_during_move", "[npc][behavior]" )
         for( const auto &msg : msgs ) {
             CHECK( msg.second.find( "BT needs goal" ) == std::string::npos );
         }
+    }
+}
+
+TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+
+    // Make NPC hungry enough that rate_food scores positively
+    guy.set_hunger( 300 );
+    guy.set_stored_kcal( 5000 );
+    guy.set_thirst( 0 );
+
+    // Items with use_methods that NPCs SHOULD eat:
+    SECTION( "eats honeycomb" ) {
+        // harmless iuse -- spawns wax, good nutrition
+        guy.i_add( item( itype_honeycomb ) );
+        CHECK( guy.consume_food() );
+    }
+
+    SECTION( "eats weed brownies" ) {
+        // WEED_CAKE iuse -- small debuff, but edible food
+        guy.i_add( item( itype_space_cake ) );
+        CHECK( guy.consume_food() );
+    }
+
+    // Items without use_methods that are still rejected by other checks:
+    SECTION( "refuses raw meat" ) {
+        // parasites field -- caught by parasites check, not use_methods
+        guy.i_add( item( itype_meat ) );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    // Items with use_methods that NPCs should NOT eat:
+    SECTION( "refuses tainted meat" ) {
+        // POISON iuse -- zed meat, tainted organs
+        guy.i_add( item( itype_meat_tainted ) );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "refuses marloss berry" ) {
+        // MARLOSS iuse + MYCUS_OK flag -- fungal transformation
+        guy.i_add( item( itype_marloss_berry ) );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "refuses marloss gel" ) {
+        // MARLOSS_GEL iuse -- fungal transformation, no MYCUS_OK flag
+        guy.i_add( item( itype_marloss_gel ) );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "refuses mutagen" ) {
+        // consume_drug iuse, MED type -- player-controlled mutation
+        guy.i_add( item( itype_mutagen ) );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "saprovore eats tainted meat" ) {
+        // Saprovore mutation allows eating parasitic/tainted food
+        guy.set_mutation( trait_SAPROVORE );
+        guy.i_add( item( itype_meat_tainted ) );
+        CHECK( guy.consume_food() );
+    }
+
+    SECTION( "saprovore eats raw meat" ) {
+        guy.set_mutation( trait_SAPROVORE );
+        guy.i_add( item( itype_meat ) );
+        CHECK( guy.consume_food() );
     }
 }

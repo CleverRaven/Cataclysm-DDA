@@ -2498,6 +2498,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_ward_off_rain",
+    "name": [ "To Keep Off the Rain and the Damp" ],
+    "desc": [ "Thanks to the words of the charm you spoke, you won't get wet in the rain." ],
+    "flags": [ "RAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_magic_no_evil_eye",
     "//": "Empty to hide effect",
     "name": [ "" ],

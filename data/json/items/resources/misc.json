@@ -32,7 +32,8 @@
     "volume": "1250 ml",
     "price": "24 USD",
     "price_postapoc": "0 cent",
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "use_action": [ "MOP" ]
   },
   {
     "type": "ITEM",
