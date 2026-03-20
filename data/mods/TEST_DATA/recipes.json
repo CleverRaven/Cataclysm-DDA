@@ -210,6 +210,7 @@
     "time": "10 m",
     "charges": 3,
     "autolearn": false,
+    "book_learn": [ [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fat", 2 ] ] ]
   },
