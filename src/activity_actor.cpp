@@ -1444,14 +1444,14 @@ int hacksaw_activity_actor::get_tool_quality() const
     int qual = 0;
     if( type.has_value() ) {
         item veh_tool = item( type.value(), calendar::turn );
-        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+        for( const auto &quality : type.value()->qualities ) {
             if( quality.first == qual_SAW_M ) {
-                qual = quality.second;
+                qual = quality.second.level;
             }
         }
-        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+        for( const auto &quality : type.value()->charged_qualities ) {
             if( quality.first == qual_SAW_M ) {
-                qual = std::max( qual, quality.second );
+                qual = std::max( qual, quality.second.level );
             }
         }
     } else {
@@ -5759,15 +5759,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
+        // Recompute per-step tool speed from current crafting inventory
+        cached_tool_speeds = compute_tool_speeds( rec, crafter );
+        const std::vector<float> *ts = cached_tool_speeds.empty() ? nullptr : &cached_tool_speeds;
 
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) );
+                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0, ts ) );
         // Current expected total moves, includes crafting speed modifiers and assistants
         cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
                                            rec.batch_time( crafter, craft.get_making_batch_size(), crafting_speed,
-                                                   assistants ) );
+                                                   assistants, ts ) );
     }
     const double base_total_moves = cached_base_total_moves;
     const double cur_total_moves = cached_cur_total_moves;
@@ -5795,9 +5798,10 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() ) {
         craft.mod_step_progress( delta_progress );
         const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
+        const std::vector<float> *ts = cached_tool_speeds.empty() ? nullptr : &cached_tool_speeds;
         while( craft.get_current_step() < last_step_idx ) {
             const double budget = rec.step_budget_moves( crafter,
-                                  craft.get_current_step(), craft.get_making_batch_size() );
+                                  craft.get_current_step(), craft.get_making_batch_size(), ts );
             if( craft.get_step_progress() < budget ) {
                 break;
             }

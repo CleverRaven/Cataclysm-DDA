@@ -1139,7 +1139,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
     const itype *it = item::find_type( comp.type );
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
-        if( qr == nullptr || qr->level > ql.second ) {
+        if( qr == nullptr || qr->level > ql.second.level ) {
             continue;
         }
         // This item can be used for the quality requirement, same as above for specific
