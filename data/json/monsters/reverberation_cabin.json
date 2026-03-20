@@ -72,7 +72,7 @@
       },
       {
         "text": "[Stand up]",
-        "condition":  { "math": [ "u_limb_score('reaction', 'type': 'head') >= 0.3" ] },
+        "condition": { "math": [ "u_limb_score('reaction', 'type': 'head') >= 0.3" ] },
         "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_ESCAPE"
       }
     ]
