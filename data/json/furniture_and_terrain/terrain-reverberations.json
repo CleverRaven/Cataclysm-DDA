@@ -12,7 +12,7 @@
     "type": "terrain",
     "id": "t_inner_cabins_door_o",
     "name": "strange open door",
-    "description": "A wide open door swinging outward, into the darkness, beyond your reach.  A piece of the wooden frame doesn't match, like it has been replaced or repaired.",
+    "description": "A wide open door swinging outward, into the darkness, beyond your reach.  The door and the frame look fresh, as if installed recently.",
     "symbol": "'",
     "color": "brown",
     "looks_like": "t_door_o",
