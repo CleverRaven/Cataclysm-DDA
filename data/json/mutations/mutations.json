@@ -1588,6 +1588,17 @@
   },
   {
     "type": "mutation",
+    "id": "COMPUTER_ILLITERATE",
+    "name": { "str": "Computer Illiterate" },
+    "description": "You just never really figured out how to use those infernal devices.  You cannot use computer terminals and cannot raise the computer skill above 0.",
+    "points": -5,
+    "starting_trait": true,
+    "valid": false,
+    "enchantments": [ { "skills": [ { "value": "computer", "multiply": -1 } ] } ],
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "mutation",
     "id": "PACIFIST",
     "name": { "str": "Pacifist" },
     "description": "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
