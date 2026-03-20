@@ -1582,6 +1582,12 @@ class vehicle
         units::power total_wind_epower( map &here ) const;
         // Total power currently being produced by all water wheels.
         units::power total_water_wheel_epower( map &here ) const;
+        // Rated (max) power from solar panels, ignoring weather and position.
+        units::power rated_solar_epower() const;
+        // Rated (max) power from wind turbines, ignoring weather and position.
+        units::power rated_wind_epower() const;
+        // Rated (max) power from water wheels, ignoring position.
+        units::power rated_water_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
         // Total power draw from all cable-connected devices. Is cleared every turn during idle().
@@ -2260,6 +2266,9 @@ class vehicle
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( map &here, const time_point &update_to );
+        // Catch up renewable generation for off-map vehicles using absolute positions.
+        // Returns energy generated in kJ. Updates last_update to prevent double-charge.
+        int catchup_off_map_renewables( const time_point &now );
 
         // The faction that owns this vehicle.
         faction_id owner = faction_id::NULL_ID();

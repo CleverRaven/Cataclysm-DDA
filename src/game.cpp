@@ -174,6 +174,7 @@
 #include "pickup.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "power_network.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -457,6 +458,7 @@ game::game() :
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
+    next_item_uid( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
@@ -673,6 +675,7 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
+    next_item_uid = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -691,6 +694,7 @@ void game::setup()
     clear_zombies();
     critter_tracker->clear_npcs();
     faction_manager_ptr->clear();
+    power_networks_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     timed_events = timed_event_manager();
@@ -2971,6 +2975,11 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+power_network_manager &game::power_networks()
+{
+    return *power_networks_ptr;
+}
+
 void game::disp_NPC_epilogues()
 {
     // TODO: This search needs to be expanded to all NPCs
@@ -3608,6 +3617,11 @@ character_id game::assign_npc_id()
     character_id ret = next_npc_id;
     ++next_npc_id;
     return ret;
+}
+
+int64_t game::assign_item_uid()
+{
+    return next_item_uid++;
 }
 
 Creature *game::is_hostile_nearby()

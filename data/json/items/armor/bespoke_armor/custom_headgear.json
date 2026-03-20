@@ -275,7 +275,7 @@
     "price_postapoc": "4 USD 50 cent",
     "material": [ "denim", "leather", "plastic" ],
     "symbol": "[",
-    "looks_like": "balclava",
+    "looks_like": "helmet_nomad",
     "color": "white",
     "armor": [
       {

@@ -2026,6 +2026,14 @@
         "moves": 300
       },
       {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "30 cm",
+        "moves": 300,
+        "description": "Front pocket."
+      },
+      {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3250 ml",

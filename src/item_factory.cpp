@@ -71,6 +71,61 @@
 
 template <typename T> struct enum_traits;
 
+// Reader for item qualities that accepts both legacy array ["CUT", 1] and
+// new object {"id": "CUT", "level": 1, "speed": 0.5} formats.
+// Produces std::pair<quality_id, itype::item_quality> for use with optional()
+// so that copy-from / extend / delete / proportional / relative all work.
+class item_quality_reader : public generic_typed_reader<item_quality_reader>
+{
+    public:
+        static constexpr bool read_objects = true;
+
+        std::pair<quality_id, itype::item_quality> get_next( const JsonValue &val ) const {
+            if( val.test_array() ) {
+                // Legacy: ["CUT", 1]
+                JsonArray arr = val.get_array();
+                if( arr.size() != 2 ) {
+                    arr.throw_error( "quality array must have exactly 2 entries [id, level]" );
+                }
+                return { quality_id( arr[0].get_string() ),
+                         itype::item_quality{ arr[1].get_int(), 1.0f } };
+            } else if( val.test_object() ) {
+                // New: {"id": "CUT", "level": 1, "speed": 0.5}
+                JsonObject obj = val.get_object();
+                quality_id qid( obj.get_string( "id" ) );
+                int level = obj.get_int( "level" );
+                float speed = obj.get_float( "speed", 1.0f );
+                if( speed <= 0.0f ) {
+                    obj.throw_error_at( "speed", "quality speed must be > 0" );
+                }
+                return { qid, itype::item_quality{ level, speed } };
+            } else if( val.test_string() ) {
+                // Bare string: "COOK" (used in "delete" context)
+                return { quality_id( val.get_string() ), itype::item_quality{ 0, 1.0f } };
+            } else if( val.is_member() ) {
+                // Map format: { "CUT": 1 }
+                const JsonMember &jm = dynamic_cast<const JsonMember &>( val );
+                return { quality_id( jm.name() ),
+                         itype::item_quality{ static_cast<int>( val.get_float() ), 1.0f } };
+            }
+            val.throw_error( "quality entry must be an array, object, or string" );
+        }
+
+        // Override relative_next to bypass the supports_relative<item_quality> trait
+        // which the PCH may evaluate before item_quality has operator+=.
+        // "relative" on qualities means add to level, leave speed unchanged.
+        template<typename C>
+        void relative_next( JsonValue &jv, C &container ) const {
+            auto parsed = get_next( jv );
+            auto iter = container.find( parsed.first );
+            if( iter == container.end() ) {
+                jv.throw_error( "relative: no existing quality to modify" );
+                return;
+            }
+            iter->second.level += parsed.second.level;
+        }
+};
+
 static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" );
@@ -348,7 +403,7 @@ void Item_factory::finalize_pre( itype &obj )
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {
         for( const auto &u : q.first.obj().usages ) {
-            if( q.second >= u.first ) {
+            if( q.second.level >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
@@ -359,7 +414,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     for( const auto &q : obj.charged_qualities ) {
         for( const auto &u : q.first.obj().usages ) {
-            if( q.second >= u.first ) {
+            if( q.second.level >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
                 // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
             }
@@ -837,9 +892,9 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
 
-        obj.qualities[qual_GUN] = std::max( obj.qualities[qual_GUN], 1 );
+        obj.qualities[qual_GUN].level = std::max( obj.qualities[qual_GUN].level, 1 );
         if( qual_gun_skill.is_valid() ) {
-            obj.qualities[qual_gun_skill] = std::max( obj.qualities[qual_gun_skill], 1 );
+            obj.qualities[qual_gun_skill].level = std::max( obj.qualities[qual_gun_skill].level, 1 );
         }
     }
 
@@ -2482,6 +2537,11 @@ void Item_factory::check_definitions() const
                 msg += string_format( "invalid cooks_like %s\n",
                                       type->comestible->cooks_like.c_str() );
             }
+            if( !type->comestible->eats_like.is_empty() &&
+                !has_template( type->comestible->eats_like ) ) {
+                msg += string_format( "invalid eats_like %s\n",
+                                      type->comestible->eats_like.c_str() );
+            }
             if( !type->comestible->smoking_result.is_null() &&
                 !type->comestible->smoking_result.is_empty() &&
                 !has_template( type->comestible->smoking_result ) ) {
@@ -3442,6 +3502,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "freezing_point", freeze_point );
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
+    optional( jo, was_loaded, "eats_like", eats_like );
     optional( jo, was_loaded, "smoking_result", smoking_result, itype_id::NULL_ID() );
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
@@ -4228,9 +4289,8 @@ void itype::load( const JsonObject &jo, std::string_view src )
         }
     }
 
-    optional( jo, was_loaded, "qualities", qualities, weighted_string_id_reader<quality_id, int> {1} );
-    optional( jo, was_loaded, "charged_qualities", charged_qualities,
-              weighted_string_id_reader<quality_id, int> {1} );
+    optional( jo, was_loaded, "qualities", qualities, item_quality_reader {} );
+    optional( jo, was_loaded, "charged_qualities", charged_qualities, item_quality_reader {} );
 
     optional( jo, was_loaded, "properties", properties );
 

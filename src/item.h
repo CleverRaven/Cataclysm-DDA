@@ -30,6 +30,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
+#include "item_uid.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
 #include "point.h"
@@ -230,6 +231,12 @@ class item : public visitable
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
         safe_reference<item> get_safe_reference();
+
+        /** Persistent unique identifier for this item instance.
+         * Returns const ref to avoid triggering item_uid's copy-generates-new semantics. */
+        const item_uid &uid() const {
+            return uid_;
+        }
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -1069,6 +1076,14 @@ class item : public visitable
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
+        /**
+         * Speed modifier for a quality this item provides at >= level.
+         * Mirrors get_quality() resolution: inherent, charged (if crafter provided),
+         * BOIL special case, contained items.
+         * Returns 1.0f if item doesn't qualify or has no speed modifier.
+         */
+        float get_quality_speed( const quality_id &id, int level,
+                                 const Character *crafter = nullptr ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -3087,6 +3102,14 @@ class item : public visitable
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
+        // Step iteration state for step recipes.
+        // get_current_step clamps to valid range as a defensive measure.
+        int get_current_step() const;
+        void set_current_step( int step );
+        double get_step_progress() const;
+        void set_step_progress( double progress );
+        void mod_step_progress( double delta );
+
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
         // calculates the enchantment value as if this item were wielded.
@@ -3348,6 +3371,11 @@ class item : public visitable
                 std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
+                // Step iteration state for step recipes.
+                // Authoritative: advanced by tracking consumed work against step budgets.
+                int current_step = 0;
+                double step_progress = 0.0; // base-speed moves consumed within current step
+
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;
@@ -3411,6 +3439,7 @@ class item : public visitable
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
+        item_uid uid_; // persistent unique identifier, survives save/load
         /**
          * Current phase state, inherits a default at room temperature from
          * itype and can be changed through item processing.  This is a static

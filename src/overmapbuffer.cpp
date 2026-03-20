@@ -270,6 +270,7 @@ void overmap_global_state::clear()
 {
     placed_unique_specials.clear();
     unique_special_count.clear();
+    unique_special_decks.clear();
     highway_intersections.clear();
     overmap_count = 0;
     major_river_count = 0;
@@ -1871,6 +1872,36 @@ int overmapbuffer::get_major_river_count() const
 void overmapbuffer::inc_major_river_count()
 {
     global_state.major_river_count++;
+}
+
+unique_special_deck_state &overmapbuffer::get_deck_state(
+    const overmap_special_id &id, int successes, int deck_size )
+{
+    auto [it, inserted] = global_state.unique_special_decks.try_emplace( id );
+    unique_special_deck_state &deck = it->second;
+    // Reset if: new entry, constraints changed (mod update), or saved
+    // state has invalid invariants (corrupt save, manual edit, etc.).
+    if( inserted || deck.successes != successes || deck.deck_size != deck_size ||
+        deck.cards_remain <= 0 || deck.successes_remain > deck.cards_remain ||
+        deck.successes_remain > successes || deck.to_place < 0 ) {
+        deck.successes = successes;
+        deck.deck_size = deck_size;
+        deck.successes_remain = successes;
+        deck.cards_remain = deck_size;
+        if( inserted ) {
+            deck.to_place = 0;
+        }
+        // On constraint change, keep to_place -- those draws already happened.
+    }
+    return deck;
+}
+
+void overmapbuffer::consume_deck_placement( const overmap_special_id &id )
+{
+    auto it = global_state.unique_special_decks.find( id );
+    if( it != global_state.unique_special_decks.end() && it->second.to_place > 0 ) {
+        it->second.to_place--;
+    }
 }
 
 bool overmap_feature_grid::feature_point_exists( const point_abs_om &intersection_om ) const

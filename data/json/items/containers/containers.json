@@ -5064,7 +5064,7 @@
     "price": "15 USD",
     "price_postapoc": "50 cent",
     "material": [ "wood" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -5094,7 +5094,7 @@
     "price": "30 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

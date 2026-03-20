@@ -2698,6 +2698,14 @@ definitions in the json files by adding a `"qualities":` line.
 For example: `"qualities": [ [ "ANVIL", 2 ] ],` associates the `ANVIL` quality
 at level `2` to the item.
 
+Qualities also accept an object format with an optional `speed` field:
+`"qualities": [ { "id": "SEW", "level": 2, "speed": 0.3 } ]`.
+The `speed` value (default 1.0) is a multiplier applied to recipe steps that
+require this quality. Values below 1.0 make the step faster (e.g. a sewing
+machine with speed 0.3 completes sewing steps in 30% of the base time).
+Both array and object formats can be mixed freely. `charged_qualities` accepts
+the same format.
+
 ### Traits/Mutations
 
 See [MUTATIONS.md](MUTATIONS.md)

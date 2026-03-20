@@ -87,8 +87,7 @@ status_t character_oracle_t::can_make_fire( std::string_view ) const
 
 status_t character_oracle_t::can_take_shelter( std::string_view ) const
 {
-    // There be no shelter here.
-    // The frontline is everywhere.
+    // Stub: shelter detection not implemented yet. See #28681.
     return status_t::failure;
 }
 

@@ -70,7 +70,7 @@ You will see messages saying packages are already installed, as well as Cygwin i
 
 **Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
-**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CONTRIBUTING.md#example-workflow).
+**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md#example-workflow).
 
 ```bash
 cd /cygdrive/c/dev

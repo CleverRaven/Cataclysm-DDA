@@ -447,6 +447,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SHAPESHIFT_SIZE_SMALL``` Changes your size to `creature_size::small`.  Checked second of the shapeshift size category flags and before any normal size flag.
 - ```SHAPESHIFT_SIZE_TINY``` Changes your size to `creature_size::tiny`.  Checked first of the shapeshift size category flags and before any normal size flag.
 - ```SLUDGE_IMMUNE``` Critter is immune to sludge trail field (`fd_sludge`)
+- ```SNOWWALKING``` Character's movement is not slowed by snow depth
 - ```SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
 - ```SPIRITUAL``` Changes character's moral behaviour in some situations.
 - ```STAB_IMMUNE``` You are immune to stabbing damage.

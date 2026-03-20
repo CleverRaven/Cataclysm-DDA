@@ -12,15 +12,16 @@
   {
     "type": "snippet",
     "category": "<mp3_reverberation_locator_almost_there>",
-    "text": [
-      "Its song is indescribably beautiful.",
-      "Its song is painting the world in vibrant colors.",
-      "Its song is begging you to get closer."
-    ]
+    "text": [ "Its song is indescribably beautiful.", "Its song is painting the world in vibrant colors." ]
   },
   {
     "type": "snippet",
     "category": "<mp3_reverberation_locator_close>",
     "text": [ "Its song is energetic.", "Its song is joyful." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mp3_reverberation_locator_distant>",
+    "text": [ "You hear faint music somewhere on your body." ]
   }
 ]

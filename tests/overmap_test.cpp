@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdio>
 #include <functional>
@@ -56,6 +57,20 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
+
+class overmap_test_helper
+{
+    public:
+        static void set_highway_connections(
+            overmap &om,
+            const std::array<tripoint_om_omt, 4> &conns ) {
+            om.highway_connections = conns;
+        }
+        static const std::array<tripoint_om_omt, 4> &get_highway_connections(
+            const overmap &om ) {
+            return om.highway_connections;
+        }
+};
 
 static std::vector<oter_flags> all_oter_flags()
 {
@@ -495,7 +510,46 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point::north_west ) ), 0 } );
     // Don't inherit overmap state from initialization or previous tests.
     overmap_buffer.clear();
-    for( int attempt_no = 0; attempt_no < 3; ++attempt_no ) {
+
+    // Build the set of terrain types we expect to find. Anything still in this
+    // set after generation is reported as missing.
+    std::unordered_set<oter_type_id> yet_to_be_seen;
+    {
+        std::unordered_set<oter_type_id> dedup;
+        for( const oter_t &ter : overmap_terrains::get_all() ) {
+            oter_type_id id = ter.get_type_id();
+            oter_type_str_id id_s = id.id();
+            if( id_s.is_empty() || id_s.is_null() || !dedup.insert( id ).second ) {
+                continue;
+            }
+            if( id->has_flag( oter_flags::should_not_spawn ) ) {
+                continue;
+            }
+            const recipe_id recipe( id_s.c_str() );
+            if( recipe.is_valid() && recipe->is_blueprint() ) {
+                continue;
+            }
+            if( id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway ) ) {
+                continue;
+            }
+            bool is_whitelisted = false;
+            for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
+                std::cmatch m;
+                if( std::regex_match( id_s.c_str(), m, wl ) &&
+                    m.prefix().length() == 0 && m.suffix().length() == 0 ) {
+                    is_whitelisted = true;
+                    break;
+                }
+            }
+            if( !is_whitelisted ) {
+                yet_to_be_seen.insert( id );
+            }
+        }
+    }
+
+    constexpr int max_attempts = 3;
+    for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
+         ++attempt_no ) {
         // First we just touch all the overmaps in an area to cause them to generate.
         for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 3 ) ) {
             point_abs_omt omt_start = project_to<coords::omt>( om_cur );
@@ -519,6 +573,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                         tripoint_abs_omt tp( p, z );
                         oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
                         auto iter_bool = stats.emplace( id, tp );
+                        if( iter_bool.second ) {
+                            yet_to_be_seen.erase( id );
+                        }
                         iter_bool.first->second.last_observed = tp;
                         ++iter_bool.first->second.count;
                     }
@@ -574,54 +631,19 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         overmap_buffer.reset();
     }
 
-    std::unordered_set<oter_type_id> done;
-    std::vector<oter_type_id> missing;
+    // Check that no SHOULD_NOT_SPAWN terrain was generated.
+    for( const auto &entry : stats ) {
+        if( entry.first->has_flag( oter_flags::should_not_spawn ) ) {
+            CAPTURE( entry.first );
+            FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
+        }
+    }
 
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    for( const oter_t &ter : overmap_terrains::get_all() ) {
-        oter_type_id id = ter.get_type_id();
-        oter_type_str_id id_s = id.id();
-        if( id_s.is_empty() || id_s.is_null() ) {
-            continue;
-        }
-        if( done.insert( id ).second ) {
-            CAPTURE( id );
-            auto it = stats.find( id );
-            const bool found = it != stats.end();
-            const bool should_be_found = !id->has_flag( oter_flags::should_not_spawn );
-
-            if( found == should_be_found ) {
-                continue;
-            }
-
-            // We also want to skip any terrain that's the result of a faction
-            // camp construction recipe
-            const recipe_id recipe( id_s.c_str() );
-            if( recipe.is_valid() && recipe->is_blueprint() ) {
-                continue;
-            }
-
-            if( found ) {
-                FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else {
-                //oceans and highways are not guaranteed to be inside the checked overmap radius
-                bool is_whitelisted = id->has_flag( oter_flags::ocean ) || id->has_flag( oter_flags::highway );
-                for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
-                    std::cmatch m;
-                    is_whitelisted = is_whitelisted || (
-                                         // ensure the full string matches. Don't accept substrings.
-                                         std::regex_match( id_s.c_str(), m, wl ) && m.prefix().length() == 0 && m.suffix().length() == 0 );
-                }
-                if( !is_whitelisted ) {
-                    missing.emplace_back( id_s );
-                }
-            }
-        }
-    }
-
     {
+        std::vector<oter_type_id> missing( yet_to_be_seen.begin(), yet_to_be_seen.end() );
         size_t num_missing = missing.size();
         CAPTURE( num_missing );
         constexpr size_t max_to_report = 100;
@@ -785,6 +807,106 @@ TEST_CASE( "highway_find_intersection_bounds", "[overmap]" )
         CHECK( bounds.back() == pos + p.second );
     }
 
+}
+
+TEST_CASE( "highway_connections_default_to_invalid", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    point_abs_om pos;
+    bool found = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        if( !overmap_buffer.has( candidate ) ) {
+            pos = candidate;
+            found = true;
+            break;
+        }
+    }
+    REQUIRE( found );
+
+    // Heap-allocated because overmap's map_layer arrays overflow the stack.
+    auto om = std::make_unique<overmap>( pos );
+    const auto &conns = overmap_test_helper::get_highway_connections( *om );
+    for( int i = 0; i < 4; i++ ) {
+        CAPTURE( i );
+        CHECK( conns[i] == tripoint_om_omt::invalid );
+        CHECK( conns[i] != tripoint_om_omt::zero );
+    }
+}
+
+TEST_CASE( "highway_neighbor_missing_connections_no_crash", "[overmap][highway]" )
+{
+    overmap_buffer.clear();
+
+    // Find a clean block with no on-disk saves.
+    point_abs_om cluster_origin;
+    bool found_cluster = false;
+    for( const point_abs_om &candidate : closest_points_first( point_abs_om(), 50 ) ) {
+        bool block_clean = true;
+        for( const point_abs_om &p : closest_points_first( candidate, 0, 4 ) ) {
+            if( overmap_buffer.has( p ) ) {
+                block_clean = false;
+                break;
+            }
+        }
+        if( block_clean ) {
+            cluster_origin = candidate;
+            found_cluster = true;
+            break;
+        }
+    }
+    overmap_buffer.clear();
+    REQUIRE( found_cluster );
+
+    // Generate a radius-2 cluster, leaving an ungenerated ring around it.
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 0, 2 ) ) {
+        const point_abs_omt omt = project_to<coords::omt>( om_pos );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    }
+
+    // Find a boundary highway overmap with a valid outward connection
+    // toward an ungenerated neighbor.
+    overmap *target = nullptr;
+    point_abs_om target_pos;
+    int outward_dir = -1;
+    for( const point_abs_om &om_pos : closest_points_first( cluster_origin, 2, 2 ) ) {
+        overmap *om = overmap_buffer.get_existing( om_pos );
+        if( om == nullptr ) {
+            continue;
+        }
+        const auto &conns = overmap_test_helper::get_highway_connections( *om );
+        for( int i = 0; i < 4; i++ ) {
+            if( conns[i] == tripoint_om_omt::zero || conns[i] == tripoint_om_omt::invalid ) {
+                continue;
+            }
+            const point_abs_om neighbor = om_pos + four_adjacent_offsets[i];
+            if( overmap_buffer.get_existing( neighbor ) == nullptr ) {
+                target = om;
+                target_pos = om_pos;
+                outward_dir = i;
+                break;
+            }
+        }
+        if( target != nullptr ) {
+            break;
+        }
+    }
+    REQUIRE( target != nullptr );
+
+    // Corrupt to simulate old-save or cascading failure.
+    overmap_test_helper::set_highway_connections( *target, {
+        tripoint_om_omt::zero, tripoint_om_omt::zero,
+        tripoint_om_omt::zero, tripoint_om_omt::zero
+    } );
+
+    // Generate the neighbor that reads the corrupted connection.
+    const point_abs_om victim = target_pos + four_adjacent_offsets[outward_dir];
+    std::string dmsg = capture_debugmsg_during( [&]() {
+        const point_abs_omt omt = project_to<coords::omt>( victim );
+        overmap_buffer.ter( tripoint_abs_omt( omt, 0 ) );
+    } );
+
+    CHECK_THAT( dmsg, !Catch::Contains( "highway connections not initialized" ) );
 }
 
 TEST_CASE( "overmap_generation_is_deterministic", "[overmap]" )

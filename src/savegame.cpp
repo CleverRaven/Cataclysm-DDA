@@ -41,6 +41,7 @@
 #include "overmap_types.h"
 #include "overmap_map_data_cache.h"
 #include "path_info.h"
+#include "power_network.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -1675,6 +1676,8 @@ void game::unserialize_master( const JsonValue &jv )
             next_mission_id = jsin.get_int();
         } else if( name == "next_npc_id" ) {
             next_npc_id.deserialize( jsin );
+        } else if( name == "next_item_uid" ) {
+            jsin.read( next_item_uid );
         } else if( name == "active_missions" ) {
             mission::unserialize_all( jsin );
         } else if( name == "factions" ) {
@@ -1707,6 +1710,7 @@ void game::unserialize_dimension_data( const cata_path &file_name, std::istream 
 
 void game::unserialize_dimension_data( const JsonValue &jv )
 {
+    power_networks().clear();
     JsonObject game_json = jv;
     for( JsonMember jsin : game_json ) {
         std::string name = jsin.name();
@@ -1718,6 +1722,8 @@ void game::unserialize_dimension_data( const JsonValue &jv )
             overmap_buffer.deserialize_placed_unique_specials( jsin );
         } else if( name == "region_type" ) {
             jsin.read( overmap_buffer.current_region_type );
+        } else if( name == "power_networks" ) {
+            power_networks().deserialize( jsin );
         }
     }
 }
@@ -1876,6 +1882,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "next_mission_id", next_mission_id );
         json.member( "next_npc_id", next_npc_id );
+        json.member( "next_item_uid", next_item_uid );
 
         json.member( "active_missions" );
         mission::serialize_all( json );
@@ -1906,6 +1913,10 @@ void game::serialize_dimension_data( std::ostream &fout )
         weather_manager::serialize_all( json );
 
         json.member( "region_type", overmap_buffer.current_region_type );
+
+        json.member( "power_networks" );
+        power_networks().serialize( json );
+
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_DIMENSION_DATA, e.c_str() );
@@ -2030,6 +2041,26 @@ void creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
+void unique_special_deck_state::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "successes", successes );
+    json.member( "deck_size", deck_size );
+    json.member( "successes_remain", successes_remain );
+    json.member( "cards_remain", cards_remain );
+    json.member( "to_place", to_place );
+    json.end_object();
+}
+
+void unique_special_deck_state::deserialize( const JsonObject &json )
+{
+    json.read( "successes", successes );
+    json.read( "deck_size", deck_size );
+    json.read( "successes_remain", successes_remain );
+    json.read( "cards_remain", cards_remain );
+    json.read( "to_place", to_place );
+}
+
 void overmap_global_state::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2039,6 +2070,7 @@ void overmap_global_state::serialize( JsonOut &json ) const
     json.member( "unique_special_count", unique_special_count );
     json.member( "overmap_highway_intersection_grid", highway_intersections );
     json.member( "major_river_count", major_river_count );
+    json.member( "unique_special_decks", unique_special_decks );
 
     json.end_object();
 }
@@ -2068,6 +2100,8 @@ void overmap_global_state::deserialize( const JsonObject &json )
         json.read( "overmap_highway_intersection_grid", highway_intersections );
     }
     json.read( "major_river_count", major_river_count );
+    unique_special_decks.clear();
+    json.read( "unique_special_decks", unique_special_decks );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

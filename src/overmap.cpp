@@ -3129,6 +3129,11 @@ bool overmap::place_special_attempt(
 
             place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
+            // Only this call site participates in deck accounting.
+            if( special.has_flag( "OVERMAP_UNIQUE" ) || special.has_flag( "GLOBALLY_UNIQUE" ) ) {
+                overmap_buffer.consume_deck_placement( special.id );
+            }
+
             if( ++iter->instances_placed >= constraints.occurrences.max ) {
                 enabled_specials.erase( iter );
             }
@@ -3211,16 +3216,46 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const bool globally_unique = iter->special_details->has_flag( "GLOBALLY_UNIQUE" );
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter->special_details->id;
-            const overmap_special_placement_constraints &constraints = iter->special_details->get_constraints();
-            const float special_count = overmap_buffer.get_unique_special_count( id );
-            const float overmap_count = overmap_buffer.get_overmap_count();
-            const float min = special_count > 0 ? constraints.occurrences.min / special_count :
-                              constraints.occurrences.min;
-            const float max = std::max( overmap_count > 0 ? constraints.occurrences.max / overmap_count :
-                                        constraints.occurrences.max, min );
-            if( x_in_y( min, max ) && ( !overmap_buffer.contains_unique_special( id ) ) ) {
-                // Min and max are overloaded to be the chance of occurrence,
-                // so reset instances placed to one short of max so we don't place several.
+            const overmap_special_placement_constraints &constraints =
+                iter->special_details->get_constraints();
+            const int occ_min = constraints.occurrences.min;
+            const int occ_max = constraints.occurrences.max;
+
+            // Specials with no success cards or empty deck never spawn via this path.
+            if( occ_min <= 0 || occ_max <= 0 ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+
+            // GLOBALLY_UNIQUE already placed -- done forever.
+            if( globally_unique && overmap_buffer.contains_unique_special( id ) ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+
+            unique_special_deck_state &deck =
+                overmap_buffer.get_deck_state( id, occ_min, occ_max );
+
+            // Draw only when nothing is pending -- prevents unbounded backlog.
+            if( deck.to_place <= 0 ) {
+                // successes_remain > 0 guard: x_in_y(0, N) can return true when rng_float is 0.0.
+                if( deck.successes_remain > 0 && x_in_y( deck.successes_remain, deck.cards_remain ) ) {
+                    deck.successes_remain--;
+                    deck.cards_remain--;
+                    deck.to_place++;
+                } else {
+                    deck.cards_remain--;
+                }
+
+                // Deck exhausted -- reshuffle (start a new cycle).
+                if( deck.cards_remain <= 0 ) {
+                    deck.successes_remain = occ_min;
+                    deck.cards_remain = occ_max;
+                }
+            }
+
+            if( deck.to_place > 0 ) {
+                // Allow exactly one placement attempt on this overmap.
                 iter->instances_placed = constraints.occurrences.max - 1;
             } else {
                 iter = enabled_specials.erase( iter );
