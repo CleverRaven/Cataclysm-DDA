@@ -48,4 +48,7 @@ predicate_map = {{
     }
 };
 
+std::unordered_map<std::string, std::function<float( const oracle_t *, std::string_view )>>
+        score_predicate_map = {};
+
 } // namespace behavior

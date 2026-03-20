@@ -51,12 +51,15 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 class Creature;
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
@@ -69,8 +72,8 @@ static const itype_id itype_leather_belt( "leather_belt" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_meat( "meat" );
-static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_meat_cooked( "meat_cooked" );
+static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_space_cake( "space_cake" );
@@ -886,14 +889,12 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     }
 }
 
-static const faction_id faction_your_followers( "your_followers" );
-
 TEST_CASE( "npc_no_food_mod_suppresses_complaints", "[npc][needs]" )
 {
     clear_map_without_vision();
     avatar &player_character = get_avatar();
     clear_avatar();
-    npc &guy = spawn_npc( player_character.pos_bub().xy() + point( 1, 0 ), "test_talker" );
+    npc &guy = spawn_npc( player_character.pos_bub().xy() + point::east, "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
     clear_character( guy );
     guy.set_attitude( NPCATT_FOLLOW );
@@ -902,9 +903,9 @@ TEST_CASE( "npc_no_food_mod_suppresses_complaints", "[npc][needs]" )
     guy.set_hunger( 300 );   // well above NPC_HUNGER_COMPLAIN (160)
     guy.set_thirst( 200 );   // well above NPC_THIRST_COMPLAIN (80)
 
-    // Assert preconditions so fixture failures are diagnosable
+    // Assert the exact preconditions that npc::complain() checks
     REQUIRE( guy.is_player_ally() );
-    REQUIRE( player_character.sees( get_map(), guy ) );
+    REQUIRE( get_player_view().sees( get_map(), guy ) );
 
     SECTION( "with NO_NPC_FOOD, no hunger/thirst complaints" ) {
         override_option no_food( "NO_NPC_FOOD", "true" );
