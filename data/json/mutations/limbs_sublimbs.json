@@ -328,6 +328,34 @@
     "similar_bodypart": "beak_bottom"
   },
   {
+    "id": "beak_hummingbird_nares",
+    "copy-from": "beak_nares",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_nares"
+  },
+  {
+    "id": "beak_hummingbird_top",
+    "copy-from": "beak_top",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_top"
+  },
+  {
+    "id": "beak_hummingbird_tip",
+    "copy-from": "beak_tip",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_tip"
+  },
+  {
+    "id": "beak_hummingbird_bottom",
+    "copy-from": "beak_bottom",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_bottom"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",

@@ -4895,7 +4895,7 @@
     "ugliness": 5,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.8 } ] } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_hummingbird" } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ]
   },
   {
