@@ -64,6 +64,7 @@ static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const flag_id json_flag_RAIN_IMMUNE( "RAIN_IMMUNE" );
 
 static const oter_type_str_id oter_type_forest( "forest" );
 static const oter_type_str_id oter_type_forest_water( "forest_water" );
@@ -383,6 +384,10 @@ static void fill_water_collectors( int mmPerHour )
  */
 void wet_character( Character &target, int amount )
 {
+    if( target.has_flag( json_flag_RAIN_IMMUNE ) ) {
+        return;
+    }
+
     item_location weapon = target.get_wielded_item();
     if( amount <= 0 || target.has_trait( trait_FEATHERS ) ||
         ( weapon && weapon->has_flag( json_flag_RAIN_PROTECT ) ) ||
