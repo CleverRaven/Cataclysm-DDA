@@ -2482,6 +2482,11 @@ void Item_factory::check_definitions() const
                 msg += string_format( "invalid cooks_like %s\n",
                                       type->comestible->cooks_like.c_str() );
             }
+            if( !type->comestible->eats_like.is_empty() &&
+                !has_template( type->comestible->eats_like ) ) {
+                msg += string_format( "invalid eats_like %s\n",
+                                      type->comestible->eats_like.c_str() );
+            }
             if( !type->comestible->smoking_result.is_null() &&
                 !type->comestible->smoking_result.is_empty() &&
                 !has_template( type->comestible->smoking_result ) ) {
@@ -3442,6 +3447,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "freezing_point", freeze_point );
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
+    optional( jo, was_loaded, "eats_like", eats_like );
     optional( jo, was_loaded, "smoking_result", smoking_result, itype_id::NULL_ID() );
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );

@@ -183,6 +183,9 @@ struct islot_comestible {
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
 
+        /** Reference to another comestible for monotony and consumption counting grouping */
+        itype_id eats_like;
+
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
 

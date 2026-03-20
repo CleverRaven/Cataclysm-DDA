@@ -35,6 +35,7 @@
 #include "input_popup.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
@@ -54,6 +55,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
@@ -200,6 +202,59 @@ double coverage_eval( const_dialogue const &d, char scope, std::vector<diag_valu
 {
     bodypart_id bp( params[0].str( d ) );
     return d.const_actor( is_beta( scope ) )->coverage_at( bp );
+}
+
+itype_id resolve_eats_like( const itype_id &id )
+{
+    if( id->comestible && !id->comestible->eats_like.is_empty() ) {
+        return id->comestible->eats_like;
+    }
+    return id;
+}
+
+double consumption_count_eval( const_dialogue const &d, char scope,
+                               std::vector<diag_value> const &params,
+                               diag_kwargs const &kwargs )
+{
+    const Character *ch = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( !ch ) {
+        throw math::runtime_error( "consumption_count() requires a character" );
+    }
+    const itype_id target_id( params[0].str( d ) );
+    const itype_id canonical = resolve_eats_like( target_id );
+    diag_value hours_val = kwargs.kwarg_or( "hours" );
+    const time_duration window = hours_val.is_empty()
+                                 ? 48_hours
+                                 : time_duration::from_hours( hours_val.dbl( d ) );
+    int count = 0;
+    for( const consumption_event &event : ch->consumption_history ) {
+        if( event.time > calendar::turn - window &&
+            resolve_eats_like( event.type_id ) == canonical ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+double consumption_count_total_eval( const_dialogue const &d, char scope,
+                                     std::vector<diag_value> const & /* params */,
+                                     diag_kwargs const &kwargs )
+{
+    const Character *ch = d.const_actor( is_beta( scope ) )->get_const_character();
+    if( !ch ) {
+        throw math::runtime_error( "consumption_count_total() requires a character" );
+    }
+    diag_value hours_val = kwargs.kwarg_or( "hours" );
+    const time_duration window = hours_val.is_empty()
+                                 ? 48_hours
+                                 : time_duration::from_hours( hours_val.dbl( d ) );
+    int count = 0;
+    for( const consumption_event &event : ch->consumption_history ) {
+        if( event.time > calendar::turn - window ) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 double distance_eval( const_dialogue const &d, char /* scope */,
@@ -1741,6 +1796,8 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval, {}, { "radius", "attitude", "location" } } },
     { "charge_count", { "un", 1, charge_count_eval } },
+    { "consumption_count", { "un", 1, consumption_count_eval, {}, { "hours" } } },
+    { "consumption_count_total", { "un", 0, consumption_count_total_eval, {}, { "hours" } } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
     { "degradation", { "un", 0, degradation_eval, degradation_ass } },
