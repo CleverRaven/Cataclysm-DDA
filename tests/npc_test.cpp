@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -35,6 +36,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "options_helpers.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -879,5 +881,38 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
         guy.set_mutation( trait_SAPROVORE );
         guy.i_add( item( itype_meat ) );
         CHECK( guy.consume_food() );
+    }
+}
+
+static const faction_id faction_your_followers( "your_followers" );
+
+TEST_CASE( "npc_no_food_mod_suppresses_complaints", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    avatar &player_character = get_avatar();
+    clear_avatar();
+    npc &guy = spawn_npc( player_character.pos_bub().xy() + point( 1, 0 ), "test_talker" );
+    set_time( calendar::turn_zero + 12_hours );
+    clear_character( guy );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_fac( faction_your_followers );
+
+    guy.set_hunger( 300 );   // well above NPC_HUNGER_COMPLAIN (160)
+    guy.set_thirst( 200 );   // well above NPC_THIRST_COMPLAIN (80)
+
+    // Assert preconditions so fixture failures are diagnosable
+    REQUIRE( guy.is_player_ally() );
+    REQUIRE( player_character.sees( get_map(), guy ) );
+
+    SECTION( "with NO_NPC_FOOD, no hunger/thirst complaints" ) {
+        override_option no_food( "NO_NPC_FOOD", "true" );
+        REQUIRE_FALSE( guy.needs_food() );
+        CHECK_FALSE( guy.complain() );
+    }
+
+    SECTION( "without NO_NPC_FOOD, hunger complaint fires" ) {
+        override_option food_on( "NO_NPC_FOOD", "false" );
+        REQUIRE( guy.needs_food() );
+        CHECK( guy.complain() );
     }
 }

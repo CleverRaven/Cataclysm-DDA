@@ -5427,19 +5427,22 @@ bool npc::complain()
         deactivate_bionic_by_id( bio_radscrubber );
     }
 
-    // Hunger every 3-6 hours
-    // Complaint frequency scales with hunger level
-    if( get_hunger() > NPC_HUNGER_COMPLAIN &&
-        complain_about( hunger_string,
-                        std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
-                        chat_snippets().snip_hungry.translated() ) ) {
-        return true;
-    }
+    // Hunger and thirst complaints only fire when NPC has food needs
+    if( needs_food() ) {
+        // Hunger every 3-6 hours
+        // Complaint frequency scales with hunger level
+        if( get_hunger() > NPC_HUNGER_COMPLAIN &&
+            complain_about( hunger_string,
+                            std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
+                            chat_snippets().snip_hungry.translated() ) ) {
+            return true;
+        }
 
-    // Thirst every 2 hours
-    if( get_thirst() > NPC_THIRST_COMPLAIN &&
-        complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
-        return true;
+        // Thirst every 2 hours
+        if( get_thirst() > NPC_THIRST_COMPLAIN &&
+            complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
+            return true;
+        }
     }
 
     //Bleeding every 5 minutes
