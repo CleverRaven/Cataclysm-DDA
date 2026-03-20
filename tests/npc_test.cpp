@@ -70,10 +70,12 @@ static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_meat( "meat" );
 static const itype_id itype_meat_tainted( "meat_tainted" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_space_cake( "space_cake" );
 
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -914,5 +916,36 @@ TEST_CASE( "npc_no_food_mod_suppresses_complaints", "[npc][needs]" )
         override_option food_on( "NO_NPC_FOOD", "false" );
         REQUIRE( guy.needs_food() );
         CHECK( guy.complain() );
+    }
+}
+
+TEST_CASE( "npc_saprovore_eats_rotten_food", "[npc][food]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+    guy.set_hunger( 300 );
+    guy.set_stored_kcal( 5000 );
+    guy.set_thirst( 0 );
+
+    item rotten_meat( itype_meat_cooked );
+    rotten_meat.set_relative_rot( 1.01 );
+    REQUIRE( rotten_meat.get_relative_rot() >= 1.0 );
+
+    SECTION( "normal NPC refuses rotten food" ) {
+        guy.i_add( rotten_meat );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "saprovore eats rotten food" ) {
+        guy.set_mutation( trait_SAPROVORE );
+        guy.i_add( rotten_meat );
+        CHECK( guy.consume_food() );
+    }
+
+    SECTION( "saprophage eats rotten food" ) {
+        guy.set_mutation( trait_SAPROPHAGE );
+        guy.i_add( rotten_meat );
+        CHECK( guy.consume_food() );
     }
 }
