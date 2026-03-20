@@ -40,7 +40,7 @@
       { "point": [ 0, 10, 0 ], "overmap": "inner_cabins_warped_cabin_10_north" }
     ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 25, 100 ],
+    "occurrences": [ 60, 100 ],
     "locations": [ "inner_cabins" ],
     "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   }
