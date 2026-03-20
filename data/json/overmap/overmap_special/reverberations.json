@@ -7,7 +7,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_cabin_roof_north" }
     ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 0, 100 ],
     "locations": [ "inner_cabins" ],
     "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },

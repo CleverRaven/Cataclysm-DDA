@@ -50,7 +50,7 @@
     "type": "talk_topic",
     "id": "TALK_CABIN_TUNNEL_SHADOW_WHO",
     "dynamic_line": [
-      "&The creature releases a slow, tired sigh.  \"Like you, but not.  We can escape. Please, we must sleep.  It is the only way.\""
+      "&The creature releases a slow, tired sigh.  \"Like you, but not.  We can escape.  Please, we must sleep.  It is the only way.\""
     ],
     "responses": [
       { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" },
