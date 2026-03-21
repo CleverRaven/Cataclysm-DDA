@@ -186,6 +186,9 @@ bool has_variant_sound( const std::string &id, const std::string &variant );
 bool has_variant_sound( const std::string &id, const std::string &variant,
                         const std::string &season, const std::optional<bool> &is_indoors,
                         const std::optional<bool> &is_night );
+bool has_exact_variant_sound( const std::string &id, const std::string &variant,
+                              const std::string &season, const std::optional<bool> &is_indoors,
+                              const std::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
