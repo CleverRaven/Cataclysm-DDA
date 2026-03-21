@@ -1,5 +1,6 @@
 #include "character_oracle.h"
 
+#include <algorithm>
 #include <functional>
 #include <memory>
 #include <vector>
@@ -107,6 +108,42 @@ status_t character_oracle_t::has_food( std::string_view ) const
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? status_t::running : status_t::failure;
+}
+
+float character_oracle_t::thirst_urgency( std::string_view ) const
+{
+    // 0 = hydrated, 1 = dehydration death (threshold 1200, character_health.cpp).
+    static constexpr float death_threshold = 1200.0f;
+    return std::clamp( subject->get_thirst() / death_threshold, 0.0f, 1.0f );
+}
+
+float character_oracle_t::hunger_urgency( std::string_view ) const
+{
+    // 0 = healthy weight, 1 = starvation death (stored_kcal <= 0, character_health.cpp).
+    const int healthy = subject->get_healthy_kcal();
+    if( healthy <= 0 ) {
+        return 0.0f;
+    }
+    const float kcal_frac = static_cast<float>( subject->get_stored_kcal() ) / healthy;
+    return std::clamp( 1.0f - kcal_frac, 0.0f, 1.0f );
+}
+
+float character_oracle_t::warmth_urgency( std::string_view ) const
+{
+    // 0 = all bodyparts at BODYTEMP_NORM (37C),
+    // 1 = coldest bodypart at BODYTEMP_FREEZING (28C).
+    const float norm = units::to_kelvin( BODYTEMP_NORM );
+    const float freeze = units::to_kelvin( BODYTEMP_FREEZING );
+    const float range = norm - freeze;
+    if( range <= 0.0f ) {
+        return 0.0f;
+    }
+    float coldest = norm;
+    for( const bodypart_id &bp : subject->get_all_body_parts() ) {
+        const float temp = units::to_kelvin( subject->get_part_temp_conv( bp ) );
+        coldest = std::min( coldest, temp );
+    }
+    return std::clamp( ( norm - coldest ) / range, 0.0f, 1.0f );
 }
 
 } // namespace behavior

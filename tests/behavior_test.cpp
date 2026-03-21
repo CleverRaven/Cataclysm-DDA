@@ -10,6 +10,7 @@
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
@@ -590,5 +591,58 @@ TEST_CASE( "behavior_tree_utility_strategy", "[behavior]" )
 
         // Clean up
         behavior::score_predicate_map.erase( "test_urgency" );
+    }
+}
+
+TEST_CASE( "npc_urgency_score_predicates", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+    behavior::character_oracle_t oracle( &guy );
+
+    SECTION( "thirst_urgency scales from 0 to 1" ) {
+        guy.set_thirst( 0 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 0.0f ).margin( 0.01f ) );
+
+        guy.set_thirst( 600 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 0.5f ).margin( 0.01f ) );
+
+        guy.set_thirst( 1200 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
+    }
+
+    SECTION( "hunger_urgency scales with kcal deficit" ) {
+        const int healthy = guy.get_healthy_kcal();
+        guy.set_stored_kcal( healthy );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 0.0f ).margin( 0.01f ) );
+
+        guy.set_stored_kcal( healthy / 2 );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 0.5f ).margin( 0.05f ) );
+
+        guy.set_stored_kcal( 0 );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
+    }
+
+    SECTION( "warmth_urgency responds to cold bodyparts" ) {
+        // Explicitly set baseline -- clear_character does not guarantee temps
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        CHECK( oracle.warmth_urgency( "" ) < 0.01f );
+
+        // Single cold bodypart drives the score
+        guy.set_part_temp_conv( body_part_torso, BODYTEMP_VERY_COLD );
+        float cold_score = oracle.warmth_urgency( "" );
+        CHECK( cold_score > 0.5f );
+        CHECK( cold_score < 1.0f );
+
+        // At BODYTEMP_FREEZING the score saturates near 1.0
+        guy.set_part_temp_conv( body_part_torso, BODYTEMP_FREEZING );
+        CHECK( oracle.warmth_urgency( "" ) == Approx( 1.0f ).margin( 0.05f ) );
+    }
+
+    SECTION( "score predicates registered in score_predicate_map" ) {
+        CHECK( behavior::score_predicate_map.count( "npc_thirst_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_hunger_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_warmth_urgency" ) == 1 );
     }
 }

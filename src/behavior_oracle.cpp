@@ -30,6 +30,12 @@ make_function( status_t ( monster_oracle_t::* fun )( std::string_view ) const )
     return static_cast<status_t ( oracle_t::* )( std::string_view ) const>( fun );
 }
 
+static std::function<float( const oracle_t *, std::string_view )>
+make_score_function( float ( character_oracle_t::* fun )( std::string_view ) const )
+{
+    return static_cast<float ( oracle_t::* )( std::string_view ) const>( fun );
+}
+
 std::unordered_map<std::string, std::function<status_t( const oracle_t *, std::string_view ) >>
 predicate_map = {{
         { "npc_needs_warmth_badly", make_function( &character_oracle_t::needs_warmth_badly ) },
@@ -49,6 +55,11 @@ predicate_map = {{
 };
 
 std::unordered_map<std::string, std::function<float( const oracle_t *, std::string_view )>>
-        score_predicate_map = {};
+score_predicate_map = {{
+        { "npc_thirst_urgency", make_score_function( &character_oracle_t::thirst_urgency ) },
+        { "npc_hunger_urgency", make_score_function( &character_oracle_t::hunger_urgency ) },
+        { "npc_warmth_urgency", make_score_function( &character_oracle_t::warmth_urgency ) }
+    }
+};
 
 } // namespace behavior
