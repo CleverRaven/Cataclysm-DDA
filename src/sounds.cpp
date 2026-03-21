@@ -1468,7 +1468,7 @@ void sfx::sound_thread::operator()() const
         skill_variant = "default";
     }
 
-    if( has_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night ) ) {
+    if( has_exact_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night ) ) {
         play_variant_sound( "melee_swing", weapon_variant, seas_str, indoors, night,
                             vol_src, ang_src, 0.8, 1.2 );
     } else {
@@ -1481,7 +1481,7 @@ void sfx::sound_thread::operator()() const
         std::string melee_hit_material = ( targ_mon &&
                                            material == "steel" ) ? "melee_hit_metal" : "melee_hit_flesh";
 
-        if( has_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors, night ) ) {
+        if( has_exact_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors, night ) ) {
             std::this_thread::sleep_for( std::chrono::milliseconds( sleep_time ) );
             play_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors,
                                 night, vol_targ, ang_targ, 0.8, 1.2 );
@@ -1984,6 +1984,15 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant )
     return has_variant_sound( id, variant, seas_str, indoors, night );
 }
 
+bool sfx::has_exact_variant_sound( const std::string &id, const std::string &variant )
+{
+    const season_type seas = season_of_year( calendar::turn );
+    const std::string seas_str = season_str( seas );
+    const bool indoors = !is_creature_outside( get_player_character() );
+    const bool night = is_night( calendar::turn );
+    return has_exact_variant_sound( id, variant, seas_str, indoors, night );
+}
+
 #else // if defined(SDL_SOUND)
 
 /** Dummy implementations for builds without sound */
@@ -2021,6 +2030,10 @@ int sfx::set_channel_volume( channel, int )
     return 0;
 }
 bool sfx::has_variant_sound( const std::string &, const std::string & )
+{
+    return false;
+}
+bool sfx::has_exact_variant_sound( const std::string &, const std::string & )
 {
     return false;
 }
