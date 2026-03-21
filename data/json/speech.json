@@ -4005,5 +4005,29 @@
     ],
     "sound": "exasperated screaming.",
     "volume": 12
+  },
+  {
+    "type": "speech",
+    "speaker": "fixbot",
+    "sound": "\"I can fix it!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "fixbot",
+    "sound": "\"Please, hold still!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "fixbot",
+    "sound": "\"Gosh, that's a doozy.  Don't worry!  I can fix it.\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "fixbot",
+    "sound": "\"I'm here to help!\"",
+    "volume": 10
   }
 ]
