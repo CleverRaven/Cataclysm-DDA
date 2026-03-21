@@ -2,15 +2,19 @@
 #ifndef CATA_SRC_CRAFTING_GUI_HELPERS_H
 #define CATA_SRC_CRAFTING_GUI_HELPERS_H
 
+#include <cstddef>
+#include <functional>
 #include <string>
 #include <string_view>
 #include <vector>
 
 #include "color.h"
+#include "translation.h"
 
 class Character;
 class inventory;
 class recipe;
+class recipe_subset;
 
 // Returns true if the character cannot gain any skill or proficiency from this recipe.
 // Used to mark practice recipes as "useless" when the crafter already exceeds
@@ -93,5 +97,24 @@ std::vector<std::string> recipe_info(
 // Safe to call on non-practice recipes (returns just the base description).
 std::string practice_recipe_description( const recipe &recp,
         const Character &crafter );
+
+// Recipe filter engine -- parses comma-separated filter queries with prefix syntax.
+// Prefix types: c: (component), t: (tool), s: (skill), p: (primary skill),
+// Q: (quality req), q: (quality result), m: (memorized), b: (book source),
+// l: (difficulty), r: (byproduct), etc.  Bare text matches result name;
+// -prefix excludes by name.  Delegates each sub-query to recipe_subset::reduce().
+recipe_subset filter_recipes( const recipe_subset &available_recipes,
+                              std::string_view qry, const Character &crafter,
+                              const std::function<void( size_t, size_t )> &progress_callback );
+
+// Data for search prefix help display.
+struct SearchPrefix {
+    char key;
+    translation example;
+    translation description;
+};
+
+extern const std::vector<SearchPrefix> prefixes;
+extern const translation filter_help_start;
 
 #endif // CATA_SRC_CRAFTING_GUI_HELPERS_H
