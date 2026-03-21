@@ -4024,7 +4024,13 @@ void inventory_selector::action_examine( const item_location &sitem )
     vThisItem.insert( vThisItem.begin(),
     { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
 
-    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
+    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, sitem->typeId() );
+        data.on_data_changed = [&data, &sitem, this]() {
+        data.vItemDisplay.clear();
+        sitem->info( true, data.vItemDisplay );
+        data.vItemDisplay.insert(data.vItemDisplay.begin(),
+    { {}, string_format( _( "Location: %s" ), sitem.describe( &u ) ) } );
+    };
     data.handle_scrolling = true;
     data.arrow_scrolling = true;
     int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
@@ -4878,7 +4884,11 @@ void inventory_examiner::draw_item_details( const item_location &sitem )
 
     sitem->info( true, vThisItem );
 
-    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll );
+        item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy, examine_window_scroll, sitem->typeId() );   
+    data.on_data_changed = [&sitem, &data]() {
+        data.vItemDisplay.clear();
+        sitem->info( true, data.vItemDisplay );
+    };
     data.without_getch = true;
 
     draw_item_info( w_examine, data );

@@ -1810,7 +1810,11 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         std::vector<iteminfo> vDummy;
         it.info( true, vThisItem );
 
-        item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+        item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy, it.typeId());
+        data.on_data_changed = [&it, &data]() {
+        data.vItemDisplay.clear();
+        it.info( true, data.vItemDisplay );
+        };
         data.handle_scrolling = true;
         data.arrow_scrolling = true;
 
