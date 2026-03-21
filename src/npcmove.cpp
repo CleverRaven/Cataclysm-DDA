@@ -4639,16 +4639,19 @@ static float rate_food( const Character &who, const item &it, int want_nutr,
     }
 
     double relative_rot = it.get_relative_rot();
+    float weight = 0.0f;
 
-    // Don't eat rotten food.
     if( relative_rot >= 1.0f ) {
-        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
-        return 0.0f;
+        if( !can_consume_rot ) {
+            return 0.0f;
+        }
+        // Saprophages/saprovores prefer rotten food
+        weight = 15.0f;
+    } else {
+        // For non-rotten food, weight in range 1-10.
+        // The closer it is to expiring, the more we should aim to eat it.
+        weight = std::max( 1.0f, static_cast<float>( 10.0 * relative_rot ) );
     }
-
-    // For non-rotten food, we have a starting weight in the range 1-10
-    // The closer it is to expiring, the more we should aim to eat it.
-    float weight = std::max( 1.0, 10.0 * relative_rot );
 
     // TODO: I feel like we should exclude *really* un-fun foods (flour, hot sauce, etc)
     //       rather than discount them. Eating cooked liver is fine, eating raw flour... :/
@@ -5427,19 +5430,22 @@ bool npc::complain()
         deactivate_bionic_by_id( bio_radscrubber );
     }
 
-    // Hunger every 3-6 hours
-    // Complaint frequency scales with hunger level
-    if( get_hunger() > NPC_HUNGER_COMPLAIN &&
-        complain_about( hunger_string,
-                        std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
-                        chat_snippets().snip_hungry.translated() ) ) {
-        return true;
-    }
+    // Hunger and thirst complaints only fire when NPC has food needs
+    if( needs_food() ) {
+        // Hunger every 3-6 hours
+        // Complaint frequency scales with hunger level
+        if( get_hunger() > NPC_HUNGER_COMPLAIN &&
+            complain_about( hunger_string,
+                            std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
+                            chat_snippets().snip_hungry.translated() ) ) {
+            return true;
+        }
 
-    // Thirst every 2 hours
-    if( get_thirst() > NPC_THIRST_COMPLAIN &&
-        complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
-        return true;
+        // Thirst every 2 hours
+        if( get_thirst() > NPC_THIRST_COMPLAIN &&
+            complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
+            return true;
+        }
     }
 
     //Bleeding every 5 minutes

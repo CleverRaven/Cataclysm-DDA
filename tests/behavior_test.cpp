@@ -4,16 +4,20 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <unordered_map>
 #include <vector>
 
 #include "behavior.h"
+#include "behavior_oracle.h"
 #include "behavior_strategy.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
 #include "character_oracle.h"
 #include "coordinates.h"
+#include "flexbuffer_json.h"
 #include "item.h"
+#include "json_loader.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "map.h"
@@ -52,11 +56,11 @@ static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" 
 
 namespace behavior
 {
-class oracle_t;
 
 static sequential_t default_sequential;
 static fallback_t default_fallback;
 static sequential_until_done_t default_until_done;
+static utility_t default_utility;
 } // namespace behavior
 
 static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )
@@ -438,5 +442,153 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         CHECK( here.i_at( test_monster.pos_bub() ).empty() );
 
         CHECK( monster_goals.tick( &oracle ) == "idle" );
+    }
+}
+
+TEST_CASE( "behavior_tree_utility_strategy", "[behavior]" )
+{
+    SECTION( "leaf nodes with scores" ) {
+        behavior::status_t status_a = behavior::status_t::running;
+        behavior::status_t status_b = behavior::status_t::running;
+        behavior::status_t status_c = behavior::status_t::running;
+        float score_a = 5.0f;
+        float score_b = 10.0f;
+        float score_c = 3.0f;
+
+        behavior::node_t node_a = make_test_node( "goal_a", &status_a );
+        node_a.set_score_function( [&score_a]( const behavior::oracle_t *, std::string_view ) {
+            return score_a;
+        } );
+
+        behavior::node_t node_b = make_test_node( "goal_b", &status_b );
+        node_b.set_score_function( [&score_b]( const behavior::oracle_t *, std::string_view ) {
+            return score_b;
+        } );
+
+        behavior::node_t node_c = make_test_node( "goal_c", &status_c );
+        node_c.set_score_function( [&score_c]( const behavior::oracle_t *, std::string_view ) {
+            return score_c;
+        } );
+
+        behavior::node_t root;
+        root.set_strategy( &behavior::default_utility );
+        root.add_child( &node_a );
+        root.add_child( &node_b );
+        root.add_child( &node_c );
+
+        behavior::tree needs;
+        needs.add( &root );
+
+        // Highest score wins
+        CHECK( needs.tick( nullptr ) == "goal_b" );
+
+        // Change scores -- now A is most urgent
+        score_a = 20.0f;
+        CHECK( needs.tick( nullptr ) == "goal_a" );
+
+        // B succeeds (need met) -- skipped, A still wins
+        status_b = behavior::status_t::success;
+        CHECK( needs.tick( nullptr ) == "goal_a" );
+
+        // A also succeeds -- C is the only running child
+        status_a = behavior::status_t::success;
+        CHECK( needs.tick( nullptr ) == "goal_c" );
+
+        // All succeed -- idle
+        status_c = behavior::status_t::success;
+        CHECK( needs.tick( nullptr ) == "idle" );
+
+        // All fail -- also idle
+        status_a = behavior::status_t::failure;
+        status_b = behavior::status_t::failure;
+        status_c = behavior::status_t::failure;
+        CHECK( needs.tick( nullptr ) == "idle" );
+    }
+
+    SECTION( "branch nodes with scores" ) {
+        // Mimics the real NPC tree structure:
+        // root (utility) -> branch_a (sequential) -> leaf_a1
+        //                 -> branch_b (sequential) -> leaf_b1
+
+        behavior::status_t leaf_a1_status = behavior::status_t::running;
+        behavior::status_t leaf_b1_status = behavior::status_t::running;
+        behavior::status_t branch_a_pred = behavior::status_t::running;
+        behavior::status_t branch_b_pred = behavior::status_t::running;
+        float score_a = 5.0f;
+        float score_b = 10.0f;
+
+        behavior::node_t leaf_a1 = make_test_node( "goal_a1", &leaf_a1_status );
+        behavior::node_t leaf_b1 = make_test_node( "goal_b1", &leaf_b1_status );
+
+        behavior::node_t branch_a;
+        branch_a.set_strategy( &behavior::default_sequential );
+        branch_a.add_predicate( [&branch_a_pred]( const behavior::oracle_t *, std::string_view ) {
+            return branch_a_pred;
+        } );
+        branch_a.add_child( &leaf_a1 );
+        branch_a.set_score_function( [&score_a]( const behavior::oracle_t *, std::string_view ) {
+            return score_a;
+        } );
+
+        behavior::node_t branch_b;
+        branch_b.set_strategy( &behavior::default_sequential );
+        branch_b.add_predicate( [&branch_b_pred]( const behavior::oracle_t *, std::string_view ) {
+            return branch_b_pred;
+        } );
+        branch_b.add_child( &leaf_b1 );
+        branch_b.set_score_function( [&score_b]( const behavior::oracle_t *, std::string_view ) {
+            return score_b;
+        } );
+
+        behavior::node_t root;
+        root.set_strategy( &behavior::default_utility );
+        root.add_child( &branch_a );
+        root.add_child( &branch_b );
+
+        behavior::tree needs;
+        needs.add( &root );
+
+        // Branch B has higher score, so goal_b1 is selected
+        CHECK( needs.tick( nullptr ) == "goal_b1" );
+
+        // Swap scores -- now branch A wins
+        score_a = 15.0f;
+        score_b = 2.0f;
+        CHECK( needs.tick( nullptr ) == "goal_a1" );
+
+        // Branch A's predicate fails -- falls through to B
+        branch_a_pred = behavior::status_t::failure;
+        CHECK( needs.tick( nullptr ) == "goal_b1" );
+    }
+
+    SECTION( "JSON-loaded score predicate" ) {
+        // Exercises the actual node_t::load() path for "score" field parsing
+        float test_score = 42.0f;
+        behavior::score_predicate_map["test_urgency"] =
+        [&test_score]( const behavior::oracle_t *, std::string_view ) {
+            return test_score;
+        };
+
+        // Load a node from JSON with a score predicate, same as the generic factory does
+        const std::string json = R"({
+            "goal": "scored_goal",
+            "score": "test_urgency"
+        })";
+        behavior::node_t node;
+        JsonObject jo = json_loader::from_string( json );
+        node.load( jo, "" );
+
+        // The node should have picked up the score function from the map
+        behavior::node_t root;
+        root.set_strategy( &behavior::default_utility );
+        root.add_child( &node );
+
+        behavior::tree needs;
+        needs.add( &root );
+
+        CHECK( needs.tick( nullptr ) == "scored_goal" );
+
+        // Clean up
+        behavior::score_predicate_map.erase( "test_urgency" );
     }
 }

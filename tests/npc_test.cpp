@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -35,6 +36,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "options_helpers.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -49,12 +51,15 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 class Creature;
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
@@ -67,11 +72,13 @@ static const itype_id itype_leather_belt( "leather_belt" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_meat( "meat" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_space_cake( "space_cake" );
 
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
@@ -878,6 +885,68 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     SECTION( "saprovore eats raw meat" ) {
         guy.set_mutation( trait_SAPROVORE );
         guy.i_add( item( itype_meat ) );
+        CHECK( guy.consume_food() );
+    }
+}
+
+TEST_CASE( "npc_no_food_mod_suppresses_complaints", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    avatar &player_character = get_avatar();
+    clear_avatar();
+    npc &guy = spawn_npc( player_character.pos_bub().xy() + point::east, "test_talker" );
+    set_time( calendar::turn_zero + 12_hours );
+    clear_character( guy );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_fac( faction_your_followers );
+
+    guy.set_hunger( 300 );   // well above NPC_HUNGER_COMPLAIN (160)
+    guy.set_thirst( 200 );   // well above NPC_THIRST_COMPLAIN (80)
+
+    // Assert the exact preconditions that npc::complain() checks
+    REQUIRE( guy.is_player_ally() );
+    REQUIRE( get_player_view().sees( get_map(), guy ) );
+
+    SECTION( "with NO_NPC_FOOD, no hunger/thirst complaints" ) {
+        override_option no_food( "NO_NPC_FOOD", "true" );
+        REQUIRE_FALSE( guy.needs_food() );
+        CHECK_FALSE( guy.complain() );
+    }
+
+    SECTION( "without NO_NPC_FOOD, hunger complaint fires" ) {
+        override_option food_on( "NO_NPC_FOOD", "false" );
+        REQUIRE( guy.needs_food() );
+        CHECK( guy.complain() );
+    }
+}
+
+TEST_CASE( "npc_saprovore_eats_rotten_food", "[npc][food]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+    guy.set_hunger( 300 );
+    guy.set_stored_kcal( 5000 );
+    guy.set_thirst( 0 );
+
+    item rotten_meat( itype_meat_cooked );
+    rotten_meat.set_relative_rot( 1.01 );
+    REQUIRE( rotten_meat.get_relative_rot() >= 1.0 );
+
+    SECTION( "normal NPC refuses rotten food" ) {
+        guy.i_add( rotten_meat );
+        CHECK_FALSE( guy.consume_food() );
+    }
+
+    SECTION( "saprovore eats rotten food" ) {
+        guy.set_mutation( trait_SAPROVORE );
+        guy.i_add( rotten_meat );
+        CHECK( guy.consume_food() );
+    }
+
+    SECTION( "saprophage eats rotten food" ) {
+        guy.set_mutation( trait_SAPROPHAGE );
+        guy.i_add( rotten_meat );
         CHECK( guy.consume_food() );
     }
 }
