@@ -88,7 +88,6 @@ static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
-static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
