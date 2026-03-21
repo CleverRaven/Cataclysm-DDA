@@ -27,12 +27,15 @@
 
 #if defined(__ANDROID__)
 #include <jni.h>
+#endif
+
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 #include <SDL_mouse.h>
 #include "options.h"
 #endif
 
-#if defined(TILES) && !defined(__ANDROID__)
+#if defined(TILES) && !defined(__ANDROID__) && !defined(__IPHONEOS__)
 #include "sdl_wrappers.h"
 #endif
 
@@ -961,7 +964,7 @@ shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_u
 
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     for( const auto &entry : entries ) {
         if( entry.enabled && entry.hotkey.has_value()
             && entry.hotkey.value() != input_event() ) {

@@ -65,18 +65,12 @@ class input_context
         std::shared_ptr<input_context_handle> handle{ new input_context_handle{this} };
 
     public:
-#if defined(__ANDROID__) || defined(TILES)
         // Whatever's on top is our current input context.
         static input_context_stack_impl input_context_stack;
-#endif
         input_context() : category( "default" ), registered_any_input( false ),
             coordinate_input_received( false ), handling_coordinate_input( false ) {
-#if defined(__ANDROID__) || defined(TILES)
             input_context_stack.push( handle );
-#endif
-#if defined(__ANDROID__)
             allow_text_entry = false;
-#endif
             register_action( "toggle_language_to_en" );
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
@@ -86,12 +80,8 @@ class input_context
             : category( category ), registered_any_input( false ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
-#if defined(__ANDROID__) || defined(TILES)
             input_context_stack.push( handle );
-#endif
-#if defined(__ANDROID__)
             allow_text_entry = false;
-#endif
             register_action( "toggle_language_to_en" );
         }
 
@@ -119,9 +109,7 @@ class input_context
         template<typename Rhs>
         void reassign( Rhs &&other ) {
             // Don't touch the handle
-#if defined(__ANDROID__)
             registered_manual_keys = std::forward<Rhs>( other ).registered_manual_keys;
-#endif
             registered_actions = std::forward<Rhs>( other ).registered_actions;
             edittext = std::forward<Rhs>( other ).edittext;
             category = std::forward<Rhs>( other ).category;
@@ -138,7 +126,6 @@ class input_context
         }
 
 
-#if defined(__ANDROID__)
         // HACK: hack to allow creating manual keybindings for getch() instances, uilists etc. that don't use an input_context outside of the Android version
         struct manual_key {
             manual_key( int _key, const std::string &_text ) : key( _key ), text( _text ) {}
@@ -192,7 +179,6 @@ class input_context
         bool operator!=( const input_context &other ) const {
             return !( *this == other );
         }
-#endif
 
         /**
          * Register an action with this input context.
@@ -462,9 +448,7 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
-#if defined(__ANDROID__)
         std::vector<manual_key> registered_manual_keys;
-#endif
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
