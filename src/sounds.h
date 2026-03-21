@@ -186,6 +186,7 @@ bool has_variant_sound( const std::string &id, const std::string &variant );
 bool has_variant_sound( const std::string &id, const std::string &variant,
                         const std::string &season, const std::optional<bool> &is_indoors,
                         const std::optional<bool> &is_night );
+bool has_exact_variant_sound( const std::string &id, const std::string &variant );
 bool has_exact_variant_sound( const std::string &id, const std::string &variant,
                               const std::string &season, const std::optional<bool> &is_indoors,
                               const std::optional<bool> &is_night );
