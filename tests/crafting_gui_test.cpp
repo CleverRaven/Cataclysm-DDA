@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -25,6 +26,7 @@
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_billet_wood( "billet_wood" );
+static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_family_cookbook( "family_cookbook" );
 static const itype_id itype_fat( "fat" );
@@ -42,7 +44,9 @@ static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
 static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
+static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
+static const recipe_id recipe_water_clean_test_in_jar( "water_clean_test_in_jar" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
@@ -955,4 +959,98 @@ TEST_CASE( "filter_difficulty_malformed_matches_all", "[crafting][gui][filter]" 
 
     CHECK( result.contains( cudgel ) );
     CHECK( result.contains( tallow ) );
+}
+
+// --- Recipe result info tests ---
+
+static bool info_has_text( const std::vector<iteminfo> &info, const std::string &text )
+{
+    return std::any_of( info.begin(), info.end(), [&]( const iteminfo & i ) {
+        return i.sName.find( text ) != std::string::npos;
+    } );
+}
+
+TEST_CASE( "result_item_basic_properties", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_cudgel_test_no_tools.obj();
+
+    item result = get_recipe_result_item( rec, guy );
+
+    CHECK( result.typeId() == itype_cudgel );
+    CHECK( result.has_var( "recipe_exemplar" ) );
+    CHECK( result.get_var( "recipe_exemplar" ) == rec.ident().str() );
+}
+
+TEST_CASE( "result_item_charges_reset", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_test_tallow.obj();
+
+    item result = get_recipe_result_item( rec, guy );
+
+    CHECK( result.count_by_charges() );
+    CHECK( result.charges == 1 );
+}
+
+TEST_CASE( "result_info_simple_recipe", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_cudgel_test_no_tools.obj();
+
+    std::vector<iteminfo> info = recipe_result_info( rec, guy, 1, 80 );
+
+    CHECK( info_has_text( info, "Result" ) );
+    CHECK_FALSE( info_has_text( info, "Recipe Outputs" ) );
+    CHECK_FALSE( info_has_text( info, "Byproduct" ) );
+    CHECK_FALSE( info_has_text( info, "Container" ) );
+}
+
+TEST_CASE( "result_info_with_byproducts", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_test_tallow.obj();
+
+    std::vector<iteminfo> info = recipe_result_info( rec, guy, 1, 80 );
+
+    CHECK( info_has_text( info, "Recipe Outputs" ) );
+    CHECK( info_has_text( info, "Byproduct" ) );
+}
+
+TEST_CASE( "result_info_with_container", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_water_clean_test_in_jar.obj();
+
+    std::vector<iteminfo> info = recipe_result_info( rec, guy, 1, 80 );
+
+    CHECK( info_has_text( info, "Recipe Outputs" ) );
+    CHECK( info_has_text( info, "Container" ) );
+}
+
+TEST_CASE( "result_info_batch_scaling", "[crafting][gui][result_info]" )
+{
+    Character &guy = setup_character();
+    const recipe &rec = recipe_cudgel_test_no_tools.obj();
+
+    // batch_size=5, makes_amount=1 -> total_quantity=5 -> " (5)" appended
+    std::vector<iteminfo> info_batch5 = recipe_result_info( rec, guy, 5, 80 );
+    CHECK( info_has_text( info_batch5, "(5)" ) );
+
+    // batch_size=1, makes_amount=1 -> total_quantity=1 -> no count appended
+    std::vector<iteminfo> info_batch1 = recipe_result_info( rec, guy, 1, 80 );
+    CHECK_FALSE( info_has_text( info_batch1, "(1)" ) );
+}
+
+TEST_CASE( "result_info_varsize_poor_fit_warning", "[crafting][gui][result_info]" )
+{
+    // test_longshirt has VARSIZE. get_recipe_result_item adds FIT for a
+    // human-sized character. result_item_header then finds the VARSIZE
+    // component and emits the "poorly-fitted" warning.
+    Character &guy = setup_character();
+    const recipe &rec = recipe_test_longshirt_test_poor_fit.obj();
+
+    std::vector<iteminfo> info = recipe_result_info( rec, guy, 1, 80 );
+
+    CHECK( info_has_text( info, "poorly" ) );
 }

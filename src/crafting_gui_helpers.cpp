@@ -1,5 +1,6 @@
 #include "crafting_gui_helpers.h"
 
+#include <iterator>
 #include <map>
 #include <memory>
 #include <optional>
@@ -11,10 +12,12 @@
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character_id.h"
 #include "character.h"
 #include "crafting.h"
 #include "display.h"
+#include "flag.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -658,3 +661,171 @@ const translation filter_help_start = to_translation(
         "<color_yellow>l</color><color_white>:5~10</color> for all recipes from difficulty 5 to 10.\n"
         "\n\n"
         "<color_white>Examples:</color>\n" );
+
+// --- Recipe result info ---
+
+static void insert_block_separator( std::vector<iteminfo> &info_vec,
+                                    const std::string &title, int panel_width )
+{
+    info_vec.emplace_back( "DESCRIPTION", "--" );
+    info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,
+                           panel_width ), ' ' ) +
+                           "<bold>" + title + "</bold>" );
+    info_vec.emplace_back( "DESCRIPTION", "--" );
+}
+
+static void result_item_header( item &dummy_item, int quantity_per_batch,
+                                std::vector<iteminfo> &info, const std::string &classification,
+                                bool uses_charges, const recipe &rec, int batch_size,
+                                const std::string &description = {} )
+{
+    int total_quantity = quantity_per_batch * batch_size;
+    if( uses_charges ) {
+        std::string display_name = ( description.empty() ? dummy_item.display_name() : description );
+        dummy_item.charges = total_quantity;
+        info.emplace_back( "DESCRIPTION",
+                           "<bold>" + classification + ": </bold>" + display_name );
+        dummy_item.charges /= total_quantity;
+    } else {
+        std::string display_name = ( description.empty() ? dummy_item.display_name(
+                                         total_quantity ) : description );
+        info.emplace_back( "DESCRIPTION",
+                           "<bold>" + classification + ": </bold>" + display_name +
+                           ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
+    }
+    if( dummy_item.has_flag( flag_VARSIZE ) &&
+        dummy_item.has_flag( flag_FIT ) ) {
+        std::vector<std::vector<item_comp> > item_component_reqs =
+            rec.simple_requirements().get_components();
+        bool has_varsize_components = false;
+        for( const std::vector<item_comp> &component_options : item_component_reqs ) {
+            for( const item_comp &component : component_options ) {
+                const itype *type = item::find_type( component.type );
+                if( type->has_flag( flag_VARSIZE ) ) {
+                    has_varsize_components = true;
+                    break;
+                }
+            }
+            if( has_varsize_components ) {
+                break;
+            }
+        }
+        if( has_varsize_components ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>Note:</bold> If crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
+        }
+    }
+}
+
+static void result_item_details( item &dummy_item, int quantity_per_batch,
+                                 std::vector<iteminfo> &details_info, const std::string &classification,
+                                 bool uses_charges, const recipe &rec, int batch_size,
+                                 const std::string &description = {} )
+{
+    std::vector<iteminfo> temp_info;
+    int total_quantity = quantity_per_batch * batch_size;
+    result_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges,
+                        rec, batch_size, description );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info );
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
+    details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
+}
+
+static void result_byproducts( const recipe &rec,
+                               std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info,
+                               int batch_size, int panel_width )
+{
+    const std::string byproduct_string = _( "Byproduct" );
+
+    for( const std::pair<const itype_id, int> &bp : rec.get_byproducts() ) {
+        insert_block_separator( details_info, byproduct_string, panel_width );
+        item dummy_item = item( bp.first );
+        bool uses_charges = dummy_item.count_by_charges();
+        result_item_header( dummy_item, bp.second, summary_info, _( "With byproduct" ), uses_charges,
+                            rec, batch_size );
+        result_item_details( dummy_item, bp.second, details_info, byproduct_string, uses_charges,
+                             rec, batch_size );
+    }
+}
+
+item get_recipe_result_item( const recipe &rec, Character &crafter )
+{
+    item dummy_result = item( rec.result(), calendar::turn, item::default_charges_tag{} );
+    if( !rec.variant().empty() ) {
+        dummy_result.set_itype_variant( rec.variant() );
+    }
+    if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
+        item::sizing general_fit = dummy_result.get_sizing( crafter );
+        if( general_fit == item::sizing::small_sized_small_char ||
+            general_fit == item::sizing::human_sized_human_char ||
+            general_fit == item::sizing::big_sized_big_char ||
+            general_fit == item::sizing::ignore ) {
+            dummy_result.set_flag( flag_FIT );
+        }
+    }
+    if( dummy_result.count_by_charges() ) {
+        dummy_result.charges = 1;
+    }
+    dummy_result.set_var( "recipe_exemplar", rec.ident().str() );
+    return dummy_result;
+}
+
+std::vector<iteminfo> recipe_result_info( const recipe &rec, Character &crafter,
+        int batch_size, int panel_width )
+{
+    std::vector<iteminfo> info;
+    std::vector<iteminfo> details_info;
+
+    item dummy_result = get_recipe_result_item( rec, crafter );
+    std::string result_description;
+    if( dummy_result.is_null() ) {
+        result_description = rec.get_description( crafter );
+    }
+    bool result_uses_charges = dummy_result.count_by_charges();
+    int const makes_amount = rec.makes_amount();
+    item dummy_container;
+
+    const std::string result_string = _( "Result" );
+    const std::string recipe_output_string = _( "Recipe Outputs" );
+    const std::string recipe_result_string = _( "Recipe Result" );
+    const std::string container_string = _( "Container" );
+    const std::string in_container_string = _( "In sealed container" );
+    const std::string container_info_string = _( "Container Information" );
+
+    if( rec.container_id() == itype_id::NULL_ID() && !rec.has_byproducts() ) {
+        insert_block_separator( details_info, recipe_result_string, panel_width );
+        result_item_details( dummy_result, makes_amount, details_info, result_string,
+                             result_uses_charges, rec, batch_size, result_description );
+    } else {
+        insert_block_separator( info, recipe_output_string, panel_width );
+        if( rec.container_id() != itype_id::NULL_ID() ) {
+            dummy_container = item( rec.container_id(), calendar::turn, item::default_charges_tag{} );
+            result_item_header( dummy_result, makes_amount, info, recipe_result_string,
+                                result_uses_charges, rec, batch_size );
+            result_item_header( dummy_container, 1, info, in_container_string, false, rec, batch_size );
+            insert_block_separator( details_info, recipe_result_string, panel_width );
+            result_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
+                                 result_uses_charges, rec, batch_size );
+            insert_block_separator( details_info, container_info_string, panel_width );
+            result_item_details( dummy_container, 1, details_info, container_string, false,
+                                 rec, batch_size );
+        } else {
+            result_item_header( dummy_result, makes_amount, info, recipe_result_string,
+                                result_uses_charges, rec, batch_size );
+            insert_block_separator( details_info, recipe_result_string, panel_width );
+            result_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
+                                 result_uses_charges, rec, batch_size );
+        }
+        if( rec.has_byproducts() ) {
+            result_byproducts( rec, info, details_info, batch_size, panel_width );
+        }
+        info.emplace_back( "DESCRIPTION", "  " );
+    }
+    info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
+    return info;
+}

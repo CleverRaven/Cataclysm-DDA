@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "color.h"
+#include "item.h"
 #include "translation.h"
 
 class Character;
@@ -116,5 +117,15 @@ struct SearchPrefix {
 
 extern const std::vector<SearchPrefix> prefixes;
 extern const translation filter_help_start;
+
+// Creates a display-ready item from a recipe result.
+// Handles VARSIZE/FIT sizing, variant, charges, recipe_exemplar var.
+item get_recipe_result_item( const recipe &rec, Character &crafter );
+
+// Generates iteminfo entries for the recipe result panel.
+// Covers result item, container (if any), byproducts (if any),
+// with section headers and quantity scaling for batch_size.
+std::vector<iteminfo> recipe_result_info( const recipe &rec, Character &crafter,
+        int batch_size, int panel_width );
 
 #endif // CATA_SRC_CRAFTING_GUI_HELPERS_H
