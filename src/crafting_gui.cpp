@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <cstring>
 #include <functional>
-#include <iterator>
 #include <map>
 #include <optional>
 #include <set>
@@ -321,78 +320,6 @@ static bool mouse_in_window( std::optional<point> coord, const catacurses::windo
         }
     }
     return false;
-}
-
-static void recursively_expand_recipes( std::vector<const recipe *> &current,
-                                        std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
-                                        Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
-                                        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
-{
-    std::vector<const recipe *> tmp;
-    for( const recipe_id &nested : current[i]->nested_category_data ) {
-
-        if( available_recipes.contains( &nested.obj() )
-            && hidden_recipes.find( nested ) == hidden_recipes.end()
-          ) {
-            // only do this if we can actually craft the recipe
-            tmp.push_back( &nested.obj() );
-            indent.insert( indent.begin() + i + 1, indent[i] + 2 );
-            if( !availability_cache.count( &nested.obj() ) ) {
-                availability_cache.emplace( &nested.obj(), availability( crafter, &nested.obj() ) );
-            }
-        }
-    }
-
-    const bool want_unread = highlight_unread_recipes && unread_recipes_first;
-    std::stable_sort( tmp.begin(), tmp.end(), [
-                       &crafter, &availability_cache, want_unread
-    ]( const recipe * const a, const recipe * const b ) {
-        const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
-        const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
-        return recipe_sort_compare( a, b,
-                                    availability_cache.at( a ), availability_cache.at( b ),
-                                    crafter, a_read, b_read, want_unread );
-    } );
-
-    current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
-}
-
-// take the current and itterate through expanding each recipe
-static void expand_recipes( std::vector<const recipe *> &current,
-                            std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
-                            Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
-                            const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
-{
-    //TODO Make this more effecient
-    for( size_t i = 0; i < current.size(); ++i ) {
-        if( current[i]->is_nested()
-            && uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end()
-          ) {
-            // add all the recipes from the nests
-            recursively_expand_recipes( current, indent, availability_cache, i, crafter,
-                                        unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
-        }
-    }
-}
-
-static std::string list_nested( Character &crafter, const recipe *rec,
-                                const recipe_subset &available_recipes,
-                                int indent = 0 )
-{
-    std::string description;
-    availability avail( crafter, rec );
-    if( rec->is_nested() ) {
-        description += colorize( std::string( indent,
-                                              ' ' ) + rec->result_name() + ":\n", avail.color() );
-        for( const recipe_id &r : rec->nested_category_data ) {
-            description += list_nested( crafter, &r.obj(), available_recipes, indent + 2 );
-        }
-    } else if( available_recipes.contains( rec ) ) {
-        description += colorize( std::string( indent,
-                                              ' ' ) + rec->result_name() + "\n", avail.color() );
-    }
-
-    return description;
 }
 
 static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
@@ -851,9 +778,6 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 static_popup popup;
                 std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
                 static constexpr std::chrono::milliseconds update_interval( 500 );
-                // Get a key description for the cancel button.
-                // Rather than propagating the context, create a new one here as a one-off.
-                // See register_action( "QUIT" ) in recipe_dictionary.cpp (line 289 when this was commited).
                 input_context dummy;
                 dummy.register_action( "QUIT" );
                 std::string cancel_btn = dummy.get_button_text( "QUIT", _( "Cancel" ) );
@@ -872,6 +796,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 };
 
                 std::vector<const recipe *> picking;
+                bool skip_hidden = false;
                 if( !filterstring.empty() ) {
                     std::string qry = trim( filterstring );
                     recipe_subset filtered_recipes =
@@ -880,56 +805,22 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 } else {
                     const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
                             crafting_category_id( tab.cur() ), subtab.cur() );
+                    picking = result.first;
+                    skip_hidden = result.second;
                     show_hidden = result.second;
-                    if( show_hidden ) {
-                        current = result.first;
-                    } else {
-                        picking = result.first;
-                    }
                 }
 
-                if( !show_hidden ) {
-                    current.clear();
-                    for( const recipe *i : picking ) {
-                        if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
-                            current.push_back( i );
-                        }
-                    }
-                    num_hidden = picking.size() - current.size();
-                    num_recipe = picking.size();
-                }
-
-                available.reserve( current.size() );
-                // cache recipe availability on first display
-                for( const recipe *e : current ) {
-                    if( !availability_cache->count( e ) ) {
-                        availability_cache->emplace( e, availability( *crafter, e, 1, camp_crafting, inventory_override ) );
-                    }
-                }
-
-                if( subtab.cur() != "CSC_*_RECENT" ) {
-                    const bool want_unread = highlight_unread_recipes && unread_recipes_first;
-                    std::stable_sort( current.begin(), current.end(), [
-                       crafter, &availability_cache, want_unread
-                    ]( const recipe * const a, const recipe * const b ) {
-                        const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
-                        const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
-                        return recipe_sort_compare( a, b,
-                                                    availability_cache->at( a ), availability_cache->at( b ),
-                                                    *crafter, a_read, b_read, want_unread );
-                    } );
-                }
-
-                // set up indents and append the expanded entries
-                // have to do this after we sort the list
-                indent.assign( current.size(), 0 );
-                expand_recipes( current, indent, *availability_cache, *crafter, unread_recipes_first,
-                                highlight_unread_recipes, available_recipes, uistate.hidden_recipes );
-
-                std::transform( current.begin(), current.end(),
-                std::back_inserter( available ), [&]( const recipe * e ) {
-                    return availability_cache->at( e );
-                } );
+                const bool skip_sort = ( subtab.cur() == "CSC_*_RECENT" );
+                num_recipe = picking.size();
+                recipe_list_data list_result = build_recipe_list(
+                                                   std::move( picking ), skip_hidden, skip_sort,
+                                                   *crafter, camp_crafting, inventory_override,
+                                                   highlight_unread_recipes, unread_recipes_first,
+                                                   *availability_cache, available_recipes );
+                current = std::move( list_result.entries );
+                indent = std::move( list_result.indent );
+                available = std::move( list_result.available );
+                num_hidden = list_result.num_hidden;
             }
 
             line = 0;

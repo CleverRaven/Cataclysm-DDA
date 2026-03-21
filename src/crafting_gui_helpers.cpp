@@ -1,5 +1,6 @@
 #include "crafting_gui_helpers.h"
 
+#include <algorithm>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -30,8 +31,10 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "flat_set.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 
 bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &recp )
 {
@@ -828,4 +831,144 @@ std::vector<iteminfo> recipe_result_info( const recipe &rec, Character &crafter,
     }
     info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
     return info;
+}
+
+// --- Recipe list pipeline ---
+
+static void recursively_expand_recipes( std::vector<const recipe *> &current,
+                                        std::vector<int> &indent,
+                                        std::map<const recipe *, availability> &availability_cache, int i,
+                                        Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
+                                        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes,
+                                        bool camp_crafting, inventory *inventory_override )
+{
+    std::vector<const recipe *> tmp;
+    for( const recipe_id &nested : current[i]->nested_category_data ) {
+
+        if( available_recipes.contains( &nested.obj() )
+            && hidden_recipes.find( nested ) == hidden_recipes.end()
+          ) {
+            tmp.push_back( &nested.obj() );
+            indent.insert( indent.begin() + i + 1, indent[i] + 2 );
+            if( !availability_cache.count( &nested.obj() ) ) {
+                availability_cache.emplace( &nested.obj(),
+                                            availability( crafter, &nested.obj(), 1,
+                                                    camp_crafting, inventory_override ) );
+            }
+        }
+    }
+
+    const bool want_unread = highlight_unread_recipes && unread_recipes_first;
+    std::stable_sort( tmp.begin(), tmp.end(), [
+                       &crafter, &availability_cache, want_unread
+    ]( const recipe * const a, const recipe * const b ) {
+        const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
+        const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
+        return recipe_sort_compare( a, b,
+                                    availability_cache.at( a ), availability_cache.at( b ),
+                                    crafter, a_read, b_read, want_unread );
+    } );
+
+    current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
+}
+
+// TODO: Make this more efficient
+static void expand_recipes( std::vector<const recipe *> &current,
+                            std::vector<int> &indent,
+                            std::map<const recipe *, availability> &availability_cache,
+                            Character &crafter, bool unread_recipes_first, bool highlight_unread_recipes,
+                            const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes,
+                            bool camp_crafting, inventory *inventory_override )
+{
+    for( size_t i = 0; i < current.size(); ++i ) {
+        if( current[i]->is_nested()
+            && uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end()
+          ) {
+            recursively_expand_recipes( current, indent, availability_cache, i, crafter,
+                                        unread_recipes_first, highlight_unread_recipes, available_recipes,
+                                        hidden_recipes, camp_crafting, inventory_override );
+        }
+    }
+}
+
+std::string list_nested( Character &crafter, const recipe *rec,
+                         const recipe_subset &available_recipes,
+                         int indent_level )
+{
+    std::string description;
+    availability avail( crafter, rec );
+    if( rec->is_nested() ) {
+        description += colorize( std::string( indent_level,
+                                              ' ' ) + rec->result_name() + ":\n", avail.color() );
+        for( const recipe_id &r : rec->nested_category_data ) {
+            description += list_nested( crafter, &r.obj(), available_recipes, indent_level + 2 );
+        }
+    } else if( available_recipes.contains( rec ) ) {
+        description += colorize( std::string( indent_level,
+                                              ' ' ) + rec->result_name() + "\n", avail.color() );
+    }
+
+    return description;
+}
+
+recipe_list_data build_recipe_list(
+    std::vector<const recipe *> picking,
+    bool skip_hidden_filter,
+    bool skip_sort,
+    Character &crafter,
+    bool camp_crafting,
+    inventory *inventory_override,
+    bool highlight_unread,
+    bool unread_first,
+    std::map<const recipe *, availability> &availability_cache,
+    const recipe_subset &available_recipes )
+{
+    recipe_list_data result;
+
+    if( skip_hidden_filter ) {
+        result.entries = std::move( picking );
+    } else {
+        for( const recipe *r : picking ) {
+            if( uistate.hidden_recipes.find( r->ident() ) == uistate.hidden_recipes.end() ) {
+                result.entries.push_back( r );
+            }
+        }
+        result.num_hidden = picking.size() - result.entries.size();
+    }
+
+    // Cache availability on first display
+    for( const recipe *e : result.entries ) {
+        if( !availability_cache.count( e ) ) {
+            availability_cache.emplace( e,
+                                        availability( crafter, e, 1, camp_crafting, inventory_override ) );
+        }
+    }
+
+    if( !skip_sort ) {
+        const bool want_unread = highlight_unread && unread_first;
+        std::stable_sort( result.entries.begin(), result.entries.end(), [
+                       &crafter, &availability_cache, want_unread
+        ]( const recipe * const a, const recipe * const b ) {
+            const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
+            const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
+            return recipe_sort_compare( a, b,
+                                        availability_cache.at( a ), availability_cache.at( b ),
+                                        crafter, a_read, b_read, want_unread );
+        } );
+    }
+
+    // Set up indents and expand nested categories (must happen after sort)
+    result.indent.assign( result.entries.size(), 0 );
+    expand_recipes( result.entries, result.indent, availability_cache, crafter,
+                    unread_first, highlight_unread, available_recipes, uistate.hidden_recipes,
+                    camp_crafting, inventory_override );
+
+    // Build the parallel availability vector
+    result.available.reserve( result.entries.size() );
+    std::transform( result.entries.begin(), result.entries.end(),
+    std::back_inserter( result.available ), [&]( const recipe * e ) {
+        return availability_cache.at( e );
+    } );
+
+    return result;
 }
