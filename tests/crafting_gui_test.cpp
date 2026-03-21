@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -12,6 +14,7 @@
 #include "character_attire.h"
 #include "color.h"
 #include "crafting_gui_helpers.h"
+#include "flat_set.h"
 #include "npc.h"
 #include "recipe_dictionary.h"
 #include "game.h"
@@ -22,6 +25,7 @@
 #include "player_helpers.h"
 #include "recipe.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "weather_type.h"
 
 static const itype_id itype_2x4( "2x4" );
@@ -43,8 +47,8 @@ static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_cudgel_test_no_tools( "cudgel_test_no_tools" );
 static const recipe_id recipe_meat_cooked_test_no_tools( "meat_cooked_test_no_tools" );
 static const recipe_id recipe_prac_knapping( "prac_knapping" );
-static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
 static const recipe_id recipe_test_longshirt_test_poor_fit( "test_longshirt_test_poor_fit" );
+static const recipe_id recipe_test_nested_weapons( "test_nested_weapons" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_water_clean_test_in_jar( "water_clean_test_in_jar" );
 
@@ -1053,4 +1057,130 @@ TEST_CASE( "result_info_varsize_poor_fit_warning", "[crafting][gui][result_info]
     std::vector<iteminfo> info = recipe_result_info( rec, guy, 1, 80 );
 
     CHECK( info_has_text( info, "poorly" ) );
+}
+
+// --- Recipe list pipeline tests ---
+
+static void clear_recipe_ui_state()
+{
+    uistate.hidden_recipes.clear();
+    uistate.expanded_recipes.clear();
+    uistate.read_recipes.clear();
+}
+
+TEST_CASE( "build_recipe_list_hides_hidden", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    std::vector<const recipe *> picking = { cudgel, tallow };
+    recipe_subset available = make_subset( picking );
+
+    uistate.hidden_recipes.insert( recipe_cudgel_test_no_tools );
+
+    std::map<const recipe *, availability> cache;
+    recipe_list_data result = build_recipe_list( picking, false, false,
+                              guy, false, nullptr, false, false, cache, available );
+
+    for( const recipe *entry : result.entries ) {
+        CHECK_FALSE( entry->ident() == recipe_cudgel_test_no_tools );
+    }
+    CHECK( result.num_hidden == 1 );
+}
+
+TEST_CASE( "build_recipe_list_skip_hidden_filter", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    std::vector<const recipe *> picking = { cudgel };
+    recipe_subset available = make_subset( picking );
+
+    uistate.hidden_recipes.insert( recipe_cudgel_test_no_tools );
+
+    std::map<const recipe *, availability> cache;
+    recipe_list_data result = build_recipe_list( picking, true, false,
+                              guy, false, nullptr, false, false, cache, available );
+
+    CHECK_FALSE( result.entries.empty() );
+    CHECK( result.entries[0]->ident() == recipe_cudgel_test_no_tools );
+    CHECK( result.num_hidden == 0 );
+}
+
+TEST_CASE( "build_recipe_list_sort_craftable_first", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+    guy.i_add( item( itype_2x4 ) );
+    guy.invalidate_crafting_inventory();
+
+    // cudgel_test_no_tools: needs 2x4, no tools -- craftable with inventory above
+    // test_tallow: needs fat + CUT 2 quality -- not craftable (no fat or knife)
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    const recipe *tallow = &recipe_test_tallow.obj();
+    std::vector<const recipe *> picking = { tallow, cudgel };
+    recipe_subset available = make_subset( picking );
+
+    std::map<const recipe *, availability> cache;
+    recipe_list_data result = build_recipe_list( picking, false, false,
+                              guy, false, nullptr, false, false, cache, available );
+
+    REQUIRE( result.available.size() == 2 );
+    // Craftable recipes come first in sorted order
+    bool seen_uncraftable = false;
+    for( const availability &entry : result.available ) {
+        if( !entry.can_craft ) {
+            seen_uncraftable = true;
+        } else {
+            CHECK_FALSE( seen_uncraftable );
+        }
+    }
+}
+
+TEST_CASE( "build_recipe_list_expands_nested", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+
+    const recipe *nested = &recipe_test_nested_weapons.obj();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    std::vector<const recipe *> picking = { nested };
+    // available_recipes must contain the child recipe for expansion to include it
+    recipe_subset available = make_subset( { nested, cudgel } );
+
+    uistate.expanded_recipes.insert( recipe_test_nested_weapons );
+
+    std::map<const recipe *, availability> cache;
+    recipe_list_data result = build_recipe_list( picking, false, false,
+                              guy, false, nullptr, false, false, cache, available );
+
+    // Expansion should have inserted the child after the nested category
+    REQUIRE( result.entries.size() == 2 );
+    CHECK( result.entries[0]->ident() == recipe_test_nested_weapons );
+    CHECK( result.entries[1]->ident() == recipe_cudgel_test_no_tools );
+    CHECK( result.indent[0] < result.indent[1] );
+}
+
+TEST_CASE( "list_nested_generates_tree", "[crafting][gui][recipe_list]" )
+{
+    clear_recipe_ui_state();
+    Character &guy = setup_character();
+    guy.set_skill_level( skill_fabrication, 2 );
+    guy.set_skill_level( skill_melee, 1 );
+
+    const recipe *nested = &recipe_test_nested_weapons.obj();
+    const recipe *cudgel = &recipe_cudgel_test_no_tools.obj();
+    recipe_subset available = make_subset( { nested, cudgel } );
+
+    std::string desc = list_nested( guy, nested, available );
+
+    CHECK( desc.find( "test nested weapons" ) != std::string::npos );
+    CHECK( desc.find( "cudgel" ) != std::string::npos );
 }

@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <map>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -127,5 +128,37 @@ item get_recipe_result_item( const recipe &rec, Character &crafter );
 // with section headers and quantity scaling for batch_size.
 std::vector<iteminfo> recipe_result_info( const recipe &rec, Character &crafter,
         int batch_size, int panel_width );
+
+// Return type for build_recipe_list().
+struct recipe_list_data {
+    std::vector<const recipe *> entries;
+    std::vector<int> indent;
+    std::vector<availability> available;
+    size_t num_hidden = 0;
+};
+
+// Processes a raw recipe list from category lookup or filter:
+// 1. Filters out hidden recipes (unless skip_hidden_filter is true)
+// 2. Caches availability for each recipe in the provided cache
+// 3. Sorts by craftability, difficulty, name (skipped when skip_sort is true)
+// 4. Expands nested recipe categories
+// 5. Builds the parallel availability vector
+recipe_list_data build_recipe_list(
+    std::vector<const recipe *> picking,
+    bool skip_hidden_filter,
+    bool skip_sort,
+    Character &crafter,
+    bool camp_crafting,
+    inventory *inventory_override,
+    bool highlight_unread,
+    bool unread_first,
+    std::map<const recipe *, availability> &availability_cache,
+    const recipe_subset &available_recipes );
+
+// Generates a colored hierarchical text description of nested recipe contents.
+// Used by the item info panel when a nested category is selected.
+std::string list_nested( Character &crafter, const recipe *rec,
+                         const recipe_subset &available_recipes,
+                         int indent_level = 0 );
 
 #endif // CATA_SRC_CRAFTING_GUI_HELPERS_H
