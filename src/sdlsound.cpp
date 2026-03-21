@@ -675,6 +675,22 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
     return find_random_effect( id, variant, season, is_indoors, is_night ) != nullptr;
 }
 
+// Returns a sound effect matching given id and variant.
+// Unlike has_variant_sound(), this doesn't fallback to "default" variants.
+bool sfx::has_exact_variant_sound( const std::string &id, const std::string &variant,
+                                   const std::string &season, const std::optional<bool> &is_indoors,
+                                   const std::optional<bool> &is_night )
+{
+    sfx_args key;
+    key.id = id;
+    key.variant = variant;
+    key.season = season;
+    key.indoors = is_indoors;
+    key.night = is_night;
+    
+    return sfx_resources.sound_effects.find( key ) != nullptr;
+}
+
 static bool is_time_slowed()
 {
     if( g == nullptr || g->uquit != QUIT_NO ) {
