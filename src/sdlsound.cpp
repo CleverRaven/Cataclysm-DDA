@@ -687,8 +687,14 @@ bool sfx::has_exact_variant_sound( const std::string &id, const std::string &var
     key.season = season;
     key.indoors = is_indoors;
     key.night = is_night;
-    
-    return sfx_resources.sound_effects.find( key ) != nullptr;
+
+    const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find( key );
+
+    if( !iter ) {
+        return false;
+    }
+
+    return &random_entry_ref( *iter );
 }
 
 static bool is_time_slowed()
