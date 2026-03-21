@@ -1337,36 +1337,36 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
     const bool night = is_night( calendar::turn );
     // this does not mean p == avatar (it could be a vehicle turret)
     if( player_character.pos_bub() == source ) {
-        selected_sound = "fire_gun";
+        selected_sound = "";
 
         const auto mods = firing.gunmods();
         if( std::any_of( mods.begin(), mods.end(),
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
     } ) && firing.gun_skill().str() != "archery" ) {
-            selected_sound = "fire_gun_suppressed";
+            selected_sound = "_suppressed";
         }
     } else {
         angle = get_heard_angle( source );
         distance = sound_distance( player_character.pos_bub(), source );
         if( distance <= 17 ) {
-            selected_sound = "fire_gun";
+            selected_sound = "";
         } else {
-            selected_sound = "fire_gun_distant";
+            selected_sound = "_distant";
         }
     }
 
-    if( has_exact_variant_sound( selected_sound, weapon_id.str(), seas_str, indoors, night ) ) {
-        play_variant_sound( selected_sound, weapon_id.str(), seas_str, indoors, night,
+    if( has_exact_variant_sound( "fire_gun" + selected_sound, weapon_id.str(), seas_str, indoors, night ) ) {
+        play_variant_sound( "fire_gun" + selected_sound, weapon_id.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
 
-    } else if( !ammo_type.is_null() && has_exact_variant_sound( selected_sound + "_ammo", ammo_type.str(),
+    } else if( !ammo_type.is_null() && has_exact_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(),
                                        seas_str, indoors, night ) ) {
-        play_variant_sound( selected_sound + "_ammo", ammo_type.str(), seas_str, indoors, night,
+        play_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
 
     } else {
-        play_variant_sound( selected_sound, "default", seas_str, indoors, night,
+        play_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
     }
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
