@@ -1325,6 +1325,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         heard_volume = 30;
     }
 
+    ammotype ammo_type = firing.ammo_type();
     itype_id weapon_id = firing.typeId();
     units::angle angle = 0_degrees;
     int distance = 0;
@@ -1343,9 +1344,8 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
     } ) && firing.gun_skill().str() != "archery" ) {
-            weapon_id = itype_weapon_fire_suppressed;
+            selected_sound = "fire_gun_suppressed";
         }
-
     } else {
         angle = get_heard_angle( source );
         distance = sound_distance( player_character.pos_bub(), source );
@@ -1356,8 +1356,19 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         }
     }
 
-    play_variant_sound( selected_sound, weapon_id.str(), seas_str, indoors, night,
-                        heard_volume, angle, 0.8, 1.2 );
+    if( has_exact_variant_sound( selected_sound, weapon_id.str(), seas_str, indoors, night ) ) {
+        play_variant_sound( selected_sound, weapon_id.str(), seas_str, indoors, night,
+                            heard_volume, angle, 0.8, 1.2 );
+
+    } else if( !ammo_type.is_null() && has_exact_variant_sound( selected_sound + "_ammo", ammo_type.str(),
+                                       seas_str, indoors, night ) ) {
+        play_variant_sound( selected_sound + "_ammo", ammo_type.str(), seas_str, indoors, night,
+                            heard_volume, angle, 0.8, 1.2 );
+
+    } else {
+        play_variant_sound( selected_sound, "default", seas_str, indoors, night,
+                            heard_volume, angle, 0.8, 1.2 );
+    }
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
@@ -1485,6 +1496,7 @@ void sfx::sound_thread::operator()() const
             std::this_thread::sleep_for( std::chrono::milliseconds( sleep_time ) );
             play_variant_sound( melee_hit_material, weapon_variant, seas_str, indoors,
                                 night, vol_targ, ang_targ, 0.8, 1.2 );
+
         } else {
             std::this_thread::sleep_for( std::chrono::milliseconds( sleep_time ) );
             play_variant_sound( melee_hit_material, skill_variant, seas_str, indoors,
