@@ -250,6 +250,11 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
     return data_->preview_terrains();
 }
 
+std::vector<oter_type_id> overmap_special::get_terrain_type_ids() const
+{
+    return data_->get_terrain_type_ids();
+}
+
 std::vector<overmap_special_locations> overmap_special::required_locations() const
 {
     return data_->required_locations();

@@ -547,9 +547,41 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         }
     }
 
+    // Build reverse map: oter_type_id -> info about specials that produce it.
+    // Used for the filtered generation phase and diagnostic logging.
+    struct special_spawn_info {
+        overmap_special_id id;
+        bool is_unique;
+        bool is_optional;
+        bool needs_water;
+        int occ_min;
+        int occ_max;
+    };
+    std::unordered_map<oter_type_id, std::vector<special_spawn_info>> terrain_to_specials;
+    for( const overmap_special &sp : overmap_specials::get_all() ) {
+        if( !sp.can_spawn() ) {
+            continue;
+        }
+        const overmap_special_placement_constraints &constraints = sp.get_constraints();
+        special_spawn_info info;
+        info.id = sp.id;
+        info.is_unique = sp.has_flag( "OVERMAP_UNIQUE" ) || sp.has_flag( "GLOBALLY_UNIQUE" );
+        info.is_optional = constraints.occurrences.min == 0;
+        info.needs_water = sp.has_flag( "LAKE" ) || sp.has_flag( "OCEAN" );
+        info.occ_min = constraints.occurrences.min;
+        info.occ_max = constraints.occurrences.max;
+
+        for( const oter_type_id &tid : sp.get_terrain_type_ids() ) {
+            terrain_to_specials[tid].push_back( info );
+        }
+    }
+
     constexpr int max_attempts = 3;
     for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
          ++attempt_no ) {
+        if( attempt_no > 0 ) {
+            overmap_buffer.reset();
+        }
         // First we just touch all the overmaps in an area to cause them to generate.
         for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 3 ) ) {
             point_abs_omt omt_start = project_to<coords::omt>( om_cur );
@@ -628,8 +660,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             CAPTURE( msg );
             CAPTURE( msg.empty() );
         }
-        overmap_buffer.reset();
     }
+    // Last attempt's overmaps are still in memory for the forced placement phase.
 
     // Check that no SHOULD_NOT_SPAWN terrain was generated.
     for( const auto &entry : stats ) {
@@ -642,6 +674,84 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
+    // Filtered generation: for terrains still missing after normal generation,
+    // run one more attempt with a custom batch containing only the specials that
+    // produce those terrains. With all other specials removed from competition,
+    // the remaining ones get all 144 sectors to themselves.
+    if( !yet_to_be_seen.empty() ) {
+        std::vector<const overmap_special *> filtered;
+        std::unordered_set<overmap_special_id> seen_ids;
+        for( const oter_type_id &tid : yet_to_be_seen ) {
+            auto it = terrain_to_specials.find( tid );
+            if( it == terrain_to_specials.end() ) {
+                continue;
+            }
+            for( const special_spawn_info &info : it->second ) {
+                if( seen_ids.insert( info.id ).second ) {
+                    filtered.push_back( &info.id.obj() );
+                }
+            }
+        }
+
+        if( !filtered.empty() ) {
+            overmap_buffer.reset();
+            overmap_special_batch custom_batch( overmap_origin, filtered );
+            for( const point_abs_om &om_cur :
+                 closest_points_first( overmap_origin, 0, 3 ) ) {
+                overmap_buffer.create_custom_overmap( om_cur, custom_batch );
+            }
+            // Scan the custom overmaps for newly-placed terrains.
+            for( const point_abs_om &om_cur :
+                 closest_points_first( overmap_origin, 0, 5 ) ) {
+                point_abs_omt omt_start = project_to<coords::omt>( om_cur );
+                if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
+                    continue;
+                }
+                point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
+                for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
+                    for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
+                        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+                            tripoint_abs_omt tp( p, z );
+                            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
+                            auto iter_bool = stats.emplace( id, tp );
+                            if( iter_bool.second ) {
+                                yet_to_be_seen.erase( id );
+                            }
+                            iter_bool.first->second.last_observed = tp;
+                            ++iter_bool.first->second.count;
+                        }
+                    }
+                }
+            }
+            // Mapgen sampling for newly observed terrains.
+            for( std::pair<const oter_type_id, omt_stats> &p : stats ) {
+                int goal_samples = 1;
+                int sample_size = goal_samples - p.second.samples;
+                if( sample_size <= 0 ) {
+                    continue;
+                }
+                const std::string oter_type_id = p.first->id.str();
+                const tripoint_abs_omt pos = p.second.last_observed;
+                CAPTURE( oter_type_id );
+                const std::string msg = capture_debugmsg_during( [pos]() {
+                    MAPBUFFER.clear_outside_reality_bubble();
+                    smallmap tm;
+                    tm.generate( pos, calendar::turn, false );
+                    CHECK( !map_meddler::has_altered_submaps( *tm.cast_to_map() ) );
+                    tm.delete_unmerged_submaps();
+                } );
+                p.second.samples = goal_samples;
+                CAPTURE( msg );
+                CAPTURE( msg.empty() );
+            }
+            WARN( "Ran filtered generation with " << filtered.size()
+                  << " specials for unobserved terrains" );
+        }
+    }
+    overmap_buffer.reset();
+
+    // Final check: anything still in yet_to_be_seen after both normal generation
+    // and forced placement must be in the manual whitelist or it's a failure.
     {
         std::vector<oter_type_id> missing( yet_to_be_seen.begin(), yet_to_be_seen.end() );
         size_t num_missing = missing.size();
@@ -657,6 +767,20 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             return id->id.str();
         } );
         CAPTURE( missing_oter_type_ids );
+        for( const oter_type_id &tid : missing ) {
+            auto it = terrain_to_specials.find( tid );
+            if( it != terrain_to_specials.end() ) {
+                for( const special_spawn_info &info : it->second ) {
+                    UNSCOPED_INFO( tid->id.str() << " expected from special "
+                                   << info.id.str() << " (occ=" << info.occ_min
+                                   << "/" << info.occ_max
+                                   << ( info.is_unique ? " unique" : "" )
+                                   << ( info.is_optional ? " optional" : "" )
+                                   << ( info.needs_water ? " water" : "" )
+                                   << ")" );
+                }
+            }
+        }
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
               "SHOULD_NOT_SPAWN flag, intended for terrains that should never spawn, for example "
               "test terrains or work in progress, or tweak the constraints so that the terrain "

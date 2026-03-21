@@ -795,6 +795,7 @@ class overmap_special
         //NOTE: only useful for fixed overmap special
         std::vector<overmap_special_terrain> get_terrains() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
+        std::vector<oter_type_id> get_terrain_type_ids() const;
         std::vector<overmap_special_locations> required_locations() const;
         int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                                om_direction::type r ) const;
@@ -923,6 +924,7 @@ struct overmap_special_data {
     virtual void check( const std::string &context ) const = 0;
     virtual std::vector<overmap_special_terrain> get_terrains() const = 0;
     virtual std::vector<overmap_special_terrain> preview_terrains() const = 0;
+    virtual std::vector<oter_type_id> get_terrain_type_ids() const = 0;
     virtual std::vector<overmap_special_locations> required_locations() const = 0;
     virtual int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                                    om_direction::type r ) const = 0;
@@ -946,6 +948,7 @@ struct fixed_overmap_special_data : overmap_special_data {
     const overmap_special_terrain &get_terrain_at( const tripoint_rel_omt &p ) const;
     std::vector<overmap_special_terrain> get_terrains() const override;
     std::vector<overmap_special_terrain> preview_terrains() const override;
+    std::vector<oter_type_id> get_terrain_type_ids() const override;
     std::vector<overmap_special_locations> required_locations() const override;
     int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
                            om_direction::type r ) const override;
@@ -1332,6 +1335,7 @@ struct mutable_overmap_special_data : overmap_special_data {
     overmap_special_terrain root_as_overmap_special_terrain() const;
     std::vector<overmap_special_terrain> get_terrains() const override;
     std::vector<overmap_special_terrain> preview_terrains() const override;
+    std::vector<oter_type_id> get_terrain_type_ids() const override;
     std::vector<overmap_special_locations> required_locations() const override;
     int score_rotation_at( const overmap &, const tripoint_om_omt &,
                            om_direction::type ) const override;

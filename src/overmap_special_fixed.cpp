@@ -206,6 +206,18 @@ std::vector<overmap_special_terrain> fixed_overmap_special_data::get_terrains() 
     return terrains;
 }
 
+std::vector<oter_type_id> fixed_overmap_special_data::get_terrain_type_ids() const
+{
+    std::vector<oter_type_id> result;
+    result.reserve( terrains.size() );
+    for( const overmap_special_terrain &ter : terrains ) {
+        if( ter.terrain.is_valid() ) {
+            result.emplace_back( ter.terrain->get_type_id() );
+        }
+    }
+    return result;
+}
+
 std::vector<overmap_special_terrain> fixed_overmap_special_data::preview_terrains() const
 {
     std::vector<overmap_special_terrain> result;
