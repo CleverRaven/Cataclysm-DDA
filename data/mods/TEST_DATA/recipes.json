@@ -459,5 +459,34 @@
     "skill_used": "fabrication",
     "nested_category_data": [ "cudgel_test_no_tools" ],
     "difficulty": 0
+  },
+  {
+    "//": "For testing recipe result info with container.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water_clean",
+    "id_suffix": "test_in_jar",
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ]
+  },
+  {
+    "//": "For testing VARSIZE poor-fit warning. Result and component both have VARSIZE.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "test_longshirt",
+    "id_suffix": "test_poor_fit",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "test_longshirt", 1 ] ] ]
   }
 ]

@@ -16,7 +16,6 @@
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -27,7 +26,6 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game_inventory.h"
@@ -40,7 +38,6 @@
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
 #include "localized_comparator.h"
 #include "options.h"
 #include "output.h"
@@ -123,7 +120,6 @@ static std::string peek_related_recipe( const recipe *current, const recipe_subs
 static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
-static item get_recipe_result_item( const recipe &rec, Character &crafter );
 static void compare_recipe_with_item( const item &recipe_item, Character &crafter );
 static void prioritize_components( const recipe &recipe, Character &crafter );
 static void deprioritize_components( const recipe &recipe );
@@ -236,236 +232,28 @@ class recipe_result_info_cache
         Character &crafter;
         std::vector<iteminfo> info;
         const recipe *last_recipe = nullptr;
-        int last_terminal_width = 0;
-        int panel_width;
-        int cached_batch_size = 1;
+        int last_panel_width = 0;
+        int cached_batch_size = 0;
         int lang_version = 0;
-
-        void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
-                                  std::vector<iteminfo> &details_info );
-        void get_item_details( item &dummy_item, int quantity_per_batch,
-                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges,
-                               const std::string &description = std::string() );
-        void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
-                              const std::string &classification, bool uses_charges,
-                              const std::string &description = std::string() );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-                                              const std::string &title ) const;
     public:
-        explicit recipe_result_info_cache( Character &_crafter ) : crafter( _crafter ) {};
-        item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
-                                        const catacurses::window &window );
+        explicit recipe_result_info_cache( Character &c ) : crafter( c ) {}
+        item_info_data get_result_data( const recipe *rec, int batch_size,
+                                        int &scroll_pos, int panel_width ) {
+            if( lang_version == detail::get_current_language_version()
+                && rec == last_recipe && rec != nullptr
+                && panel_width == last_panel_width
+                && batch_size == cached_batch_size ) {
+                return item_info_data( "", "", info, {}, scroll_pos );
+            }
+            lang_version = detail::get_current_language_version();
+            last_recipe = rec;
+            last_panel_width = panel_width;
+            cached_batch_size = batch_size;
+            scroll_pos = 0;
+            info = recipe_result_info( *rec, crafter, batch_size, panel_width );
+            return item_info_data( "", "", info, {}, scroll_pos );
+        }
 };
-
-void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
-        std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
-{
-    const std::string byproduct_string = _( "Byproduct" );
-
-    for( const std::pair<const itype_id, int> &bp : rec->get_byproducts() ) {
-        insert_iteminfo_block_separator( details_info, byproduct_string );
-        item dummy_item = item( bp.first );
-        bool uses_charges = dummy_item.count_by_charges();
-        get_item_header( dummy_item, bp.second, summary_info, _( "With byproduct" ), uses_charges );
-        get_item_details( dummy_item, bp.second, details_info, byproduct_string, uses_charges );
-    }
-}
-
-void recipe_result_info_cache::get_item_details( item &dummy_item,
-        const int quantity_per_batch, std::vector<iteminfo> &details_info,
-        const std::string &classification, const bool uses_charges, const std::string &description )
-{
-    std::vector<iteminfo> temp_info;
-    int total_quantity = quantity_per_batch * cached_batch_size;
-    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges,
-                     description );
-    if( uses_charges ) {
-        dummy_item.charges *= total_quantity;
-        dummy_item.info( true, temp_info );
-        dummy_item.charges /= total_quantity;
-    } else {
-        dummy_item.info( true, temp_info, total_quantity );
-    }
-    details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
-}
-
-void recipe_result_info_cache::get_item_header( item &dummy_item, const int quantity_per_batch,
-        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges,
-        const std::string &description )
-{
-    int total_quantity = quantity_per_batch * cached_batch_size;
-    //Handle multiple charges and multiple discrete items separately
-    if( uses_charges ) {
-        std::string display_name = ( description.empty() ? dummy_item.display_name() : description );
-        dummy_item.charges = total_quantity;
-        info.emplace_back( "DESCRIPTION",
-                           "<bold>" + classification + ": </bold>" + display_name );
-        //Reset charges so that multiple calls to this function don't produce unexpected results
-        dummy_item.charges /= total_quantity;
-    } else {
-        std::string display_name = ( description.empty() ? dummy_item.display_name(
-                                         total_quantity ) : description );
-        //Add summary line.  Don't need to indicate count if there's only 1
-        info.emplace_back( "DESCRIPTION",
-                           "<bold>" + classification + ": </bold>" + display_name +
-                           ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
-    }
-    if( dummy_item.has_flag( flag_VARSIZE ) &&
-        dummy_item.has_flag( flag_FIT ) ) {
-        /* Resulting item can be (poor fit).  Check if it can actually be crafted as poor fit
-         * Currently, that means: can it have poorly-fitted components?*/
-        std::vector<std::vector<item_comp> > item_component_reqs =
-            last_recipe->simple_requirements().get_components();
-        bool has_varsize_components = false;
-        for( const std::vector<item_comp> &component_options : item_component_reqs ) {
-            for( const item_comp &component : component_options ) {
-                const itype *type = item::find_type( component.type );
-                if( type->has_flag( flag_VARSIZE ) ) {
-                    has_varsize_components = true;
-                    break;
-                }
-            }
-            if( has_varsize_components ) {
-                break;
-            }
-        }
-        if( has_varsize_components ) {
-            info.emplace_back( "DESCRIPTION",
-                               _( "<bold>Note:</bold> If crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
-        }
-    }
-}
-
-static item get_recipe_result_item( const recipe &rec, Character &crafter )
-{
-    item dummy_result = item( rec.result(), calendar::turn, item::default_charges_tag{} );
-    if( !rec.variant().empty() ) {
-        dummy_result.set_itype_variant( rec.variant() );
-    }
-    //Check if recipe result is a clothing item that can be properly fitted
-    if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
-        //Check if it can actually fit.  If so, list the fitted info
-        item::sizing general_fit = dummy_result.get_sizing( crafter );
-        if( general_fit == item::sizing::small_sized_small_char ||
-            general_fit == item::sizing::human_sized_human_char ||
-            general_fit == item::sizing::big_sized_big_char ||
-            general_fit == item::sizing::ignore ) {
-            dummy_result.set_flag( flag_FIT );
-        }
-    }
-    if( dummy_result.count_by_charges() ) {
-        dummy_result.charges = 1;
-    }
-    dummy_result.set_var( "recipe_exemplar", rec.ident().str() );
-    return dummy_result;
-}
-
-item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
-        int &scroll_pos, const catacurses::window &window )
-{
-    //lang check here is needed to rebuild cache when using "Toggle language to English" option
-    if( lang_version == detail::get_current_language_version() ) {
-        /* If the recipe has not changed, return the cached version in info.
-           Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
-           has changed, the info needs to be regenerated */
-        if( rec == last_recipe
-            && rec != nullptr
-            && TERMX == last_terminal_width
-            && batch_size == cached_batch_size
-          ) {
-            item_info_data data( "", "", info, {}, scroll_pos );
-            return data;
-        }
-    } else {
-        lang_version = detail::get_current_language_version();
-    }
-
-    cached_batch_size = batch_size;
-    last_recipe = rec;
-    scroll_pos = 0;
-    last_terminal_width = TERMX;
-    panel_width = getmaxx( window );
-
-    info.clear(); //New recipe, new info
-
-    /*We need to do some calculations to put together the results summary and very similar calculations to
-      put together the details, so, have a separate vector specifically for the details, to be appended later */
-    std::vector<iteminfo> details_info;
-
-    //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
-    item dummy_result = get_recipe_result_item( *rec, crafter );
-    std::string result_description;
-    if( dummy_result.is_null() ) {
-        result_description = rec->get_description( crafter );
-    }
-    bool result_uses_charges = dummy_result.count_by_charges();
-    int const makes_amount = rec->makes_amount();
-    item dummy_container;
-
-    //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
-    const std::string result_string = _( "Result" );
-    const std::string recipe_output_string = _( "Recipe Outputs" );
-    const std::string recipe_result_string = _( "Recipe Result" );
-    const std::string container_string = _( "Container" );
-    // Every learnable recipe in a container is sealed.
-    const std::string in_container_string = _( "In sealed container" );
-    const std::string container_info_string = _( "Container Information" );
-
-    //Set up summary at top so people know they can look further to learn about byproducts and such
-    //First, see if we need it at all:
-    if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
-        //We don't need a summary for a single item, just give us the details
-        insert_iteminfo_block_separator( details_info, recipe_result_string );
-        get_item_details( dummy_result, makes_amount, details_info, result_string, result_uses_charges,
-                          result_description );
-
-    } else { //We do need a summary
-        //Top of the header
-        insert_iteminfo_block_separator( info, recipe_output_string );
-        //If the primary result uses charges and is in a container, need to calculate number of charges
-        //If it's in a container, focus on the contents
-        if( rec->container_id() != itype_id::NULL_ID() ) {
-            dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
-            //Put together the summary in info:
-            get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
-            get_item_header( dummy_container, 1, info, in_container_string,
-                             false ); //Seems reasonable to assume a container won't use charges
-            //Put together the details in details_info:
-            insert_iteminfo_block_separator( details_info, recipe_result_string );
-            get_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
-                              result_uses_charges );
-
-            insert_iteminfo_block_separator( details_info, container_info_string );
-            get_item_details( dummy_container, 1, details_info, container_string, false );
-        } else { //If it's not in a container, just tell us about the item
-            //Add a line to the summary:
-            get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
-            //Add the details 'header'
-            insert_iteminfo_block_separator( details_info, recipe_result_string );
-            //Get the item details:
-            get_item_details( dummy_result, makes_amount, details_info, recipe_result_string,
-                              result_uses_charges );
-        }
-        if( rec->has_byproducts() ) {
-            get_byproducts_data( rec, info, details_info );
-        }
-        info.emplace_back( "DESCRIPTION", "  " );  //Blank line for formatting
-    }
-    //Merge summary and details
-    info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
-    item_info_data data( "", "", info, {}, scroll_pos );
-    return data;
-}
-
-void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string &title ) const
-{
-    info_vec.emplace_back( "DESCRIPTION", "--" );
-    info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,
-                           panel_width ), ' ' ) +
-                           "<bold>" + title + "</bold>" );
-    info_vec.emplace_back( "DESCRIPTION", "--" );
-}
 
 std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
         &available_recipes, const crafting_category_id &cat, const std::string &subcat )
@@ -1029,7 +817,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 wnoutrefresh( w_iteminfo );
             } else {
                 item_info_data data = result_info.get_result_data( cur_recipe, batch_size, line_item_info,
-                                      w_iteminfo );
+                                      getmaxx( w_iteminfo ) );
                 data.without_getch = true;
                 data.without_border = true;
                 data.scrollbar_left = false;
@@ -1336,7 +1124,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             ui.invalidate_ui();
 
             item_info_data data = result_info.get_result_data( current[line], 1, line_item_info_popup,
-                                  w_iteminfo );
+                                  getmaxx( w_iteminfo ) );
             data.handle_scrolling = true;
             data.arrow_scrolling = true;
             const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
