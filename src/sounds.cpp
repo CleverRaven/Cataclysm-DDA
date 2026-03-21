@@ -1355,6 +1355,8 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         }
     }
 
+    add_msg_debug( debugmode::DF_SOUND, "ammo_type: %s, sound_id: %s, is_null: %s", ammo_type.str(), "fire_ammo" + selected_sound, ammo_type.is_null() );
+
     if( has_exact_variant_sound( "fire_gun" + selected_sound, weapon_id.str(), seas_str, indoors, night ) ) {
         play_variant_sound( "fire_gun" + selected_sound, weapon_id.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
