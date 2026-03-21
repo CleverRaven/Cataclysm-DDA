@@ -19,6 +19,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "item.h"
 #include "itype.h" // IWYU pragma: keep
 #include "line.h"
 #include "map.h"
