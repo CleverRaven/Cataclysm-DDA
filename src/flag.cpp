@@ -266,7 +266,7 @@ const flag_id flag_PSEUDO( "PSEUDO" );
 const flag_id flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 const flag_id flag_PSYSHIELD_PARTIAL( "PSYSHIELD_PARTIAL" );
 const flag_id flag_PULPED( "PULPED" );
-const flag_id flag_PUMP_ACTION( "PUMP_ACTION" );
+const flag_id flag_PUMP_RAIL( "PUMP_RAIL" );
 const flag_id flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
 const flag_id flag_QUARTERED( "QUARTERED" );
 const flag_id flag_RABBIT( "RABBIT" );
