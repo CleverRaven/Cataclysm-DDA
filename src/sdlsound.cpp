@@ -690,11 +690,7 @@ bool sfx::has_exact_variant_sound( const std::string &id, const std::string &var
 
     const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find( key );
 
-    if( !iter ) {
-        return false;
-    }
-
-    return &random_entry_ref( *iter );
+    return iter != nullptr;
 }
 
 static bool is_time_slowed()
