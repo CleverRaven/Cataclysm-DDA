@@ -391,6 +391,8 @@ static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_greenhouse( "t_greenhouse" );
+static const ter_str_id ter_t_greenhouse_tilled( "t_greenhouse_tilled" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
@@ -6505,7 +6507,11 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
             here.furn( examp )->plant != nullptr ) {
             here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_GREENHOUSE, examp ) ) {
+                here.set( examp, ter_t_greenhouse, furn_f_plant_seed );
+            } else {
+                here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            }
         } else {
             here.furn_set( examp, furn_f_plant_seed );
         }
@@ -9384,8 +9390,15 @@ void churn_activity_actor::start( player_activity &act, Character & )
 void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.get_bub( act.placement ), ter_t_dirtmound );
+    tripoint_bub_ms examp = here.get_bub( act.placement );
+
+    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_GREENHOUSE, examp ) ) {
+        here.ter_set( examp, ter_t_greenhouse_tilled );
+        who.add_msg_if_player( _( "You finish preparing the greenhouse here." ) );
+    } else {
+        here.ter_set( examp, ter_t_dirtmound );
+        who.add_msg_if_player( _( "You finish churning up the earth here." ) );
+    }
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();

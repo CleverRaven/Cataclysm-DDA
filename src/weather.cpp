@@ -925,7 +925,8 @@ static bool has_sunlight_access( const tripoint_bub_ms &pos )
         const bool transparent_roof = should_check_above ?
                                       here.has_flag_ter( "NO_FLOOR", pnt_above ) || here.has_flag_ter( "TRANSPARENT_FLOOR", pnt_above ) :
                                       true;
-        if( !here.is_outside( checked_pnt ) && !transparent_roof ) {
+        const bool isOut = here.is_outside( checked_pnt );
+        if( !isOut && !transparent_roof ) {
             return false;
         }
         checked_pnt = pnt_above;
@@ -965,6 +966,11 @@ ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &
     if( !has_sunlight_access( pos ) ) {
         return ret_val<void>::make_failure( _( "Plants need sunlight to grow!  You can't plant there." ) );
     }
+
+    if( get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_GREENHOUSE, pos ) ) {
+        return ret_val<void>::make_success();
+    }
+
 
     const tripoint_abs_ms abs = get_map().get_abs( pos );
     const tripoint_abs_omt checked_omt = project_to<coords::omt>( abs );
