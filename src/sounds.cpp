@@ -1342,7 +1342,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         const auto mods = firing.gunmods();
         if( std::any_of( mods.begin(), mods.end(),
         []( const item * e ) {
-        return e->type->gunmod->loudness < 0;
+        return e->type->gunmod->loudness_multiplier < 1.0f;
     } ) && firing.gun_skill().str() != "archery" ) {
             selected_sound = "_suppressed";
         }
@@ -1360,13 +1360,15 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         play_variant_sound( "fire_gun" + selected_sound, weapon_id.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
 
-    } else if( !ammo_type.is_null() && has_exact_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(),
-                                       seas_str, indoors, night ) ) {
+    } else if( has_exact_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(), seas_str, indoors, night ) ) {
         play_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
 
-    } else {
+    } else if( has_exact_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors, night ) ) {
         play_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors, night,
+                            heard_volume, angle, 0.8, 1.2 );
+    } else {
+        play_variant_sound( "fire_gun", "default", seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
     }
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
