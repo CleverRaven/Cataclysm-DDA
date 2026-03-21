@@ -227,7 +227,6 @@
     ],
     "use_action": {
       "type": "transform",
-      "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
       "target": "robofac_armor_anchor_on",
       "need_charges": 1,
@@ -283,7 +282,7 @@
     "revert_to": "robofac_armor_anchor",
     "use_action": {
       "type": "transform",
-      "menu_text": "Turn off anchor",
+      "menu_text": "Turn off",
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },

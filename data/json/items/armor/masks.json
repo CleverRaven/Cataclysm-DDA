@@ -60,7 +60,7 @@
     "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
-      "msg": "You adjust the %s to cover your head.",
+      "msg": "You adjust the bandana to cover your head.",
       "target": "bandana_head",
       "menu_text": "Cover head"
     },
