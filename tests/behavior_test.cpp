@@ -24,6 +24,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "monattack.h"
@@ -38,6 +39,8 @@
 #include "units.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+static const efftype_id effect_meth( "meth" );
 
 static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water" );
 
@@ -54,6 +57,9 @@ static const itype_id itype_water_clean( "water_clean" );
 static const nested_mapgen_id nested_mapgen_test_seedling( "test_seedling" );
 
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
+
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_ponywall( "t_ponywall" );
 
 namespace behavior
 {
@@ -338,6 +344,118 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
 
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
+    }
+    SECTION( "Dead tired but not exhausted -- sleep not feasible" ) {
+        // needs_sleep_badly fires at DEAD_TIRED (383) but can_sleep
+        // requires EXHAUSTED (575). Between the two, the need exists
+        // but the NPC pushes through.
+        test_npc.set_sleepiness( 500 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::failure );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Exhausted -- sleep is feasible" ) {
+        test_npc.set_sleepiness( 600 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "go_to_sleep" );
+    }
+    SECTION( "Exhausted on meth -- sleep blocked" ) {
+        test_npc.set_sleepiness( 600 );
+        test_npc.add_effect( effect_meth, 1_hours );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        CHECK( oracle.can_sleep( "" ) == behavior::status_t::failure );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Exhausted with stim -- sleep still feasible" ) {
+        // Stim is a soft modifier in Character::can_sleep() whose effect
+        // depends on comfort at the sleep location. The oracle can't
+        // evaluate that, so only meth is a hard blocker.
+        test_npc.set_sleepiness( 600 );
+        test_npc.set_stim( 20 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        CHECK( oracle.can_sleep( "" ) == behavior::status_t::running );
+    }
+    SECTION( "Exhausted and hungry -- hunger wins" ) {
+        // sleepiness=600 (urgency 0.6), stored_kcal=1000 (urgency ~0.98)
+        // Near-starvation beats moderate exhaustion.
+        test_npc.set_sleepiness( 600 );
+        test_npc.set_stored_kcal( 1000 );
+        test_npc.set_hunger( 500 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
+        test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "eat_food" );
+    }
+    SECTION( "Exhausted beats moderate thirst" ) {
+        // sleepiness=800 (urgency 0.8), thirst=600 (urgency 0.5)
+        test_npc.set_sleepiness( 800 );
+        test_npc.set_thirst( 600 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "go_to_sleep" );
+    }
+    SECTION( "can_make_fire returns failure without supplies" ) {
+        // Regression: can_make_fire used to return success instead of failure
+        // when no FIRESTARTER or flammable items were present, causing the
+        // warmth fallback to short-circuit to success before reaching shelter.
+        CHECK( oracle.can_make_fire( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "can_take_shelter outdoors with adjacent indoor tile" ) {
+        map &here = get_map();
+        tripoint_bub_ms adj = test_npc.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+        CHECK( oracle.can_take_shelter( "" ) == behavior::status_t::running );
+    }
+    SECTION( "can_take_shelter outdoors with no indoor tiles" ) {
+        CHECK( oracle.can_take_shelter( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "can_take_shelter ignores impassable indoor tiles" ) {
+        // A pony wall is INDOORS but impassable -- not a shelter target
+        map &here = get_map();
+        tripoint_bub_ms adj = test_npc.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_ponywall );
+        REQUIRE( here.has_flag( ter_furn_flag::TFLAG_INDOORS, adj ) );
+        REQUIRE( here.impassable( adj ) );
+        CHECK( oracle.can_take_shelter( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "can_take_shelter already indoors" ) {
+        map &here = get_map();
+        here.ter_set( test_npc.pos_bub(), ter_t_floor );
+        CHECK( oracle.can_take_shelter( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "Freezing outdoors next to building" ) {
+        weather_manager &weather = get_weather();
+        weather.temperature = units::from_fahrenheit( 0 );
+        weather.clear_temp_cache();
+        test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+
+        // No warm clothes, no fire, but indoor tile adjacent
+        map &here = get_map();
+        tripoint_bub_ms adj = test_npc.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+        REQUIRE( oracle.can_take_shelter( "" ) == behavior::status_t::running );
+
+        CHECK( npc_needs.tick( &oracle ) == "take_shelter" );
+    }
+    SECTION( "Freezing outdoors with no shelter" ) {
+        weather_manager &weather = get_weather();
+        weather.temperature = units::from_fahrenheit( 0 );
+        weather.clear_temp_cache();
+        test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_take_shelter( "" ) == behavior::status_t::failure );
+
+        // All warmth options fail -> idle
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }
 
@@ -727,9 +845,25 @@ TEST_CASE( "npc_urgency_score_predicates", "[npc][behavior]" )
         CHECK( oracle.warmth_urgency( "" ) == Approx( 1.0f ).margin( 0.05f ) );
     }
 
+    SECTION( "sleepiness_urgency scales from 0 to 1" ) {
+        guy.set_sleepiness( 0 );
+        CHECK( oracle.sleepiness_urgency( "" ) == Approx( 0.0f ).margin( 0.01f ) );
+
+        guy.set_sleepiness( 500 );
+        CHECK( oracle.sleepiness_urgency( "" ) == Approx( 0.5f ).margin( 0.01f ) );
+
+        guy.set_sleepiness( 1000 );
+        CHECK( oracle.sleepiness_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
+    }
+
     SECTION( "score predicates registered in score_predicate_map" ) {
         CHECK( behavior::score_predicate_map.count( "npc_thirst_urgency" ) == 1 );
         CHECK( behavior::score_predicate_map.count( "npc_hunger_urgency" ) == 1 );
         CHECK( behavior::score_predicate_map.count( "npc_warmth_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_sleepiness_urgency" ) == 1 );
+    }
+
+    SECTION( "predicates registered in predicate_map" ) {
+        CHECK( behavior::predicate_map.count( "npc_needs_sleep_badly" ) == 1 );
     }
 }

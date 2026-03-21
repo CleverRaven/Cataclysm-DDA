@@ -29,12 +29,15 @@ class character_oracle_t : public oracle_t
         status_t can_take_shelter( std::string_view ) const;
         status_t has_water( std::string_view ) const;
         status_t has_food( std::string_view ) const;
+        status_t needs_sleep_badly( std::string_view ) const;
+        status_t can_sleep( std::string_view ) const;
         /**
          * Score predicates for utility strategy (return 0-1 urgency).
          */
         float thirst_urgency( std::string_view ) const;
         float hunger_urgency( std::string_view ) const;
         float warmth_urgency( std::string_view ) const;
+        float sleepiness_urgency( std::string_view ) const;
     private:
         const Character *subject;
 };

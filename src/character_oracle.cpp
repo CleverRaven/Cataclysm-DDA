@@ -8,14 +8,19 @@
 #include "behavior.h"
 #include "bodypart.h"
 #include "character.h"
+#include "coordinates.h"
 #include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "weather.h"
 
+static const efftype_id effect_meth( "meth" );
 static const flag_id json_flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
@@ -83,12 +88,24 @@ status_t character_oracle_t::can_make_fire( std::string_view ) const
         }
         return false;
     } );
-    return found_fire_stuff ? status_t::running : status_t::success;
+    return found_fire_stuff ? status_t::running : status_t::failure;
 }
 
 status_t character_oracle_t::can_take_shelter( std::string_view ) const
 {
-    // Stub: shelter detection not implemented yet. See #28681.
+    // "Take shelter" is an action: move to an indoor tile.
+    // Already indoors -> action not applicable.
+    // Outdoors with adjacent indoor tile -> shelter within reach.
+    const map &here = get_map();
+    const tripoint_bub_ms &pos = subject->pos_bub();
+    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
+        return status_t::failure;
+    }
+    for( const tripoint_bub_ms &adj : here.points_in_radius( pos, 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, adj ) && here.passable( adj ) ) {
+            return status_t::running;
+        }
+    }
     return status_t::failure;
 }
 
@@ -108,6 +125,16 @@ status_t character_oracle_t::has_food( std::string_view ) const
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? status_t::running : status_t::failure;
+}
+
+status_t character_oracle_t::needs_sleep_badly( std::string_view ) const
+{
+    // DEAD_TIRED (383) = microsleeps start, 38% of MASSIVE_SLEEPINESS.
+    // Parallels needs_water_badly at 43% of death threshold.
+    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::DEAD_TIRED ) ) {
+        return status_t::running;
+    }
+    return status_t::success;
 }
 
 float character_oracle_t::thirst_urgency( std::string_view ) const
@@ -144,6 +171,28 @@ float character_oracle_t::warmth_urgency( std::string_view ) const
         coldest = std::min( coldest, temp );
     }
     return std::clamp( ( norm - coldest ) / range, 0.0f, 1.0f );
+}
+
+status_t character_oracle_t::can_sleep( std::string_view ) const
+{
+    // Meth is the only hard blocker in Character::can_sleep().
+    // Stim, comfort, insomnia, and rng are soft score modifiers whose
+    // net effect depends on location and luck -- the oracle can't
+    // evaluate those without knowing where the NPC will sleep.
+    if( subject->has_effect( effect_meth ) ) {
+        return status_t::failure;
+    }
+    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::EXHAUSTED ) ) {
+        return status_t::running;
+    }
+    return status_t::failure;
+}
+
+float character_oracle_t::sleepiness_urgency( std::string_view ) const
+{
+    // 0 = rested, 1 = forced unconsciousness (MASSIVE_SLEEPINESS = 1000).
+    static constexpr float cap = 1000.0f;
+    return std::clamp( subject->get_sleepiness() / cap, 0.0f, 1.0f );
 }
 
 } // namespace behavior

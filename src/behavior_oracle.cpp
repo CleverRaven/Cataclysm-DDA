@@ -46,6 +46,8 @@ predicate_map = {{
         { "npc_can_take_shelter", make_function( &character_oracle_t::can_take_shelter ) },
         { "npc_has_water", make_function( &character_oracle_t::has_water ) },
         { "npc_has_food", make_function( &character_oracle_t::has_food ) },
+        { "npc_needs_sleep_badly", make_function( &character_oracle_t::needs_sleep_badly ) },
+        { "npc_can_sleep", make_function( &character_oracle_t::can_sleep ) },
         { "monster_not_hallucination", make_function( &monster_oracle_t::not_hallucination ) },
         { "monster_items_available", make_function( &monster_oracle_t::items_available ) },
         { "monster_split_possible", make_function( &monster_oracle_t::split_possible ) },
@@ -58,7 +60,8 @@ std::unordered_map<std::string, std::function<float( const oracle_t *, std::stri
 score_predicate_map = {{
         { "npc_thirst_urgency", make_score_function( &character_oracle_t::thirst_urgency ) },
         { "npc_hunger_urgency", make_score_function( &character_oracle_t::hunger_urgency ) },
-        { "npc_warmth_urgency", make_score_function( &character_oracle_t::warmth_urgency ) }
+        { "npc_warmth_urgency", make_score_function( &character_oracle_t::warmth_urgency ) },
+        { "npc_sleepiness_urgency", make_score_function( &character_oracle_t::sleepiness_urgency ) }
     }
 };
 

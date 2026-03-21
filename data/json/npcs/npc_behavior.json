@@ -3,7 +3,7 @@
     "type": "behavior",
     "id": "npc_needs",
     "strategy": "utility",
-    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger" ]
+    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger", "npc_sleepiness" ]
   },
   {
     "type": "behavior",
@@ -64,5 +64,19 @@
     "id": "npc_eat_food",
     "conditions": [ { "predicate": "npc_has_food" } ],
     "goal": "eat_food"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_sleepiness",
+    "strategy": "sequential",
+    "conditions": [ { "predicate": "npc_needs_sleep_badly" } ],
+    "children": [ "npc_go_to_sleep" ],
+    "score": "npc_sleepiness_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_go_to_sleep",
+    "conditions": [ { "predicate": "npc_can_sleep" } ],
+    "goal": "go_to_sleep"
   }
 ]
