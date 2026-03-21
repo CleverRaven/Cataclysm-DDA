@@ -3405,6 +3405,7 @@ class Character : public Creature, public visitable
         std::string visible_mutations( int visibility_cap ) const;
 
         player_activity get_destination_activity() const;
+        const player_activity &peek_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
 

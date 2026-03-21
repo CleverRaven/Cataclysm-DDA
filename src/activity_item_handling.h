@@ -7,6 +7,7 @@
 #include "activity_handlers.h"
 #include "character.h"
 #include "coordinates.h"
+#include "point.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -128,6 +129,36 @@ int route_length( const Character &you, const tripoint_bub_ms &dest );
 // multi-tile vehicle, or trivial/unreachable route.
 std::optional<tripoint_bub_ms> worst_drag_tile_on_route(
     const Character &who, const std::vector<tripoint_abs_ms> &dropoff_coords );
+
+// Bounding box for viewport lock during zone sorting.
+struct viewport_bbox {
+    tripoint_abs_ms min_corner;
+    tripoint_abs_ms max_corner;
+    tripoint_abs_ms centroid;
+
+    int width() const;
+    int height() const;
+};
+
+// Compute bounding box around a set of tile coordinates.
+// Returns a default bbox at origin if tiles is empty.
+viewport_bbox calc_zone_bbox( const std::unordered_set<tripoint_abs_ms> &tiles );
+
+// Expand bbox to include a new tile. Returns true if bbox actually grew.
+// Updates centroid.
+bool expand_bbox( viewport_bbox &bbox, const tripoint_abs_ms &tile );
+
+// Expand raw min/max corners to include a new tile. Returns true if grew.
+// For use with inline bbox on Character (avoids circular include).
+bool expand_bbox_raw( tripoint_abs_ms &bbox_min, tripoint_abs_ms &bbox_max,
+                      const tripoint_abs_ms &tile );
+
+// Largest zoom from {4,8,16,32,64} where bbox (plus padding) fits on screen.
+// Capped at saved_zoom so we never zoom in beyond the player's original level.
+// visible_w/h are TERRAIN_WINDOW dimensions measured at current_zoom.
+int calc_target_zoom( int bbox_w, int bbox_h,
+                      int visible_w, int visible_h, int current_zoom,
+                      int saved_zoom, int padding = 4 );
 } //namespace zone_sorting
 
 

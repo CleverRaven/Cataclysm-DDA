@@ -263,6 +263,8 @@ class game
         void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint_bub_ms &center, bool looking = false, bool draw_sounds = true );
+        // Lazy (re)activation of zone sort viewport lock after load or initial setup.
+        void try_activate_zone_sort_viewport();
 
         class draw_callback_t
         {
