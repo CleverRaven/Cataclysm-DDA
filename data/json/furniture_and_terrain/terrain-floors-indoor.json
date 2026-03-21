@@ -1617,7 +1617,7 @@
     "type": "terrain",
     "id": "t_greenhouse_tilled",
     "name": "plantable greenhouse",
-    "description": "A greenhouse that allows planting year round. It has been prepared for planting crops in",
+    "description": "A greenhouse that allows planting year round.  It has been prepared for planting crops inside.",
     "symbol": "#",
     "color": "green",
     "connect_groups": "GREENHOUSE",
