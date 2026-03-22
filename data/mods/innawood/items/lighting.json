@@ -18,8 +18,7 @@
       },
       { "type": "firestarter", "moves": 100 }
     ],
-    "light": 30,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "FIRESTARTER" ]
+    "light": 30
   },
   {
     "id": "oil_lamp_clay_on",
@@ -43,7 +42,6 @@
       { "type": "firestarter", "moves": 100 }
     ],
     "light": 20,
-    "flags": [ "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "torch_lit",
