@@ -172,11 +172,11 @@ itype_HEW_printout_data_cabin_reverb_dimension( "HEW_printout_data_cabin_reverb_
 static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
 static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
 static const itype_id
+itype_HEW_printout_data_inner_cabins_home_cabin( "HEW_printout_data_inner_cabins_home_cabin" );
+static const itype_id
 itype_HEW_printout_data_inner_cabins_open_field( "HEW_printout_data_inner_cabins_open_field" );
 static const itype_id
 itype_HEW_printout_data_inner_cabins_warped_cabin( "HEW_printout_data_inner_cabins_warped_cabin" );
-static const itype_id
-itype_HEW_printout_data_inner_cabins_home_cabin( "HEW_printout_data_inner_cabins_home_cabin" );
 static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
