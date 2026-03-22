@@ -694,7 +694,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_penalty",
-    "recurrence": [ "30 minutes", "90 minutes" ],
+    "recurrence": [ "6 hours", "12 hours" ],
     "condition": {
       "and": [
         { "u_has_flag": "SOCIAL2" },
