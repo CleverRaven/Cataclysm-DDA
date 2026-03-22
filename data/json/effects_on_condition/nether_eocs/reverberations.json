@@ -224,7 +224,7 @@
       },
       { "u_teleport": { "global_val": "inner_cabins_home_loc" }, "fail_message": "Nope!", "force": true },
       {
-        "u_message": "You dream you can fly over a vast plane of grass, mist in the air, clouds obscuring the sun.  You see \"home,\" whatever that means.  But there are other places.  Sad places.  And a dark place.\n\nAre you a traveler?  An explorer?  Do you find them?  Or do you enjoy your time here?  Do you just sleep it away?\n\nYou awake in bed.",
+        "u_message": "You dream you can fly over a vast plain of grass, mist in the air, clouds obscuring the sun.  You see \"home,\" whatever that means.  But there are other places.  Sad places.  And a dark place.\n\nAre you a traveler?  An explorer?  Do you find them?  Or do you enjoy your time here?  Do you just sleep it away?\n\nYou awake in bed.",
         "popup": true
       }
     ]
@@ -238,7 +238,7 @@
       { "u_location_variable": { "context_val": "nearest_bed" }, "furniture": "f_bed", "target_max_radius": 60 },
       { "u_teleport": { "context_val": "nearest_bed" } },
       {
-        "u_message": "As you step through the cabin door your movements slow, like you're fighting to run underwater.  You then awake in bed.",
+        "u_message": "As you step through the cabin door your movements slow, like you're trying to run underwater.  You then awake in bed.",
         "popup": true,
         "popup_w_interrupt_query": true
       },

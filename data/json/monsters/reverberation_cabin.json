@@ -20,7 +20,7 @@
     "color": "light_gray",
     "vision_day": 0,
     "vision_night": 100,
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "anger_triggers": [ "HURT" ],
     "flags": [
       "SEES",
       "HEARS",
