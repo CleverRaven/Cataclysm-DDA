@@ -380,7 +380,10 @@
                 { "u_has_items": { "item": "HEW_printout_data_cabin_reverb_dimension", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_barricaded_church", "count": 1 } },
                 { "u_has_items": { "item": "HEW_printout_data_morgantown", "count": 1 } },
-                { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } }
+                { "u_has_items": { "item": "HEW_printout_data_void_spider_lair", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_inner_cabins_open_field", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_inner_cabins_warped_cabin", "count": 1 } },
+                { "u_has_items": { "item": "HEW_printout_data_inner_cabins_home_cabin", "count": 1 } }
               ]
             }
           ]
