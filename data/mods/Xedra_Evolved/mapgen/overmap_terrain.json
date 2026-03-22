@@ -435,5 +435,15 @@
     "id": "cabin_nether_cult",
     "looks_like": "cabin_strange",
     "copy-from": "cabin_strange"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_greed_and_hunger",
+    "vision_levels": "underground_dirt",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

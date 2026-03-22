@@ -1,0 +1,18 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_WENDI",
+    "dynamic_line": "I'm so cold and hungry.  I need your food and warmth.",
+    "responses": [
+      { "text": "I have food you can have.", "topic": "TALK_CIVILIAN_WENDI_FOOD" },
+      { "text": "You're on your own.", "topic": "TALK_DONE" },
+      { "text": "Let's see what we can do.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_WENDI_FOOD",
+    "dynamic_line": "It's not enough.  It's not enough!",
+    "responses": [ { "text": "[You step back.]", "topic": "TALK_DONE" } ]
+  }
+]
