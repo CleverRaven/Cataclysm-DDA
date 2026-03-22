@@ -994,7 +994,7 @@
       "math": [ "HEW_inner_cabins_data_sold >= 2" ],
       "yes": "&You deposit the sheet in the tray and collect your payment.  \"Well, another report from that \"place\".  It's different, and we have growing confidence it is real, however distant.  Let us know if you have any other reports.\"",
       "no": {
-        "math": [ "HEW_inner_cabins_data_sold >= 2" ],
+        "math": [ "HEW_cabin_reverb_dimension_data_sold >= 1" ],
         "yes": "&You deposit the sheet in the tray and tell them all about that far-away world.  \"…  Well, that's certainly a report.  This is consistent with your previous reports, but the recording is suspiciously normal in many respects.  Perhaps a hallucination induced by interdimensional travel?  Perhaps everything you saw was here, in New England?  Not that we doubt your mental faculties, of course.  Anyway…  we look forward to future reports.\""
         "no": "&You deposit the sheet in the tray and tell them all about that far-away world.  \"…  Well, that's certainly a report.  Based on these readings, I can tell you the place was certainly real, but it's not so different from here.  Perhaps a hallucination induced by the portal storms?  Perhaps everything you saw was here, in New England?  Not that we doubt your mental faculties, of course.  Anyway…  we look forward to future reports.\""
       }
