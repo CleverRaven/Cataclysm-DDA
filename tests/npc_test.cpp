@@ -11,11 +11,14 @@
 #include <vector>
 
 #include "avatar.h"
+#include "behavior.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_oracle.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -53,6 +56,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 class Creature;
 
@@ -64,11 +68,14 @@ static const faction_id faction_your_followers( "your_followers" );
 static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 
+static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_M24( "M24" );
+static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_meat( "meat" );
@@ -77,6 +84,9 @@ static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_space_cake( "space_cake" );
+static const itype_id itype_sweater( "sweater" );
+
+static const ter_str_id ter_t_floor( "t_floor" );
 
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -950,5 +960,128 @@ TEST_CASE( "npc_saprovore_eats_rotten_food", "[npc][food]" )
         guy.set_mutation( trait_SAPROPHAGE );
         guy.i_add( rotten_meat );
         CHECK( guy.consume_food() );
+    }
+}
+
+// npc_action enum values (npc_noop, npc_undecided, etc.) are defined in
+// npcmove.cpp, not exposed in a header. Tests assert NPC state changes
+// (worn items, position) rather than return codes.
+TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
+{
+    clear_map_without_vision();
+    calendar::turn = calendar::start_of_cataclysm;
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+
+    SECTION( "freezing NPC with sweater wears it" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+        behavior::character_oracle_t oracle( &guy );
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+
+        guy.i_add( item( itype_sweater ) );
+        REQUIRE( !guy.is_wearing( itype_sweater ) );
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.is_wearing( itype_sweater ) );
+    }
+
+    SECTION( "freezing NPC outdoors moves to adjacent indoor tile" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+        behavior::character_oracle_t oracle( &guy );
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+
+        map &here = get_map();
+        tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.pos_bub() == adj );
+    }
+
+    SECTION( "prefers wearing clothes over taking shelter" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+
+        map &here = get_map();
+        tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+
+        guy.i_add( item( itype_sweater ) );
+        const tripoint_bub_ms original_pos = guy.pos_bub();
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.is_wearing( itype_sweater ) );
+        CHECK( guy.pos_bub() == original_pos );
+    }
+
+    SECTION( "warm NPC ignores warmth response" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        behavior::character_oracle_t oracle( &guy );
+        REQUIRE( oracle.needs_warmth_badly( "" ) != behavior::status_t::running );
+
+        guy.i_add( item( itype_sweater ) );
+
+        guy.address_needs( 0 );
+
+        CHECK( !guy.is_wearing( itype_sweater ) );
+    }
+
+    SECTION( "shelter blocked by danger gate" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+
+        map &here = get_map();
+        tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+
+        const tripoint_bub_ms original_pos = guy.pos_bub();
+
+        guy.address_needs( NPC_DANGER_VERY_LOW + 1 );
+
+        CHECK( guy.pos_bub() == original_pos );
+    }
+
+    SECTION( "no warmth items and no shelter falls through" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+
+        const tripoint_bub_ms original_pos = guy.pos_bub();
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.pos_bub() == original_pos );
+        CHECK( !guy.is_wearing( itype_sweater ) );
+    }
+
+    SECTION( "fire supplies do not block shelter" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+
+        map &here = get_map();
+        tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.ter_set( adj, ter_t_floor );
+
+        guy.i_add( item( itype_lighter ) );
+        guy.i_add( item( itype_2x4 ) );
+        behavior::character_oracle_t oracle( &guy );
+        REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.pos_bub() == adj );
+    }
+
+    SECTION( "freezing NPC wears clothes during combat retreat" ) {
+        // Wearing fires even when address_needs() is called from
+        // move_away_from() with elevated danger. The NPC spends one
+        // turn wearing the item instead of fleeing. Accepted trade-off:
+        // hypothermia kills reliably, losing one retreat turn usually
+        // does not.
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+        guy.i_add( item( itype_sweater ) );
+
+        guy.address_needs( NPC_DANGER_VERY_LOW + 1 );
+
+        CHECK( guy.is_wearing( itype_sweater ) );
     }
 }
