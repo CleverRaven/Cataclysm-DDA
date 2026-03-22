@@ -3461,7 +3461,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "lunar veil (lowered)" },
+    "name": { "str": "lunar veil (lowered)", "str_pl": "lunar veils (lowered)" },
     "description": "A wide-brimmed helm; the veil of faintly latticed cloth gathered into a crinkled scarf.  The metallic fibers diffuse light in soft gradients.",
     "weight": "3100 g",
     "volume": "2450 ml",
