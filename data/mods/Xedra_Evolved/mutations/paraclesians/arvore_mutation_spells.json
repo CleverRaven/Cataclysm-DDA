@@ -320,6 +320,7 @@
     "type": "SPELL",
     "name": "Cultivate Goblin Fruit",
     "description": "You may spin a bit of fae magic into a plant, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
+    "message": "A goblin fruit swift grows from a nearby plant.",
     "valid_targets": [ "self" ],
     "skill": "gramarye",
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "PERMANENT", "PERMANENT_ALL_LEVELS", "SPAWN_GROUP" ],
