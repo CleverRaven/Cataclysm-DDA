@@ -691,7 +691,8 @@ bool sfx::has_exact_variant_sound( const std::string &id, const std::string &var
                                    const std::optional<bool> &is_night )
 {
 
-    const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find_no_fallback( id, variant, season,
+    const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find_no_fallback( id, variant,
+                                            season,
                                             is_indoors,
                                             is_night );
 
