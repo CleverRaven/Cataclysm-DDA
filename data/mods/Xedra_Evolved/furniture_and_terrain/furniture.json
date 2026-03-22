@@ -356,6 +356,37 @@
   },
   {
     "type": "furniture",
+    "id": "f_hunger_track",
+    "name": "Partially devoured human leg",
+    "description": "A human leg, partially devoured.  The femur is cracked open and the marrow sucked out.  Examine it to track its source.",
+    "symbol": "o",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "color": "brown",
+    "coverage": 0,
+    "flags": [ "NOITEM", "TRANSPARENT", "PERMEABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_WENDIGO_ALREADY_TRACKED",
+          "condition": { "math": [ "u_tracked_wendigo == 1" ] },
+          "effect": [ { "u_message": "You already know where these tracks lead." } ]
+        },
+        {
+          "id": "EOC_WENDIGO_TRACK",
+          "condition": { "math": [ "u_tracked_wendigo == 0" ] },
+          "effect": [
+            { "u_message": "You carefully examine the tracks, determining where they lead." },
+            { "assign_mission": "MISSION_DEATHWORM" },
+            { "math": [ "u_tracked_wendigo = 1" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_xedra_frozen_person_dead",
     "name": "unmoving figure",
     "looks_like": "f_statue",

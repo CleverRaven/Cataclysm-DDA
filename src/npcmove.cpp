@@ -191,6 +191,7 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
+static const string_id<behavior::node_t> behavior_node_t_npc_homeostasis( "npc_homeostasis" );
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
@@ -2556,6 +2557,24 @@ healing_options npc::patient_assessment( const Character &c )
 
 npc_action npc::address_needs( float danger )
 {
+    // Tick warmth subtree as gate. If not "idle", NPC needs warmth.
+    // Try all supported warmth actions in order. start_fire goal is not
+    // dispatched yet (no fire-starting action code); when it is, switch
+    // to respecting the specific goal string.
+    bool needs_warmth = false;
+    {
+        behavior::character_oracle_t oracle( this );
+        behavior::tree warmth_tree;
+        warmth_tree.add( &behavior_node_t_npc_homeostasis.obj() );
+        std::string warmth_goal = warmth_tree.tick( &oracle );
+        needs_warmth = warmth_goal != "idle";
+        if( needs_warmth ) {
+            add_msg_debug( debugmode::DF_NPC_NEEDS,
+                           "NPC %s: warmth subtree = %s (gate open, trying wear then shelter)",
+                           get_name(), warmth_goal );
+        }
+    }
+
     map &here = get_map();
 
     Character &player_character = get_player_character();
@@ -2625,6 +2644,12 @@ npc_action npc::address_needs( float danger )
         }
     }
 
+    // Warmth: wearing clothes costs a turn but hypothermia is life-threatening.
+    // Before danger gate, like extreme food.
+    if( needs_warmth && wear_warmest_item() ) {
+        return npc_noop;
+    }
+
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > 80 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
@@ -2642,6 +2667,11 @@ npc_action npc::address_needs( float danger )
 
     if( danger > NPC_DANGER_VERY_LOW ) {
         return npc_undecided;
+    }
+
+    // Warmth: shelter requires movement, only safe at low danger.
+    if( needs_warmth && take_shelter_nearby() ) {
+        return npc_noop;
     }
 
     if( one_in( 3 ) && ( get_thirst() > NPC_THIRST_CONSUME ||
@@ -5528,6 +5558,49 @@ void npc::do_reload( const item_location &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
+}
+
+bool npc::wear_warmest_item()
+{
+    // Find unworn item with highest warmth that we can wear.
+    item *best = nullptr;
+    int best_warmth = 0;
+    has_item_with( [this, &best, &best_warmth]( const item & candidate ) {
+        if( !is_worn( candidate ) && candidate.get_warmth() > best_warmth &&
+            can_wear( candidate ).success() ) {
+            best = const_cast<item *>( &candidate );
+            best_warmth = candidate.get_warmth();
+        }
+        return false;
+    } );
+    if( !best ) {
+        return false;
+    }
+    item_location loc( *this, best );
+    return wear( loc, false ).has_value();
+}
+
+bool npc::take_shelter_nearby()
+{
+    const map &here = get_map();
+    const tripoint_bub_ms &cur = pos_bub();
+    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, cur ) ) {
+        return false;
+    }
+    const creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &adj : here.points_in_radius( cur, 1 ) ) {
+        if( adj == cur ) {
+            continue;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, adj ) &&
+            here.passable( adj ) && !creatures.creature_at( adj ) ) {
+            move_to( adj );
+            if( pos_bub() == adj ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool npc::adjust_worn()

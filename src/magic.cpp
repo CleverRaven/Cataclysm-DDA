@@ -871,7 +871,8 @@ std::string spell::aoe_string( const Creature &caster ) const
 {
     const_dialogue d( get_const_talker_for( caster ), nullptr );
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
-        return string_format( "%d-%d", min_leveled_aoe( caster ), type->max_aoe.evaluate( d ) );
+        return string_format( "%d-%d", min_leveled_aoe( caster ),
+                              static_cast<int>( type->max_aoe.evaluate( d ) ) );
     } else {
         return string_format( "%d", aoe( caster ) );
     }

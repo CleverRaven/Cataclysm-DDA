@@ -3411,5 +3411,81 @@
       }
     ],
     "melee_damage": { "bash": 3 }
+  },
+  {
+    "id": "helmet_sci_fi",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "found in the inner cabins alongside ruana_sci_fi.  complement to cape_sci_fi, which is found as loot from nether spider",
+    "category": "armor",
+    "name": { "str": "lunar veil" },
+    "description": "A wide-brimmed helm anchoring a veil of faintly latticed cloth.  The metallic fibers diffuse light in soft gradients, dimming near the crescent-moon eye-slit.",
+    "weight": "4100 g",
+    "volume": "2450 ml",
+    "price_postapoc": "150 USD",
+    "symbol": "n",
+    "color": "blue",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Lower the veil",
+      "target": "helmet_sci_fi_lowered",
+      "msg": "You lower the veil and bundle it about your throat."
+    },
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 9 } ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 2.5 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 2.5 } ]
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "OVERSIZE", "UNBREAKABLE", "SUN_GLASSES", "PADDED" ]
+  },
+  {
+    "id": "helmet_sci_fi_lowered",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "lunar veil (lowered)", "str_pl": "lunar veils (lowered)" },
+    "description": "A wide-brimmed helm; the veil of faintly latticed cloth gathered into a crinkled scarf.  The metallic fibers diffuse light in soft gradients.",
+    "weight": "3100 g",
+    "volume": "2450 ml",
+    "price_postapoc": "150 USD",
+    "symbol": "n",
+    "color": "blue",
+    "use_action": { "type": "transform", "menu_text": "Raise the veil", "target": "helmet_sci_fi", "msg": "You raise the veil." },
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 9 } ]
+      },
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "encumbrance": 10,
+        "coverage": 50,
+        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 5 } ]
+      }
+    ],
+    "warmth": 20,
+    "flags": [ "OVERSIZE", "UNBREAKABLE", "SUN_GLASSES", "PADDED" ]
   }
 ]

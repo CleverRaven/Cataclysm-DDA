@@ -1128,6 +1128,8 @@ class npc : public Character
 
         npc_action address_needs();
         npc_action address_needs( float danger );
+        bool wear_warmest_item();
+        bool take_shelter_nearby();
         npc_action address_player();
         npc_action long_term_goal_action();
         int evaluate_sleep_spot( tripoint_bub_ms p );
