@@ -1366,7 +1366,8 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         play_variant_sound( "fire_ammo" + selected_sound, ammo_type.str(), seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
 
-    } else if( has_exact_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors, night ) ) {
+    } else if( has_exact_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors,
+                                        night ) ) {
         play_variant_sound( "fire_gun" + selected_sound, "default", seas_str, indoors, night,
                             heard_volume, angle, 0.8, 1.2 );
     } else {
