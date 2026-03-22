@@ -3425,7 +3425,12 @@
     "price_postapoc": "150 USD",
     "symbol": "n",
     "color": "blue",
-    "use_action": { "type": "transform", "menu_text": "Lower the veil", "target": "helmet_sci_fi_lowered", "msg": "You lower the veil and bundle it about your throat." },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Lower the veil",
+      "target": "helmet_sci_fi_lowered",
+      "msg": "You lower the veil and bundle it about your throat."
+    },
     "armor": [
       {
         "covers": [ "head" ],

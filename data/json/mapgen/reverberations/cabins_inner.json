@@ -471,10 +471,7 @@
           "y": 221
         }
       ],
-      "place_loot": [
-        { "item": "ruana_sci_fi", "x": 14, "y": 228 },
-        { "item": "helmet_sci_fi", "x": 14, "y": 228 }
-      ]
+      "place_loot": [ { "item": "ruana_sci_fi", "x": 14, "y": 228 }, { "item": "helmet_sci_fi", "x": 14, "y": 228 } ]
     }
   },
   {
