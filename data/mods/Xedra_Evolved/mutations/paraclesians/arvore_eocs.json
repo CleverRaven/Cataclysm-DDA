@@ -173,13 +173,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMMUNE_WITH_NATURE",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
-      ]
-    },
     "effect": [
       {
         "math": [
@@ -205,8 +198,7 @@
         "duration": { "math": [ "_duration" ] },
         "decay_start": { "math": [ "_duration / 2" ] }
       }
-    ],
-    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -410,19 +402,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_GOBLIN_FRUIT",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
-      ]
-    },
-    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_arvore", "use_item_group": true, "suppress_message": true },
-    "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_GROWING_WOOD_WALLS_SELECTOR",
     "effect": [
       {
@@ -489,19 +468,6 @@
         }
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "arvore_summon_preservation_container_real" } } ],
-    "false_effect": [ { "u_message": "You must be surrounded by nature to cast To Oppose Decay.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -929,13 +895,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_VERDANT_IMPRISONMENT",
-    "condition": "u_is_outside",
-    "effect": [ { "run_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_2" } ],
-    "false_effect": [ { "npc_message": "Your target must be outdoors to transform them into a tree." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_2",
     "condition": { "not": "u_is_npc" },
     "effect": [
       { "math": [ "u_arvore_turn_into_tree_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
@@ -1008,31 +967,5 @@
         "target_var": { "global_val": "arvore_tree_transform_target" }
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ROOT_TO_ROOT_TRANSLOCATE_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
-        { "not": { "u_at_om_location": "field" } }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
-    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ROOT_TO_ROOT_ATTUNEMENT_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
-        { "not": { "u_at_om_location": "field" } }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_attune_real" }, "targeted": true } ],
-    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   }
 ]
