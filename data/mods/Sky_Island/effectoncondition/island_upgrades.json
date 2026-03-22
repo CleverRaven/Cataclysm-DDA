@@ -128,13 +128,78 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse1",
+    "effect": [
+      { "run_eocs": "EOC_memorize_island" },
+      { "mapgen_update": "mx_skyisland_base2", "target_var": { "global_val": "OM_island_subcenter" } },
+      { "mapgen_update": "mx_skyisland_s1", "target_var": { "global_val": "OM_island_subs" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse2",
+    "effect": [ { "mapgen_update": "mx_skyisland_s2", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse3",
+    "effect": [ { "mapgen_update": "mx_skyisland_s3", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse4",
+    "effect": [ { "mapgen_update": "mx_skyisland_s4", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse_skylight1",
+    "effect": [ { "mapgen_update": "mx_skyisland_greenhouse_skylight1", "target_var": { "global_val": "OM_island_s" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse_skylight2",
+    "effect": [ { "mapgen_update": "mx_skyisland_greenhouse_skylight2", "target_var": { "global_val": "OM_island_s" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_memorize_island",
     "//": "Tracks various map or overmap spots for the island's construction upgrades.",
     "effect": [
-      { "u_message": "Mapping island for future construction…" },
       {
         "u_location_variable": { "global_val": "OM_island_center" },
         "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS" }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_nw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_n" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_ne" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_w" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_e" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_sw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1, "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_s" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_se" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1, "offset_y": 1 }
       },
       {
         "u_location_variable": { "global_val": "OM_island_subcenter" },

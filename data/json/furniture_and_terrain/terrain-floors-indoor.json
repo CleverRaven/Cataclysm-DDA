@@ -1591,5 +1591,48 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse",
+    "name": "greenhouse",
+    "description": "A greenhouse that allows planting year round.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLOWABLE" ],
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse_tilled",
+    "name": "plantable greenhouse",
+    "description": "A greenhouse that allows planting year round.  It has been prepared for planting crops inside.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLANTABLE" ],
+    "examine_action": "dirtmound",
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
   }
 ]

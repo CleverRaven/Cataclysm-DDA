@@ -1055,6 +1055,81 @@
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
+        "text": "Construct: South Room 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse1" } },
+            { "math": [ "skyisland_build_greenhouse == 0" ] },
+            { "math": [ "skyisland_build_base == 1" ] },
+            { "math": [ "islandrank >= 2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse2" } },
+            { "math": [ "skyisland_build_greenhouse == 1" ] },
+            { "math": [ "islandrank >= 2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse3" } },
+            { "math": [ "skyisland_build_greenhouse == 2" ] },
+            { "math": [ "skyisland_bunker_temperature_adaptation >= 1" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 4",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse4" } },
+            { "math": [ "skyisland_build_greenhouse == 3" ] },
+            { "math": [ "skyisland_bunker_temperature_adaptation >= 1" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Skylight 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse_skylight1" } },
+            { "math": [ "skyisland_build_greenhouse >= 1" ] },
+            { "math": [ "skyisland_build_greenhouse_skylight == 0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse_skylight1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Skylight 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse_skylight2" } },
+            { "math": [ "skyisland_build_greenhouse >= 2" ] },
+            { "math": [ "skyisland_build_greenhouse_skylight == 1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse_skylight2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
         "text": "One of my bunker constructions had an error.  Could you help me fix it?",
         "condition": { "math": [ "skyisland_build_base >= 1" ] },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
@@ -1243,6 +1318,60 @@
         "condition": { "math": [ "skyisland_build_centralskylight == 3" ] },
         "effect": [
           { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Miner's Cameo stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Hollow Carver stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 2" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse2" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Warped Reinforcement stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 3" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse3" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Cavernous Soul stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 4" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse4" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Glass Figurine stage of the south skylight.",
+        "condition": { "math": [ "skyisland_build_greenhouse_skylight == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse_skylight1" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Crystalline Mirror stage of the south skylight.",
+        "condition": { "math": [ "skyisland_build_greenhouse_skylight == 2" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse_skylight2" },
           { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"
