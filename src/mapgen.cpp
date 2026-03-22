@@ -7187,6 +7187,26 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
+    // Reject vehicles with parts extending beyond map bounds.
+    // add_vehicle() only checks the pivot; large vehicles near tinymap edges
+    // can have parts past the 24-tile boundary, causing issues in remove_part/smash.
+    for( int i = 0, cnt = veh_to_add->part_count(); i < cnt; ++i ) {
+        if( veh_to_add->part( i ).is_fake || veh_to_add->part( i ).removed ) {
+            continue;
+        }
+        if( !inbounds( veh_to_add->bub_part_pos( *this, i ) ) ) {
+            dbg( D_WARNING ) << string_format(
+                                 "%.120s (%s) part '%s' at mount %s extends to %s, "
+                                 "%.0fx%.0f map bounds exceeded; skipping placement",
+                                 veh_to_add->name, veh_to_add->type.str(),
+                                 veh_to_add->part( i ).info().id.str(),
+                                 veh_to_add->part( i ).mount.to_string(),
+                                 veh_to_add->bub_part_pos( *this, i ).to_string(),
+                                 getmapsize() * SEEX, getmapsize() * SEEY );
+            return nullptr;
+        }
+    }
+
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
         const tripoint_bub_ms p = veh_to_add->bub_part_pos( *this, *part );
