@@ -6090,8 +6090,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "void_spider_lair", 10, false );
                 const tripoint_abs_omt closest_inner_cabins_open_land = overmap_buffer.find_closest( veh_position,
                         "inner_cabins", 10, false );
-                const tripoint_abs_omt closest_inner_cabins_warped_cabin = overmap_buffer.find_closest( veh_position,
-                        "inner_cabins_warped_cabin_10", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_warped_cabin = overmap_buffer.find_closest(
+                            veh_position,
+                            "inner_cabins_warped_cabin_10", 10, false );
                 const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
                         "inner_cabins_cabin", 10, false );
                 if( portal_nearby ) {
@@ -6149,11 +6150,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_inner_cabins_open_land ) <= 10 ) {
                     if( trig_dist( veh_position, closest_inner_cabins_home_cabin ) <= 10 ) {
-                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_home_cabin, calendar::turn_zero ) );
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_home_cabin,
+                                                          calendar::turn_zero ) );
                     } else if( trig_dist( veh_position, closest_inner_cabins_warped_cabin ) <= 10 ) {
-                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_warped_cabin, calendar::turn_zero ) );
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_warped_cabin,
+                                                          calendar::turn_zero ) );
                     } else {
-                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_open_field, calendar::turn_zero ) );
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_open_field,
+                                                          calendar::turn_zero ) );
                     }
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
