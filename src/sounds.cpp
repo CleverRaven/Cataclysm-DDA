@@ -1324,7 +1324,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         heard_volume = 30;
     }
 
-    ammotype ammo_type = firing.ammo_type();
+    ammotype ammo_type = firing.loaded_ammo().ammo_type();
     itype_id weapon_id = firing.typeId();
     units::angle angle = 0_degrees;
     int distance = 0;
