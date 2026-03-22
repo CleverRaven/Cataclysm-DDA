@@ -291,7 +291,7 @@
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "1 day",
-    "calories": 402,
+    "calories": 680,
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
@@ -504,7 +504,6 @@
   {
     "id": "mutant_human_cooked",
     "copy-from": "mutant_human_flesh",
-    "calories": 402,
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked cretin" },
@@ -517,7 +516,6 @@
   {
     "id": "peppermutant_human",
     "copy-from": "mutant_human_flesh",
-    "calories": 402,
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "cooked pepper cretin" },
@@ -604,7 +602,7 @@
     "price": "7 USD 50 cent",
     "price_postapoc": "1 USD",
     "parasites": 0,
-    "calories": 402,
+    "calories": 680,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
@@ -622,7 +620,7 @@
     "price_postapoc": "1 USD 50 cent",
     "fun": 2,
     "parasites": 0,
-    "calories": 402,
+    "calories": 680,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
