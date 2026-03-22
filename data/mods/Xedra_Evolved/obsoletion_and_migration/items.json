@@ -1,10 +1,20 @@
 [
   {
-    "id": [ "integrated_nobreathe", "integrated_sylph_breath" ],
+    "id": [
+      "integrated_nobreathe",
+      "integrated_sylph_breath",
+      "integrated_arvore_eyes",
+      "integrated_ierde_eyes",
+      "integrated_homullus_eyes",
+      "integrated_salamander_eyes",
+      "integrated_sylph_eyes",
+      "integrated_undine_eyes"
+    ],
     "type": "MIGRATION",
     "replace": "manual_swimming"
   },
   {
+    "//": "Remove after 0.J",
     "id": "aura_ward_off_rain",
     "type": "ITEM",
     "subtypes": [ "ARMOR", "ARTIFACT" ],

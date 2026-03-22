@@ -80,7 +80,7 @@
     "types": [ "EYES" ],
     "category": [ "HOMULLUS" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_homullus_eyes" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_homullus" } ] } ]
   },
   {
     "type": "mutation",
