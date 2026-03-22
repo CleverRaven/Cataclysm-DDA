@@ -814,6 +814,7 @@
     "symbol": " ",
     "color": "light_blue",
     "default_faction": "nether",
+    "species": [ "NETHER" ],
     "bodytype": "insect",
     "diff": 15,
     "volume": "50 L",
