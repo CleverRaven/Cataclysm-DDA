@@ -1420,11 +1420,17 @@ void npc::move()
 
     if( debug_mode && debugmode::enabled_filters.count( debugmode::DF_NPC_NEEDS ) ) {
         behavior::character_oracle_t oracle( this );
-        behavior::tree needs;
-        needs.add( &behavior_node_t_npc_needs.obj() );
-        const std::string bt_goal = needs.tick( &oracle );
+        behavior::tree bt;
+        bt.add( &behavior_node_t_npc_needs.obj() );
+        const std::string bt_goal = bt.tick( &oracle );
+        const auto saved_needs = needs;
+        decide_needs();
+        const std::string legacy_top = needs.empty()
+                                       ? "need_none" : get_need_str_id( needs[0] );
+        needs = saved_needs;
         add_msg_debug( debugmode::DF_NPC_NEEDS,
-                       "NPC %s: BT needs goal = %s", get_name(), bt_goal );
+                       "NPC %s: BT needs goal = %s, legacy = %s",
+                       get_name(), bt_goal, legacy_top );
     }
 
     Character &player_character = get_player_character();

@@ -797,6 +797,8 @@ TEST_CASE( "npc_needs_bt_diagnostic_during_move", "[npc][behavior]" )
             if( msg.second.find( "BT needs goal" ) != std::string::npos ) {
                 found_bt_msg = true;
                 CHECK( msg.second.find( "eat_food" ) != std::string::npos );
+                // Convergence: legacy need should appear in the same message
+                CHECK( msg.second.find( "need_food" ) != std::string::npos );
                 break;
             }
         }
