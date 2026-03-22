@@ -101,10 +101,10 @@ static const material_id material_steel( "steel" );
 static const material_id material_stone( "stone" );
 static const material_id material_veggy( "veggy" );
 
-static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const ter_str_id ter_t_bridge( "t_bridge" );
 static const ter_str_id ter_t_chainfence( "t_chainfence" );
