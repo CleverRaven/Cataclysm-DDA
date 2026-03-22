@@ -1602,7 +1602,7 @@
     "connect_groups": "GREENHOUSE",
     "connects_to": "GREENHOUSE",
     "move_cost": 3,
-    "flags": [ "INDOORS", "TRANSPARENT", "PLOWABLE", "GREENHOUSE" ],
+    "flags": [ "INDOORS", "TRANSPARENT", "PLOWABLE" ],
     "roof": "t_glass_roof",
     "bash": {
       "str_min": 3,
@@ -1623,7 +1623,7 @@
     "connect_groups": "GREENHOUSE",
     "connects_to": "GREENHOUSE",
     "move_cost": 3,
-    "flags": [ "INDOORS", "TRANSPARENT", "PLANTABLE", "GREENHOUSE" ],
+    "flags": [ "INDOORS", "TRANSPARENT", "PLANTABLE" ],
     "examine_action": "dirtmound",
     "roof": "t_glass_roof",
     "bash": {

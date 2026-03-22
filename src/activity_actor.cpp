@@ -6507,7 +6507,7 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
             here.furn( examp )->plant != nullptr ) {
             here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_GREENHOUSE, examp ) ) {
+            if( here.ter( examp ).id() == ter_t_greenhouse_tilled ) {
                 here.set( examp, ter_t_greenhouse, furn_f_plant_seed );
             } else {
                 here.set( examp, ter_t_dirt, furn_f_plant_seed );
@@ -9392,7 +9392,7 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     tripoint_bub_ms examp = here.get_bub( act.placement );
 
-    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_GREENHOUSE, examp ) ) {
+    if( here.ter( examp ).id() == ter_t_greenhouse ) {
         here.ter_set( examp, ter_t_greenhouse_tilled );
         who.add_msg_if_player( _( "You finish preparing the greenhouse here." ) );
     } else {
