@@ -12,7 +12,6 @@
     "id": "fae_eyes_homullus",
     "copy-from": "eyes",
     "type": "body_part",
-    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
     "conditional_flags": [ "GLARE_RESIST" ],
     "sub_parts": [ "eyes_left", "eyes_right" ],
     "similar_bodypart": "eyes"
