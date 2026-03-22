@@ -492,19 +492,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "arvore_summon_preservation_container_real" } } ],
-    "false_effect": [ { "u_message": "You must be surrounded by nature to cast To Oppose Decay.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_INITIAL_CHECK",
     "condition": { "not": { "u_has_effect": "arvore_perennial_rebirth_cooldown" } },
     "effect": {
@@ -1008,31 +995,5 @@
         "target_var": { "global_val": "arvore_tree_transform_target" }
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ROOT_TO_ROOT_TRANSLOCATE_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
-        { "not": { "u_at_om_location": "field" } }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
-    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ROOT_TO_ROOT_ATTUNEMENT_CHECK",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
-        { "not": { "u_at_om_location": "field" } }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_attune_real" }, "targeted": true } ],
-    "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   }
 ]

@@ -460,25 +460,15 @@
     "difficulty": 4,
     "spell_class": "ARVORE",
     "valid_targets": [ "self" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
+      ]
+    },
+    "caster_condition_fail_message": "You must be surrounded by nature to cast To Withstand Decay.",
     "skill": "gramarye",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
-    "shape": "blast",
-    "magic_type": "xedra_arvore_magick",
-    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -7.8) + (u_skill('gramarye') * -12.5) ), 300)" ] },
-    "base_casting_time": { "math": [ "max( (6000 + (u_spell_count('school': 'ARVORE') * -85.8) + (u_skill('gramarye') * -127.6) ), 1500)" ] },
-    "learn_spells": { "arvore_create_living_tent_spell": 6, "arvore_summon_floral_boat": 12 }
-  },
-  {
-    "id": "arvore_summon_preservation_container_real",
-    "type": "SPELL",
-    "name": { "str": "To Withstand Decay Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual spell that summons the container.  It's a bug if you have it directly.", "//~": "NO_I18N" },
-    "flags": [ "SILENT", "RANDOM_DURATION" ],
-    "max_level": 15,
-    "difficulty": 3,
-    "spell_class": "ARVORE",
-    "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "arvore_preservation_container",
     "shape": "blast",
@@ -494,7 +484,10 @@
         "( 51840000 + (u_spell_count('school': 'ARVORE') * 30240000) + (u_skill('gramarye') * 7560000) ) * scaling_factor(u_val('perception') )"
       ]
     },
-    "magic_type": "xedra_arvore_magick"
+    "magic_type": "xedra_arvore_magick",
+    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'ARVORE') * -7.8) + (u_skill('gramarye') * -12.5) ), 300)" ] },
+    "base_casting_time": { "math": [ "max( (6000 + (u_spell_count('school': 'ARVORE') * -85.8) + (u_skill('gramarye') * -127.6) ), 1500)" ] },
+    "learn_spells": { "arvore_create_living_tent_spell": 6, "arvore_summon_floral_boat": 12 }
   },
   {
     "id": "arvore_summon_floral_boat",
@@ -1147,10 +1140,17 @@
     "spell_class": "ARVORE",
     "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+        { "not": { "u_at_om_location": "field" } }
+      ]
+    },
+    "caster_condition_fail_message": "You must be outdoors and within the depths of the forest to cast this spell.",
     "difficulty": 9,
     "max_level": 15,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_ROOT_TO_ROOT_TRANSLOCATE_CHECK",
+    "effect": "translocate",
     "shape": "blast",
     "magic_type": "xedra_arvore_magick",
     "base_energy_cost": 1500,
@@ -1162,14 +1162,22 @@
     "name": "Root to Root Attunement",
     "description": "Attune to a location for later traveling.  You must attune within the depths of a forest.",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ground" ],
     "spell_class": "ARVORE",
     "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+        { "not": { "u_at_om_location": "field" } }
+      ]
+    },
+    "caster_condition_fail_message": "You must be outdoors and within the depths of the forest to cast this spell.",
     "difficulty": 1,
     "max_level": 1,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_ROOT_TO_ROOT_ATTUNEMENT_CHECK",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_translocate_location_attune",
     "shape": "blast",
     "magic_type": "xedra_arvore_magick",
     "min_range": 1,
@@ -1177,23 +1185,6 @@
     "base_casting_time": {
       "math": [ "max( (2880000 + (u_spell_count('school': 'ARVORE') * 59341) + (u_skill('gramarye') * -98963) ), 180000)" ]
     }
-  },
-  {
-    "id": "arvore_forest_translocate_attune_real",
-    "type": "SPELL",
-    "name": { "str": "Root to Root Attunement Real", "//~": "NO_I18N" },
-    "description": { "str": "The actual Root to Root attunement spell.  It's a bug if you have it.", "//~": "NO_I18N" },
-    "teachable": false,
-    "valid_targets": [ "ground" ],
-    "spell_class": "ARVORE",
-    "skill": "gramarye",
-    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
-    "difficulty": 1,
-    "max_level": 1,
-    "effect": "ter_transform",
-    "effect_str": "ter_arvore_translocate_location_attune",
-    "shape": "blast",
-    "min_range": 1
   },
   {
     "id": "arvore_turn_into_tree",
