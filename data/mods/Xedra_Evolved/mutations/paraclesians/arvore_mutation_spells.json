@@ -283,6 +283,14 @@
     "name": "Commune with Nature",
     "description": "You concentrate on nature around you and commune with it, improving your health and calming the nearby wildlife.  This spell may only be cast outdoors in natural surroundings.",
     "valid_targets": [ "self" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
+      ]
+    },
+    "caster_condition_fail_message": "You must be surrounded by nature to commune with nature.",
     "skill": "gramarye",
     "spell_class": "ARVORE",
     "teachable": false,
@@ -314,13 +322,23 @@
     "description": "You may spin a bit of fae magic into a plant, bringing forth a goblin fruit.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast outdoors in natural surroundings.",
     "valid_targets": [ "self" ],
     "skill": "gramarye",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_ARVORE_GOBLIN_FRUIT",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "PERMANENT", "PERMANENT_ALL_LEVELS", "SPAWN_GROUP" ],
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
+      ]
+    },
+    "caster_condition_fail_message": "You must be outdoors in natural surroundings to call forth a goblin fruit.",
+    "effect": "spawn_item",
+    "effect_str": "spell_spawned_goblin_fruit_arvore",
     "shape": "blast",
     "spell_class": "ARVORE",
     "teachable": false,
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
     "difficulty": 8,
     "magic_type": "xedra_arvore_magick",
     "base_casting_time": { "math": [ "max( (180000 + (u_spell_count('school': 'ARVORE') * -986) + (u_skill('gramarye') * -3185) ), 6000)" ] },
@@ -1194,6 +1212,10 @@
     "valid_targets": [ "hostile" ],
     "skill": "gramarye",
     "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
+    "caster_condition": "u_is_outside",
+    "caster_condition_fail_message": "You must be outdoors to cast Verdant Imprisonment.",
+    "target_condition": "npc_is_outside",
+    "target_condition_fail_message": "Your target must be outdoors to transform them into a tree.",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_VERDANT_IMPRISONMENT",
     "shape": "blast",
