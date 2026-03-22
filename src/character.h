@@ -627,6 +627,11 @@ class Character : public Creature, public visitable
         int ranged_dex_mod() const;
         int ranged_per_mod() const;
 
+        /** Increase gun weariness */
+        void add_gun_weariness();
+        /** Returns 0.0f if the character isn't meaningfully gun-weary. Max = 3.2f */
+        float get_gun_weariness_factor() const;
+
         /** Setters for stats exclusive to characters */
         void set_str_bonus( int nstr );
         void set_dex_bonus( int ndex );
@@ -1119,6 +1124,14 @@ class Character : public Creature, public visitable
         int blocks_left;
 
         double recoil = MAX_RECOIL;
+
+        /**
+         * Heat meter representing character's mental fatigue from firing a gun, used to limit target practice activity
+         * Without it, the character would be able to become a god level shooter in 1 day from target practice
+         */
+        mutable float gun_weariness = 0.0f;
+        mutable time_point gun_weariness_last_updated = calendar::turn_zero;
+        void recover_gun_weariness() const;
 
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;

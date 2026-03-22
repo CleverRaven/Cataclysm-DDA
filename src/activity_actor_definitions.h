@@ -1623,6 +1623,56 @@ class fish_activity_actor : public activity_actor
         time_duration fishing_duration;
 };
 
+class target_practice_activity_actor : public activity_actor
+{
+    public:
+        target_practice_activity_actor() = default;
+        target_practice_activity_actor(
+            const item_location &gun,
+            const tripoint_abs_ms &target_pos,
+            int rounds = -1 ) :
+            gun_loc( gun ), target_position( target_pos ),
+            rounds_planned( rounds ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
+            return ACT_TARGET_PRACTICE;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<target_practice_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location gun_loc;
+        tripoint_abs_ms target_position;
+        int rounds_planned = -1;
+        int rounds_fired = 0;
+        int delay_between_shots = 0;
+        character_id coach_id;
+        bool is_spinner_target = false;
+
+        bool check_weapon_valid( Character &who );
+        bool check_target_valid( Character &who );
+        bool attempt_reload( Character &who );
+        void fire_shot( Character &who, player_activity &act );
+        void show_flavor_message( Character &who, float effective_skill ) const;
+        npc *find_coach( Character &who, const skill_id &weapon_skill );
+        void apply_coaching( Character &who, const skill_id &weapon_skill );
+        void apply_skill_modifiers( Character &who, const skill_id &weapon_skill,
+                                    float effective_skill ) const;
+        bool cancel_activity_due_to_gun_weariness( player_activity &act, Character &who );
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:

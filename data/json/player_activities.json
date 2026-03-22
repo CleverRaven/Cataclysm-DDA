@@ -1024,6 +1024,18 @@
     "can_resume": false
   },
   {
+    "id": "ACT_TARGET_PRACTICE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "practicing marksmanship",
+    "based_on": "neither",
+    "can_resume": false,
+    "interruptable": true,
+    "interruptable_with_kb": true,
+    "refuel_fires": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_TENT_PLACE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",

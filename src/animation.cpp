@@ -1,3 +1,4 @@
+#include "player_activity.h"
 #include "animation.h"
 
 
@@ -43,6 +44,8 @@
 #include "sdltiles.h"
 #include "weather_type.h"
 #endif
+
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 
 namespace
 {
@@ -94,10 +97,25 @@ class explosion_animation : public basic_animation
         }
 };
 
+bool skip_bullet_animation_delay()
+{
+    return get_avatar().activity.id() == ACT_TARGET_PRACTICE;
+}
+
 class bullet_animation : public basic_animation
 {
     public:
         bullet_animation() : basic_animation( 1 ) {
+        }
+
+        void progress() const {
+            draw();
+
+            // Skip artificial animation delay to greatly reduce the realtime
+            // delay between shots during player target practice activity
+            if( !skip_bullet_animation_delay() ) {
+                basic_animation::progress();
+            }
         }
 };
 
