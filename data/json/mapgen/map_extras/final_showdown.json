@@ -42,10 +42,8 @@
         " ": { "monster": "GROUP_VANILLA_DORMANT", "chance": 1, "density": 0.0001 },
         "-": { "monster": "GROUP_VANILLA_DORMANT", "chance": 1, "density": 0.0001 }
       },
-      "nested": {
-        "-": { "chunks": [ [ "corpse_blood_gibs_victim_3x3", 1 ], [ "null", 150 ] ] },
-        "1": { "chunks": [ "corpse_blood_gibs_victim_3x3" ] }
-      }
+      "nested": { "1": { "chunks": [ "corpse_blood_gibs_victim_3x3" ] } },
+      "place_nested": [ { "chunks": [ [ "corpse_blood_gibs_victim_3x3", 50 ], [ "null", 50 ] ], "x": [ 8, 14 ], "y": [ 8, 14 ] } ]
     }
   }
 ]

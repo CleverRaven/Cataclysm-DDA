@@ -170,8 +170,9 @@
       { "group": "socks_unisex", "damage": [ 1, 4 ] },
       { "group": "shoes", "damage": [ 1, 4 ] },
       { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 40 },
+      { "group": "guns_pistol_common_everyday_carry", "prob": 30 },
       {
-        "distribution": [ { "group": "guns_rifle_common_display_223", "prob": 50 }, { "group": "12_gauge_pump_display", "prob": 50 } ]
+        "distribution": [ { "group": "guns_rifle_common_worn", "prob": 50 }, { "group": "12_gauge_pump_display", "prob": 50 } ]
       }
     ]
   },
