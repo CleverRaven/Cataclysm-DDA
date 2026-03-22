@@ -2,7 +2,7 @@
   {
     "type": "behavior",
     "id": "npc_needs",
-    "strategy": "sequential_until_done",
+    "strategy": "utility",
     "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger" ]
   },
   {
@@ -10,7 +10,8 @@
     "id": "npc_homeostasis",
     "strategy": "fallback",
     "conditions": [ { "predicate": "npc_needs_warmth_badly" } ],
-    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ]
+    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ],
+    "score": "npc_warmth_urgency"
   },
   {
     "type": "behavior",
@@ -41,7 +42,8 @@
     "id": "npc_thirst",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_water_badly" } ],
-    "children": [ "npc_drink_water" ]
+    "children": [ "npc_drink_water" ],
+    "score": "npc_thirst_urgency"
   },
   {
     "type": "behavior",
@@ -54,7 +56,8 @@
     "id": "npc_hunger",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_food_badly" } ],
-    "children": [ "npc_eat_food" ]
+    "children": [ "npc_eat_food" ],
+    "score": "npc_hunger_urgency"
   },
   {
     "type": "behavior",

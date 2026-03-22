@@ -10,6 +10,7 @@
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
@@ -236,8 +237,9 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty and hungry" ) {
-        // When both thirsty and hungry, thirst takes priority
-        // (npc_thirst comes before npc_hunger in sequential_until_done)
+        // With utility strategy, the more urgent need wins.
+        // Near-starvation (stored_kcal=1000, urgency ~0.98) beats
+        // moderate dehydration (thirst=700, urgency ~0.58).
         test_npc.set_thirst( 700 );
         test_npc.set_hunger( 500 );
         test_npc.set_stored_kcal( 1000 );
@@ -249,7 +251,93 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "eat_food" );
+    }
+    SECTION( "Hunger wins over thirst when starvation is more urgent" ) {
+        // Hunger comes AFTER thirst in tree order, so under sequential_until_done
+        // thirst would always win. With utility, hunger wins when its score is
+        // higher. stored_kcal=1000 gives hunger_urgency ~0.98 vs
+        // thirst_urgency at 600 = 0.5.
+        test_npc.set_stored_kcal( 1000 );
+        test_npc.set_hunger( 500 );
+        test_npc.set_thirst( 600 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "eat_food" );
+    }
+    SECTION( "Thirst wins over hunger when dehydration is more urgent" ) {
+        // Guards the "score": "npc_thirst_urgency" wiring on npc_thirst.
+        // Without it, thirst defaults to score 0 and loses to any scored hunger.
+        // At 45% healthy kcal, starvation ~2794 > base_metabolic_rate (2500)
+        // so needs_food_badly fires. But hunger_urgency (0.55) < thirst_urgency
+        // at 800 (0.667), so thirst wins.
+        const int healthy = test_npc.get_healthy_kcal();
+        test_npc.set_stored_kcal( healthy * 45 / 100 );
+        test_npc.set_hunger( 500 );
+        test_npc.set_thirst( 800 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_food_badly( "" ) == behavior::status_t::running );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        test_npc.i_add( item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_food( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
+    }
+    SECTION( "Freezing wins over moderate thirst" ) {
+        weather_manager &weather = get_weather();
+        weather.temperature = units::from_fahrenheit( 0 );
+        weather.clear_temp_cache();
+        test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+
+        test_npc.set_thirst( 700 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+
+        // Warm clothes + water available
+        test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
+        test_npc.i_add( item( itype_sweater ) );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        REQUIRE( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+
+        // warmth_urgency (near 1.0) >> thirst_urgency (0.58)
+        CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
+    }
+    SECTION( "Freezing with fire supplies also wins over thirst" ) {
+        // Proves the score lives on npc_homeostasis (the fallback branch),
+        // not on npc_wear_warmer_clothes. If the score were misplaced on
+        // the leaf, this path through npc_make_fire would be unscored.
+        weather_manager &weather = get_weather();
+        weather.temperature = units::from_fahrenheit( 0 );
+        weather.clear_temp_cache();
+        test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+
+        test_npc.set_thirst( 700 );
+        REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
+
+        // Fire supplies + water, no warm clothes
+        test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
+        test_npc.i_add( item( itype_lighter ) );
+        test_npc.i_add( item( itype_2x4 ) );
+        const item_group::ItemList water_items = item_group::items_from(
+                    Item_spawn_data_test_bottle_water );
+        test_npc.i_add( water_items.front() );
+        REQUIRE( oracle.can_wear_warmer_clothes( "" ) != behavior::status_t::running );
+        REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+
+        CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
 }
 
@@ -590,5 +678,58 @@ TEST_CASE( "behavior_tree_utility_strategy", "[behavior]" )
 
         // Clean up
         behavior::score_predicate_map.erase( "test_urgency" );
+    }
+}
+
+TEST_CASE( "npc_urgency_score_predicates", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy );
+    behavior::character_oracle_t oracle( &guy );
+
+    SECTION( "thirst_urgency scales from 0 to 1" ) {
+        guy.set_thirst( 0 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 0.0f ).margin( 0.01f ) );
+
+        guy.set_thirst( 600 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 0.5f ).margin( 0.01f ) );
+
+        guy.set_thirst( 1200 );
+        CHECK( oracle.thirst_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
+    }
+
+    SECTION( "hunger_urgency scales with kcal deficit" ) {
+        const int healthy = guy.get_healthy_kcal();
+        guy.set_stored_kcal( healthy );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 0.0f ).margin( 0.01f ) );
+
+        guy.set_stored_kcal( healthy / 2 );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 0.5f ).margin( 0.05f ) );
+
+        guy.set_stored_kcal( 0 );
+        CHECK( oracle.hunger_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
+    }
+
+    SECTION( "warmth_urgency responds to cold bodyparts" ) {
+        // Explicitly set baseline -- clear_character does not guarantee temps
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        CHECK( oracle.warmth_urgency( "" ) < 0.01f );
+
+        // Single cold bodypart drives the score
+        guy.set_part_temp_conv( body_part_torso, BODYTEMP_VERY_COLD );
+        float cold_score = oracle.warmth_urgency( "" );
+        CHECK( cold_score > 0.5f );
+        CHECK( cold_score < 1.0f );
+
+        // At BODYTEMP_FREEZING the score saturates near 1.0
+        guy.set_part_temp_conv( body_part_torso, BODYTEMP_FREEZING );
+        CHECK( oracle.warmth_urgency( "" ) == Approx( 1.0f ).margin( 0.05f ) );
+    }
+
+    SECTION( "score predicates registered in score_predicate_map" ) {
+        CHECK( behavior::score_predicate_map.count( "npc_thirst_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_hunger_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_warmth_urgency" ) == 1 );
     }
 }
