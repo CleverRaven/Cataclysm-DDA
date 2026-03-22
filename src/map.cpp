@@ -6091,9 +6091,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 const tripoint_abs_omt closest_inner_cabins_open_land = overmap_buffer.find_closest( veh_position,
                         "inner_cabins", 10, false );
                 const tripoint_abs_omt closest_inner_cabins_warped_cabin = overmap_buffer.find_closest( veh_position,
-                        "inner_cabins_cabin", 10, false );
-                const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
                         "inner_cabins_warped_cabin_10", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
+                        "inner_cabins_cabin", 10, false );
                 if( portal_nearby ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
                 }
