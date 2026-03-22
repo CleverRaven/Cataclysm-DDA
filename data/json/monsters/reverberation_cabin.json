@@ -1,0 +1,104 @@
+[
+  {
+    "id": "mon_cabin_tunnel_shadow",
+    "type": "MONSTER",
+    "name": { "str": "languorous spectre" },
+    "description": "The translucent shape of a cloaked human, crawling upon the ground.  It is featureless, slow, and mumbling words you think you might understand.  Might it speak with you?",
+    "default_faction": "nether",
+    "volume": "120 L",
+    "weight": "1 kg",
+    "species": [ "NETHER" ],
+    "bodytype": "human",
+    "material": [ "flesh" ],
+    "chat_topics": [ "TALK_CABIN_TUNNEL_SHADOW" ],
+    "speed": 10,
+    "symbol": "s",
+    "morale": 20,
+    "aggression": -20,
+    "aggro_character": false,
+    "hp": 100,
+    "color": "light_gray",
+    "vision_day": 0,
+    "vision_night": 100,
+    "anger_triggers": [ "HURT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER",
+      "QUIETDEATH",
+      "CONVERSATION"
+    ],
+    "armor": { "bash": 20, "cut": 20, "acid": 20, "heat": 20, "bullet": 20 }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW",
+    "dynamic_line": [
+      "&The creature rolls slowly onto its back, staring up at you with stark, white eyes.  \"Lay.  Sleep in the earth.  You can leave this place.  You will be safe.\""
+    ],
+    "responses": [
+      { "text": "Who are you?", "topic": "TALK_CABIN_TUNNEL_SHADOW_WHO" },
+      { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" },
+      { "text": "[Move away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_WHO",
+    "dynamic_line": [
+      "&The creature releases a slow, tired sigh.  \"Like you, but not.  We can escape.  Please, we must sleep.  It is the only way.\""
+    ],
+    "responses": [
+      { "text": "[Lay beside the creature]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1" },
+      { "text": "[Move away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_1",
+    "dynamic_line": [
+      "&You lay beside the shade.  It is comfortable, but also unfamiliar.  You feel like you could stay here forever, though you might not be comfortable."
+    ],
+    "responses": [
+      { "text": "[Close your eyes]", "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_2" },
+      {
+        "text": "[Stand up]",
+        "condition": { "math": [ "u_limb_score('reaction', 'type': 'head') < 0.3" ] },
+        "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY"
+      },
+      {
+        "text": "[Stand up]",
+        "condition": { "math": [ "u_limb_score('reaction', 'type': 'head') >= 0.3" ] },
+        "topic": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_ESCAPE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_2",
+    "dynamic_line": [
+      "&You close your eyes.  Sleep takes you.  Then, there is light beyond your eyelids, and your mind's eye is flooded with red and gold afterimages."
+    ],
+    "responses": [ { "text": "…", "effect": { "run_eocs": [ "EOC_PORTAL_INNER_CABINS" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_NICE_TRY",
+    "dynamic_line": [
+      "&As you move to stand, the shade wipes a hand over your eyes.  Sleep takes you.  Then, there is light beyond your eyelids, and your mind's eye is flooded with red and gold afterimages."
+    ],
+    "responses": [ { "text": "…", "effect": { "run_eocs": [ "EOC_PORTAL_INNER_CABINS" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CABIN_TUNNEL_SHADOW_SLEEP_ESCAPE",
+    "dynamic_line": [
+      "&As you move to stand, you see the shade stir.  A buzzing sensation, neither sight nor sound, fills your senses, then passes.  Was it grabbing you?  Just reaching out to touch you?  You don't know, but you roll out of the way and stand up."
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]
