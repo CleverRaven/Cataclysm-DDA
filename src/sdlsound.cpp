@@ -263,9 +263,10 @@ struct sfx_map {
                                      tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
         }
 
-        const std::vector<sound_effect> *find_no_fallback( const std::string &id, const std::string &variant,
-                                                           const std::string &season, const std::optional<bool> &is_indoors,
-                                                           const std::optional<bool> &is_night ) const {
+        const std::vector<sound_effect> *find_no_fallback( const std::string &id,
+                const std::string &variant,
+                const std::string &season, const std::optional<bool> &is_indoors,
+                const std::optional<bool> &is_night ) const {
             return find_closest_sfx( effects, id, "", variant, "", season_from_string( season ),
                                      sfx_season::NONE, in_or_out_from_int( bool_or( is_indoors, -1 ) ), sfx_in_or_out::EITHER,
                                      tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
