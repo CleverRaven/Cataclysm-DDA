@@ -1882,7 +1882,7 @@ void options_manager::add_options_interface()
              to_translation( "If true, show brand names for drugs, instead of generic functional names - 'Adderall', instead of 'prescription stimulant'." ),
              false );
         add( "SHOW_GUN_VARIANTS", page_id, to_translation( "Show gun brand names" ),
-             to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+             to_translation( "If true, show brand or variant names for guns, instead of generic functional names - 'M4A1 carbine' or 'Mk 18 CQBR carbine' instead of 'M4 carbine'." ),
              false );
         add( "AMMO_IN_NAMES", page_id, to_translation( "Add ammo to weapon/magazine names" ),
              to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
