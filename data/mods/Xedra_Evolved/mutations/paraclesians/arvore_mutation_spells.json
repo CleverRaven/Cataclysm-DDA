@@ -467,7 +467,7 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "caster_condition_fail_message": "You must be surrounded by nature to cast To Withstand Decay.",
+    "caster_condition_fail_message": "You must be surrounded by nature and away from civiliation to cast To Withstand Decay.",
     "skill": "gramarye",
     "effect": "spawn_item",
     "effect_str": "arvore_preservation_container",
