@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "behavior.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -19,6 +20,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_oracle.h"
+#include "clzones.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -47,6 +49,7 @@
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "stomach.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -59,9 +62,13 @@
 #include "weather.h"
 
 class Creature;
+enum npc_action : int;
 
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_wet( "wet" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -96,6 +103,9 @@ static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_seat( "seat" );
 
 static const vproto_id vehicle_prototype_none( "none" );
+
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -1083,5 +1093,211 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
         guy.address_needs( NPC_DANGER_VERY_LOW + 1 );
 
         CHECK( guy.is_wearing( itype_sweater ) );
+    }
+}
+
+TEST_CASE( "npc_bodytemp_updates_during_turn", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    weather_manager &weather = get_weather();
+    weather.temperature = units::from_fahrenheit( 0 );
+    weather.clear_temp_cache();
+
+    SECTION( "throttle blocks bodytemp before 10-second boundary" ) {
+        // once_every(10s) fires when (turn - turn_zero) % 10s == 0.
+        // 3 seconds is non-aligned, so the throttle should block.
+        calendar::turn = calendar::turn_zero + 3_seconds;
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+
+        guy.npc_update_body();
+
+        for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+            CHECK( guy.get_part_temp_conv( bp ) == BODYTEMP_NORM );
+        }
+    }
+
+    SECTION( "bodytemp decreases after 10-second boundary in freezing weather" ) {
+        calendar::turn = calendar::turn_zero + 10_seconds;
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+
+        guy.npc_update_body();
+
+        bool any_cooled = false;
+        for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+            if( guy.get_part_temp_conv( bp ) < BODYTEMP_NORM ) {
+                any_cooled = true;
+                break;
+            }
+        }
+        CHECK( any_cooled );
+    }
+
+    SECTION( "wetness updated via effect_wet" ) {
+        calendar::turn = calendar::turn_zero + 10_seconds;
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        const bodypart_id bp_torso( "torso" );
+        guy.set_part_wetness( bp_torso, guy.get_part_drench_capacity( bp_torso ) );
+
+        guy.npc_update_body();
+
+        // update_body_wetness adds effect_wet deterministically when wetness > 0
+        CHECK( guy.has_effect( effect_wet, bp_torso ) );
+    }
+
+    SECTION( "on_load catch-up recomputes bodytemp" ) {
+        weather.temperature = units::from_fahrenheit( 0 );
+        weather.clear_temp_cache();
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+
+        on_load_test( guy, 0_seconds, 30_minutes );
+
+        bool any_cooled = false;
+        for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+            if( guy.get_part_temp_conv( bp ) < BODYTEMP_NORM ) {
+                any_cooled = true;
+                break;
+            }
+        }
+        CHECK( any_cooled );
+    }
+}
+
+TEST_CASE( "npc_camp_water_through_stomach", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    get_player_character().camps.clear();
+    map &m = get_map();
+    const tripoint_abs_ms zone_loc = m.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
+    REQUIRE( m.inbounds( zone_loc ) );
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_FOOD, your_fac, {}, "food" );
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, your_fac, {}, "storage" );
+    faction *camp_faction = get_player_character().get_faction();
+    const tripoint_abs_omt this_omt = project_to<coords::omt>( zone_loc );
+    m.add_camp( this_omt, "faction_camp" );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( this_omt.xy() );
+    REQUIRE( !!bcp );
+    basecamp *test_camp = *bcp;
+    test_camp->define_camp( this_omt, "faction_base_bare_bones_NPC_camp_0", false );
+    test_camp->set_owner( your_fac );
+    REQUIRE( test_camp->has_water() );
+
+    // Spawn NPC at same position (within 3 OMT), in player faction for camp access
+    npc &guy = spawn_npc( { 5, 5 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 0 );
+    camp_faction->empty_food_supply();
+
+    SECTION( "camp water enters stomach, NPC-facing thirst drops" ) {
+        guy.set_thirst( 200 );
+        REQUIRE( guy.get_thirst() > 40 );
+
+        CHECK( guy.consume_food_from_camp() );
+        CHECK( guy.stomach.get_water() > 0_ml );
+        CHECK( guy.get_thirst() < 200 );
+    }
+
+    SECTION( "intake capped at stomach capacity" ) {
+        // Pre-fill stomach near capacity, leaving only 50ml room
+        const units::volume room = guy.stomach.stomach_remaining( guy );
+        if( room > 50_ml ) {
+            guy.stomach.ingest( { room - 50_ml, 0_ml, {} } );
+        }
+        guy.set_thirst( 800 );
+
+        guy.consume_food_from_camp();
+
+        CHECK( guy.stomach.contains() <= guy.stomach.capacity( guy ) );
+    }
+
+    SECTION( "full stomach does not waste turn" ) {
+        // Fill stomach to capacity
+        const units::volume room = guy.stomach.stomach_remaining( guy );
+        guy.stomach.ingest( { room, 0_ml, {} } );
+        // Raw thirst must exceed 40 + capacity/5 so NPC-facing thirst
+        // still passes the > 40 gate despite stomach water subtraction.
+        guy.set_thirst( 600 );
+        REQUIRE( guy.get_thirst() > 40 );
+
+        CHECK_FALSE( guy.consume_food_from_camp() );
+    }
+}
+
+TEST_CASE( "npc_nonally_sleeps_when_tired", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    // 30+ minutes past turn_zero so can_sleep()'s 30-minute cooldown
+    // (anchored to last_sleep_check default of turn_zero) does not
+    // block the first evaluation.
+    calendar::turn = calendar::turn_zero + 1_hours;
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    REQUIRE_FALSE( guy.is_player_ally() );
+
+    SECTION( "exhausted non-ally falls asleep when safe" ) {
+        // Sleepiness 800 makes can_sleep() reliably pass despite bare-
+        // ground comfort and rng(-8,8): sleepiness_factor ~26 dominates.
+        guy.set_sleepiness( 800 );
+        guy.set_mission( NPC_MISSION_SHELTER );
+        guy.set_moves( 100 );
+
+        guy.move();
+
+        // NPCs call fall_asleep() directly on can_sleep() success.
+        // Recovery only runs on the asleep branch in update_needs.
+        CHECK( guy.has_effect( effect_sleep ) );
+    }
+
+    SECTION( "meth blocks non-ally sleep" ) {
+        guy.set_sleepiness( 800 );
+        guy.add_effect( effect_meth, 1_hours );
+        guy.set_mission( NPC_MISSION_SHELTER );
+        guy.set_moves( 100 );
+
+        guy.move();
+
+        // can_sleep() returns false on meth, NPC gets lying_down fallback
+        CHECK_FALSE( guy.has_effect( effect_sleep ) );
+        CHECK( guy.has_effect( effect_lying_down ) );
+    }
+
+    SECTION( "non-ally does not sleep in danger" ) {
+        guy.set_sleepiness( 800 );
+        // address_needs decides, execute_action performs. Together they
+        // cover the decision gate and the sleep branch without needing
+        // the full move() pipeline (which requires overmap/vision setup).
+        // execute_action(npc_undecided) is safe -- just pauses.
+        npc_action action = guy.address_needs( NPC_DANGER_VERY_LOW + 1 );
+        guy.execute_action( action );
+
+        CHECK_FALSE( guy.has_effect( effect_sleep ) );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+    }
+
+    SECTION( "below TIRED threshold does not trigger sleep" ) {
+        guy.set_sleepiness( sleepiness_levels::TIRED / 2 );
+        npc_action action = guy.address_needs( 0 );
+        guy.execute_action( action );
+
+        CHECK_FALSE( guy.has_effect( effect_sleep ) );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
     }
 }

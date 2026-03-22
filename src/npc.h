@@ -1423,6 +1423,11 @@ class npc : public Character
          * Update body, but throttled.
          */
         void npc_update_body();
+        /**
+         * Recompute body temperature and wetness from current weather.
+         * Shared between npc_update_body() and on_load() catch-up.
+         */
+        void update_bodytemp_and_wetness();
 
         bool get_known_to_u() const;
 
