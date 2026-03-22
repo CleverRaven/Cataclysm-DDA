@@ -1195,19 +1195,20 @@ If one or both are arrays it will apply the transform to all locations in that r
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
-Place_nested allows for conditional spawning of chunks based on the `"id"`s and/or flags of their overmap neighbors, the joins that were used in placing a mutable overmap special or the maps' predecessors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+Place_nested allows for conditional spawning of chunks based on the `"id"`s and/or flags of their overmap neighbors, the joins that were used in placing a mutable overmap special or the maps' predecessors. 
+This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+"\*\_any" versions of fields only require a single specified direction to resolve true and are not mutually exclusive with their regular counterparts. 
 
-| Field              | Description
-| ---                | ---
-| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
-| x and y            | (required, int) the cardinal position in which the chunk will be placed.
-| z                  | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches, note this field defaults to CONTAINS not TYPE.
-| joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
-| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
-| flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
-| predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
-| check_z            | (optional, array of ints ) Any number of z-levels that should be checked before placing the chunk.
+| Field                   | Type                                             | Description                                                                                                                                                                                                                                                  |
+| ---------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| chunks/else_chunks      | (required) string                                | The nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.                                                                                                       |
+| x and y                 | (required) int or array containing range of ints | The cardinal position in which the chunk will be placed.                                                                                                                                                                                                     |
+| z                       | (optional) int                                   | Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.                                                                                                              |
+| neighbors/neighbors_any | (optional) object                                | Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings. See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches. |
+| flags/flags_any         | (optional) object                                | Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags. See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.              |
+| joins/joins_any         | (optional) object                                | Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings. See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.     |
+| predecessors            | (optional) array of strings and/or objects       | Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen. See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches.                         |
+| check_z                 | (optional) array of ints                         | Any number of z-levels that should be checked before placing the chunk.                                                                                                                                                                                      |
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1223,7 +1224,7 @@ Example:
   "place_nested": [
     { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
     { "chunks": [ "nest1_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "north": [ "empty_rock", "field" ] } },
-    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
+    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, { "om_terrain": "mansion", "om_terrain_match_type": "CONTAINS" } ] } },
     { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
     { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
     { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
@@ -1233,9 +1234,9 @@ Example:
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
-* `"nest1_roof"` at the Z level above nest1 if the north neighbor's om terrain (on the nominal Z level) contains `"field"` or `"empty_rock"`.
-* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
+* `"nest1"` if the north neighbor's om terrain is `"field"` or `"empty_rock"`.
+* `"nest1_roof"` at the Z level above nest1 if the north neighbor's om terrain (on the nominal Z level) is `"field"` or `"empty_rock"`.
+* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"fort2b_north"` wouldn't.
 * `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
 * `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
 * `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
