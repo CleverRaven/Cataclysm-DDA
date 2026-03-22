@@ -87,6 +87,7 @@
 #include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
@@ -3283,12 +3284,19 @@ void npc::on_unload()
 {
 }
 
+void npc::update_bodytemp_and_wetness()
+{
+    update_bodytemp();
+    update_body_wetness( *get_weather().weather_precise );
+}
+
 // A throtled version of player::update_body since npc's don't need to-the-turn updates.
 void npc::npc_update_body()
 {
     if( calendar::once_every( 10_seconds ) ) {
         update_body( last_updated, calendar::turn );
         last_updated = calendar::turn;
+        update_bodytemp_and_wetness();
     }
 }
 
@@ -3342,6 +3350,11 @@ void npc::on_load( map *here )
             update_mental_focus();
         }
     }
+
+    // Reconcile body temperature and wetness with current weather.
+    // The catch-up loops above ran update_body() but not update_bodytemp();
+    // one recompute at current conditions is enough since temp converges fast.
+    update_bodytemp_and_wetness();
 
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load

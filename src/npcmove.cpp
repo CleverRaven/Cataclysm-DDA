@@ -1788,11 +1788,21 @@ void npc::execute_action( npc_action action )
             // TODO: Handle empty path better
             if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();
-                if( !has_effect( effect_lying_down ) ) {
+                if( !in_sleep_state() ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, false, 1 );
                     if( !player_character.in_sleep_state() ) {
                         add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), get_name() );
+                    }
+                    // NPCs check can_sleep() for hard blockers (meth, stim)
+                    // but fall asleep directly on success. The lying_down ->
+                    // can_sleep() rng retry cycle is for the player who gets
+                    // "you try to sleep but can't" feedback. Without direct
+                    // fall_asleep(), NPC sleepiness keeps incrementing while
+                    // they lie awake (recovery only runs while asleep).
+                    if( !is_avatar() && can_sleep() ) {
+                        fall_asleep();
+                    } else {
+                        add_effect( effect_lying_down, 30_minutes, false, 1 );
                     }
                 }
             } else {
@@ -2717,9 +2727,7 @@ npc_action npc::address_needs( float danger )
     // TODO: More risky attempts at sleep when exhausted
     if( could_sleep() ) {
         if( !is_player_ally() ) {
-            // TODO: Make tired NPCs handle sleep offscreen
-            set_sleepiness( 0 );
-            return npc_undecided;
+            return npc_sleep;
         }
 
         if( rules.has_flag( ally_rule::allow_sleep ) ||
@@ -4748,13 +4756,18 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
 
-    // Handle water
+    // Handle water -- route through stomach so thirst decreases naturally.
     if( get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
-        complain_about( "camp_water_thanks", 1_hours,
-                        chat_snippets().snip_camp_water_thanks.translated(), false );
-        // TODO: Stop skipping the stomach for this, actually put the water in there.
-        set_thirst( 0 );
-        return true;
+        const units::volume want = std::max( 0_ml,
+                                             units::from_milliliter( get_thirst() * 5 ) );
+        const units::volume room = stomach.stomach_remaining( *this );
+        const units::volume intake = std::min( want, room );
+        if( intake > 0_ml ) {
+            stomach.ingest( { intake, 0_ml, {} } );
+            complain_about( "camp_water_thanks", 1_hours,
+                            chat_snippets().snip_camp_water_thanks.translated(), false );
+            return true;
+        }
     }
 
     // Handle food
