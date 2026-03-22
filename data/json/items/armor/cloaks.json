@@ -1659,6 +1659,47 @@
     "color": "blue"
   },
   {
+    "id": "ruana_sci_fi",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "//": "found in the inner cabins alongside helmet_sci_fi.  complement to cape_sci_fi, which is found as loot from nether spider.  Longer on one arm than the other.",
+    "name": { "str": "dusken ruana" },
+    "description": "Evening-hued bands drift across the span of this draped garment, dissolving at the edges without symmetry.  In motion, its metallic fibers reflect soft, glistening halos.",
+    "weight": "8700 g",
+    "volume": "1250 ml",
+    "price_postapoc": "750 USD",
+    "material": [ "nanotubes" ],
+    "symbol": "[",
+    "looks_like": "poncho",
+    "color": "blue",
+    "warmth": 20,
+    "material_thickness": 3.5,
+    "flags": [ "OUTER", "OVERSIZE", "UNBREAKABLE" ],
+    "armor": [
+      { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "layers": [ "OUTER" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ],
+        "layers": [ "OUTER" ]
+      },
+      {
+        "encumbrance": 1,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_r", "arm_lower_r" ]
+      }
+    ]
+  },
+  {
     "id": "grass_cloak",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
