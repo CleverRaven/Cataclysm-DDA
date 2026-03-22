@@ -276,7 +276,7 @@ extern const flag_id flag_PSEUDO;
 extern const flag_id flag_PSEUDOPOD_GRASP;
 extern const flag_id flag_PSYSHIELD_PARTIAL;
 extern const flag_id flag_PULPED;
-extern const flag_id flag_PUMP_ACTION;
+extern const flag_id flag_PUMP_RAIL;
 extern const flag_id flag_PUMP_RAIL_COMPATIBLE;
 extern const flag_id flag_QUARTERED;
 extern const flag_id flag_RABBIT;

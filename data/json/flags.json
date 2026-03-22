@@ -1862,7 +1862,27 @@
     "type": "json_flag"
   },
   {
+    "id": "PUMP_RAIL",
+    "type": "json_flag"
+  },
+  {
+    "id": "LEVER_ACTION",
+    "info": "This weapon uses a manual lever to load each round into the chamber, forcing you to cock the lever after each shot, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
+    "id": "SINGLE_ACTION",
+    "info": "This weapon requires you to cock the hammer of a firearm manually, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
     "id": "PUMP_ACTION",
+    "info": "This weapon requires you to manually pull and insert cartridge into the chamber by sliding a handguard, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
+    "id": "BOLT_ACTION",
+    "info": "This weapon requires you to manually pull and insert cartridge into the chamber using a turn-bolt, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
     "type": "json_flag"
   },
   {
