@@ -378,6 +378,18 @@
     "return": "1 + ( ( (u_proficiency('prof_lucid_dreaming', 'format': 'percent') / 1000) ) * 3)"
   },
   {
+    "type": "jmath_function",
+    "id": "abnegation_proficiency_modifier",
+    "num_args": 0,
+    "return": "1 + ( (u_proficiency('prof_abnegation', 'format': 'percent') / 1000) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "pontage_proficiency_modifier",
+    "num_args": 0,
+    "return": "1 + ( (u_proficiency('prof_pontage', 'format': 'percent') / 1000) )"
+  },
+  {
     "id": "xe_nether_sorcery_failure_chance",
     "type": "jmath_function",
     "num_args": 0,

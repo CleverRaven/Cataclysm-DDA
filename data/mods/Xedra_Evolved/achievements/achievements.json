@@ -1,5 +1,11 @@
 [
   {
+    "id": "achievement_banish",
+    "type": "achievement",
+    "name": "Begone, unholy creature!",
+    "requirements": [ { "event_statistic": "num_avatar_casts_banish", "is": ">=", "target": 1 } ]
+  },
+  {
     "id": "achievement_kill_changeling",
     "type": "achievement",
     "name": "Smashed a pixie.",
