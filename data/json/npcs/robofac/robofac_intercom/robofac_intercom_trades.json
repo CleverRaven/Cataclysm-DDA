@@ -434,7 +434,8 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_MORGANTOWN",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRING_DIMENSION",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
@@ -714,6 +715,54 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR"
       },
+      {
+        "text": "[Deposit datasheet CITW-BFα and give a verbal report.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_inner_cabins_open_field", "count": 1 } },
+            { "math": [ "HEW_inner_cabins_alpha_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_inner_cabins_open_field", "count": 1, "popup": true },
+          { "math": [ "HEW_inner_cabins_alpha_data_sold++" ] },
+          { "math": [ "HEW_inner_cabins_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS"
+      },
+      {
+        "text": "[Deposit datasheet CITW-BFβ and give a verbal report.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_inner_cabins_warped_cabin", "count": 1 } },
+            { "math": [ "HEW_inner_cabins_beta_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_inner_cabins_warped_cabin", "count": 1, "popup": true },
+          { "math": [ "HEW_inner_cabins_beta_data_sold++" ] },
+          { "math": [ "HEW_inner_cabins_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS"
+      },
+      {
+        "text": "[Deposit datasheet CITW-BFγ and give a verbal report.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_inner_cabins_home_cabin", "count": 1 } },
+            { "math": [ "HEW_inner_cabins_gamma_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_inner_cabins_home_cabin", "count": 1, "popup": true },
+          { "math": [ "HEW_inner_cabins_gamma_data_sold++" ] },
+          { "math": [ "HEW_inner_cabins_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS"
+      },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
@@ -871,7 +920,11 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_CABIN_REVERB_DIMENSION",
     "type": "talk_topic",
-    "dynamic_line": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"Astounding!  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be deliberate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research and alert you if we need more scans.\"",
+    "dynamic_line": {
+      "math": [ "HEW_inner_cabins_data_sold >= 2" ],
+      "yes": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"Ah, interesting.  So this is where you entered this other place?  This decreases the chances that what you experienced was a hallucination.  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be deliberate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research.\"",
+      "no": "You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"Astounding!  These conditions are clearly Earth-like, but the recordings performed unexpected loops in its subroutines.  The topographical scan shows what appear to be deliberate patterns in the placement of whatever structures you may have encountered.  We suspect that this may be a location where spacetime is slipping in various directions.  We will forward this to Research and alert you if we need more scans.\""
+    },
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
@@ -927,6 +980,25 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR",
     "type": "talk_topic",
     "dynamic_line": "&You deposit the sheet in the tray.  The person behind the microphone starts mumbling, as if speaking to someone off mic:  \"New HEW…  yeah…  atmospheric readings are normal…  subterranean…  several returned null, look.  Should be noisy…  yeah…  no, can't read the GC-MS until we plug it in…  right…  could be the instrument, but we've seen recordings like this before.\"\n\nThe intercom clicks twice, off then on, then the tray slides open, this time with a pile of coins.  \"This is an odd one.  We've turned it over to Research, but you might expect a relevant contract to be added to your list in the future.  Keep an eye out.  Thank you for your contributions to science, as always.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "HEW_inner_cabins_data_sold >= 2" ],
+      "yes": "&You deposit the sheet in the tray and collect your payment.  \"Well, another report from that \"place\".  It's different, and we have growing confidence it is real, however distant.  Let us know if you have any other reports.\"",
+      "no": {
+        "math": [ "HEW_cabin_reverb_dimension_data_sold >= 1" ],
+        "yes": "&You deposit the sheet in the tray and tell them all about that far-away world.  \"…  Well, that's certainly a report.  This is consistent with your previous reports, but the recording is suspiciously normal in many respects.  Perhaps a hallucination induced by interdimensional travel?  Perhaps everything you saw was here, in New England?  Not that we doubt your mental faculties, of course.  Anyway…  we look forward to future reports.\"",
+        "no": "&You deposit the sheet in the tray and tell them all about that far-away world.  \"…  Well, that's certainly a report.  Based on these readings, I can tell you the place was certainly real, but it's not so different from here.  Perhaps a hallucination induced by the portal storms?  Perhaps everything you saw was here, in New England?  Not that we doubt your mental faculties, of course.  Anyway…  we look forward to future reports.\""
+      }
+    },
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

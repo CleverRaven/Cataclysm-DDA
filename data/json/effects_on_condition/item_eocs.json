@@ -42,7 +42,7 @@
         { "u_near_om_location": "radiosphere_radio_tower_top", "range": 10 },
         { "u_near_om_location": "mine_spiral_finale_s", "range": 10 },
         { "u_near_om_location": "string_dimension_crossroads", "range": 10 },
-        { "u_near_om_location": "void_spider_lair", "range": 10 }
+        { "u_near_om_location": "inner_cabins", "range": 10 }
       ]
     },
     "effect": {

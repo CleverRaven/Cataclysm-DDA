@@ -171,6 +171,12 @@ static const itype_id
 itype_HEW_printout_data_cabin_reverb_dimension( "HEW_printout_data_cabin_reverb_dimension" );
 static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
 static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_home_cabin( "HEW_printout_data_inner_cabins_home_cabin" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_open_field( "HEW_printout_data_inner_cabins_open_field" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_warped_cabin( "HEW_printout_data_inner_cabins_warped_cabin" );
 static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
@@ -6082,6 +6088,13 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "string_dimension_crossroads", 10, false );
                 const tripoint_abs_omt closest_void_spider_lair = overmap_buffer.find_closest( veh_position,
                         "void_spider_lair", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_open_land = overmap_buffer.find_closest( veh_position,
+                        "inner_cabins", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_warped_cabin = overmap_buffer.find_closest(
+                            veh_position,
+                            "inner_cabins_warped_cabin_10", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
+                        "inner_cabins_cabin", 10, false );
                 if( portal_nearby ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
                 }
@@ -6134,6 +6147,18 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_void_spider_lair ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_void_spider_lair, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_inner_cabins_open_land ) <= 10 ) {
+                    if( trig_dist( veh_position, closest_inner_cabins_home_cabin ) <= 10 ) {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_home_cabin,
+                                                          calendar::turn_zero ) );
+                    } else if( trig_dist( veh_position, closest_inner_cabins_warped_cabin ) <= 10 ) {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_warped_cabin,
+                                                          calendar::turn_zero ) );
+                    } else {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_open_field,
+                                                          calendar::turn_zero ) );
+                    }
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
