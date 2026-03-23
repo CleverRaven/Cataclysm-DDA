@@ -3,7 +3,7 @@
     "id": "telepathic_concentration",
     "type": "SPELL",
     "name": "[Ψ]Concentration Trance (C)",
-    "description": "Focus your own mind into a trance state, increasing learning speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "Focus your own mind into a trance state, increasing learning speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.\n\nThis power <color_red>cannot be used</color> together with the Vitakinetic power Selective Autosomnia.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
