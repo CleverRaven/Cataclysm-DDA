@@ -45,7 +45,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -74,7 +79,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -103,7 +113,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -156,7 +171,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -209,7 +229,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -262,7 +287,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -315,7 +345,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -368,7 +403,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -422,7 +462,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -476,7 +521,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -530,7 +580,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -584,7 +639,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -614,7 +674,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -667,7 +732,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -721,7 +791,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -775,7 +850,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -829,7 +909,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -859,7 +944,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
@@ -913,7 +1003,12 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
     "tools": [
-      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_vitakinesis", -1 ],
+        [ "matrix_crystal_vitakinesis_artifact", -1 ]
+      ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
