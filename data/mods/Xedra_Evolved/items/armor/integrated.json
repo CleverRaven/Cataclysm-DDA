@@ -42,7 +42,7 @@
     "symbol": "x",
     "color": "light_red",
     "warmth": 1,
-    "environmental_protection": 1,
+    "environmental_protection": 2,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -92,7 +92,7 @@
     "symbol": "x",
     "color": "light_red",
     "warmth": 1,
-    "environmental_protection": 1,
+    "environmental_protection": 5,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
