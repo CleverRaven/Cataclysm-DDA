@@ -1743,7 +1743,7 @@ void sfx::remove_hearing_loss()
     do_ambient();
 }
 
-void sfx::do_footstep()
+void sfx::do_footstep( const Character &ch )
 {
     map &here = get_map();
 
@@ -1754,9 +1754,8 @@ void sfx::do_footstep()
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
-        const Character &player_character = get_player_character();
-        int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
-        const auto terrain = here.ter( player_character.pos_bub() ).id();
+        int heard_volume = sfx::get_heard_volume( ch.pos_bub() );
+        const auto terrain = here.ter( ch.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
             ter_t_shrub,
@@ -1846,18 +1845,18 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = here.veh_at( player_character.pos_bub() ).part_displayed();
+        auto veh_displayed_part = here.veh_at( ch.pos_bub() ).part_displayed();
 
         const season_type seas = season_of_year( calendar::turn );
         const std::string seas_str = season_str( seas );
-        const bool indoors = !is_creature_outside( player_character );
+        const bool indoors = !is_creature_outside( ch );
         const bool night = is_night( calendar::turn );
         if( !veh_displayed_part && ( terrain->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
                                      terrain->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) ) {
             play_plmove_sound_variant( "walk_water", seas_str, indoors, night );
             return;
         }
-        if( player_character.is_barefoot() ) {
+        if( ch.is_barefoot() ) {
             play_plmove_sound_variant( "walk_barefoot", seas_str, indoors, night );
             return;
         }
@@ -2031,7 +2030,7 @@ void sfx::generate_melee_sound( const item &, const tripoint_bub_ms &, const tri
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature & ) { }
-void sfx::do_footstep() { }
+void sfx::do_footstep( const Character & ) { }
 void sfx::do_danger_music() { }
 void sfx::do_vehicle_engine_sfx() { }
 void sfx::do_vehicle_exterior_engine_sfx() { }
