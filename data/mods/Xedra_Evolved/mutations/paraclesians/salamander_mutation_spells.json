@@ -133,7 +133,7 @@
     "field_chance": 1,
     "sound_type": "combat",
     "sound_description": "a crackle!",
-    "learn_spells": { "salamander_fire_dot_spell": 12 }
+    "learn_spells": { "salamander_rain_immunity": 8, "salamander_fire_dot_spell": 12 }
   },
   {
     "id": "salamander_flame_punch_spell",
@@ -293,7 +293,35 @@
     "magic_type": "xedra_salamader_magick",
     "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'SALAMANDER') * -10.9) + (u_skill('gramarye') * -13.1) ), 550)" ] },
     "base_casting_time": 3000,
-    "learn_spells": { "salamander_fire_dot_spell": 7 }
+    "learn_spells": { "salamander_rain_immunity": 5, "salamander_fire_dot_spell": 7 }
+  },
+  {
+    "id": "salamander_rain_immunity",
+    "type": "SPELL",
+    "name": "Steam Shell",
+    "description": "Protect yourself from rain by burning it to steam just before it strikes you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_salamander_rain_immunity",
+    "shape": "blast",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "difficulty": 4,
+    "max_level": 15,
+    "min_duration": {
+      "math": [
+        "( 23318 + (u_spell_count('school': 'SALAMANDER') * 6135) + (u_skill('gramarye') * 11436) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 79425 + (u_spell_count('school': 'SALAMANDER') * 15512) + (u_skill('gramarye') * 23835) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "magic_type": "xedra_salamader_magick",
+    "base_energy_cost": { "math": [ "max( (150 + (u_spell_count('school': 'SALAMANDER') * -3.9) + (u_skill('gramarye') * -4.7) ), 50)" ] },
+    "base_casting_time": 250
   },
   {
     "id": "salamander_fire_dot_spell",
@@ -386,7 +414,8 @@
     },
     "magic_type": "xedra_salamader_magick",
     "base_energy_cost": { "math": [ "max( (700 + (u_spell_count('school': 'SALAMANDER') * -14.4) + (u_skill('gramarye') * -16.5) ), 450)" ] },
-    "base_casting_time": { "math": [ "max( (500 + (u_spell_count('school': 'SALAMANDER') * -14.2) + (u_skill('gramarye') * -16.9) ), 150)" ] }
+    "base_casting_time": { "math": [ "max( (500 + (u_spell_count('school': 'SALAMANDER') * -14.2) + (u_skill('gramarye') * -16.9) ), 150)" ] },
+    "learn_spells": { "salamander_rain_immunity": 4 }
   },
   {
     "id": "salamander_summon_fire_spirit",
@@ -474,7 +503,8 @@
     "field_chance": 1,
     "magic_type": "xedra_salamader_magick",
     "base_energy_cost": { "math": [ "max( (150 + (u_spell_count('school': 'SALAMANDER') * -3.5) + (u_skill('gramarye') * -4.9) ), 50)" ] },
-    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SALAMANDER') * -6.9) + (u_skill('gramarye') * -8.5) ), 50)" ] }
+    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SALAMANDER') * -6.9) + (u_skill('gramarye') * -8.5) ), 50)" ] },
+    "learn_spells": { "salamander_rain_immunity": 8 }
   },
   {
     "id": "salamander_fire_breath",

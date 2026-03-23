@@ -1961,6 +1961,15 @@
     }
   },
   {
+    "id": "effect_salamander_rain_immunity",
+    "name": [ "Steam Shell" ],
+    "desc": [ "A thin barrier of heat around your body is protecting you from rain." ],
+    "apply_message": "",
+    "remove_message": "The thin shell of heat around your body dissipates.",
+    "rating": "good",
+    "flags": [ "RAIN_IMMUNE" ]
+  },
+  {
     "type": "effect_type",
     "id": "effect_salamander_burning_damage",
     "name": [ "" ],
