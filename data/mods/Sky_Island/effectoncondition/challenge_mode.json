@@ -11,6 +11,7 @@
         "then": [
           {
             "weighted_list_eocs": [
+              [ "EOC_raid_challenge_mode_megacity_dimension", 100 ],
               [ "EOC_raid_challenge_mode_hot_dimension", 100 ],
               [ "EOC_raid_challenge_mode_cold_dimension", 100 ],
               [ "EOC_raid_challenge_mode_reduced_pulselength", 100 ],
@@ -24,7 +25,31 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_raid_challenge_mode_post_raid",
-    "effect": [ { "u_lose_effect": [ "challenge_mode_speed_reduction" ] } ]
+    "//": "Clear modifier effects and reset weights for selecting forest/houses as mission/extract targets post raid",
+    "effect": [
+      { "u_lose_effect": [ "challenge_mode_speed_reduction" ] },
+      { "math": [ "target_forests_weight = hardmissions" ] },
+      { "math": [ "target_houses_weight = hardermissions" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_megacity_dimension",
+    "//": "Disable targeting forests for missions/extract since there is none in this dimension",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_megacity_dimension_warning",
+          "effect": [ { "u_message": "Something is different about this dimension.  The city appears to never end.", "popup": true } ]
+        },
+        "time_in_future": 1
+      },
+      {
+        "set_string_var": "sky_island_raid_region_mega_city",
+        "target_var": { "global_val": "sky_island_target_region_settings" }
+      },
+      { "math": [ "target_forests_weight = 0" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

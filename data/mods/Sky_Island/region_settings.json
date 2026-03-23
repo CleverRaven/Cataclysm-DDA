@@ -102,5 +102,36 @@
     "id": "sky_island_raid_region_cold",
     "copy-from": "dimension_sky_island_region",
     "weather": "sky_island_raid_weather_cold"
+  },
+  {
+    "id": "MEGACITY_FLAG",
+    "type": "json_flag",
+    "name": ""
+  },
+  {
+    "type": "region_settings",
+    "id": "sky_island_raid_region_mega_city",
+    "copy-from": "dimension_sky_island_region",
+    "place_swamps": false,
+    "rivers": null,
+    "ocean": null,
+    "forests": null,
+    "lakes": null,
+    "highways": null,
+    "cities": "sky_island_raid_region_mega_city_settings",
+    "//": "Stop generation of all specials, just city buildings",
+    "feature_flag_settings": { "extend": { "whitelist": [ "MEGACITY_FLAG" ] } }
+  },
+  {
+    "type": "region_settings_city",
+    "id": "sky_island_raid_region_mega_city_settings",
+    "copy-from": "default",
+    "is_megacity": true,
+    "city_size": 16,
+    "city_spacing": 0,
+    "shop_radius": 200,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0
   }
 ]

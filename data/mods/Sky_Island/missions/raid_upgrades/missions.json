@@ -428,6 +428,8 @@
       "effect": [
         { "math": [ "hardmissions = 10" ] },
         { "math": [ "hardermissions = 5" ] },
+        { "math": [ "target_forests_weight = hardmissions" ] },
+        { "math": [ "target_houses_weight = hardermissions" ] },
         { "u_forget_recipe": "upgradekey_hardmissions1" },
         {
           "u_message": "Greater trespasses against the flow of the warpstream reveal themselves to you.  This interference cannot go unpunished.\nThe missions you are randomly assigned in each expedition are more varied, and can now pull from harder and more rewarding challenges.",
@@ -495,6 +497,8 @@
         { "math": [ "hardmissions = 15" ] },
         { "math": [ "hardermissions = 15" ] },
         { "math": [ "hardestmissions = 10" ] },
+        { "math": [ "target_forests_weight = hardmissions" ] },
+        { "math": [ "target_houses_weight = hardermissions" ] },
         { "u_forget_recipe": "upgradekey_hardmissions2" },
         {
           "u_message": "The greatest trespasses against the island now glimmer in the dark, guiding your hand as a tool of order.  Return these chaotic energies to the tranquility of the warpstream.\nThe missions you are randomly assigned in each expedition are even more varied, and can now pull from the hardest and most rewarding challenges.",
