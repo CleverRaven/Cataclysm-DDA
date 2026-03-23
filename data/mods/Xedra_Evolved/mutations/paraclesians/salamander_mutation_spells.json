@@ -300,6 +300,7 @@
     "type": "SPELL",
     "name": "Steam Shell",
     "description": "Protect yourself from rain by burning it to steam just before it strikes you.",
+    "message": "A thin layer of heat surrounds you.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "RANDOM_DURATION" ],
     "effect": "attack",
