@@ -360,7 +360,7 @@
     "id": "matrix_crystal_teleportation_artifact",
     "name": { "str_sp": "strange crystal, blue" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
-    "color": "green",
+    "color": "blue",
     "symbol": "+",
     "volume": "10 ml",
     "weight": "150 g",
