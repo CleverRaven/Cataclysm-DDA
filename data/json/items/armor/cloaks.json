@@ -1674,7 +1674,7 @@
     "color": "blue",
     "warmth": 20,
     "material_thickness": 3.5,
-    "flags": [ "OUTER", "OVERSIZE", "UNBREAKABLE" ],
+    "flags": [ "OUTER", "OVERSIZE", "UNBREAKABLE", "SOFT" ],
     "armor": [
       { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ] },
       {
