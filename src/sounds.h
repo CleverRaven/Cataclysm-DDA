@@ -174,7 +174,7 @@ void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
 int get_heard_volume( const tripoint_bub_ms &source );
 units::angle get_heard_angle( const tripoint_bub_ms &source );
-void do_footstep();
+void do_footstep( const Character &ch );
 void do_danger_music();
 void do_ambient();
 void do_vehicle_engine_sfx();
