@@ -2166,7 +2166,7 @@ void Character::make_footstep_noise() const
         sounds::sound( pos_bub(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
                        "none", "none" );    // Sound of footsteps may awaken nearby monsters
     }
-    sfx::do_footstep();
+    sfx::do_footstep( *this );
 }
 
 void Character::make_clatter_sound() const
