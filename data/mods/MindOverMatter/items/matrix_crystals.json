@@ -107,6 +107,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_clairsentience",
     "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ]
   },
@@ -155,6 +156,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_electrokinesis",
     "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS", "RELIC_PINK" ]
   },
@@ -203,6 +205,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_photokinesis",
     "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS", "RELIC_PINK" ]
   },
@@ -251,6 +254,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_pyrokinesis",
     "flags": [ "MATRIX_CRYSTAL_PYROKINESIS", "RELIC_PINK" ]
   },
@@ -365,6 +369,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_teleportation",
     "flags": [ "MATRIX_CRYSTAL_TELEPORTATION", "RELIC_PINK" ]
   },
@@ -413,6 +418,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_vitakinesis",
     "flags": [ "MATRIX_CRYSTAL_VITAKINESIS", "RELIC_PINK" ]
   },
