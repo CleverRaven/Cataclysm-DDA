@@ -594,12 +594,12 @@
     "effect_str": "EOC_VITAKIN_NO_NEED_FOR_SLEEP",
     "min_duration": {
       "math": [
-        "( ( u_spell_level('vita_no_need_for_sleep') * 21000) + 195000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('vita_no_need_for_sleep') * 34000) + 195000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( u_spell_level('vita_no_need_for_sleep') * 59000) + 418000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('vita_no_need_for_sleep') * 79000) + 418000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": 9500,
