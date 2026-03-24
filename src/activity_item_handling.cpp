@@ -4448,6 +4448,7 @@ bool try_fuel_fire( Character &you, std::optional<tripoint_bub_ms> fire_target )
         }
     }
     return true;
+
 }
 
 void activity_handlers::clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now(

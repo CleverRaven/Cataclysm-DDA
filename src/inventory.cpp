@@ -350,7 +350,7 @@ void inventory::push_back( const item &newit )
     add_item( newit );
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
@@ -445,7 +445,7 @@ void inventory::restack( Character &p )
     }
     items.sort( stack_compare );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     remove_stale_inventory_quick_shortcuts();
 #endif
 }
