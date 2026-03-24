@@ -397,7 +397,7 @@ void create_destroy_curses_windows( std::vector<WINDOW *> &windows )
     int imguiWinIdx = 0;
     for( ; imguiWinIdx < GImGui->Windows.Size; imguiWinIdx++ ) {
         ImGuiWindow *imwin = GImGui->Windows[imguiWinIdx];
-        if( imwin->Collapsed || !imwin->Active ) {
+        if( imwin->Collapsed || !imwin->Active || imwin->Hidden ) {
             continue;
         }
         if( windows.size() <= cursesWinIdx ) {
@@ -439,6 +439,7 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
     for( WINDOW *cursesWin : rd->imtui_wins ) {
         int nx = g_screen.nx;
         int ny = g_screen.ny;
+        bool any_content = false;
 
         for( int y = getbegy( cursesWin ); y <= ( getbegy( cursesWin ) + getmaxy( cursesWin ) ); ++y ) {
             constexpr int no_lastp = 0x7FFFFFFF;
@@ -463,6 +464,9 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
                 strTmp[0] = cell.ch;
                 waddwstr( cursesWin, strTmp );
 
+                if( cell.ch != 0 ) {
+                    any_content = true;
+                }
                 if( cell.chwidth > 1 ) {
                     x += ( cell.chwidth - 1 );
                 }
@@ -472,7 +476,9 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
             }
         }
 
-        wnoutrefresh( cursesWin );
+        if( any_content ) {
+            wnoutrefresh( cursesWin );
+        }
     }
 
 }
