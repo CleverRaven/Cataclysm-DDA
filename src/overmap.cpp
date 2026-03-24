@@ -3173,7 +3173,7 @@ void overmap::place_specials_pass(
 }
 
 // Split map into sections, iterate through sections iterate through specials,
-// check if special is valid  pick & place special.
+// check if special is valid pick & place special.
 // When a sector is populated it's removed from the list,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )

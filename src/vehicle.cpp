@@ -658,7 +658,7 @@ void vehicle::autopilot_patrol( map *here )
      * choose a point at the far edge of the zone
      * the edge chosen is the edge that is smaller, therefore the longer side
      * of the rectangle is the one the vehicle drives mostly parallel too.
-     * if its  perfect square then choose a point that is on any edge that the
+     * if its perfect square then choose a point that is on any edge that the
      * vehicle is not currently at
      * drive to that point.
      * then once arrived, choose a random opposite point of the zone.

@@ -1581,7 +1581,7 @@ void Character::disp_info( bool customize_character )
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
                                          );
-    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
+    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
         if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
             effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                                _( "The sunlight irritates you badly.\n"

@@ -1773,7 +1773,7 @@ void zone_manager::deserialize( const JsonValue &jv )
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        } else  if( it->get_faction() != faction_your_followers ) {
+        } else if( it->get_faction() != faction_your_followers ) {
             it = zones.erase( it );
         } else {
             ++it;

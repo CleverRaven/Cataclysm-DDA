@@ -2239,7 +2239,7 @@ static tripoint_abs_omt display()
         } else if( action == "zoom_out" ) {
             g->zoom_out_overmap();
             ui->mark_resize();
-        } else  if( action == "zoom_in" ) {
+        } else if( action == "zoom_in" ) {
             g->zoom_in_overmap();
             ui->mark_resize();
         } else if( action == "CONFIRM" ) {

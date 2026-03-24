@@ -1458,7 +1458,7 @@ void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *ta
                                       sp.npc_trigger_message,
                                       caster.get_name() );
         sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
-    } else  if( target != nullptr ) {
+    } else if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
         if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||
