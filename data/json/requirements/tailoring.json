@@ -102,14 +102,6 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
-    "id": "button",
-    "type": "requirement",
-    "//": "All kinds of clothing buttons.",
-    "components": [
-      [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ], [ "button_bronze", 1 ], [ "button_bone", 1 ] ]
-    ]
-  },
-  {
     "id": "strap_small",
     "type": "requirement",
     "//": "A small piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
@@ -179,7 +171,7 @@
     "components": [
       [
         [ "zipper_long_plastic", 1 ],
-        [ "button", 9, "LIST" ],
+        [ "button_plastic", 9 ],
         [ "touch_fastener", 6 ],
         [ "snapfastener_steel", 9 ],
         [ "string_6", 6 ],
@@ -193,7 +185,7 @@
     "//": "All kinds of fasteners for footwear-sized soft objects, including pockets.",
     "components": [
       [
-        [ "button", 3, "LIST" ],
+        [ "button_plastic", 3 ],
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
@@ -213,7 +205,7 @@
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
-        [ "button", 3, "LIST" ]
+        [ "button_plastic", 3 ]
       ]
     ]
   },
@@ -223,7 +215,7 @@
     "//": "All kinds of fasteners for strapped-on objects like belts, per single strap.",
     "components": [
       [
-        [ "button", 1, "LIST" ],
+        [ "button_plastic", 1 ],
         [ "snapfastener_steel", 2 ],
         [ "buckle_steel", 1 ],
         [ "touch_fastener", 2 ],

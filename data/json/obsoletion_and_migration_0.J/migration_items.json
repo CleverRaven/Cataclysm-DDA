@@ -765,7 +765,26 @@
   },
   {
     "type": "MIGRATION",
-    "id": "survivor_mess_kit",
-    "replace": "oil_cooker"
+    "id": "button_steel",
+    "replace": "button_plastic",
+    "variant": "steel"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "button_bronze",
+    "replace": "button_plastic",
+    "variant": "bronze"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "button_bone",
+    "replace": "button_plastic",
+    "variant": "bone"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "button_wood",
+    "replace": "button_plastic",
+    "variant": "wood"
   }
 ]
