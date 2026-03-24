@@ -431,7 +431,7 @@ static std::vector<centroid> cluster_sounds(
 
 static int get_signal_for_hordes( const centroid &centr )
 {
-    //Volume in  tiles. Signal for hordes in submaps
+    //Volume in tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
     const int vol = centr.volume - get_weather().weather_id->sound_attn;
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this

@@ -3831,7 +3831,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 }
 ```
 
-Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates  into `OM_missionspot` variable:
+Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates into `OM_missionspot` variable:
 ```jsonc
 {
   "u_location_variable": { "global_val": "OM_missionspot" },
@@ -4539,7 +4539,7 @@ Unloads the current dimension and loads the dimension with the specific ID, opti
 
 ##### Examples
 
-You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you  within 5 tiles of you along.
+You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you within 5 tiles of you along.
 ```jsonc
   {
   "u_travel_to_dimension": "test",
@@ -5157,7 +5157,7 @@ Spawn a plastic bottle on ground
 
 ## Map Updates
 
-Map updates are related to  any change in the map, weather, or coordinates, and any talker can use them
+Map updates are related to any change in the map, weather, or coordinates, and any talker can use them
 
 #### `mapgen_update`
 Update the map with changes, described in `mapgen_update`

@@ -743,7 +743,7 @@ void set_furn_ids();
 void reset_furn_ter();
 
 /*
- * The terrain list contains the master list of  information and metadata for a given type of terrain.
+ * The terrain list contains the master list of information and metadata for a given type of terrain.
  */
 
 struct furn_t : map_data_common_t {
