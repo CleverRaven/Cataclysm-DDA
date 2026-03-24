@@ -1365,7 +1365,7 @@ See [Character](#character)
 - ```KNOWN_UP``` There's a known way up.
 - ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
-- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This  might be because it exists only for testing purposes, or it is part of a partially completed feature where more work is required before it can start spawning.
+- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This might be because it exists only for testing purposes, or it is part of a partially completed feature where more work is required before it can start spawning.
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs neighbor checks, the directions will be treated as absolute, rather than rotated to account for the rotation of the mapgen itself.  Probably only useful for hardcoded mapgen.
@@ -1815,4 +1815,3 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```IMMOBILIZER``` Prevents engine from starting and makes it beep.
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
 - ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6.  Does not stack with multiples of itself.
-

@@ -274,7 +274,7 @@ The Old Guard has outposts at the Evacuee Center.
 The Old Guard is the US government, and thus thinks that trade should be handled via US greenbacks (money bundles) and eCash.  The reality of the Cataclysm means that there's been 1000% inflation, so while they technically honor eCash, they don't pay much for it.
 
 ##### Player Trade
-At this time, the Old Guard is likely  not going to do a lot of direct trading with players.
+At this time, the Old Guard is likely not going to do a lot of direct trading with players.
 
 #### Missions
 Deal with bandits, investigate labs, rescue soldiers from the Necropolis, bring Farm/Strongarm Survivalists into the fold.
@@ -562,7 +562,7 @@ There are two distinct castes among the Exodii.  They don't really have names wi
 There is a single gestalt semi-artificial intelligence as part of this Exodii node, nicknamed the "Great Grey".  It is an overlay of multiple brain-computers, networked and communicating with each other.  It serves as something of a data repository.  Most of its time is spent doing translation and data-sifting.
 
 #### Goals
-The Exodii only care about survival.  They will stay on CDDA-Earth as long as possible to gather rare resources: a modern tech world is rare and desirable, and a good chance for them to stock up on stuff that is hard to find elsewhere, like plastics and petrochemicals.  The Exodii have no homes to return to on this interdimensional journey.  Every place they have come from is further along its post Cataclysm path into a world of the undead and mutants than our Earth.   On this Earth since they have arrived almost immediately after the portal storm they will seek to obtain useful technological items they can integrate into their tech base, unmutated survivors who might come with them when this world becomes too dangerous and other resources of use to an armed  interdimensional refugee camp.
+The Exodii only care about survival.  They will stay on CDDA-Earth as long as possible to gather rare resources: a modern tech world is rare and desirable, and a good chance for them to stock up on stuff that is hard to find elsewhere, like plastics and petrochemicals.  The Exodii have no homes to return to on this interdimensional journey.  Every place they have come from is further along its post Cataclysm path into a world of the undead and mutants than our Earth.   On this Earth since they have arrived almost immediately after the portal storm they will seek to obtain useful technological items they can integrate into their tech base, unmutated survivors who might come with them when this world becomes too dangerous and other resources of use to an armed interdimensional refugee camp.
 
 Of note, the Exodii are not at all interested in trying to "beat" the zombie plague.  They have seen that tried countless times on countless worlds and are still here, wandering.  They consider it a fruitless waste of resources.
 

@@ -564,7 +564,7 @@ Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in a
     "effect_str": "downed",                                  // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
-    "max_damage": 14,                                        // maximum  damage the spell can achieve
+    "max_damage": 14,                                        // maximum damage the spell can achieve
     "damage_increment": 0.7,                                 // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
