@@ -32,12 +32,14 @@
   },
   {
     "id": "alternator_bicycle",
+    "//": "based on: https://www.amazon.com/Wai-Danie-Generator-Waterproof-Alternating/dp/B07X2B1DVG",
     "copy-from": "vehicle_alternator",
     "type": "ITEM",
     "name": { "str": "bicycle alternator" },
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
-    "weight": "1100 g",
-    "volume": "1 L",
+    "material": [ { "type": "aluminum", "portion": 80 }, { "type": "copper", "portion": 20 } ],
+    "weight": "420 g",
+    "volume": "133 ml",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent"
   },
