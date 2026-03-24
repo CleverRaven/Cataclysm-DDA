@@ -216,7 +216,6 @@ Add `RAIN_IMMUNE` flag for effect-level rain immunity
 Gate NPC food complaints behind needs_food(), let saprovores eat rotten food, add BT utility strategy
 Appear Neutral Flag
 NPCs wear warm clothes and move to shelter when freezing
-HEW reports for inner cabins dimension
 
 
 ## Content:
@@ -466,19 +465,10 @@ The Yrax do things.
 You can start as a mutant in TCL with a specific tree
 Add bionic limbs
 Hub 01 will install & repair basic bionic limbs
-Turn Bat wings into limbs
-Add a new mod
-Add a front pocket to MOLLE Assaut Pack
-Changed both "looks_like" for Wooden and Steel Tankards
-Cabin reverberation tunnel systems
-rework the anomalous mp3
-Make Hummingbird beak a bodypart
+Hunvre mod: Generation ship stealth and melee survival in claustrophobic environment
 Add `Computer Illiterate` challenge trait
-'listener' functionality for the anomalous MP3
-Adjusts description of Gasoline Fuel Cell CBM item to warn about encumbrance of installed CBM.
 Add inner cabins dimension
 Greenhouses!
-Some strange items in the inner cabins dimension
 
 
 ## Interface:
@@ -1119,14 +1109,6 @@ XE Proficiency CBMs
 [Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
 [MoM] No more astral projecting while driving
 [Xedra Evolved] Paraclesians are born ignorant of technology
-[Xedra Evolved] Add changeling dream snippets
-[MoM] LIXA interactions
-[Xedra Evolved] Elemental magic rework: Salamander
-[Sky Island] Flag extra mutant scenarios as incompatible with sky island
-[MoM] The pyrokinetic power Blazing Aura provides SNOWWALKING
-[Xedra Evolved] Paraclesian eyes are a bodypart
-[MoM] Move Burst of Speed to using a caster_condition
-[Xedra Evolved] Arvore caster conditions
 
 
 ## Balance:
@@ -1273,9 +1255,6 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
-Removes `attacks` from Acidic Secretion, make it work when unarmed only
-Rabbit Feet provides `SNOWWALKING`
-
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1796,8 +1775,22 @@ NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless e
 [Hunvre] Fix the game crashing when using the sundial widget
 Fix SIGSEV fault when harvesting/clearing overgrown crops
 Unseen Hunters are considered Nether monsters
+Fix monster melee special attacks being insanely inaccurate
+Allow melee attacks on matching stairs across z-levels
+Fix creatures under SWIM_UNDER terrain attacking through the surface, NPCs getting stuck, and visibility
+Make mod conflict checks bidirectional and name the conflicting mod
+Fix multi-zone activity hang on large zones
+Fix flaky swim_under tests that fail with certain RNG seeds
+render idle hordes on the overmap, in addition to active hordes
+Apply NPC_starting_traits to randomly generated NPCs
+Fix morale inconsistency wiping all temporary morale bonuses
+Fix item_location losing target across save/load when container contents change
+Fix unique overmap special spawn rates being up to 10x too common
+Cap sleepiness_mod in calculations to prevent never gaining weariness
+Saprophages and saprovores no longer get parasite warnings for food they can safely eat
+NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
+Fix SIGSEV fault when harvesting/clearing overgrown crops
 Spell AOE string format specifier fix
-[Innawood] fix lamps
 
 
 ## Performance:
