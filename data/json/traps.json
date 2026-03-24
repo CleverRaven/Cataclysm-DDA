@@ -1113,5 +1113,45 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_inner_cabins_void",
+    "name": "fluid void",
+    "color": "black",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Lost to a pool of darkness." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Lost to a pool of darkness." },
+    "symbol": "~",
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "vehicle_data": { "damage": 5000 },
+    "flags": [ "UNDODGEABLE" ],
+    "action": "eocs",
+    "eocs": [ "EOC_TR_INNER_CABINS_VOID" ],
+    "always_invisible": true
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TR_INNER_CABINS_VOID",
+    "effect": [
+      { "u_add_effect": "bleed", "intensity": 21, "duration": 600 },
+      { "u_message": "You feel your blood start to boil and seep from your pores!" }
+    ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_inner_cabins_exit_portal",
+    "name": "swirling vortex",
+    "symbol": "O",
+    "color": "magenta",
+    "action": "eocs",
+    "eocs": [ "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

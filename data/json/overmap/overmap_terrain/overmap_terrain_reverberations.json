@@ -65,6 +65,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "inner_cabins_void_exit" ],
+    "vision_levels": "water_body",
+    "see_cost": "high",
+    "travel_cost_type": "water",
+    "name": "retracting pond",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "inner_cabins_empty_cabin" ],
     "name": "cabin",
     "sym": "C",

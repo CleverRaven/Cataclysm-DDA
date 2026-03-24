@@ -5,7 +5,8 @@
     "id": "inner_cabins_cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_cabin_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_cabin_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_cabin_roof_north" },
+      { "point": [ 8, 3, 0 ], "overmap": "inner_cabins_void_exit_north" }
     ],
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 0 ],
