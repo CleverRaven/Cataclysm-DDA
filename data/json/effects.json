@@ -3186,6 +3186,14 @@
   },
   {
     "type": "effect_type",
+    "id": "revived_marker",
+    "//COMMENT": "Hardcoded dummy effect to track a monster as revived. Applied and checked in C++ only.",
+    "name": [ "Revived" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
     "id": "slimed",
     "name": [ "Slimed" ],
     "desc": [ "You're covered in thick goo!" ],

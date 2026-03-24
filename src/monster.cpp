@@ -136,6 +136,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_revived_marker( "revived_marker" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_spooked( "spooked" );
@@ -3028,8 +3029,10 @@ void monster::die( map *here, Creature *nkiller )
             ch = get_killer()->get_summoner()->as_character();
         }
         if( !is_hallucination() && ch != nullptr ) {
+            // Revived creatures never grant any kill xp.
+            const int kill_xp = has_effect( effect_revived_marker ) ? 0 : compute_kill_xp( type->id );
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
-                            compute_kill_xp( type->id ) );
+                            kill_xp );
             get_event_bus().send_with_talker( ch, this, e );
         }
     }
