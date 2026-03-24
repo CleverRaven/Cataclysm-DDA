@@ -2610,8 +2610,37 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = "&";
     } else if( horde_size >= HORDE_VISIBILITY_SIZE ) {
         // Display Hordes only when within player line-of-sight
-        ret.second = c_green;
-        ret.first = horde_size > 16 ? "Z" : "z";
+        if( horde_size < 5 ) {
+            ret.second = c_light_green;
+            ret.first = "z";
+        } else if( horde_size < 13 ) {
+            ret.second = c_light_green;
+            ret.first = "Z";
+        } else if( horde_size < 27 ) {
+            ret.second = c_green;
+            ret.first = "z";
+        } else if( horde_size < 47 ) {
+            ret.second = c_green;
+            ret.first = "Z";
+        } else if( horde_size < 73 ) {
+            ret.second = c_yellow;
+            ret.first = "z";
+        } else if( horde_size < 106 ) {
+            ret.second = c_yellow;
+            ret.first = "Z";
+        } else if( horde_size < 147 ) {
+            ret.second = c_light_red;
+            ret.first = "z";
+        } else if( horde_size < 195 ) {
+            ret.second = c_light_red;
+            ret.first = "Z";
+        } else if( horde_size < 251 ) {
+            ret.second = c_red;
+            ret.first = "z";
+        } else {
+            ret.second = c_red;
+            ret.first = "Z";
+        }
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );
