@@ -4875,7 +4875,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
     }
 
     if( it.get_var( "times_combatted", 0.0 ) > 0.0 ) {
-        critter.times_combatted_player = it.get_var( "times_combatted", 0.0 );
+        critter.times_combatted_player = std::numeric_limits<short>::max();
     }
 
     // Add a permanent effect marking this as a revived creature. Everytime they revive they will have this effect forever.
