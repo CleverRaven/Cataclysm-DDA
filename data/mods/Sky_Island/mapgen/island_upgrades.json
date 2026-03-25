@@ -398,7 +398,7 @@
       "/": "t_fake_air",
       ",": "t_open_air",
       "g": "t_greenhouse",
-      "d": "t_dirt"
+      "d": "t_dirt_underground"
     },
     "furniture": { "X": "f_exitportal", "V": "f_islandstatue" },
     "items": {  }
