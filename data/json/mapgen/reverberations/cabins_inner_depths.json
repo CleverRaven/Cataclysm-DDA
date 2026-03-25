@@ -1,0 +1,2367 @@
+[
+  {
+    "om_terrain": "inner_cabins_depths_entrance",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "888888888888888888888888",
+        "8~8888888888888888888888",
+        "888888888888888888~88888",
+        "88888888888888~888888888",
+        "888888888888888888888888",
+        "8888888888##ww#+#ww##888",
+        "8888888888#14&   OOO#888",
+        "8888888888wF       Ow888",
+        "8888888888w2   cc  Ow888",
+        "8888888888#S   tt  A#888",
+        "8888888888#35  cc  A#888",
+        "8888888888####      w888",
+        "8888~88880#s +    BBw888",
+        "888888888%#T #   DBB#888",
+        "8888888888#####+#ww##888",
+        "88888888888>888888888888",
+        "888888888888888888888888",
+        "888888888888888888888888",
+        "888888888888888888888888",
+        "888888~88888888888888888",
+        "88888888888888888888~888",
+        "888888888888888888888888",
+        "88~888888888888888888888",
+        "888888888888888888888888"
+      ],
+      "palettes": [ "cabin_palette_abandoned" ],
+      "terrain": {
+        "0": "t_region_soil",
+        "b": "t_region_groundcover",
+        "8": [ [ "t_grass_tall", 85 ], [ "t_grass_dead", 15 ] ],
+        "V": "t_grass_tall",
+        ">": "t_stairs_down"
+      },
+      "furniture": {
+        "8": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 1 ], [ "f_bluebell", 1 ], [ "f_lily", 1 ], [ "f_flower_tulip", 1 ] ]
+      },
+      "place_nested": [
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-1" ], "x": 10, "y": 14, "z": -1 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-2" ], "x": 10, "y": 14, "z": -2 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-3" ], "x": 10, "y": 14, "z": -3 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-4" ], "x": 10, "y": 14, "z": -4 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-5" ], "x": 10, "y": 14, "z": -5 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-6" ], "x": 10, "y": 14, "z": -6 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-7" ], "x": 10, "y": 14, "z": -7 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-8" ], "x": 10, "y": 14, "z": -8 },
+        { "chunks": [ "inner_cabins_depths_entrance_stairs_-9" ], "x": 10, "y": 14, "z": -9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-1",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        " >",
+        " <"
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "><",
+        "  "
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-3",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "< ",
+        "> "
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-4",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "  ",
+        "<>"
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-5",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        " >",
+        " <"
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-6",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "><",
+        "  "
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-7",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "< ",
+        "> "
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-8",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "  ",
+        "<>"
+      ],
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_entrance_stairs_-9",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "  ",
+        " <"
+      ],
+      "terrain": { "<": "t_stairs_up" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 2 ], [ "inner_cabins_depths_24x24", 98 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 12, "y": 0 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 0, "y": 12 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 12, "y": 12 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 6, "y": 6 },
+        { "chunks": [ [ "null", 94 ], [ "inner_cabins_depths_10x10", 6 ] ], "x": 12, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [ { "chunks": [ [ "null", 3 ], [ "inner_cabins_depths_24x24", 97 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_24x24", 80 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_24x24", 80 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_24x24", 80 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 12, "y": 0 },
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 0, "y": 12 },
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 12, "y": 12 },
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 6, "y": 6 },
+        { "chunks": [ [ "null", 85 ], [ "inner_cabins_depths_10x10", 15 ] ], "x": 12, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 1, "y": 0 },
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 12, "y": 0 },
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 1, "y": 12 },
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 12, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 2, "y": 0 },
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 5, "y": 12 },
+        { "chunks": [ [ "null", 5 ], [ "inner_cabins_depths_10x10", 95 ] ], "x": 0, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "||+||                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "||+||                   "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "inner_cabins_depths_24x24", 50 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "inner_cabins_depths_10x10", 10 ] ], "x": 6, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "inner_cabins_depths_10x10", 10 ] ], "x": 6, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "         ||+||          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         +...+          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         +...+          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         +...+          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         +...+          ",
+        "         |...|          ",
+        "         |...|          ",
+        "         ||+||          "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "inner_cabins_depths_24x24", 50 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_10x10", 80 ] ], "x": 12, "y": 0 },
+        { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_10x10", 80 ] ], "x": 12, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "||+||                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "||+||                   ",
+        "                   ||+||",
+        "                   |...|",
+        "                   |...|",
+        "                   |...|",
+        "                   +...+",
+        "                   |...|",
+        "                   |...|",
+        "                   |...|",
+        "                   +...+",
+        "                   |...|",
+        "                   |...|",
+        "                   ||+||"
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "inner_cabins_depths_24x24", 50 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_10x10", 75 ] ], "x": 4, "y": 0 },
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_10x10", 75 ] ], "x": 4, "y": 10 },
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_10x10", 75 ] ], "x": 12, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "     ||+||              ",
+        "     |...|              ",
+        "     |...|              ",
+        "     +...+              ",
+        "     |...|              ",
+        "     |...|              ",
+        "     |...|              ",
+        "     +...+              ",
+        "     |...|              ",
+        "     |...|              ",
+        "     |...|              ",
+        "     ||+||              ",
+        "              ||+||     ",
+        "              |...|     ",
+        "              |...|     ",
+        "              |...|     ",
+        "              +...+     ",
+        "              |...|     ",
+        "              |...|     ",
+        "              |...|     ",
+        "              +...+     ",
+        "              |...|     ",
+        "              |...|     ",
+        "              ||+||     "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_24x24", 75 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_10x10", 75 ] ], "x": 4, "y": 10 },
+        { "chunks": [ [ "null", 25 ], [ "inner_cabins_depths_10x10", 75 ] ], "x": 12, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "||+||                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "+...+                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|                   ",
+        "|...|||||||+|||||||||+||",
+        "|......................|",
+        "|......................|",
+        "|......................|",
+        "||+||||||||+||||||||...+",
+        "                   |...|",
+        "                   |...|",
+        "                   |...|",
+        "                   +...+",
+        "                   |...|",
+        "                   |...|",
+        "                   ||+||"
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 20 ], [ "inner_cabins_depths_10x10", 80 ] ], "x": 4, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "inner_cabins_depths",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nether_glass_floor" },
+      "place_nested": [ { "chunks": [ "inner_cabins_depths_nest" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "       ||||||+|||||||   ",
+        "       |............|   ",
+        "       |............|   ",
+        "    ||||............|   ",
+        "    |â.g............|   ",
+        "    |...............|   ",
+        "    |...............+   ",
+        "    |...............|   ",
+        "    |...............|   ",
+        "    |J..............|   ",
+        "    |W.A.......z....|   ",
+        "    |JZJ......zz...z|   ",
+        "    |||||||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "//": "basic basement with a utility room, 2-3 bedrooms, possibly an office, and a large tv/rec room.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "  ||||||+|||||||||||||  ",
+        "  |9..|....CCCNNNUUUU|  ",
+        "  |...+.............U|  ",
+        "  |tCS|.............U|  ",
+        "  ||||||...CCCCCCUUUU|  ",
+        "  |....||+|    |||||||  ",
+        "  |....|.............|  ",
+        "  |....+.............|  ",
+        "  |....|.............|  ",
+        "  ||||||.............|  ",
+        "  |....|.............|  ",
+        "  |....+.............|  ",
+        "  |....|.............|  ",
+        "  |....|.............|  ",
+        "  ||||||.............|  ",
+        "  |....|.............|  ",
+        "  |....+.............+  ",
+        "  |....|.............|  ",
+        "  |....|.............|  ",
+        "  ||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 },
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "bedroom_4x4_adult_1_W", 5 ],
+            [ "bedroom_4x4_adult_3_S", 5 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ],
+          "x": 3,
+          "y": 7
+        },
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 12
+        },
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "bedroom_4x4_adult_1_N", 5 ],
+            [ "bedroom_4x4_adult_1_W", 10 ],
+            [ "bedroom_4x4_adult_1_S", 5 ],
+            [ "bedroom_4x4_adult_3_S", 10 ],
+            [ "bedroom_4x4_adult_3_N", 10 ]
+          ],
+          "x": 3,
+          "y": 17
+        },
+        {
+          "chunks": [ [ "null", 50 ], [ "recroom_12x12", 5 ], [ "tvroom_12x12", 15 ], [ "workoutroom_12x12", 5 ] ],
+          "x": 9,
+          "y": 9
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "//": "Unfinished basement",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "    |||||||||||||||     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |Z......sss...|     ",
+        "    |W............|     ",
+        "    |!.|...|NNUUUU|     ",
+        "    |||||+|||||||||     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },
+        { "chunks": [ "basement_storage_1x1" ], "x": [ 5, 17 ], "y": [ 3, 6 ], "repeat": [ 4, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "//": "rec room basement",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "    |||||||||||||||     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |.............|     ",
+        "    |Z............|     ",
+        "    |W............|     ",
+        "    |s.|...|......|     ",
+        "    |||||+|||||||||     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        { "chunks": [ "utility_3x3_S" ], "x": 8, "y": 7 },
+        { "chunks": [ "livingroom_5x5_S_1" ], "x": [ 7, 12 ], "y": 3 },
+        { "chunks": [ "basement_storage_1x1" ], "x": [ 12, 17 ], "y": 9, "repeat": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "//": "Mostly empty basement used for construction variant.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "  |||||||||||+||||||||  ",
+        "  |9..|..............|  ",
+        "  |...+..............|  ",
+        "  |tCS|..............|  ",
+        "  ||||||.............|  ",
+        "  |....||+|....|||||||  ",
+        "  |....|.............|  ",
+        "  +....+.............|  ",
+        "  |....|.............|  ",
+        "  ||||||.............|  ",
+        "  |....|.............|  ",
+        "  |....+.............|  ",
+        "  |....|.............|  ",
+        "  |....|.............|  ",
+        "  ||||||.............|  ",
+        "  |....|.............|  ",
+        "  |....+.............|  ",
+        "  |....|.............|  ",
+        "  |....|.............|  ",
+        "  ||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "standard_domestic_palette", "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "utility_3x3_N", 10 ], [ "utility_3x3_S", 5 ] ], "x": 7, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "  |||||||||||||||||||+| ",
+        "  |2........1.........| ",
+        "  |...................| ",
+        "  |...................| ",
+        " ||...................| ",
+        " |z...................| ",
+        " |....................| ",
+        " |g...................| ",
+        " |....................| ",
+        " |.....z..............| ",
+        " |...zâz..............| ",
+        " |||+|||||||||||||||||| ",
+        " |....|                 ",
+        " |JWZJ|                 ",
+        " |||+||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 150 ],
+            [ "room_6x6_guns_E", 2 ],
+            [ "room_6x6_guns_S", 2 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_junk_S", 30 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "room_6x6_office_S", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_brewer_S", 10 ]
+          ]
+        },
+        "1": {
+          "chunks": [
+            [ "null", 150 ],
+            [ "room_10x10_woodworker_W", 20 ],
+            [ "room_10x10_guns_W", 7 ],
+            [ "room_10x10_pool_W", 2 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ||||||||||            ",
+        "  |1.......|            ",
+        "  |........|            ",
+        "  |........|            ",
+        "  |........|||||||||||  ",
+        "  |........2.........|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................+  ",
+        "  ||||...............|  ",
+        "     |...............|  ",
+        "     |W..............|  ",
+        "     |Z..............|  ",
+        "     |JJJJ...........|  ",
+        "     |||||||||...zz..|  ",
+        "             |g.zz..â|  ",
+        "             |||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 150 ], [ "8x8_gym_S", 20 ], [ "room_8x8_hobby_S", 20 ], [ "room_8x8_junk_S", 40 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 150 ],
+            [ "room_10x10_woodworker_S", 20 ],
+            [ "room_10x10_guns_S", 10 ],
+            [ "room_10x10_junk_S", 30 ],
+            [ "room_10x10_junk_W", 30 ],
+            [ "room_10x10_recording_studio_W", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            |||||||||   ",
+        "            |2......|   ",
+        "            |.......|   ",
+        "            |.......|   ",
+        "            +.......|   ",
+        "          |||.......|   ",
+        "          |â........|   ",
+        "  |||||||||.........|   ",
+        "  |1...............||   ",
+        "  |................|    ",
+        "  |...............g|    ",
+        "  |................|    ",
+        "  |...........z...U|    ",
+        "  |.............z.z|    ",
+        "  |...........||||||    ",
+        "  |||||||||||||         ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 150 ], [ "7x7_tent_indoors", 10 ], [ "7x7_band_practice_open", 30 ] ] },
+        "2": { "chunks": [ [ "null", 150 ], [ "room_7x7_recroom_S", 30 ], [ "room_7x7_wine_cellar_S", 30 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |||||||               ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  |.....|    |||||||||  ",
+        "  |.....|    |1......|  ",
+        "  |.....|    |.......|  ",
+        "  |.....||||||.......|  ",
+        "  |2.................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..............A..W|  ",
+        "  |...........|.....Z|  ",
+        "  |..........z|..zJJJ|  ",
+        "  |..........z||||||||  ",
+        "  |.........gâ|         ",
+        "  |.....|+|||||         ",
+        "  |.....|               ",
+        "  |||||||               ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 150 ],
+            [ "room_7x7_wine_cellar_S", 10 ],
+            [ "room_7x7_recroom_S", 30 ],
+            [ "7x7_tent_indoors", 5 ],
+            [ "6x6_sewing_open", 20 ],
+            [ "6x6_electronics_open", 10 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 150 ], [ "room_9x9_cellar_E", 20 ], [ "room_9x9_weed_E", 5 ], [ "room_9x9_recroom_E", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            |||||||||   ",
+        "            |2......|   ",
+        "            |.......|   ",
+        "            |.......|   ",
+        "            |.......|   ",
+        "          |||.......|   ",
+        "          |â........|   ",
+        "  |||||||||.........|   ",
+        "  |1...............||   ",
+        "  |................+    ",
+        "  |...............g|    ",
+        "  |................|    ",
+        "  |...........z...U|    ",
+        "  |.............z.z|    ",
+        "  |...........||||||    ",
+        "  |||||||||||||         ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 150 ], [ "7x7_tent_indoors", 10 ], [ "7x7_band_practice_open", 30 ] ] },
+        "2": { "chunks": [ [ "null", 150 ], [ "room_7x7_recroom_S", 30 ], [ "room_7x7_wine_cellar_S", 30 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ||||||  ||||||       ",
+        " |||....|++|....||      ",
+        " |2..............|      ",
+        " |..........1....|      ",
+        " |...............|      ",
+        " |...............|      ",
+        " |...............|      ",
+        " |...............|      ",
+        " |...............|      ",
+        " |...............|      ",
+        " |.............z.|      ",
+        " |............z.z|      ",
+        " ||||||||||||+||||      ",
+        "           |g..|        ",
+        "           |â.U|        ",
+        "           ||+||        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 300 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 300 ],
+            [ "room_10x10_woodworker_E", 20 ],
+            [ "room_10x10_guns_E", 5 ],
+            [ "room_10x10_pool_E", 5 ],
+            [ "room_10x10_recording_studio_E", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |||||||||              ",
+        " |t.|g|JJ|              ",
+        " |..+....|              ",
+        " |S8|.|WZ|              ",
+        " ||||.||||||||||||||||  ",
+        " |zzz....1...........|  ",
+        " |zz.................|  ",
+        " |.z.................+  ",
+        " |...................|  ",
+        " |g....|.......|.....|  ",
+        " |...................|  ",
+        " |â..................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " ||||||||............|  ",
+        "        |............|  ",
+        "        |............|  ",
+        "        ||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": { "1": { "chunks": [ [ "null", 300 ], [ "recroom_12x12", 33 ], [ "tvroom_12x12", 33 ], [ "workoutroom_12x12", 33 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "weight": 190,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "       ||JJWZJJ||       ",
+        "      ||........||      ",
+        " ||||||..........|||||| ",
+        " |1...........2.......| ",
+        " |........UU.z........| ",
+        " |........||..........| ",
+        " |........|...........| ",
+        " +........||..........| ",
+        " |....................| ",
+        " |........z...........| ",
+        " |..........z.........| ",
+        " ||||||...âzg.z..|||||| ",
+        "      ||||||||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 300 ],
+            [ "8x8_gym_N", 30 ],
+            [ "8x8_gym_E", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "7x7_tent_indoors", 5 ],
+            [ "room_7x7_recroom_E", 30 ],
+            [ "room_6x6_junk_E", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 300 ], [ "room_8x8_hobby_W", 50 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ||||||||||||||||||||  ",
+        "  |.............2....|  ",
+        "  |1.................|  ",
+        "  +..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |...............z.â|  ",
+        "  |..............z...|  ",
+        "  |................zg|  ",
+        "  ||||||||||||||+|||||  ",
+        "             |...U|     ",
+        "             |||+||     ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 250 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 250 ],
+            [ "livingroom_5x5_S_1", 10 ],
+            [ "livingroom_5x5_E_1", 10 ],
+            [ "livingroom_5x5_N_1", 10 ],
+            [ "livingroom_5x5_W_1", 10 ],
+            [ "livingroom_5x5_S_2", 10 ],
+            [ "livingroom_5x5_E_2", 10 ],
+            [ "livingroom_5x5_N_2", 10 ],
+            [ "livingroom_5x5_W_2", 10 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |||||||      |||||||   ",
+        " |.....|      |.....|   ",
+        " |.....|      |.....|   ",
+        " |.....|      |.....|   ",
+        " |.....|      |.....|   ",
+        " |.....|      |.....|   ",
+        " |.....|||+||||.....|   ",
+        " |..................|   ",
+        " |||................|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |..............|+||| ",
+        "   |..............|..J| ",
+        "   |||||||||+||||||..Z| ",
+        "          |â.g|   |UWJ| ",
+        "          ||+||   ||+|| ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |||||||    |||||||   ",
+        "   |.UU..|    |.g.â.|   ",
+        "   |.....|    |.....|   ",
+        "   |....U|    |.....|   ",
+        "   |Z....||||||...zz|   ",
+        "   |J....|.........z|   ",
+        "   |W....|..........|   ",
+        "   |J....+..........|   ",
+        "   |||+|||..........|   ",
+        "   |S...8|..2.......|   ",
+        "   |t...8|..........+   ",
+        "   |||||||..........|   ",
+        "   |1...............|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   |................|   ",
+        "   ||||||||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 600 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 600 ],
+            [ "7x7_tent_indoors", 5 ],
+            [ "room_8x8_hobby_N", 40 ],
+            [ "room_8x8_hobby_W", 40 ],
+            [ "8x8_gym_N", 20 ],
+            [ "8x8_gym_W", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " ||||||       ||||||||  ",
+        " |.U..|       |2.....|  ",
+        " |F..g|       |......|  ",
+        " |....|       |......|  ",
+        " |||+||||+|||||......|  ",
+        " |...................|  ",
+        " |1..................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |............|.....U|  ",
+        " |............|.....Z|  ",
+        " |............|...WJJ|  ",
+        " |||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 200 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "room_6x6_woodworker", 20 ],
+            [ "room_6x6_bike", 20 ],
+            [ "livingroom_5x5_S_1", 10 ],
+            [ "livingroom_5x5_E_1", 10 ],
+            [ "livingroom_5x5_N_1", 10 ],
+            [ "livingroom_5x5_W_1", 10 ],
+            [ "livingroom_5x5_S_2", 10 ],
+            [ "livingroom_5x5_E_2", 10 ],
+            [ "livingroom_5x5_N_2", 10 ],
+            [ "livingroom_5x5_W_2", 10 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " ||||||       ||||||||  ",
+        " |....|       |......|  ",
+        " |â..g|       |......|  ",
+        " |....|       |......|  ",
+        " |||+||||||||||......|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................+  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |............|......|  ",
+        " |............|.....Z|  ",
+        " |............|...WJJ|  ",
+        " |||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ||||||+||||||   ",
+        "        |3.........z|   ",
+        "        |........z.U|   ",
+        "        |..........U|   ",
+        "        |.........z.|   ",
+        "  |||||||......||||||   ",
+        "  |1...........+.+.Z|   ",
+        "  |............|U|.W|   ",
+        "  |............||||||   ",
+        "  |...........2.....|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |||||||.â...g||||||   ",
+        "        ||||||||        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "room_6x6_office_E", 40 ],
+            [ "room_6x6_brewer_E", 20 ],
+            [ "room_6x6_junk_E", 50 ],
+            [ "6x6_sewing_open", 20 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "room_6x6_guns_W", 5 ],
+            [ "room_6x6_brewer_W", 10 ],
+            [ "6x6_electronics_open", 20 ],
+            [ "room_6x6_junk_W", 20 ]
+          ]
+        },
+        "3": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "5x5_gym_N", 20 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_E", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "         ||||||||||||   ",
+        "  ||||||||2.........|   ",
+        "  |3................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  +.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |g................|   ",
+        "  |W................|   ",
+        "  |J........4.......|   ",
+        "  |J................|   ",
+        "  |Z.UU.F...........|   ",
+        "  ||||||||..........|   ",
+        "         |..........|   ",
+        "         ||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 200 ],
+            [ "room_10x10_recording_studio_W", 5 ],
+            [ "room_10x10_woodworker_S", 10 ],
+            [ "room_10x10_guns_S", 10 ],
+            [ "room_10x10_junk_S", 30 ]
+          ]
+        },
+        "3": {
+          "chunks": [ [ "null", 200 ], [ "7x7_tent_indoors", 5 ], [ "room_7x7_recroom_S", 20 ], [ "7x7_band_practice_open", 20 ] ]
+        },
+        "4": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "5x5_holdout_W", 2 ],
+            [ "5x5_gym_N", 10 ],
+            [ "5x5_gym_S", 10 ],
+            [ "5x5_gym_E", 10 ],
+            [ "5x5_gym_W", 10 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "weight": 190,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "         ||||||||||||   ",
+        "  ||||||||2.........|   ",
+        "  |3................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |.................|   ",
+        "  |g................|   ",
+        "  |W................+   ",
+        "  |J........4.......|   ",
+        "  |J................|   ",
+        "  |Z.UU.â...........|   ",
+        "  ||||||||..........|   ",
+        "         |..........|   ",
+        "         ||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 200 ],
+            [ "room_10x10_recording_studio_W", 5 ],
+            [ "room_10x10_woodworker_S", 10 ],
+            [ "room_10x10_guns_S", 10 ],
+            [ "room_10x10_junk_S", 30 ]
+          ]
+        },
+        "3": {
+          "chunks": [ [ "null", 95 ], [ "7x7_tent_indoors", 5 ], [ "room_7x7_recroom_S", 20 ], [ "7x7_band_practice_open", 20 ] ]
+        },
+        "4": {
+          "chunks": [
+            [ "null", 160 ],
+            [ "5x5_holdout_W", 2 ],
+            [ "5x5_gym_N", 10 ],
+            [ "5x5_gym_S", 10 ],
+            [ "5x5_gym_E", 10 ],
+            [ "5x5_gym_W", 10 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        |....UU|||||||| ",
+        "        |.z.z...2.....| ",
+        "        |..z..........| ",
+        "        |â............| ",
+        "        |g............| ",
+        "        ||||+|........| ",
+        "        |WZ|.|........| ",
+        "        |..|+|........| ",
+        "        |.............| ",
+        "        |1............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "       ||.............| ",
+        "       |..............| ",
+        "       |..............| ",
+        "       |..............| ",
+        "       ||||..|||||||||| ",
+        "          ||||          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 400 ],
+            [ "room_6x6_office_S", 35 ],
+            [ "room_6x6_woodworker", 10 ],
+            [ "room_6x6_guns_S", 10 ],
+            [ "room_6x6_brewer_S", 10 ],
+            [ "room_6x6_bike", 10 ],
+            [ "6x6_electronics_open", 10 ],
+            [ "6x6_sewing_open", 10 ],
+            [ "room_6x6_junk_S", 20 ]
+          ]
+        },
+        "1": {
+          "chunks": [ [ "null", 200 ], [ "7x7_tent_indoors", 5 ], [ "room_7x7_recroom_N", 20 ], [ "7x7_band_practice_open", 20 ] ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "|||||||||               ",
+        "|..â.g..|||||||||||||   ",
+        "|...................|   ",
+        "|...................|   ",
+        "|...................||  ",
+        "|...................W|  ",
+        "|...................Z|  ",
+        "|...................J|  ",
+        "|..1................J|  ",
+        "|||..................+  ",
+        "  |..........2.......|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |.....||||||||||||||  ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  |||||||               ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 600 ],
+            [ "5x5_holdout_W", 2 ],
+            [ "5x5_gym_N", 10 ],
+            [ "5x5_gym_S", 10 ],
+            [ "5x5_gym_E", 10 ],
+            [ "5x5_gym_W", 10 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ],
+          "x": [ 2, 15 ],
+          "y": 3
+        }
+      ],
+      "nested": {
+        "2": { "chunks": [ [ "null", 700 ], [ "8x8_gym_N", 35 ], [ "room_8x8_junk_N", 20 ], [ "room_8x8_hobby_N", 10 ] ] },
+        "1": {
+          "chunks": [
+            [ "room_10x10_recording_studio_N", 5 ],
+            [ "room_10x10_woodworker_N", 10 ],
+            [ "room_10x10_junk_N", 30 ],
+            [ "room_10x10_guns_N", 5 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "        ||||||||||||||| ",
+        "        |1............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "        +.............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "        |.............| ",
+        " ||||||||.............| ",
+        " |.WJZJJ..............| ",
+        " |z...................| ",
+        " |â.......2...........| ",
+        " |gz..................| ",
+        " |................||||| ",
+        " |................|     ",
+        " |................|     ",
+        " |.....z..........|     ",
+        " |.UUzz.|||||||||||     ",
+        " ||||||||               ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 75 ], [ "workoutroom_12x12", 5 ], [ "tvroom_12x12", 10 ], [ "recroom_12x12", 30 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 600 ],
+            [ "5x5_holdout_W", 2 ],
+            [ "5x5_gym_N", 10 ],
+            [ "5x5_gym_S", 10 ],
+            [ "5x5_gym_E", 10 ],
+            [ "5x5_gym_W", 10 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |||||||||||+||||||||  ",
+        "  |U..â.g...WJZ......|  ",
+        "  |...........J......|  ",
+        "  |...........J.z.z.z|  ",
+        "  |.......z..z..z..zz|  ",
+        "  |......1...........|  ",
+        "  |2.................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  ||||||||||||||||||||  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 250 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
+        "2": { "chunks": [ [ "null", 250 ], [ "room_6x6_woodworker", 25 ], [ "room_6x6_junk", 25 ], [ "room_6x6_bike", 25 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "         |||||||||||||| ",
+        "         |1...........| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        " |||||||||............| ",
+        " |2...................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................+ ",
+        " |...................W| ",
+        " |...................Z| ",
+        " |||||||||||..........| ",
+        "           |..........| ",
+        "           |..........| ",
+        "           |........gâ| ",
+        "           |||||||||||| ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 600 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 10 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 500 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_office_E", 30 ],
+            [ "6x6_sewing_open", 20 ],
+            [ "6x6_electronics_open", 10 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |||||||               ",
+        "  |...zz|               ",
+        "  |....z|               ",
+        "  |....z|               ",
+        "  |2....|               ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  +.....|               ",
+        "  |.....|               ",
+        "  |g....||||            ",
+        "  ||..1....|            ",
+        "  |W.......|            ",
+        "  |Z.......|            ",
+        "  |........|            ",
+        "  |âJJ.....|            ",
+        "  ||||||||||            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 800 ],
+            [ "5x5_gym_N", 20 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_E", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "//": "Strange Cabin (basement)",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "               |||||||||",
+        "      |||||||  |...h...|",
+        "  |||||ToooT||||.hTtTh.|",
+        "  |...|.....+....ht.th.|",
+        "  |...G.....||||.......|",
+        "  |B..|.....|  |||||||||",
+        "  ||||||||D|| ||||||||| ",
+        "|||||||||...| |TtT|...+ ",
+        "|CohhhoC|...| |.W.||D|| ",
+        "|.......|.C.||||+||...| ",
+        "|.hh.hh.D...||........| ",
+        "|.......|.C.||..C..C..| ",
+        "|.hh.hh.|...||..b..b.r| ",
+        "|.......|.C.||..C..C.r| ",
+        "|.hh.hh.|...||.......r| ",
+        "|.......|.C.||..C..C..| ",
+        "|.......|.............| ",
+        "|.b.S.b.|.C..C..C..C.o| ",
+        "|C.....C|.............| ",
+        "|||+|+||||||||||||||||| ",
+        " |.....|                ",
+        " |.._..|                ",
+        " |..s..|                ",
+        " |||+|||                "
+      ],
+      "mapping": {
+        ".": { "terrain": "t_rock_floor" },
+        "W": { "item": { "item": "bullwhip", "chance": 50 } },
+        "s": { "item": { "item": "bowl_skull" } },
+        "S": { "furniture": "f_table", "item": { "item": "etched_skull" } },
+        "o": { "furniture": "f_bookcase", "item": { "item": "holybook_satanic", "chance": 40 } },
+        "_": { "furniture": "f_slab", "item": { "item": "chain" } },
+        "B": { "furniture": "f_straw_bed", "item": { "item": "chain" } },
+        "T": { "furniture": "f_table", "item": { "item": "candlestick", "chance": 80 } },
+        "t": { "furniture": "f_table", "item": { "item": "bowl_skull", "chance": 70 } },
+        "r": { "furniture": "f_rack", "items": { "item": "cannedfood", "chance": 30 } }
+      },
+      "terrain": { "+": "t_door_c", "C": "t_column", "D": "t_door_locked_interior", "G": "t_door_bar_locked", "|": "t_concrete_wall" },
+      "furniture": { "b": "f_brazier", "h": "f_chair" },
+      "place_monster": [
+        { "monster": "mon_dementia", "x": 4, "y": 12, "repeat": [ 3, 6 ] },
+        { "monster": "mon_dementia", "x": 19, "y": 2, "repeat": [ 1, 4 ] },
+        { "monster": "mon_blood_sacrifice", "x": 4, "y": 21, "repeat": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_24x24",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                     |||",
+        "                     |Δ|",
+        "                 |||||.+",
+        "                 |g.a..|",
+        "                 |W.a..|",
+        "                 |X.a..|",
+        "             |||||l....|",
+        "             |rrrH..e..|",
+        "             |r.....e..|",
+        "             |ccabbbell|",
+        "             |||||||||||",
+        "                        "
+      ],
+      "palettes": [ "inner_cabins_standard_domestic_basement_palette" ],
+      "terrain": { "Δ": "t_ramp_up_high", ".": "t_dirtfloor", "|": "t_wall_log" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "l": "f_rack_wood",
+        "e": "f_rack_wood",
+        "H": "f_fvat_empty",
+        "b": "f_bench",
+        "X": "f_wood_keg",
+        "W": "f_wood_keg"
+      },
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 22, "y": 19, "rotation": 90 } ],
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 2, "repeat": [ 1, 1 ] },
+        "r": { "item": "preserved_food", "chance": 2, "repeat": [ 1, 2 ] },
+        "c": { "item": "condiments", "chance": 2, "repeat": [ 1, 2 ] },
+        "e": { "item": "pantry_liquids", "chance": 2, "repeat": [ 1, 2 ] },
+        "l": { "item": "farming_seeds", "chance": 2, "repeat": [ 1, 2 ] },
+        "b": [
+          { "item": "supplies_farming", "chance": 95, "repeat": [ 4, 10 ] },
+          { "item": "tools_earthworking", "chance": 95, "repeat": [ 1, 6 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        " - ------ ",
+        " -......- ",
+        " -......- ",
+        " -......- ",
+        " -......- ",
+        " -......- ",
+        " -......- ",
+        " ------.- ",
+        "      -.- ",
+        "      - - "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cabin_cellar" ],
+      "place_nested": [ { "chunks": [ "inner_cabins_depths_6x6_cellar_nested" ], "x": 2, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_10x10",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        " -------- ",
+        " -......- ",
+        " -......- ",
+        "  ......- ",
+        " -......- ",
+        " -......- ",
+        " -......- ",
+        " -------- ",
+        "          ",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cabin_cellar" ],
+      "place_nested": [ { "chunks": [ "cabin_6x6_cellar_nested" ], "x": 2, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar filled with various bits of hobby equipment for hiking, hunting, or camping",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "NNNNNN",
+        "Nnnnn ",
+        "Nn    ",
+        "Nn nn ",
+        "Nn nn ",
+        "N     "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "nested": {
+        "N": { "chunks": [ [ "cabin_cellar_1x1_junk_box", 20 ], [ "null", 5 ] ] },
+        "n": { "chunks": [ [ "cabin_cellar_1x1_junk_box", 1 ], [ "null", 1 ] ] }
+      },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar filled with preserved food",
+    "weight": 900,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        " R  R ",
+        " R  R ",
+        " R  R ",
+        " R  R ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "items": { "R": { "item": "preserved_food", "chance": 1, "repeat": [ 1, 2 ] } },
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar that's totally empty",
+    "weight": 600,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar with booze.  Drink up!",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "R     ",
+        "R   c ",
+        "R ctt ",
+        "R ctt ",
+        "   c  ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "items": { "R": { "item": "liquor_and_spirits", "chance": 80, "repeat": [ 1, 4 ] } },
+      "place_item": [
+        { "item": "bottle_glass", "x": 3, "y": 2, "chance": 80 },
+        { "item": "bottle_glass", "x": 3, "y": 3, "chance": 80 },
+        { "item": "bottle_glass", "x": 4, "y": 2, "chance": 80 },
+        { "item": "bottle_glass", "x": 4, "y": 3, "chance": 80 },
+        { "item": "deck_of_cards", "x": 4, "y": 3, "chance": 50 }
+      ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_2x2_moonshine_still", 1 ] ], "x": 1, "y": 0 } ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar with stored furniture",
+    "weight": 450,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "ttttcc",
+        "ttcccc",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_item": [
+        { "item": "tourist_table", "x": 0, "y": 2, "chance": 50 },
+        { "item": "tourist_table", "x": 1, "y": 2, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 3, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 4, "chance": 50 },
+        { "item": "box_large_wood", "x": 0, "y": 5, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 3, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 4, "chance": 50 },
+        { "item": "box_large_wood", "x": 1, "y": 5, "chance": 50 }
+      ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar that's totally empty and also has no dust.  Mysterious!",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "inner_cabins_depths_6x6_cellar_nested",
+    "//": "A cellar with bones on a table and candles on the floor around it.  What happened here?",
+    "weight": 25,
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "      ",
+        "      ",
+        "  tt  ",
+        "  tt  ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "cabin_cellar" ],
+      "place_item": [
+        { "item": "bone", "x": 2, "y": 2, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 3, "y": 2, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 2, "y": 3, "repeat": [ 1, 2 ] },
+        { "item": "bone", "x": 3, "y": 3, "repeat": [ 1, 2 ] },
+        { "item": "candle", "x": 1, "y": 1, "chance": 2 },
+        { "item": "candle", "x": 4, "y": 1, "chance": 2 },
+        { "item": "candle", "x": 1, "y": 4, "chance": 2 },
+        { "item": "candle", "x": 4, "y": 4, "chance": 2 }
+      ],
+      "place_fields": [ { "field": "fd_dust", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 10, 20 ] } ]
+    }
+  }
+]

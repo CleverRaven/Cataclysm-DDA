@@ -85,7 +85,8 @@
       "furniture": {
         "8": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 1 ], [ "f_bluebell", 1 ], [ "f_lily", 1 ], [ "f_flower_tulip", 1 ] ]
       },
-      "items": { "A": { "item": "textbooks", "chance": 100, "repeat": 5 } }
+      "items": { "A": { "item": "textbooks", "chance": 100, "repeat": 5 } },
+      "place_loot": [ { "item": "inner_cabins_depths_note", "x": 19, "y": 9 } ]
     }
   },
   {
