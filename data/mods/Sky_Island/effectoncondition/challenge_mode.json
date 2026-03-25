@@ -11,6 +11,7 @@
         "then": [
           {
             "weighted_list_eocs": [
+              [ "EOC_raid_challenge_mode_horde_chase", 100 ],
               [ "EOC_raid_challenge_mode_megacity_dimension", 100 ],
               [ "EOC_raid_challenge_mode_hot_dimension", 100 ],
               [ "EOC_raid_challenge_mode_cold_dimension", 100 ],
@@ -28,6 +29,8 @@
     "//": "Clear modifier effects and reset weights for selecting forest/houses as mission/extract targets post raid",
     "effect": [
       { "u_lose_effect": [ "challenge_mode_speed_reduction" ] },
+      { "u_lose_trait": "CHALLENGE_MODE_HORDES" },
+      { "math": [ "target_fields_weight = 15" ] },
       { "math": [ "target_forests_weight = hardmissions" ] },
       { "math": [ "target_houses_weight = hardermissions" ] }
     ]
@@ -126,6 +129,48 @@
         "time_in_future": 1
       },
       { "u_add_effect": "challenge_mode_speed_reduction", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_raid_challenge_mode_horde_chase_warning",
+            "effect": [
+              {
+                "u_message": "Something is different about this dimension.  It feels like everything is following you.",
+                "popup": true
+              }
+            ]
+          },
+          "EOC_raid_challenge_mode_horde_chase_action"
+        ],
+        "time_in_future": 1
+      },
+      { "u_add_trait": "CHALLENGE_MODE_HORDES" },
+      { "math": [ "target_fields_weight = 0" ] },
+      { "math": [ "target_forests_weight = 0" ] },
+      { "math": [ "target_houses_weight = 100" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase_recurrence",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_trait": "CHALLENGE_MODE_HORDES" },
+    "deactivate_condition": { "not": { "u_has_trait": "CHALLENGE_MODE_HORDES" } },
+    "effect": [ { "run_eocs": [ "EOC_raid_challenge_mode_horde_chase_action" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase_action",
+    "effect": [
+      { "u_location_variable": { "context_val": "your_pos" } },
+      { "signal_hordes": { "context_val": "your_pos" }, "signal_power": { "math": [ "5000" ] } },
+      { "u_message": "Your skin itches, you can feel them closing in.", "type": "bad" }
     ]
   }
 ]

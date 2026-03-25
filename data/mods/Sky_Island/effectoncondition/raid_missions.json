@@ -6,7 +6,7 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_Location1e", 15 ],
+          [ "EOC_Location1e", { "global_val": "target_fields_weight", "default": 15 } ],
           [ "EOC_Location2e", { "global_val": "target_forests_weight", "default": 0 } ],
           [ "EOC_Location3e", { "global_val": "target_houses_weight", "default": 0 } ]
         ]
@@ -20,7 +20,7 @@
     "effect": [
       {
         "weighted_list_eocs": [
-          [ "EOC_Location1m", 15 ],
+          [ "EOC_Location1m", { "global_val": "target_fields_weight", "default": 15 } ],
           [ "EOC_Location2m", { "global_val": "target_forests_weight", "default": 0 } ],
           [ "EOC_Location3m", { "global_val": "target_houses_weight", "default": 0 } ]
         ]
