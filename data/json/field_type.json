@@ -342,8 +342,20 @@
         "translucency": 0.7,
         "convection_temperature_mod": 300
       },
-      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 60, "light_color": [ 255, 180, 80 ], "translucency": 0.4 },
-      { "name": "raging fire", "color": "red", "light_emitted": 160, "light_color": [ 255, 255, 210 ], "translucency": 0.1 }
+      {
+        "name": { "ctxt": "noun", "str": "fire" },
+        "color": "light_red",
+        "light_emitted": 60,
+        "light_color": [ 255, 180, 80 ],
+        "translucency": 0.4
+      },
+      {
+        "name": "raging fire",
+        "color": "red",
+        "light_emitted": 160,
+        "light_color": [ 255, 255, 210 ],
+        "translucency": 0.1
+      }
     ],
     "description_affix": "on",
     "decay_amount_factor": 3,
