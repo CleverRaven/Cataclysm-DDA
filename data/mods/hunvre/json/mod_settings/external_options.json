@@ -35,19 +35,5 @@
     "stub": true,
     "stype": "string_input",
     "value": "normal"
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "CITY_SIZE",
-    "//": "City sizes. Higher number means larger cities. 0 disables cities.  Min: 0, Max: 16, Default: 8",
-    "stype": "int",
-    "value": 16
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "CITY_SPACING",
-    "//": "City spacing. Higher number means cities are further apart. Min: 0, Max: 8, Default: 4",
-    "stype": "int",
-    "value": 0
   }
 ]
