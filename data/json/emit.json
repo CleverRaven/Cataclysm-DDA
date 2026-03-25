@@ -147,6 +147,14 @@
     "chance": 15
   },
   {
+    "id": "emit_twisting_mass_dust",
+    "type": "emit",
+    "field": "fd_twisting_mass_dust",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  },
+  {
     "id": "emit_toxic_cloud",
     "type": "emit",
     "//": "Small cloud of toxic gas emitted infrequently",

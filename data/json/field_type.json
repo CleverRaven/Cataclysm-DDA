@@ -979,6 +979,28 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_twisting_mass_dust",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "magenta sparkles",
+        "color": "magenta",
+        "sym": "*",
+        "light_emitted": 160,
+        "light_color": [ 255, 0, 255 ],
+        "concentration": 1
+      }
+    ],
+    "priority": 9,
+    "half_life": "10 seconds",
+    "accelerated_decay": true,
+    "dirty_transparency_cache": true,
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_tindalos_rift"
+  },
+  {
     "id": "fd_fire_vent",
     "type": "field_type",
     "legacy_enum_id": 17,

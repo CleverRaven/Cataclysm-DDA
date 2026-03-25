@@ -2461,6 +2461,7 @@
     "vision_night": 5,
     "harvest": "exempt",
     "death_function": { "message": "The %s shatters into innumerable, impossibly small fragments!", "corpse_type": "NO_CORPSE" },
+    "emit_fields": [ { "emit_id": "emit_twisting_mass_dust", "delay": "1 s" } ],
     "grab_strength": 35,
     "special_attacks": [ { "id": "ranged_pull", "range": 5, "cooldown": 20, "grab_data": { "pull_weight_ratio": 3.0 } } ],
     "flags": [ "SEES", "NO_BREATHE", "RANGED_ATTACKER", "BASHES", "GROUP_BASH" ]
