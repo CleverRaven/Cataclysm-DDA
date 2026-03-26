@@ -8533,7 +8533,8 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
     }
 
     // phasing only applies to impassible tiles such as walls
-
+    // enforce a height cost for z level changes
+    const int z_level_height = 4;
     int tunneldist = 0;
     tripoint_bub_ms dest = dest_loc;
     const tripoint_rel_ms d( sgn( dest.x() - pos.x() ), sgn( dest.y() - pos.y() ),
@@ -8542,8 +8543,7 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
 
     while( here.impassable( dest ) ||
            ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
-        // add 1 to tunnel distance for each impassable tile in the line
-        tunneldist += 1;
+        tunneldist += d.z() != 0 ? z_level_height : 1;
         if( tunneldist > phase_distance ) {
             return false;
         }
@@ -8555,10 +8555,10 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
 
     // vertical handling for adjacent tiles
     if( d.z() != 0 && !here.impassable( dest_loc ) && tunneldist == 0 ) {
-        tunneldist += 1;
+        tunneldist += z_level_height;
     }
 
-    if( tunneldist != 0 ) {
+    if( tunneldist != 0 && tunneldist <= phase_distance ) {
         if( u.in_vehicle ) {
             here.unboard_vehicle( pos );
         }
@@ -8568,6 +8568,10 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
             vertical_shift( dest.z() );
         }
 
+        const bool is_diagonal = d.x() != 0 && d.y() != 0;
+        const int phase_move_cost = u.run_cost( 100, is_diagonal );
+        u.mod_moves( -phase_move_cost );
+        u.burn_move_stamina( phase_move_cost );
         u.setpos( here, dest );
 
         if( here.veh_at( pos ).part_with_feature( "BOARDABLE", true ) ) {
