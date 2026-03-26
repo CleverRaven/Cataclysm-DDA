@@ -304,7 +304,7 @@
       { "item": "pin_reamer", "prob": 30 },
       { "group": "decks_of_cards", "prob": 30 },
       { "item": "glasses_reading", "prob": 30 },
-      { "item": "button_plastic", "prob": 60, "count": [ 4, 52 ], "charges": 1 },
+      { "item": "button_plastic", "prob": 90, "count": [ 4, 52 ], "charges": 1 },
       { "item": "bracelet_friendship", "count": [ 3, 6 ], "prob": 25 },
       { "item": "boxcutter", "prob": 20 },
       { "item": "feather", "prob": 20, "charges": 1 },
