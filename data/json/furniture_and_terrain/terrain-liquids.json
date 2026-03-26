@@ -376,6 +376,7 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "light_color": [ 255, 200, 200 ],
     "heat_radiation": 3,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],

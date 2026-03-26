@@ -308,6 +308,7 @@
     "coverage": 30,
     "required_str": 6,
     "light_emitted": 90,
+    "light_color": [ 90, 150, 0 ],
     "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,
@@ -335,6 +336,7 @@
     "coverage": 5,
     "required_str": -1,
     "light_emitted": 90,
+    "light_color": [ 255, 230, 210 ],
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -1069,6 +1071,7 @@
     "coverage": 80,
     "required_str": -1,
     "light_emitted": 40,
+    "light_color": [ 255, 0, 255 ],
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE", "SMALL_HIDE" ]
   }
