@@ -54,7 +54,7 @@
     "category": "manuals",
     "name": { "str": "An Introduction to Magic", "str_pl": "copies of An Introduction to Magic" },
     "//": "2 Magus, 3 classless spell",
-    "description": "Old looking spelbook that teach basic magic.",
+    "description": "Old looking spelbook that can teach basic magic.",
     "weight": "585 g",
     "volume": "250 ml",
     "price": "50 USD",
