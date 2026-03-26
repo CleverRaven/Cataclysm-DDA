@@ -220,7 +220,7 @@ TEST_CASE( "uncolored_source_produces_no_color", "[light_color]" )
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 3;
-    place_ter_roofed( src, test_t_utility_light );
+    place_ter_roofed( src, ter_test_t_utility_light );
 
     rebuild_lightmap( 0 );
 
