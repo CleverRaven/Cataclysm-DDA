@@ -228,6 +228,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_EPHEMERAL_WALK_ADDITIONAL_STAMINA_COST",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_teleport_ephemeral_walk" },
+    "effect": [ { "math": [ "u_val('stamina') -= max((150 - (u_spell_level('teleport_ephemeral_walk') * 4)), 50)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SPACIAL_VORTEX",
     "effect": [
       { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
