@@ -1667,7 +1667,7 @@
     "name": "long tail center",
     "name_multiple": "rat tail centers",
     "max_coverage": 60,
-    "parent": "tail_lontail_ratg",
+    "parent": "tail_rat",
     "side": "both",
     "opposite": "tail_rat_center"
   },
