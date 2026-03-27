@@ -1917,8 +1917,8 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] },
-      { "covers": [ "tail_long, tail_fluffy, tail_bovine, tail_rat" ], "coverage": 50 },
-      { "covers": [ "tail_thick, tail_club" ], "coverage": 40 }
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 50 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 40 }
     ],
     "material_thickness": 0.65,
     "flags": [ "VARSIZE" ]
@@ -1944,8 +1944,8 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] },
-      { "covers": [ "tail_long, tail_fluffy, tail_bovine, tail_rat" ], "coverage": 55 },
-      { "covers": [ "tail_thick, tail_club" ], "coverage": 45 }
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 55 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 45 }
     ],
     "variant_type": "generic",
     "variants": [
@@ -2049,8 +2049,8 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r", "tail_long, tail_fluffy, tail_bovine, tail_rat" ] },
-      { "covers": [ "tail_thick, tail_club" ], "coverage": 90 }
+      { "coverage": 100, "covers": [ "leg_l", "leg_r", "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 90 }
     ]
   },
   {
