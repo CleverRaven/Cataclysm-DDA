@@ -88,6 +88,7 @@
     "symbol": ".",
     "color": "yellow",
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "looks_like": "t_thconc_y",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -116,6 +117,7 @@
     "color": "white",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
@@ -143,6 +145,7 @@
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_wood_roof",
     "looks_like": "t_floor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
@@ -183,6 +186,7 @@
     "connects_to": "DIRT",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_shingle_flat_roof",
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
@@ -209,6 +213,7 @@
     "connects_to": "METALFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -232,6 +237,7 @@
     "color": "white",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_concrete_roof",
     "looks_like": "t_thconc_floor_olight",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -260,6 +266,7 @@
     "connects_to": "LINOLEUM",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_flat_roof",
     "looks_like": "t_linoleum_gray",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -286,6 +293,7 @@
     "connects_to": "LINOLEUM",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_flat_roof",
     "looks_like": "t_linoleum_white",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -457,6 +465,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_mosaic",
+    "name": "mosaic floor",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_floor_blue",
+    "description": "A mosaic floor made from colored stones arranged into fanciful patterns."
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
     "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls.  Can support a roof.",
@@ -523,7 +539,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -548,7 +566,34 @@
         { "item": "log", "count": [ 0, 1 ] },
         { "item": "stick", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_rotted",
+    "looks_like": "t_floor",
+    "name": "rotten floor",
+    "description": "What would have once been a sturdy wooden floor is now a half-rotten wreck.  You're not sure how safe walking on this would be.",
+    "symbol": ".",
+    "color": "cyan",
+    "connect_groups": [ "INDOORFLOOR", "WOODFLOOR" ],
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "comfort": 1,
+    "roof": "t_wood_treated_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -590,7 +635,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -636,7 +683,9 @@
       "str_max": 15,
       "sound_vol": 8,
       "sound_fail_vol": 8,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -651,6 +700,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "light_emitted": 240,
+    "light_color": [ 255, 245, 240 ],
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "SMASH!",
@@ -658,7 +708,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -686,15 +738,16 @@
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base",
+    "abstract": "t_carpet_base",
     "name": "carpet",
     "description": "Base carpet!",
     "symbol": ".",
     "color": "red",
+    "connect_groups": [ "CARPET", "INDOORFLOOR" ],
+    "connects_to": "CARPET",
     "move_cost": 2,
     "comfort": 1,
     "roof": "t_flat_roof",
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
@@ -707,23 +760,16 @@
         { "item": "cotton_patchwork", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 1, 3 ] }
       ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] } ], "ter_set": "t_floor" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_red",
     "copy-from": "t_carpet_base",
-    "name": "carpet",
-    "symbol": ".",
-    "color": "red",
-    "connect_groups": [ "CARPET", "INDOORFLOOR" ],
-    "connects_to": "CARPET",
-    "move_cost": 2,
-    "roof": "t_flat_roof",
+    "name": "red carpet",
     "description": "Soft red carpet.  Can support a roof.",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
+    "color": "red",
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
   },
   {
     "type": "terrain",
@@ -731,11 +777,7 @@
     "copy-from": "t_carpet_base",
     "name": "yellow carpet",
     "description": "Soft yellow carpet.  Can support a roof.",
-    "symbol": ".",
     "color": "yellow",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
   },
   {
@@ -744,11 +786,7 @@
     "copy-from": "t_carpet_base",
     "name": "green carpet",
     "description": "Soft green carpet.  Can support a roof.",
-    "symbol": ".",
     "color": "green",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
   },
   {
@@ -757,28 +795,16 @@
     "copy-from": "t_carpet_base",
     "name": "purple carpet",
     "description": "Soft purple carpet.  Can support a roof.",
-    "symbol": ".",
     "color": "magenta",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_wood",
-    "name": "carpet",
-    "description": "Base carpet!",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
-    "comfort": 1,
-    "roof": "t_flat_roof",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "abstract": "t_carpet_base_wood",
+    "copy-from": "t_carpet_base",
     "bash": {
       "sound": "SMASH!",
-      "ter_set": "t_floor",
+      "ter_set": "t_floor_noroof",
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
@@ -787,81 +813,52 @@
         { "item": "cotton_patchwork", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 1, 3 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] } ],
-      "ter_set": "t_floor_noroof"
     }
   },
   {
     "type": "terrain",
     "id": "t_carpet_wood_red",
     "copy-from": "t_carpet_base_wood",
-    "name": "carpet",
-    "looks_like": "t_carpet_red",
-    "symbol": ".",
-    "color": "red",
-    "connect_groups": [ "CARPET", "INDOORFLOOR" ],
-    "connects_to": "CARPET",
-    "move_cost": 2,
-    "roof": "t_flat_roof",
+    "name": "red carpet",
     "description": "Soft red carpet on a wooden floor.  Can support a roof.",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
+    "looks_like": "t_carpet_red",
+    "color": "red",
+    "deconstruct": { "ter_set": "t_floor_noroof", "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
   },
   {
     "type": "terrain",
     "id": "t_carpet_wood_yellow",
     "copy-from": "t_carpet_base_wood",
     "name": "yellow carpet",
-    "looks_like": "t_carpet_yellow",
     "description": "Soft yellow carpet on a wooden floor.  Can support a roof.",
-    "symbol": ".",
+    "looks_like": "t_carpet_yellow",
     "color": "yellow",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_noroof" }
+    "deconstruct": { "ter_set": "t_floor_noroof", "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
   },
   {
     "type": "terrain",
     "id": "t_carpet_wood_green",
     "copy-from": "t_carpet_base_wood",
     "name": "green carpet",
-    "looks_like": "t_carpet_green",
     "description": "Soft green carpet on a wooden floor.  Can support a roof.",
-    "symbol": ".",
+    "looks_like": "t_carpet_green",
     "color": "green",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_noroof" }
+    "deconstruct": { "ter_set": "t_floor_noroof", "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
   },
   {
     "type": "terrain",
     "id": "t_carpet_wood_purple",
     "copy-from": "t_carpet_base_wood",
     "name": "purple carpet",
-    "looks_like": "t_carpet_purple",
     "description": "Soft purple carpet on a wooden floor.  Can support a roof.",
-    "symbol": ".",
+    "looks_like": "t_carpet_purple",
     "color": "magenta",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_noroof" }
+    "deconstruct": { "ter_set": "t_floor_noroof", "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_concrete",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_concrete",
     "copy-from": "t_carpet_base",
-    "description": "Base concrete carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_thconc_floor",
@@ -869,21 +866,17 @@
       "str_max": 15,
       "str_min_supported": 100,
       "items": [ { "item": "sheet_cotton", "count": [ 1, 2 ] }, { "item": "cotton_patchwork", "count": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_concrete_red",
     "copy-from": "t_carpet_base_concrete",
     "name": "industrial red carpet",
+    "description": "Firm, low-pile, high-durability carpet in a red color on a concrete floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Firm, low-pile, high-durability carpet in a red color on a concrete floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -891,12 +884,8 @@
     "copy-from": "t_carpet_base_concrete",
     "name": "industrial yellow carpet",
     "description": "Firm, low-pile, high-durability carpet in a yellow color on a concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
@@ -905,12 +894,8 @@
     "copy-from": "t_carpet_base_concrete",
     "name": "industrial green carpet",
     "description": "Firm, low-pile, high-durability carpet in a green color on a concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
@@ -919,24 +904,14 @@
     "copy-from": "t_carpet_base_concrete",
     "name": "industrial purple carpet",
     "description": "Firm, low-pile, high-durability carpet in a purple color on a concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_metal",
-    "name": "carpet",
+    "abstract": "t_carpet_base_metal",
     "copy-from": "t_carpet_base",
-    "description": "Base metal carpet!",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
@@ -945,21 +920,16 @@
       "str_max": 15,
       "str_min_supported": 100,
       "items": [ { "item": "sheet_cotton", "count": [ 1, 2 ] }, { "item": "cotton_patchwork", "count": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_metal_red",
     "copy-from": "t_carpet_base_metal",
     "name": "bunker red carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
-    "looks_like": "t_carpet_red",
     "description": "Firm, low-pile, totally non-flammable carpet in a red color, with an insulation layer beneath on a metal floor.  Can support a roof.",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "looks_like": "t_carpet_red",
+    "color": "red",
     "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -968,12 +938,8 @@
     "copy-from": "t_carpet_base_metal",
     "name": "bunker yellow carpet",
     "description": "Firm, low-pile, totally non-flammable carpet in a yellow color, with an insulation layer beneath on a metal floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -982,12 +948,8 @@
     "copy-from": "t_carpet_base_metal",
     "name": "bunker green carpet",
     "description": "Firm, low-pile, totally non-flammable carpet in a green color, with an insulation layer beneath on a metal floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
@@ -996,25 +958,14 @@
     "copy-from": "t_carpet_base_metal",
     "name": "bunker carpet purple",
     "description": "Firm, low-pile, totally non-flammable carpet in a purple color, with an insulation layer beneath on a metal floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_strconcrete",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_strconcrete",
     "copy-from": "t_carpet_base",
-    "description": "Base concrete carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_strconc_floor",
@@ -1022,21 +973,17 @@
       "str_max": 15,
       "str_min_supported": 100,
       "items": [ { "item": "sheet_cotton", "count": [ 1, 2 ] }, { "item": "cotton_patchwork", "count": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_strconcrete_red",
     "copy-from": "t_carpet_base_strconcrete",
     "name": "industrial red carpet",
+    "description": "Firm, low-pile, high-durability carpet in a red color on a reinforced concrete floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Firm, low-pile, high-durability carpet in a red color on a reinforced concrete floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
@@ -1044,12 +991,8 @@
     "copy-from": "t_carpet_base_strconcrete",
     "name": "industrial yellow carpet",
     "description": "Firm, low-pile, high-durability carpet in a yellow color on a reinforced concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
@@ -1058,12 +1001,8 @@
     "copy-from": "t_carpet_base_strconcrete",
     "name": "industrial green carpet",
     "description": "Firm, low-pile, high-durability carpet in a green color on a reinforced concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
@@ -1072,25 +1011,14 @@
     "copy-from": "t_carpet_base_strconcrete",
     "name": "industrial purple carpet",
     "description": "Firm, low-pile, high-durability carpet in a purple color on a reinforced concrete floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_rock",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_rock",
     "copy-from": "t_carpet_base",
-    "description": "Base rock carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_rock_floor",
@@ -1098,21 +1026,17 @@
       "str_max": 15,
       "str_min_supported": 100,
       "items": [ { "item": "sheet_cotton", "count": [ 1, 2 ] }, { "item": "cotton_patchwork", "count": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_rock_red",
     "copy-from": "t_carpet_base_rock",
     "name": "red carpet",
+    "description": "Soft red carpet on a natural rock floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Soft red carpet on a natural rock floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
   },
   {
     "type": "terrain",
@@ -1120,12 +1044,8 @@
     "copy-from": "t_carpet_base_rock",
     "name": "yellow carpet",
     "description": "Soft yellow carpet on a natural rock floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
   },
   {
@@ -1134,12 +1054,8 @@
     "copy-from": "t_carpet_base_rock",
     "name": "green carpet",
     "description": "Soft green carpet on a natural rock floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
   },
   {
@@ -1148,25 +1064,14 @@
     "copy-from": "t_carpet_base_rock",
     "name": "purple carpet",
     "description": "Soft purple carpet on a natural rock floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_primitive",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_primitive",
     "copy-from": "t_carpet_base",
-    "description": "Base primitive floor carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_floor_primitive",
@@ -1178,21 +1083,17 @@
         { "item": "cotton_patchwork", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 1, 3 ] }
       ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_primitive_red",
     "copy-from": "t_carpet_base_primitive",
     "name": "red carpet",
+    "description": "Soft red carpet on a timber floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Soft red carpet on a timber floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
   },
   {
     "type": "terrain",
@@ -1200,12 +1101,8 @@
     "copy-from": "t_carpet_base_primitive",
     "name": "yellow carpet",
     "description": "Soft yellow carpet on a timber floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
   },
   {
@@ -1214,12 +1111,8 @@
     "copy-from": "t_carpet_base_primitive",
     "name": "green carpet",
     "description": "Soft green carpet on a timber floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
   },
   {
@@ -1228,25 +1121,14 @@
     "copy-from": "t_carpet_base_primitive",
     "name": "purple carpet",
     "description": "Soft purple carpet on a timber floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_linoleum_gray",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_linoleum_gray",
     "copy-from": "t_carpet_base",
-    "description": "Base gray linoleum floor carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_linoleum_gray",
@@ -1258,21 +1140,17 @@
         { "item": "cotton_patchwork", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 1, 3 ] }
       ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_linoleum_gray" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_linoleum_gray_red",
     "copy-from": "t_carpet_base_linoleum_gray",
     "name": "red carpet",
+    "description": "Soft red carpet on a gray linoleum floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Soft red carpet on a gray linoleum floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_linoleum_gray" }
   },
   {
     "type": "terrain",
@@ -1280,12 +1158,8 @@
     "copy-from": "t_carpet_base_linoleum_gray",
     "name": "yellow carpet",
     "description": "Soft yellow carpet on a gray linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_linoleum_gray" }
   },
   {
@@ -1294,12 +1168,8 @@
     "copy-from": "t_carpet_base_linoleum_gray",
     "name": "green carpet",
     "description": "Soft green carpet on a gray linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_linoleum_gray" }
   },
   {
@@ -1308,25 +1178,14 @@
     "copy-from": "t_carpet_base_linoleum_gray",
     "name": "purple carpet",
     "description": "Soft purple carpet on a gray linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_linoleum_gray" }
   },
   {
     "type": "terrain",
-    "id": "t_carpet_base_linoleum_white",
-    "name": "Carpet",
-    "symbol": ".",
-    "color": "red",
-    "move_cost": 2,
+    "abstract": "t_carpet_base_linoleum_white",
     "copy-from": "t_carpet_base",
-    "description": "Base white linoleum floor carpet!",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_linoleum_white",
@@ -1334,21 +1193,17 @@
       "str_max": 15,
       "str_min_supported": 100,
       "items": [ { "item": "sheet_cotton", "count": [ 1, 2 ] }, { "item": "cotton_patchwork", "count": [ 2, 4 ] } ]
-    },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_linoleum_white" }
+    }
   },
   {
     "type": "terrain",
     "id": "t_carpet_linoleum_white_red",
     "copy-from": "t_carpet_base_linoleum_white",
     "name": "red carpet",
+    "description": "Soft red carpet on a white linoleum floor.  Can support a roof.",
     "looks_like": "t_carpet_red",
-    "symbol": ".",
     "color": "red",
-    "move_cost": 2,
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "description": "Soft red carpet on a white linoleum floor.  Can support a roof."
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_linoleum_white" }
   },
   {
     "type": "terrain",
@@ -1356,12 +1211,8 @@
     "copy-from": "t_carpet_base_linoleum_white",
     "name": "yellow carpet",
     "description": "Soft yellow carpet on a white linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "yellow",
-    "move_cost": 2,
     "looks_like": "t_carpet_yellow",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "yellow",
     "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_linoleum_white" }
   },
   {
@@ -1370,12 +1221,8 @@
     "copy-from": "t_carpet_base_linoleum_white",
     "name": "green carpet",
     "description": "Soft green carpet on a white linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "green",
-    "move_cost": 2,
     "looks_like": "t_carpet_green",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "green",
     "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_linoleum_white" }
   },
   {
@@ -1384,12 +1231,8 @@
     "copy-from": "t_carpet_base_linoleum_white",
     "name": "purple carpet",
     "description": "Soft purple carpet on a white linoleum floor.  Can support a roof.",
-    "symbol": ".",
-    "color": "magenta",
-    "move_cost": 2,
     "looks_like": "t_carpet_purple",
-    "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "color": "magenta",
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_linoleum_white" }
   },
   {
@@ -1410,7 +1253,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1431,7 +1276,9 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1451,7 +1298,9 @@
       "str_min_supported": 100,
       "ter_set": "t_null",
       "sound": "SMASH!",
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ]
   },
@@ -1751,5 +1600,48 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse",
+    "name": "greenhouse",
+    "description": "A greenhouse that allows planting year round.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLOWABLE" ],
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse_tilled",
+    "name": "plantable greenhouse",
+    "description": "A greenhouse that allows planting year round.  It has been prepared for planting crops inside.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLANTABLE" ],
+    "examine_action": "dirtmound",
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
   }
 ]

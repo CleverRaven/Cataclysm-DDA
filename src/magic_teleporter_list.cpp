@@ -18,6 +18,7 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "imgui/imgui.h"
+#include "input_popup.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -26,7 +27,6 @@
 #include "output.h"
 #include "panels.h"
 #include "point.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uilist.h"
@@ -35,15 +35,10 @@ static const efftype_id effect_ignore_fall_damage( "ignore_fall_damage" );
 
 static bool popup_string( std::string &result, std::string &title )
 {
-    string_input_popup popup;
-    popup.title( title );
-    popup.text( "" ).only_digits( false );
-    popup.query();
-    if( popup.canceled() ) {
-        return false;
-    }
-    result = popup.text();
-    return true;
+    string_input_popup_imgui popup( -1 );
+    popup.set_label( title );
+    result = popup.query();
+    return !popup.cancelled();
 }
 
 bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms & )
@@ -127,6 +122,26 @@ void teleporter_list::translocate( const std::set<tripoint_bub_ms> &targets )
 bool teleporter_list::knows_translocator( const tripoint_abs_omt &omt_pos ) const
 {
     return known_teleporters.find( omt_pos ) != known_teleporters.end();
+}
+
+bool teleporter_list::copy_translocator( const tripoint_abs_omt &omt_pos,
+        const tripoint_abs_omt &omt_pos_new )
+{
+    const bool activated = knows_translocator( omt_pos );
+    if( !activated ) {
+        return false;
+    }
+    std::string point_name = known_teleporters[omt_pos];
+    return known_teleporters.emplace( omt_pos_new, point_name ).second;
+}
+
+bool teleporter_list::remove_translocator( const tripoint_abs_omt &omt_pos )
+{
+    const bool activated = knows_translocator( omt_pos );
+    if( !activated ) {
+        return false;
+    }
+    return known_teleporters.erase( omt_pos ) > 0;
 }
 
 void teleporter_list::serialize( JsonOut &json ) const

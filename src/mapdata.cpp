@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "assign.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
@@ -16,6 +15,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
+#include "flag.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -32,8 +32,19 @@
 #include "trap.h"
 #include "type_id.h"
 
+
 static furn_id f_null;
+
+static const bash_damage_profile_id bash_damage_profile_default( "default" );
+
+static const flag_id json_flag_DIGGABLE( "DIGGABLE" );
+static const flag_id json_flag_EASY_DECONSTRUCT( "EASY_DECONSTRUCT" );
+static const flag_id json_flag_FLAT( "FLAT" );
+static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
+static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
+
 static const furn_str_id furn_f_null( "f_null" );
+
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
@@ -143,6 +154,37 @@ int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {
 }
 
+ter_furn_id::ter_furn_id()
+{
+    ter_furn = ter_str_id::NULL_ID().id();
+}
+
+ter_furn_id::ter_furn_id( const std::string &name )
+{
+    resolve( name );
+}
+
+bool ter_furn_id::resolve( const std::string &name )
+{
+    ter_str_id temp_ter( name );
+    furn_str_id temp_furn( name );
+    bool resolved = false;
+    if( temp_ter.is_valid() && !temp_ter.is_null() ) {
+        ter_furn = ter_id( name );
+        resolved = true;
+    } else if( temp_furn.is_valid() && !temp_furn.is_null() ) {
+        ter_furn = furn_id( name );
+        resolved = true;
+    }
+    return resolved;
+}
+
+void ter_furn_id::deserialize( const JsonValue &jo )
+{
+    std::string name = jo.get_string();
+    resolve( name );
+}
+
 namespace io
 {
 
@@ -183,6 +225,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
+        case ter_furn_flag::TFLAG_THIN_ICE: return "THIN_ICE";
+        case ter_furn_flag::TFLAG_THICK_ICE: return "THICK_ICE";
+        case ter_furn_flag::TFLAG_SWIM_UNDER: return "SWIM_UNDER";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
         case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
@@ -224,6 +269,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CAN_SIT: return "CAN_SIT";
         case ter_furn_flag::TFLAG_FLAT_SURF: return "FLAT_SURF";
         case ter_furn_flag::TFLAG_BUTCHER_EQ: return "BUTCHER_EQ";
+        case ter_furn_flag::TFLAG_GROWTH_SEED: return "GROWTH_SEED";
         case ter_furn_flag::TFLAG_GROWTH_SEEDLING: return "GROWTH_SEEDLING";
         case ter_furn_flag::TFLAG_GROWTH_MATURE: return "GROWTH_MATURE";
         case ter_furn_flag::TFLAG_WORKOUT_ARMS: return "WORKOUT_ARMS";
@@ -281,6 +327,12 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
         case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
         case ter_furn_flag::TFLAG_WIRED_WALL: return "WIRED_WALL";
+        case ter_furn_flag::TFLAG_MON_AVOID_STRICT: return "MON_AVOID_STRICT";
+        case ter_furn_flag::TFLAG_REGION_PSEUDO: return "REGION_PSEUDO";
+        case ter_furn_flag::TFLAG_PHASE_BACK: return "PHASE_BACK";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X: return "ONE_DIMENSIONAL_X";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y: return "ONE_DIMENSIONAL_Y";
+        case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z: return "ONE_DIMENSIONAL_Z";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -341,6 +393,8 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "str_min_supported", str_min_supported, -1 );
     optional( jo, was_loaded, "str_max_supported", str_max_supported, -1 );
 
+    optional( jo, was_loaded, "profile", damage_profile, bash_damage_profile_default );
+
     optional( jo, was_loaded, "explosive", explosive, -1 );
 
     optional( jo, was_loaded, "sound_vol", sound_vol, -1 );
@@ -354,6 +408,11 @@ void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
 
     optional( jo, was_loaded, "sound", sound, to_translation( "smash!" ) );
     optional( jo, was_loaded, "sound_fail", sound_fail, to_translation( "thump!" ) );
+
+    optional( jo, was_loaded, "hit_field", hit_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
+    optional( jo, was_loaded, "destroyed_field", destroyed_field,
+              std::make_pair( field_type_str_id::NULL_ID(), 0 ) );
 
     if( jo.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection",
@@ -387,12 +446,31 @@ void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
     optional( jo, was_loaded, "msg_success", field_bash_msg_success );
 }
 
-std::string map_common_bash_info::potential_bash_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_bash_info::potential_bash_items( const map_data_common_t &ter_furn ) const
 {
     //TODO: Add a descriptive indicator of vaguely how hard it is to bash?
-    return string_format( _( "Bashing the %s would yield:\n%s" ),
-                          ter_furn_name, item_group::potential_items( drop_group ) );
+
+    std::string ret;
+    if( !ter_furn.base_item.is_null() && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        for( const item_comp &comp : ter_furn.get_uncraft_components() ) {
+            ret += string_format( "- <color_cyan>%d %s</color>\n", comp.count, item::nname( comp.type ) );
+        }
+        ret += string_format( _( "Bashing the %s may yield:\n%s" ), ter_furn.name(), ret );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
+    } else if( ter_furn.deconstruct_info().has_value()
+               && ter_furn.deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP
+               && drop_group == Item_spawn_data_EMPTY_GROUP ) {
+        ret += string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( ter_furn.deconstruct_info().value().drop_group ) );
+        ret += "\n";
+        ret += _( "Or whatever remains of that which you manage to not destroy" );
+        return ret;
+    } else {
+        return string_format( _( "Bashing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
+    }
 }
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
@@ -424,20 +502,28 @@ void map_furn_deconstruct_info::load( const JsonObject &jo, const bool was_loade
     map_common_deconstruct_info::load( jo, was_loaded, context );
 }
 
-std::string map_common_deconstruct_info::potential_deconstruct_items( const std::string
-        &ter_furn_name ) const
+std::string map_common_deconstruct_info::potential_deconstruct_items( const map_data_common_t
+        &ter_furn ) const
 {
     Character &who = get_avatar();
+    std::string ret;
     bool will_practice_skill = !!skill && who.get_skill_level( skill->id ) >= skill->min &&
                                who.get_skill_level( skill->id ) < skill->max;
-    if( will_practice_skill ) {
-        return string_format(
-                   _( "Deconstructing the %s would yield:\n%s\nYou feel you might also learn something about <color_cyan>%s</color>." ),
-                   ter_furn_name, item_group::potential_items( drop_group ), skill->id.obj().name() );
+
+    if( !ter_furn.base_item.is_null() && drop_group.is_empty() ) {
+        ret += string_format( _( "Deconstructing the %s would yield:\n- <color_cyan>1 %s</color>\n" ),
+                              ter_furn.name(), item::nname( ter_furn.base_item ) );
     } else {
-        return string_format( _( "Deconstructing the %s would yield:\n%s" ),
-                              ter_furn_name, item_group::potential_items( drop_group ) );
+        ret += string_format( _( "Deconstructing the %s would yield:\n%s" ),
+                              ter_furn.name(), item_group::potential_items( drop_group ) );
     }
+
+    if( will_practice_skill ) {
+        ret += string_format(
+                   _( "\nYou feel you might also learn something about <color_cyan>%s</color>." ),
+                   skill->id.obj().name() );
+    }
+    return ret;
 }
 
 bool map_shoot_info::load( const JsonObject &jsobj, std::string_view member, bool was_loaded )
@@ -473,9 +559,9 @@ bool furn_workbench_info::load( const JsonObject &jsobj, std::string_view member
 {
     JsonObject j = jsobj.get_object( member );
 
-    assign( j, "multiplier", multiplier );
-    assign( j, "mass", allowed_mass );
-    assign( j, "volume", allowed_volume );
+    optional( j, false, "multiplier", multiplier, 1.0f );
+    optional( j, false, "mass", allowed_mass, units::mass::max() );
+    optional( j, false, "volume", allowed_volume, units::volume::max() );
 
     return true;
 }
@@ -487,10 +573,10 @@ bool plant_data::load( const JsonObject &jsobj, std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
-    assign( j, "transform", transform );
-    assign( j, "base", base );
-    assign( j, "growth_multiplier", growth_multiplier );
-    assign( j, "harvest_multiplier", harvest_multiplier );
+    optional( j, false, "transform", transform, furn_str_id::NULL_ID() );
+    optional( j, false, "base", base, furn_str_id::NULL_ID() );
+    optional( j, false, "growth_multiplier", growth_multiplier, 1.0f );
+    optional( j, false, "harvest_multiplier", harvest_multiplier, 1.0f );
 
     return true;
 }
@@ -562,6 +648,12 @@ void load_season_array( const JsonObject &jo, const std::string &key, const std:
         jo.throw_error(
             string_format( "Expected '%s' member in %s but none was found", key, context ) );
     }
+}
+
+bool map_data_common_t::has_disassembly() const
+{
+    return !base_item.is_null() || ( deconstruct_info().has_value() &&
+                                     deconstruct_info().value().drop_group != Item_spawn_data_EMPTY_GROUP );
 }
 
 std::string map_data_common_t::name() const
@@ -664,14 +756,14 @@ std::vector<std::string> ter_t::extended_description() const
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
@@ -704,14 +796,14 @@ std::vector<std::string> furn_t::extended_description() const
         }
     }
 
-    if( deconstruct ) {
+    if( deconstruct || !base_item.is_null() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( deconstruct->potential_deconstruct_items( name() ) );
+        ret.emplace_back( deconstruct->potential_deconstruct_items( *this ) );
     }
 
     if( is_smashable() ) {
         ret.emplace_back( "--" );
-        ret.emplace_back( bash->potential_bash_items( name() ) );
+        ret.emplace_back( bash->potential_bash_items( *this ) );
     }
 
     return ret;
@@ -786,13 +878,14 @@ std::vector<std::string> map_data_common_t::extended_description() const
             add( text );
         }
     };
-    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), json_flag_DIGGABLE->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PHASE_BACK ), json_flag_PHASE_BACK->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), json_flag_PLOWABLE->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
     add_if( has_flag( ter_furn_flag::TFLAG_SHARP ), _( "Sharp." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), _( "Flat." ) );
-    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), json_flag_FLAT->name() );
+    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), json_flag_EASY_DECONSTRUCT->name() );
     add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
     add_if( is_flammable(), _( "Flammable." ) );
     if( !result.empty() ) {
@@ -816,12 +909,22 @@ void load_furniture( const JsonObject &jo, const std::string &src )
     furniture_data.load( jo, src );
 }
 
+void finalize_furniture( )
+{
+    furniture_data.finalize();
+}
+
 void load_terrain( const JsonObject &jo, const std::string &src )
 {
     if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
+}
+
+void finalize_terrain( )
+{
+    terrain_data.finalize();
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -891,6 +994,11 @@ void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_
 void map_data_common_t::unset_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
     set_groups( rotate_to_groups, connect_groups_vec, true );
+}
+
+std::vector<item_comp> map_data_common_t::get_uncraft_components() const
+{
+    return item( base_item ).get_uncraft_components();
 }
 
 void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
@@ -1116,12 +1224,29 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    if( jo.has_array( "light_color" ) ) {
+        JsonArray jarr = jo.get_array( "light_color" );
+        light_color.r = jarr.get_int( 0 ) / 255.0f;
+        light_color.g = jarr.get_int( 1 ) / 255.0f;
+        light_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
 
     if( jo.has_object( "shoot" ) ) {
         shoot = cata::make_value<map_shoot_info>();
         shoot->load( jo, "shoot", was_loaded );
     }
 
+    optional( jo, was_loaded, "item", base_item, itype_id::NULL_ID() );
+}
+
+bool map_data_common_t::is_terrain() const
+{
+    return false;
+}
+
+bool ter_t::is_terrain() const
+{
+    return true;
 }
 
 bool ter_t::is_null() const
@@ -1133,7 +1258,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
     optional( jo, was_loaded, "move_cost", movecost );
-    assign( jo, "max_volume", max_volume, src == "dda" );
+    optional( jo, was_loaded, "max_volume", max_volume, DEFAULT_TILE_VOLUME );
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
 
@@ -1152,6 +1277,47 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
 
+    // Phase-change fields
+    if( jo.has_array( "phase_targets" ) ) {
+        JsonArray ja = jo.get_array( "phase_targets" );
+        for( const JsonValue v : ja ) {
+            if( v.test_string() ) {
+                phase_targets.emplace_back( v.get_string() );
+            } else {
+                jo.throw_error( "phase_targets must be an array of terrain id strings" );
+            }
+        }
+    }
+
+    if( jo.has_array( "phase_temps" ) ) {
+        JsonArray ja = jo.get_array( "phase_temps" );
+        for( const JsonValue v : ja ) {
+            if( v.test_number() ) {
+                // Interpret numeric values as degrees Celsius in JSON
+                phase_temps.emplace_back( units::from_celsius( v.get_float() ) );
+            } else if( v.test_string() ) {
+                const std::string s = v.get_string();
+                try {
+                    const double val = std::stod( s );
+                    phase_temps.emplace_back( units::from_celsius( val ) );
+                } catch( const std::exception & ) {
+                    jo.throw_error( "phase_temps entries must be numbers (Celsius) or numeric strings" );
+                }
+            } else {
+                jo.throw_error( "phase_temps must be an array of numbers or numeric strings" );
+            }
+        }
+    }
+
+    optional( jo, was_loaded, "phase_method", phase_method );
+
+    // Validate phase arrays: `phase_temps` must contain exactly one less
+    // entry than `phase_targets`.
+    if( !phase_targets.empty() ) {
+        if( phase_temps.size() != phase_targets.size() - 1 ) {
+            jo.throw_error( "phase_temps must contain exactly one less entry than phase_targets" );
+        }
+    }
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Make overwriting these with eg "oxytorch": { } work while still allowing overwriting single values
         oxytorch->load( jo.get_object( "oxytorch" ) );
@@ -1173,18 +1339,19 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded,
-                    "terrain " +
-                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
+        bash->load( jo.get_object( "bash" ), bash_loaded, "terrain " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "terrain " + id.str() );
     }
 }
 
@@ -1194,6 +1361,12 @@ void map_common_bash_info::check( const std::string &id ) const
         if( !item_group::group_is_defined( drop_group ) ) {
             debugmsg( "%s: bash result item group %s does not exist", id, drop_group.c_str() );
         }
+    }
+    if( !hit_field.first.is_null() && !hit_field.first.is_valid() ) {
+        debugmsg( "%s: invalid hit_field '%s'", id, hit_field.first.str() );
+    }
+    if( !destroyed_field.first.is_null() && !destroyed_field.first.is_valid() ) {
+        debugmsg( "%s: invalid destroyed_field '%s'", id, destroyed_field.first.str() );
     }
 }
 void map_ter_bash_info::check( const std::string &id ) const
@@ -1258,6 +1431,20 @@ void ter_t::check() const
     }
     if( deconstruct ) {
         deconstruct->check( id.c_str() );
+    }
+
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        // in the future, maybe, if base_item would be used more widely,
+        // there would be a reason to not error about it or make some boolean to permit it
+        // but right now let's treat it as a bug
+        debugmsg( R"(terrain %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(terrain %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
     }
 
     if( !transforms_into.is_valid() ) {
@@ -1362,16 +1549,18 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        if( !bash ) {
+        bool bash_loaded = !!bash;
+        if( !bash_loaded ) {
             bash.emplace();
         }
-        bash->load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
+        bash->load( jo.get_object( "bash" ), bash_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        if( !deconstruct ) {
+        bool deconstruct_loaded = !!deconstruct;
+        if( !deconstruct_loaded ) {
             deconstruct.emplace();
         }
-        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
+        deconstruct->load( jo.get_object( "deconstruct" ), deconstruct_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) {
@@ -1400,6 +1589,17 @@ void furn_t::check() const
     }
     if( deconstruct ) {
         deconstruct->check( id.c_str() );
+    }
+
+    if( !base_item.is_null() && bash.has_value() &&
+        bash.value().drop_group != Item_spawn_data_EMPTY_GROUP ) {
+        debugmsg( R"(furniture %s defines "bash"->"items", but "item" is presented, which is unnecessary - bash result would be picked from %s uncrafting recipe.)",
+                  id.c_str(), base_item.c_str() );
+    }
+
+    if( !base_item.is_null() && deconstruct.has_value() && !deconstruct.value().drop_group.is_null() ) {
+        debugmsg( R"(furniture %s defines "deconstruct"->"items", but "item" is presented, which is unnecessary - deconstruction would be set as %s.)",
+                  id.c_str(), base_item.c_str() );
     }
 
     if( !open.is_valid() ) {

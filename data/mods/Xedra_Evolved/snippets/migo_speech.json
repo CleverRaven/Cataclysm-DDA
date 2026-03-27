@@ -22,5 +22,50 @@
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Your government no longer exists, we will adopt you.\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Welcome to the Mi-go family, children of Earth!  Soon our biologies will mingle unto the death of the stars!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "//": "Mi-go xys/zys words should be pronounced as one single combined word.",
+    "sound": "\"We were so pleased/honored to be chosen as the inheritors of your species, so close to it's death that you must have felt it coming and sought us out.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Let us commingle humans!  We can make use of your genetics and your species will live on as part of us!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"In one of it's last acts your government gave us responsibility for the remainder of you.  That number shrinks by the hour.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "//": "Mi-go xys/zys words should be pronounced as one single combined word.",
+    "sound": "\"Good night Human/Earthlings!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "//": "Mi-go is not their name for themselves and Yuggoth is not their name for their planet.  But the humans they knew liked to pretend so the mi-go continue pretending for their racial memory.",
+    "sound": "\"We're off to see the Wizard, the wonderful wizard of Yuggoth.  Come humans we have watched your legends, we know your culture.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Have you considered ceasing to break the laws granting us rights and responsibility over the remains of human civilization and it's peoples?\"",
+    "volume": 20
   }
 ]

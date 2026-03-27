@@ -64,10 +64,10 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
     // but `ui_manager` will redo the entire redrawing as soon as the redraw
     // callback returns.
     const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-    if( SDL_RenderIsClipEnabled( renderer.get() ) ) {
+    if( RenderIsClipEnabled( renderer ) ) {
         prev_clip_rect = SDL_Rect();
-        SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
-        SDL_RenderSetClipRect( renderer.get(), nullptr );
+        RenderGetClipRect( renderer, &prev_clip_rect.value() );
+        RenderSetClipRect( renderer, nullptr );
     } else {
         prev_clip_rect = std::nullopt;
     }
@@ -87,7 +87,7 @@ ui_adaptor::~ui_adaptor()
         // See ui_adaptor( debug_message_ui )
         if( prev_clip_rect.has_value() ) {
             const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
-            SDL_RenderSetClipRect( renderer.get(), &prev_clip_rect.value() );
+            RenderSetClipRect( renderer, &prev_clip_rect.value() );
         }
 #endif
     }
@@ -230,6 +230,11 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return lhs.p_min.x < rhs.p_max.x && lhs.p_min.y < rhs.p_max.y &&
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
+}
+
+size_t ui_adaptor::ui_stack_size()
+{
+    return ui_stack.size();
 }
 
 // This function does two things:

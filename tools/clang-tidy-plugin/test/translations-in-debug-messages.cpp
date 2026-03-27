@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-translations-in-debug-messages %t -- --load=%cata_plugin -- -I %cata_include -isystem %cata_include/third-party -DLOCALIZE
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translations-in-debug-messages %t -- --load=%cata_plugin -- -I %cata_include -isystem %cata_third_party_include -DLOCALIZE
 
 #include "calendar.h"
 #include "creature.h"

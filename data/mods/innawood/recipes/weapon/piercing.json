@@ -12,6 +12,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" },
       { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],

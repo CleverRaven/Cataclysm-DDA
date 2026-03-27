@@ -109,15 +109,17 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     reset_caches( a_zlev, t_zlev );
     CHECK( you.sees( here, target_monster ) == expect_vision );
     if( special_attack == nullptr ) {
+        // FIXME: This should be a reach attack!
         CHECK( you.melee_attack( target_monster, false ) == expect_attack );
     }
 }
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
                                    const std::string &monster_ter, const std::string &target_ter,
-                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent )
+                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent,
+                                   const bool on_stairs = false )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
 
     SECTION( title ) {
@@ -133,7 +135,11 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
                 here.ter_set( target_location + more_offset, target_ledge );
             }
         }
-        test_monster_attack( offset, expected_vertical, expected_vertical );
+        if( on_stairs ) {
+            test_monster_attack( offset, true, expected_adjacent );
+        } else {
+            test_monster_attack( offset, expected_vertical, expected_vertical );
+        }
         if( ledge ) {
             here.ter_set( target_location, target_ledge );
         }
@@ -147,7 +153,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
 
 TEST_CASE( "monster_attack", "[vision][reachability]" )
 {
-    clear_map();
+    clear_map_without_vision();
     restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
@@ -156,7 +162,7 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
         for( const tripoint &offset : eight_horizontal_neighbors ) {
             test_monster_attack( offset, true, true );
         }
-        clear_map();
+        clear_map_without_vision();
         // Too far away cannot.
         test_monster_attack( { 2, 2, 0 }, false, true );
         test_monster_attack( { 2, 1, 0 }, false, true );
@@ -177,9 +183,9 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
     }
 
     monster_attack_zlevel( "attack_up_stairs", tripoint::above, "t_stairs_up", "t_stairs_down",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack_down_stairs", tripoint::below, "t_stairs_down", "t_stairs_up",
-                           false, true, true );
+                           false, false, true, true );
     monster_attack_zlevel( "attack through ceiling", tripoint::above, "t_floor", "t_floor",
                            false, false, false );
     monster_attack_zlevel( "attack through floor", tripoint::below, "t_floor", "t_floor",
@@ -191,10 +197,10 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
                            true, false, true );
 }
 
-TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
+TEST_CASE( "monster_throwing_sanity_test", "[throwing] [balance]" )
 {
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = sunrise( calendar::turn );
@@ -257,7 +263,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     clear_creatures();
     const tripoint_bub_ms target_location = attacker_location + tripoint::east;
     Character &you = get_player_character();
@@ -305,7 +311,7 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
     const tripoint_bub_ms target_location = attacker_location + tripoint::east;
     const tripoint_bub_ms attacker_location_e = target_location + tripoint::east;
 
-    clear_map();
+    clear_map_without_vision();
     clear_creatures();
     Character &you = get_player_character();
     clear_avatar();
@@ -344,7 +350,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
 
     // Set up further from the target
     const tripoint_bub_ms target_location = attacker_location + tripoint{ 4, 0, 0 };
-    clear_map();
+    clear_map_without_vision();
     restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
@@ -418,7 +424,7 @@ TEST_CASE( "Grab_drag_tests", "[mattack][grab][drag]" )
 {
     map &here = get_map();
     const tripoint_bub_ms target_location = attacker_location + tripoint::east;
-    clear_map();
+    clear_map_without_vision();
     clear_creatures();
     Character &you = get_player_character();
     clear_avatar();
@@ -461,7 +467,7 @@ TEST_CASE( "Unified_grab_break_test", "[mattack][grab]" )
     bool lategame = false;
     int expected_success;
 
-    clear_map();
+    clear_map_without_vision();
     clear_creatures();
     Character &you = get_player_character();
     clear_avatar();

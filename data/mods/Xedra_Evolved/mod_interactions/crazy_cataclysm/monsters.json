@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mon_vampire_feral",
+    "copy-from": "mon_vampire_feral",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  },
+  {
+    "id": "mon_vampire_moroi_fast",
+    "copy-from": "mon_vampire_moroi_fast",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  },
+  {
+    "id": "mon_vampire_moroi_tough",
+    "copy-from": "mon_vampire_moroi_tough",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  },
+  {
+    "id": "mon_vampire_moroi_animalistic",
+    "copy-from": "mon_vampire_moroi_animalistic",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  },
+  {
+    "id": "mon_vampire_moroi_stealthy",
+    "copy-from": "mon_vampire_moroi_stealthy",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  },
+  {
+    "id": "mon_vampire_strigoi",
+    "copy-from": "mon_vampire_strigoi",
+    "type": "MONSTER",
+    "name": { "str": "dracula" }
+  }
+]

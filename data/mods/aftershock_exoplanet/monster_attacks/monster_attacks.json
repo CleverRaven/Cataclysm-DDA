@@ -15,12 +15,58 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
+    "id": "android_drop",
+    "cooldown": 10,
+    "move_cost": 100,
+    "hitsize_min": 4,
+    "attack_upper": false,
+    "condition": {
+      "and": [
+        { "not": { "npc_has_effect": "downed" } },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "not": { "u_has_effect": "afs_android_crawling" } }
+      ]
+    },
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 18, "armor_penetration": 15 } ],
+    "effects_require_dmg": true,
+    "hit_dmg_u": "%1$s lifts you with its arm and slams you into the ground!",
+    "hit_dmg_npc": "%1$s effortlessly lifts <npcname> before slamming them into the ground!",
+    "no_dmg_msg_u": "%1$s tries to grab you, but finds no grip on your armor!",
+    "no_dmg_msg_npc": "%1$s tries to grab <npcname>, but finds no grip on their armor!",
+    "miss_msg_u": "%s reaches for you with its arm, but you slip out of the way!",
+    "miss_msg_npc": "%s tries to grab <npcname>, but they slip out of the way!",
+    "effects": [ { "id": "downed", "duration": 3 } ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "android_crush",
     "cooldown": 5,
     "move_cost": 80,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 30, "armor_penetration": 15 } ],
+    "condition": { "and": [ { "npc_has_effect": "downed" }, { "not": { "u_has_effect": "afs_android_crawling" } }, "npc_is_character" ] },
+    "min_mul": 0.3,
+    "hit_dmg_u": "%1$s crushes your %2$s with a vicious stomp!",
+    "hit_dmg_npc": "%1$s crushes <npcname> underfoot!",
+    "no_dmg_msg_u": "%1$s's attempt to crush your %2$s is deflected by your armor.",
+    "no_dmg_msg_npc": "%1$s's attempt to crush <npcname> is deflected by their armor.",
+    "miss_msg_u": "You roll out of the way of %1$s's stomp!",
+    "miss_msg_npc": "<npcname> rolls out of the way of %1$s's stomp!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "android_crush_monster",
+    "cooldown": 1,
+    "move_cost": 80,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 1200, "armor_penetration": 15 } ],
     "condition": {
-      "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_effect": "downed" }, { "u_has_effect": "afs_android_crawling" } ]
+      "and": [
+        { "npc_has_effect": "downed" },
+        { "not": { "u_has_effect": "afs_android_crawling" } },
+        "npc_is_monster",
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] }
+      ]
     },
     "min_mul": 0.3,
     "hit_dmg_u": "%1$s crushes your %2$s with a vicious stomp!",

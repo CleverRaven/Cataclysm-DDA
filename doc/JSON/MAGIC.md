@@ -1,33 +1,40 @@
 # Magic, Spells, and Enchantments
 
-  - [Spells](#spells)
-  - [The template spell](#the-template-spell)
-  - [Mandatory fields](#mandatory-fields)
-    - [Spell effects](#spell-effects)
-    - [Spell shape](#spell-shape)
-  - [Common fields](#common-fields)
-    - [Spell Flags](#spell-flags)
-    - [Damage Types](#damage-types)
-    - [Spell level](#spell-level)
-    - [Learning Spells](#learning-spells)
-    - [Extra spell effects](#extra-spell-effects)
-  - [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
-  - [Examples](#examples)
-    - [Summon spell](#summon-spell)
-    - [Typical attack](#typical-attack)
-    - [Consecutive spell casting](#consecutive-spell-casting)
-    - [Random spell casting](#random-spell-casting)
-    - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
-    - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
-    - [Monster spells](#monster-spells)
-    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
-  - [Enchantments](#enchantments)
-    - [The `relic_data` field](#the-relic_data-field)
-    - [Variables](#variables)
-    - [ID values](#id-values)
-	- [Enchantments on monsters](#enchantments-on-monsters)
-    - [Enchantment value examples](#enchantment-value-examples)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
 
+- [Spells](#spells)
+- [The template spell](#the-template-spell)
+- [Mandatory fields](#mandatory-fields)
+  - [Spell effects](#spell-effects)
+  - [Spell shape](#spell-shape)
+- [Common fields](#common-fields)
+  - [Spell Flags](#spell-flags)
+  - [Damage Types](#damage-types)
+  - [Spell level](#spell-level)
+  - [Learning Spells](#learning-spells)
+  - [Extra spell effects](#extra-spell-effects)
+- [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
+- [Examples](#examples)
+  - [Summon spell](#summon-spell)
+  - [Typical attack](#typical-attack)
+  - [Consecutive spell casting](#consecutive-spell-casting)
+  - [Random spell casting](#random-spell-casting)
+  - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
+  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+  - [Monster spells](#monster-spells)
+  - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
+  - [Magic Type](#magic-type)
+- [Enchantments](#enchantments)
+  - [The `relic_data` field](#the-relic_data-field)
+  - [Variables](#variables)
+  - [ID values](#id-values)
+  - [Enchantments on monsters](#enchantments-on-monsters)
+  - [Enchantments on vehicles](#enchantments-on-vehicles)
+  - [Enchantment value examples](#enchantment-value-examples)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Spells
 
@@ -64,7 +71,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "base_energy_cost": 30,                                   // the amount of energy (of the requisite type) to cast the spell
     "final_energy_cost": 100,
     "energy_increment": -6,
-    "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
+    "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE. Alternative notation can be used for spell consuming vitamins, see example below
     "components": [ /* requirement_id */],                    // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
@@ -103,7 +110,14 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
-    "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "learn_spells": { "create_atomic_light": 5, "megablast": 10 },   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
+    "caster_condition": { "math": [ "u_vitamin('human_blood_vitamin') > -500" ] }, // if valid_targets, targeted_monster_ids, targeted_monster_species and ignored_monster_species is not enough,
+                                                // you can place more conditions 
+                                                // caster condition checks only caster (alpha/u_), and prevent you from casting similarly to lack of mana
+    "caster_condition_fail_message": "You do not have enough stolen blood.", // if caster_condition fails, this message is printed
+    "target_condition": { "npc_has_worn_with_flag": "STABILIZED_TIMELINE" }, // target_condition checks both the caster (alpha/u_) and target (beta/npc/n_) of the spell
+                                                // and prevent you from targeting a specific monster/vehicle 
+    "target_condition_fail_message": "Cannot be used against time or space anchored." // if `target_condition` fails, this message would be printed.
   }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
@@ -179,7 +193,7 @@ Effect                 | Description
 `effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
-`flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
+`flashbang`            | Causes a flashbang effect, centered on the target.  AoE affects the flashbang radius.
 `fungalize`            | Fungalizes the target.
 `guilt`                | Target gets the guilt morale as if it killed the caster.
 `map`                  | Maps out the overmap centered on the player, to a radius of aoe().
@@ -189,8 +203,9 @@ Effect                 | Description
 `noise`                | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+`pickup`               | Opens up the pickup menu at the target(s), allowing characters to pick up items at the area.  For every 1 damage in the spell's definition, each item takes 1 extra move to pick up.
 `recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
-`recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`.
+`recover_energy`       | Recovers an energy source equal to damage of the spell and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`. Alternative notation can be used for spell consuming vitamins, see example below
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
 `remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_reality_tear`.  (see `ter_transform` for more versatility)
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
@@ -250,11 +265,33 @@ Field group | Description | Example
 `message` | The message that will be send in the log when the spell is cast.  Default is "You cast %s!". | "message": "You feel refreshed."
 `sound_type`, `sound_description`, `sound_ambient`, `sound_id`, `sound_variant` | Sound that will play when spell is cast.  `sound_type` can be one of `activity`, `alarm`, `alert`, `background`, `combat`, `destructive_activity`, `movement`, `music`, `order`, `speech`, or `weather`.  <br>`sound_description` responds for the message shown in log, as "You hear %s".  Default is "an explosion".  <br>`sound_ambient` whether or not this is treated as an ambient sound. | "sound_type": "combat", <bp>"sound_description": "a whoosh", <bp>"sound_ambient": true, <bp>"sound_id": "misc", <bp>"sound_variant": "shockwave", 
 `targeted_monster_ids` | Limits the spell to target only the specified `monster_id`. | "targeted_monster_ids": [ "mon_hologram" ],
-`targeted_monster_species` | Limits the spell to target only the specified monster `SPECIES` (full list at [species.json](../data/json/species.json)). | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
+`targeted_monster_species` | Limits the spell to target only the specified monster `SPECIES` (full list at [species.json](/data/json/species.json)). | "targeted_monster_species": [ "ROBOT", "CYBORG" ],
 `ignored_monster_species` | The opposite of `targeted_monster_species`: you can target everything except the specified monster `SPECIES`. | "ignored_monster_species": [ "ZOMBIE", "NETHER" ],
 `condition` | Dynamic field that takes conditions for spell targeting.  These conditions will apply after more specific targeting criteria, such as "valid_targets" or "ignored_monster_species".  The caster is the alpha talker and the target is the beta talker.  Note: Since targeting the ground will not pass a beta talker, make sure any condition tree from a spell with "ground" as a valid target first checks for the presence of a beta talker if it wants to check against it.
 `magic_type` | Optional field indicating which type of magic this spell is part of.  Separate from spell class, this field links to a magic_type object that can define several shareable parts of spells, such as xp required to level or flags that make the spell not castable.
 
+### Channeled Spell fields
+Channeled spells trigger their effects whenever you manually wait a turn after casting. They interrupt if you do ANYTHING but manually wait.  They also break if you are involved in melee combat.
+
+Example `"channel_data`:
+```
+    "channel_data": {
+      "max_channel_turns": 20,
+      "channel_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_interrupt_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_end_spell": "iso_eldritch_mass_aoe_zombie_destruction_secondary",
+      "channel_uses_energy": true
+    }
+```
+With the values being:
+
+| field | effect |
+|-|-|
+|max_channel_turns| The number of times the spell is channeled. |
+|channel_spell         | The spell that triggers every turn of channeling. |
+|channel_end_spell | The spell that triggers on the last turn of channeling. |
+| channel_uses_energy | The `channel_spell` consumes and requires mana/other energy when it triggers. |
+|channel_interrupt_spell | The spell that triggers when channeling is interrupted. Wether its because the player ran out of mana or because they did something other than wait. (OPTIONAL) |
 
 ### Spell Flags
 
@@ -288,6 +325,7 @@ Flag                       | Description
 `NO_HANDS`                 | Hands do not affect spell energy cost.
 `NO_LEGS`                  | Legs do not affect casting time.
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
+`TOUCH_REQUIRED`           | The spell requires a successful attack roll to affect the target. `Melee` is used at range 1 and `marksmanship` at longer ranges.
 `NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
 `PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). If affected_body_parts is specified, deal percentage damage only to this body parts. Works with both attacks and DOTs
@@ -301,6 +339,7 @@ Flag                       | Description
 `RANDOM_DURATION`          | Picks random number between (min + increment) * level and max instead of normal behavior.
 `RANDOM_TARGET`            | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`. 
 `RECHARM`                  | charm_monster spell stacks its duration onto existing charm effect.
+`CHARM_PET`                | charm_monster spell also makes the monster a pet, as though petfood had been used.
 `SILENT`                   | Spell makes no noise at target.
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
@@ -315,20 +354,26 @@ Flag                       | Description
 
 ### Damage Types
 
-The following are the available damage types, for those spells that have a damaging component:
+Any damage type can be used, see [JSON_INFO.md#damage-types](JSON_INFO.md#damage-types) for how they are defined and their specific property
 
-Damage type  | Description
----          |---
-`acid`       | 
-`bash`       | 
-`biological` | Internal damage such as poison.
-`cold`       | 
-`cut`        | 
-`electric`   | 
-`heat`       | 
-`pure`       | This damage type goes through armor altogether.  Set by default.
-`stab`       | 
+### Energy Type
 
+`energy_source` responds for the type of energy consumed, and as of now, can look like:
+
+`BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`
+
+```jsonc
+"energy_source": "MANA",
+"energy_source": "STAMINA",
+"energy_source": "BIONIC",  // consumes MJ from your CBM batteries
+"energy_source": "NONE",
+"energy_source": "HP",      // Require a tool with CUT 1, and allow to pick the limb to be damaged
+"energy_source": { 
+  "type": "VITAMIN",
+  "vitamin": "vitamin_id",
+  "color": "c_red"          // default color is c_cyan
+  } 
+```
 
 ### Spell level
 
@@ -519,7 +564,7 @@ Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in a
     "effect_str": "downed",                                  // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
-    "max_damage": 14,                                        // maximum  damage the spell can achieve
+    "max_damage": 14,                                        // maximum damage the spell can achieve
     "damage_increment": 0.7,                                 // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
@@ -701,14 +746,14 @@ Identifier                  | Description
 ---                         |---
 `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
 `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active.  `WIELD` when wielded in your hand, `WORN` when worn as armor, `HELD` when in your inventory.
-`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true.
+`condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true, eg `"condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] },`
 `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
 `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/math expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
 `skills`                    | A bonus or penalty to skills. Syntax is the same as for values, using the id of the skill name.
 `emitter`                   | Grants the emit_id.
-`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.  Note: changes done this way stay even after the item/effect/mutation carrying the enchantment is removed.
+`modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
@@ -872,7 +917,7 @@ The field `charge_info` supports the following:
 Identifier           | Description
 ---                  |---
 `regenerate_ammo`    | `true`.
-`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, or `none`.
+`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, `forest` or `none`.
 `time`               | Time required per charge.
 `recharge_condition` | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
 
@@ -945,6 +990,7 @@ The following is a list of possible enchantment `values`:
 Character status value  | Description
 ---                     |---
 `ARMOR_ALL`             | Gives this amount of protection against any damage type except one with "no_resist": true. For more precise changes use incoming_damage_mod or item_armor_bonus
+`ARTIFACT_RESONANCE`    | Affects the level of artifact resonance you have, which causes various hardcoded penalties as it rises (note: only add works, not multiply).
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
 `ATTACK_SPEED`          | Affects attack speed of item, even if it's not the one you're wielding, and throwing cost (capped at 25 moves). `"add": 10` adds 10 moves to each attack (makes it longer), `"add": -10` makes each attack faster for 10 moves; `"multiply": 1` doubles the speed of each attack
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
@@ -971,11 +1017,10 @@ Character status value  | Description
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
 `EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers.  From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
 `FALL_DAMAGE`           | Affects the amount of fall damage you take.
-`SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
-`SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `FAT_TO_MAX_HP`         | Changes the amount of HP, that is given to you by your fat. Formula is `((your_calories/7716.17)/((your_height_in_cm/100)^2))*hitsize_of_all_non_bionic_bodyparts`. Using `add` works just as adding HP, so use `multiply` instead
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
+`FREE_DODGES`           | Dodges per turn that won't consume stamina. Can be higher than actual amount of dodges, but won't add more dodges.
 `HEALTHY_RATE`          | How much of your health is changed daily. `"multiply": -1` stops any changes in health
 `HEARING_MULT`          | How well you can hear. Remember that increased hearing means you would have a bigger "noise" written in UI; default step noise of 6, multiplied 10 times, would show it as 60
 `HUNGER`                | Affects how fast your hunger level changes. Do not affect actual calorie burn, the `METABOLISM` field is responsible for this
@@ -1021,7 +1066,7 @@ Character status value  | Description
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_ARMOR_PENETRATION` | Adds armor penetration to ranged attacks.
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
-`RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
+`RANGE_DODGE`           | Chance to dodge projectile attack, no matter what it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
@@ -1033,7 +1078,10 @@ Character status value  | Description
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
 `SKILL_RUST_RESIST`     | when `add`, chance / 100 to resist skill rust; when `multiply`, multiplier for skill rust amount - the smaller, the less experience you will rust
+`SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
+`SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `SLEEPY`                | The higher this the easier you fall asleep.
+`SMASH_BONUS`           | The higher this is, the better you are at smashing things.  Unlike increasing strength or boosting melee damage, this doesn't increase damage against enemies.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
@@ -1067,6 +1115,7 @@ Character status value  | Description
 `REGEN_HP`              | Affects the rate the monster recovers hp.
 `VISION_RANGE`          | Affects monster vision range, both day and night one.
 `SPEED`                 | Affects the base speed of the monster.
+`RANGE_DODGE`           | Gives the monster a percentage chance to dodge ranged attacks, including firearms
 `LUMINATION`            | Affects monster luminance
 `TOTAL_WEIGHT`          | Affects monsters weight
 

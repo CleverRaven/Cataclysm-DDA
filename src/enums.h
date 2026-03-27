@@ -74,17 +74,20 @@ struct enum_traits<bionic_ui_sort_mode> {
     static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
-enum class list_item_sort_mode : int {
-    DISTANCE,
-    NAME,
-    CATEGORY_DISTANCE,
-    CATEGORY_NAME,
+// default is sorting by distance
+enum class surroundings_menu_sort_flags : int {
+    DEFAULT       = 0,
+    NAME          = 1 << 0,
+    CATEGORY      = 1 << 1,
+    CATEGORY_NAME = NAME | CATEGORY, // this is currently needed to cycle through the option
     count
 };
 
 template<>
-struct enum_traits<list_item_sort_mode> {
-    static constexpr list_item_sort_mode last = list_item_sort_mode::count;
+struct enum_traits<surroundings_menu_sort_flags> {
+    static constexpr surroundings_menu_sort_flags first = surroundings_menu_sort_flags::DEFAULT;
+    static constexpr surroundings_menu_sort_flags last = surroundings_menu_sort_flags::count;
+    static constexpr bool is_flag_enum = true;
 };
 
 // When bool is not enough. NONE, SOME or ALL
@@ -273,6 +276,7 @@ enum class object_type : int {
     FIELD,     // field.h; field_entry
     TERRAIN,   // Not a real object
     FURNITURE, // Not a real object
+    FURNITURE_ON_VEHICLE, // least real
     NUM_OBJECT_TYPES,
 };
 
@@ -509,6 +513,49 @@ enum mut_count_type {
     POSITIVE,
     NEGATIVE,
     ALL
+};
+
+enum class bp_type {
+    // this is where helmets go, and is a vital part.
+    head,
+    // the torso is generally the center of mass of a creature
+    torso,
+    // provides sight
+    sensor,
+    // you eat and scream with this
+    mouth,
+    // may manipulate objects to some degree, is a main part
+    arm,
+    // manipulates objects. usually is not a main part.
+    hand,
+    // provides motive power
+    leg,
+    // helps with balance. usually is not a main part
+    foot,
+    // may reduce fall damage
+    wing,
+    // may provide balance or manipulation
+    tail,
+    // more of a general purpose limb, such as horns.
+    other,
+    num_types
+};
+
+template<>
+struct enum_traits<bp_type> {
+    static constexpr bp_type last = bp_type::num_types;
+};
+
+enum class surroundings_menu_tab_enum : int {
+    items = 0,
+    monsters,
+    terfurn,
+    num_tabs
+};
+
+template<>
+struct enum_traits<surroundings_menu_tab_enum> {
+    static constexpr surroundings_menu_tab_enum last = surroundings_menu_tab_enum::num_tabs;
 };
 
 #endif // CATA_SRC_ENUMS_H

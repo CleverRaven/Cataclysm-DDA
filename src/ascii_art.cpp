@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include "assign.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "generic_factory.h"
@@ -32,11 +31,14 @@ void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src )
     ascii_art_factory.load( jo, src );
 }
 
+void ascii_art::finalize_all()
+{
+    ascii_art_factory.finalize();
+}
+
 void ascii_art::load( const JsonObject &jo, std::string_view )
 {
-    assign( jo, "id", id );
-
-    assign( jo, "picture", picture );
+    mandatory( jo, was_loaded, "picture", picture );
     for( std::string &line : picture ) {
         if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
             line = trim_by_length( line, ascii_art_width );

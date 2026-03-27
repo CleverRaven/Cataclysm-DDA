@@ -10,7 +10,7 @@
     "type": "requirement",
     "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
     "//copy-from": "water_boiling_heat",
-    "extend": { "tools": [ [ [ "afs_atompot", -1 ], [ "atomic_coffeepot", -1 ] ] ] }
+    "extend": { "tools": [ [ [ "afs_atompot", -1 ] ] ] }
   },
   {
     "id": "electric_probing",

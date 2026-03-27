@@ -208,6 +208,12 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+void debug_reset_error_observed()
+{
+    error_observed = false;
+}
+
+// saved in game::serialize
 bool debug_mode = false;
 
 namespace debugmode
@@ -240,6 +246,7 @@ std::string filter_name( debug_filter value )
         case DF_EXPLOSION: return "DF_EXPLOSION";
         case DF_FOOD: return "DF_FOOD";
         case DF_GAME: return "DF_GAME";
+        case DF_HIGHWAY: return "DF_HIGHWAY";
         case DF_IEXAMINE: return "DF_IEXAMINE";
         case DF_IUSE: return "DF_IUSE";
         case DF_MAP: return "DF_MAP";
@@ -252,6 +259,7 @@ std::string filter_name( debug_filter value )
         case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
         case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
         case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
+        case DF_NPC_NEEDS: return "DF_NPC_NEEDS";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
@@ -333,15 +341,6 @@ static void debug_error_prompt(
         );
 #endif
 
-    // Create a special debug message UI that does various things to ensure
-    // the graphics are correct when the debug message is displayed during a
-    // redraw callback.
-    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
-    const auto init_window = []( ui_adaptor & ui ) {
-        ui.position_from_window( catacurses::stdscr );
-    };
-    init_window( ui );
-    ui.on_screen_resize( init_window );
     const std::string error_message = string_format(
                                           "\n\n" // Looks nicer with some space
                                           " %s\n" // translated user string: error notification
@@ -370,6 +369,17 @@ static void debug_error_prompt(
 #endif // TILES
                                      );
     std::string message = error_message + instructions;
+
+    // Create a special debug message UI that does various things to ensure
+    // the graphics are correct when the debug message is displayed during a
+    // redraw callback.
+    ui_adaptor ui( ui_adaptor::debug_message_ui{} );
+    const auto init_window = []( ui_adaptor & ui ) {
+        ui.position_from_window( catacurses::stdscr );
+    };
+    init_window( ui );
+    ui.on_screen_resize( init_window );
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point::zero, getmaxx( catacurses::stdscr ), c_light_red,

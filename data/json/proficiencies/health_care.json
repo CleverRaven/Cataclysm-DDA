@@ -32,8 +32,7 @@
     "default_time_multiplier": 2,
     "default_skill_penalty": 0.25,
     "time_to_learn": "12 h",
-    "default_weakpoint_bonus": 2,
-    "default_weakpoint_penalty": 0
+    "required_proficiencies": [ "prof_wound_care" ]
   },
   {
     "type": "proficiency",

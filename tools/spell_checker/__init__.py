@@ -50,7 +50,7 @@ KnownWords = set()
 def init_known_words(DefaultKnownWords, KnownWords):
     default_dict = {
         unicodedata.normalize('NFC', word) for word in
-        SpellChecker(case_sensitive=True).word_frequency
+        SpellChecker(case_sensitive=False).word_frequency
     }
 
     custom_dict = set()

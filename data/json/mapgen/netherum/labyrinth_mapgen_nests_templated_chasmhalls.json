@@ -1,0 +1,458 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "hallway in a chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "split passage",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!v2     v6     v3     v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      v      v      v!",
+        "!v1     vvvvvvvv1     v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v1     vvvvvvvv1     v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v4     v7     v5     v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      v      v      v!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] },
+        "2": { "chunks": [ "ls_secorner_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_swcorner_6x6hall_basic" ] },
+        "4": { "chunks": [ "ls_necorner_6x6hall_basic" ] },
+        "5": { "chunks": [ "ls_nwcorner_6x6hall_basic" ] },
+        "6": { "chunks": [ "ls_Tn_6x6hall_basic" ] },
+        "7": { "chunks": [ "ls_Ts_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "wiggly passage",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvoo..o.vvvvvvvvvv!",
+        "!vvvvvvoo..oooovvvvvvvv!",
+        "!vvvvvoo..oovoovvvvvvvv!",
+        "!vvvvoo..oovvoovvvvvvvv!",
+        "!vvvvoo..oovvoovvvvvvvv!",
+        "!vvvoo..oovvvvoovvvvvvv!",
+        "!vvvoo..oovvvoovvvvvvvv!",
+        "!vvoo..oovvvvvoovvvvvvv!",
+        "!vvoo..oovvvvvvoovvvvvv!",
+        "!vvvoo..oovvvvvvoovvvvv!",
+        "!vvvvoo..oovvvvvoovvvvv!",
+        "!vvvvvoo..oovvvoovvvvvv!",
+        "!vvvvvvoo..oovvoovvvvvv!",
+        "!vvvvvvvoo..oooooovvvvv!",
+        "!vvvvvvvvoo..o..ovvvvvv!",
+        "!vvvvvvvvvoo..ooovvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "hallway in a chasm with possible half-formed juts",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vv3vvvvv7     5vvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vv2vvvvv6     4vvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "2": "t_nl_chasm", "3": "t_nl_chasm", "4": "t_nl_chasm", "5": "t_nl_chasm" },
+      "nested": {
+        "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] },
+        "2": { "chunks": [ [ "null", 30 ], [ "ls_necorner_6x6hall_basic", 70 ] ] },
+        "3": { "chunks": [ [ "null", 60 ], [ "ls_secorner_6x6hall_basic", 40 ] ] },
+        "4": { "chunks": [ [ "null", 30 ], [ "ls_nwcorner_6x6hall_basic", 70 ] ] },
+        "5": { "chunks": [ [ "null", 60 ], [ "ls_swcorner_6x6hall_basic", 40 ] ] },
+        "6": { "chunks": [ [ "ls_ns_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Te_6x6hall_basic", 60 ] ] },
+        "7": { "chunks": [ [ "ls_ns_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Tw_6x6hall_basic", 60 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!|||||vvvvvvvvvvvvvvvvvv",
+        "!|||vvvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvv1           vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            2     ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "//": "Messy corner",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!|||||||vvvvvvvvvvvvvvvv",
+        "!||||vvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvooovvvvvvvvvvv",
+        "!|vvvvvvooooooovvvvvvvvv",
+        "!|vvvvvooovvvoooovvvvvvv",
+        "!vvvvvvoovvvvvoooooovvvv",
+        "!vvvvvoovvvvvvvvoooooovv",
+        "!vvvvvoovvvvvvvvvooooooo",
+        "!vvvvvvoovvvvvvooo..oooo",
+        "!vvvvvvoovvvvooo........",
+        "!vvvvvoovvvvoo...oooo..o",
+        "!vvvvvoovvvoo..oovvvoooo",
+        "!vvvvvvoooo..ooovvvvvoov",
+        "!vvvvvvoo..ooovvvvvvvvvv",
+        "!vvvvvoo..oovvvvvvvvvvvv",
+        "!vvvvvoo..oovvvvvvvvvvvv",
+        "!vvvvvvoo..oovvvvvvvvvvv",
+        "!vvvvvvooo..oovvvvvvvvvv",
+        "!vvvvvvvvoo..oovvvvvvvvv",
+        "!vvvvvvvoo...oovvvvvvvvv",
+        "!vvvvvvvvoo..oovvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "//": "Swingy corner, decent chance of a room in the middle",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!|||||vvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvv2     vvvvvvv",
+        "!|vvvvvvvvv      .ovvvvv",
+        "!|vvvvvvvv.      ..ovvvv",
+        "!|vvvvvvo..      ...ovvv",
+        "!vvvvvvv...      ....ovv",
+        "!vvvvvo....      v....ov",
+        "!vvvvv....5vvvvvvvv....v",
+        "!vvv3     vvvvvvvv4     ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvvvo....vvvvvvvvvvvvvv",
+        "!vvvvvo.....ovvvvvvvvvvv",
+        "!vvvvvvvo....ovvvvvvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "5": "t_nl_chasm" },
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] },
+        "4": { "chunks": [ "ls_necorner_6x6hall_basic" ] },
+        "5": { "chunks": [ [ "null", 40 ], [ "ls_8x8_se_entry_room", 60 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_tee_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvv||||vvvvvvvvvv",
+        "vvvvvvvvvvv||vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvv1           vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "2                 2     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12halltee_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4way_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvv1           vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "2                 2     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!|vvvvvvvvvvvvvvvvvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_12x12hallcorner_basic",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvv......",
+        "vvvvv.......",
+        "vvvv........",
+        "vvvv........",
+        "vvvv.....vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_12x12hall4way_basic",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvv......vvv",
+        "............",
+        "............",
+        "............",
+        "............",
+        "vvv......vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_12x12halltee_basic",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        ".....vv.....",
+        "............",
+        "............",
+        "............",
+        "vvv......vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  }
+]

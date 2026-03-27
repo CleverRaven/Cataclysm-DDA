@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CLAIRE_RESTOCK",
-    "dynamic_line": "Around <interval>.",
+    "dynamic_line": "Around <restock_time_point>.",
     "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
   },
   {

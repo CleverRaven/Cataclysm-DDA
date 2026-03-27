@@ -34,7 +34,7 @@
     "activity_level": "NO_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "result": "bread_flour",
-    "name": "%s with food processor",
+    "name": "%s using food processor",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "cooking",

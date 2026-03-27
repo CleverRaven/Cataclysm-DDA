@@ -79,6 +79,7 @@ enum class widget_var : int {
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
     overmap_text,   // Local overmap and mission marker, multi-line color string
+    oxygen,         // Current oxygen
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
@@ -90,10 +91,12 @@ enum class widget_var : int {
     sundial_time_text,   // Current time - exact if character has a watch, sundial otherwise
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
+    veh_battery_text,  // Current/total battery in vehicle engine, color string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string
     veh_fuel_text,  // Current/total fuel for active vehicle engine, color string
     weariness_text, // Weariness description text, color string
     weary_malus_text, // Weariness malus or penalty
+    snow_depth_text, // Snow depth at player's OMT, color string
     weather_text,   // Weather/sky conditions (if visible), color string
     wielding_text,  // Currently wielded weapon or item name
     wielding_simple_text,  // Currently wielded weapon or item name, without mode and ammo
@@ -223,10 +226,10 @@ struct widget_clause {
 
 // A specified variable object or math expression for use with "var": "custom".
 struct widget_custom_var {
-    dbl_or_var_part value;
-    dbl_or_var_part min;
-    dbl_or_var_part max;
-    std::pair<dbl_or_var_part, dbl_or_var_part> norm;
+    dbl_or_var::part_t value;
+    dbl_or_var::part_t min;
+    dbl_or_var::part_t max;
+    std::pair<dbl_or_var::part_t, dbl_or_var::part_t> norm;
 
     void deserialize( const JsonObject &jo );
     void set_widget_var_range( const avatar &ava, widget &wgt ) const;
@@ -298,7 +301,7 @@ class widget
         translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
-        // Optional color breaks in percent of the value's range; length = lenght(colors) - 1
+        // Optional color breaks in percent of the value's range; length = length(colors) - 1
         std::vector<int> _breaks;
         // Child widget ids for layout style
         std::vector<widget_id> _widgets;
@@ -323,7 +326,8 @@ class widget
         static void load_widget( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, std::string_view src );
         // Finalize anything that must wait until all widgets are loaded
-        static void finalize();
+        static void finalize_all();
+        void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget

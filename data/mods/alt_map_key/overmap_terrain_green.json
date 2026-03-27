@@ -9,6 +9,33 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "supermarket_x0_y0_z0",
+      "supermarket_x0_y1_z0",
+      "supermarket_x0_y2_z0",
+      "supermarket_x1_y0_z0",
+      "supermarket_x1_y1_z0",
+      "supermarket_x1_y2_z0",
+      "supermarket_x2_y0_z0",
+      "supermarket_x2_y1_z0",
+      "supermarket_x2_y2_z0",
+      "supermarket_x0_y0_z1",
+      "supermarket_x0_y1_z1",
+      "supermarket_x0_y2_z1",
+      "supermarket_x1_y0_z1",
+      "supermarket_x1_y1_z1",
+      "supermarket_x1_y2_z1",
+      "supermarket_x2_y0_z1",
+      "supermarket_x2_y1_z1",
+      "supermarket_x2_y2_z1"
+    ],
+    "copy-from": "supermarket_x0_y0_z0",
+    "name": "supermarket",
+    "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_grocery_roof", "s_grocery_roof_1" ],
     "copy-from": "s_grocery_roof",
     "name": "grocery store roof",
@@ -57,9 +84,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_diner_2ndfloor", "s_diner_roof" ],
+    "id": [ "s_diner_2ndfloor" ],
     "copy-from": "s_diner_2ndfloor",
     "name": "diner",
+    "sym": "D",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_diner_roof" ],
+    "copy-from": "s_diner_roof",
+    "name": "diner roof",
     "sym": "D",
     "color": "green"
   },
@@ -242,9 +277,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ],
+    "id": [ "orchard", "orchard_1" ],
     "copy-from": "orchard",
     "name": "orchard",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "orchard_roof", "orchard_roof_1" ],
+    "copy-from": "orchard_roof",
     "sym": "O",
     "color": "green"
   },
@@ -358,6 +400,38 @@
     "copy-from": "sugar_house_roof",
     "name": "sugar house roof",
     "sym": "S",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "morgantown_1a",
+      "morgantown_2a",
+      "morgantown_3a",
+      "morgantown_1b",
+      "morgantown_2b",
+      "morgantown_3b",
+      "morgantown_1c",
+      "morgantown_2c",
+      "morgantown_3c"
+    ],
+    "copy-from": "morgantown_1a",
+    "name": "forested ruins",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "morgantown_forest_fence_s",
+      "morgantown_forest",
+      "morgantown_forest_fence_corner",
+      "morgantown_forest_fence_entry",
+      "morgantown_forest_fence_entry_2"
+    ],
+    "copy-from": "morgantown_forest_fence_s",
+    "name": "fenced-off forest",
+    "sym": "#",
     "color": "green"
   }
 ]

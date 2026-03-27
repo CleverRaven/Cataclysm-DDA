@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Mutations](#mutations)
+  - [System info](#system-info)
+    - [Mutagens and primers](#mutagens-and-primers)
+      - [Purifier](#purifier)
+    - [Thresholds](#thresholds)
+    - [How mutation works](#how-mutation-works)
+    - [Instability and the odds of a good mutation](#instability-and-the-odds-of-a-good-mutation)
+    - [tl;dr](#tldr)
+    - [Further reading and relevant files](#further-reading-and-relevant-files)
+- [Syntax documentation](#syntax-documentation)
+  - [Mutations](#mutations-1)
+    - [Example](#example)
+    - [Mandatory Fields](#mandatory-fields)
+    - [Supplementary Fields](#supplementary-fields)
+    - [Optional Fields](#optional-fields)
+    - [Comfort Conditions](#comfort-conditions)
+      - [Fields](#fields)
+      - [Types](#types)
+    - [EOC details](#eoc-details)
+    - [Sample trait: Example Sleep](#sample-trait-example-sleep)
+  - [Mutation Categories](#mutation-categories)
+  - [Trait Migrations](#trait-migrations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Mutations
 
 ## System info
@@ -10,7 +39,7 @@ Traits and mutations are the same thing in DDA's code. The terms are used interc
 
 There are two substances required to mutate: mutagen and primer. All mutagen and primers are handled as vitamins in the code.
 
-Mutagen is the core nutrient, and it's what is required to initiate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in a ingestable liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
+Mutagen is the core nutrient, and it's what is required to initiate and maintain mutation. Thematically, this is the stuff that stimulates the character's infection and gets them mutating. It comes in an ingestible liquid form (which is toxic and generally a bad idea to drink without further refinement) and an injectable catalyst form (which is much safer and much more powerful).
 
 Primers do not cause mutations to happen on their own, but instead influence what mutations the player gains. Think of mutagen as a car that can only drive on roads, and each type of primer as a possible road for the car to drive on. Every type of mutation category has an associated primer vitamin, and when mutating, the game will mutate down the category that has the most respective primer present. The car can't drive without any roads, but at the same time, the roads will do nothing without the car. Both nutrients are needed to cause mutation.
 
@@ -69,8 +98,9 @@ Finally, there are some sources of true-random mutations that can be inflicted b
 
 ### Further reading and relevant files
 
-`data/json/mutations/changing_eocs.json` - contains the EOCs that power the mutation system
-`data/json/mutations/mutations.json` - type definitions for every mutation in the game
+[changing_eocs.json](/data/json/effects_on_condition/mutation_eocs/changing_eocs.json) - contains the EOCs that power the mutation system
+
+[mutations/](/data/json/mutations/) - type definitions for every mutation in the game
 
 # Syntax documentation
 
@@ -78,7 +108,7 @@ Finally, there are some sources of true-random mutations that can be inflicted b
 
 Specific mutations are extremely versatile. A mutation only needs to have a few mandatory fields filled out, but a very high number of optional fields exist, in addition to supporting EOCs.
 
-Note that **all new traits that can be obtained through mutation must be purifiable** - otherwise, unit tests will fail. To make a mutation purifiable, just add it to the `cancels` field for an existing appropriate dummy mutation, or define its `types` if you want it to be mutually exclusive with certain other mutations.
+ To make a mutation purifiable, just add it to the `cancels` field for an existing appropriate dummy mutation, or define its `types` if you want it to be mutually exclusive with certain other mutations.
 
 ### Example
 
@@ -90,13 +120,14 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
-  "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
+  "provided_qualities": { "BUTCHER": 4, "HAMMER": 1 }, // Tool qualities that are granted by this mutation
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description. Supports snippets and u/global variables
   "starting_trait": true,                     // Can be selected at character creation (default: false).
-  "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
+  "chargen_allow_npc": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that when false (default: true).
+  "random_start_allowed": false,              // (Optional) Is this trait allowed in player random starts (default: true)?
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
@@ -123,7 +154,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "min_bravery": -10,                              // mins or maxes defined *at all* will be applied to all NPCs.)
       "max_bravery": 10,                               //
       "min_collector": -10,                            // As an example, a trait with a `personality_score` which defines only `"min_bravery": -5` will be applied to NPCs with
-      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to a NPC with -6 (being lower than the
+      "max_collector": 10,                             // bravery of -5, -1, 0, 2, 7, or 10 (all of them being higher than the minimum), but not to an NPC with -6 (being lower than the
       "min_altruism": -10,                             // minimum). This can be used to define a range of values for which a trait should be applied (e.g. min 2 max 4 excludes all
       "max_altruism": 10,                              // numbers except 2, 3, and 4.)
     }
@@ -182,6 +213,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
   "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "mana": true,                               // If true, activated mutation consumes `cost` mana. (default: false).
+  "stamina": true,                               // If true, activated mutation consumes `cost` stamina. (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
@@ -253,7 +285,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "msg_sleep": { "text": "You fall asleep.", "rating": "good" }                 // Message displayed when falling asleep.
     }
   ],
-  "activated_is_setup": true,                 // If this is true the bellow activated EOC runs then the mutation turns on for processing every turn. If this is false the below "activated_eocs" will run and then the mod will turn itself off.
+  "activated_is_setup": true,                 // If this is true the below activated EOC runs then the mutation turns on for processing every turn. If this is false the below "activated_eocs" will run and then the mod will turn itself off.
   "activated_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
   "processed_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate every time (defined above) units of time. Time of 0 means every turn it processes. Processed when the mutation is active for activatable mutations and always for non-activatable ones.
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
@@ -292,9 +324,10 @@ These fields are optional, but are very frequently used in mutations and their c
 | `changes_to`      | Nothing | Used for defining mutation lines with defined steps. This trait can further mutate into any other trait defined in this list.                               |
 | `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!            |
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
+| `random_start_allowed`  | true   | If true, this trait can be randomly selected during character creation options that make random selections of traits.       
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
-| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet.                                                                  |
+| `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet. Also implies that this mutation is non-translatable, see [here](/doc/JSON/JSON_INFO.md#translatable-strings). |
 | `mixed_effect`    | false   | Whether this trait has both positive and negative effects. Used only for UI; mixed mutations will appear with purple text instead of green, yellow, or red (which is usually automatically determined by point cost). |
 | `vanity`          | false   | This trait is purely cosmetic, and can be changed at any time. This is for things like skin color, eye color, hair color, etc.                              |
 | `debug`           | false   | Identifies this trait as a debug trait that should never be obtainable in normal play. Debug traits will have a distinct teal color on the character sheet. |

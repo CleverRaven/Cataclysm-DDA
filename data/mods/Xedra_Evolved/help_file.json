@@ -29,8 +29,12 @@
     "messages": [
       "Both the Dreamsmith and Mad Inventor classes have research actions that you can perform.  They will often fail, but each failure moves the percentage chance for your next attempt to succeed up until it hits 100%.",
       "Alchemy can be discovered in game.  It requires some luck to find it in the game world, but if you selected Bombastic Perks mod as an additional mod, you can learn Alchemy easily via the perk system.",
-      "Vampires will get a random assortment of powers as they age up and grow.  Every run as a vampire should have a slightly different mix of powers.",
+      "Vampires will get a random assortment of powers as they age up and grow.  Every run as a vampire should have a slightly different mix of powers.  By surviving and drinking blood you will learn some powers, but if you miss one you really want you can learn how to research new powers from the Vampire Mentor NPCs.",
+      "Dhampir gain new powers based on how frequently they use their blood for vampiric powers, this can encourage them to take the shortcut of drinking human blood.",
       "Elemental Fae, Paraclesians need to gather samples from the other elements and make potions that grant them new powers.",
+      "Werewolves gain new powers from killing monsters in hand to hand.",
+      "The Chronomancer gains ability experience by surviving, by killing monsters while covered with a Chronomancer aura, and by killing time shifted/powerful monsters.",
+      "Lilit need to be outside under the moon at night in order to have chances at gaining new powers, it's a low chance so be out hunting every night to make sure you take every opportunity to learn new powers.",
       "Gracken are a work in progress but the idea is that they are monster hunters who take parts of their kills and use those parts to transform themselves in new and different ways.  Look in their Gracken recipe tab."
     ]
   }

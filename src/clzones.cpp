@@ -8,6 +8,7 @@
 #include <string>
 #include <tuple>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_path.h"
@@ -21,30 +22,36 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "uilist.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "talker.h"
+#include "talker_zone.h"
+#include "study_zone_ui.h"
 
 static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_FIREWOOD( "FIREWOOD" );
 
 static const item_category_id item_category_food( "food" );
 
@@ -72,6 +79,7 @@ static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
+static const zone_type_id zone_type_STUDY_ZONE( "STUDY_ZONE" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 
 const std::vector<zone_type_id> ignorable_zone_types = {
@@ -147,6 +155,11 @@ void zone_type::load_zones( const JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
+void zone_type::finalize_all()
+{
+    zone_type_factory.finalize();
+}
+
 void zone_type::reset()
 {
     zone_type_factory.reset();
@@ -172,6 +185,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<loot_options>();
     } else if( type == zone_type_UNLOAD_ALL ) {
         return make_shared_fast<unload_options>();
+    } else if( type == zone_type_STUDY_ZONE ) {
+        return make_shared_fast<study_zone_options>();
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
         return make_shared_fast<ignorable_options>();
@@ -190,6 +205,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     } else if( type == zone_type_UNLOAD_ALL ) {
         return dynamic_cast<const unload_options *>( &options ) != nullptr;
+    } else if( type == zone_type_STUDY_ZONE ) {
+        return dynamic_cast<const study_zone_options *>( &options ) != nullptr;
     } else if( std::find( ignorable_zone_types.begin(), ignorable_zone_types.end(),
                           type ) != ignorable_zone_types.end() ) {
         return dynamic_cast<const ignorable_options *>( &options ) != nullptr;
@@ -259,14 +276,12 @@ ignorable_options::query_ignorable_result ignorable_options::query_ignorable()
 
 loot_options::query_loot_result loot_options::query_loot()
 {
-    string_input_popup()
-    .title( _( "Filter:" ) )
-    .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" )
-    .desc_color( c_white )
-    .width( 55 )
-    .identifier( "item_filter" )
-    .max_length( 256 )
-    .edit( mark );
+    string_input_popup_imgui input_popup( 55, mark );
+    input_popup.set_label( _( "Filter:" ) );
+    input_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n",
+                                 c_white, /*monofont=*/ true );
+    input_popup.set_identifier( "item_filter" );
+    mark = input_popup.query();
     return changed;
 }
 
@@ -298,7 +313,8 @@ unload_options::query_unload_result unload_options::query_unload()
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> zone_src_set =
@@ -308,7 +324,7 @@ plot_options::query_seed_result plot_options::query_seed()
         tripoint_bub_ms elem_loc = here.get_bub( elem );
         for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
-                seed_inv.push_back( &it );
+                seed_inv.emplace_back( map_cursor( elem_loc ), &it );
             }
         }
     }
@@ -348,6 +364,19 @@ plot_options::query_seed_result plot_options::query_seed()
     } else {
         return canceled;
     }
+}
+
+bool plot_options::query_fertilizer()
+{
+    std::optional<itype_id> selected_fertilizer =
+        multi_farm_activity_actor::query_fertilizer( get_player_character() );
+    itype_id previous_fertilizer = fertilizer;
+    if( !selected_fertilizer ) {
+        fertilizer = itype_id();
+    } else {
+        fertilizer = *selected_fertilizer;
+    }
+    return previous_fertilizer != fertilizer;
 }
 
 bool blueprint_options::query_at_creation()
@@ -392,7 +421,9 @@ bool loot_options::query()
 
 bool plot_options::query()
 {
-    return query_seed() == changed;
+    plot_options::query_seed_result query_seed_result = query_seed();
+    bool query_fertilizer_result = query_fertilizer();
+    return query_seed_result == changed || query_fertilizer_result;
 }
 
 bool unload_options::query()
@@ -535,12 +566,14 @@ void plot_options::serialize( JsonOut &json ) const
 {
     json.member( "mark", mark );
     json.member( "seed", seed );
+    json.member( "fertilizer", fertilizer );
 }
 
 void plot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "seed", seed );
+    jo_zone.read( "fertilizer", fertilizer );
 }
 
 void unload_options::serialize( JsonOut &json ) const
@@ -563,18 +596,95 @@ void unload_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "always_unload", always_unload );
 }
 
+study_zone_options::query_study_result study_zone_options::query_study_skills()
+{
+    study_zone_ui_result result = query_study_zone_skills( npc_skill_preferences );
+    switch( result ) {
+        case study_zone_ui_result::canceled:
+            return query_study_result::canceled;
+        case study_zone_ui_result::changed:
+            return query_study_result::changed;
+        case study_zone_ui_result::successful:
+            return query_study_result::successful;
+        default:
+            return query_study_result::canceled;
+    }
+}
+
+bool study_zone_options::query_at_creation()
+{
+    return query_study_skills() != query_study_result::canceled;
+}
+
+bool study_zone_options::query()
+{
+    return query_study_skills() == query_study_result::changed;
+}
+
+std::string study_zone_options::get_zone_name_suggestion() const
+{
+    return _( "Study Zone" );
+}
+
+std::vector<std::pair<std::string, std::string>> study_zone_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> descriptions;
+    if( npc_skill_preferences.empty() ) {
+        descriptions.emplace_back( _( "NPC Preferences:" ), _( "All NPCs read all skills" ) );
+    } else {
+        descriptions.emplace_back( _( "NPC Preferences:" ), string_format( _( "%zu NPCs configured" ),
+                                   npc_skill_preferences.size() ) );
+    }
+    return descriptions;
+}
+
+void study_zone_options::serialize( JsonOut &json ) const
+{
+    json.member( "npc_skill_preferences" );
+    json.start_object();
+    for( const auto &pair : npc_skill_preferences ) {
+        json.member( pair.first );
+        json.start_array();
+        for( const skill_id &skill : pair.second ) {
+            json.write( skill );
+        }
+        json.end_array();
+    }
+    json.end_object();
+}
+
+void study_zone_options::deserialize( const JsonObject &jo_zone )
+{
+    npc_skill_preferences.clear();
+    JsonObject npc_prefs_obj = jo_zone.get_object( "npc_skill_preferences" );
+    npc_prefs_obj.allow_omitted_members();
+    JsonValue npc_prefs_value = jo_zone.get_member( "npc_skill_preferences" );
+    npc_prefs_value.read( npc_skill_preferences );
+}
+
+const std::set<skill_id> *study_zone_options::get_skill_preferences( const std::string &npc_name )
+const
+{
+    std::map<std::string, std::set<skill_id>>::const_iterator it = npc_skill_preferences.find(
+            npc_name );
+    if( it == npc_skill_preferences.end() ) {
+        return nullptr;
+    }
+    if( it->second.empty() ) {
+        return nullptr;
+    }
+    return &it->second;
+}
+
 std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
-    string_input_popup popup;
-    popup
-    .title( _( "Zone name:" ) )
-    .width( 55 )
-    .text( default_name )
-    .query();
-    if( popup.canceled() ) {
+    string_input_popup_imgui popup( 55, default_name );
+    popup.set_label( _( "Zone name:" ) );
+    std::string text = popup.query();
+    if( popup.cancelled() ) {
         return {};
     } else {
-        return popup.text();
+        return text;
     }
 }
 
@@ -987,22 +1097,22 @@ std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const trip
 {
     std::unordered_set<tripoint_bub_ms> res;
     map &here = get_map();
-    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache ) {
+    for( const auto &cache : area_cache ) {
         zone_type_id type = zone_data::unhash_type( cache.first );
         faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
-            for( tripoint_abs_ms point : cache.second ) {
+            for( const tripoint_abs_ms &point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
                     res.emplace( here.get_bub( point ) );
                 }
             }
         }
     }
-    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+    for( const auto &cache : vzone_cache ) {
         zone_type_id type = zone_data::unhash_type( cache.first );
         faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
-            for( tripoint_abs_ms point : cache.second ) {
+            for( const tripoint_abs_ms &point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
                     res.emplace( here.get_bub( point ) );
                 }
@@ -1011,10 +1121,10 @@ std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const trip
     }
 
     if( npc_search ) {
-        for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+        for( const auto &cache : vzone_cache ) {
             zone_type_id type = zone_data::unhash_type( cache.first );
             if( type == zone_type_NO_NPC_PICKUP ) {
-                for( tripoint_abs_ms point : cache.second ) {
+                for( const tripoint_abs_ms &point : cache.second ) {
                     res.erase( here.get_bub( point ) );
                 }
             }
@@ -1036,12 +1146,24 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_vzone_set( const zone_type
     return type_iter->second;
 }
 
+bool zone_manager::has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
+                                const faction_id &fac ) const
+{
+    const auto &it = area_cache.find( zone_data::make_type_hash( type, fac ) );
+    return it != area_cache.end() && it->second.count( where ) > 0;
+}
+
+bool zone_manager::has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
+                                const faction_id &fac ) const
+{
+    const auto &it = vzone_cache.find( zone_data::make_type_hash( type, fac ) );
+    return it != vzone_cache.end() && it->second.count( where ) > 0;
+}
+
 bool zone_manager::has( const zone_type_id &type, const tripoint_abs_ms &where,
                         const faction_id &fac ) const
 {
-    const auto &point_set = get_point_set( type, fac );
-    const auto &vzone_set = get_vzone_set( type, fac );
-    return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
+    return has_terrain( type, where, fac ) || has_vehicle( type, where, fac );
 }
 
 bool zone_manager::has_near( const zone_type_id &type, const tripoint_abs_ms &where, int range,
@@ -1138,7 +1260,8 @@ std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms
 }
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                                    const zone_type_id &ztype, const faction_id &fac ) const
+                                    const zone_type_id &ztype, const faction_id &fac,
+                                    std::optional<bool> from_vehicle ) const
 {
     std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
     if( zones.empty() || !it ) {
@@ -1146,6 +1269,13 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     }
     item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
+        if( !zone->get_enabled() ) {
+            continue;
+        }
+        if( from_vehicle && zone->get_is_vehicle() != *from_vehicle ) {
+            continue;
+        }
+
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
@@ -1250,7 +1380,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_LOOT_ITEM_GROUP;
         }
     }
-    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( json_flag_FIREWOOD ) ) {
         if( has_near( zone_type_LOOT_WOOD, where, range, fac ) ) {
             return zone_type_LOOT_WOOD;
         }
@@ -1332,7 +1462,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    return zone_type_id();
+    return zone_type_id::NULL_ID();
 }
 
 std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
@@ -1643,7 +1773,7 @@ void zone_manager::deserialize( const JsonValue &jv )
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        } else  if( it->get_faction() != faction_your_followers ) {
+        } else if( it->get_faction() != faction_your_followers ) {
             it = zones.erase( it );
         } else {
             ++it;
@@ -1659,6 +1789,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "faction", faction );
     json.member( "invert", invert );
     json.member( "enabled", enabled );
+    json.member( "temporarily_disabled", temporarily_disabled );
     json.member( "is_vehicle", is_vehicle );
     json.member( "is_personal", is_personal );
     json.member( "cached_shift", cached_shift );
@@ -1694,6 +1825,7 @@ void zone_data::deserialize( const JsonObject &data )
     }
     data.read( "invert", invert );
     data.read( "enabled", enabled );
+    data.read( "temporarily_disabled", temporarily_disabled );
     //Legacy support
     if( data.has_member( "is_vehicle" ) ) {
         data.read( "is_vehicle", is_vehicle );
@@ -1874,4 +2006,19 @@ void mapgen_place_zone( tripoint_abs_ms const &start, tripoint_abs_ms const &end
         }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, true, pmap );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data &me )
+{
+    return std::make_unique<talker_zone>( &me );
+}
+
+std::unique_ptr<const_talker> get_talker_for( const zone_data &me )
+{
+    return std::make_unique<talker_zone_const>( &me );
+}
+
+std::unique_ptr<talker> get_talker_for( zone_data *me )
+{
+    return std::make_unique<talker_zone>( me );
 }

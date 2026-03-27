@@ -21,6 +21,24 @@
   },
   {
     "type": "enchantment",
+    "id": "iso_ench_balthazar_control",
+    "condition": { "math": [ "balthazar_control == 1" ] },
+    "name": { "str": "Active Combat Interface" },
+    "description": "You have asked Balthazar to directly control you in combat.",
+    "values": [
+      { "value": "SPEED", "add": 30 },
+      { "value": "AVOID_FRIENDRY_FIRE", "add": 1 },
+      { "value": "STAMINA_REGEN_MOD", "add": 4 },
+      { "value": "PAIN", "multiply": -1 },
+      { "value": "RANGED_DAMAGE", "multiply": 0.2 },
+      { "value": "MELEE_DAMAGE", "multiply": 0.8 },
+      { "value": "EVASION", "add": 25 },
+      { "value": "RECOIL_MODIFIER", "add": -25 },
+      { "value": "NIGHT_VIS", "add": 25 }
+    ]
+  },
+  {
+    "type": "enchantment",
     "id": "iso_ench_backup",
     "name": { "str": "The Backup" },
     "description": "We have a situation here.",

@@ -24,8 +24,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
-        "//": "more cylindrical",
-        "max_item_length": "200 mm",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -35,8 +34,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
-        "//": "more cylindrical",
-        "max_item_length": "200 mm",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -93,9 +91,18 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [ "military_poncho_liner", "robofac_poncho_liner" ]
       }
     ],
     "armor": [
@@ -131,6 +138,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -140,6 +148,7 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -196,8 +205,7 @@
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii",
-          "robofac_gun_57",
-          "robofac_gun_46"
+          "robofac_gun_57"
         ]
       },
       {
@@ -205,6 +213,16 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "900 g",
+        "moves": 200,
+        "description": "Grommets for a poncho liner.",
+        "item_restriction": [ "military_poncho_liner", "robofac_poncho_liner" ]
       }
     ],
     "use_action": {
@@ -212,7 +230,6 @@
       "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
       "target": "robofac_armor_anchor_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
@@ -270,7 +287,18 @@
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
+    "flags": [
+      "DIMENSIONAL_ANCHOR",
+      "PORTAL_PROOF",
+      "STURDY",
+      "OUTER",
+      "WATERPROOF",
+      "VARSIZE",
+      "RAINPROOF",
+      "HOOD",
+      "SOFT",
+      "SPAWN_ACTIVE"
+    ]
   },
   {
     "id": "robofac_head_rig",
@@ -295,9 +323,8 @@
       "type": "transform",
       "msg": "You lower the visor and flick the control dial to light amplification mode.",
       "target": "robofac_head_rig_nv",
-      "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The visor's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "pocket_data": [
       {
@@ -330,7 +357,7 @@
     "copy-from": "robofac_head_rig",
     "name": { "str_sp": "Hub 01 modular recon headgear (NV+IR)" },
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Activate again to turn off and stow the visor.",
-    "extend": { "flags": [ "GNV_EFFECT" ] },
+    "extend": { "flags": [ "GNV_EFFECT", "SPAWN_ACTIVE" ] },
     "power_draw": "320 mW",
     "use_action": {
       "ammo_scale": 0,
@@ -356,6 +383,148 @@
       }
     ],
     "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ]
+  },
+  {
+    "id": "robofac_head_rig_ar",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear" },
+    "looks_like": "tac_helmet",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to turn on all systems.",
+    "weight": "1400 g",
+    "volume": "1200 ml",
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "nylon", "kevlar", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 3,
+    "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You lower the AR headset and switch it on.\n\"HELLO MERCENARY\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nTargeting HUD:    ONLINE.",
+        "target": "robofac_head_rig_ar_on"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored helm plate.",
+        "flag_restriction": [ "ABLATIVE_HELMET" ]
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "OUTER",
+      "RAINPROOF",
+      "SOFT",
+      "MUNDANE",
+      "ELECTRONIC",
+      "CAN_USE_IN_DARK"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 55,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "robofac_head_rig_ar_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "robofac_head_rig_ar",
+    "name": { "str_sp": "Hub 01 visual augmentation headgear (on)" },
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts, and an integrated camera array.  A multi-faceted augmented reality headset rests of the forehead like a pair of slim, boxy ski goggles, with side plugs for auxiliary devices.  The AR lenses are equipped with adaptive light correction, light amplification and thermal imaging, and an augmented reality overlay equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  The AR system is currently turned on, and continually draining batteries.  Use it to turn it off.",
+    "extend": {
+      "flags": [
+        "SPAWN_ACTIVE",
+        "ZOOM",
+        "THERMOMETER",
+        "HYGROMETER",
+        "BAROMETER",
+        "TWO_WAY_RADIO",
+        "WATCH",
+        "ALARMCLOCK",
+        "SUN_GLASSES"
+      ]
+    },
+    "power_draw": "320 mW",
+    "revert_to": "robofac_head_rig_ar",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your AR system turns off.",
+        "target": "robofac_head_rig_ar"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 50,
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "rigid_layer_only": true,
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
   },
   {
     "id": "robofac_robotrig",
@@ -557,7 +726,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored vambraces (pair)" },
     "looks_like": "armguard_hard",
     "weight": "845 g",
     "volume": "4000 ml",
@@ -585,7 +754,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
-    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves", "//~": "NO_I18N" },
+    "name": { "str_sp": "abstract armored greaves (pair)" },
     "looks_like": "legguard_hard",
     "weight": "1295 g",
     "volume": "5000 ml",
@@ -759,7 +928,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
+    "name": { "str_sp": "Hub 01 prototype vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -769,7 +938,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
+    "name": { "str_sp": "Hub 01 kinetic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones are built in an overlapping pattern that diffuses impacts and provides excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -780,7 +949,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
+    "name": { "str_sp": "Hub 01 turnout vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include Nomex sleeves to protect your arms from extreme heat.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -791,7 +960,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
+    "name": { "str_sp": "Hub 01 ballistic vambraces (pair)" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -806,7 +975,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_vambraces",
-    "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
+    "name": { "str_sp": "Hub 01 soldier vambraces (pair)" },
     "description": "3D printed arm guards, sporting a professional finish and stellar ergonomics.  With thick bullet-resistant arm sleeves, flexible but extremely tough thermoplastic plates, and special attention given to areas reflexively used to protect the face from attacks, it provides first-rate protection against all the horrors that the apocalypse has brought to bear.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
@@ -822,7 +991,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
+    "name": { "str_sp": "Hub 01 prototype greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
     "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
@@ -832,7 +1001,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
+    "name": { "str_sp": "Hub 01 kinetic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
@@ -843,7 +1012,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
+    "name": { "str_sp": "Hub 01 turnout greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Heat-resistant leg sleeves and a breathable design provide adequate protection from extreme heat without sacrificing your mobility or core protection.",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
@@ -854,7 +1023,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
+    "name": { "str_sp": "Hub 01 ballistic greaves (pair)" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
     "material": [
       { "type": "plastic", "portion": 2 },
@@ -869,7 +1038,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "robofac_greaves",
-    "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
+    "name": { "str_sp": "Hub 01 soldier greaves (pair)" },
     "description": "3D printed leg guards, sporting a professional finish and stellar ergonomics.  Layered UHMW thermoplastic plates and bullet-resistant aramid padding combine to keep your lower leg bones protected and unbroken, even when knee-deep in the dead.",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
@@ -941,5 +1110,467 @@
     ],
     "extend": { "flags": [ "STURDY" ] },
     "proportional": { "weight": 1.5 }
+  },
+  {
+    "id": "hub_meteorology_pack",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Hub 01 hazardous meteorology pack" },
+    "description": "A 3D printed pack frame for the true frontier explorer.  While this resembles a standard military or hiking pack frame, this one appears to be made entirely of lightweight plastics and artificial fabrics.  This cumbersome contraption eschews the modular nature of standard frame packs in favor of ergonomic, pre-fabricated attachment points.  The back of the frame is a thin, solid piece with a slot labeled \"SOLAR PANEL\".  The base of the frame has two custom-fit slots labeled \"UPS\" and \"WORKSTATION\".  Hanging from the bottom are two wide loops labeled \"TENT\" and \"ROLLMAT\".  The frame itself has several large clips, each labeled with \"HEW SYSTEM\" in small text.  The pack is secured by shoulder straps - the left shoulder strap proudly displays the Hub 01 logo, while the right strap has \"HE\" sewn in bright white letters.",
+    "weight": "1200 g",
+    "volume": "4500 ml",
+    "longest_side": "70 cm",
+    "price": "400 USD",
+    "price_postapoc": "30 USD",
+    "material": [ { "type": "thermo_resin", "portion": 2 }, { "type": "plastic", "portion": 2 }, { "type": "nylon", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "folding_solar_panel" ],
+        "moves": 300,
+        "max_contains_volume": "7500 ml",
+        "max_contains_weight": "5800 g",
+        "max_item_length": "54 cm",
+        "description": "Secured in a slot labeled \"SOLAR PANEL.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "mobile_weather_station", "xedra_mobile_weather_station", "robofac_mobile_weather_station" ],
+        "max_contains_volume": "90000 ml",
+        "max_contains_weight": "6300 g",
+        "max_item_length": "61 cm",
+        "moves": 300,
+        "description": "Attached to points labeled \"HEW SYSTEM.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "laptop" ],
+        "max_contains_volume": "710 ml",
+        "max_contains_weight": "1330 g",
+        "max_item_length": "323 mm",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"WORKSTATION.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "UPS_off", "UPS_OFF", "UPS_ON" ],
+        "max_contains_volume": "3100 ml",
+        "max_contains_weight": "1400 g",
+        "max_item_length": "15 cm",
+        "moves": 300,
+        "description": "Secured in a slot labeled \"UPS.\""
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "tent_kit" ],
+        "moves": 300,
+        "max_contains_volume": "2600 ml",
+        "max_contains_weight": "1200 g",
+        "max_item_length": "91 cm",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"TENT.\"",
+        "ripoff": 5,
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "item_restriction": [ "rollmat" ],
+        "moves": 300,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "300 g",
+        "max_item_length": "11 cm",
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps labeled \"ROLLMAT.\"",
+        "ripoff": 5,
+        "transparent": true
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "armor": [
+      { "encumbrance": [ 10, 30 ], "coverage": 95, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+    ]
+  },
+  {
+    "id": "robofac_poncho_liner",
+    "//": "made of metallized polyethylene terephthalate, or MPET, so basically an emergency blanket",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "Hub 01 MPET poncho liner" },
+    "description": "Often called a \"woobie\" by soldiers, this sleeping bag-like poncho liner can be attached under a poncho or used as a blanket.  This one is made of space-age metallized polyethylene terephthalate, or MPET, the same reflective material used on spacecraft, spacesuits, emergency blankets, and mundane food packaging.  The Hub 01 logo is stamped on one corner.  It folds into a very compact form when not in use.",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "weight": "50 g",
+    "volume": "200 ml",
+    "warmth": 10,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "environmental_protection": 4,
+    "material_thickness": 0.01,
+    "armor": [
+      { "encumbrance": 3, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
+      {
+        "encumbrance": 3,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      },
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "robofac_lens_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS helmet" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  Activate it to toggle power.",
+    "weight": "1400 g",
+    "volume": "1200 ml",
+    "price": "400000 USD",
+    "price_postapoc": "450 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "techniques": [ "WBLOCK_1" ],
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "symbol": "[",
+    "looks_like": "tac_fullhelmet",
+    "color": "dark_gray",
+    "environmental_protection": 16,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 40 }
+    ],
+    "warmth": 30,
+    "flags": [
+      "OVERSIZE",
+      "STURDY",
+      "WATERPROOF",
+      "SUN_GLASSES",
+      "PADDED",
+      "MODULE_HOLDER",
+      "CAN_USE_IN_DARK",
+      "MUNDANE",
+      "ELECTRONIC",
+      "RAINPROOF",
+      "BLIND",
+      "DEAF",
+      "ROBOFAC_LENS_HELMET"
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
+      }
+    ],
+    "charges_per_use": 1,
+    "etransfer_rate": "30 MB",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_robofac_lens_helmet",
+            "condition": {
+              "and": [ { "u_has_bionics": "bio_robofac_xmlens" }, { "u_has_worn_with_flag": "BLIND" }, { "u_has_worn_with_flag": "DEAF" } ]
+            },
+            "effect": [
+              { "transform_item": "robofac_lens_helmet_on", "active": true },
+              {
+                "u_message": "You flick on your LENS system.\n\"HELLO CEP#03\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nTargeting HUD:    ONLINE."
+              }
+            ],
+            "false_effect": { "u_message": "ERROR: NO LENS SYSTEM DETECTED" }
+          }
+        ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "tool_ammo": "battery"
+  },
+  {
+    "id": "robofac_lens_helmet_pat",
+    "copy-from": "robofac_lens_helmet",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "modified Hub 01 LENS helmet" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_robofac_lens_helmet_pat",
+            "condition": {
+              "and": [ { "u_has_bionics": "bio_robofac_xmlens" }, { "u_has_worn_with_flag": "BLIND" }, { "u_has_worn_with_flag": "DEAF" } ]
+            },
+            "effect": [
+              { "transform_item": "robofac_lens_helmet_pat_on", "active": true },
+              {
+                "u_message": "You flick on your LENS system.\n\"HELLO CEP#03\".\nVisual systems:   ONLINE.\nRadio systems:    ONLINE.\nPat's Frequency:  ONLINE.\nTargeting HUD:    ONLINE."
+              }
+            ],
+            "false_effect": { "u_message": "ERROR: NO LENS SYSTEM DETECTED" }
+          }
+        ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ]
+  },
+  {
+    "id": "robofac_lens_helmet_pat_on",
+    "copy-from": "robofac_lens_helmet_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str_sp": "modified Hub 01 LENS helmet (on)" },
+    "description": "The Low-latency ExoNeural Sensory helmet, also known as the LENS - headgear for the true frontier cyborg.  Somewhat resembling a sleek and reflective fighter pilot's helmet, this combat headgear completely shields the head, eyes, and ears, totally obscuring vision and deafening the wearer.  While the nose and mouth are uncovered, the helmet is mounted with clips for accessory masks.  If powered by batteries and connected to a compatible LENS cybernetic implant, the user's nervous system can directly interface with external cameras dotting the headgear, providing a full field of view, and all of the benefits of more common consumer and military AR systems, including adaptive light correction, light amplification and thermal imaging, and an HUD equipped with various gadgets, including a rangefinder and adaptive targeting system, making target acquisition quicker.  This one has custom software so you can communicate with your pal, Pat.  You are currently connected to Pat's system.  Activate it to toggle power.",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your LENS system and cybernetic HUD switch off, leaving you in darkness.",
+        "target": "robofac_lens_helmet_pat"
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Hail Pat on the radio",
+        "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "revert_to": "robofac_lens_helmet_pat",
+    "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_pat_AR_activate" ] }
+  },
+  {
+    "id": "robofac_lens_helmet_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "copy-from": "robofac_lens_helmet",
+    "name": { "str_sp": "Hub 01 LENS helmet (on)" },
+    "flags": [
+      "OVERSIZE",
+      "STURDY",
+      "WATERPROOF",
+      "SUN_GLASSES",
+      "PADDED",
+      "MODULE_HOLDER",
+      "CAN_USE_IN_DARK",
+      "MUNDANE",
+      "ELECTRONIC",
+      "RAINPROOF",
+      "SPAWN_ACTIVE",
+      "ZOOM",
+      "THERMOMETER",
+      "HYGROMETER",
+      "BAROMETER",
+      "TWO_WAY_RADIO",
+      "WATCH",
+      "ALARMCLOCK",
+      "PARTIAL_DEAF",
+      "FIX_NEARSIGHT",
+      "FIX_FARSIGHT",
+      "FLASH_PROTECTION",
+      "SWIM_GOGGLES",
+      "NO_TAKEOFF",
+      "ROBOFAC_LENS_HELMET"
+    ],
+    "power_draw": "1 W",
+    "revert_to": "robofac_lens_helmet",
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "type": "transform",
+        "menu_text": "Turn off",
+        "msg": "Your LENS system and cybernetic HUD switch off, leaving you in darkness.",
+        "target": "robofac_lens_helmet"
+      },
+      "CAMERA",
+      "EBOOKSAVE",
+      "E_FILE_DEVICE"
+    ],
+    "environmental_protection": 16,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 0 }
+    ],
+    "passive_effects": [
+      { "id": "nvg_great" },
+      { "id": "THERMAL_VISION_GOOD" },
+      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
+    ]
+  },
+  {
+    "id": "robofac_lens_mask_bal",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS ballistic mask" },
+    "description": "A ballistic mask with many tiny vents holes, designed to form a tight seal with a Hub 01 LENS helmet.  Warm and cumbersome, but very protective.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "45 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 30,
+    "environmental_protection": 1,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "robofac_lens_mask_filter",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS filter mask" },
+    "description": "A ballistic mask with a built-in filter compartment, designed to form a tight seal with a Hub 01 LENS helmet.  Protects from smoke, dust, and other contaminants quite well.  It must be prepared before use.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "45 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 35,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 3,
+    "environmental_protection_with_filter": 7,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_SM" ],
+        "default_magazine": "gasfilter_sm"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_s"
+  },
+  {
+    "id": "robofac_lens_mask_gas",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS CBRN mask" },
+    "description": "A ballistic CBRN gas mask, designed to form a tight seal with a Hub 01 LENS helmet.  While it is warmer and harder to breath in than a standard or filtered LENS mask, if a filter canister's been screwed into the right-side filter port and the respirator's been prepared, it'll do an admirable job at preventing smoke, gas, and airborne contaminants from taking up residence in your organs.  It must be prepared before use.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "65 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 40,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "robofac_lens_mask_papr",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "Hub 01 LENS PAPR mask" },
+    "description": "A ballistic powered air purifying respirator mask, designed form a tight seal with a Hub 01 LENS helmet.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, or any other LENS mask, easy airflow keeps it relatively cool and comfortable.  However, it will only function to filter air when paired with an active PAPR blower unit.",
+    "weight": "512 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "65 USD 50 cent",
+    "material": [
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
+    ],
+    "material_thickness": 7,
+    "symbol": "[",
+    "looks_like": "mask_filter",
+    "color": "dark_gray",
+    "warmth": 10,
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SLEEP_IGNORE", "PAPR_MASK", "ROBOFAC_LENS_ACCESSORY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
   }
 ]

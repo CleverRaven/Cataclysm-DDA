@@ -160,5 +160,15 @@
     "id": "broken_milbot_needle",
     "type": "MIGRATION",
     "replace": "broken_imaginifer"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "alien_lard",
+    "replace": "alien_tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "frost_human_lard",
+    "replace": "frost_human_tallow"
   }
 ]

@@ -1,13 +1,13 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_metamagic_toggle_careful",
-    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_careful_deactivated" } ] },
+    "id": "EOC_metamagic_toggle_careful_on",
+    "effect": [ { "u_add_var": "perk_metamagic_careful_deactivated", "value": "no" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_metamagic_toggle_careful_off",
     "effect": [
-      { "u_message": "You activate your careful metamagic" },
-      { "u_add_var": "perk_metamagic_careful_deactivated", "value": "no" }
-    ],
-    "false_effect": [
       { "u_message": "You deactivate your careful metamagic" },
       { "u_add_var": "perk_metamagic_careful_deactivated", "value": "yes" }
     ]

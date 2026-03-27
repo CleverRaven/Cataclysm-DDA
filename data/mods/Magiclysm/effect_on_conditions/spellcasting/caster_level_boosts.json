@@ -217,8 +217,7 @@
                 { "u_is_on_terrain": "t_grass_tall" },
                 { "u_is_on_terrain": "t_grass_long" },
                 { "u_is_on_terrain": "t_bamboo" },
-                { "u_is_on_terrain": "t_bamboo_harvested" },
-                { "u_is_on_terrain": "t_underbrush_harvested_winter" }
+                { "u_is_on_terrain": "t_bamboo_harvested" }
               ]
             },
             "effect": { "math": [ "u_level_boost = 2" ] }

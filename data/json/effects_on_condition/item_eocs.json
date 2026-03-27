@@ -18,6 +18,41 @@
     "effect": { "u_spawn_item": "modular_m4a1", "use_item_group": true }
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_scan_advanced_weather",
+    "condition": {
+      "or": [
+        { "is_weather": "portal_storm" },
+        { "is_weather": "distant_portal_storm" },
+        { "is_weather": "close_portal_storm" },
+        { "u_near_om_location": "unvitrified_orchard", "range": 10 },
+        { "u_near_om_location": "LIXA_surface_1a", "range": 10 },
+        { "u_near_om_location": "temple_stairs", "range": 10 },
+        { "u_near_om_location": "mine_amigara_finale_central", "range": 10 },
+        { "u_near_om_location": "highlands", "range": 10 },
+        { "u_near_om_location": "exodii_base_x0y0z0", "range": 10 },
+        { "u_near_om_location": "microlab_portal_security1", "range": 10 },
+        { "u_near_om_location": "labyrinth_entrance", "range": 10 },
+        { "u_near_om_location": "corpse_surface", "range": 10 },
+        { "u_near_om_location": "corpse_brain", "range": 10 },
+        { "u_near_om_location": "xedra_rural_church", "range": 10 },
+        { "u_near_om_location": "morgantown_2b", "range": 10 },
+        { "u_near_om_location": "cabin_3_reverberation", "range": 10 },
+        { "u_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+        { "u_near_om_location": "radiosphere_radio_tower_top", "range": 10 },
+        { "u_near_om_location": "mine_spiral_finale_s", "range": 10 },
+        { "u_near_om_location": "string_dimension_crossroads", "range": 10 },
+        { "u_near_om_location": "inner_cabins", "range": 10 }
+      ]
+    },
+    "effect": {
+      "u_message": "The instruments whir for a moment before the computer emits 3 sharp beeps.  The LED screen reads \"ANOMALOUS CONDITIONS DETECTED - FULL SCAN RECOMMENDED\"."
+    },
+    "false_effect": {
+      "u_message": "The instruments whir for a moment before the computer beeps once.  The LED screen reads \"CONDITIONS NORMAL\"."
+    }
+  },
+  {
     "id": "EOC_vitrified_doll_talk",
     "type": "effect_on_condition",
     "condition": { "not": { "u_has_item": "imperfect_doll_complete" } },
@@ -203,6 +238,336 @@
       { "u_lose_trait": "FACIAL_HAIR_SHENANDOAH" },
       { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" },
       { "u_lose_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_apply_makeup",
+    "condition": { "u_has_trait": "VANITY" },
+    "effect": { "u_message": "You apply some makeup.  The world will now get to know the true meaning of beauty." },
+    "false_effect": { "u_message": "You apply some makeup.  It feels good to take care of yourself." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_use_microscope",
+    "effect": {
+      "run_eoc_selector": [ "EOC_observe_water_murky", "EOC_observe_soil", "EOC_selector_cancel" ],
+      "names": [ "Murky water sample", "Soil sample", "Cancel" ],
+      "hide_failing": true,
+      "allow_cancel": true
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_observe_water_murky",
+    "condition": { "u_has_item": "microscope_slide_water_murky" },
+    "effect": {
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see  <microscope_water_murky>"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_observe_soil",
+    "condition": { "u_has_item": "microscope_slide_soil" },
+    "effect": {
+      "u_message": "You place the slide on the stage, adjust the light and focus the lens, you manage to see <microscope_soil>"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_selector_cancel",
+    "effect": { "u_message": "You changed your mind." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_pat_advanced_AR_activate",
+    "condition": { "and": [ "u_exists", "u_is_avatar" ] },
+    "effect": [
+      {
+        "if": {
+          "or": [
+            { "u_has_item": "military_vis_aug_system_on" },
+            { "u_has_item": "robofac_head_rig_ar_on" },
+            { "and": [ { "u_has_item": "integrated_ar" }, { "u_has_trait": "Hub01_CBM_Interface" } ] }
+          ]
+        },
+        "then": [ { "run_eocs": [ "EOC_pat_AR_activate" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_pat_AR_activate",
+    "condition": { "math": [ "robofac_pat_is_dead == 1" ] },
+    "effect": { "if": { "one_in_chance": 1000 }, "then": { "u_message": "Your comm is eerily silent." } },
+    "false_effect": { "run_eocs": [ "EOC_pat_AR_scan" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_pat_AR_scan",
+    "condition": {
+      "and": [
+        "u_exists",
+        "u_is_avatar",
+        {
+          "or": [
+            { "npc_near_om_location": "unvitrified_orchard", "range": 3 },
+            { "npc_near_om_location": "LIXA_surface_1a", "range": 3 },
+            { "npc_near_om_location": "temple_stairs", "range": 3 },
+            { "npc_near_om_location": "mine_amigara_finale_central", "range": 3 },
+            { "npc_near_om_location": "highlands", "range": 3 },
+            { "npc_near_om_location": "exodii_base_x0y0z0", "range": 5 },
+            { "npc_near_om_location": "microlab_portal_security1", "range": 3 },
+            { "npc_near_om_location": "labyrinth_entrance", "range": 3 },
+            { "npc_near_om_location": "corpse_surface", "range": 3 },
+            { "npc_near_om_location": "xedra_rural_church", "range": 3 },
+            { "npc_near_om_location": "morgantown_2b", "range": 10 },
+            { "npc_near_om_location": "cabin_3_reverberation", "range": 3 },
+            { "npc_near_om_location": "cabin_3_reverberation_hint", "range": 3 },
+            { "npc_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
+            { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 3 },
+            { "npc_near_om_location": "string_dimension_crossroads", "range": 3 },
+            { "npc_near_om_location": "mine_spiral_finale_s", "range": 3 },
+            { "npc_near_om_location": "void_spider_lair", "range": 3 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "unvitrified_orchard", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_vitrified" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_unvitrified_orchard" } },
+          { "u_add_var": "robofac_pat_saw_vitrified", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "LIXA_surface_1a", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_lixa" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_LIXA_surface_1a" } },
+          { "u_add_var": "robofac_pat_saw_lixa", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "temple_stairs", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_strange_temple" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_temple_stairs" } },
+          { "u_add_var": "robofac_pat_saw_strange_temple", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "mine_amigara_finale_central", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_amigara" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_mine_amigara_finale_central" } },
+          { "u_add_var": "robofac_pat_saw_amigara", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "highlands", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_highlands" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_highlands", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_highlands = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "exodii_base_x0y0z0", "range": 5 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_exodii" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_exodii_base_x0y0z0" } },
+          { "u_add_var": "robofac_pat_saw_exodii", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "microlab_portal_security1", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_physics_lab" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_microlab_portal_security1" } },
+          { "u_add_var": "robofac_pat_saw_physics_lab", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "labyrinth_entrance", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_labyrinth" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_labyrinth", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_labyrinth = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "corpse_surface", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_monster_corpse" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_corpse_surface" } },
+          { "u_add_var": "robofac_pat_saw_monster_corpse", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "xedra_rural_church", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_rural_church" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_xedra_rural_church" } },
+          { "u_add_var": "robofac_pat_saw_rural_church", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "morgantown_2b", "range": 10 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_morgantown_2b_far" } },
+          { "u_add_var": "robofac_pat_saw_morgantown", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "morgantown_2b", "range": 2 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_morgantown_2" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_morgantown_2b_close" } },
+          { "u_add_var": "robofac_pat_saw_morgantown_2", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "cabin_3_reverberation", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_cabin_reverb", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_cabin_reverb = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "radio_tower_reverberation_mp3", "range": 10 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radio_tower_reverberation_mp3" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_radio_tower_reverberation_mp3" } },
+          { "u_add_var": "robofac_pat_saw_radio_tower_reverberation_mp3", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "mine_spiral_finale_s", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_mine_spiral_finale_s" } },
+          { "u_add_var": "robofac_pat_saw_spiral_mine", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "cabin_3_reverberation_hint", "range": 10 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_cabin_reverb_hint" } ] } }
+          ]
+        },
+        "then": [
+          { "open_dialogue": { "topic": "TALK_ROBOFAC_MERC_PAT_POI_cabin_3_reverberation_hint" } },
+          { "u_add_var": "robofac_pat_saw_cabin_reverb_hint", "value": "yes" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "radiosphere_radio_tower_top", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_radiosphere" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_radiosphere", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_radiosphere = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "string_dimension_crossroads", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_string_dimension" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_string_dimension", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_string_dimension = 1" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "npc_near_om_location": "void_spider_lair", "range": 3 },
+            { "not": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spider_dimension" } ] } }
+          ]
+        },
+        "then": [
+          { "u_message": "Your comm is filled with static and your HUD glitches.", "popup": true },
+          { "u_add_var": "robofac_pat_saw_spider_dimension", "value": "yes" },
+          { "math": [ "robofac_pat_lost_signal_spider_dimension = 1" ] }
+        ]
+      }
     ]
   }
 ]

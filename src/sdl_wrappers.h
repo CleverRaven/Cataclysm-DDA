@@ -107,6 +107,13 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
+void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, Uint8 alpha );
+void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
+                   const SDL_Rect *srcrect, const SDL_Rect *dstrect,
+                   double angle, const SDL_Point *center, SDL_RendererFlip flip );
+void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
+bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
 /**@}*/
 
 void StartTextInput();

@@ -41,6 +41,8 @@
     "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
+    "//": "delete balclava :) variants",
+    "variants": [  ],
     "copy-from": "balclava",
     "price": "76 USD",
     "material": [ "kevlar" ]
@@ -183,7 +185,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
-    "weight": "168 g",
+    "weight": "6 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -195,7 +197,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "mouth", "muzzle" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -282,25 +284,13 @@
     ]
   },
   {
-    "id": "mask_guy_fawkes",
+    "id": "xl_mask_dust",
+    "copy-from": "mask_dust",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "Guy Fawkes mask" },
-    "description": "Remember, remember, the fifth of November.",
-    "weight": "45 g",
-    "volume": "750 ml",
-    "price": "40 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "mask_hockey",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "name": { "str": "dust mask" },
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mask_hockey",
@@ -414,6 +404,11 @@
         "description": "It's a plastic mask of a lonely spirit.",
         "weight": 15,
         "append": true
+      },
+      {
+        "id": "guy_fawkes",
+        "name": { "str": "Guy Fawkes mask" },
+        "description": "Remember, remember, the fifth of November."
       }
     ]
   },
@@ -423,7 +418,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "white beard" },
     "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
-    "weight": "200 g",
+    "weight": "75 g",
     "volume": "150 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -443,7 +438,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "face veil" },
     "description": "A simple piece of cotton that covers your face.",
-    "weight": "160 g",
+    "weight": "50 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -547,12 +542,7 @@
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
     "variant_type": "generic",
     "variants": [
-      {
-        "id": "zombie_mask",
-        "name": { "str": "zombie mask" },
-        "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
-        "weight": 100
-      },
+      { "id": "zombie_mask", "//": "inherit name and description from item", "weight": 100 },
       {
         "id": "chicken_mask",
         "name": { "str": "chicken mask" },

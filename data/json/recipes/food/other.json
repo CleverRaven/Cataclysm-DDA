@@ -28,9 +28,9 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" }, { "proficiency": "prof_frying" } ],
-    "components": [ [ [ "earthworm_boiled", 1 ] ], [ [ "salt", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+    "components": [ [ [ "earthworm_boiled", 1 ] ], [ [ "salt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -203,10 +203,9 @@
     "time": "30 m",
     "autolearn": true,
     "contained": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ],
-    "charges": 20
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -525,7 +524,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "young_koji",
+    "result": "young_koji_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -539,7 +538,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "soy_wheat_dough",
+    "result": "soy_wheat_dough_active",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -579,6 +578,28 @@
     "time": "15 m",
     "charges": 2,
     "components": [ [ [ "water_clean", 1 ] ], [ [ "freeze_dried_meal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "freeze_dried_stroganoff_hydrated",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "charges": 2,
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "freeze_dried_stroganoff", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "freeze_dried_veggypasta_hydrated",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "charges": 2,
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "freeze_dried_veggypasta", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -818,6 +839,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "10 minutes",
+    "autolearn": true,
     "batch_time_factors": [ 95, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
@@ -834,7 +856,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "fries", 2 ], [ "fresh_fries", 2 ], [ "fresh_fries_j", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
+    "components": [ [ [ "fries", 2 ] ], [ [ "cheese", 2 ] ], [ [ "gravy_prepared", 1 ] ] ],
     "result_mult": 2
   }
 ]

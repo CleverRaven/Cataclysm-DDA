@@ -1,0 +1,223 @@
+[
+  {
+    "type": "martial_art",
+    "id": "xe_ma_style_arvore_elemental",
+    "name": { "str": "Lashing Bough" },
+    "description": "This style of combat emulates the storm-whipped branches, entangling vines, concealing leaves, and stone-breaking roots of the depths of the forest.  Its attacks are also capable of inflicting poisons on your enemies.  It may not be used with weapons, though the Bloodthorne Druids have adapted it to their heartwhips.  Some attacks are more effective, or only effective, on natural terrain.",
+    "initiate": [ "You open yourself up to the power of nature.", "%s stands tall like a mighty oak." ],
+    "learn_difficulty": 5,
+    "primary_skill": "gramarye",
+    "arm_block": 2,
+    "nonstandard_block": 3,
+    "onpause_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_taking_root",
+        "name": "Taking Root",
+        "description": "Planting yourself like the mighty tree, you prepare to endure an onslaught.\n\n+1 bonus block, +0.5 bash armor, +0.25 cut/stab armor per gramarye skill level.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 2,
+        "buff_duration": 4,
+        "bonus_blocks": 1,
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scaling-stat": "gramarye", "scale": 0.5 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "gramarye", "scale": 0.25 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "gramarye", "scale": 0.25 }
+        ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_dodge",
+        "name": "Reed in the Wind",
+        "description": "Bending like the supple reed, you prepare to strike back.\n\n+1 crit chance per gramarye skill level.\nLasts 3 turns.  Max 3 stacks.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 3,
+        "buff_duration": 3,
+        "forbidden_buffs_all": [ "xe_ma_buff_arvore_block" ],
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 1.0 } ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_block",
+        "name": "Grasping Brambles",
+        "description": "Like thick brambles slowing a forester, you prepare to strike after a block.\n\n+1 crit chance per gramarye skill level.\nLasts 3 turns.  Max 3 stacks.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 3,
+        "buff_duration": 3,
+        "forbidden_buffs_all": [ "xe_ma_buff_arvore_dodge" ],
+        "flat_bonuses": [ { "stat": "crit_chance", "scaling-stat": "gramarye", "scale": 1.0 } ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_block_increase",
+        "name": "Dense Thicket",
+        "description": "As a thicket returns to form after an animal pushes through, you renew your defenses after a hit.\n\n+0.75 blocked damage per unarmed skill level, +1 block effectiveness per gramarye skill level.\nLasts 3 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 2 }, { "name": "gramarye", "level": 4 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 4,
+        "flat_bonuses": [
+          { "stat": "block", "scaling-stat": "unarmed", "scale": 0.75 },
+          { "stat": "block_effectiveness", "scaling-stat": "gramarye", "scale": 1 }
+        ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "xe_ma_buff_arvore_burrowing_ivy",
+        "name": "Burrowing Ivy",
+        "description": "Ivy does not destroy a wall all at once, but patiently over the years.\n\n+0.5 biological damage per gramarye skill level.\nLasts 4 turns.",
+        "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 3 } ],
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "max_stacks": 2,
+        "buff_duration": 3,
+        "flat_bonuses": [ { "stat": "damage", "type": "biological", "scaling-stat": "gramarye", "scale": 0.5 } ]
+      }
+    ],
+    "techniques": [
+      "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE",
+      "TECH_XE_MA_ARVORE_VENOM_ATTACK",
+      "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
+      "TECH_XE_MA_ARVORE_DISARM",
+      "TECH_XE_MA_ARVORE_COUNTER_TRIP"
+    ],
+    "weapons": [ "heartvine_whip" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_ENTANGLING_STRIKE",
+    "name": "Entangling Strike",
+    "messages": [
+      "As you strike %s, roots burst from the ground around them",
+      "<npcname> hits %s and roots burst from the ground around them"
+    ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "melee_allowed": true,
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
+    "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+    "condition_desc": "Must be outdoors and your opponent must be on diggable ground.",
+    "tech_effects": [ { "id": "effect_hungry_roots", "chance": 100, "duration": 10, "on_damage": true } ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_VENOM_ATTACK",
+    "name": "Nightshade's Touch",
+    "messages": [ "As you strike %s, you infuse them with the essence of nightshade.", "<npcname> hits %s." ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "gramarye", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "melee_allowed": true,
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
+    "required_buffs_any": [ "xe_ma_buff_arvore_block", "xe_ma_buff_arvore_block_increase" ],
+    "eocs": [
+      {
+        "id": "EOC_TECH_XE_MA_ARVORE_VENOM_ATTACK",
+        "effect": [
+          {
+            "if": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" },
+            "then": { "math": [ "n_has_arvore_jagged_claw_out = 2" ] },
+            "else": { "math": [ "n_has_arvore_jagged_claw_out = 1" ] }
+          },
+          { "npc_cast_spell": { "id": "tech_xe_ma_arvore_venom_attack_spell", "hit_self": true } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_DISARM",
+    "name": "Curling Fronds",
+    "messages": [ "You reach out toward %s and pull their weapon away", "<npcname> reaches towards %s and pulls their weapon away" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 }, { "name": "gramarye", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "melee_allowed": true,
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
+    "condition": { "or": [ { "u_has_trait": "VINES3" }, { "u_has_wielded_with_flag": "MAGIC_FOCUS" } ] },
+    "condition_desc": "Must have Writhing Vines active or be wielding a heartvine whip",
+    "disarms": true,
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_COUNTER_TRIP",
+    "name": "Obstructing Roots",
+    "messages": [ "You lash out at %s and knock them to the ground", "<npcname> knocks %s to the ground" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 }, { "name": "gramarye", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "melee_allowed": true,
+    "block_counter": true,
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes", "vector_null" ],
+    "eocs": [ "EOC_TECH_XE_MA_ARVORE_COUNTER_TRIP" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "or": [ { "u_has_trait": "VINES3" }, { "u_has_wielded_with_flag": "MAGIC_FOCUS" } ] }
+      ]
+    },
+    "down_dur": 2
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TECH_XE_MA_ARVORE_COUNTER_TRIP",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        "npc_is_outside",
+        { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+        { "x_in_y_chance": { "x": 1, "y": 4 } }
+      ]
+    },
+    "effect": [ { "npc_set_field": "fd_pollen_arvore_weaken", "radius": 0, "outdoor_only": true, "intensity": 3 } ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
+    "name": "Beneath the Falling Tree",
+    "messages": [ "You punch through %s's armor with a mighty blow", "<npcname> punches through %s's armor with a mighty blow" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 }, { "name": "gramarye", "level": 5 } ],
+    "weighting": 2,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "attack_vectors": [ "vector_punch", "vector_knee", "vector_shin", "vector_foot_toes" ],
+    "required_buffs_any": [ "xe_ma_buff_arvore_burrowing_ivy" ],
+    "eocs": [ "EOC_TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "gramarye", "scale": 0.75 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "gramarye", "scale": 0.75 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TECH_XE_MA_ARVORE_BENEATH_FALLING_TREE",
+    "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+    "effect": [
+      {
+        "u_add_effect": "effect_xe_ma_arvore_beneath_falling_tree_weakpoints_bonus",
+        "duration": { "math": [ "2 + (u_skill('gramarye') / 2)" ] }
+      }
+    ]
+  }
+]

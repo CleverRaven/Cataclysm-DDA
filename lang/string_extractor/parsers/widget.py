@@ -2,28 +2,25 @@ from ..write_text import write_text
 
 
 def parse_widget(json, origin):
-    id = json["id"]
-    if "label" in json:
-        write_text(json["label"], origin,
-                   comment="Label of UI widget \"{}\"".format(id))
-    if "description" in json:
-        write_text(json["description"], origin,
-                   comment="Description of UI widget \"{}\"".format(id))
-    if "string" in json:
-        write_text(json["string"], origin,
-                   comment="Text in UI widget \"{}\"".format(id))
-    if "phrases" in json:
-        for phrase in json["phrases"]:
-            comment = "Text in portion of UI widget \"{}\"".format(id)
-            if "text" in phrase:
-                write_text(phrase["text"], origin, comment=comment)
-    if "default_clause" in json and "text" in json["default_clause"]:
-        write_text(json["default_clause"]["text"], origin,
-                   comment="Default clause of UI widget \"{}\"".format(id))
-    if "clauses" in json:
-        for clause in json["clauses"]:
-            if "text" not in clause:
-                continue
-            write_text(clause["text"], origin,
-                       comment="Clause text \"{}\" of UI widget \"{}\""
-                       .format(clause["id"], id))
+    name = json["id"]
+
+    write_text(json.get("label"), origin,
+               comment=f"Label of UI widget '{name}'")
+
+    write_text(json.get("description"), origin,
+               comment=f"Description of UI widget '{name}'")
+
+    write_text(json.get("string"), origin,
+               comment=f"Text in UI widget '{name}'")
+
+    for phrase in json.get("phrases", []):
+        write_text(phrase.get("text"), origin,
+                   comment=f"Text in portion of UI widget '{name}'")
+
+    if "default_clause" in json:
+        write_text(json["default_clause"].get("text"), origin,
+                   comment=f"Default clause of UI widget '{name}'")
+
+    for clause in json.get("clauses", []):
+        write_text(clause.get("text"), origin,
+                   comment=f"Clause text of UI widget '{name}'")

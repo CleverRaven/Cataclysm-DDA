@@ -1,0 +1,164 @@
+[
+  {
+    "id": "car_hybrid",
+    "copy-from": "car_luxury",
+    "type": "vehicle",
+    "name": "Luxury Station Wagon"
+  },
+  {
+    "id": "car_micro_hybrid",
+    "copy-from": "car_micro",
+    "type": "vehicle",
+    "name": "Microcar"
+  },
+  {
+    "id": "car_micro_electric",
+    "copy-from": "car_micro",
+    "type": "vehicle",
+    "name": "Microcar"
+  },
+  {
+    "id": "scompact_hybrid",
+    "copy-from": "scompact",
+    "type": "vehicle",
+    "name": "Supercompact Car"
+  },
+  {
+    "id": "scompact_electric",
+    "copy-from": "scompact",
+    "type": "vehicle",
+    "name": "Supercompact Car"
+  },
+  {
+    "id": "scompact_tandem_electric_stow",
+    "copy-from": "scompact_tandem_stow",
+    "type": "vehicle",
+    "name": "Supercompact Tandem Car"
+  },
+  {
+    "id": "scompact_tandem_electric_hboard",
+    "copy-from": "scompact_tandem_hboard",
+    "type": "vehicle",
+    "name": "Supercompact Tandem Car"
+  },
+  {
+    "id": "scompact_tandem_electric_2wheel_stow",
+    "copy-from": "scompact_tandem_2wheel_stow",
+    "type": "vehicle",
+    "name": "Tandem Cabin Motorcycle"
+  },
+  {
+    "id": "scompact_tandem_electric_2wheel_hboard",
+    "copy-from": "scompact_tandem_2wheel_hboard",
+    "type": "vehicle",
+    "name": "Tandem Cabin Motorcycle"
+  },
+  {
+    "id": "scompact_tandem_electric_3wheel_stow",
+    "copy-from": "scompact_tandem_3wheel_stow",
+    "type": "vehicle",
+    "name": "Tandem Three-Wheeled Supercompact Car"
+  },
+  {
+    "id": "scompact_tandem_electric_3wheel_hboard",
+    "copy-from": "scompact_tandem_3wheel_hboard",
+    "type": "vehicle",
+    "name": "Tandem Three-Wheeled Supercompact Car"
+  },
+  {
+    "id": "car_shootingbrake_electric",
+    "copy-from": "car_shootingbrake_v12",
+    "type": "vehicle",
+    "name": "Premium Shooting Brake"
+  },
+  {
+    "id": "car_shootingbrake_long_electric",
+    "copy-from": "car_shootingbrake_long_v12",
+    "type": "vehicle",
+    "name": "Premium Shooting Brake"
+  },
+  {
+    "id": "car_sedan_electric",
+    "copy-from": "car_sedan_luxury_v6",
+    "type": "vehicle",
+    "name": "Luxury Sedan"
+  },
+  {
+    "id": "car_sedan_luxury_electric",
+    "copy-from": "car_sedan_luxury_v6",
+    "type": "vehicle",
+    "name": "Luxury Sedan"
+  },
+  {
+    "id": "car_sedan_sports_electric",
+    "copy-from": "car_sedan_luxury_v6",
+    "type": "vehicle",
+    "name": "Luxury Sedan"
+  },
+  {
+    "id": "car_coupe_electric",
+    "copy-from": "car_coupe_sports_v6",
+    "type": "vehicle",
+    "name": "V6 Sports Coupe"
+  },
+  {
+    "id": "car_coupe_luxury_electric",
+    "copy-from": "car_coupe_luxury_v6",
+    "type": "vehicle",
+    "name": "Luxury Coupe"
+  },
+  {
+    "id": "car_coupe_sports_electric",
+    "copy-from": "car_coupe_sports_v12",
+    "type": "vehicle",
+    "name": "V12 Sports Coupe"
+  },
+  {
+    "id": "car_super_electric",
+    "copy-from": "car_super_v12",
+    "type": "vehicle",
+    "name": "V12 Super Car"
+  },
+  {
+    "id": "car_super_electric_alt",
+    "copy-from": "car_super_v12",
+    "type": "vehicle",
+    "name": "V12 Super Car"
+  },
+  {
+    "id": "car_sports_electric",
+    "copy-from": "car_super_v12",
+    "type": "vehicle",
+    "name": "Sports Car"
+  },
+  {
+    "id": "car_racing_electric",
+    "copy-from": "car_super_v12",
+    "type": "vehicle",
+    "name": "Sports Car"
+  },
+  {
+    "id": "electric_car",
+    "copy-from": "car_luxury",
+    "type": "vehicle",
+    "name": "Luxury Station Wagon"
+  },
+  {
+    "id": "suv_electric",
+    "copy-from": "suv",
+    "type": "vehicle",
+    "name": "SUV"
+  },
+  {
+    "id": "suv_electric_rack",
+    "type": "vehicle",
+    "copy-from": "suv",
+    "name": "SUV with Bike Rack",
+    "parts": [
+      { "x": -4, "y": -1, "parts": [ "bike_rack" ] },
+      { "x": -4, "y": 0, "parts": [ "bike_rack" ] },
+      { "x": -4, "y": 1, "parts": [ "bike_rack" ] },
+      { "x": -4, "y": 2, "parts": [ "bike_rack" ] }
+    ]
+  }
+]

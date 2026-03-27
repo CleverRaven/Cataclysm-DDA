@@ -155,7 +155,7 @@
     "global": true,
     "condition": { "and": [ { "math": [ "weather('windpower') <= 60" ] }, { "is_weather": "early_dust_storm" } ] },
     "deactivate_condition": { "not": { "is_weather": "early_dust_storm" } },
-    "effect": [ { "math": [ "weather('windpower')", "+=", "3" ] }, { "u_message": "WIND", "type": "bad" } ]
+    "effect": [ { "math": [ "weather('windpower') += 3" ] }, { "u_message": "WIND", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -173,6 +173,6 @@
     "global": true,
     "condition": { "and": [ { "math": [ "weather('windpower') <= 120" ] }, { "is_weather": "dust_storm" } ] },
     "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
-    "effect": [ { "math": [ "weather('windpower')", "+=", "4" ] }, { "u_message": "WIND", "type": "bad" } ]
+    "effect": [ { "math": [ "weather('windpower') += 4" ] }, { "u_message": "WIND", "type": "bad" } ]
   }
 ]

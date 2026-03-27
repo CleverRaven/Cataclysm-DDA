@@ -93,12 +93,14 @@ void option_slider::load_option_sliders( const JsonObject &jo, const std::string
     option_slider_factory.load( jo, src );
 }
 
+void option_slider::finalize()
+{
+    reorder_opts();
+}
+
 void option_slider::finalize_all()
 {
-    for( const option_slider &opt : option_slider::get_all() ) {
-        option_slider &o = const_cast<option_slider &>( opt );
-        o.reorder_opts();
-    }
+    option_slider_factory.finalize();
 }
 
 void option_slider::check_consistency()
@@ -1312,7 +1314,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", to_translation( "Basic" ) );
+        result.emplace_back( "Menu_Sound_Test", to_translation( "Menu_Sound_Test" ) );
     }
     return result;
 }
@@ -1368,7 +1370,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
             { "uk_UA", R"(Українська)" },
-            { "zh_CN", R"(中文 (天朝))" },
+            { "zh_CN", R"(中文 (中国))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
     };
@@ -1770,6 +1772,13 @@ void options_manager::add_options_general()
 
         get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
     } );
+
+    add_empty_line();
+
+    add( "WORLD_COMPRESSION2", "general", to_translation( "World data compression" ),
+         to_translation( "If true, new worlds store data in a compressed format." ),
+         true
+       );
 }
 
 void options_manager::add_options_interface()
@@ -1828,6 +1837,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_MONTHS", page_id, to_translation( "Show day/month" ),
+             to_translation( "Show day/month instead of season in time displays." ),
+             true );
         add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
              to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
              true );
@@ -1870,7 +1882,7 @@ void options_manager::add_options_interface()
              to_translation( "If true, show brand names for drugs, instead of generic functional names - 'Adderall', instead of 'prescription stimulant'." ),
              false );
         add( "SHOW_GUN_VARIANTS", page_id, to_translation( "Show gun brand names" ),
-             to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+             to_translation( "If true, show brand or variant names for guns, instead of generic functional names - 'M4A1 carbine' or 'Mk 18 CQBR carbine' instead of 'M4 carbine'." ),
              false );
         add( "AMMO_IN_NAMES", page_id, to_translation( "Add ammo to weapon/magazine names" ),
              to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
@@ -2249,6 +2261,20 @@ void options_manager::add_options_interface()
         get_option( "EDGE_SCROLL" ).setPrerequisite( "ENABLE_MOUSE" );
     } );
 
+    add_empty_line();
+    add_option_group( "interface", Group( "inventory_stats_opts",
+                                          to_translation( "Inventory stats options" ),
+                                          to_translation( "Options regarding the status summary shown in the header of many inventory screens." ) ),
+    [&]( const std::string & page_id ) {
+        add( "SHOW_MAX_SPACE", page_id, to_translation( "Show max-sized spaces" ),
+             to_translation( "Display the max-sized pocket space when different from the current free space." ),
+             true
+           );
+        add( "SHOW_OTHER_SPACES", page_id, to_translation( "Show 'other' spaces" ),
+             to_translation( "Display up to this many entries in the list of 'other' (not largest/longest) spaces.  0 will disable the list completely." ),
+             0, 5, 0
+           );
+    } );
 }
 
 void options_manager::add_options_graphics()
@@ -2750,21 +2776,10 @@ void options_manager::add_options_world_default()
     }, "reset"
        );
 
-    add( "WORLD_COMPRESSION", "world_default", to_translation( "World data compression" ),
-         to_translation( "If true, new worlds store data in a compressed format." ),
-         false
-       );
-
     add_empty_line();
 
     // These optiosn are purposefully and permanently hidden. It can only be modified through the sliders when creating a new world.
     // As such there is no name or description to show, those are blanked.
-    add( "CITY_SIZE", "world_default", translation(), translation(), 0, 16, 8, COPT_ALWAYS_HIDE
-       );
-
-    add( "CITY_SPACING", "world_default", translation(), translation(), 0, 8, 4, COPT_ALWAYS_HIDE
-       );
-
     add( "SPAWN_DENSITY", "world_default", translation(), translation(), 0.0, 50.0, 1.0, 0.1,
          COPT_ALWAYS_HIDE
        );
@@ -2803,24 +2818,11 @@ void options_manager::add_options_world_default()
     add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc options" ),
                       to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
-        add( "WANDER_SPAWNS", page_id, to_translation( "Wandering hordes" ),
-             to_translation( "If true, emulates zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
-             false
-           );
-
         add( "BLACK_ROAD", page_id, to_translation( "Surrounded start" ),
              to_translation( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
              false
            );
     } );
-
-    add_empty_line();
-
-    add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
-         to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
-    "story_teller"
-       );
 
     add_empty_line();
 
@@ -2884,11 +2886,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+#ifndef NO_STALE_DATA_WARN
     add( "WARN_ON_MODIFIED", "debug", to_translation( "Warn if file integrity check fails" ),
          to_translation( "This option controls whether the game will warn when it detects that the game's data has been modified." ),
          true );
 
     add_empty_line();
+#endif
 
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
          to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
@@ -3975,7 +3979,17 @@ void options_manager::deserialize( const JsonArray &ja )
     for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
+        // yay hardcoded list! remove after 0.J
+        std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE",
+                                                     "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
+                                                   };
+
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
+
+        if( std::find( removed_options.begin(), removed_options.end(), name ) != removed_options.end() ) {
+            continue; // option was removed so we just don't do anything here.
+        }
         const std::string value = migrateOptionValue( joOptions.get_string( "name" ),
                                   joOptions.get_string( "value" ) );
 
@@ -3995,7 +4009,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 {
     //TODO: Remove after stable after world option reserialising is added
     if( name == "MONSTER_UPGRADE_FACTOR" ) {
-        const float new_value = std::stof( val ) / 4.0f;
+        const float new_value = svtod( val ).value_or( 4.0 ) / 4.0f;
         std::ostringstream ssTemp;
         ssTemp.imbue( std::locale::classic() );
         ssTemp.precision( 2 );
@@ -4018,6 +4032,21 @@ void options_manager::update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
+    // Since these are external options they aren't loaded before the first time
+    // update_options_cache is called, so they're conditionally loaded.
+    if( ::has_option( "PLAYER_MAX_STR_VALUE" ) ) {
+        character_max_str = ::get_option<int>( "PLAYER_MAX_STR_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_DEX_VALUE" ) ) {
+        character_max_dex = ::get_option<int>( "PLAYER_MAX_DEX_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_PER_VALUE" ) ) {
+        character_max_per = ::get_option<int>( "PLAYER_MAX_PER_VALUE" );
+    }
+    if( ::has_option( "PLAYER_MAX_INT_VALUE" ) ) {
+        character_max_int = ::get_option<int>( "PLAYER_MAX_INT_VALUE" );
+    }
 
     prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
     prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
@@ -4106,6 +4135,11 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
         return new_world_option;
     }
     return wopt->second;
+}
+
+options_manager::options_container options_manager::get_raw_options()
+{
+    return options;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const

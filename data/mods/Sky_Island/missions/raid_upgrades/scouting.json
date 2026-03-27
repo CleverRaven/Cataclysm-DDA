@@ -1,0 +1,671 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_scouting1",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 1",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Scouting Lens from high quality lenses and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals slightly more of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting1" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals slightly more of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 1" ] },
+        { "u_forget_recipe": "upgradekey_scouting1" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will be scouted just a little better.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Scouting Lens", "str_pl": "Scouting Lenses" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "glasses_eye", 1 ], [ "glasses_bifocal", 1 ], [ "glasses_reading", 1 ] ],
+      [ [ "any_pipe", 1, "LIST" ] ],
+      [ [ "wire", 5 ] ],
+      [ [ "tinder", 5 ] ],
+      [ [ "cordage_short", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting2",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 2",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Scouting Scope from a pair of binoculars and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a bit more of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting2" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a bit more of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 2" ] },
+        { "u_forget_recipe": "upgradekey_scouting2" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide better map scouting.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Scouting Scope" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "binoculars", 1 ] ],
+      [ [ "warptoken", 2 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "duct_tape", 20 ] ],
+      [ [ "light_battery_cell", 5 ], [ "light_battery_cell", 10 ], [ "light_battery_cell", 15 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting3",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 3",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Vision Amplifier from high quality optics and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals even more of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting3" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals even more of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 4" ] },
+        { "u_forget_recipe": "upgradekey_scouting3" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide even better scouting on your map.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting3",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Vision Amplifier" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "wearable_camera", 1 ], [ "wearable_camera_pro", 1 ], [ "omnicamera", 1 ] ],
+      [ [ "warptoken", 5 ] ],
+      [ [ "scrap_aluminum", 12 ] ],
+      [ [ "glue_strong", 10 ], [ "glue_weak", 150 ] ],
+      [ [ "medium_battery_cell", 6 ] ],
+      [ [ "extension_cable", 1 ], [ "long_extension_cable", 1 ], [ "jumper_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting4",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 4",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Third Eye Charm from medical grade optics and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a lot of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting4" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a lot of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 6" ] },
+        { "u_forget_recipe": "upgradekey_scouting4" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will be provide exceptional scouting.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting4",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Third Eye Charm" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "lens", 2 ], [ "lens_small", 1 ] ],
+      [ [ "warptoken", 8 ] ],
+      [ [ "microscope", 1 ] ],
+      [ [ "silver_small", 20 ] ],
+      [ [ "brazing_rod_bronze", 5 ], [ "brazing_rod_alloy", 5 ] ],
+      [ [ "heavy_plus_battery_cell", 1 ], [ "heavy_battery_cell", 2 ] ],
+      [ [ "rope_30", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting5",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 5",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Eye of the Island from experimental optics and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting5",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 10" ] },
+        { "u_forget_recipe": "upgradekey_scouting5" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting5",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Eye of the Island" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting6",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a warpforged telescope from sensors and telescopes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 14" ] },
+        { "u_forget_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting6",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warpforged Telescope" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "tele_sight", 1 ] ],
+      [ [ "cantilever_small", 1 ] ],
+      [ [ "survivor_scope", 3 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "beeper", 1 ], [ "stereo", 1 ], [ "chimes", 1 ] ],
+      [ [ "radio", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting7",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Agglomerated Oculus from ocular enhancements and petrified eyes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 18" ] },
+        { "u_forget_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting7",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "Agglomerated Oculus" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The components below allow all CBMs that enhances eyes or vision.",
+    "//2": "Two petrified eyes in a sky island run is a daunting task, so the other components are easier to find to compensate.",
+    "components": [
+      [
+        [ "bio_eye_optic", 1 ],
+        [ "bio_armor_eyes", 1 ],
+        [ "bio_ar", 1 ],
+        [ "bio_eye_enhancer", 1 ],
+        [ "bio_infrared", 1 ],
+        [ "bio_night_vision", 1 ]
+      ],
+      [ [ "steroid_eyedrops", 50 ], [ "eyedrops", 50 ] ],
+      [ [ "warptoken", 20 ] ],
+      [ [ "petrified_eye", 2 ] ],
+      [ [ "magic_8_ball", 3 ] ],
+      [ [ "steel_lump", 10 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting8",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from outworldly sensors and esoteric notes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 22" ] },
+        { "u_forget_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting8",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Other Eye of the Island" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 8",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "Yrax sensors are very hard to find, so the other components are few to compensate.",
+    "components": [
+      [ [ "exodii_sensor", 3 ] ],
+      [ [ "self_monitoring_module", 2 ] ],
+      [ [ "yrax_sensor", 1 ] ],
+      [ [ "warptoken", 24 ] ],
+      [ [ "book_newage_witchcraftadv", 1 ] ],
+      [ [ "gold_small", 100 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance1",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting Clairvoyance 1",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Higher Viewpoint from notes on the psychic and things that belong to the dead.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scoutingclairvoyance1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 20" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a short time when beginning a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Higher Viewpoint" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scoutingclairvoyance1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The clay urn is craftable, the porcelain urn is 100% likely to be found in retirement centers and a crystal urn can be found in one mansion out of two.",
+    "components": [
+      [ [ "book_newage_inpsychic", 1 ], [ "book_newage_beyondveil", 1 ] ],
+      [ [ "clay_urn", 1 ] ],
+      [ [ "porcelain_urn", 1 ] ],
+      [ [ "crystal_urn", 1 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "corpse_ash", 3000 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance2",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting Clairvoyance 2",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the All-Seeing Effigy from the remains of the observers and detection tools.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scoutingclairvoyance2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 60" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a longer time at the beginning of a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "All-Seeing Effigy" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scoutingclairvoyance2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "broken_lab_security_drone_BM", 5 ],
+        [ "broken_lab_security_drone_YM", 5 ],
+        [ "broken_lab_security_drone_GR", 5 ],
+        [ "broken_lab_security_drone_GM", 5 ],
+        [ "broken_lab_security_drone_BM2", 5 ]
+      ],
+      [ [ "pathfinding_module", 5 ] ],
+      [ [ "warptoken", 22 ] ],
+      [ [ "light_detector", 5 ] ],
+      [ [ "emf_detector", 1 ] ],
+      [ [ "geiger_off", 1 ] ]
+    ]
+  }
+]

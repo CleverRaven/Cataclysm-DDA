@@ -9,8 +9,8 @@
 #include <unordered_map>
 #include <utility>
 
-#include "active_item_cache.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "character.h"
 #include "character_attire.h"
 #include "colony.h"
@@ -22,7 +22,6 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -40,10 +39,15 @@
 
 static const bionic_id bio_ups( "bio_ups" );
 
+static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+static const flag_id json_flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
+
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_any( "any" );
 static const itype_id itype_apparatus( "apparatus" );
 
-static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_SMOKE_PIPE( "SMOKE_PIPE" );
 
 /** @relates visitable */
@@ -206,6 +210,22 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
         }
     }
 
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            return true;
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                return true;
+            }
+        }
+    }
+
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
@@ -274,9 +294,20 @@ int Character::max_quality( const quality_id &qual ) const
         res = std::max( res, bio.get_quality( qual ) );
     }
 
-    if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_functioning_mutations() ) {
-            res = std::max( res, mut->butchering_quality );
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            res = std::max( res, q->second );
+        }
+    }
+
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                res = std::max( res, bp_q.level );
+            }
         }
     }
 
@@ -837,9 +868,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 } else {
                     qty = sum_no_wrap( qty, e->ammo_remaining_linked( here, nullptr ) );
                 }
-                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                if( e->has_flag( json_flag_USE_UPS ) ) {
                     found_tool_with_UPS = true;
-                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                } else if( e->has_flag( json_flag_USES_BIONIC_POWER ) ) {
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
@@ -966,9 +997,9 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( STATIC( flag_id( "ITEM_BROKEN" ) ) ) &&
-            ( id == STATIC( itype_id( "any" ) ) || e->typeId() == id ) && filter( *e ) &&
-            ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
+        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
+            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+            ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -989,12 +1020,12 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 {
     const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() && what != STATIC( itype_id( "any" ) ) ) {
+    if( iter == binned.end() && what != itype_any ) {
         return 0;
     }
 
     int res = 0;
-    if( what.str() == "any" ) {
+    if( what == itype_any ) {
         for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );

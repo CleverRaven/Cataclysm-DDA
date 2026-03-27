@@ -177,7 +177,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_bandit_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_bandit_assassins_sent += 2" ] }
     ]
   },
   {
@@ -200,7 +200,7 @@
     },
     "effect": [
       { "u_spawn_npc": "hells_raiders_assassin", "real_count": 3, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_bandit_assassins_sent", "+=", "3" ] }
+      { "math": [ "u_bandit_assassins_sent += 3" ] }
     ]
   },
   {
@@ -223,7 +223,7 @@
     },
     "effect": [
       { "u_spawn_npc": "old_guard_assassin", "real_count": 2, "min_radius": 15, "max_radius": 25 },
-      { "math": [ "u_government_assassins_sent", "+=", "2" ] }
+      { "math": [ "u_government_assassins_sent += 2" ] }
     ]
   },
   {

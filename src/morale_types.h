@@ -34,6 +34,7 @@ class morale_type_data
         void check() const;
 
         static void load_type( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void check_all();
         static void reset();
 };

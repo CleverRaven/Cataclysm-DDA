@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_bloodthorne_druid_heal_from_spilled_blood",
+    "field": [ { "result": "fd_null", "valid_field": [ "fd_blood" ], "message": "The blood sinks into the ground and vanishes." } ]
+  }
+]

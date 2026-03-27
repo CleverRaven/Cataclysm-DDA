@@ -77,6 +77,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::dies_of_starvation: return "dies_of_starvation";
         case event_type::dies_of_thirst: return "dies_of_thirst";
         case event_type::digs_into_lava: return "digs_into_lava";
+        case event_type::dimension_travel: return "dimension_travel";
         case event_type::disarms_nuke: return "disarms_nuke";
         case event_type::eats_sewage: return "eats_sewage";
         case event_type::evolves_mutation: return "evolves_mutation";
@@ -139,20 +140,19 @@ namespace event_detail
 {
 
 #define DEFINE_EVENT_HELPER_FIELDS(type) \
-    constexpr std::array<std::pair<const char *, cata_variant_type>, \
-    type::fields.size()> type::fields;
+    constexpr std::array<event_field, type::fields.size()> type::fields;
 
 DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 107,
+static_assert( static_cast<int>( event_type::num_event_types ) == 108,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
 
 #define DEFINE_EVENT_FIELDS(type) \
-    constexpr std::array<std::pair<const char *, cata_variant_type>, \
+    constexpr std::array<event_field, \
     event_spec<event_type::type>::fields.size()> \
     event_spec<event_type::type>::fields;
 
@@ -221,6 +221,7 @@ DEFINE_EVENT_FIELDS( uses_debug_menu )
 DEFINE_EVENT_FIELDS( u_var_changed )
 DEFINE_EVENT_FIELDS( vehicle_moves )
 DEFINE_EVENT_FIELDS( character_butchered_corpse )
+DEFINE_EVENT_FIELDS( dimension_travel )
 
 } // namespace event_detail
 

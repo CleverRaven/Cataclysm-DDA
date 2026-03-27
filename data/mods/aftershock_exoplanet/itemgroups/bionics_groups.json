@@ -181,7 +181,6 @@
     "extend": {
       "items": [
         [ "bn_bio_solar", 15 ],
-        [ "afs_bio_wind_turbine", 10 ],
         [ "afs_bio_missiles", 10 ],
         [ "afs_bio_melee_counteraction", 10 ],
         [ "afs_bio_melee_optimization_unit", 10 ],

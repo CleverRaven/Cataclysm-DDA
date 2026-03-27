@@ -184,7 +184,7 @@
     "id": "mutagen",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Mutagen" },
+    "name": { "str": "Mutagenic Catalyst" },
     "excess": "mutagen",
     "min": 0,
     "max": 2500,
@@ -647,5 +647,31 @@
     "rate": "2 h",
     "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 15, 60 ], [ 61, 120 ], [ 121, 180 ], [ 181, 250 ] ]
+  },
+  {
+    "id": "ethanol",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Alcohol" },
+    "//": "1 unit is 1 ml of pure ethanol",
+    "min": 0,
+    "max": 1000,
+    "rate": "1 s",
+    "//2": "For 70 kg person, BAC of 1 ml is about 0.0016%, so 16 units",
+    "//3": "TODO tie it somehow to body weight",
+    "decays_into": [ [ "BAC", 16 ] ]
+  },
+  {
+    "id": "BAC",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Alcohol (BAC)" },
+    "excess": "drunk",
+    "//": "1 unit is 0.1 mg/dL, aka 0.0001% BAC. Average metabolic rate is 150 per hour. Anyhting bigger than 4000 should be deadly for average character",
+    "min": 0,
+    "max": 10000,
+    "rate": "24 s",
+    "//2": "TODO: update effect so vitamin excess scales correctly",
+    "disease_excess": [ [ 1, 1000 ], [ 1001, 2000 ], [ 2001, 3000 ], [ 3001, 4000 ], [ 4001, 10000 ] ]
   }
 ]

@@ -71,7 +71,7 @@ static const itype_id itype_gloves_wraps_fur( "gloves_wraps_fur" );
 static const itype_id itype_hk_mp5( "hk_mp5" );
 static const itype_id itype_holo_sight( "holo_sight" );
 static const itype_id itype_m14ebr( "m14ebr" );
-static const itype_id itype_mask_guy_fawkes( "mask_guy_fawkes" );
+static const itype_id itype_mask_skull( "mask_skull" );
 static const itype_id itype_mossberg_590( "mossberg_590" );
 static const itype_id itype_mossberg_930( "mossberg_930" );
 static const itype_id itype_mp40semi( "mp40semi" );
@@ -290,11 +290,11 @@ static constexpr tripoint_bub_ms shooter_pos( 60, 60, 0 );
 // The gun used for the test is the easiest for players to find.
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
-    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_guy_fawkes, itype_cowboy_hat } );
+    equip_shooter( shooter, { itype_bastsandals, itype_armguard_hard, itype_armguard_soft, itype_test_armor_chitin, itype_beekeeping_gloves, itype_mask_skull, itype_cowboy_hat } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
@@ -332,7 +332,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 // To simulate players who already have sufficient proficiency and equipment
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     shooter.set_body();
     equip_shooter( shooter, { itype_cloak_wool, itype_footrags_wool, itype_gloves_wraps_fur, itype_glasses_safety, itype_balclava } );
@@ -378,7 +378,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 // To simulate hero
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_map_without_vision();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     shooter.set_body();
     equip_shooter( shooter, { } );
@@ -497,7 +497,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
                            const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     statistics<int> damage;
     constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
     const tripoint_bub_ms monster_pos = shooter_pos + ( point::east * range );
@@ -537,7 +537,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
 
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     // BIRDSHOT
     // Unarmored target
     // Minor damage at range.
@@ -656,7 +656,7 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
 
 TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
 {
-    clear_map();
+    clear_map_without_vision();
     auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
         return src.get_value( "general_dmg_type_test_test_fire" ) == "source" &&
                tgt.get_value( "general_dmg_type_test_test_fire" ) == "target";

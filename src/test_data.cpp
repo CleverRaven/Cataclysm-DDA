@@ -8,6 +8,7 @@
 std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;
 std::set<itype_id> test_data::known_bad_calorie;
+std::set<itype_id> test_data::known_bad_uncraft;
 std::vector<pulp_test_data> test_data::pulp_test;
 std::vector<std::regex> test_data::overmap_terrain_coverage_whitelist;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
@@ -132,6 +133,19 @@ void test_data::load( const JsonObject &jo )
         std::set<itype_id> new_known_bad_calorie;
         jo.read( "known_bad_calorie", new_known_bad_calorie );
         known_bad_calorie.insert( new_known_bad_calorie.begin(), new_known_bad_calorie.end() );
+    }
+
+    if( jo.has_array( "known_bad_uncraft" ) ) {
+        std::set<itype_id> new_known_bad_uncraft;
+        jo.read( "known_bad_uncraft", new_known_bad_uncraft );
+        known_bad_uncraft.insert( new_known_bad_uncraft.begin(), new_known_bad_uncraft.end() );
+    }
+
+    if( jo.has_array( "known_good_uncraft" ) ) {
+        std::set<itype_id> new_known_good_uncraft;
+        jo.read( "known_good_uncraft", new_known_good_uncraft );
+        // yes, we populate the same list for both good and bad uncrafts
+        known_bad_uncraft.insert( new_known_good_uncraft.begin(), new_known_good_uncraft.end() );
     }
 
     if( jo.has_array( "pulp_testing_data" ) ) {

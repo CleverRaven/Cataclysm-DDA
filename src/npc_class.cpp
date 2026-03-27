@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -78,17 +79,19 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        npc_class &cl = const_cast<npc_class &>( cl_const );
-        apply_all_to_unassigned( cl.skills );
-        apply_all_to_unassigned( cl.bonus_skills );
+    npc_class_factory.finalize();
+}
 
-        for( const auto &pr : cl.bonus_skills ) {
-            if( cl.skills.count( pr.first ) == 0 ) {
-                cl.skills[ pr.first ] = pr.second;
-            } else {
-                cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
-            }
+void npc_class::finalize()
+{
+    apply_all_to_unassigned( skills );
+    apply_all_to_unassigned( bonus_skills );
+
+    for( const auto &pr : bonus_skills ) {
+        if( skills.count( pr.first ) == 0 ) {
+            skills[ pr.first ] = pr.second;
+        } else {
+            skills[ pr.first ] = skills[ pr.first ] + pr.second;
         }
     }
 }
@@ -209,7 +212,7 @@ bool shopkeeper_item_group::can_restock( npc const &guy ) const
 std::string shopkeeper_item_group::get_refusal() const
 {
     if( refusal.empty() ) {
-        return _( "<npcname> does not trust you enough" );
+        return _( "<npc_faction> faction does not trust you enough." );
     }
 
     return refusal.translated();
@@ -265,6 +268,8 @@ void npc_class::load( const JsonObject &jo, std::string_view )
               shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
               shopkeeper_blacklist_id::NULL_ID() );
+    optional( jo, was_loaded, SHOPKEEPER_WHITELIST, shop_whitelist_id,
+              shopkeeper_whitelist_id::NULL_ID() );
     optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
@@ -393,6 +398,15 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
         return null_blacklist;
     }
     return shop_blacklist_id.obj();
+}
+
+const shopkeeper_whitelist &npc_class::get_shopkeeper_whitelist() const
+{
+    if( shop_whitelist_id.is_null() ) {
+        shopkeeper_whitelist static const null_whitelist;
+        return null_whitelist;
+    }
+    return shop_whitelist_id.obj();
 }
 
 faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const

@@ -11,7 +11,7 @@
     "location": "center",
     "durability": 200,
     "description": "This is little more than a sheet metal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
-    "size": 600,
+    "size": "150 L",
     "breaks_into": [ { "item": "lc_steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {

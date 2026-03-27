@@ -95,7 +95,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
     Character &player_character = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     g->clear_zombies();
     item_location test_item = player_character.i_add( item( itype_bot_manhack, calendar::turn_zero,
@@ -144,7 +144,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, dummy->pos_bub() );
+            actor->use( dummy, flashlight, &get_map(), dummy->pos_bub() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );
@@ -165,7 +165,7 @@ static void cut_up_yields( const itype_id &target )
     Character &guy = get_avatar();
     clear_avatar();
     // Nominal dex to avoid yield penalty.
-    guy.dex_cur = 12;
+    guy.set_dex_base( 12 );
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
     here.i_at( guy.pos_bub() ).clear();
 

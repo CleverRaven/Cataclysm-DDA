@@ -911,24 +911,20 @@
     "display_field": true
   },
   {
-    "id": "fd_meadow_portal",
+    "id": "fd_radiation_aura",
     "type": "field_type",
     "intensity_levels": [
       {
-        "name": "swirling portal",
-        "color": "magenta",
+        "name": "glow",
+        "color": "light_cyan",
         "sym": "*",
         "dangerous": true,
-        "monster_spawn_chance": 6000,
-        "monster_spawn_count": 1,
-        "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_ALIEN_MEADOW"
+        "extra_radiation_min": 2,
+        "extra_radiation_max": 4
       }
     ],
-    "description_affix": "under",
-    "priority": 8,
-    "display_items": true,
-    "display_field": true,
-    "looks_like": "fd_fatigue"
+    "half_life": "2 seconds",
+    "linear_half_life": true,
+    "display_field": false
   }
 ]

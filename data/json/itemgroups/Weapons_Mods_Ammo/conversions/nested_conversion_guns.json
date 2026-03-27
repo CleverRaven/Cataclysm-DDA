@@ -313,19 +313,5 @@
         "prob": 100
       }
     ]
-  },
-  {
-    "id": "nested_converted_cz600",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "//2": "An item group for a random, personally-converted weapon to spawn.",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "group": "cz600_762", "charges": [ 0, 10 ] },
-      { "item": "bren2_762mag10" },
-      { "item": "bren2_762mag10", "prob": 50 },
-      { "group": "on_hand_308" }
-    ]
   }
 ]

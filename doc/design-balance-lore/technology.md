@@ -1,3 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Lore - Technology in the Cataclysm](#lore---technology-in-the-cataclysm)
+      - [Seriously, spoiler alert.](#seriously-spoiler-alert)
+  - [Summary](#summary)
+  - [Civilian Tech](#civilian-tech)
+    - [Cybernetics](#cybernetics)
+      - [Prosthetics](#prosthetics)
+    - [AI](#ai)
+    - [Energy Storage](#energy-storage)
+    - [Powered Suits](#powered-suits)
+  - [Widespread Military Technology](#widespread-military-technology)
+    - [Energy Storage](#energy-storage-1)
+    - [Power Armor](#power-armor)
+      - [Industrial Powered Lifting Suits](#industrial-powered-lifting-suits)
+    - [Turrets and robots](#turrets-and-robots)
+    - [Weaponry](#weaponry)
+  - [Top Secret Technology](#top-secret-technology)
+    - [Dimensional Manipulation](#dimensional-manipulation)
+    - [Dimensional Heuristics](#dimensional-heuristics)
+    - [Cloning](#cloning)
+    - [Mutagens](#mutagens)
+      - [What are mutations?](#what-are-mutations)
+  - [Alien Technology](#alien-technology)
+    - [Scale of technology/power levels in game](#scale-of-technologypower-levels-in-game)
+    - [Exodii Technology](#exodii-technology)
+      - [Cybernetics](#cybernetics-1)
+      - [Braaaains](#braaaains)
+      - [Computers and software](#computers-and-software)
+      - [Manufacturing](#manufacturing)
+      - [Portals](#portals)
+    - [Yrax Technology](#yrax-technology)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Lore - Technology in the Cataclysm
 
 #### Seriously, spoiler alert.

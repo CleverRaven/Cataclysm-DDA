@@ -1,0 +1,12 @@
+[
+  {
+    "type": "bash_damage_profile",
+    "id": "default",
+    "profile": { "bash": 1.0 }
+  },
+  {
+    "type": "bash_damage_profile",
+    "id": "wooden_door",
+    "profile": { "bash": 0.95, "cut": 1.2 }
+  }
+]

@@ -8,10 +8,29 @@
 #include <utility>
 #include <vector>
 
+#include "cata_imgui.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 struct const_dialogue;
+
+class end_screen_data
+{
+        friend class end_screen_ui_impl;
+    public:
+        void draw_end_screen_ui( bool actually_dead = true );
+};
+
+class end_screen_ui_impl : public cataimgui::window
+{
+    public:
+        std::string text;
+        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
+        }
+    protected:
+        void draw_controls() override;
+};
 
 struct end_screen {
     public:

@@ -15,7 +15,7 @@
       "practice_afs_telepathic_confusion",
       "practice_afs_telepathic_blast"
     ],
-    "difficulty": 1
+    "difficulty": 10
   },
   {
     "type": "recipe",
@@ -26,13 +26,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_SHIELD",
+        "condition": { "u_has_trait": "AFS_TELEPATH" },
         "effect": [
           { "set_string_var": "afs_telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 2" ] },
@@ -50,13 +51,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_MIND_SENSE",
+        "condition": { "u_has_trait": "AFS_TELEPATH" },
         "effect": [
           { "set_string_var": "afs_telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 3" ] },
@@ -74,13 +76,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_SUGGESTION",
+        "condition": { "u_has_trait": "AFS_TELEPATH" },
         "effect": [
           { "set_string_var": "afs_telepathic_suggestion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 4" ] },
@@ -98,13 +101,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_CONFUSION",
+        "condition": { "u_has_trait": "AFS_TELEPATH" },
         "effect": [
           { "set_string_var": "afs_telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 5" ] },
@@ -122,13 +126,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATHIC_BLAST",
+        "condition": { "u_has_trait": "AFS_TELEPATH" },
         "effect": [
           { "set_string_var": "afs_telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 7" ] },

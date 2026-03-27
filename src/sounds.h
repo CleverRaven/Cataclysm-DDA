@@ -37,6 +37,11 @@ enum class sound_t : int {
     LAST // must always be last
 };
 
+inline auto format_as( sound_t st )
+{
+    return static_cast<std::underlying_type_t<sound_t>>( st );
+}
+
 // Methods for recording sound events.
 /**
  * Sound at (p) of intensity (vol)
@@ -161,14 +166,15 @@ void play_activity_sound( const std::string &id, const std::string &variant,
                           const std::string &season, int volume );
 void end_activity_sounds();
 void generate_gun_sound( const Character &source_arg, const item &firing );
-void generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit,
+void generate_melee_sound( const item &weapon, const tripoint_bub_ms &source,
+                           const tripoint_bub_ms &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
 int get_heard_volume( const tripoint_bub_ms &source );
 units::angle get_heard_angle( const tripoint_bub_ms &source );
-void do_footstep();
+void do_footstep( const Character &ch );
 void do_danger_music();
 void do_ambient();
 void do_vehicle_engine_sfx();
@@ -180,6 +186,10 @@ bool has_variant_sound( const std::string &id, const std::string &variant );
 bool has_variant_sound( const std::string &id, const std::string &variant,
                         const std::string &season, const std::optional<bool> &is_indoors,
                         const std::optional<bool> &is_night );
+bool has_exact_variant_sound( const std::string &id, const std::string &variant );
+bool has_exact_variant_sound( const std::string &id, const std::string &variant,
+                              const std::string &season, const std::optional<bool> &is_indoors,
+                              const std::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );

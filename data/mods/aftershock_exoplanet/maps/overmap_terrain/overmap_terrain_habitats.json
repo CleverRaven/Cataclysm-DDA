@@ -34,7 +34,8 @@
     "name": "urban farm",
     "sym": "f",
     "color": "light_green",
-    "see_cost": "high"
+    "see_cost": "high",
+    "flags": [ "PP_GENERATE_RUINED" ]
   },
   {
     "type": "overmap_terrain",
@@ -42,7 +43,8 @@
     "name": "urban farm roof",
     "sym": "f",
     "color": "light_green",
-    "see_cost": "none"
+    "see_cost": "none",
+    "flags": [ "PP_GENERATE_RUINED" ]
   },
   {
     "type": "overmap_terrain",
@@ -50,6 +52,7 @@
     "name": "farm control room",
     "sym": "o",
     "color": "light_green",
-    "see_cost": "high"
+    "see_cost": "high",
+    "flags": [ "PP_GENERATE_RUINED" ]
   }
 ]

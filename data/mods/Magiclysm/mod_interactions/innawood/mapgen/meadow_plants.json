@@ -1,0 +1,127 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 100,
+    "//": "Patch of moly growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_moly", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 100,
+    "//": "Patch of olieribos growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_olieribos", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 100,
+    "//": "Patch of flowering fern growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_flowering_fern", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "weight": 100,
+    "//": "Patch of whiskflower bush growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_whiskflower", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "meadow_12x12_trees",
+    "weight": 100,
+    "//": "Stand of sojourner's palm growing in a meadow",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { " ": "f_null", "7": [ [ "f_null", 250 ], [ "f_sojourners_palm", 25 ] ] }
+    }
+  }
+]

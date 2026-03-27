@@ -20,7 +20,6 @@
     "type": "item_group",
     "id": "fertilizer_commercial_bag_canvas_60",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_canvas",
     "entries": [ { "item": "fertilizer_commercial", "container-item": "null", "count": 60 } ]
   }

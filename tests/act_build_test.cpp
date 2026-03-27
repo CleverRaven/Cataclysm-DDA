@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <initializer_list>
 #include <list>
 #include <map>
 #include <memory>
@@ -8,8 +9,10 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -36,7 +39,16 @@
 #include "type_id.h"
 #include "weather_type.h"
 
-static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const construction_str_id construction_constr_floor( "constr_floor" );
+static const construction_str_id
+construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+static const construction_str_id construction_constr_thconc_floor( "constr_thconc_floor" );
+static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
+static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
+static const construction_str_id construction_constr_window_empty( "constr_window_empty" );
+static const construction_str_id
+construction_constr_window_no_curtains( "constr_window_no_curtains" );
 
 static const faction_id faction_free_merchants( "free_merchants" );
 
@@ -45,13 +57,17 @@ static const itype_id itype_e_tool( "e_tool" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_multitool( "test_multitool" );
-static const itype_id itype_wearable_atomic_light( "wearable_atomic_light" );
+static const itype_id itype_wearable_test_lamp( "wearable_test_lamp" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+static const ter_str_id ter_t_wall_wood( "t_wall_wood" );
 static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -62,9 +78,13 @@ void run_activities( Character &u, int max_moves )
 {
     map &here = get_map();
 
-    u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    u.assign_activity( multi_build_construction_activity_actor() );
     int turns = 0;
-    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
+    while( !u.activity.is_null() || u.is_auto_moving() ) {
+        if( turns == max_moves ) {
+            FAIL( "turn count exceeded, infinite loop possible" );
+            return;
+        }
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( here, here.get_bub( *u.destination_point ) );
@@ -72,11 +92,6 @@ void run_activities( Character &u, int max_moves )
             u.start_destination_activity();
         }
         u.activity.do_turn( u );
-        // npc plz do your thing
-        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
-            u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-            activity_handlers::resume_for_multi_activities( u );
-        }
         turns++;
     }
 }
@@ -105,6 +120,8 @@ construction get_construction( std::string const &name )
 construction setup_testcase( Character &u, std::string const &constr,
                              tripoint_bub_ms const &build_loc, tripoint_bub_ms const &loot_loc )
 {
+    u.backlog.clear();
+    u.cancel_activity();
     construction build = get_construction( constr );
 
     zone_manager &zmgr = zone_manager::get_manager();
@@ -140,14 +157,15 @@ construction setup_testcase( Character &u, std::string const &constr,
 void run_test_case( Character &u )
 {
     calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
-    clear_map();
+    clear_map_without_vision();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_avatar();
     map &here = get_map();
     g->reset_light_level();
 
     u.wear_item( item( itype_test_backpack ), false, false );
-    u.wear_item( item( itype_wearable_atomic_light ), false, true );
+    u.wear_item( item( itype_wearable_test_lamp ), false, true );
+    //TODO: this test assumes that tools are on-person, but it should also test without tools on-person
     u.i_add( item( itype_test_multitool ) );
     u.i_add( item( itype_hammer ) );
     u.i_add( item( itype_bow_saw ) );
@@ -262,7 +280,7 @@ void run_test_case( Character &u )
 
     SECTION( "visible but unreachable construction" ) {
         u.setpos( here, tripoint_bub_ms::zero );
-        u.path_settings->bash_strength = 0;
+        u.path_settings->bash_strength = {};
         here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window = { 0, 5, 0 };
         for( tripoint_bub_ms const &it : here.points_in_radius( tri_window, 1 ) ) {
@@ -326,4 +344,73 @@ TEST_CASE( "npc_act_multiple_construction", "[npc][zones][activities][constructi
     u.set_body();
     u.set_fac( faction_free_merchants );
     run_test_case( u );
+}
+
+TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
+{
+
+
+    build_reqs total_reqs;
+    const auto add_build = [&total_reqs]( const construction_str_id & con_id ) {
+        const construction &build = con_id.obj();
+        total_reqs.time += build.time;
+        total_reqs.raw_reqs[build.requirements] += 1;
+    };
+
+    WHEN( "ter_t_thconc_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_thconc_floor.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_thconc_floor );
+        add_build( construction_constr_ov_smreb_cage_thconc_floor );
+        add_build( construction_constr_pit_shallow );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_floor" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_floor.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_floor );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_window_no_curtains" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { {{ter_t_window_no_curtains.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_window_no_curtains );
+        add_build( construction_constr_window_empty );
+
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+    WHEN( "ter_t_wall_wood" ) {
+        std::pair<std::map<ter_id, int>, std::map<furn_id, int>> changed_ids = { { {ter_t_wall_wood.id(), 1}}, {} };
+        build_reqs auto_build_reqs = get_build_reqs_for_furn_ter_ids( changed_ids );
+        total_reqs.time = 0;
+        total_reqs.raw_reqs.clear();
+
+        add_build( construction_constr_wall_wood );
+        add_build( construction_constr_wall_half );
+        CHECK( total_reqs.time == auto_build_reqs.time );
+        for( const auto &req : total_reqs.raw_reqs ) {
+            CHECK( req.second == auto_build_reqs.raw_reqs[req.first] );
+        }
+    }
+
 }

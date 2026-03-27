@@ -19,7 +19,6 @@
 #include "item_location.h"
 #include "mapdata.h"
 #include "memory_fast.h"
-#include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -49,28 +48,63 @@ class ui_adaptor;
 class vehicle;
 struct vehicle_part;
 
+template <typename T> struct enum_traits;
+
 // For marking 'leaking' tanks/reactors/batteries
 const std::string leak_marker = "<color_red>*</color>";
+
+// the action done by this vehicle activity
+enum vehicle_action {
+    VEHICLE_INSTALL,    // 'i'
+    VEHICLE_REPAIR,     // 'r'
+    VEHICLE_REFILL,     // 'f'
+    VEHICLE_REMOVE,     // 'o'
+    VEHICLE_REMOVE_APPLIANCE,     // 'O'
+    VEHICLE_UNPLUG,     // 'u'
+    VEHICLE_MEND_FAULTS,// 'm'
+    VEHICLE_SIPHON,     // 's'
+    VEHICLE_UNLOAD,     // 'd'
+    // not intended to be activities or legacy
+    VEHICLE_SHAPE,      // 'p'
+    VEHICLE_ASSIGN_CREW,// 'w'
+    VEHICLE_RELABEL,    // 'a'
+    VEHICLE_QUIT,        // 'q' or ' '
+    VEHICLE_LAST
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<vehicle_action>( vehicle_action stage );
+} // namespace io
+
+template<>
+struct enum_traits<vehicle_action> {
+    static constexpr vehicle_action last = vehicle_action::VEHICLE_LAST;
+};
 
 class veh_interact
 {
         using part_selector = std::function<bool( const map &here, const vehicle_part &pt )>;
 
     public:
-        static player_activity run( map &here,  vehicle &veh, const point_rel_ms &p );
+        static void run( map &here,  vehicle &veh, const point_rel_ms &p );
 
         /** Prompt for a part matching the selector function */
         static std::optional<vpart_reference> select_part( map &here, const vehicle &veh,
                 const part_selector &sel,
                 const std::string &title = std::string() );
 
-        static void complete_vehicle( map &here, Character &you );
+        static void do_change_shape_menu( vehicle_part &vp );
 
     private:
         explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
 
-        point_rel_ms dd = point_rel_ms::zero;
+        // vehicle part mount position, only set during constructor
+        // functionally, this works as the cursor position for the top-down vehicle view
+        // see vehicle::build_interact_menu for initial assignment
+        point_rel_ms cursor_vp_mount = point_rel_ms::zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
         int start_limit = 0;
@@ -89,7 +123,7 @@ class veh_interact
         const vpart_info *sel_vpart_info = nullptr;
 
         // Command currently being run by the player
-        char sel_cmd = ' ';
+        vehicle_action sel_cmd = VEHICLE_QUIT;
 
         int cpart = -1;
         int page_size = 0;
@@ -140,7 +174,7 @@ class veh_interact
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor( map &here );
         void hide_ui( map &here, bool hide );
 
-        player_activity serialize_activity( map &here );
+        void assign_activity( map &here );
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
@@ -148,7 +182,7 @@ class veh_interact
 
         int part_at( const point_rel_ms &d );
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
-        task_reason cant_do( const map &here,  char mode );
+        task_reason cant_do( const map &here, vehicle_action mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).

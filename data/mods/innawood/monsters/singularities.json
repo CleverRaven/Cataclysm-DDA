@@ -32,7 +32,7 @@
       ]
     },
     "effect": [
-      { "math": [ "Shadow_Warnings", "+=", "1" ] },
+      { "math": [ "Shadow_Warnings += 1" ] },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 270" ] },
         "then": {

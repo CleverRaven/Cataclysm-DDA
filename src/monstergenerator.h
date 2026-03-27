@@ -50,6 +50,7 @@ struct species_type {
     }
 
     void load( const JsonObject &jo, std::string_view src );
+    static void finalize_all();
 };
 
 class MonsterGenerator
@@ -81,6 +82,7 @@ class MonsterGenerator
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
+        friend struct special_attacks_reader;
         friend struct species_type;
         friend class mattack_actor;
 
@@ -104,6 +106,7 @@ class MonsterGenerator
         void validate_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
 
+        friend class int_id<mtype>;
         friend class string_id<mtype>;
         friend class string_id<species_type>;
         friend class string_id<mattack_actor>;

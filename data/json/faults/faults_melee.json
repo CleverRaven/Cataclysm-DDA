@@ -21,7 +21,7 @@
     "fault_type": "mechanical_damage",
     "name": { "str": "Crack" },
     "degradation_mod": 50,
-    "description": "There is a deep crack on the blade.  A sure sign that the entire sword will break apart sooner or later."
+    "description": "There is a deep crack on the blade.  A sure sign that the entire sword will break apart sooner or later.  Any attempt to repair it would only further damage the blade, so the days for this %s are numbered."
   },
   {
     "type": "fault",

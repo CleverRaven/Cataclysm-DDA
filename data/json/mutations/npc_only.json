@@ -1,0 +1,168 @@
+[
+  {
+    "type": "mutation",
+    "id": "NPC_STARTING_NPC",
+    "name": { "str": "Starting NPC" },
+    "description": "Marker for starting NPCs",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_STATIC_NPC",
+    "name": { "str": "Static NPC" },
+    "description": "Marker for static NPCs",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "HALLUCINATION",
+    "name": { "str": "Hallucination" },
+    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "threshold": true,
+    "points": 0,
+    "player_display": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "IGNORE_SOUND",
+    "name": { "str": "Ignores Sounds" },
+    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
+    "points": 99,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_BASH",
+    "name": { "str": "Will Not Bash" },
+    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
+    "points": 99,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "RETURN_TO_START_POS",
+    "name": { "str": "Returns to Start POS" },
+    "description": "NPC will return to its spawn position on idle.",
+    "points": 99,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "GETS_RANDOM_MISSION",
+    "name": { "str": "Assign Random Mission", "//~": "NO_I18N" },
+    "description": { "str": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GETS_RANDOM_MISSION_NOMOVE",
+    "name": { "str": "Assign Random No-move Mission", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BEE",
+    "name": { "str": "Bee" },
+    "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+    "threshold": true,
+    "points": 0,
+    "player_display": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MYCUS_FRIEND",
+    "name": { "str": "Mycus friend" },
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "points": 0,
+    "player_display": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_BRANDY",
+    "name": { "str": "Carries Brandy" },
+    "description": "This Bartender now carries brandy!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_RUM",
+    "name": { "str": "Carries Rum" },
+    "description": "This Bartender now carries rum!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_WHISKEY",
+    "name": { "str": "Carries Whiskey" },
+    "description": "This Bartender now carries whiskey!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_MISSION_LEV_1",
+    "name": { "str": "Has Level 1 Companion Missions" },
+    "description": "New mission options have become available!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_CONSTRUCTION_LEV_1",
+    "name": { "str": "Has Level 1 Construction Built" },
+    "description": "New options may have become available!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NPC_CONSTRUCTION_LEV_2",
+    "name": { "str": "Has Level 2 Construction Built" },
+    "description": "New options may have become available!",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
+  }
+]

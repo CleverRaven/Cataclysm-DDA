@@ -210,6 +210,7 @@
     "time": "10 m",
     "charges": 3,
     "autolearn": false,
+    "book_learn": [ [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fat", 2 ] ] ]
   },
@@ -346,5 +347,146 @@
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
+  },
+  {
+    "result": "helmet_scavenger",
+    "id_suffix": "debug",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "sewing_aramids", 32 ], [ "soldering_standard", 8 ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
+      [ [ "mask_filter", 1 ] ],
+      [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
+      [ [ "sheet_kevlar_layered", 1 ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_polymerworking" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_steps_basic",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Shape",
+        "time": "10 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "batch_time_factors": [ 25, 4 ],
+        "proficiencies": [ { "proficiency": "prof_test_step_a" } ]
+      },
+      { "name": "Sand", "time": "5 m", "activity_level": "LIGHT_EXERCISE", "batch_time_factors": [ 50, 4 ] },
+      {
+        "name": "Finish",
+        "time": "5 m",
+        "activity_level": "NO_EXERCISE",
+        "batch_time_factors": [ 80, 2 ],
+        "proficiencies": [ { "proficiency": "prof_test_step_b" } ],
+        "qualities": [ { "id": "CUT", "level": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_steps_shared_prof",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Rough shape",
+        "time": "10 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_test_step_a" } ]
+      },
+      {
+        "name": "Fine shape",
+        "time": "10 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_test_step_a" } ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_steps_required_prof",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "2x4", 1 ] ] ],
+    "steps": [
+      {
+        "name": "Check",
+        "time": "5 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_test_step_required", "required": true } ]
+      },
+      {
+        "name": "Work",
+        "time": "10 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_test_step_a" } ]
+      }
+    ]
+  },
+  {
+    "id": "test_nested_weapons",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "test nested weapons",
+    "description": "Test nested category for crafting GUI tests.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "cudgel_test_no_tools" ],
+    "difficulty": 0
+  },
+  {
+    "//": "For testing recipe result info with container.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water_clean",
+    "id_suffix": "test_in_jar",
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ] ] ]
+  },
+  {
+    "//": "For testing VARSIZE poor-fit warning. Result and component both have VARSIZE.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "test_longshirt",
+    "id_suffix": "test_poor_fit",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "components": [ [ [ "test_longshirt", 1 ] ] ]
   }
 ]

@@ -1,0 +1,31 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      {
+        "group": "GROUP_GOBLIN_HUNTING_PARTY",
+        "weight": 45,
+        "cost_multiplier": 2,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "NIGHT" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_GOBLIN_HUNTING_PARTY",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_goblin_warrior", "weight": 100 },
+      { "monster": "mon_goblin_slinger", "weight": 50 },
+      { "monster": "mon_goblin_bugbear", "weight": 10, "cost_multiplier": 2 },
+      { "monster": "mon_goblin_bugbear_stalker", "weight": 3, "cost_multiplier": 2 },
+      { "monster": "mon_goblin_mage_poison", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_orc_warrior", "weight": 25 },
+      { "monster": "mon_orc_archer", "weight": 12 },
+      { "monster": "mon_orc_mage_blood", "weight": 5, "cost_multiplier": 4 }
+    ]
+  }
+]

@@ -73,7 +73,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     // wait a turn for the effect to kick in
     p.process_turn();
 
-    CHECK( p.get_dex() == ( enc_test.dex_before + 25 ) * 3 );
+    CHECK( p.get_dex() == ( enc_test.dex_before + 1 ) * 2 );
     CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( round( (
                 enc_test.lie_before + 15 ) * 1.5 ) ) );
     CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( round( (
@@ -90,7 +90,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
 
     // place a zombie next to the avatar
     const tripoint_bub_ms spot( 61, 60, 0 );
-    clear_map();
+    clear_map_without_vision();
     monster &zombie = spawn_test_monster( "mon_zombie", spot );
 
     p.on_hit( &get_map(),  & zombie, bodypart_id( "torso" ), 0.0, nullptr );
@@ -158,7 +158,7 @@ TEST_CASE( "mutation_enchantments", "[enchantments][mutations]" )
 
 TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
     INFO( "Default character with 8 8 8 8 stats" );
@@ -167,7 +167,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
     INFO( "Stats change accordingly" );
-    REQUIRE( guy.get_str() == 22 );
+    REQUIRE( guy.get_str() == 12 );
     REQUIRE( guy.get_dex() == 6 );
     REQUIRE( guy.get_int() == 5 );
     REQUIRE( guy.get_per() == 1 );
@@ -191,7 +191,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
     INFO( "Stats change accordingly" );
-    REQUIRE( guy.get_str() == 42 );
+    REQUIRE( guy.get_str() == 18 );
     REQUIRE( guy.get_dex() == 4 );
     REQUIRE( guy.get_int() == 0 );
     REQUIRE( guy.get_per() == 0 );
@@ -199,7 +199,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
 
 TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
 
@@ -257,7 +257,7 @@ static int test_melee_attack_attack_speed( Character &guy, Creature &mon )
 
 TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
     g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
@@ -316,7 +316,7 @@ static int test_melee_attack_attack_stamina( Character &guy, Creature &mon )
 
 TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
     g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
@@ -385,7 +385,7 @@ static double test_melee_attack_hit_rate( Character &guy, Creature &mon )
 
 TEST_CASE( "Enchantment_MELEE_TO_HIT_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
     g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
@@ -409,7 +409,7 @@ TEST_CASE( "Enchantment_MELEE_TO_HIT_test", "[magic][enchantments]" )
 
 TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
 
@@ -437,7 +437,7 @@ TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments]" )
 
 TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
 {
-    clear_map();
+    clear_map_without_vision();
     Character &guy = get_player_character();
     clear_avatar();
     INFO( "Character has 50 pain, not affected by enchantments" );

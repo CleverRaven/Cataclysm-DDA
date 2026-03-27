@@ -50,7 +50,8 @@
       {
         "distribution": [
           { "item": "glasses_safety", "prob": 10 },
-          { "item": "goggles_ski", "prob": 10 },
+          { "item": "goggles_chem", "prob": 5 },
+          { "item": "goggles_ski", "prob": 5 },
           { "item": "glasses_reading", "prob": 20 },
           { "item": "sunglasses", "prob": 20 }
         ],

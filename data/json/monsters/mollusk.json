@@ -50,7 +50,6 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
-    "stomach_size": 100,
     "special_attacks": [ [ "BROWSE", 130 ], [ "EAT_CROP", 130 ] ],
     "upgrades": { "age_grow": 30, "into": "mon_snail_small" },
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -66,7 +65,6 @@
     "weight": "81500 g",
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
-    "stomach_size": 800,
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "extend": { "flags": [ "NO_BREED" ] },
     "zombify_into": "mon_meat_cocoon_small",
@@ -87,7 +85,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_snail_small" },
-    "delete": { "move_skills": { "climb": 6 } }
+    "delete": { "move_skills": { "climb": 2 } }
   },
   {
     "id": "mon_snail_giant",
@@ -118,7 +116,6 @@
     "dissect": "dissect_gastropod_sample_small",
     "reproduction": { "baby_type": { "baby_egg": "egg_snail" }, "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "stomach_size": 1000,
     "special_attacks": [ [ "ACID", 10 ], [ "GRAZE", 130 ], [ "BROWSE", 130 ], [ "EAT_CROP", 130 ] ],
     "anger_triggers": [ "HURT" ],
     "zombify_into": "mon_meat_cocoon_med",
@@ -147,7 +144,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
-    "stomach_size": 100,
     "special_attacks": [ [ "BROWSE", 130 ], [ "EAT_CROP", 130 ] ],
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
@@ -165,7 +161,6 @@
     "weight": "81500 g",
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_single",
-    "stomach_size": 700,
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "extend": { "flags": [ "NO_BREED" ] },
     "zombify_into": "mon_meat_cocoon_small",
@@ -186,7 +181,7 @@
     "color": "brown",
     "harvest": "mutant_mollusk",
     "upgrades": { "age_grow": 30, "into": "mon_slug_small" },
-    "delete": { "flags": [ "HEARS" ], "move_skills": { "climb": 6 } }
+    "delete": { "flags": [ "HEARS" ], "move_skills": { "climb": 2 } }
   },
   {
     "id": "mon_slug_giant",
@@ -212,7 +207,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 60,
     "vision_day": 30,
-    "stomach_size": 1000,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_mollusk",
     "dissect": "dissect_gastropod_sample_small",

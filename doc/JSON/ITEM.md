@@ -1,28 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Subtypes](#subtypes)
 - [Generic Items](#generic-items)
-   * [To hit object](#to-hit-object)
+  - [To hit object](#to-hit-object)
 - [Ammo](#ammo)
 - [Ammo Effects](#ammo-effects)
 - [Magazine](#magazine)
-- [Ammunition Type](#ammunition-type)
+- [Ammunition type](#ammunition-type)
 - [Armor](#armor)
-   * [Armor Portion Data](#armor-portion-data)
-      + [Encumbrance](#encumbrance)
-      + [Encumbrance_modifiers](#encumbrance_modifiers)
-      + [breathability](#breathability)
-      + [Layers](#layers)
-      + [rigid_layer_only](#rigid_layer_only)
-      + [Coverage](#coverage)
-      + [Covers](#covers)
-      + [Specifically Covers](#specifically-covers)
-      + [Part Materials](#part-materials)
-      + [Armor Data](#armor-data)
-   * [Guidelines for thickness: ####](#guidelines-for-thickness-)
-   * [Armor inheritance](#armor-inheritance)
+  - [Armor Portion Data](#armor-portion-data)
+    - [Encumbrance](#encumbrance)
+    - [Encumbrance_modifiers](#encumbrance_modifiers)
+    - [breathability](#breathability)
+    - [Layers](#layers)
+    - [rigid_layer_only](#rigid_layer_only)
+    - [Coverage](#coverage)
+    - [Covers](#covers)
+    - [Specifically Covers](#specifically-covers)
+    - [Part Materials](#part-materials)
+  - [Guidelines for thickness:](#guidelines-for-thickness)
+  - [Armor inheritance](#armor-inheritance)
 - [Pet Armor](#pet-armor)
 - [Books](#books)
-   * [Conditional Naming](#conditional-naming)
-   * [Color Key](#color-key)
-   * [CBMs](#cbms)
+  - [Conditional Naming](#conditional-naming)
+  - [Color Key](#color-key)
+  - [CBMs](#cbms)
 - [Comestibles](#comestibles)
 - [Containers](#containers)
 - [Melee](#melee)
@@ -31,20 +35,27 @@
 - [Gunmod](#gunmod)
 - [Batteries](#batteries)
 - [Tools](#tools)
-- [Seed](#seeds)
+- [Seed](#seed)
 - [Brewables](#brewables)
-   * [`Effects_carried`](#effects_carried)
-   * [`effects_worn`](#effects_worn)
-   * [`effects_wielded`](#effects_wielded)
-   * [`effects_activated`](#effects_activated)
 - [Compostables](#compostables)
 - [Milling](#milling)
+  - [`Effects_carried`](#effects_carried)
+  - [`effects_worn`](#effects_worn)
+  - [`effects_wielded`](#effects_wielded)
+  - [`effects_activated`](#effects_activated)
 - [Use Actions](#use-actions)
 - [Drop Actions](#drop-actions)
 - [Tick Actions](#tick-actions)
-   * [Delayed Item Actions](#delayed-item-actions)
+  - [Delayed Item Actions](#delayed-item-actions)
+- [Item Properties](#item-properties)
+- [Item Variables](#item-variables)
 
-Items are any entity in the game you can pick up. They all share a set of JSON fields, but to help preserve game memory some of their JSON fields are split into multiple `subtypes`:
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+### Subtypes
+
+Items are any entity in the game you can pick up.  They all share a set of JSON fields, but to help preserve game memory some of their JSON fields are split into "slots" of data corresponding to the following `subtypes`:
+
 - TOOL - can have tool qualities and use energy
 - ARMOR - can define protection against incoming damage
 - GUN - shoots projectiles of any kind
@@ -55,6 +66,7 @@ Items are any entity in the game you can pick up. They all share a set of JSON f
 - BOOK - can be read
 - PET_ARMOR - defines pet armor
 - BIONIC_ITEM - item is a CBM, if installed, you get the bionic effect with the same id as the item name
+- ARTIFACT - can define the passive_effects parameter and carry enchantments
 - TOOLMOD - this is a toolmod, and can be installed to modify tool in some way (mainly battery slot changes)
 - ENGINE - defines the properties of a vehicle engine if installed in a transport
 - WHEEL - defines the properties of a vehicle wheel if installed in a transport
@@ -63,7 +75,22 @@ Items are any entity in the game you can pick up. They all share a set of JSON f
 - COMPOSTABLE - can be composted
 - MILLING - can be milled
 
-With the exception of PET_ARMOR and ARMOR, any of the subtypes can be combined to load the respective subtype's field, demonstrated in the examples below. A subtype can be included without any of its associated fields defined to indicate that the item is e.g. a "BOOK" to the corresponding C++ function `is_book()`.
+With the exception of PET_ARMOR and ARMOR, any of the subtypes can be combined to load the respective subtype's field, demonstrated in the examples below.  A subtype can be included without any of its associated fields defined to indicate that the item is e.g. a "BOOK" to the corresponding C++ function `is_book()`.
+
+The "subtypes" field is not inherited.  Rather, it specifies which slots and therefore which fields to *load* for the given ITEM definition; slots and their fields are always inherited.  Therefore, one should always provide subtypes for desired fields, keeping in mind that any other subtypes' fields are always inherited unless explicitly overwritten. 
+
+In the below example, the "ARMOR" slot is inherited from "bondage_suit" and a "TOOL" slot is added; adding the "ARMOR" subtype will not change the loading behavior because no ARMOR fields are loaded for "bondage_suit_wrench".  Many items have redundant subtypes anyways because subtypes were formerly types and had to be migrated consistently.
+
+```json
+  {
+    "id": "bondage_suit_wrench",
+    "copy-from": "bondage_suit",
+	"type": "ITEM",
+	"subtypes": [ "TOOL" ],
+    "name": { "str": "wrench bondage suit" },
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ]
+  },
+```
 
 ### Generic Items
 
@@ -96,8 +123,9 @@ These fields can be read by any ITEM regardless of subtypes:
 "integral_volume": "50 ml",                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L". Default is the same as volume.
 "integral_weight": "50 g",                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Default is the same as weight.
 "longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
+"light": 300,                                // How much light this item emits, like a flashlight. 10 is equal 1 tile of light, so 300 would illuminate 30 tiles circle around the player.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
-"insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
+"insulation": 1,                             // (Optional, default = 1) How much insulation should it provide to the contents as a vehicle part.
 "price": "1 USD",                                // Barter value of an item. Used as barter value only when price_postapoc isn't defined. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent", "cents", "dollar", "dollars", "USD", or "kUSD".
 "price_postapoc": "1 USD",                       // Barter value of an item post-Cataclysm. Can use string "cent", "cents", "dollar", "dollars", "USD", or "kUSD".
 "stackable": true,                           // This item can be stacked together, similarly to `charges`
@@ -126,8 +154,8 @@ These fields can be read by any ITEM regardless of subtypes:
 "variants": [              // Cosmetic variants this item can have
   {
     "id": "variant_a",                           // id used in spawning to spawn this variant specifically
-    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
-    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
+    "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected. Optional, can be omitted to inherit the description of an item.
+    "description": "A fancy variant A",         // The description used instead of the default when this variant is selected. Optional, can be omitted to inherit the description of an item.
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
     "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
     "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
@@ -224,24 +252,27 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
 {
   "id": "AE_NULL",           // id of an effect
   "type": "ammo_effect",     // define it is an ammo effect
-  "aoe": {                   // this field would be spawned at the tile projectile hit
-    "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
-    "intensity_min": 1,      // min intensity of the field; default 0
-    "intensity_max": 3,      // max intensity of the field; default 0
-    "radius": 5,             // radius of a field to spawn; default 1
-    "radius_z": 1,           // radius across z-level; default 0
-    "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
-    "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
-    "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default false
-    "check_sees": false,     // if false, field can be spawned behind the opaque wall (for example, behind the concrete wall); if true, it can't; default false
-    "check_sees_radius": 0   // if "check_sees" is true, and this value is smaller than "radius", this value is used as radius instead. The purpose nor reasoning is unknown, probably some legacy of mininuke, so just don't use it; default 0
-  },
-  "trail": {                 // this field would be spawned across whole projectile path
+  "trigger_chance": 20,      // chance to run this specific ammo effect; default 100
+  "aoe": [ 
+    {                          // this field would be spawned at the tile projectile hit
+      "field_type": "fd_fog",  // field, that would be spawned around the center of projectile; default "fd_null"
+      "intensity_min": 1,      // min intensity of the field; default 0
+      "intensity_max": 3,      // max intensity of the field; default 0
+      "radius": 5,             // radius of a field to spawn; default 1
+      "radius_z": 1,           // radius across z-level; default 0
+      "chance": 100,           // probability to spawn 1 unit of field, from 0 to 100; default 100
+      "size": 0,               // seems to be the threshold, where autoturret stops shooting the weapon to prevent friendly fire;; default 0
+      "check_passable": false, // if false, projectile is able to penetrate impassable terrains, if penetration is defined (like walls and windows); if true, projectile can't penetrate even the sheet of glass; default   false
+    }
+  ],
+  "trail": [ 
+    {                        // this field would be spawned across whole projectile path
     "field_type": "fd_fog",  // field, that would be spawned; defautl "fd_null"
     "intensity_min": 1,      // min intensity of the field; default 0
     "intensity_max": 3,      // max intensity of the field; default 0
     "chance": 100            // probability to spawn 1 unit of field, from 0 to 100; default 100
-  },
+    }
+  ],
   "explosion": {             // explosion, that will happen at the tile that projectile hit
     "power": 0,              // mandatory; power of the explosion, in grams of tnt; pipebomb is about 300, grenade (without shrapnel) is 240
     "distance_factor": 0.8,  // how fast the explosion decay, closer to 1 mean lesser "power" loss per tile, 0.8 means 20% of power loss per tile; default 0.75, value should be bigger than 0, but lesser than 1
@@ -253,12 +284,34 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
       "drop": "null"         // Which item to drop at landing point
     }
   },
-  "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
-  "do_emp_blast": false,     // Creates a hardcoded flashbang explosion; default false
+  "on_hit_effects": [        // These effects will be applied if body part is hit
+    {
+      "effect": "bile_stink",// id of an effect, mandatory
+      "duration": "5 m",     // duration, mandatory
+      "intensity": 1,        // intensity, mandatory 
+      "need_touch_skin": true// if true, and projectile is liquid, the target need to be soaked through for effect to be applied
+    }
+  ],
+    "aoe_effects": [          // These effects will be applied on all monsters in area
+    {
+      "effect": "bile_stink", // id of an effect, mandatory
+      "duration": "5 m",      // duration, mandatory
+      "intensity_min": 1,     // min intensity of the field; default 1
+      "intensity_max": 3,     // max intensity of the field; default intensity_min
+      "radius": 5,            // radius of a field to spawn; default 1
+      "chance": 100,          // probability to apply the field on each separate creature in area, from 1 to 100; default 100
+      "all_bp": false,        // if true, effect is applied evenly on all limbs, otherwise applies at random limbs hits_amount of times
+      "hits_amount": [ 1, 3 ] // how many instances this effect will be applied onto body, a-la spread across multiple limbs
+    } 
+  ],
+  "do_flashbang": false,     // Creates a hardcoded flashbang explosion; default false
+  "do_emp_blast": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "foamcrete_build": false,  // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
   "eoc": [ "EOC_CAUSE_PAIN", "EOC_CAUSE_VOMIT" ], // Runs EoC when hit the target. See EFFECT_ON_CONDITION.md#typical-alpha-and-beta-talkers-by-cases for more information
-  "spell_data": { "id": "bear_trap" }, // Spell, that would be casted when projectile hits an enemy
-  "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, // another example
+  "spell_data": [ 
+    { "id": "bear_trap" },   // Spell, that would be casted when projectile hits an enemy
+    { "id": "release_the_deltas", "hit_self": true, "min_level": 10 } // another example
+  ],
   "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.
 }
 ```
@@ -435,7 +488,7 @@ According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jacke
 * Fashion leather clothes such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
 * Heavy leather clothes such as motorcycle suits average 1.5mm.
 
-From [this site](https://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/), an equivalency guideline for fabric weight to mm:
+From [this site](https://www.cci.one/tables-of-weights-measurements), an equivalency guideline for fabric weight to mm:
 
 | Cloth                         | oz/yd2 | g/m2  | Inches | mm   |
 | -----                         | ------ | ----- | ------ | ---- |
@@ -642,6 +695,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"eats_like": "butter",               // (Optional) Groups this food with another for monotony penalties and consumption_count()
 "parasites": 10,            // (Optional) one_in(x) chance of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", "60 mg" ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  Some vitamins ("calcium", "iron", "vitC") can be specified with the weight of the vitamins in that food.  Vitamins specified by weight can be in grams ("g"), milligrams ("mg") or micrograms ("μg", "ug", "mcg").  If a vitamin is not specified by weight, it is specified in "units", with meaning according to the vitamin definition.  Nutrition vitamins ("calcium", "iron", "vitC") are an integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitC, mutant_toxin, bad_food, blood, and redcells.
@@ -703,7 +757,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "item_restriction": [ "item_id" ],               // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
     "material_restriction": [ "material_id" ],       // Only items that are mainly made of this material can enter.
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
-
+    "insulation": 1.0,                // Insulation value provided to items in this pocket.
     "sealed_data": { "spoil_multiplier": 0.0 },   // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
     "inherits_flags": true // Items in this pocket pass their flags to the parent item.
@@ -798,7 +852,13 @@ Guns can be defined like this:
 "cooling_value": 3,        // Amount of heat value, that is reduced every turn
 "overheat_threshold": 100, // Heat value, at which fault may occur, see #Item faults; values below zero mean item won't be able to fault
 "ammo_to_fire" 1,          // Amount of ammo used
-"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
+"modes": [                        // Firing modes on this gun
+  [ "DEFAULT", "semi-auto", 1 ],  // First value is id of a fire more, and generally used for NPC stuff. Consider using AUTO, BURST or DEFAULT for modes intended for NPCs
+  [ "AUTO", "auto", 4 ]           // Second value is a name of a fire mod, that would be printed in the menu
+  [ "RANDOM_ID", "Mag dump", 30 ] // Third value is amount of rounds this fire mode will shoot
+  [ "FOOBAR", "Volley", 2, "VOLLEY" ] // Fourth value is an optional flags. Possible flags are:
+  [ "FOOBAR2", "alternative_notation", 3, [ "VOLLEY" ] ] // VOLLEY - all rounds shot by this mode would shoot at once, 
+],                                                       // in that the recoil would be applied not after each shot, but only in the end
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "reload_noise": "Ping!",   // Sound, that would be produced, when the gun is reloaded; seems to not work
 "reload_noise_volume": 4,  // how loud the reloading is
@@ -813,7 +873,7 @@ Guns can be defined like this:
 
 Gun mods can be defined like this:
 
-```C++
+```jsonc
 "type": "ITEM",
 "subtypes": [ "GUNMOD" ],      // Allows the below GUNMOD fields to be read in addition to generic ITEM fields
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
@@ -849,7 +909,7 @@ Gun mods can be defined like this:
 "consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
-"barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
+"barrel_length": "45 mm",       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 "overheat_threshold_modifier": 100,   // Add a flat amount to gun's "overheat_threshold"; if the threshold is 100, and the modifier is 10, the result is 110; if the modifier is -25, the result is 75
 "overheat_threshold_multiplier": 1.5, // Multiply gun's "overheat_threshold" by this number; if the threshold is 100, and the multiplier is 1.5, the result is 150; if the multiplier is 0.8, the result is 80
 "cooling_value_modifier": 2,          // Add a flat amount to gun's "cooling_value"; works the same as overheat_threshold_modifier
@@ -857,6 +917,7 @@ Gun mods can be defined like this:
 "heat_per_shot_modifier":  -2,        //  Add a flat amount to gun's "heat_per_shot"; works the same as overheat_threshold_modifier
 "heat_per_shot_multiplier": 2.0,      // Multiply the gun's "heat_per_shot" by this number; works the same as overheat_threshold_multiplier
 "is_bayonet": true,     // Optional, if true, the melee damage of this item is added to the base damage of the gun. Defaults to false.
+"is_visible_when_installed": false,   // optional, if true, this gunmod is shown in your inventory akin to items in pockets, making it possible to interact with it in 
 "blacklist_slot": [ "rail", "underbarrel" ],      // prevents installation of the gunmod if the specified slot(s) are present on the gun.
 "blacklist_mod": [ "m203", "m320" ],      // prevents installation of the gunmod if the specified mods(s) are present on the gun.
 "to_hit_mod": -1                          // increases or decreases the item to_hit value
@@ -899,7 +960,10 @@ Gun mods can be defined like this:
 "fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
 "qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
+// Qualities also accept object format: { "id": "SEW", "level": 2, "speed": 0.3 }
+// "speed" is optional (default 1.0). Values < 1.0 make recipe steps using this quality faster.
 "charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
+// charged_qualities also accept the object format with "speed".
 // Only TOOL type items may define the following fields:
 "tool_ammo": [ "NULL" ],        // Ammo types used for reloading
 "charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
@@ -907,8 +971,19 @@ Gun mods can be defined like this:
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "power_draw": "50 mW",     // Energy consumption per second
-"revert_to": "torch_done", // Transforms into item when charges are expended
-"revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used
+"revert_to": "torch_done", // Transforms into item when charges are expended. Intended to be replaced by transform_into, which it's mutually exclusive with
+"transform_into": {        // Extended transformation info. To replace "revert_to", with which it's mutually exclusive. Optional.
+  "target": "torch_done",  // Item to transform into.
+  "target_group": "twisted_geometry", // If used, target is a random item from itemgroup
+  "variant_type": "condom_plain",     // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
+  "container": "jar_glass_sealed",    // "Container for the transformed item". Optional
+  "sealed": true,          // Whether the container if present, or transformed item otherwise, should be sealed. Optional.
+  "target_charges": 2,     // How many items should the transformation result in. Only works with items transformed into a container. Optional.
+  "rand_target_charges": [ 10, 15, 25 ], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
+  "target_ammo": 3,        // Number of charges (not count) the item should contain. Optional.
+  "target_timer": 1000     // Set up a timer for the transformed object. Optional.
+},
+"revert_msg": "The torch fades out.", // Message to be printed when revert_to or transform_into performs its transformation
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 "etransfer_rate": "30 MB"  // units::ememory, electronic transfer rate per second supported by this e-device
 "e_port": "USB-A",         // String defining connection type for fast file transfer; NOTE: if you want to use this for general connections, make a more general system, this is *only* for electronic devices that handle files
@@ -933,9 +1008,14 @@ Gun mods can be defined like this:
 "fruit": "blackberries",  // The item id of the fruits that this seed will produce.
 "seeds": false,  // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
 "byproducts": [ "withered" ],  // A list of further items that should spawn upon harvest.
-"grow": "91 days",  // A time duration: how long it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
-// Note that growing time is later converted based upon the season_length option, basing it around 91 is just for accuracy purposes
-// A value 91 means 3 full seasons, a value of 30 would mean 1 season.
+"growth_stages": [
+  { "GROWTH_SEED": "5 days" },            // The stages of growth that this plant will go through and how long each stage will last. The actual stages are currently defined by the furniture representing the growing plant, so
+  { "GROWTH_SEEDLING": "10 days" },       // it is highly recommended that you use exactly the same stages as listed here. The duration of each stage is fully fungible, and you can have a plant that stays in <form> for a very
+  { "GROWTH_MATURE": "99 days" },         // long time, or a very short time, etc. Planting currently checks the temperature during each stage advance, so a crop that should be plantable before winter to harvest in the spring
+  { "GROWTH_HARVEST": "2 days" },         // will want at least 91 days (the length of winter) in between some stages. This example would overwinter in the GROWTH_MATURE form.
+  { "GROWTH_OVERGROWN": "1 hour" }        // NOTE: GROWTH_OVERGROWN is optional, but if used should be a short duration. Or else it may fail to plant because the overgrown(dead) crops would not 'grow'!
+],
+"growth_temp": "7 C",                     // (optional, default 10 C). Celsius (C) or milli-Celsius(mC). Temperature required on the days this seed is planted and for every day with a growth stage. If below the required temperature it simply won't be plantable.
 "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
 "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
@@ -954,7 +1034,8 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "name": { "str_sp": "whiskey wort" },
 "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.  You need to put it in a fermenting vat to brew it.",
 "brew_time": "7 days",  // A time duration: how long the fermentation will take.
-"brew_results": [ "wash_whiskey", "yeast" ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": [ "wash_whiskey", { "item": "yeast", "variant": "foo", "count": 3 } ], // IDs with a multiplier for the amount of results per charge of the brewable items.
+"brew_results": { "wash_whiskey": 2, "yeast": 3 }, // Alternate format
 ...
 //comestible fields
 ```
@@ -976,6 +1057,7 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "charges": 1,
 "compost_time": "60 days", // the amount of time required to fully compost this item
 "compost_results": { "fermented_fertilizer_liquid": 1, "biogas": 250 }, //item IDs and quantities resulting from compost
+"compost_results": [ "fermented_fertilizer_liquid", { "item": "biogas", "variant": "foo", "count": "250" } ], // alternate format
 ...
 //COMESTIBLE fields
 ```
@@ -996,7 +1078,7 @@ If an item is BREWABLE, it can be placed in a vat and will ferment into a differ
 "price_postapoc": "150 cent",
 "material": [ "nut" ],
 "volume": "62 ml",
-"flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+"flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
 "into": "paste_nut", // resulting item ID for milling this item
 "recipe": "paste_nut_mill_10_1", //associated recipe for milling this item
 ...
@@ -1114,9 +1196,10 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "target": "gasoline_lantern_on",          // The item to transform to
   "target_group": "twisted_geometry",       // If used, target is a random item from itemgroup
   "variant_type": "condom_plain",           // (optional) Defaults to `<any>`. Specific variant type to set for the transformed item. Special string `<any>` will pick a random variant from all available variants, based on the variant's defined weight
-  "active": true,                           // Whether the item is active once transformed
   "ammo_scale": 0,                          // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo
   "msg": "You turn the lamp on.",           // Message to display when activated
+  "target_timer": 0,                        // (Optional) Set timer on transformed item. Mutually exclusive with set_timer.
+  "set_timer": false,                       // (optional) When true, asks PC to set a timer. An NPC uses the default of the transformed item.
   "need_fire": 1,                           // Whether fire is needed to activate
   "need_fire_msg": "You need a lighter!",   // Message to display if there is no fire
   "need_charges": 1,                        // Number of charges the item needs to transform
@@ -1133,7 +1216,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "container": "jar",                       // Container holding the target item
   "sealed": true,                           // Whether the transformed container is sealed; true by default
   "menu_text": "Lower visor",               // (optional) Text displayed in the activation screen. Defaults to "Turn on"
-  "moves": 500                              // Moves required to transform the item in excess of a normal action
+  "moves": 500,                             // Moves required to transform the item in excess of a normal action
+  "chance": 20                              // x in 100 chance to actually activate the item. Intended to be used in pair with tick_action
 },
 "use_action": {
   "type": "explosion",               // An item that explodes when it runs out of charges
@@ -1149,7 +1233,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "fields_min_intensity": 3,         // Minimum intensity of field generated by the explosion
   "fields_max_intensity": 3,         // Maximum intensity of field generated by the explosion
   "emp_blast_radius": 4,             // The radius of EMP blast created by the explosion
-  "scrambler_blast_radius": 4        // The radius of scrambler blast created by the explosion
+  "scrambler_blast_radius": 4,       // The radius of scrambler blast created by the explosion
+  "effects": [ "MOLOTOV" ]           // List of ammo effects that would be applied when item is activated. TODO replace most of fields above with this
 },
 "use_action": {
   "type": "change_scent",              // Change the scent type of the user
@@ -1164,7 +1249,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "consume_drug",                 // A drug the player can consume
   "activation_message": "You smoke your crack rocks.  Mother would be proud.", // Message, ayup
-  "effects": { "high": 15 },              // Effects and their duration
+  "effects": [                            // List of effects to apply when consumed
+    {
+      "id": "opiate_eff",                 // Id of the effect to apply. Mandatory.
+      "duration": 42,                     // Duration for the effect to last, in turns but can accept time units syntax. Optional, defaults to 0, meaning the effect will disappear immediately.
+      "bp": "torso",                      // Bodypart to apply the effect to. Optional, defaults to no particular body part.
+      "permanent": false,                 // Whether the effect is permanent. Optional, defaults to false.
+      "intensity": 2                      // Intensity to set the effect to when applied. Optional, defaults to 0.
+    },  
+  ],       
   "damage_over_time": [
     {
       "damage_type": "pure",              // Type of damage
@@ -1172,7 +1265,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
       "amount": -10,                      // Amount of damage applied every turn, negative damage heals
       "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
     }
-  ]
+  ],
   "stat_adjustments": { "hunger": -10 },   // Adjustment to make to player stats
   "fields_produced": { "cracksmoke": 2 },  // Fields to produce, mostly used for smoke
   "charges_needed": { "fire": 1 },         // Charges to use in the process of consuming the drug
@@ -1186,7 +1279,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "place_monster",          // Place a turret / manhack / whatever monster on the map
   "monster_id": "mon_manhack",      // Monster ID, see monsters.json
-  "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.)
+  "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.). Negative means it always is hostile.
   "hostile_msg": "It's hostile!",   // (optional) Message when programming the monster failed and it's hostile
   "friendly_msg": "Good!",          // (optional) Message when the monster is programmed properly and it's friendly
   "place_randomly": true,           // Places the monster randomly around the player or lets the player decide where to put it (default: false)
@@ -1248,7 +1341,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "firestarter",  // Start a fire, like with a lighter.
   "moves": 15,            // Number of moves it takes to start the fire. This is reduced by survival skill
   "moves_slow": 1500,     // Number of moves it takes to start a fire on something that is difficult to ignite. This is reduced by survival skill
-  "need_sunlight": true   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses
+  "need_sunlight": true,   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses,
+  "qualities_needed": { "WRENCH_FINE": 1 } // Tool qualities needed, e.g. "fine bolt turning 1"
 },
 "use_action": {
   "type": "unpack",                 // Unpack this item
@@ -1386,6 +1480,9 @@ The contents of `use_action` fields can either be a string indicating a built-in
 },
 "use_action": {
   "type": "effect_on_conditions",          // Activate effect_on_conditions
+  "consume": true,                         // defaults false: whether the iuse function should return 1 and attempt to consume the item
+  "need_worn": true,          // (optional) If the item has to be worn to activate the EoC
+  "need_wielding": true,      // (optional) If the item has to be wielded to activate the EoC
   "menu_text": "Infuse saline",            // (optional) Text displayed in the activation screen. Defaults to "Activate item"
   "description": "This debugs the game",   // Usage description
   "effect_on_conditions": [ "test_cond" ]  // IDs of the effect_on_conditions to activate
@@ -1396,9 +1493,16 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "name": "Light fuse"     // (optional) Name for the action. Default "Activate"
 },
 "use_action": {
+  "type": "mp3",       // Displays message text
+  "message": "You put your earbuds in and start listening to music.", // Message that is shown
+  "activate": true, // true/false = turn on/off music
+  "transform": "x_music" // item that will play music when active, or the inactive form of this item 
+},
+"use_action": {
   "type": "sound",            // Makes sound
   "name": "Turn on",          // Optional name for the action. Default "Activate"
   "sound_message": "Bzzzz.",  // message shown to player if they are able to hear the sound. %s is replaced by item name
+  "sound_type": "alarm",      // type of the sound emitted. Default "alarm". Possible types are "background", "weather", "sensory", "music", "movement", "speech", "electronic_speech", "activity", "destructive_activity", "alarm", "combat", "alert", "order"
   "sound_id": "misc",         // ID of the audio to be played. Default "misc". See SOUNDPACKS.md for more details
   "sound_variant": "default", // Default is "default"
   "sound_volume": 5           // Loudness of the noise
@@ -1504,7 +1608,7 @@ Example:
     "variables": { "browsed": "false" }
 ```
 ```jsonc
-    "variables": { "water_per_tablet": "4" }
+    "variables": { "water_per_tablet": 4 }
 ```
 
 This will make any item instantiated from that prototype get assigned this variable, once

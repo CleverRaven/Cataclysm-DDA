@@ -1,0 +1,39 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_SCENARIO_ID",
+    "//": "The scenario selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "awakened"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GENERIC_PROFESSION_ID",
+    "//": "The profession selected by default in the character creator menu.",
+    "stype": "string_input",
+    "value": "homeless"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DEFAULT_REGION",
+    "//": "(WIP feature) Determines terrain, shops, plants, and more.",
+    "stype": "string_input",
+    "value": "hunvre"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_SEASON",
+    "//": "If true, keep the initial season for ever.",
+    "stub": true,
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_TIME_OF_DAY",
+    "//": "Day/night cycle settings.  'normal' sets a normal cycle.  'day' sets eternal day.  'night' sets eternal night.",
+    "stub": true,
+    "stype": "string_input",
+    "value": "normal"
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "MORE_PSI_ALPHA",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOKIN_NEEDS",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "CLAIRSENTIENT",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "CLAIR_SENSES",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ELECTROKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ELECTRO_SHIELD",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTO_EYES",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PYROKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PYROKIN_ADAPTATION",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEKINETIC_GRAB_POCKETS",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEPATH",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEPATHIC_SUGGESTION",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEPORTER",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "TELEPORTER_PROTECT",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "VITAKINETIC",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "VITAKINETIC_HEALTH",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "LIMITED_PSIONICS",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ALWAYS_GAIN_PSIONICS",
+    "remove": true
+  }
+]

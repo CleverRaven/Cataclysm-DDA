@@ -208,7 +208,6 @@
     "type": "item_group",
     "id": "juice_pulp_wooden_barrel_7_77",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "wooden_barrel",
     "entries": [ { "item": "juice_pulp", "count": [ 7, 77 ] } ]
   }

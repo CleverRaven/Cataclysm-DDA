@@ -1,0 +1,75 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void",
+    "name": "sprawling plane of black",
+    "description": "There's an otherworldly surface here, black as the depths of the earth.",
+    "symbol": " ",
+    "color": "black",
+    "flags": [ "FLAT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void_trans",
+    "name": "fluid void",
+    "description": "At first glance this looks like a pool of dark water, slowly undulating in an unnaturally slow fashion.  The air around it is frigid cold, stale, and softens ambient light.  It does not look safe to walk through, but you could try.",
+    "symbol": "~",
+    "color": "black",
+    "trap": "tr_inner_cabins_void",
+    "flags": [ "TRANSPARENT", "DESTROY_ITEM" ],
+    "move_cost": 600
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_void_trans_retracting",
+    "name": "fluid void",
+    "description": "At first glance this looks like a pool of dark water, slowly undulating in an unnaturally slow fashion.  The air around it is frigid cold, stale, softens ambient light.  This patch seems to be slowly retracting toward the center of the pool.  The grass growing at its edges wobbles as if there is a breeze, constantly bending toward the blackness.  It does not look safe to walk through, but you could try.",
+    "symbol": "~",
+    "color": "light_gray",
+    "trap": "tr_inner_cabins_void",
+    "flags": [ "TRANSPARENT", "DESTROY_ITEM" ],
+    "move_cost": 600
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_exit_portal",
+    "name": "unstable portal",
+    "description": "A swirling tear in reality.  Beyond it, you see a field of ever-expanding buildings.  Something else is moving inside, beyond your ability to resolve.",
+    "symbol": "O",
+    "color": "magenta",
+    "trap": "tr_inner_cabins_exit_portal",
+    "flags": [ "TRANSPARENT" ],
+    "move_cost": 3,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "inner_cabins_portal_options",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_INNER_CABINS_PORTAL_LOOK", "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR" ],
+              "allow_cancel": true,
+              "names": [ "Look inside.", "Walk through the portal." ],
+              "title": "There is a ledge here.  What do you want to do?",
+              "descriptions": [ "Just a peek.", "Is there another side?" ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_door_o",
+    "name": "strange open door",
+    "description": "A wide open door swinging outward, into the darkness, beyond your reach.  The door and the frame look fresh, as if installed recently.",
+    "symbol": "'",
+    "color": "brown",
+    "looks_like": "t_door_o",
+    "move_cost": 2,
+    "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
+  }
+]

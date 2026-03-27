@@ -1,0 +1,33 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PERCUSSIVE_ENTRY_SMASHING",
+    "eoc_type": "EVENT",
+    "required_event": "character_smashes_tile",
+    "condition": { "u_has_trait": "perk_percussive_entry" },
+    "effect": [ { "u_add_effect": "effect_perk_percussive_entry", "duration": 2 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_percussive_entry",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 100,
+    "int_add_val": 3,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "multiply": { "math": [ "0 + (u_effect_intensity('effect_perk_percussive_entry') / 100 )" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PERCUSSIVE_ENTRY_LOSE_BONUS_WHEN_MOVING",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_perk_percussive_entry" },
+    "effect": [ { "u_lose_effect": "effect_perk_percussive_entry" } ]
+  }
+]

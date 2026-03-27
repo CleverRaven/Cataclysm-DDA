@@ -106,6 +106,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "office_warehouse_anduril",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse",
+    "vision_levels": "warehouse",
+    "sym": "w",
+    "color": "light_blue",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_warehouse_anduril_roof",
+    "copy-from": "generic_city_building_roof",
+    "name": "small warehouse roof",
+    "vision_levels": "warehouse",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "generic_city_building",
     "name": "small storage units",
@@ -251,7 +270,6 @@
       "steel_mill_0_3",
       "steel_mill_0_3_2",
       "steel_mill_0_3_3",
-      "steel_mill_0_4",
       "steel_mill_0_4_2",
       "steel_mill_0_4_3",
       "steel_mill_1_1",
@@ -306,6 +324,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "steel_mill_0_4" ],
+    "copy-from": "steel_mill_0_1",
+    "name": "steel mill parking",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "steel_mill_rail_1",
       "steel_mill_rail_2",
@@ -315,8 +341,6 @@
       "steel_mill_rail_2_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "vision_levels": "blends_till_outlines",
-    "looks_like": "road",
     "name": "steel mill depot",
     "sym": "│",
     "color": "dark_gray",
@@ -327,6 +351,8 @@
     "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ],
     "name": "light industry",
     "copy-from": "road_abstract",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement",
     "sym": "─",
     "extras": "build",
     "mondensity": 2
@@ -450,32 +476,59 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
-    "name": "light industry",
-    "copy-from": "road_abstract",
-    "sym": "─",
-    "see_cost": "none",
+    "id": [
+      "container_yard_inland_base_1",
+      "container_yard_inland_base_2",
+      "container_yard_inland_base_3",
+      "container_yard_inland_base_4",
+      "container_yard_inland_base_5",
+      "container_yard_inland_base_6",
+      "container_yard_inland_fence",
+      "container_yard_inland_fence_front",
+      "container_yard_inland_fence_entry",
+      "container_yard_inland_fence_corner",
+      "container_yard_inland_fence_corner_office",
+      "container_yard_inland_fence_corner_garage"
+    ],
+    "name": "inland container depot",
+    "sym": "I",
+    "color": "light_gray",
+    "vision_levels": "industrial_building",
+    "see_cost": "medium",
     "extras": "build",
-    "mondensity": 2
+    "spawns": { "group": "GROUP_CIVILIAN", "population": [ 1, 2 ], "chance": 75 }
   },
   {
     "type": "overmap_terrain",
     "id": [
-      "s_lightindustry_scen_00",
-      "s_lightindustry_scen_00_roof",
-      "s_lightindustry_scen_01",
-      "s_lightindustry_scen_01_roof",
-      "s_lightindustry_scen_10",
-      "s_lightindustry_scen_10_roof",
-      "s_lightindustry_scen_11",
-      "s_lightindustry_scen_11_roof"
+      "container_yard_inland_base_1a",
+      "container_yard_inland_base_1b",
+      "container_yard_inland_base_5a",
+      "container_yard_inland_fence_corner_office_roof",
+      "container_yard_inland_fence_corner_garage_roof",
+      "container_yard_inland_base_1_bandit",
+      "container_yard_inland_base_2_bandit",
+      "container_yard_inland_base_3_bandit",
+      "container_yard_inland_base_4_bandit",
+      "container_yard_inland_base_5_bandit",
+      "container_yard_inland_base_6_bandit",
+      "container_yard_inland_fence_bandit",
+      "container_yard_inland_fence_front_bandit",
+      "container_yard_inland_fence_entry_bandit",
+      "container_yard_inland_fence_corner_bandit",
+      "container_yard_inland_fence_corner_office_bandit",
+      "container_yard_inland_fence_corner_garage_bandit",
+      "container_yard_inland_base_1a_bandit",
+      "container_yard_inland_base_1b_bandit",
+      "container_yard_inland_base_5a_bandit",
+      "container_yard_inland_fence_corner_office_roof_bandit",
+      "container_yard_inland_fence_corner_garage_roof_bandit"
     ],
-    "name": "light industry",
+    "name": "inland container depot",
     "sym": "I",
-    "color": "light_blue",
+    "color": "light_gray",
     "vision_levels": "industrial_building",
-    "see_cost": "high",
-    "extras": "build",
-    "mondensity": 2
+    "see_cost": "medium",
+    "extras": "build"
   }
 ]

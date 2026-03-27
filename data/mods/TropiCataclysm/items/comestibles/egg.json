@@ -117,18 +117,8 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "egg_lizard",
     "name": "lizard egg",
-    "copy-from": "egg_chicken",
-    "description": "The egg of a tropical lizard.",
-    "rot_spawn": { "group": "GROUP_EGG_LIZARD" }
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "egg_monitor",
-    "name": "varanid egg",
-    "copy-from": "egg_chicken",
-    "description": "The egg of a monitor lizard.",
-    "rot_spawn": { "group": "GROUP_EGG_MONITOR" }
+    "copy-from": "egg_bird_unfert",
+    "description": "The egg of a tropical lizard."
   },
   {
     "type": "ITEM",
@@ -151,20 +141,11 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
-    "id": "egg_snapper",
-    "name": "iguana egg",
-    "copy-from": "egg_chicken",
-    "description": "The round egg of a snapping turtle.  It is covered in mud.",
-    "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_tortoise",
-    "name": "iguana egg",
+    "name": "tortoise egg",
     "copy-from": "egg_chicken",
     "description": "The round egg of a tortoise.  It is covered in dirt.",
-    "rot_spawn": { "group": "GROUP_EGG_IGUANA" }
+    "rot_spawn": { "group": "GROUP_EGG_TORTOISE" }
   },
   {
     "type": "ITEM",
@@ -194,7 +175,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": { "group": "GROUP_EGG_TRIFFID" },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
@@ -218,7 +199,7 @@
     "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": { "group": "GROUP_EGG_FUNGUS" },
     "vitamins": [ [ "veggy_allergen", 1 ] ]
@@ -230,15 +211,6 @@
     "name": { "str_sp": "alien roe" },
     "copy-from": "egg_fish",
     "description": "Common roe from an unknown alien creature."
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "COMESTIBLE" ],
-    "id": "egg_salamander",
-    "name": { "str": "cluster of salamander eggs", "str_pl": "clusters of salamander eggs" },
-    "copy-from": "egg_proxy_frog",
-    "description": "A large clump of salamander eggs.  They're gelatinous and transparent.",
-    "rot_spawn": { "group": "GROUP_EGG_SALAMANDER" }
   },
   {
     "type": "ITEM",

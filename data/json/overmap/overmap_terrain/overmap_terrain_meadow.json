@@ -6,7 +6,7 @@
     "name": "meadow",
     "sym": ",",
     "color": "brown",
-    "travel_cost_type": "field",
+    "travel_cost_type": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },

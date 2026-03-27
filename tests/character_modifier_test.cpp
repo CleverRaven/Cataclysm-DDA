@@ -11,6 +11,7 @@
 #include "character_modifier.h"
 #include "creature.h"
 #include "damage.h"
+#include "enums.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
@@ -213,10 +214,10 @@ TEST_CASE( "Body_part_armor_vs_damage", "[character][limb]" )
 }
 
 static double get_limbtype_modval( const double &val, const bodypart_id &id,
-                                   const std::set<body_part_type::type> &bp_types )
+                                   const std::set<bp_type> &bp_types )
 {
     double ret = 0.0;
-    for( const body_part_type::type &bp_type : bp_types ) {
+    for( const bp_type &bp_type : bp_types ) {
         if( id->has_type( bp_type ) ) {
             ret += val * id->limbtypes.at( bp_type );
         }
@@ -231,17 +232,17 @@ TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation][limb]" )
     dude.toggle_trait( trait_TEST_ARMOR_MUTATION );
     REQUIRE( dude.has_trait( trait_TEST_ARMOR_MUTATION ) );
 
-    static const std::set<body_part_type::type> affected_bptypes = {
-        body_part_type::type::arm,
-        body_part_type::type::torso,
-        body_part_type::type::tail
+    static const std::set<bp_type> affected_bptypes = {
+        bp_type::arm,
+        bp_type::torso,
+        bp_type::tail
     };
 
     GIVEN( "5 bash on arms, torso and tail / 1 cut on ALL" ) {
         for( const auto &res : trait_TEST_ARMOR_MUTATION->armor ) {
-            if( res.first->has_type( body_part_type::type::arm ) ||
-                res.first->has_type( body_part_type::type::torso ) ||
-                res.first->has_type( body_part_type::type::tail ) ) {
+            if( res.first->has_type( bp_type::arm ) ||
+                res.first->has_type( bp_type::torso ) ||
+                res.first->has_type( bp_type::tail ) ) {
                 CAPTURE( res.first.c_str() );
                 const double bash_res = get_limbtype_modval( 5.0, res.first, affected_bptypes );
                 CHECK( res.second.type_resist( damage_bash ) == Approx( bash_res ).epsilon( 0.001 ) );
@@ -260,9 +261,9 @@ TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation][limb]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_res = bp.id->has_type( body_part_type::type::arm ) ||
-                                     bp.id->has_type( body_part_type::type::torso ) ||
-                                     bp.id->has_type( body_part_type::type::tail );
+                const bool has_res = bp.id->has_type( bp_type::arm ) ||
+                                     bp.id->has_type( bp_type::torso ) ||
+                                     bp.id->has_type( bp_type::tail );
                 double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
                 const int res_amt = has_res ? static_cast<int>( res_val ) : 0;
                 damage_unit du( damage_bash, 10.f, 0.f );
@@ -316,9 +317,9 @@ TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation][limb]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_mut_res = bp.id->has_type( body_part_type::type::arm ) ||
-                                         bp.id->has_type( body_part_type::type::torso ) ||
-                                         bp.id->has_type( body_part_type::type::tail );
+                const bool has_mut_res = bp.id->has_type( bp_type::arm ) ||
+                                         bp.id->has_type( bp_type::torso ) ||
+                                         bp.id->has_type( bp_type::tail );
                 const bool has_bp_res = bp.id == body_part_test_tail;
                 double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
                 const int res_amt = ( has_mut_res ? static_cast<int>( res_val ) : 0 ) + ( has_bp_res ? 5 : 0 );
@@ -381,7 +382,7 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
     WHEN( "Character has high eye encumbrance" ) {
         item eyecover( itype_test_goggles_welding );
         dude.wear_item( eyecover );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::sensor,
                               get_body_part_flags::primary_type ).front() ) == 60 );
         CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 2.0 ).epsilon(
                    0.001 ) );
@@ -390,7 +391,7 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
     }
 
     WHEN( "Character has broken arms" ) {
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( bp_type::arm,
                 get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
@@ -404,12 +405,12 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
     WHEN( "Character has high eye encumbrance and broken arms" ) {
         item eyecover( itype_test_goggles_welding );
         dude.wear_item( eyecover );
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( bp_type::arm,
                 get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
         REQUIRE( dude.get_working_arm_count() == 0 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::sensor,
                               get_body_part_flags::primary_type ).front() ) == 60 );
         CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 0.4 ).epsilon(
                    0.001 ) );
@@ -429,7 +430,7 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     }
 
     WHEN( "Character has broken arms" ) {
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( bp_type::arm,
                 get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
@@ -441,9 +442,9 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     WHEN( "Character is heavily encumbered" ) {
         item hazmat_suit( itype_test_hazmat_suit );
         dude.wear_item( hazmat_suit );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::foot,
                               get_body_part_flags::primary_type ).front() ) == 37 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::hand,
                               get_body_part_flags::primary_type ).front() ) == 37 );
         CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.623 ).epsilon(
                    0.001 ) );
@@ -452,13 +453,13 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     WHEN( "Character has broken arms and is heavily encumbered" ) {
         item hazmat_suit( itype_test_hazmat_suit );
         dude.wear_item( hazmat_suit );
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( bp_type::arm,
                 get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::foot,
                               get_body_part_flags::primary_type ).front() ) == 37 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand,
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( bp_type::hand,
                               get_body_part_flags::primary_type ).front() ) == 37 );
         REQUIRE( dude.get_working_arm_count() == 0 );
         CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.41 ).epsilon(
@@ -475,12 +476,12 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
 
     GIVEN( "Character has normal limbs" ) {
         REQUIRE( dude.get_all_body_parts().size() == 12 );
-        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::hand ).size() == 2 );
+        REQUIRE( dude.get_all_body_parts_of_type( bp_type::hand ).size() == 2 );
         WHEN( "Uninjured / unencumbered" ) {
             REQUIRE( dude.get_hp() == dude.get_hp_max() );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_l ) == dude.get_part_hp_max( body_part_hand_l ) );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_r ) );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 0 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::hand ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        0.0 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 1.0 ).epsilon(
@@ -493,7 +494,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
             dude.set_part_hp_cur( body_part_hand_r, dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_l ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 0 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::hand ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        11.8 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.658 ).epsilon(
@@ -506,7 +507,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
             REQUIRE( dude.get_hp() == dude.get_hp_max() );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_l ) == dude.get_part_hp_max( body_part_hand_l ) );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_r ) );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 70 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::hand ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        28.0 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.449 ).epsilon(
@@ -520,7 +521,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
             dude.set_part_hp_cur( body_part_hand_r, dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_l ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 70 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::hand ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        54.3 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.295 ).epsilon(
@@ -533,14 +534,14 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
     GIVEN( "Character has mutated limbs" ) {
         create_bird_char( dude );
         REQUIRE( dude.get_all_body_parts().size() == 12 );
-        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::hand ).size() == 5 );
+        REQUIRE( dude.get_all_body_parts_of_type( bp_type::hand ).size() == 5 );
         WHEN( "Uninjured / unencumbered" ) {
             REQUIRE( dude.get_hp() == dude.get_hp_max() );
             REQUIRE( dude.get_part_hp_cur( body_part_test_bird_wing_l ) == dude.get_part_hp_max(
                          body_part_test_bird_wing_l ) );
             REQUIRE( dude.get_part_hp_cur( body_part_test_bird_wing_r ) == dude.get_part_hp_max(
                          body_part_test_bird_wing_r ) );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::wing ) == 0 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::wing ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        129.2 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.8 ).epsilon(
@@ -557,7 +558,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
                          body_part_test_bird_wing_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_test_bird_wing_r ) == dude.get_part_hp_max(
                          body_part_test_bird_wing_r ) / 2 );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::wing ) == 0 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::wing ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        140.057 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.533 ).epsilon(
@@ -572,7 +573,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
                          body_part_test_bird_wing_l ) );
             REQUIRE( dude.get_part_hp_cur( body_part_test_bird_wing_r ) == dude.get_part_hp_max(
                          body_part_test_bird_wing_r ) );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::wing ) == 70 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::wing ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        173.641 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.4 ).epsilon(
@@ -590,7 +591,7 @@ TEST_CASE( "Weighted_limb_types", "[character][limb]" )
                          body_part_test_bird_wing_l ) / 2 );
             REQUIRE( dude.get_part_hp_cur( body_part_test_bird_wing_r ) == dude.get_part_hp_max(
                          body_part_test_bird_wing_r ) / 2 );
-            REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::wing ) == 70 );
+            REQUIRE( dude.avg_encumb_of_limb_type( bp_type::wing ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
                        211.341 ).epsilon( 0.01 ) );
             CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.4 ).epsilon(

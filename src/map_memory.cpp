@@ -41,7 +41,7 @@ static tripoint_abs_sm mmr_to_sm_copy( const tripoint &p )
 
 static cata_path find_mm_dir()
 {
-    return PATH_INFO::player_base_save_path() + ".mm1";
+    return PATH_INFO::current_dimension_player_save_path() + ".mm1";
 }
 
 static std::string find_region_filename( const tripoint &p )
@@ -554,7 +554,12 @@ bool map_memory::save( const tripoint_abs_ms &pos )
 
     return result;
 }
-
+void map_memory::clear()
+{
+    clear_cache();
+    submaps.clear();
+    dbg( D_INFO ) << "[CLEAR] Done.";
+}
 void map_memory::clear_cache()
 {
     cached.clear();

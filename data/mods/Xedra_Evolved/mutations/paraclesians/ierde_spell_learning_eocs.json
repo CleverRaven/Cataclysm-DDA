@@ -106,7 +106,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_stomp_ground_smash_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_stomp_ground_smash_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -124,7 +124,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_create_pits_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_create_pits_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -142,7 +142,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_knockback_punch_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_knockback_punch_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -160,7 +160,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_iron_armor_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_iron_armor_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -178,7 +178,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_reveal_earth_map_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_reveal_earth_map_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -196,7 +196,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_reshape_the_earth_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_reshape_the_earth_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -214,7 +214,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_slow_enemies_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_slow_enemies_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -232,7 +232,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_entrap_target_in_stone')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_entrap_target_in_stone') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -250,7 +250,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_earthen_shield_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_earthen_shield_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -268,7 +268,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_buff_armor_allies_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_buff_armor_allies_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -286,7 +286,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_summon_earth_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_summon_earth_spirit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -304,7 +304,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_tunnel_translocation_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_tunnel_translocation_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -322,7 +322,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ierde_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('ierde_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -340,7 +340,7 @@
         "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }

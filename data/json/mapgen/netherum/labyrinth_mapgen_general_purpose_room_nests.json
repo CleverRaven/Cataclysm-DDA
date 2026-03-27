@@ -1,0 +1,177 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
+    "//": "Room with open cells along the sides.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "L__|2_|2_|__|2_|2_|__L",
+        "___|__|__|__|__|__|___",
+        "______|__|__|__|______",
+        "||_______|++|_______||",
+        "2___________________2_",
+        "_____1________________",
+        "|||________________|||",
+        "2___________________2_",
+        "______________________",
+        "||||______________||||",
+        "___+______________+___",
+        "___+______________+___",
+        "||||______________||||",
+        "2___________________2_",
+        "______________________",
+        "|||________________|||",
+        "2___________________2_",
+        "______________________",
+        "||_______|++|_______||",
+        "______|__|__|__|______",
+        "___|2_|2_|__|2_|2_|___",
+        "L__|__|__|__|__|__|__L"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "1": "t_nl_metal_floor", "2": "t_nl_metal_floor" },
+      "nested": { "1": { "chunks": [ "ls_openarea_12x12_rooms" ] }, "2": { "chunks": [ "ls_2x2_furniture" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
+    "//": "Basic square room with some turrets and cover.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "||L___AA______AA___L||",
+        "|____________________|",
+        "L_((______________((_L",
+        "__((___________ßß_((__",
+        "______ßß_______ṪṪ_____",
+        "______ṪṪ______¢ÇM_____",
+        "A_____MÇ¢_____¢ÇM____A",
+        "A_____MÇ¢____________A",
+        "_____________¢ÇM______",
+        "_____MÇ¢_____¢ÇM______",
+        "_____MÇ¢______________",
+        "______________¢ÇM_____",
+        "______MÇ¢_____¢ÇM_____",
+        "______MÇ¢_____________",
+        "A____________¢ÇM_____A",
+        "A____MÇ¢_____¢ÇM_____A",
+        "_____MÇ¢______ṪṪ______",
+        "_____ṪṪ_______ßß______",
+        "__((_ßß___________((__",
+        "L_((______________((_L",
+        "|____________________|",
+        "||L___AA______AA___L||"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        " |L______L| ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " |L__UU__L| ",
+        "            "
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "L(        (L",
+        "(|F||||||F|(",
+        " |__L||L__| ",
+        " |___cc___| ",
+        " |___cc___| ",
+        " F___||___F ",
+        " F___||___F ",
+        "(|___cc___| ",
+        " |___cc___| ",
+        " |__L||L__| ",
+        "(|F||||||F|(",
+        "L(        (L"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " (ϟ      ϟ( ",
+        "(||      ||(",
+        "ϟ||      ||ϟ",
+        "   cc  cc   ",
+        "   cL  Lc   ",
+        "            ",
+        "            ",
+        "   cL  Lc   ",
+        "   cc  cc   ",
+        " ||      ||ϟ",
+        "(||      ||(",
+        "ϟ(       ϟ( "
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_8x8_se_entry_room",
+    "//": "Small round room",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "vvvvvvvv",
+        "vv||||vv",
+        "v||UU||v",
+        "v|U__U|v",
+        "v|U__U|v",
+        "v||_L||v",
+        "..+_||vv",
+        "..|||vvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_8x8_se_entry_room",
+    "//": "Room with nooks",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|||v||||",
+        "|U|||_U|",
+        "|_____||",
+        "||_(ϟ_|v",
+        "v|_L(_||",
+        "||_____|",
+        "|__|||U|",
+        "|+||v|||"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  }
+]

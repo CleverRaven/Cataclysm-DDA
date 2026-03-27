@@ -21,7 +21,7 @@
         "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT" },
         "opinion": { "value": -1 }
       },
-      { "text": "What will you do then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
+      { "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

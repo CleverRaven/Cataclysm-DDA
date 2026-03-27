@@ -4,6 +4,7 @@
 
 #include <array>
 #include <chrono>
+#include <cstdint>
 #include <ctime>
 #include <functional>
 #include <iosfwd>
@@ -12,6 +13,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -34,8 +36,6 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
-
-constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -75,16 +75,17 @@ class eoc_events;
 class event_bus;
 class faction_manager;
 class field_entry;
+class inventory_selector_preset;
 class item;
 class kill_tracker;
 class live_view;
 class map;
-class map_item_stack;
 class memorial_logger;
 class monster;
 class npc;
 class npc_template;
 class overmap;
+class power_network_manager;
 class save_t;
 class scenario;
 class scent_map;
@@ -108,6 +109,7 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 enum peek_act : int {
     PA_BLIND_THROW,
     PA_BLIND_THROW_WIELDED,
+    PA_MOVE,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
@@ -170,7 +172,7 @@ bool cleanup_at_end();
 // NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
-        friend class editmap;
+        friend class editmap_ui;
         friend class main_menu;
         friend class exosuit_interact;
         friend class swap_map;
@@ -240,6 +242,8 @@ class game
         void serialize_json( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const cata_path &path ); // for load
         void unserialize( std::string fin ); // for load
+        void unserialize_dimension_data( const cata_path &file_name, std::istream &fin ); // for load
+        void unserialize_dimension_data( const JsonValue &jv ); // for load
         void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
     private:
@@ -259,6 +263,8 @@ class game
         void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint_bub_ms &center, bool looking = false, bool draw_sounds = true );
+        // Lazy (re)activation of zone sort viewport lock after load or initial setup.
+        void try_activate_zone_sort_viewport();
 
         class draw_callback_t
         {
@@ -325,6 +331,23 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint_bub_ms &pos );
+
+        /**
+         * Moves the player to an alternate dimension.
+         * @param prefix identifies the dimension and its properties.
+         * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
+         * @param veh pointer to a vehicle to bring along.
+         */
+        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
+                                  const std::vector<npc *> &npc_travellers, vehicle *veh = nullptr );
+        /**
+         * Retrieve the identifier of the current dimension.
+         * TODO: this should be a dereferencable id that gives properties of the dimension.
+         */
+        std::string get_dimension_prefix() {
+            return dimension_prefix;
+        }
+
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
@@ -415,11 +438,11 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint_bub_ms &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Spawns a npc at a determined position. */
+        /** Spawns an NPC at a determined position. */
         bool spawn_npc( const tripoint_bub_ms &p, const string_id<npc_template> &npc_class,
                         std::string &unique_id,
                         std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster or npc. */
+        /** Finds somewhere to spawn a monster or NPC. */
         bool find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only,
                                       bool open_air_allowed = false );
@@ -549,7 +572,7 @@ class game
          * new monster there (see @ref creature_at).
          * @param p The place where to put the revived monster.
          * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
-         * @return Whether the corpse has actually been redivided. Reviving may fail for many
+         * @return Whether the corpse has actually been revived. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
@@ -558,7 +581,7 @@ class game
         // same as above, but with relaxed placement radius.
         bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
         // evaluate what monster it should be, if necessary
-        void assing_revive_form( item &it, tripoint_bub_ms p );
+        void assign_revive_form( item &it, tripoint_bub_ms p );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -657,6 +680,7 @@ class game
         unsigned char light_level( int zlev ) const;
         void reset_light_level();
         character_id assign_npc_id();
+        int64_t assign_item_uid();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close( bool dangerous = false );
         field_entry *is_in_dangerous_field();
@@ -674,7 +698,9 @@ class game
         /** Checks whether or not there is a zone of particular type nearby */
         bool check_near_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         bool is_zones_manager_open() const;
-        void zones_manager();
+        void set_zones_manager_open( bool zm_open ) {
+            zones_manager_open = zm_open;
+        };
 
         /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
         /// @param who character to use for evaluating danger tiles and pathfinding start position
@@ -714,7 +740,7 @@ class game
 
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                  const std::string &area_name, int column,
+                                  std::string_view area_name, int column,
                                   int &line, int last_line, const visibility_variables &cache );
 
         void draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache );
@@ -742,6 +768,8 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_map_splice( const inventory_selector_preset &preset, const std::string &title,
+                                      int radius = 0, const std::string &none_message = "" );
         item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
                                       int radius = 0, const std::string &none_message = "" );
 
@@ -757,6 +785,7 @@ class game
         void reenter_fullscreen();
         void zoom_in_overmap();
         void zoom_out_overmap();
+        void set_overmap_zoom( int level );
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -821,7 +850,7 @@ class game
         void draw_bullet( const tripoint_bub_ms &t, int i, const std::vector<tripoint_bub_ms> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint_bub_ms &p, const monster &m, bool dead = false );
-        void draw_hit_player( const Character &p, int dam );
+        void draw_hit_player( const Character &p, int dam ) const;
         void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );
@@ -853,7 +882,6 @@ class game
                                  bool hilite );
         void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                   const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
-        void draw_below_override( const tripoint_bub_ms &p, bool draw );
         void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
 
@@ -897,7 +925,11 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        bool save_external_options_record();
+        bool save_dimension_data();
+        bool load_dimension_data();
         void reset_npc_dispositions();
+        void serialize_dimension_data( std::ostream &fout );
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_maps();
@@ -912,41 +944,33 @@ class game
             const vproto_id &id, const point_abs_omt &origin, int min_distance,
             int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
-        void list_items_monsters(); // Called when you invoke the `V`-menu
-
-        enum class vmenu_ret : int {
-            CHANGE_TAB,
-            QUIT,
-            FIRE, // Who knew, apparently you can do that in list_monsters
-        };
-
-        game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
-        std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( const catacurses::window &window, int height,
-                                    list_item_sort_mode sortMode );
-
-        game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
+        void list_surroundings(); // Called when you invoke the `V`-menu
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp, bool stairs_move = false );
+        bool grabbed_veh_move_helper( const tripoint_rel_ms &dp, bool stairs_move );
+        bool grabbed_veh_move_stairs( const tripoint_rel_ms &dp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
-        void control_vehicle(); // Use vehicle controls  '^'
+        void control_vehicle( const std::optional<tripoint_bub_ms> &p =
+                                  std::nullopt ); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
+        std::string get_fire_fuel_string( const tripoint_bub_ms &examp ) const;
 
         // Pick up items from a single nearby tile (prompting first)
         void pickup();
         // Pick up items from all nearby tiles
         void pickup_all();
 
-        void unload_container(); // Unload a container w/ direction  'd'
+        void unload_container( const std::optional<tripoint_bub_ms> &p =
+                                   std::nullopt ); // Unload a container w/ direction  'd'
         void drop_in_direction( const tripoint_bub_ms &pnt ); // Drop w/ direction  'D'
 
-        void butcher(); // Butcher a corpse  'B'
+        void butcher( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Butcher a corpse  'B'
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
@@ -987,16 +1011,14 @@ class game
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
+        void chat( const std::optional<tripoint_bub_ms> &p = std::nullopt ); // Talk to a nearby NPC  'C'
     private:
-
-        void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info
         void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
         void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
-                                 const std::string &area_name, int column,
-                                 int &line );
+                                 std::string_view area_name, int column, int &line );
         void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                    int &line );
         void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
@@ -1081,17 +1103,15 @@ class game
         void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
+    public:
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
         std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
-        void display_temperature();    // Displays temperature map
-        void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
-        void display_radiation(); // Displays radiation map
-        void display_transparency(); // Displays transparency map
 
+    private:
         // prints the IRL time in ms of the last full in-game hour
         class debug_hour_timer
         {
@@ -1112,6 +1132,7 @@ class game
          */
         Creature *is_hostile_within( int distance, bool dangerous = false );
 
+        static std::string timestamp_now();
         void move_save_to_graveyard();
         bool save_player_data();
         bool save_achievements();
@@ -1131,6 +1152,7 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
         pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+        pimpl<power_network_manager> power_networks_ptr;
 
         map &m; // NOLINT(cata-serialize)
         // 'current_map' will be identical to 'm' as you can save only at the top of the main loop.
@@ -1155,12 +1177,15 @@ class game
         queued_eocs queued_global_effect_on_conditions;
 
         spell_events &spell_events_subscriber();
+        power_network_manager &power_networks();
 
         pimpl<creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr; // NOLINT(cata-serialize)
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit; // NOLINT(cata-serialize)
+        /** Flags if the game is currently in an unsupported state and cannot be saved. */
+        bool save_is_dirty; // NOLINT(cata-serialize)
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
 
@@ -1231,6 +1256,7 @@ class game
         bool bVMonsterLookFire = false;
         character_id next_npc_id; // NOLINT(cata-serialize)
         int next_mission_id = 0; // NOLINT(cata-serialize)
+        int64_t next_item_uid = 1; // NOLINT(cata-serialize)
         // Keep track of follower NPC IDs
         std::set<character_id> follower_ids; // NOLINT(cata-serialize)
 
@@ -1244,7 +1270,7 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time; // NOLINT(cata-serialize)
         vehicle *remoteveh_cache; // NOLINT(cata-serialize)
-        /** Has a NPC been spawned since last load? */
+        /** Has an NPC been spawned since last load? */
         bool npcs_dirty = false; // NOLINT(cata-serialize)
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died = false; // NOLINT(cata-serialize)
@@ -1257,10 +1283,6 @@ class game
 
         // Times the user has input an action
         int user_action_counter = 0; // NOLINT(cata-serialize)
-
-        /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom = 0; // NOLINT(cata-serialize)
-        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)
@@ -1352,6 +1374,13 @@ class game
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
         bool can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype );
+
+        //currently used as a hacky workaround for dimension swapping
+        bool swapping_dimensions = false; // NOLINT (cata-serialize)
+    private:
+        // Stores the currently occupied dimension.
+        // TODO: should be an id instead of a string.
+        std::string dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

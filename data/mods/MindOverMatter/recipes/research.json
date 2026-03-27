@@ -47,18 +47,7 @@
     "tools": [
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
-      [
-        [ "atomic_coffeepot", -1 ],
-        [ "wearable_atomic_light", -1 ],
-        [ "wearable_atomic_light_off", -1 ],
-        [ "atomic_lamp", -1 ],
-        [ "atomic_lamp_off", -1 ],
-        [ "atomic_light", -1 ],
-        [ "atomic_light_off", -1 ],
-        [ "betavoltaic", -1 ],
-        [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ]
-      ]
+      [ [ "betavoltaic", -1 ], [ "huge_atomic_battery_cell", -1 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
@@ -115,18 +104,7 @@
     "tools": [
       [ [ "laptop", -1 ] ],
       [ [ "psi_usb_rad_recipes", -1 ] ],
-      [
-        [ "atomic_coffeepot", -1 ],
-        [ "wearable_atomic_light", -1 ],
-        [ "wearable_atomic_light_off", -1 ],
-        [ "atomic_lamp", -1 ],
-        [ "atomic_lamp_off", -1 ],
-        [ "atomic_light", -1 ],
-        [ "atomic_light_off", -1 ],
-        [ "betavoltaic", -1 ],
-        [ "atomic_coffeepot", -1 ],
-        [ "huge_atomic_battery_cell", -1 ]
-      ]
+      [ [ "betavoltaic", -1 ], [ "huge_atomic_battery_cell", -1 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry", "required": false },
@@ -289,10 +267,16 @@
       {
         "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
         "effect": [
-          { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
           {
-            "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
-            "alpha_loc": { "context_val": "alpha_talker" }
+            "if": { "u_query": "Do you wish to test someone else?", "default": false },
+            "then": [
+              { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
+              {
+                "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
+                "alpha_loc": { "context_val": "alpha_talker" }
+              }
+            ],
+            "else": [ { "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO" } ]
           }
         ]
       }

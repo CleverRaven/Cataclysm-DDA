@@ -101,7 +101,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude : int {
-    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
+    NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order an NPC to stay in a location, and after talking to an NPC that wanted to talk to you.
     NPCATT_TALK,  // Move to and talk to player
     NPCATT_LEGACY_1,
     NPCATT_FOLLOW,  // Follow the player
@@ -149,7 +149,6 @@ class job_data
             { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), 0 },
             { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
             { activity_id( "ACT_MOVE_LOOT" ), 0 },
-            { activity_id( "ACT_TIDY_UP" ), 0 },
             { activity_id( "ACT_MULTIPLE_DIS" ), 0}
         };
     public:
@@ -176,7 +175,7 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_3,
 
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
-    NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
+    NPC_MISSION_GUARD, // Assigns a non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING
@@ -194,6 +193,9 @@ std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
+// Legacy need ranking used by decide_needs() and set_omt_destination().
+// The behavior tree (npc_behavior.json) is the intended replacement
+// for immediate survival needs (warmth, food, water). See #28681.
 enum npc_need {
     need_none,
     need_ammo, need_weapon, need_gun,
@@ -567,6 +569,7 @@ struct npc_short_term_cache {
 struct npc_combat_memory_cache {
     float assess_ally = 0.0f;
     float assess_enemy = 0.0f;
+    float my_defence_assess = 0.0f;
     int panic = 0;
     int swarm_count = 0; //so you can tell if you're getting away over multiple turns
     int failing_to_reposition = 0; // Inc. when tries to flee/move and doesn't change assess
@@ -574,6 +577,7 @@ struct npc_combat_memory_cache {
     int assessment_before_repos = 0; // assessment of enemy threat level at the start of repos
     float my_health = 1.0f; // saved when we evaluate_self.  Health 1.0 means 100% unhurt.
     bool repositioning = false; // is NPC running away or just moving around / kiting.
+    int turns_next_to_leader = 0;
     int formation_distance = -1; // dist to nearest ally with a gun, or to player
     int engagement_distance = 6; // applies to melee NPCs in formation with ranged ones or the player.
 };
@@ -916,7 +920,6 @@ class npc : public Character
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -936,6 +939,7 @@ class npc : public Character
 
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
+        time_point restock_time() const;
         std::string get_restock_interval() const;
         bool is_shopkeeper() const;
         // Use and assessment of items
@@ -1015,7 +1019,7 @@ class npc : public Character
         bool is_dead() const;
         void prevent_death() override;
         // How well we smash terrain (not corpses!)
-        int smash_ability() const override;
+        std::map<damage_type_id, int> smash_ability() const override;
 
         /*
          *  CBM management functions
@@ -1092,6 +1096,11 @@ class npc : public Character
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
+        // Returns true if p is in an NPC_NO_GO zone for this NPC's faction.
+        bool is_no_go_position( const tripoint_abs_ms &p ) const;
+        // Returns true if p is a valid sleep target: not in NPC_NO_GO and
+        // reachable without bashing. Does not check occupancy.
+        bool is_valid_sleep_candidate( const tripoint_bub_ms &p ) const;
         void process_turn() override;
 
         using Character::invoke_item;
@@ -1124,13 +1133,36 @@ class npc : public Character
 
         npc_action address_needs();
         npc_action address_needs( float danger );
+        bool wear_warmest_item();
+        bool take_shelter_nearby();
+        // Local resource acquisition: find helpers return scored candidates
+        // for callers to iterate best-first, skipping unpathable targets.
+        struct scored_item {
+            item_location loc;
+            float score;
+        };
+        struct scored_water_source {
+            tripoint_bub_ms pos;
+            int dist;
+        };
+        struct scored_shelter {
+            tripoint_bub_ms pos;
+            int dist;
+        };
+        std::vector<scored_water_source> find_nearby_water_sources() const;
+        std::vector<scored_item> find_nearby_food();
+        std::vector<scored_item> find_nearby_warm_clothing();
+        std::vector<scored_shelter> find_nearby_shelters() const;
+        std::vector<scored_water_source> find_nearby_harvestable() const;
+        bool drink_from_water_source( const tripoint_bub_ms &water_pos );
+        bool consume_food_at( item_location loc );
+        bool wear_item_at( item_location loc );
+        bool move_to_and_verify( const tripoint_bub_ms &target );
         npc_action address_player();
         npc_action long_term_goal_action();
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
-        // Returns score for how well this weapon might kill things
-        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
         // Returns true if did wield it
@@ -1288,7 +1320,7 @@ class npc : public Character
         float speed_rating() const override;
         /**
          * Note: this places NPC on a given position in CURRENT MAP coordinates.
-         * Do not use when placing a NPC in mapgen.
+         * Do not use when placing an NPC in mapgen.
          */
         void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;
@@ -1339,6 +1371,31 @@ class npc : public Character
             return ai_cache.current_attack_evaluation;
         }
 
+        // Accessors for BT oracle predicates (character_oracle_t)
+        float get_ai_danger() const {
+            return ai_cache.danger;
+        }
+        weak_ptr_fast<Creature> get_ai_target() const {
+            return ai_cache.target;
+        }
+        bool has_ai_sound_alerts() const {
+            return !ai_cache.sound_alerts.empty();
+        }
+        std::optional<tripoint_abs_ms> get_ai_guard_pos() const {
+            return ai_cache.guard_pos;
+        }
+        // Effective guard position: ai_cache (ephemeral, from sound investigation)
+        // falls back to persistent guard_pos (from mission/dialogue assignment).
+        std::optional<tripoint_abs_ms> get_effective_guard_pos() const {
+            if( ai_cache.guard_pos ) {
+                return ai_cache.guard_pos;
+            }
+            return guard_pos;
+        }
+        void push_ai_sound_alert( const tripoint_abs_ms &pos, sounds::sound_t type, int vol ) {
+            ai_cache.sound_alerts.push_back( { pos, type, vol } );
+        }
+
         // Where we last saw the player
         std::optional<tripoint_abs_ms> last_player_seen_pos;
         // Player orders a friendly NPC to move to this position
@@ -1351,7 +1408,7 @@ class npc : public Character
         tripoint_bub_ms wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;
-        // This is the spot the NPC wants to move to to sit and relax.
+        // This is the spot the NPC wants to move to sit and relax.
         std::optional<tripoint_abs_ms> chair_pos;
         std::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
@@ -1419,6 +1476,11 @@ class npc : public Character
          * Update body, but throttled.
          */
         void npc_update_body();
+        /**
+         * Recompute body temperature and wetness from current weather.
+         * Shared between npc_update_body() and on_load() catch-up.
+         */
+        void update_bodytemp_and_wetness();
 
         bool get_known_to_u() const;
 
@@ -1506,6 +1568,8 @@ class npc_template
         static void load( const JsonObject &jsobj, std::string_view src );
         static void reset();
         static void check_consistency();
+
+        static std::map<npc_template_id, npc_template> &get_npc_templates();
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

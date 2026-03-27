@@ -10,7 +10,7 @@
     "volume": "6500 ml",
     "material": [ "afs_steel" ],
     "symbol": "L",
-    "looks_like": "legguard_lightplate",
+    "looks_like": "armor_lc_leg_guard",
     "color": "light_gray",
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_LEG_PLATE" ],
     "non_functional": "damaged_exo_leg_steel",

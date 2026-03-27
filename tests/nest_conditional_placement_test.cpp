@@ -23,7 +23,7 @@ static const ter_str_id ter_t_linoleum_white( "t_linoleum_white" ); //Signifies 
 //Check unconditional nests place and that each nest condition works as intended
 TEST_CASE( "nest_conditional_placement", "[map][nest]" )
 {
-    //Create a fresh overmap with no specials to guarentee no preexisting joins. Placed at an arbitary point so it doesn't overwrite other tests overmaps
+    //Create a fresh overmap with no specials to guarantee no preexisting joins. Placed at an arbitrary point so it doesn't overwrite other tests overmaps
     const point_abs_om overmap_point( 122, 122 );
     const std::vector<const overmap_special *> empty_specials;
     overmap_special_batch empty_special_batch( overmap_point, empty_specials );
@@ -37,7 +37,7 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
     const om_direction::type dir = om_direction::type::north;
     const city cit;
 
-    //Add land to guarentee mutable placement
+    //Add land to guarantee mutable placement
     for( int i = -1; i < 2; i++ ) {
         for( int j = -1; j < 2; j++ ) {
             tripoint_rel_omt offset( i, j, 0 );

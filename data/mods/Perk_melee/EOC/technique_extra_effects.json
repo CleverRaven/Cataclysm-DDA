@@ -1,0 +1,7 @@
+[
+  {
+    "id": "EOC_STAGGER_ATTACK",
+    "type": "effect_on_condition",
+    "effect": [ { "npc_add_effect": "staggered", "duration": 2 } ]
+  }
+]

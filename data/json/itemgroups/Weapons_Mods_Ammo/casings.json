@@ -19,6 +19,7 @@
       { "item": "44_casing", "prob": 15 },
       { "item": "3006_casing", "prob": 8 },
       { "item": "45colt_casing", "prob": 8 },
+      { "item": "3030_casing", "prob": 5 },
       { "item": "762R_casing", "prob": 4 },
       { "item": "270win_casing", "prob": 3 },
       { "item": "410shot_hull", "prob": 3 },
@@ -98,7 +99,8 @@
       { "item": "unprimed_9x18mm_casing", "prob": 3, "count": 100 },
       { "item": "unprimed_300blk_casing", "prob": 160, "count": 250 },
       { "item": "unprimed_30carbine_casing", "prob": 29, "count": 100 },
-      { "item": "unprimed_460sw_casing", "prob": 25, "count": 50 }
+      { "item": "unprimed_460sw_casing", "prob": 25, "count": 50 },
+      { "item": "unprimed_3030_casing", "prob": 43, "count": 50 }
     ]
   },
   {
@@ -121,6 +123,7 @@
       { "item": "44_casing", "prob": 15 },
       { "item": "3006_casing", "prob": 8 },
       { "item": "45colt_casing", "prob": 8 },
+      { "item": "3030_casing", "prob": 5 },
       { "item": "762R_casing", "prob": 4 },
       { "item": "270win_casing", "prob": 3 },
       { "item": "410shot_hull", "prob": 3 },

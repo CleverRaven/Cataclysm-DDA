@@ -67,8 +67,8 @@
     "condition": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" },
     "deactivate_condition": { "not": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" } },
     "effect": [
-      { "math": [ "u_vitamin('mutagen_troglobite')", "+=", "750 + rand(100)" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite') += 750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen') += 750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "manifest_destiny_goblin_complete",
@@ -85,8 +85,8 @@
     "condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
     "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
     "effect": [
-      { "math": [ "u_vitamin('mutagen_troglobite')", "+=", "1750 + rand(100)" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite') += 1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen') += 1750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "destiny_goblin_removal",
@@ -103,8 +103,8 @@
     "condition": { "u_has_trait": "MANIFEST_DESTINY_SPIDER" },
     "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
     "effect": [
-      { "math": [ "u_vitamin('mutagen_spider')", "+=", "750 + rand(100)" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen_spider') += 750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen') += 750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "manifest_destiny_spider_complete",
@@ -121,8 +121,8 @@
     "condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
     "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" } },
     "effect": [
-      { "math": [ "u_vitamin('mutagen_spider')", "+=", "1750 + rand(100)" ] },
-      { "math": [ "u_vitamin('mutagen')", "+=", "1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen_spider') += 1750 + rand(100)" ] },
+      { "math": [ "u_vitamin('mutagen') += 1750 + rand(100)" ] },
       {
         "run_eocs": {
           "id": "destiny_goblin_spider",
@@ -136,6 +136,6 @@
     "type": "effect_on_condition",
     "id": "consume_human_blood",
     "condition": { "u_has_trait": "VAMPIRE" },
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin') += 400 + rand(100)" ] } ]
   }
 ]

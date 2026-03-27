@@ -53,6 +53,7 @@ struct proficiency_category {
     bool was_loaded = false;
 
     static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
+    static void finalize_all();
     static void reset();
     void load( const JsonObject &jo, std::string_view src );
     static const std::vector<proficiency_category> &get_all();
@@ -88,6 +89,7 @@ class proficiency
 
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
 
@@ -148,9 +150,10 @@ class proficiency_set
         time_duration training_time_needed( const proficiency_id &query ) const;
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
-
         float get_proficiency_bonus( const std::string &category,
                                      proficiency_bonus_type prof_bonus ) const;
+
+        void migrate_proficiencies();
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jsobj );
@@ -221,6 +224,22 @@ class book_proficiency_bonuses
         // adjustment to the crafting time malus when missing the proficiency, ranging from 0
         // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
+};
+
+class proficiency_migration
+{
+    public:
+        proficiency_id id_old;
+        std::optional<proficiency_id> id_new;
+
+        static void load( const JsonObject &jo );
+
+        static void reset();
+
+        static void check();
+
+        /** Find the last migration entry of the given vpart_id */
+        static const proficiency_migration *find_migration( const proficiency_id &original );
 };
 
 void show_proficiencies_window( const Character &u,

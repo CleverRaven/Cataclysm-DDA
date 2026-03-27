@@ -49,14 +49,14 @@
           { "item": "chaw", "prob": 5 },
           { "item": "cigar", "prob": 10 },
           { "item": "handrolled_cig", "prob": 10 },
-          { "item": "nic_gum", "prob": 20 },
+          { "group": "chewing_gum_used_nic", "prob": 20 },
           { "item": "ecig", "prob": 15 },
           { "collection": [ { "item": "advanced_ecig" }, { "group": "nicotine_liquid_bottle_part" } ], "prob": 10 },
           { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
         ],
         "prob": 50
       },
-      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      { "distribution": [ { "group": "chewing_gum_used" }, { "group": "chewing_gum_used_caff" } ], "prob": 30 },
       { "item": "mp3", "prob": 18, "charges": [ 0, 15 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
@@ -90,10 +90,6 @@
     "subtype": "collection",
     "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
     "id": "default_moxie_human_death_drops",
-    "entries": [
-      { "group": "default_moxie_human_clothes" },
-      { "group": "default_moxie_human_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
-    ]
+    "entries": [ { "group": "default_moxie_human_clothes" }, { "group": "default_moxie_human_items", "prob": 50 } ]
   }
 ]

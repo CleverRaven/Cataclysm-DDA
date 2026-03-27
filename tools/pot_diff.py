@@ -25,27 +25,36 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+def print_color(text, color):
+    for s in text.split("\n"):
+        if not s:
+            print()
+        else:
+            print(f"{color}{s}{bcolors.ENDC}")
+
+
 def read_all_messages(path):
     if not os.path.isfile(path):
         raise Exception("cannot read {}".format(path))
     pofile = polib.pofile(path)
     messages = set()
     for entry in pofile.untranslated_entries():
-        messages.add(entry.msgid)
+        ctxt = entry.msgctxt or ""
+        messages.add((entry.msgid, ctxt))
         if entry.msgid_plural:
-            messages.add(entry.msgid_plural)
+            messages.add((entry.msgid_plural, ctxt))
     return messages
 
 
 def compare_po(old_pot_path, new_pot_path):
-    print(f"Reading {old_pot_path}")
+    print(f"Reading '{old_pot_path}'...")
     old_messages = read_all_messages(old_pot_path)
-    print(f"{len(old_messages)} message(s) read from {old_pot_path}")
+    print(f"  Read {len(old_messages)} message(s)")
     print()
 
-    print(f"Reading {new_pot_path}")
+    print(f"Reading '{new_pot_path}'...")
     new_messages = read_all_messages(new_pot_path)
-    print(f"{len(new_messages)} message(s) read from {new_pot_path}")
+    print(f"  Read {len(new_messages)} message(s)")
     print()
 
     print("Computing differences...")
@@ -63,26 +72,30 @@ def output_to_screen(deleted_messages, added_messages):
         print("No message deleted.")
     else:
         print(f"{len(deleted_messages)} message(s) deleted:")
-        for msg in deleted_messages:
-            print(f"{bcolors.OKCYAN}{delim}{bcolors.ENDC}")
-            print(f"{bcolors.OKCYAN}{msg}{bcolors.ENDC}")
-        print(f"{bcolors.OKCYAN}{delim}{bcolors.ENDC}")
+        for msg, ctxt in deleted_messages:
+            print_color(delim, bcolors.OKCYAN)
+            print_color(f"[{ctxt}] {msg}" if ctxt else msg, bcolors.OKCYAN)
+        print_color(delim, bcolors.OKCYAN)
     print()
 
     if len(added_messages) == 0:
         print("No message added.")
     else:
         print(f"{len(added_messages)} message(s) added:")
-        for msg in added_messages:
-            print(f"{bcolors.OKGREEN}{delim}{bcolors.ENDC}")
-            print(f"{bcolors.OKGREEN}{msg}{bcolors.ENDC}")
-        print(f"{bcolors.OKGREEN}{delim}{bcolors.ENDC}")
+        for msg, ctxt in added_messages:
+            print_color(delim, bcolors.OKGREEN)
+            print_color(f"[{ctxt}] {msg}" if ctxt else msg, bcolors.OKGREEN)
+        print_color(delim, bcolors.OKGREEN)
 
 
 def output_to_json(path, deleted_messages, added_messages):
-    result = {"deleted": deleted_messages, "added": added_messages}
+    result = {
+        "deleted": list(set([msg for msg, ctxt in deleted_messages])),
+        "added": list(set([msg for msg, ctxt in added_messages]))
+    }
     with open(path, "w") as fp:
         fp.write(json.dumps(result))
+    print(f"Comparison result written to '{path}'\n")
 
 
 def main():
@@ -92,9 +105,7 @@ def main():
     (deleted_messages, added_messages) = compare_po(sys.argv[1], sys.argv[2])
     if options.output_file:
         output_to_json(options.output_file, deleted_messages, added_messages)
-        print("Comparison result written to {}".format(options.output_file))
-    else:
-        output_to_screen(deleted_messages, added_messages)
+    output_to_screen(deleted_messages, added_messages)
     return 0
 
 

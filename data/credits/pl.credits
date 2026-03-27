@@ -1,6 +1,45 @@
 # Linie dłuższe niż 78 znaków zostaną automatycznie zawinięte
 # Poniższa linia jest dla przykładu
 ##############################################################################
+(<color_cyan>0.I</color>):</color>
+<color_white>Oryginalny autor:</color>         <color_white>Menedżer projektu:</color>
+<color_yellow>Whales</color> (<color_dark_gray>emerytowany</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Specjalne podziękowania dla:</color>
+<color_yellow>Standing-Storm</color> - Twórca i konserwator ogromnego moda „Mind over Matter” i licznych kontrybucji do innych modów (fair folk i espers and wizards)
+<color_yellow>Maleclypse</color> - Konserwator i merdżer Xedra Evolved, wrzucenie ponad 2000 (tysięcy!!!) merdży w tym cyklu wydawniczym.
+<color_yellow>GuardianDll</color> - Merdżowanie, ogólne zmiany json i c++, zapamiętanie i cytowanie dokumentacji dla każdego potrzebującego. „Nie pamiętam, żebym robił tak dużo Pull Request, co do diabła?” - GuardianDll
+<color_yellow>RenechCDDA</color> - Ulepszenia grup NPC, obozów i pojazdów.
+<color_yellow>Procyonae</color> - Absurdalna ilość infrastrukturalnych Pull Request. Kod generatora świata bardzo się rozwinął pod ich opieką.
+<color_yellow>PatrikLundell</color> - Absurdalna ilość naprawionych błędów i ważnych aktualizacji bezpieczeństwa dla generatora świata, infrastruktury trzypunktowej i innych kluczowych systemów.
+<color_yellow>Holli</color> - Za ich poświęcenie podczas pracy nad bronią palną i wszystkim z nią związaną.
+<color_yellow>b3brodie</color> - Mnóstwo wsparcia technicznego dla czarów oraz ulepszanie modów i podstawowej gry.
+<color_yellow>Milopetilo</color> - Wspaniała praca nad nowym generatorem świata, parametry dla istniejącego generatora świata, sprawdzenie grup przedmiotów i wiele więcej.
+<color_yellow>ShnitzelX2</color> - Elektroniczny magazyn na przedmioty i posprzątanie zaległości z 10 lat poprzez przeniesienie przedmiotów, żeby były ładowane przy pomocy generic_factory. (Nie bądźcie zazdrośni ale są moimi ulubionymi.)
+<color_yellow>alef</color> - Podtrzymywanie rozwoju gry żebyśmy mogli ją tworzyć i w nią grać.
+<color_yellow>John Candlebury</color> - Aftershock. Czy wiedziałeś, że możesz teraz posiadać i latać ogromnym statkiem kosmicznym w Aftershock?
+<color_yellow>katemonster33</color> - Wziął grę szturmem przy pomocy ImGuI i ImTui. Dając nam UI, które zawsze chcieliśmy mieć.
+<color_yellow>Daniel Brooks 'db48x'</color> - Za podwaliny pod nasze nowe okienka ImGui.
+<color_yellow>moxian</color> - Niezastąpiona praca nad systemem misji i infrastrukturą IWYU. Uczynili życie każdego twórcy prostszym.
+<color_yellow>akrieger</color> - Ciągłe ulepszenia tempa gry, utrzymywanie CI przy życiu i oszczędzanie dysków twardych dzięki skompresowaniu zapisów z rozgrywek Sky Island.
+<color_yellow>SariusSkelrets</color> - Rozszerzenie i dopracowanie zawartości wampirów w Xedra Evolved.
+<color_yellow>ehughsbaird</color>, <color_yellow>Karol1223</color> i <color_yellow>mqrause</color>.
+
+<color_white>Specjalne podziękowania za kontrybucje grafik:</color>
+<color_yellow>hoasd1</color> - Większość kontrybucji tilesetów w tym cyklu, postanowili odjechać w stronę zachodzącego słońca ze stylem. Życzymy im szczęścia tam gdzie zaprowadzi ich los. Ich praca na zawsze ukształtowała Ultica.
+<color_yellow>gettingusedto</color> - MSX+ heavyweight i wszystko związane z nice guy. Przyzwyczailiśmy się do ich... widoku ;) !
+
+<color_white>Pełna lista kontrybutorów dostępna na:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> jest wydany na licencji <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+
+******************************************************************************
+
 (<color_cyan>0.H</color>):</color>
 <color_white>Oryginalny autor:</color>         <color_white>Menedżer projektu:</color>
 <color_yellow>Whales</color> (<color_dark_gray>emerytowany</color>)    <color_yellow>KevinGranade</color>

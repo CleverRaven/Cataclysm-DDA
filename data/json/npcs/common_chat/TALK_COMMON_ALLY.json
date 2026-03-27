@@ -228,9 +228,9 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Set up pickup rules.", "topic": "TALK_FRIEND", "effect": "set_npc_pickup" },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
-      { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
@@ -282,7 +282,7 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -346,6 +346,12 @@
         "topic": "TALK_DONE",
         "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
         "effect": "do_read_repeatedly"
+      },
+      {
+        "text": "Please study from books in study zones.",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "not": "npc_has_activity" }, { "not": { "npc_has_trait": "HALLUCINATION" } } ] },
+        "effect": "do_study"
       },
       {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",

@@ -479,7 +479,7 @@
       },
       {
         "text": "Increase by 5",
-        "effect": { "math": [ "diffulty_modifier", "+=", "5" ] },
+        "effect": { "math": [ "diffulty_modifier += 5" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       {
@@ -489,7 +489,7 @@
       },
       {
         "text": "Decrease by 5",
-        "effect": { "math": [ "diffulty_modifier", "-=", "5" ] },
+        "effect": { "math": [ "diffulty_modifier -= 5" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       { "text": "Choose a preset difficulty.", "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU" },

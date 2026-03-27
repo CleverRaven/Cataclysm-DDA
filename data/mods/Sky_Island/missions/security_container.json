@@ -1,0 +1,236 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_security1",
+    "type": "mission_definition",
+    "name": "Upgrade: Security Alpha",
+    "description": "You have been granted the recipe to craft an Alpha Secure Container.  This little miracle defies the very laws of physics and insists upon its own permanence.  In short, it will give you an integrated pocket you can always access.  The contents of this pocket are completely secure and will not be lost, even if you die and are returned to the island.\n\nYou can only ever equip one secure container.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "secure_container_1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "secure_container_1" },
+        {
+          "u_message": "You have been granted the recipe to craft an Alpha Secure Container.  This little miracle defies the very laws of physics and insists upon its own permanence.  In short, it will give you an integrated pocket you can always access.  The contents of this pocket are completely secure and will not be lost, even if you die and are returned to the island.\n\nYou can only ever equip one secure container.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "securitylevel = 1" ] },
+        { "u_forget_recipe": "secure_container_1" },
+        { "u_add_trait": "mut_secure_container_1" },
+        {
+          "u_message": "The strange metaphysical container suddenly snaps inward, clinging to the very core of your being.  Anything stored here will not be lost on death.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "result": "secure_container_1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_security2",
+    "type": "mission_definition",
+    "name": "Upgrade: Security Beta",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "secure_container_2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "secure_container_2" },
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "securitylevel = 2" ] },
+        { "u_forget_recipe": "secure_container_2" },
+        { "u_lose_trait": "mut_secure_container_1" },
+        { "u_add_trait": "mut_secure_container_2" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "result": "secure_container_2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_security3",
+    "type": "mission_definition",
+    "name": "Upgrade: Security Gamma",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "secure_container_3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "secure_container_3" },
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "securitylevel = 3" ] },
+        { "u_forget_recipe": "secure_container_3" },
+        { "u_lose_trait": "mut_secure_container_2" },
+        { "u_add_trait": "mut_secure_container_3" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "result": "secure_container_3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_security4",
+    "type": "mission_definition",
+    "name": "Upgrade: Security Epsilon",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "secure_container_4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "secure_container_4" },
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "securitylevel = 4" ] },
+        { "u_forget_recipe": "secure_container_4" },
+        { "u_lose_trait": "mut_secure_container_3" },
+        { "u_add_trait": "mut_secure_container_4" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "result": "secure_container_4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_security5",
+    "type": "mission_definition",
+    "name": "Upgrade: Security Kappa",
+    "description": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "secure_container_5",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "secure_container_5" },
+        {
+          "u_message": "With the supplied recipe, you will be able to expand the capacity of your secure container to its maximum size.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "securitylevel = 5" ] },
+        { "u_forget_recipe": "secure_container_5" },
+        { "u_lose_trait": "mut_secure_container_4" },
+        { "u_add_trait": "mut_secure_container_5" },
+        {
+          "u_message": "The strange metaphysical container churns inward with violent force, grinding loudly before suddenly expanding.  Your secure container can now carry more.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "result": "secure_container_5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 5 ] ] ]
+  }
+]

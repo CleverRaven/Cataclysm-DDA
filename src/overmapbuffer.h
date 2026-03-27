@@ -3,6 +3,7 @@
 #define CATA_SRC_OVERMAPBUFFER_H
 
 #include <array>
+#include <bitset>
 #include <functional>
 #include <map>
 #include <memory>
@@ -18,6 +19,7 @@
 #include "cata_path.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "horde_map.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "overmap.h"
@@ -41,9 +43,11 @@ namespace om_direction
 {
 enum class type : int;
 }  // namespace om_direction
+struct horde_entity;
+struct map_data_summary;
 struct mapgen_arguments;
 struct mongroup;
-struct regional_settings;
+struct region_settings;
 
 struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
@@ -148,12 +152,53 @@ struct omt_find_params {
     std::optional<overmap_special_id> om_special = std::nullopt;
 };
 
+// Draw-without-replacement deck for unique special spawn rate control.
+// Virtual deck of Y cards with X successes, drawn once per eligible overmap.
+// Resets on exhaustion. Drawing pauses while to_place > 0. See issue #73618.
+struct unique_special_deck_state {
+    int successes = 0;       // source total: occurrences.min when deck was created
+    int deck_size = 0;       // source total: occurrences.max when deck was created
+    int successes_remain = 0; // success cards remaining in current deck cycle
+    int cards_remain = 0;    // total cards remaining in current deck cycle
+    int to_place = 0;        // successful draws awaiting placement
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &json );
+};
+
+/**
+* Helper struct for dynamic data about the world's overmaps (not including overmap objects themselves).
+* For example: unique overmap special counts, highway intersection locations.
+*/
+struct overmap_global_state {
+    // Set of globally unique overmap specials that have already been placed
+    std::unordered_set<overmap_special_id> placed_unique_specials;
+    // This tracks the overmap unique specials we have placed. It is used to
+    // Adjust weights of special spawns to correct for things like failure to spawn.
+    std::unordered_map<overmap_special_id, int> unique_special_count;
+    // Deck states for unique special spawn frequency control.
+    // Keyed by special ID. Lazily initialized on first access.
+    std::unordered_map<overmap_special_id, unique_special_deck_state> unique_special_decks;
+    // Global count of number of overmaps generated for this world.
+    int overmap_count = 0;
+    // Global count of major rivers generated for this world
+    int major_river_count = 0;
+    // all highway intersections
+    highway_intersection_grid highway_intersections;
+
+    void clear();
+    void reset();
+    void deserialize( const JsonObject &json );
+    void serialize( JsonOut &json ) const;
+};
+
 class overmapbuffer
 {
     public:
         overmapbuffer();
 
         bool externally_set_args = false;
+        overmap_global_state global_state;
 
         static std::string terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
@@ -217,11 +262,14 @@ class overmapbuffer
         bool has_camp( const tripoint_abs_omt &p );
         bool has_vehicle( const tripoint_abs_omt &p );
         bool has_horde( const tripoint_abs_omt &p );
-        int get_horde_size( const tripoint_abs_omt &p );
+        int get_horde_size( const tripoint_abs_omt &p, int filter = horde_map_flavors::active |
+                            horde_map_flavors::idle | horde_map_flavors::dormant | horde_map_flavors::immobile );
         std::vector<om_vehicle> get_vehicle( const tripoint_abs_omt &p );
         std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
         std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
-        const regional_settings &get_settings( const tripoint_abs_omt &p );
+        const region_settings &get_settings( const tripoint_abs_omt &p );
+        const region_settings &get_default_settings( const point_abs_om &p );
+        std::string current_region_type;
         /**
          * Accessors for horde introspection into overmaps.
          * Probably also useful for NPC overmap-scale navigation.
@@ -269,7 +317,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp &camp );
+        void remove_camp( const point_abs_omt &p );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -280,6 +328,8 @@ class overmapbuffer
         void add_camp( const basecamp &camp );
 
         std::optional<basecamp *> find_camp( const point_abs_omt &p );
+        // Remove all basecamps in the inbound overmap
+        void clear_camps( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * All z-levels are considered.
@@ -315,6 +365,12 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        /**
+         * Clear and fill a vector with NPCs who are your followers.
+         * Optionally only include is_following() or exclude is_hallucination()
+         */
+        void populate_followers_vec( std::vector<npc *> &followers, bool only_following = false,
+                                     bool ignore_hallu = false ) const;
         void foreach_npc( const std::function<void( npc & )> &callback );
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
@@ -443,6 +499,10 @@ class overmapbuffer
         t_extras_vector find_extras( int z, const std::string_view pattern ) {
             return get_extras( z, pattern ); // filter with pattern
         }
+        bool passable( const tripoint_abs_ms &p );
+        std::shared_ptr<map_data_summary> get_omt_summary( const tripoint_abs_omt &p );
+        void set_passable( const tripoint_abs_ms &p, bool new_passable );
+        void set_passable( const tripoint_abs_omt &p, const std::bitset<24 * 24> &new_passable );
         /**
          * Signal nearby hordes to move to given location.
          * @param center The origin of the signal, hordes (that recognize the signal) want to go
@@ -450,6 +510,16 @@ class overmapbuffer
          * @param sig_power The signal strength, higher values means it visible farther away.
          */
         void signal_hordes( const tripoint_abs_sm &center, int sig_power );
+        /**
+         * Directly alert one horde entity at the target location to head toward the destination.
+         * Intensity is essentially how many turns to keep going.
+         */
+        void alert_entity( const tripoint_abs_ms &location, const tripoint_abs_ms &destination,
+                           int intensity );
+        /**
+          * Clear all the mongroups, intended for test code only.
+        */
+        void clear_mongroups();
         /**
          * Process nearby monstergroups (dying mostly).
          */
@@ -492,10 +562,19 @@ class overmapbuffer
          */
         void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
         /**
+         * Spawn a specified monster type at a specified location on an overmap.
+         */
+        horde_entity &spawn_monster( const tripoint_abs_ms &p, mtype_id id );
+        /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.
          */
         void despawn_monster( const monster &critter );
+        void spawn_mongroup( const tripoint_abs_sm &p, const mongroup_id &type, int count );
+        horde_entity *entity_at( const tripoint_abs_ms &p );
+        std::vector<std::unordered_map<tripoint_abs_ms, horde_entity>*> hordes_at(
+            const tripoint_abs_omt &p, int filter = horde_map_flavors::active | horde_map_flavors::idle |
+                    horde_map_flavors::dormant | horde_map_flavors::immobile );
         /**
          * Find radio station with given frequency, search an unspecified area around
          * the current player location.
@@ -523,7 +602,10 @@ class overmapbuffer
 
         city_reference closest_known_city( const tripoint_abs_sm &center );
 
-        std::string get_description_at( const tripoint_abs_sm &where );
+        //TODO: use display_description_at when converting UIs to ImGui
+        std::string get_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
+
+        void display_description_at( const tripoint_abs_sm &where, bool draw_origin = true );
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.
@@ -553,21 +635,16 @@ class overmapbuffer
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
                             int radius );
 
-        int get_unique_special_count( const overmap_special_id &id ) {
-            return unique_special_count[id];
-        }
+        int get_unique_special_count( const overmap_special_id &id );
+        int get_overmap_count() const;
 
-        int get_overmap_count() const {
-            return overmap_count;
-        }
-
-        int get_major_river_count() const {
-            return major_river_count;
-        }
-
-        void inc_major_river_count() {
-            major_river_count++;
-        }
+        // Get or lazily initialize deck state; resets if constraints changed.
+        unique_special_deck_state &get_deck_state(
+            const overmap_special_id &id, int successes, int deck_size );
+        // Decrement to_place after placement. Only called from place_special_attempt().
+        void consume_deck_placement( const overmap_special_id &id );
+        int get_major_river_count() const;
+        void inc_major_river_count();
 
     private:
         /**
@@ -586,15 +663,6 @@ class overmapbuffer
         mutable std::set<point_abs_om> known_non_existing;
         // Cached result of previous call to overmapbuffer::get_existing
         overmap mutable *last_requested_overmap;
-        // Set of globally unique overmap specials that have already been placed
-        std::unordered_set<overmap_special_id> placed_unique_specials;
-        // This tracks the overmap unique specials we have placed. It is used to
-        // Adjust weights of special spawns to correct for things like failure to spawn.
-        std::unordered_map<overmap_special_id, int> unique_special_count;
-        // Global count of number of overmaps generated for this world.
-        int overmap_count = 0;
-        // Global count of major rivers generated for this world
-        int major_river_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -638,21 +706,11 @@ class overmapbuffer
         /**
          * Logs the placement of the given unique overmap special
          */
-        void log_unique_special( const overmap_special_id &id ) {
-            unique_special_count[id]++;
-        }
+        void log_unique_special( const overmap_special_id &id );
         /**
          * Returns true if the given globally unique overmap special has already been placed.
          */
         bool contains_unique_special( const overmap_special_id &id ) const;
-        /**
-         * Writes metadata about special placement as a JSON value.
-         */
-        void serialize_overmap_global_state( JsonOut &json ) const;
-        /**
-         * Reads metadata about special placement from JSON.
-         */
-        void deserialize_overmap_global_state( const JsonObject &json );
         /**
          * Reads deprecated placed unique specials data, replaced by overmap_global_state.
          */

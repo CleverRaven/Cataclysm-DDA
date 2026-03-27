@@ -6,5 +6,13 @@
     "time": "90 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "mutflesh", 1500 ] ] ]
+  },
+  {
+    "result": "broken_flailer_radiosphere",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cotton_patchwork", 18 ] ] ]
   }
 ]

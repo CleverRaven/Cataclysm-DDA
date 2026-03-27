@@ -210,6 +210,11 @@ void limitDebugClass( int );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset the error observation flag (for seed-fuzz test reruns).
+ */
+void debug_reset_error_observed();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg
@@ -261,6 +266,7 @@ enum debug_filter : int {
     DF_EXPLOSION, // explosion generic
     DF_FOOD, // food generic
     DF_GAME, // game generic
+    DF_HIGHWAY, // highway overmap generation
     DF_IEXAMINE, // iexamine generic
     DF_IUSE, // iuse generic
     DF_MAP, // map generic
@@ -273,6 +279,7 @@ enum debug_filter : int {
     DF_NPC_COMBATAI, // npc combat and danger assessment logic
     DF_NPC_ITEMAI, // npc weapon/item logic - weapon choices, decision to reload, etc.
     DF_NPC_MOVEAI, // Pathfinding and movement logic.  For the NPC with places to be.
+    DF_NPC_NEEDS, // NPC behavior tree needs evaluation (npc_behavior.json)
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
@@ -284,6 +291,11 @@ enum debug_filter : int {
     DF_VEHICLE_MOVE, // vehicle move generic
     DF_LAST // This is always the last entry
 };
+
+inline auto format_as( debug_filter df )
+{
+    return static_cast<std::underlying_type_t<debug_filter>>( df );
+}
 
 extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );

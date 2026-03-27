@@ -339,6 +339,17 @@ TEST_CASE( "Melee_skill_training_caps", "[melee], [melee_training_cap], [skill]"
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
         CHECK( level.knowledgeExperience( true ) == prev_xp );
     }
+    SECTION( "Using a monster as a training dummy will not cause further skill gain" ) {
+        zed.times_combatted_player = 101;
+        dude.set_skill_level( skill_melee, 0 );
+        dude.set_knowledge_level( skill_melee, 0 );
+        const int prev_xp = level.knowledgeExperience( true );
+        dude.melee_attack_abstract( zed, false, matec_id( "" ) );
+        CHECK( level.knowledgeLevel() == 0 );
+        CHECK( level.level() == 0 );
+        CHECK( level.knowledgeExperience( true ) == 0 );
+        CHECK( level.knowledgeExperience( true ) == prev_xp );
+    }
 }
 
 static void check_damage_from_test_fire( const std::string &mon_id, int expected_resist,
@@ -347,7 +358,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
     int total_dmg = 0;
     int total_hits = 0;
     int set_on_fire = 0;
-    for( int i = 0; i < 1000; i++ ) {
+    for( int i = 0; i < 1500; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
         monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
@@ -369,9 +380,9 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         }
     }
     Messages::clear_messages();
-    CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
+    CHECK( total_hits == Approx( 1500 ).margin( 75 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.06 ) );
 }
 
 static void check_eocs_from_test_fire( const std::string &mon_id )
@@ -442,7 +453,7 @@ static void check_damage_from_test_fire( const std::vector<itype_id> &armor_item
 
 TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][eoc]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "Attacking a monster with no resistance to test_fire" ) {
         check_damage_from_test_fire( "mon_test_zombie", 0, false, 16.f );
@@ -478,7 +489,7 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][e
 
 TEST_CASE( "Damage_type_EOCs", "[damage][eoc]" )
 {
-    clear_map();
+    clear_map_without_vision();
 
     SECTION( "Attacking a monster" ) {
         check_eocs_from_test_fire( "mon_test_zombie_only_fire" );

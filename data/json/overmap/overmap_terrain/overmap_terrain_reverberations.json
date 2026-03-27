@@ -1,0 +1,121 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_3_reverberation" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "mondensity": 0,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_roof_3_reverberation" ],
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": "none",
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins" ],
+    "flags": [ "NO_ROTATE" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "open land",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "looks_like": "yard",
+    "color": "green",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_location",
+    "id": "inner_cabins",
+    "terrains": [ "inner_cabins" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_cabin" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure",
+    "looks_like": "house_farm",
+    "see_cost": "high",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_cabin_roof" ],
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": "none",
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_void_exit" ],
+    "vision_levels": "water_body",
+    "see_cost": "high",
+    "travel_cost_type": "water",
+    "name": "retracting pond",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_empty_cabin" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure",
+    "looks_like": "house_farm",
+    "see_cost": "high",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_empty_cabin_roof" ],
+    "vision_levels": "roof_or_air",
+    "travel_cost_type": "roof",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": "none",
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "inner_cabins_warped_cabin_1",
+      "inner_cabins_warped_cabin_2",
+      "inner_cabins_warped_cabin_3",
+      "inner_cabins_warped_cabin_4",
+      "inner_cabins_warped_cabin_5",
+      "inner_cabins_warped_cabin_6",
+      "inner_cabins_warped_cabin_7",
+      "inner_cabins_warped_cabin_8",
+      "inner_cabins_warped_cabin_9",
+      "inner_cabins_warped_cabin_10"
+    ],
+    "name": "black smear",
+    "sym": "#",
+    "color": "black",
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "mondensity": 0
+  }
+]

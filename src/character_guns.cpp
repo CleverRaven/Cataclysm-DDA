@@ -104,10 +104,10 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } );
 }
 
-std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+std::vector<item_location> Character::get_ammo( const ammotype &at ) const
 {
-    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item & it ) {
-        return it.ammo_type() == at;
+    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item_location & it ) {
+        return it->ammo_type() == at;
     } );
 }
 
@@ -115,9 +115,29 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
 {
     map &here = get_map();
 
-    std::vector<item_location> res;
+    std::vector<item_location> res = cache_get_items_with( "is_ammo",
+    &item::is_ammo, [&obj]( const item_location & it ) {
+        return obj.can_reload_with( *it, true );
+    } );
 
-    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
+    std::vector<item_location> mag_locs = cache_get_items_with( "is_magazine",
+    &item::is_magazine, [&obj, &empty]( const item_location & it ) {
+        if( &obj == &*it ) {
+            return false;
+        }
+        if( it.parent_item() && &*it == it.parent_item()->magazine_current() ) {
+            return false;
+        }
+        if( !it->ammo_remaining() && !empty ) {
+            return false;
+        }
+        if( it->has_flag( flag_SPEEDLOADER ) && ( !it->ammo_remaining() || !obj.magazine_integral() ) ) {
+            return false;
+        }
+        return obj.can_reload_with( *it, true );
+    } );
+
+    res.insert( res.end(), mag_locs.begin(), mag_locs.end() );
 
     if( radius >= 0 ) {
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {
@@ -151,7 +171,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
     // focus is either a penalty or bonus of at most +/-10%
-    roll += ( std::min( std::max( get_focus(), 140 ), 60 ) - 100 ) / 4;
+    roll += ( std::clamp( get_focus(), 60, 140 ) - 100 ) / 4;
     // dexterity and intelligence give +/-2% for each point above or below 12
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;

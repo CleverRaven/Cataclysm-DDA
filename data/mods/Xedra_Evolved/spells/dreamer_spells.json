@@ -396,23 +396,7 @@
     "max_range": 1,
     "message": "",
     "damage_type": "bash",
-    "sound_description": "a smash",
-    "extra_effects": [ { "id": "constructed_hammer_self_destruct" } ]
-  },
-  {
-    "id": "constructed_hammer_self_destruct",
-    "type": "SPELL",
-    "shape": "blast",
-    "name": { "str": "Constructed Hammer Self destruct", "//~": "NO_I18N" },
-    "description": { "str": "Removes constructed hammer.  You can't see it except in debug mode.", "//~": "NO_I18N" },
-    "valid_targets": [ "ground" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_REMOVE_CONSTRUCTED_HAMMER"
-  },
-  {
-    "id": "EOC_REMOVE_CONSTRUCTED_HAMMER",
-    "type": "effect_on_condition",
-    "effect": [ { "npc_remove_item_with": "constructed_hammer" } ]
+    "sound_description": "a smash"
   },
   {
     "id": "summon_duplicator",

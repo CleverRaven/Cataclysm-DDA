@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_safe",
+    "name": "Evacuation Shelter",
+    "terrain": [ { "om_terrain": "shelter", "parameters": { "shelter_palette": "shelter_used" } } ]
+  }
+]

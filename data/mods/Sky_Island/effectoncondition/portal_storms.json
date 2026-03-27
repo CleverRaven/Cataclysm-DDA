@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
+    "global": true,
+    "condition": { "current_dimension": "" },
+    "effect": [ { "math": [ "saved_portal_storms++" ] } ],
+    "false_effect": [ { "if": { "math": [ "saved_portal_storms > 0" ] }, "then": { "run_eocs": "EOC_SI_START_PORTAL_STORM" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SI_START_PORTAL_STORM",
+    "condition": { "not": { "current_dimension": "" } },
+    "effect": [ { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" }, { "math": [ "saved_portal_storms--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SI_SETUP_RAID_PORTAL_STORM",
+    "effect": [
+      { "run_eocs": "EOC_SI_START_PORTAL_STORM", "time_in_future": { "global_val": "currentpulselength", "default": "15 m" } }
+    ]
+  }
+]

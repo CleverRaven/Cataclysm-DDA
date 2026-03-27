@@ -35,7 +35,7 @@
     "effect": [
       { "npc_location_variable": { "context_val": "pos" } },
       { "u_teleport": { "context_val": "pos" } },
-      { "run_eocs": [ "EOC_PERK_MOMENTUM_UPDATE" ] },
+      { "run_eocs": [ "EOC_PERK_ON_MOVEMENT", "EOC_PERK_ON_MOVEMENT_AUTOMATIC" ] },
       {
         "u_run_monster_eocs": [
           {

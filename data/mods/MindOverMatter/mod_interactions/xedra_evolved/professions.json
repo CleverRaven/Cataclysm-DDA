@@ -48,6 +48,111 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
+    },
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "xe_psi_verdant_hand",
+    "name": "Mobile Task Force: Chi 5 \"North Stars\"",
+    "description": "The VERDANT HAND Combat Protocols never did prove their use in battlefield conditions, but they didn't need to; the close confines of urban warfare were more than suited to a warrior who could run down a hallway and disable an enemy before the enemy even managed to reach for their gun.  As a member of Chi 5, you were sent into areas where sightlines were short and enemy concentrations were high.  You saw action both on-world and off, in the densest cities of Cradle Earth and in both rural villages and ecumenopolises under alien stars, but now you need to learn a new kind of warfare.",
+    "points": 10,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "dodge" },
+      { "level": 6, "name": "unarmed" },
+      { "level": 5, "name": "metaphysics" }
+    ],
+    "spells": [
+      { "id": "biokin_physical_enhance", "level": 11 },
+      { "id": "biokin_overcome_pain", "level": 8 },
+      { "id": "biokin_dash", "level": 8 },
+      { "id": "biokin_armor_skin", "level": 7 },
+      { "id": "biokin_flexibility", "level": 9 },
+      { "id": "biokin_adrenaline", "level": 4 },
+      { "id": "biokin_enhance_mobility", "level": 6 },
+      { "id": "biokin_reflex_enhance", "level": 5 }
+    ],
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS", "VERDANT_HAND_PROTOCOLS" ],
+    "proficiencies": [ "prof_concentration_basic", "prof_concentration_intermediate", "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "socks" },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_chi" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "chargen_allow_npc": false
+  },
+  {
+    "type": "profession",
+    "id": "xe_psi_pyrokinetic_cyborg",
+    "name": "Mobile Task Force: Gamma 9 \"Maxwell's Angels\"",
+    "description": "The success of Offworld Acquisitions in procuring technology from other dimensions has led to a multiple advancements in fields never dreamed of in the past, including cybernetics, noetics, and their interactions.  Maxwell's Angels use CBMs sourced from a psionically-active dimension designed to increase the effective range of psionic channeling.  While the technology has some undesirable side effects, including fever and severe headaches, it had more than proved its usefulness before the Cataclysm and you suspect it'll be equally as useful in this new world.",
+    "points": 10,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "survival" },
+      { "level": 6, "name": "metaphysics" }
+    ],
+    "spells": [
+      { "id": "pyrokinetic_flash", "level": 5 },
+      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_call_flames", "level": 5 },
+      { "id": "pyrokinetic_cloak", "level": 8 },
+      { "id": "pyrokinetic_flamethrower", "level": 8 },
+      { "id": "pyrokinetic_aura", "level": 6 },
+      { "id": "pyrokinetic_flame_immunity", "level": 8 },
+      { "id": "pyrokinetic_blast", "level": 7 }
+    ],
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION", "XEDRA_CYBORG" ],
+    "proficiencies": [ "prof_concentration_basic" ],
+    "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_psi_range_increaser", "bio_power_storage" ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "wristwatch" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_gamma" },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_light" },
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    },
+    "chargen_allow_npc": false
   }
 ]

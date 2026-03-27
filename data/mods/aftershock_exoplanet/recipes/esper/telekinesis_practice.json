@@ -15,7 +15,7 @@
       "practice_afs_telekinetic_wave",
       "practice_afs_telekinetic_hammer"
     ],
-    "difficulty": 1
+    "difficulty": 10
   },
   {
     "type": "recipe",
@@ -26,13 +26,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_ITEMS",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_move_item", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 2" ] },
@@ -50,13 +51,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 2,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOVE_CREATURES",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_move_creature", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 3" ] },
@@ -74,13 +76,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_MOMENTUM",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 4" ] },
@@ -98,13 +101,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 4,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_WAVE",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 5" ] },
@@ -122,13 +126,14 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 0,
     "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEKIN_HAMMER",
+        "condition": { "u_has_trait": "AFS_TELEKINETIC" },
         "effect": [
           { "set_string_var": "afs_telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty = 7" ] },

@@ -317,7 +317,7 @@
     "components": [
       [ [ "oatmeal", 1 ], [ "flour_any", 5, "LIST" ], [ "buckwheat", 1 ] ],
       [ [ "dry_fruit", 1 ] ],
-      [ [ "edible_tallow_lard", 2, "LIST" ] ],
+      [ [ "edible_tallow", 5, "LIST" ] ],
       [ [ "sugar_standard", 1, "LIST" ] ]
     ]
   },

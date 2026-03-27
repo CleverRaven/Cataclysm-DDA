@@ -46,6 +46,21 @@
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
   {
+    "id": "inventor_research_bionic",
+    "name": "bionic research",
+    "description": "Research how to create devices that are contained within the body.",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result_eocs": [ "EOC_INVENTOR_RESEARCH_BIONIC" ],
+    "tools": [ [ [ "laptop", 60 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ],
+    "time": "4 h",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_RESEARCH"
+  },
+  {
     "id": "inventor_research_energy_1",
     "name": "novice energy research",
     "description": "Research an innovative ways to generate and use energy.",

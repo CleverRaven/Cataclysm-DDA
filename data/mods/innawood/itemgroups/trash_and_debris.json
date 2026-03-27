@@ -6,6 +6,7 @@
       { "item": "twig", "prob": 100, "count": [ 5, 40 ] },
       { "item": "rock", "prob": 80, "count": [ 1, 3 ] },
       [ "rock_flaking", 80 ],
+      [ "chunk_feldspar", 10 ],
       [ "stick", 80 ],
       [ "stick_long", 10 ],
       [ "acorns", 80 ],

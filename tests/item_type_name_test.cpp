@@ -7,7 +7,7 @@
 
 // Test cases focused on item::type_name
 static const itype_id itype_blood( "blood" );
-static const itype_id itype_shotgun_410( "shotgun_410" );
+static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_test_block_of_cheese( "test_block_of_cheese" );
 static const itype_id itype_test_book( "test_book" );
 static const itype_id itype_test_food( "test_food" );
@@ -86,7 +86,7 @@ TEST_CASE( "item_name_pluralization", "[item][type_name][plural]" )
 TEST_CASE( "custom_named_item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
-    item shotgun( itype_shotgun_410 );
+    item shotgun( itype_shotgun_s );
     shotgun.set_var( "name", "Boomstick" );
     REQUIRE( shotgun.get_var( "name" ) == "Boomstick" );
 

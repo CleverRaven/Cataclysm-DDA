@@ -94,7 +94,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('create_fog')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('create_fog') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -109,7 +109,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('grant_buoyancy')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('grant_buoyancy') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -127,7 +127,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('acidic_mist')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('acidic_mist') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -145,7 +145,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('deadly_mist')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('deadly_mist') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -158,7 +158,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('wave_rider')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('wave_rider') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -173,7 +173,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('water_pocket')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('water_pocket') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -186,7 +186,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('summon_fish')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('summon_fish') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -199,7 +199,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('charm_fish')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('charm_fish') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -214,7 +214,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('summon_kraken')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('summon_kraken') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -232,7 +232,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('undine_acid_resist_ally_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('undine_acid_resist_ally_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -250,7 +250,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('undine_bash_and_slow_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('undine_bash_and_slow_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -268,7 +268,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('undine_drag_inward_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('undine_drag_inward_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -286,7 +286,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('undine_tidal_wave_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('undine_tidal_wave_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -304,7 +304,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('summon_water_sprite')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('summon_water_sprite') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -322,7 +322,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('cloud_of_steam_undine')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('cloud_of_steam_undine') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -340,7 +340,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('undine_cultivate_goblin_fruit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('undine_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -358,7 +358,7 @@
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_UNDINE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }

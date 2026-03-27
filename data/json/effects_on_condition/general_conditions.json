@@ -9,7 +9,8 @@
         { "npc_has_species": "ROBOT_FLYING" },
         { "npc_has_species": "LEECH_PLANT" },
         { "npc_has_flag": "ELECTRIC" },
-        { "npc_has_any_trait": [ "EXODII_BODY_1", "EXODII_BODY_2", "EXODII_BODY_9" ] }
+        { "npc_has_any_trait": [ "EXODII_BODY_1", "EXODII_BODY_2", "EXODII_BODY_9" ] },
+        { "npc_has_effect": "absorbed_electric" }
       ]
     }
   }

@@ -59,7 +59,13 @@
       { "group": "survivor_basic_feet", "damage": [ 0, 3 ] },
       { "group": "clothing_glasses", "prob": 5, "damage": [ 0, 3 ] },
       { "group": "clothing_watch", "prob": 5, "damage": [ 0, 3 ] },
-      { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
+      {
+        "distribution": [
+          { "item": "spearsling", "prob": 50, "damage": [ 0, 3 ] },
+          { "item": "spearsling_canvas", "prob": 50, "damage": [ 0, 3 ] }
+        ],
+        "prob": 100
+      },
       {
         "distribution": [
           { "item": "police_belt", "prob": 35, "damage": [ 0, 3 ] },
@@ -417,9 +423,9 @@
                           { "item": "dress", "prob": 75, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 15, "damage": [ 1, 4 ] },
                           { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_dress", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "sinister_gown", "prob": 5, "damage": [ 1, 4 ] },
-                          { "item": "witch_dress_long", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "gown_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "witch_black", "prob": 5, "damage": [ 1, 4 ] },
+                          { "item": "long_dress_sleeved", "variant": "sinister", "prob": 5, "damage": [ 1, 4 ] },
                           {
                             "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
                             "prob": 10
@@ -478,8 +484,8 @@
               {
                 "collection": [
                   { "item": "cuirass_lightplate", "prob": 80, "damage": [ 2, 4 ] },
-                  { "item": "armguard_lightplate", "prob": 60, "damage": [ 1, 4 ] },
-                  { "item": "legguard_lightplate", "prob": 60, "damage": [ 1, 4 ] }
+                  { "item": "armor_lc_armguard", "prob": 60, "damage": [ 1, 4 ] },
+                  { "item": "armor_lc_leg_guard", "prob": 60, "damage": [ 1, 4 ] }
                 ],
                 "prob": 60
               }

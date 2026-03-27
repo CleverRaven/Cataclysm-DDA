@@ -40,15 +40,22 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_grabbed( "grabbed" );
 
+static const flag_id json_flag_PUNCTURE_VEHICLE_WHEELS( "PUNCTURE_VEHICLE_WHEELS" );
+
+static const itype_id itype_corpse_fake_TEST( "corpse_fake_TEST" );
+static const itype_id itype_corpse_fake_TEST_NODMG( "corpse_fake_TEST_NODMG" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
 static const itype_id itype_hand_pump( "hand_pump" );
 static const itype_id itype_jeans( "jeans" );
-
+static const itype_id itype_qt_steel_chunk( "qt_steel_chunk" );
+static const itype_id itype_test_bodypillow_cloth_item( "test_bodypillow_cloth_item" );
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
+static const itype_id itype_test_guarantee_wheel_dmg( "test_guarantee_wheel_dmg" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
+static const itype_id itype_test_squishy_fruit( "test_squishy_fruit" );
 static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
@@ -58,11 +65,14 @@ static const vpart_id vpart_test_enchant( "test_enchant" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
+static const vproto_id vehicle_prototype_unicycle_armored_wheel( "unicycle_armored_wheel" );
+static const vproto_id vehicle_prototype_unicycle_bike_wheel( "unicycle_bike_wheel" );
+static const vproto_id vehicle_prototype_unicycle_normal_wheel( "unicycle_normal_wheel" );
 static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -104,7 +114,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
@@ -127,7 +137,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -200,7 +210,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
@@ -309,7 +319,7 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
         {    0,    0,    0,    0, 4000 },
         { 1000, 1000, 1000, 1000, 3000 },
         { 2000, 2000, 2000, 2000, 2000 },
-        { 2500, 1500, 2500, 1500, 1500 },
+        { 2500, 1500, 2500, 1660, 1500 },
         { 3999, 3999, 3999, 3999,    1 },
     };
 
@@ -340,7 +350,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     // only the part damage is pseudo-random spread, while total damage should
     // round trip well in integers
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     map &m = get_map();
     Character &u = get_player_character();
@@ -463,7 +473,7 @@ static void connect_power_line( const tripoint_bub_ms &src_pos, const tripoint_b
 
 TEST_CASE( "power_cable_stretch_disconnect" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &player_character = get_player_character();
@@ -601,7 +611,7 @@ static void rack_check( const rack_preset &preset )
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     std::vector<vehicle *> vehs;
@@ -763,7 +773,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -815,7 +825,7 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
 TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -851,7 +861,7 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -881,4 +891,113 @@ TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
     veh_ptr->process_effects();
 
     REQUIRE( !veh_ptr->has_effect( effect_grabbed ) );
+}
+
+static vehicle_part *setup_squish_test_return_wheel( map &here, const tripoint_bub_ms &test_point,
+        vehicle *veh_ptr )
+{
+    REQUIRE( here.veh_at( test_point ).avail_part_with_feature( "WHEEL" ) );
+    std::vector<vehicle_part *> wheels_vector = veh_ptr->get_parts_at( &here, test_point, "WHEEL",
+            part_status_flag::available );
+    REQUIRE( !wheels_vector.empty() );
+    vehicle_part *vp_wheel = wheels_vector.front();
+    REQUIRE( !here.has_items( test_point ) );
+    return vp_wheel;
+}
+
+// wrapper around wheel_damage_chance_vs_item(), but also checks
+// if item has flag needed to damage wheel (part of damage_wheel_on_item() now)
+static double wheel_damage_chance_vs_item_test( const vehicle *veh_ptr, const item &test_item,
+        const vehicle_part *vp_wheel )
+{
+    if( !test_item.has_flag( json_flag_PUNCTURE_VEHICLE_WHEELS ) ) {
+        return 0.0;
+    }
+
+    return veh_ptr->wheel_damage_chance_vs_item( test_item, *vp_wheel );
+}
+
+static void run_squish_test( const std::map<itype_id, double> &to_squish,
+                             const tripoint_bub_ms &test_point, map &here,
+                             vehicle *veh_ptr, vehicle_part *vp_wheel )
+{
+    // 0.2% difference from expectations allowed to account for loating point precision. Exceedingly generous.
+    const double allowed_variance = 0.002;
+    for( const auto &test_data : to_squish ) {
+        const double expected_chance = test_data.second;
+        here.i_clear( test_point );
+        const item &test_item = here.add_item_or_charges( test_point, item( test_data.first ) );
+        REQUIRE( here.i_at( test_point ).size() == 1 );
+        const double damage_chance = wheel_damage_chance_vs_item_test( veh_ptr, test_item, vp_wheel );
+        CAPTURE( test_item.typeId().c_str() );
+        CAPTURE( expected_chance );
+        CAPTURE( damage_chance );
+        CHECK( damage_chance == Approx( expected_chance ).epsilon( allowed_variance ) );
+    }
+}
+
+TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
+{
+    clear_map_without_vision();
+    map &here = get_map();
+    const tripoint_bub_ms test_point( 60, 60, 0 );
+    REQUIRE( !here.veh_at( test_point ) );
+
+
+    SECTION( "Bicycle wheel vs variety of test items" ) {
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_bike_wheel,
+                                             test_point, 0_degrees, 100, 0, false );
+        vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
+
+        const std::map<itype_id, double> test_items = {
+            // Dangerous scenario: A chunk of steel on the road. You wouldn't want to run this over.
+            {itype_qt_steel_chunk, 1.0},
+            // Unlikely scenario: An abandoned body pillow. (Do you know how expensive these things are?! Who would do this???)
+            {itype_test_bodypillow_cloth_item, 0.5625},
+            // Player scenario: Running over people in your car
+            {itype_corpse_fake_TEST, 0.0625},
+            // Final Destination: This thing is guaranteed to ruin your day if you run it over.
+            {itype_test_guarantee_wheel_dmg, 1.0},
+            // Finally, something big that should be very squishable and not much of a threat to a normal wheel.
+            {itype_test_squishy_fruit, 0.015625},
+            // And to be sure: An item without the flag allowing it to damage wheels.
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
+
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
+    }
+
+    SECTION( "Normal wheel vs variety of test items" ) {
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_normal_wheel,
+                                             test_point, 0_degrees, 100, 0, false );
+        vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
+
+        const std::map<itype_id, double> test_items = {
+            {itype_qt_steel_chunk, 1.0},
+            {itype_test_bodypillow_cloth_item, 0.5625},
+            {itype_corpse_fake_TEST, 0.0625},
+            {itype_test_guarantee_wheel_dmg, 1.0},
+            {itype_test_squishy_fruit, 0.015625},
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
+
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
+    }
+
+    SECTION( "Armored wheel vs variety of test items" ) {
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_unicycle_armored_wheel,
+                                             test_point, 0_degrees, 100, 0, false );
+        vehicle_part *vp_wheel = setup_squish_test_return_wheel( here, test_point, veh_ptr );
+
+        const std::map<itype_id, double> test_items = {
+            {itype_qt_steel_chunk, 0.25},
+            {itype_test_bodypillow_cloth_item, 0.0225},
+            {itype_corpse_fake_TEST, 0.0025},
+            {itype_test_guarantee_wheel_dmg, 1.0},
+            {itype_test_squishy_fruit, 0.000625},
+            {itype_corpse_fake_TEST_NODMG, 0.0}
+        };
+
+        run_squish_test( test_items, test_point, here, veh_ptr, vp_wheel );
+    }
 }

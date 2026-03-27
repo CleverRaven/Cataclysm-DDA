@@ -121,7 +121,7 @@
         { "monster": "mon_flashbang_hack", "x": 9, "y": 8, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 9, "y": 9, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 9, "y": 14, "chance": 100 },
-        { "monster": "mon_manhack", "x": 9, "y": 15, "chance": 100 }
+        { "monster": "mon_grenade_hack", "x": 9, "y": 15, "chance": 100 }
       ],
       "computers": {
         "6": {
@@ -456,7 +456,7 @@
         { "monster": "mon_skitterbot", "x": 21, "y": 4, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 22, "y": 4, "chance": 100 },
         { "monster": "mon_gasbomb_hack", "x": 17, "y": 19, "chance": 100 },
-        { "monster": "mon_manhack", "x": 18, "y": 19, "chance": 100 },
+        { "monster": "mon_grenade_hack", "x": 18, "y": 19, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 21, "y": 19, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 },
         { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": 11, "chance": 100 }

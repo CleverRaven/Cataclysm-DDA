@@ -8,7 +8,8 @@
     "volume": "250 ml",
     "symbol": "*",
     "color": "green",
-    "flags": [ "TRADER_AVOID", "LIGHT_3" ]
+    "light": 3,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "ITEM",

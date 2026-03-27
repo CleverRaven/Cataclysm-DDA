@@ -27,7 +27,7 @@
     "gender": "male",
     "name_suffix": "CEO",
     "class": "NC_SWAMPER",
-    "attitude": 7,
+    "attitude": 0,
     "mission": 3,
     "chat": "TALK_SWAMPER",
     "faction": "swamper",

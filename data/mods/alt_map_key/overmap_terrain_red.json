@@ -451,14 +451,20 @@
       "deserter_city_office_1f",
       "deserter_city_office_2f",
       "deserter_city_office_3f",
-      "deserter_city_office_roof",
       "deserter_city_office_1fb",
       "deserter_city_office_2fb",
-      "deserter_city_office_3fb",
-      "deserter_city_office_roofb"
+      "deserter_city_office_3fb"
     ],
     "copy-from": "deserter_city_gate",
     "name": "deserter outpost",
+    "sym": "D",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "deserter_city_office_roof", "deserter_city_office_roofb" ],
+    "copy-from": "deserter_city_office_roof",
+    "name": "deserter outpost roof",
     "sym": "D",
     "color": "red"
   },
@@ -488,9 +494,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "gunshow_0", "gunshow_1", "gunshow_0_roof", "gunshow_1_roof" ],
+    "id": [ "gunshow_0", "gunshow_1" ],
     "copy-from": "gunshow_0",
     "name": "gun show",
+    "sym": "G",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gunshow_0_roof", "gunshow_1_roof" ],
+    "copy-from": "gunshow_0_roof",
+    "name": "gun show roof",
     "sym": "G",
     "color": "red"
   },
@@ -546,14 +560,18 @@
       "helipad2f_nw",
       "helipad2f_ne",
       "helipad2f_sw",
-      "helipad2f_se",
-      "helipad_roof_nw",
-      "helipad_roof_ne",
-      "helipad_roof_sw",
-      "helipad_roof_se"
+      "helipad2f_se"
     ],
     "copy-from": "helipad_nw",
     "name": "military helipad",
+    "sym": "H",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "helipad_roof_nw", "helipad_roof_ne", "helipad_roof_sw", "helipad_roof_se" ],
+    "copy-from": "helipad_roof_nw",
+    "name": "military helipad roof",
     "sym": "H",
     "color": "red"
   },

@@ -196,6 +196,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_3030",
+    "items": [ { "group": "boxed_rifle" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_9mm_used",
     "items": [ { "group": "boxed_pistol_used" } ]
   },
@@ -386,6 +391,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_3030_used",
+    "items": [ { "group": "boxed_rifle_used" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_9mm_looted",
     "items": [ { "group": "boxed_pistol_looted" } ]
   },
@@ -572,6 +582,11 @@
   {
     "type": "item_group",
     "id": "boxed_458_looted",
+    "items": [ { "group": "boxed_rifle_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_3030_looted",
     "items": [ { "group": "boxed_rifle_looted" } ]
   }
 ]

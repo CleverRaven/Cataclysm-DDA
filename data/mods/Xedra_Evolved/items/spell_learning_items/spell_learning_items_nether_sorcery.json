@@ -1,0 +1,30 @@
+[
+  {
+    "id": "nether_sorcery_grimoire_xe_nether_sorcery_cold_damage_over_time",
+    "type": "ITEM",
+    "name": { "str": "Grimoire: Bound in Ebon Bands", "str_pl": "Grimoires: Bound in Ebon Bands" },
+    "description": "A hefty-looking tome, with an unadorned cover of dark leather.  The interior is filled with complicated instructions and some sort of formulae.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "blue",
+    "use_action": { "type": "learn_spell", "spells": [ "xe_nether_sorcery_cold_damage_over_time" ] }
+  },
+  {
+    "id": "nether_sorcery_grimoire_xe_nether_sorcery_summon_kreck_pack",
+    "type": "ITEM",
+    "name": { "str": "Grimoire: The Baying of Hounds", "str_pl": "Grimoires: The Baying of Hounds" },
+    "description": "A hefty-looking tome, with an unadorned cover of dark leather.  The interior is filled with complicated instructions and some sort of formulae.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "blue",
+    "use_action": { "type": "learn_spell", "spells": [ "xe_nether_sorcery_summon_kreck_pack" ] }
+  }
+]

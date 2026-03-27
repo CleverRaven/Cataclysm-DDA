@@ -11,7 +11,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fungalize",
@@ -28,7 +28,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fungus",
@@ -54,7 +54,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_gasbag_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_gasbag_fungalize",
@@ -70,7 +70,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_gasbag_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_gasbag_fungus",
@@ -103,7 +103,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_smoker_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_smoker_fungalize",
@@ -120,7 +120,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_smoker_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_smoker_fungus",
@@ -153,7 +153,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_skeleton_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_skeleton_fungalize",
@@ -170,7 +170,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_skeleton_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "type": "MONSTER",
@@ -200,7 +200,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_skeleton_brute_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_skeleton_brute_fungalize",
@@ -217,7 +217,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_skeleton_brute_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "type": "MONSTER",
@@ -247,7 +247,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_skeleton_hulk_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_skeleton_hulk_fungalize",
@@ -264,7 +264,7 @@
     "upgrades": { "age_grow": 2, "into": "mon_skeleton_hulk_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_skeleton_hulk_fungus",
@@ -294,7 +294,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_child_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_child_fungalize",
@@ -311,7 +311,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_child_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_child_fungus",
@@ -342,7 +342,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_boomer_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_boomer_fungalize",
@@ -358,7 +358,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_boomer_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_boomer_fungus",
@@ -389,7 +389,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_wretch_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_wretch_fungalize",
@@ -405,7 +405,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_fungal_wretch" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_fungal_wretch",
@@ -445,7 +445,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_spawn_raptor_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_spawn_raptor_fungalize",
@@ -461,7 +461,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_fungal_raptor" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_fungal_raptor",
@@ -486,7 +486,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_runner_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_runner_fungalize",
@@ -503,7 +503,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_runner_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_runner_fungal",
@@ -534,7 +534,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_rot_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_rot_fungalize",
@@ -551,7 +551,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_rot_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_rot_fungal",
@@ -582,7 +582,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_tough_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_tough_fungalize",
@@ -599,7 +599,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_tough_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_tough_fungal",
@@ -630,7 +630,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_brute_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_brute_fungalize",
@@ -647,7 +647,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_brute_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_brute_fungal",
@@ -678,7 +678,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_hulk_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_hulk_fungalize",
@@ -695,7 +695,7 @@
     "upgrades": { "age_grow": 2, "into": "mon_zombie_hulk_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_hulk_fungal",
@@ -725,7 +725,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_crawler_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_crawler_fungalize",
@@ -742,7 +742,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_crawler_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_crawler_fungal",
@@ -773,7 +773,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fat_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fat_fungalize",
@@ -790,7 +790,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fat_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fat_fungus",
@@ -821,7 +821,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_beekeeper_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_beekeeper_fungalize",
@@ -838,7 +838,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_beekeeper_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_beekeeper_fungal",
@@ -869,7 +869,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_acidic_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_acidic_fungalize",
@@ -886,7 +886,7 @@
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungus_acidic" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+    "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ] }
   },
   {
     "id": "mon_zombie_fungus_acidic",
@@ -904,6 +904,155 @@
     "proportional": { "hp": 0.75, "speed": 0.55 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 2, "electric": 4 } },
     "extend": { "species": [ "FUNGUS" ], "flags": [ "NO_FUNG_DMG" ], "special_attacks": [ [ "FUNGUS", 200 ] ] }
+  },
+  {
+    "id": "mon_fungal_mound",
+    "type": "MONSTER",
+    "name": { "str": "fungal mound" },
+    "description": "A pale white pile of fungus, growing over a mass of gore.  The ground below it seems to be actively keeping whatever was left of the corpse 'alive', slowly rebuilding it from the ground up.",
+    "species": [ "FUNGUS" ],
+    "default_faction": "fungus",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 40,
+    "speed": 100,
+    "material": [ "veggy" ],
+    "symbol": "B",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "dodge": 1,
+    "weakpoint_sets": [ "wps_fungaloid" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_fungaloid_basic",
+      "prof_wp_fungaloid_advanced"
+    ],
+    "vision_day": 2,
+    "vision_night": 2,
+    "harvest": "fungaloid",
+    "special_attacks": [ [ "FUNGUS", 50 ] ],
+    "upgrades": { "into": "mon_fungal_construct", "half_life": 2 },
+    "regenerates": 1,
+    "flags": [ "IMMOBILE", "SEES", "WARM", "POISON", "REVIVES", "NO_BREATHE", "FILTHY", "SWARMS", "NOHEAD" ],
+    "armor": { "bash": 3, "cut": 6, "bullet": 3, "electric": 4 }
+  },
+  {
+    "id": "mon_fungal_construct",
+    "type": "MONSTER",
+    "name": { "str": "fungal construct" },
+    "description": "A pale white pile of moving fungus, growing over a mass of gore.  The interwoven vines and constricting roots force the pulp beneath to move, even though nothing is set right.  It creaks like a loose floorboard.",
+    "species": [ "FUNGUS" ],
+    "default_faction": "fungus",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 70,
+    "speed": 50,
+    "material": [ "veggy" ],
+    "symbol": "B",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "dodge": 2,
+    "weakpoint_sets": [ "wps_fungaloid" ],
+    "families": [
+      "prof_gross_anatomy",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wp_fungaloid_basic",
+      "prof_wp_fungaloid_advanced"
+    ],
+    "vision_day": 10,
+    "vision_night": 2,
+    "harvest": "fungaloid",
+    "special_attacks": [ [ "FUNGUS", 50 ] ],
+    "regenerates": 1,
+    "flags": [ "SEES", "WARM", "POISON", "REVIVES", "NO_BREATHE", "FILTHY", "NOHEAD" ],
+    "armor": { "bash": 3, "cut": 6, "bullet": 3, "electric": 4 }
+  },
+  {
+    "id": "mon_fungal_mound_large",
+    "type": "MONSTER",
+    "name": { "str": "large fungal mound" },
+    "description": "A pale white pile of fungus, growing over a large mass of gore.  The ground below it seems to be actively keeping whatever was left of the corpse 'alive', slowly rebuilding into a large mass.",
+    "copy-from": "mon_fungal_mound",
+    "hp": 100,
+    "vision_day": 20,
+    "vision_night": 5,
+    "harvest": "fungaloid",
+    "upgrades": { "into": "mon_fungal_construct_large", "half_life": 2 },
+    "special_attacks": [ [ "FUNGUS", 45 ] ],
+    "regenerates": 2,
+    "armor": { "bash": 4, "cut": 8, "bullet": 4, "electric": 4 }
+  },
+  {
+    "id": "mon_fungal_construct_large",
+    "type": "MONSTER",
+    "name": { "str": "large fungal construct" },
+    "description": "A pale white pile of moving fungus, growing over a large mass of gore.  The interwoven vines and constricting roots force the large pulp beneath to move, even though nothing is set right.  Its own weight seems to grind on the bones keeping it together.",
+    "copy-from": "mon_fungal_construct",
+    "hp": 140,
+    "speed": 60,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "dodge": 3,
+    "vision_day": 15,
+    "vision_night": 5,
+    "harvest": "fungaloid",
+    "special_attacks": [ [ "FUNGUS", 45 ] ],
+    "regenerates": 2,
+    "armor": { "bash": 4, "cut": 8, "bullet": 4, "electric": 4 }
+  },
+  {
+    "id": "mon_fungal_mound_massive",
+    "type": "MONSTER",
+    "name": { "str": "massive fungal mound" },
+    "description": "A pale white pile of fungus, growing over a giant mass of gore.  The ground below it seems to be actively keeping whatever was left of the corpse 'alive', slowly rebuilding it from the ground up.",
+    "copy-from": "mon_fungal_mound",
+    "volume": "875 L",
+    "weight": "1000 kg",
+    "hp": 200,
+    "vision_day": 20,
+    "vision_night": 5,
+    "harvest": "fungaloid",
+    "upgrades": { "into": "mon_fungal_construct_massive", "half_life": 2 },
+    "special_attacks": [ [ "FUNGUS", 40 ] ],
+    "regenerates": 3,
+    "armor": { "bash": 5, "cut": 10, "bullet": 5, "electric": 4 }
+  },
+  {
+    "id": "mon_fungal_construct_massive",
+    "type": "MONSTER",
+    "name": { "str": "massive fungal construct" },
+    "description": "A pale white pile of moving fungus, growing over a giant mass of gore.  The interwoven vines and constricting roots force the pulp beneath to move, even though nothing is set right.  Its form is unnaturally hunched over, but its mass alone makes it a threat nonetheless.",
+    "copy-from": "mon_fungal_construct",
+    "volume": "875 L",
+    "weight": "1000 kg",
+    "hp": 300,
+    "speed": 75,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "dodge": 3,
+    "vision_day": 20,
+    "vision_night": 7,
+    "harvest": "fungaloid",
+    "special_attacks": [ [ "FUNGUS", 40 ] ],
+    "regenerates": 3,
+    "armor": { "bash": 5, "cut": 10, "bullet": 5, "electric": 4 }
   },
   {
     "id": "mon_zombie_dog_fungus",

@@ -6,7 +6,7 @@
     "subtypes": [ "GUN" ],
     "name": { "str": "anti-materiel rifle" },
     "ammo": [ "ammo_rifle_huge" ],
-    "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-material weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
+    "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-materiel weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -20,13 +20,13 @@
   },
   {
     "id": "rifle_huge_double",
-    "copy-from": "bfg50",
+    "copy-from": "win70_458",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
     "name": { "str": "elephant rifle" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "Elegantly engraved, with deep glossy blued steel and figured wood, this break-action double rifle is almost too nice to shoot.  Your shoulder might beg you not to; the chambers are almost wide enough for two fingers and the recoil is monstrous.  You could probably kill anything with this, especially if you were to fire both barrels at once.",
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2, "VOLLEY" ] ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
     "clip_size": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 2 }, "rigid": true } ]

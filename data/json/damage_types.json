@@ -6,8 +6,9 @@
     "melee_only": true,
     "physical": true,
     "magic_color": "magenta",
-    "name": "bash",
+    "name": { "ctxt": "damage_type", "str": "bash" },
     "skill": "bashing",
+    "bash_conversion_factor": 1.0,
     "mon_difficulty": true,
     "material_required": true,
     "immune_flags": { "character": [ "BASH_IMMUNE" ] }
@@ -56,7 +57,7 @@
     "physical": true,
     "edged": true,
     "magic_color": "light_red",
-    "name": "pierce",
+    "name": { "ctxt": "damage_type", "str": "pierce" },
     "skill": "stabbing",
     "mon_difficulty": true,
     "//2": "derived from cut only for monster defs",
@@ -81,9 +82,9 @@
     "physical": true,
     "magic_color": "light_red",
     "mon_difficulty": true,
-    "name": "ballistic",
+    "name": { "ctxt": "damage_type", "str": "ballistic" },
     "material_required": true,
-    "immune_flags": { "character": [ "BULLET_IMMUNE" ] }
+    "immune_flags": { "character": [ "BULLET_IMMUNE" ], "monster": [ "BULLETPROOF" ] }
   },
   {
     "id": "bullet",
@@ -103,7 +104,7 @@
     "physical": false,
     "environmental": true,
     "magic_color": "light_green",
-    "name": "acid",
+    "name": { "ctxt": "damage_type", "str": "acid" },
     "//2": "derived from cut only for monster defs",
     "derived_from": [ "cut", 0.5 ],
     "material_required": true,
@@ -126,7 +127,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "light_blue",
-    "name": "electric",
+    "name": { "ctxt": "damage_type", "str": "electric" },
     "immune_flags": { "character": [ "ELECTRIC_IMMUNE" ], "monster": [ "ELECTRIC", "ELECTRIC_FIELD" ] }
   },
   {
@@ -147,7 +148,7 @@
     "physical": false,
     "environmental": true,
     "magic_color": "red",
-    "name": "fire",
+    "name": { "ctxt": "damage_type", "str": "fire" },
     "material_required": true,
     "immune_flags": { "character": [ "HEAT_IMMUNE" ] }
   },
@@ -168,7 +169,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "white",
-    "name": "cold",
+    "name": { "ctxt": "damage_type", "str": "cold" },
     "immune_flags": { "character": [ "COLD_IMMUNE" ], "monster": [ "COLDPROOF" ] }
   },
   {
@@ -188,7 +189,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "green",
-    "name": "biological",
+    "name": { "ctxt": "damage_type", "str": "biological" },
     "immune_flags": { "character": [ "BIO_IMMUNE" ], "monster": [ "BIOLOGICALPROOF" ] },
     "no_resist": true
   },
@@ -208,7 +209,7 @@
     "type": "damage_type",
     "physical": false,
     "magic_color": "dark_gray",
-    "name": "pure",
+    "name": { "ctxt": "damage_type", "str": "pure" },
     "no_resist": true
   },
   {

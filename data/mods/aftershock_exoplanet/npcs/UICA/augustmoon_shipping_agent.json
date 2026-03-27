@@ -32,13 +32,35 @@
   {
     "id": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
     "type": "talk_topic",
-    "dynamic_line": "Interested in booking passage planetside?",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_augustmoon_shipping_chief_first_meet" } ],
+      "yes": [ "Interested in booking passage planetside?" ],
+      "no": "Let me be first to welcome you to Salus IV orbit.  I'm the portmaster representative for this section of the station, and I can help you with booking passage planetside for you and any cargo.\"  They glance briefly to a desk console before continuing with a well trained smile.  \"Oh it seems system flagged you as a new arrival, are you familiar with local planetary conditions?  If not, I can provide you with a starting kit that will help you survive the first few days planetside."
+    },
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "dialogue_augustmoon_shipping_chief_first_meet", "value": "yes" } ],
+      "sentinel": "longshoreman_meet"
+    },
     "responses": [
-      { "text": "That's why I'm here", "topic": "TALK_AUGUSTMOON_LANDING" },
+      {
+        "truefalsetext": {
+          "true": "That's why I'm here",
+          "false": "Alright, let see about passage planetside.",
+          "condition": { "math": [ "has_var(know_spaceport)" ] }
+        },
+        "topic": "TALK_AUGUSTMOON_LANDING"
+      },
       {
         "text": "I want to contract a drone shuttle.",
         "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF",
         "effect": "start_trade"
+      },
+      {
+        "text": "I'm interested in that starting kit.",
+        "topic": "TALK_AUGUSTMOON_KIT",
+        "condition": {
+          "and": [ { "not": { "math": [ "has_var(know_spaceport)" ] } }, { "not": { "math": [ "has_var(u_augustmoon_kit)" ] } } ]
+        }
       },
       { "text": "Not right now", "topic": "TALK_DONE" }
     ]
@@ -54,6 +76,48 @@
         "topic": "TALK_DONE"
       },
       { "text": "I need to settle a few things first", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_AUGUSTMOON_KIT",
+    "type": "talk_topic",
+    "dynamic_line": "The kit is available as a one-time purchase for 3660 USD.  It includes a basic set of thermal clothing for survival, a backpack, basic cooking implements and supplies, a self-defense weapon and some basic medical supplies.  It is designed to help you survive the first few days planetside, but it is not a complete solution for long-term survival.",
+    "responses": [
+      {
+        "text": "I'll take it.",
+        "effect": [ { "u_spend_cash": 366000, "true_eocs": "EOC_GET_AUGUSTMOON_KIT" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let me think about it.", "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GET_AUGUSTMOON_KIT",
+    "effect": [
+      { "u_spawn_item": "augustmoon_kit", "count": 1, "use_item_group": true },
+      { "u_add_var": "augustmoon_kit", "value": "yes" }
+    ]
+  },
+  {
+    "id": "augustmoon_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "afs_augustmoon_kit_box",
+    "on_overflow": "spill",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [
+      { "item": "knife_folding" },
+      { "count": 2, "group": "afs_escapepod_ration_bag_plastic_4" },
+      { "item": "flashlight" },
+      { "item": "afs_frontier_cryomask", "custom-flags": [ "FIT" ] },
+      { "item": "afs_frontier_cryo", "custom-flags": [ "FIT" ] },
+      { "item": "backpack" },
+      { "item": "afs_thermos" },
+      { "item": "multi_cooker" },
+      { "item": "afs_seyfert_84K", "container-item": "holster" },
+      { "item": "afs_10mm_caseless_FMJ" }
     ]
   }
 ]

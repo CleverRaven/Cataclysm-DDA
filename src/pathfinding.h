@@ -3,13 +3,19 @@
 #define CATA_SRC_PATHFINDING_H
 
 #include <cstdint>
+#include <functional>
+#include <map>
 #include <optional>
 #include <unordered_set>
+#include <vector>
 
 #include "coordinates.h"
 #include "mdarray.h"
 #include "point.h"
+#include "type_id.h"
 
+class Character;
+class map;
 enum class creature_size : int;
 
 // An attribute of a particular map square that is of interest in pathfinding.
@@ -135,7 +141,7 @@ struct pathfinding_cache {
 };
 
 struct pathfinding_settings {
-    int bash_strength = 0;
+    std::map<damage_type_id, int> bash_strength;
     int max_dist = 0;
     // At least 2 times the above, usually more
     int max_length = 0;
@@ -157,7 +163,8 @@ struct pathfinding_settings {
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
 
-    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool aud, bool at, bool acs,
+    pathfinding_settings( const std::map<damage_type_id, int> &bs, int md, int ml, int cc, bool aod,
+                          bool aud, bool at, bool acs,
                           bool art, bool as, std::optional<creature_size> sz = std::nullopt )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), allow_unlock_doors( aud ), avoid_traps( at ), allow_climb_stairs( acs ),
@@ -186,5 +193,21 @@ struct pathfinding_target {
         return { p, radius };
     }
 };
+
+// Returns true when the character is an avatar dragging a single-tile
+// vehicle, meaning grab-aware pathfinding (route_with_grab) should be used.
+bool has_grabbed_single_tile_vehicle( const Character &you, const map &here );
+
+// Grab-aware A* pathfinding for a player dragging a single-tile vehicle.
+// State is (player_position, grab_direction), so it finds routes where both
+// the player and the dragged vehicle can physically move.
+// Returns an empty vector if no path exists, or if the character is not an
+// avatar, not grabbing a vehicle, or dragging a multi-tile vehicle.
+// The optional |avoid| callback rejects player tiles matching map::route
+// semantics: if( !target.contains(pos) && avoid && avoid(pos) ) skip tile.
+std::vector<tripoint_bub_ms> route_with_grab(
+    map &here, const Character &you,
+    const pathfinding_target &target,
+    const std::function<bool( const tripoint_bub_ms & )> &avoid = {} );
 
 #endif // CATA_SRC_PATHFINDING_H

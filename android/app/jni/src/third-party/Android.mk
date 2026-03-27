@@ -10,8 +10,9 @@ LOCAL_CPP_FEATURES := exceptions rtti
 
 # Add your application source files here...
 FLATBUFFERS_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/flatbuffers/*.cpp))
+FMT_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/fmt/*.cc))
 ZSTD_SRCS := $(sort $(wildcard $(LOCAL_PATH)/third-party/zstd/common/*.c) $(wildcard $(LOCAL_PATH)/third-party/zstd/compress/*.c) $(wildcard $(LOCAL_PATH)/third-party/zstd/decompress/*.c))
-LOCAL_SRC_FILES := $(sort $(FLATBUFFERS_SRCS:$(LOCAL_PATH)/%=%) $(ZSTD_SRCS:$(LOCAL_PATH)/%=%))
+LOCAL_SRC_FILES := $(sort $(FLATBUFFERS_SRCS:$(LOCAL_PATH)/%=%) $(FMT_SRCS:$(LOCAL_PATH)/%=%) $(ZSTD_SRCS:$(LOCAL_PATH)/%=%))
 
 LOCAL_CFLAGS += -DBACKTRACE=1 -DLOCALIZE=1 -DZSTD_STATIC_LINKING_ONLY -DZSTD_DISABLE_ASM -Wextra -Wall -fsigned-char
 

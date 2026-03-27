@@ -55,15 +55,6 @@
     ]
   },
   {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "shot_he",
-    "time": "50 s",
-    "//": "A little more carefully...",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "unprimed_shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 8 ] ], [ [ "chem_rdx", 1 ] ] ]
-  },
-  {
     "result": "shot_slug",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

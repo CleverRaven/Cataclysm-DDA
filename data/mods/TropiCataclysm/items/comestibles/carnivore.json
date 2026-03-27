@@ -36,7 +36,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "chunk of cnidarian meat", "str_pl": "chunks of cnidarian meat" },
     "description": "The flesh of a cnidarian.  Cultivated in some parts of the planet as an exotic ingredient but otherwise a low nutrient edible.",
-    "//": "Nutrition information taken from google for cultivated edible jellyfish. if you know more pls expand",
+    "//": "Nutrition information taken from Google for cultivated edible jellyfish. if you know more pls expand",
     "weight": "148 g",
     "volume": "250 ml",
     "price": "5 USD",

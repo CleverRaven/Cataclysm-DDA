@@ -1,0 +1,49 @@
+[
+  {
+    "type": "overmap_special",
+    "//": "spawned by EOC",
+    "id": "inner_cabins_cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_cabin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_cabin_roof_north" },
+      { "point": [ 8, 3, 0 ], "overmap": "inner_cabins_void_exit_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 0 ],
+    "locations": [ "inner_cabins" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "inner_cabins_empty_cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_empty_cabin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_empty_cabin_roof_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 80, 100 ],
+    "locations": [ "inner_cabins" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "inner_cabins_warped_cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_warped_cabin_1_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "inner_cabins_warped_cabin_2_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "inner_cabins_warped_cabin_3_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "inner_cabins_warped_cabin_4_north" },
+      { "point": [ 0, 4, 0 ], "overmap": "inner_cabins_warped_cabin_4_north" },
+      { "point": [ 0, 5, 0 ], "overmap": "inner_cabins_warped_cabin_5_north" },
+      { "point": [ 0, 6, 0 ], "overmap": "inner_cabins_warped_cabin_6_north" },
+      { "point": [ 0, 7, 0 ], "overmap": "inner_cabins_warped_cabin_7_north" },
+      { "point": [ 0, 8, 0 ], "overmap": "inner_cabins_warped_cabin_8_north" },
+      { "point": [ 0, 9, 0 ], "overmap": "inner_cabins_warped_cabin_9_north" },
+      { "point": [ 0, 10, 0 ], "overmap": "inner_cabins_warped_cabin_10_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 20, 100 ],
+    "locations": [ "inner_cabins" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+  }
+]

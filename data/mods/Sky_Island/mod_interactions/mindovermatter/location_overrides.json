@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_Research_Loc_Warp",
+    "//": "Picks a random research facility and activates the actual teleport EOC.",
+    "condition": { "and": [ { "math": [ "labsunlocked == 1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "psi_phavian_lab_blockC1",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "scoutingdistancelanding", "default": 0 },
+          "z": 0,
+          "random": true
+        },
+        "terrain": "t_pavement",
+        "target_max_radius": 20
+      },
+      { "math": [ "goingtolabs = 1" ] },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  }
+]

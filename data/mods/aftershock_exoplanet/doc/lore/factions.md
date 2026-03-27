@@ -22,7 +22,7 @@ Besides ample money and stipends they can offer:
 
 ### Bases
 
-UICA administers the Salus IV spaceport, which is is the principal world hub for most starting scenarios. This is the main faction hq.
+UICA administers the Salus IV spaceport, which is the principal world hub for most starting scenarios. This is the main faction hq.
 Valid locations that could be added:
 - Small military outposts out in the frozen wastes.
 - Manned infrastructure buildings. (Power plants, radar stations, planetary defenses, smaller spaceports)

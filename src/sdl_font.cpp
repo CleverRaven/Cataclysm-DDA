@@ -379,11 +379,11 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
     }
     SDL_Rect rect {p.x, p.y, value.width, height};
     if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
+        SetTextureAlphaMod( value.texture, opacity * 255.0f );
     }
     RenderCopy( renderer, value.texture, nullptr, &rect );
     if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), 255 );
+        SetTextureAlphaMod( value.texture, 255 );
     }
 }
 
@@ -532,11 +532,11 @@ void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRen
         rect.w = width;
         rect.h = height;
         if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
+            SetTextureAlphaMod( ascii[color], opacity * 255 );
         }
         RenderCopy( renderer, ascii[color], &src, &rect );
         if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
+            SetTextureAlphaMod( ascii[color], 255 );
         }
     } else {
         unsigned char uc = 0;

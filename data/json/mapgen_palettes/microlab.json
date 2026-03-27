@@ -115,7 +115,8 @@
       "N": { "item": "fireman_cabinet", "chance": 100 },
       ";": { "item": "SUS_toilet", "chance": 50 }
     },
-    "vendingmachines": { "V": {  } }
+    "vendingmachines": { "V": {  } },
+    "nested": { "6": { "chunks": [ [ "null", 20 ], [ "microlab_research_notes_computer", 1 ] ] } }
   },
   {
     "type": "palette",
@@ -207,6 +208,7 @@
       "c": { "monster": "mon_zombie_living_wall", "chance": 3 },
       "@": { "monster": "mon_zombie_living_wall", "chance": 80 }
     },
-    "vendingmachines": { "V": {  } }
+    "vendingmachines": { "V": {  } },
+    "nested": { "6": { "chunks": [ [ "null", 20 ], [ "microlab_research_notes_computer", 1 ] ] } }
   }
 ]

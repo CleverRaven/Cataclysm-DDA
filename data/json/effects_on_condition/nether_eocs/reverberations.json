@@ -1,0 +1,434 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REVERBERATION_ENTER",
+    "effect": [
+      {
+        "if": { "or": [ { "u_at_om_location": "radio_tower_top" }, { "u_at_om_location": "wasp_tower_top" } ] },
+        "then": { "run_eocs": "EOC_PORTAL_RADIOSPHERE" }
+      },
+      {
+        "if": { "or": [ { "u_at_om_location": "cabin_roof_3" }, { "u_at_om_location": "cabin_roof_3_reverberation_hint" } ] },
+        "then": { "run_eocs": "EOC_PORTAL_CABINS" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIOSPHERE",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "radiosphere",
+        "npc_travel_radius": 0,
+        "region_type": "radiosphere",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold before reforming into a dark industrial area."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_floor" },
+        "terrain": "t_grate",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "custom_light_level": 10, "length": "9999 days", "key": "radiosphere_lights_off" },
+      { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] },
+      { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" },
+      { "math": [ "u_ire -= 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIOSPHERE_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "radiosphere" }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_radio_tower_floor" },
+        "target_params": { "om_terrain": "radio_tower_top", "z": 6, "min_distance": 50, "search_range": 250, "random": true },
+        "terrain": "t_ladder_down",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_location_variable": { "context_val": "ground" }, "z_override": true, "z_adjust": 0 },
+      {
+        "if": { "math": [ "has_var(_nearest_radio_tower_floor)" ] },
+        "then": { "u_teleport": { "context_val": "nearest_radio_tower_floor" }, "fail_message": "", "success_message": "" },
+        "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
+      },
+      { "clear_dimension": "radiosphere" },
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS" }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "radiosphere" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RADIOSPHERE_DEACTIVATE_DARKNESS",
+    "//": "bring the light back.",
+    "global": true,
+    "recurrence": "30 seconds",
+    "condition": { "not": { "current_dimension": "radiosphere" } },
+    "deactivate_condition": { "not": { "current_dimension": "radiosphere" } },
+    "effect": [ { "alter_timed_events": "radiosphere_lights_off" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CABINS",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "cabins",
+        "npc_travel_radius": 0,
+        "region_type": "cabins",
+        "npc_travel_filter": "none"
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_floor" },
+        "terrain": "t_tar_flat_roof",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "u_message": "Your surroundings change.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] },
+      { "math": [ "u_ire -= 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CABINS_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "not": "u_driving" },
+        { "current_dimension": "cabins" }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      {
+        "u_travel_to_dimension": "",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nothing seems to change.",
+        "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_cabin_roof_floor" },
+        "target_params": {
+          "om_terrain": "cabin_roof_3",
+          "z": 1,
+          "om_terrain_match_type": "PREFIX",
+          "min_distance": 50,
+          "search_range": 250,
+          "random": true
+        },
+        "terrain": "t_tar_flat_roof",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0,
+        "z_override": true,
+        "z_adjust": 1
+      },
+      { "u_location_variable": { "context_val": "ground" }, "z_override": true, "z_adjust": 0 },
+      {
+        "if": { "math": [ "has_var(_nearest_cabin_roof_floor)" ] },
+        "then": { "u_teleport": { "context_val": "nearest_cabin_roof_floor" }, "fail_message": "", "success_message": "" },
+        "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
+      },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      { "clear_dimension": "cabins" },
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "cabins" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE",
+    "//": "hacky way of a shorter day cycle.",
+    "global": true,
+    "condition": { "current_dimension": "cabins" },
+    "effect": [
+      { "math": [ "_cabin_light_amount = clamp( 160*sin(time('now')/3600),0,125)" ] },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      {
+        "custom_light_level": { "context_val": "cabin_light_amount" },
+        "length": "6 minutes",
+        "key": "cabin_daylight_cycle"
+      },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ], "time_in_future": "5 minutes" }
+    ],
+    "false_effect": [ { "alter_timed_events": "cabin_daylight_cycle" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_INNER_CABINS",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "inner_cabins",
+        "npc_travel_radius": 0,
+        "region_type": "inner_cabins",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold."
+      },
+      {
+        "u_location_variable": { "global_val": "inner_cabins_home_loc" },
+        "target_params": { "om_terrain": "inner_cabins_cabin", "om_special": "inner_cabins_cabin" },
+        "furniture": "f_bed",
+        "target_max_radius": 20
+      },
+      { "u_teleport": { "global_val": "inner_cabins_home_loc" }, "fail_message": "Nope!", "force": true },
+      {
+        "u_message": "You dream you can fly over a vast plain of grass, mist in the air, clouds obscuring the sun.  You see \"home,\" whatever that means.  But there are other places.  Sad places.  And a dark place.\n\nAre you a traveler?  An explorer?  Do you find them?  Or do you enjoy your time here?  Do you just sleep it away?\n\nYou awake in bed.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_1", "time_in_future": [ "5 minutes", "2 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_INNER_CABINS_WARPED_CABIN",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_travel_to_dimension": "cabins", "npc_travel_radius": 0, "region_type": "cabins", "npc_travel_filter": "none" },
+      { "u_location_variable": { "context_val": "nearest_bed" }, "furniture": "f_bed", "target_max_radius": 60 },
+      { "u_teleport": { "context_val": "nearest_bed" } },
+      {
+        "u_message": "As you step through the cabin door your movements slow, like you're trying to run underwater.  You then awake in bed.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      },
+      { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
+      { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] }
+    ],
+    "false_effect": { "u_message": "Standing at the edge of the void tickles your senses.", "popup": false }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_1",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_1", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_2", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  This place look exactly like you remember.  Yet, you don't recall ever being here.  Something has changed from how it was just a moment ago.  You feel it.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_2",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_2", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_3", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  The sky here is a perfect grey gradient.  It doesn't change, only deepens.  The world has transformed in some way.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_3",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_3", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_4", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  Something creaks in your mind's ear.  It sounds more like settling than aging.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_4",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_4", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_5", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  The air here smells clean.  Just… clean.  Something has changed.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_5",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_5", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_6", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  For a moment, you feel like you're supposed to think about something.  It passes.  Something is different.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_6",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_6", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_7", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  It's warmer today.  Emotionally.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_7",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_7", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_8", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  There's a faint sense of waiting.  Not yours.  Something in this place has changed.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_8",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_8", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_9", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  Lights soften a moment and stays there.  This place spites the dark, as if it has just transformed itself.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_9",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_9", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_10", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  You think about leaving, but the world doesn't suggest a direction.  Yet, something is different, today.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_10",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_10", "om_terrain": "inner_cabins_void_exit" },
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_11", "time_in_future": [ "2 days", "3 days" ] },
+      {
+        "u_message": "Something causes you to stop and reflect.  You feel like you've been here longer than you have.  Have you?  Something has changed in this world.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_UPDATE_EXIT_11",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "mapgen_update": "inner_cabins_void_exit_11", "om_terrain": "inner_cabins_void_exit" },
+      {
+        "u_message": "Something causes you to stop and reflect.  This place seems exactly the same, today.  You almost wish it didn't.",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "inner_cabins_exit_loc" },
+        "target_params": { "om_terrain": "inner_cabins_warped_cabin_1", "om_special": "inner_cabins_warped_cabin" },
+        "terrain": "t_floor",
+        "target_max_radius": 20
+      },
+      { "u_teleport": { "global_val": "inner_cabins_exit_loc" }, "fail_message": "Nope!", "force": true },
+      {
+        "u_message": "You step through the swirling vortex and into a cabin, which quickly unfolds itself in space and time, dizzying your senses.  Then, you find your footing.",
+        "popup": true
+      }
+    ],
+    "false_effect": { "u_message": "Something tickles at the edge of your senses." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_PORTAL_LOOK",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      {
+        "u_message": "You see the inside of a cabin, not unlike the ones you've seen before.  It's so clear that you think you could walk to it, through this thing, like a door.",
+        "popup": true
+      }
+    ]
+  }
+]

@@ -30,6 +30,9 @@ static const damage_type_id damage_bash( "bash" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_machete( "machete" );
+static const itype_id itype_mossberg_500( "mossberg_500" );
+static const itype_id itype_ruger_1022( "ruger_1022" );
+static const itype_id itype_swbodyguard( "swbodyguard" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -45,10 +48,10 @@ player_difficulty::player_difficulty()
 void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
 {
     // set stats
-    dummy.str_max = u.str_max;
-    dummy.dex_max = u.dex_max;
-    dummy.int_max = u.int_max;
-    dummy.per_max = u.per_max;
+    dummy.set_str_base( u.get_str_base() );
+    dummy.set_dex_base( u.get_dex_base() );
+    dummy.set_int_base( u.get_int_base() );
+    dummy.set_per_base( u.get_per_base() );
 
     // set skills
     for( const auto &t : u.get_all_skills() ) {
@@ -121,10 +124,10 @@ void player_difficulty::reset_npc( Character &dummy )
     dummy.clear_effects();
 
     // Make stats nominal.
-    dummy.str_max = 8;
-    dummy.dex_max = 8;
-    dummy.int_max = 8;
-    dummy.per_max = 8;
+    dummy.set_str_base( 8 );
+    dummy.set_dex_base( 8 );
+    dummy.set_int_base( 8 );
+    dummy.set_per_base( 8 );
     dummy.set_str_bonus( 0 );
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
@@ -205,14 +208,23 @@ double player_difficulty::calc_dps_value( const Character &u )
     item early_cutting = item( itype_machete );
     item early_bashing = item( itype_bat );
 
-    double baseline = std::max( u.weapon_value( early_piercing ),
-                                u.weapon_value( early_cutting ) );
-    baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+    // and some firearms, based on availability.
+    item most_common_pistol = item( itype_swbodyguard );
+    item most_common_rifle = item( itype_ruger_1022 );
+    item most_common_shotgun = item( itype_mossberg_500 );
+
+    std::vector<item> weapons_to_test = {early_piercing, early_cutting, early_bashing, most_common_pistol, most_common_rifle, most_common_shotgun};
+    double baseline = 0.0;
+
+    for( item &weapon : weapons_to_test ) {
+        const double new_weapon_value = u.evaluate_weapon( weapon, true );
+        baseline = std::max( baseline, new_weapon_value );
+    }
 
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            baseline = std::max( baseline, u.weapon_value( i ) );
+            baseline = std::max( baseline, u.evaluate_weapon( i, true ) );
         }
     }
 
@@ -250,11 +262,11 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
     // the percent margin between result bands
     const float percent_band = 2.5f;
 
-    int genetics_total = u.str_max + u.dex_max + u.per_max + u.int_max;
-    genetics_total += std::max( 0, u.str_max - HIGH_STAT ) * high_stat_penalty;
-    genetics_total += std::max( 0, u.dex_max - HIGH_STAT ) * high_stat_penalty;
-    genetics_total += std::max( 0, u.per_max - HIGH_STAT ) * high_stat_penalty;
-    genetics_total += std::max( 0, u.int_max - HIGH_STAT ) * high_stat_penalty;
+    int genetics_total = u.get_str_base() + u.get_dex_base() + u.get_per_base() + u.get_int_base();
+    genetics_total += std::max( 0, u.get_str_base() - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.get_dex_base() - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.get_per_base() - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.get_int_base() - HIGH_STAT ) * high_stat_penalty;
 
     // each trait effects genetics slightly as well
     for( const trait_id &trait : u.get_mutations( true ) ) {

@@ -4,7 +4,9 @@
 
 #include <array>
 #include <bitset>
+#include <chrono>
 #include <cstddef>
+#include <deque>
 #include <map>
 #include <memory>
 #include <optional>
@@ -15,6 +17,8 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
+#include <stdint.h>
 
 #include "animation.h"
 #include "calendar.h"
@@ -40,7 +44,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 enum class direction : unsigned int;
-enum class lit_level : int;
+enum class lit_level : uint8_t;
 enum class visibility_type : int;
 
 extern void set_displaybuffer_rendertarget();
@@ -142,14 +146,23 @@ class texture
             return std::make_pair( srcrect.w, srcrect.h );
         }
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
-        /// null as source rectangle (render the whole texture). Other parameters
-        /// are simply passed through.
+        /// the stored source rectangle. Other parameters are simply passed through.
         int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
                             const double angle,
                             const SDL_Point *const center, const SDL_RendererFlip flip ) const {
-            return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
-                                     flip );
+            RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
+            return 0;
         }
+};
+
+/**
+ * Bundles per-tile rendering state so the draw path carries all lighting
+ * decisions in one place. Future fields (light color tint, per-tile
+ * brightness) extend this struct without adding parameters to every function.
+ */
+struct tile_render_params {
+    lit_level ll;
+    bool use_night_vision_tiles = false;
 };
 
 /**
@@ -545,10 +558,10 @@ class cata_tiles
                                   const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset );
+            const point &, unsigned int loc_rand, bool rota_fg, int rota,
+            const tile_render_params &rp, int retract, int &height_3d, const point &offset );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d,
+                           const tile_render_params &rp, int retract, int &height_3d,
                            const point &offset );
 
         /* Tile Picking */
@@ -577,7 +590,6 @@ class cata_tiles
         static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
-        bool has_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_terrain_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_furniture_memory_at( const tripoint_abs_ms &p ) const;
         const memorized_tile &get_trap_memory_at( const tripoint_abs_ms &p ) const;
@@ -589,8 +601,6 @@ class cata_tiles
         void draw_square_below( const point_bub_ms &p, const nc_color &col, int sizefactor );
         bool draw_terrain( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                            const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_terrain_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_furniture( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                              const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_graffiti( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
@@ -607,12 +617,8 @@ class cata_tiles
                                  const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_vpart_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at_below( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                    const std::array<bool, 5> &invisible, bool memorize_only );
         bool draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
@@ -646,7 +652,7 @@ class cata_tiles
         void draw_bullet_frame();
         void void_bullet();
 
-        void init_draw_hit( const tripoint_bub_ms &p, std::string name );
+        void init_draw_hit( const Creature &critter );
         void draw_hit_frame();
         void void_hit();
 
@@ -708,9 +714,6 @@ class cata_tiles
         void init_draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                        const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
         void void_vpart_override();
-
-        void init_draw_below_override( const tripoint_bub_ms &p, bool draw );
-        void void_draw_below_override();
 
         void init_draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                          bool more, Creature::Attitude att );
@@ -845,8 +848,11 @@ class cata_tiles
         tripoint_bub_ms bul_pos;
         std::string bul_id;
 
-        tripoint_bub_ms hit_pos;
-        std::string hit_entity_id;
+        struct hit_animation {
+            weak_ptr_fast<Creature> creature_ptr;
+            std::chrono::steady_clock::time_point timestamp;
+        };
+        std::deque<hit_animation> hit_animations;
 
         tripoint_bub_ms line_pos;
         bool is_target_line = false;
@@ -880,7 +886,6 @@ class cata_tiles
         // point represents the mount direction
         std::map<tripoint_bub_ms, std::tuple<vpart_id, int, units::angle, bool, point_rel_ms>>
                 vpart_override;
-        std::map<tripoint_bub_ms, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 

@@ -434,7 +434,11 @@
           {
             "collection": [
               {
-                "distribution": [ { "item": "dress", "prob": 80, "damage": [ 1, 4 ] }, { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] } ]
+                "distribution": [
+                  { "item": "dress", "prob": 8000, "damage": [ 1, 4 ] },
+                  { "item": "sundress", "prob": 5000, "damage": [ 1, 4 ] },
+                  { "item": "cheongsam", "prob": 6, "damage": [ 1, 4 ] }
+                ]
               },
               { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
               {
@@ -501,7 +505,6 @@
     "type": "item_group",
     "id": "adderall_bottle_plastic_pill_prescription_10",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "adderall", "container-item": "null", "count": 10 } ]
   }

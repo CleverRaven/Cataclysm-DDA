@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "cata_assert.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
 #include "condition.h"
 #include "coordinates.h"
@@ -63,13 +64,14 @@ std::optional<double> get_number( std::string_view token )
     // FIXME: port to std::from_chars once double conversion is supported
     std::istringstream conv( std::string{ token } );
     conv.imbue( std::locale::classic() );
-    double val{};
+    std::optional<double> ret;
+    double val = 0;
     conv >> val;
     if( conv && conv.eof() ) {
-        return val;
+        ret.emplace( val );
     }
 
-    return {};
+    return ret;
 }
 
 constexpr std::optional<pmath_func> get_function( std::string_view token )
@@ -838,7 +840,8 @@ void math_exp::math_exp_impl::new_func()
             {
                 output.emplace( std::in_place_type_t<func_jmath>(), std::move( params ), v );
             },
-            []( auto /* v */ )
+            // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+            []( auto /* v */ ) LAMBDA_NORETURN_CLANG21x1
             {
                 throw math::internal_error( "Internal func error.  That's all we know." );
             },
@@ -975,7 +978,8 @@ void math_exp::math_exp_impl::new_oper()
             type = math_type_t::assign;
             output.emplace( std::in_place_type_t<ass_oper>(), lhs, mhs, rhs, v->f );
         },
-        []( auto /* v */ )
+        // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+        []( auto /* v */ ) LAMBDA_NORETURN_CLANG21x1
         {
             // we should never get here due to paren validation
             throw math::internal_error( "Internal oper error.  That's all we know." );

@@ -47,10 +47,8 @@ class veh_app_interact
          *
          * @param veh The vehicle representing the appliance
          * @param p The point of interaction on the vehicle (Default = (0,0))
-         * @returns An activity to assign to the player (ACT_VEHICLE),
-         * or a null activity if no further action is required.
         */
-        static player_activity run( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
+        static void run( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
 
     private:
         explicit veh_app_interact( vehicle &veh, const point_rel_ms &p );
@@ -65,9 +63,6 @@ class veh_app_interact
         // to uilist entries in imenu.
         input_context ctxt;
         weak_ptr_fast<ui_adaptor> ui;
-        // Activity to be returned from run(), or a null activity if
-        // no further action is required.
-        player_activity act;
         // Functions corresponding to the actions listed in imenu.entries.
         std::vector<std::function<void()>> app_actions;
         // Curses window to represent the whole drawing area of the interaction UI.

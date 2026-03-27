@@ -24,6 +24,7 @@ class Character;
 class recipe;
 struct tripoint;
 class vehicle;
+class zone_data;
 struct mutation_variant;
 enum class get_body_part_flags;
 
@@ -72,6 +73,10 @@ class const_talker
             return nullptr;
         }
         virtual vehicle const *get_const_vehicle() const {
+            return nullptr;
+        }
+
+        virtual zone_data const *get_const_zone() const {
             return nullptr;
         }
 
@@ -152,6 +157,9 @@ class const_talker
             return false;
         }
         // stats, skills, traits, bionics, and magic
+        virtual int get_artifact_resonance() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }
@@ -324,6 +332,9 @@ class const_talker
         virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
             return effect::null_effect;
         }
+        virtual float get_limb_score( const limb_score_id & /*score*/, const bp_type & /*bp*/ ) const {
+            return 0.0;
+        }
         virtual bool is_deaf() const {
             return false;
         }
@@ -393,6 +404,10 @@ class const_talker
         }
         virtual int cash_to_favor( int ) const {
             return 0;
+        }
+        virtual bool has_software( const itype_id &, int = 0,
+                                   const itype_id & = itype_id::NULL_ID() ) const {
+            return false;
         }
 
         // missions
@@ -466,6 +481,12 @@ class const_talker
             return 0;
         }
         virtual int get_instant_thirst() const {
+            return 0;
+        }
+        virtual int get_oxygen() const {
+            return 0;
+        }
+        virtual int get_oxygen_max() const {
             return 0;
         }
         virtual int get_stored_kcal() const {
@@ -567,6 +588,9 @@ class const_talker
             return 0;
         }
         virtual int get_stamina() const {
+            return 0;
+        }
+        virtual int get_stamina_max() const {
             return 0;
         }
         virtual int get_sleep_deprivation() const {
@@ -711,6 +735,9 @@ class const_talker
         virtual bool is_passenger( Character & ) const {
             return false;
         }
+        virtual bool is_in_vehicle() const {
+            return false;
+        }
 };
 
 class talker: virtual public const_talker
@@ -746,6 +773,9 @@ class talker: virtual public const_talker
             return nullptr;
         }
         virtual vehicle *get_vehicle() {
+            return nullptr;
+        }
+        virtual zone_data *get_zone() {
             return nullptr;
         }
         virtual void set_pos( tripoint_bub_ms ) {}
@@ -851,6 +881,7 @@ class talker: virtual public const_talker
         virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
+        virtual void set_oxygen( int ) {}
         virtual void set_kill_xp( int ) {}
         virtual void set_age( int ) {}
         virtual void set_height( int ) {}

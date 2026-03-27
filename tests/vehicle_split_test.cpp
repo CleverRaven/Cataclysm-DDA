@@ -111,7 +111,7 @@ TEST_CASE( "crater_crash", "[vehicle]" )
 
 TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     clear_vehicles();
     REQUIRE( here.get_vehicles().empty() );

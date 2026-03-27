@@ -27,6 +27,13 @@ class mmap_file
         static std::unique_ptr<mmap_file> map_writeable_file( const std::filesystem::path &file_path );
 
         /**
+         * Returns a writeable memory mapping backed only by ram.
+         * The implementation is currently backed by malloc. The purpose is for writing tests.
+         * Always returns a non-null mmap_file, but base() may return nullptr if malloc ever fails.
+         */
+        static std::unique_ptr<mmap_file> map_writeable_memory( size_t initial_size );
+
+        /**
          * Sets the underlying file size to the set size, and remaps the file to that range.
          * Returns false on failure.
          * Do not assume base() or len() are unchanged across any call to this function regardless
@@ -59,6 +66,9 @@ class mmap_file
          */
         void flush( size_t offset, size_t len );
 
+        // Opaque type to platform specific mmap implementation.
+        struct impl;
+
     private:
         mmap_file();
 
@@ -66,8 +76,6 @@ class mmap_file
             const std::filesystem::path &file_path,
             bool writeable );
 
-        // Opaque type to platform specific mmap implementation.
-        struct impl;
         std::shared_ptr<impl> pimpl;
 };
 

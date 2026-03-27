@@ -37,6 +37,8 @@
     "ascii_picture": "halberd",
     "description": "This is an oversized axe made from scraps of salvaged metal.  While not as versatile or durable as the boarding axe, it still packs a punch.",
     "weight": "9250 g",
+    "price": "60 USD",
+    "price_postapoc": "60 USD",
     "volume": "2750 ml",
     "longest_side": "120 cm",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
@@ -71,7 +73,6 @@
       "type": "transform",
       "msg": "You activate the drill's motor.",
       "target": "heavy_drill_on",
-      "active": true,
       "need_charges": 1,
       "need_charges_msg": "There is not enough charge to activate the drill."
     },
@@ -96,7 +97,7 @@
     "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
     "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
-    "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET" ] },
+    "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET", "SPAWN_ACTIVE" ] },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "clumsy" },
     "power_draw": "1500 mW",
     "revert_to": "heavy_drill",
@@ -119,7 +120,7 @@
     "symbol": "[",
     "color": "light_gray",
     "power_armor": true,
-    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER", "EXO_MEDIUM_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER", "EXO_MEDIUM_GADGET", "SPAWN_ACTIVE" ],
     "armor": [
       {
         "material": [
@@ -208,7 +209,7 @@
       }
     ],
     "charges_per_use": 1,
-    "use_action": { "target": "exosuit_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
+    "use_action": { "target": "exosuit_power_cutter_on", "msg": "You rev up the power cutter!", "type": "transform" },
     "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE", "EXO_LARGE_GADGET" ],
     "armor": [
       {
@@ -241,7 +242,7 @@
       "type": "transform"
     },
     "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],
-    "extend": { "flags": [ "MESSY" ] },
+    "extend": { "flags": [ "MESSY", "SPAWN_ACTIVE" ] },
     "melee_damage": { "bash": 10, "cut": 100 }
   }
 ]

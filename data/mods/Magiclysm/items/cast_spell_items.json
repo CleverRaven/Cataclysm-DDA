@@ -15,7 +15,7 @@
     "symbol": "~",
     "container": "flask_glass",
     "color": "light_blue",
-    "comestible_type": "DRINK",
+    "comestible_type": "MED",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": "25 USD",

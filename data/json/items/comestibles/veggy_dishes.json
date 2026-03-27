@@ -115,7 +115,7 @@
     "description": "Cooked leaves from wild dandelions.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -148,7 +148,7 @@
     "description": "Cooked burdock leaves.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -201,7 +201,7 @@
     "description": "Peeled and cooked bamboo shoots.  Tasty and nutritious.",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 1
   },
   {
@@ -294,7 +294,6 @@
     "material": [ "veggy" ],
     "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
-    "container": "can_medium",
     "quench": 5,
     "calories": 152,
     "volume": "250 ml",
@@ -1034,6 +1033,8 @@
     "color": "green",
     "spoils_in": "30 days",
     "quench": 5,
+    "weight": "54 g",
+    "volume": "50 ml",
     "description": "A small pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
     "price": "13 cent",
     "price_postapoc": "20 cent",
@@ -1182,6 +1183,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "zucchini", "name": { "str_sp": "%s, zucchini" } }
     ],
     "copy-from": "veggy",
+    "smoking_result": "null",
     "proportional": { "weight": 0.5 },
     "color": "green",
     "spoils_in": "360 days",
@@ -1259,12 +1261,18 @@
     "volume": "83 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
-    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "plant_name": "corn",
     "fruit": "corn",
     "seeds": false,
     "byproducts": [ "withered" ],
-    "grow": "80 days",
+    "growth_stages": [
+      { "GROWTH_SEED": "20 days" },
+      { "GROWTH_SEEDLING": "20 days" },
+      { "GROWTH_MATURE": "20 days" },
+      { "GROWTH_HARVEST": "20 days" },
+      { "GROWTH_OVERGROWN": "1 hour" }
+    ],
     "into": "cornmeal",
     "recipe": "cornmeal_mill_1_3"
   },
@@ -1372,17 +1380,11 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "rehydrated_corn_kernels",
     "name": { "str_sp": "rehydrated corn kernels" },
-    "copy-from": "veggy",
-    "weight": "60 g",
-    "color": "yellow",
+    "copy-from": "corn_kernels",
     "spoils_in": "1 day",
+    "quench": 2,
     "description": "Reconstituted corn kernels, much more enjoyable to eat now that they have been rehydrated.",
-    "price": "9 USD",
-    "price_postapoc": "50 cent",
-    "smoking_result": "dry_corn",
-    "volume": "83 ml",
-    "delete": { "flags": [ "RAW" ] },
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "delete": { "flags": [ "RAW", "INEDIBLE" ] },
     "fun": 2
   },
   {
@@ -1670,7 +1672,7 @@
     "spoils_in": "2 days",
     "description": "Ground nuts that have been peeled and then boiled, to destroy the harmful protease inhibitors.  Safe to eat, but need further cooking to become palatable.  Can be used much like potatoes.",
     "delete": { "flags": [ "RAW" ] },
-    "extend": { "flags": [ "EATEN_HOT", "SMOKABLE" ] },
+    "extend": { "flags": [ "EATEN_HOT" ] },
     "smoking_result": "dry_veggy",
     "healthy": 0,
     "fun": -2
@@ -1782,7 +1784,28 @@
     "description": "Boiled potatoes mashed together with salt & oil.",
     "price": "50 cent",
     "price_postapoc": "30 cent",
-    "sealed": true,
-    "delete": { "flags": [ "RAW" ] }
+    "sealed": true
+  },
+  {
+    "id": "vegetarian_dolmas",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "vegetarian dolmas" },
+    "symbol": "%",
+    "looks_like": "homemade_burrito",
+    "description": "Grape leaves stuffed with rice, vegetables, and spices.  A popular dish in Mediterranean and Middle Eastern cuisines.",
+    "price_postapoc": "40 cent",
+    "material": [ "veggy" ],
+    "primary_material": "veggy",
+    "color": "green",
+    "weight": "110 g",
+    "volume": "104 ml",
+    "spoils_in": "6 days",
+    "calories": 140,
+    "fun": 5,
+    "flags": [ "FREEZERBURN" ],
+    "quench": -2,
+    "vitamins": [ [ "vitC", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "calcium", 4 ] ]
   }
 ]

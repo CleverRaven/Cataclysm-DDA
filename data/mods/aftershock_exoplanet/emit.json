@@ -25,7 +25,7 @@
   {
     "id": "afs_emit_survival_heater",
     "type": "emit",
-    "field": "fd_hot_airAC",
+    "field": "fd_hot_airAC_temporary",
     "qty": 60,
     "chance": 100
   },

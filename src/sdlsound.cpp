@@ -263,6 +263,15 @@ struct sfx_map {
                                      tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
         }
 
+        const std::vector<sound_effect> *find_no_fallback( const std::string &id,
+                const std::string &variant,
+                const std::string &season, const std::optional<bool> &is_indoors,
+                const std::optional<bool> &is_night ) const {
+            return find_closest_sfx( effects, id, "", variant, "", season_from_string( season ),
+                                     sfx_season::NONE, in_or_out_from_int( bool_or( is_indoors, -1 ) ), sfx_in_or_out::EITHER,
+                                     tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
+        }
+
     private:
         std::map<std::string, std::map<std::string, std::map<sfx_season, std::map<sfx_in_or_out, std::map<sfx_time_of_day, std::vector<sound_effect>>>>>>
         effects;
@@ -675,6 +684,21 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
     return find_random_effect( id, variant, season, is_indoors, is_night ) != nullptr;
 }
 
+// Returns a sound effect matching given id and variant.
+// Unlike has_variant_sound(), this doesn't fallback to "default" variants.
+bool sfx::has_exact_variant_sound( const std::string &id, const std::string &variant,
+                                   const std::string &season, const std::optional<bool> &is_indoors,
+                                   const std::optional<bool> &is_night )
+{
+
+    const std::vector<sound_effect> *iter = sfx_resources.sound_effects.find_no_fallback( id, variant,
+                                            season,
+                                            is_indoors,
+                                            is_night );
+
+    return iter != nullptr;
+}
+
 static bool is_time_slowed()
 {
     if( g == nullptr || g->uquit != QUIT_NO ) {
@@ -783,7 +807,7 @@ struct sound_effect_handler {
                     low_index = 0; // (low_index can often equal high_index so it might require the same treatment)
                 }
 
-                // have to handle each ear seperately for stereo audio
+                // have to handle each ear separately for stereo audio
                 for( int ear_offset = 0; ear_offset < 4;
                      ear_offset += 2 ) {
                     sample low_value;
@@ -1052,7 +1076,7 @@ void load_soundset()
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     cata_path soundpack_path;
 
-    // Get current soundpack and it's directory path.
+    // Get current soundpack and its directory path.
     if( current_soundpack.empty() ) {
         dbg( D_ERROR ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;

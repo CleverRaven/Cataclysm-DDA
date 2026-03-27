@@ -165,7 +165,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
 
     int cost = 0;
     if( it.is_gun() ) {
-        cost = it.get_reload_time();
+        cost = it.get_reload_time() * qty;
     } else if( it.type->magazine ) {
         cost = it.type->magazine->reload_time * qty;
     } else {

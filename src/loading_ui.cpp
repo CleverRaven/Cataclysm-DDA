@@ -110,12 +110,16 @@ static void update_state( const std::string &context, const std::string &step )
                 }
             }
         }
+        // We haven't selected a loading image yet, let's do so.
         if( gLUI->chosen_load_img == cata_path() ) {
-            if( imgs.empty() ) {
-                gLUI->chosen_load_img = PATH_INFO::gfxdir() / "cdda.png"; //default load screen
-            } else {
-                gLUI->chosen_load_img = random_entry( imgs );
+            if( imgs.empty() ) { // No modded screens available, so let's consider the vanilla ones.
+                const std::string img_name_pattern = "loading_img";
+                const cata_path load_screens_directory = PATH_INFO::gfxdir() / "loading_screens";
+                for( cata_path &img_path : get_files_from_path( img_name_pattern, load_screens_directory, true ) ) {
+                    imgs.emplace_back( img_path );
+                }
             }
+            gLUI->chosen_load_img = random_entry( imgs );
         }
         SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
         // leave some space for the loading text...

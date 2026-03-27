@@ -11,8 +11,23 @@
         ]
       },
       {
-        "if": { "and": [ { "u_has_trait": "VAMPIRE" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] } ] },
-        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "=", "0" ] }
+        "if": {
+          "and": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "math": [
+                "u_vitamin('human_blood_vitamin') <= 200 + (200 * u_has_trait('VAMPIRE2') ) + (200 * u_has_trait('VAMPIRE3') ) + (200 * u_has_trait('VAMPIRE4') ) + (200 * u_has_trait('BLOOD_DRINKER') )"
+              ]
+            }
+          ]
+        },
+        "then": {
+          "math": [
+            "u_vitamin('human_blood_vitamin')",
+            "=",
+            "200 + (200 * u_has_trait('VAMPIRE2') ) + (200 * u_has_trait('VAMPIRE3') ) + (200 * u_has_trait('VAMPIRE4') ) + (200 * u_has_trait('BLOOD_DRINKER') )"
+          ]
+        }
       },
       {
         "u_lose_effect": [

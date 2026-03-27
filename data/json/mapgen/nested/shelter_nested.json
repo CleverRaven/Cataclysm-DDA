@@ -1,139 +1,13 @@
 [
   {
     "type": "mapgen",
-    "nested_mapgen_id": "shelter_under_nest_zombies",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "     bbbbbbbbbbbbbb     ",
-        "     b____________b     ",
-        "         _________b     ",
-        "          bbbbb___b     ",
-        "     ____      ___b     ",
-        "        _ ____ ___b     ",
-        "          _  _ ___b     ",
-        "        _ _  _ ___b     ",
-        "     ____ ____ ___b     ",
-        "               ___b     ",
-        "          bbbbb___b     ",
-        "     b____________b     ",
-        "     b____________b     ",
-        "     bbbbbbbbbbbbbb     ",
-        "                        "
-      ],
-      "palettes": [ "shelter_zombies" ]
-    }
+    "nested_mapgen_id": "1x1_group_infested",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "group": "GROUP_INFESTED_SPAWN", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "shelter_under_1_nest_zombies",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "         bbbbbbb        ",
-        "         b_____b        ",
-        "         b_____b        ",
-        "     _ _ b_____bbbb     ",
-        "     ___ b________b     ",
-        "      __ b________b     ",
-        "      _  b________b     ",
-        "         b________b     ",
-        "      ____________b     ",
-        "         b________b     ",
-        "      _  b________b     ",
-        "      __ b________b     ",
-        "     ___ b____b         ",
-        "     _ _ b____b  __     ",
-        "         bbbbbb  __     ",
-        "                        "
-      ],
-      "palettes": [ "shelter_zombies" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shelter_under_1b_nest_zombies",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "     b__________        ",
-        "     b_bb_bb____        ",
-        "     b_bb_bb____bbb     ",
-        "     b_bb_bb_______     ",
-        "     b_bb_bb____bbb     ",
-        "     b_bb_bb____        ",
-        "     b_bb_bb____bbb     ",
-        "             ______     ",
-        "      ______ ___bbb     ",
-        "             ___        ",
-        "      _   _  ___        ",
-        "      _   _  ___        ",
-        "      _   _  ___        ",
-        "                        "
-      ],
-      "palettes": [ "shelter_zombies" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shelter_under_2_nest_zombies",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "    bbbbb    _______    ",
-        "    _____         _     ",
-        "    _bb_____            ",
-        "   b_bb______________   ",
-        "   b_bb_bb________bbb   ",
-        "   b_bb_b      ___      ",
-        "   b_bb_b ____ ___bbb   ",
-        "   b_bb__ _  _ ___bbb   ",
-        "   b_bb__ _  _ ___      ",
-        "   b_bb_b ____ ___bbb   ",
-        "   b_bb_b      ______   ",
-        "   b_bb_bb              ",
-        "    ______        _     ",
-        "    bbbbbb   _______    ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "shelter_zombies" ]
-    }
+    "nested_mapgen_id": "1x1_group_zombie",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "group": "GROUP_ZOMBIE", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -144,27 +18,6 @@
     "type": "mapgen",
     "nested_mapgen_id": "general_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "general_graffiti_snippets" } ] }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shelter_computer",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_computers": [
-        {
-          "x": 0,
-          "y": 0,
-          "name": "Evac shelter computer",
-          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "nested_mapgen_id": "shelter_computer_broken",
-    "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_console_broken", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",

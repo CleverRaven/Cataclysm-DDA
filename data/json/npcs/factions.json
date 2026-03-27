@@ -170,6 +170,131 @@
   },
   {
     "type": "faction",
+    "id": "robofac_auxiliaries_chop_shop",
+    "name": "Strip Mall Mercenaries",
+    "likes_u": 15,
+    "respects_u": 15,
+    "known_by_u": false,
+    "size": 70,
+    "power": 100,
+    "//": "The chop shop mercs.  They're a different faction from Ancilla/Hub to better control their response to the player.",
+    "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
+    "wealth": 75000,
+    "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "robofac_auxiliaries": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A team of mercenaries working for the Hub 01, and operating out of a local strip mall."
+  },
+  {
+    "type": "faction",
+    "id": "balthazar_fac",
+    "mon_faction": "balthazar",
+    "name": "Balthazar",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 20,
+    "power": 10,
+    "fac_food_supply": [ [ 0, { "calories": 0, "vitamins": {  } } ] ],
+    "//": "Robots don't need food",
+    "wealth": 50000,
+    "currency": "",
+    "price_rules": [  ],
+    "//1": "TODO: Maybe add trading where raw materials are worth more and most currencies/food nothing",
+    "relations": {
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "tacoma_commune": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "lobby_beggars": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": true,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_balthazar_0" },
+      { "power_min": 150, "power_max": 499, "id": "epilogue_faction_balthazar_150" },
+      { "power_min": 500, "id": "epilogue_faction_balthazar_500" }
+    ],
+    "description": "A mysterious figure who operates out of a bunker.  They're trying to restore some semblance of infrastructure."
+  },
+  {
+    "type": "faction",
     "id": "old_guard",
     "name": "The Old Guard",
     "likes_u": 15,
@@ -298,6 +423,7 @@
         "kill on sight": false,
         "watch your back": false,
         "share my stuff": false,
+        "share public goods": true,
         "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
@@ -1013,7 +1139,12 @@
     "power": 100,
     "fac_food_supply": [ [ 0, { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } } ] ],
     "wealth": 75000000,
-    "price_rules": [ { "group": "games_board_all", "premium": 2.5 } ],
+    "price_rules": [
+      { "group": "games_board_all", "premium": 2.5 },
+      { "group": "exodii_pay_extra_for_metals", "premium": 4 },
+      { "group": "exodii_pay_extra_for_medicine", "premium": 4 },
+      { "group": "exodii_pay_extra_for_ammo", "premium": 4 }
+    ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mon_triffid_greenseer",
+    "copy-from": "mon_triffid",
+    "type": "MONSTER",
+    "name": { "str": "triffid greenseer" },
+    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  The foliage seems to bend out of its way as it moves.",
+    "extend": {
+      "flags": [ "MAGIC_USER" ],
+      "special_attacks": [
+        {
+          "id": "xe_greenseer_create_grasses",
+          "type": "spell",
+          "spell_data": { "id": "summon_grass_field_monster", "min_level": 4 },
+          "cooldown": 25,
+          "condition": { "and": [ "u_is_outside", "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+          "monster_message": "%1$s's fronds quiver."
+        },
+        {
+          "id": "xe_greenseer_summon_solar_spirit",
+          "type": "spell",
+          "spell_data": { "id": "summon_solar_spirit_triffid_monster", "min_level": 5, "hit_self": true },
+          "cooldown": 60,
+          "monster_message": "%1$s's fronds extend toward the sky."
+        },
+        {
+          "id": "xe_greenseer_summon_vinebeast",
+          "type": "spell",
+          "spell_data": { "id": "summon_vinebeast_triffid_monster", "min_level": 5 },
+          "cooldown": 45,
+          "condition": { "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "GRAZABLE" } ] },
+          "monster_message": "%1$s's fronds make wavy motions."
+        },
+        {
+          "id": "xe_greenseer_destroy_summon",
+          "type": "spell",
+          "spell_data": { "id": "kill_summoned_creature_monster", "min_level": 8 },
+          "cooldown": 15,
+          "condition": {
+            "and": [ "npc_is_outside", { "npc_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_has_species": "SUMMONED_CREATURE" } ]
+          },
+          "monster_message": "%1$s's fronds leave trails of greenish light in the air."
+        }
+      ]
+    }
+  }
+]

@@ -836,6 +836,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_3030",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_9mm_used",
     "items": [
       { "group": "boxed_9mm_20_used", "prob": 51 },
@@ -1847,6 +1854,14 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_3030_used",
+    "on_overflow": "spill",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": 1, "count": [ 10, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_9mm_looted",
     "items": [
       { "group": "boxed_9mm_20_looted", "prob": 51 },
@@ -2698,5 +2713,12 @@
     "id": "boxed_458_looted",
     "container-item": { "item": "300_ammo_box_20", "variant": "458_ammo_box_20" },
     "items": [ { "item": "458wm", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_3030_looted",
+    "container-item": "3030_ammo_box_20",
+    "items": [ { "item": "3030", "charges": [ 0, 4 ] } ]
   }
 ]

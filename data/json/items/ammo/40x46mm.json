@@ -19,7 +19,7 @@
     "range": 60,
     "dispersion": 30,
     "recoil": 1400,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "id": "40x46mm_m1006",
@@ -163,7 +163,6 @@
     "name": { "str_sp": "40x46mm .410 scrap nest" },
     "description": "A set of four .410 'scrap-shot' shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
     "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": [ "RECYCLED" ] }
   }
 ]

@@ -1,0 +1,48 @@
+[
+  {
+    "type": "skill",
+    "id": "spellcraft",
+    "name": "spellcraft",
+    "display_category": "display_ranged",
+    "sort_rank": 14500,
+    "description": "Your skill in the arcane.  Represents magic theory and all that entails.  A higher skill increases how quickly you can learn spells, and decreases their spell failure chance.  You learn this skill by studying books or spells.",
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You can't tell a spellbook from a cookbook." },
+      {
+        "level": 1,
+        "description": "You probably have a utility spell or another for cleaning or other every day activities."
+      },
+      {
+        "level": 3,
+        "description": "You understand the basics of magical flow and may have studied the arcane in middle school."
+      },
+      {
+        "level": 5,
+        "description": "You have probably attended formal arcane education and can dissect most magical structures with ease."
+      },
+      {
+        "level": 7,
+        "description": "You grasp the underlying logic of the arcane and have worked in some thaumathurgy research."
+      },
+      {
+        "level": 9,
+        "description": "You've dissected more spell structures than you care to count, and probably even improved a few spells."
+      },
+      {
+        "level": 10,
+        "description": "You would have been known as the foremost expert in magical knowledge, if anyone were still around to care, that is."
+      }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "If you know a single spell, it will probably fizzle, spark, and die in your hands." },
+      {
+        "level": 1,
+        "description": "You probably have one utility spell or another for cleaning or other every day activities."
+      },
+      { "level": 3, "description": "You weave spells with deliberate care and can get reliable results." },
+      { "level": 5, "description": "Your incantations flow naturally, you adapt to magical feedback with ease." },
+      { "level": 7, "description": "You cast complex spells effortlessly, as if speaking a native tongue." },
+      { "level": 10, "description": "magic obeys your will before you even voice it." }
+    ]
+  }
+]

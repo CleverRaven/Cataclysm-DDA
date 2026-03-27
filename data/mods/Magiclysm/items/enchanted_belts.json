@@ -252,7 +252,6 @@
       "type": "transform",
       "menu_text": "Extend",
       "target": "mwhip_iron",
-      "active": true,
       "moves": 20,
       "msg": "You grab the belt and it uncoils to become a flexible metal whip in your hand!"
     }
@@ -269,13 +268,12 @@
     "volume": "2 L",
     "price": "3 kUSD 500 USD",
     "material": [ "steel" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE", "SPAWN_ACTIVE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
     "use_action": {
       "type": "transform",
       "menu_text": "Collapse",
       "target": "mbelt_iron_whip",
-      "active": false,
       "moves": 20,
       "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
     },

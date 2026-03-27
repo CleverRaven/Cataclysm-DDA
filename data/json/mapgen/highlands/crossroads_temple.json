@@ -1,0 +1,126 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_crossroads_temple",
+    "object": {
+      "rows": [
+        "   F  FFF|    | F   FF  ",
+        "    FFF    ..   FF      ",
+        " |||FFFF . . .  F FF||| ",
+        " ||||vvv||....||vvv|||| ",
+        " |||S.S.S|....|S.S.S||| ",
+        "  v_______...._______v  ",
+        " ||_______...._______|| ",
+        " ||--____|....|____--|| ",
+        " |Sx-___..xxxx..___-xS| ",
+        " |Sx-__..xxxxxx..__-xS| ",
+        "-||--_..x|----|x.._--||-",
+        "-GG-...xx-   w-xx...-GG-",
+        "-GG-...xx-  Tw-xx...-GG-",
+        "-GG-...xx- www-xx...-GG-",
+        "-GG-...xx-wwww-xx...-GG-",
+        "-||--__.x|----|x.__--||-",
+        " |Sx-__..xxxxxx..__-xS| ",
+        " |Sx-___..xxxx..___-xS| ",
+        " ||--____|....|____--|| ",
+        " ||_______...._______|| ",
+        "  v_______...._______v  ",
+        " |||S.S.S|....|S.S.S||| ",
+        " ||||vvv||.. .||vvv|||| ",
+        " |||                ||| "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_highland_groundcover",
+        "F": "t_highland_groundcover",
+        "_": [ [ "t_stone_masonry_floor", 2 ], [ "t_highland_groundcover", 1 ] ],
+        ".": [ [ "t_stone_masonry_floor", 10 ], [ "t_highland_groundcover", 1 ] ],
+        "x": "t_highland_mosaic",
+        "G": "t_highland_flower_bed",
+        "S": "t_stone_masonry_floor",
+        "|": "t_rock_wall",
+        "w": "t_water_sh",
+        "T": "t_highland_holy_tree",
+        "-": "t_stone_fence",
+        "v": [ [ "t_window_stained_blue", 1 ], [ "t_window_stained_red", 2 ], [ "t_window_stained_green", 2 ] ]
+      },
+      "furniture": { "S": "f_highlands_holy_statue", "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ] },
+      "item": { "_": { "item": "highland_censer", "chance": 20 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_crossroads_temple_above",
+    "object": {
+      "rows": [
+        "         ......         ",
+        "                        ",
+        " |||                 |||",
+        " |||.................|||",
+        " |||.................|||",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " ........|----|........ ",
+        "   -------    -------   ",
+        "   -wwww..    ...w..-   ",
+        "   -wwwww.    ..wwww-   ",
+        "   -------    -------   ",
+        " ........|----|........ ",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        " |||................||| ",
+        " |||................||| ",
+        " |||                ||| "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_open_air",
+        "|": "t_rock_wall",
+        ".": "t_stone_masonry_floor_balcony",
+        "w": "t_water_sh",
+        "-": "t_stone_fence",
+        "_": "t_highland_groundcover"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_crossroads_temple_above2",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        " ...                 ...",
+        " ...                 ...",
+        " ...                 ...",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ......         ",
+        "         .    .         ",
+        "         .    .         ",
+        "         .    .         ",
+        "         .    .         ",
+        "         ......         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ...                ... ",
+        " ...                ... ",
+        " ...                ... "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_open_air", ".": "t_stone_masonry_floor_balcony" }
+    }
+  }
+]

@@ -14,6 +14,7 @@
   {
     "type": "terrain",
     "id": "t_rock_coal",
+    "looks_like": "t_rockyobstacle",
     "name": "bituminous coal",
     "description": "A vein of soft coal.",
     "symbol": "#",
@@ -35,6 +36,7 @@
   {
     "type": "terrain",
     "id": "t_rock_halite",
+    "looks_like": "t_rock_smooth",
     "name": "halite",
     "description": "A vein of salt.",
     "symbol": "#",
@@ -98,6 +100,7 @@
   {
     "type": "terrain",
     "id": "t_rock_copper",
+    "looks_like": "t_rock_green",
     "name": "native copper",
     "description": "A vein of copper.",
     "symbol": "#",
@@ -182,6 +185,7 @@
   {
     "type": "terrain",
     "id": "t_rock_cassiterite",
+    "looks_like": "t_rock_wall",
     "name": "cassiterite",
     "description": "A deposit of cassiterite.",
     "symbol": "#",
@@ -203,6 +207,7 @@
   {
     "type": "terrain",
     "id": "t_rock_galena",
+    "looks_like": "t_rock_red",
     "name": "galena",
     "description": "A deposit of galena.",
     "symbol": "#",
@@ -224,6 +229,7 @@
   {
     "type": "terrain",
     "id": "t_rock_hematite",
+    "looks_like": "t_rock_red",
     "name": "hematite",
     "description": "A deposit of hematite.",
     "symbol": "#",
@@ -240,6 +246,50 @@
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
       "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_hematite", "count": [ 2, 4 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_feldspar",
+    "looks_like": "t_rock_blue",
+    "name": "feldspar",
+    "description": "A deposit of feldspar.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_feldspar", "count": [ 2, 5 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_graphite",
+    "looks_like": "t_nether_glass_wall",
+    "name": "graphite",
+    "description": "A deposit of graphite.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_graphite", "count": [ 2, 5 ], "prob": 80 } ]
     }
   }
 ]

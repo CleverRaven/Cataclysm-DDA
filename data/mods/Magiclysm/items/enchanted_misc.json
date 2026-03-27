@@ -24,7 +24,6 @@
       {
         "type": "transform",
         "target": "heat_cube_torch_on",
-        "active": true,
         "msg": "You push the torch button and the cube emits a large flame from the top, one that does radiate heat, but won't burn anything.",
         "menu_text": "Activate torch mode",
         "moves": 150
@@ -45,7 +44,8 @@
     "revert_to": "heat_cube",
     "use_action": { "target": "heat_cube", "msg": "The torch flame is extinguished.", "menu_text": "Turn off", "type": "transform" },
     "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "light": 15,
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
   },
   {
     "id": "mkey_opening",
@@ -81,13 +81,7 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
-    "use_action": {
-      "target": "mtorch_everburning_lit",
-      "msg": "You light the torch.",
-      "active": true,
-      "menu_text": "Light torch",
-      "type": "transform"
-    },
+    "use_action": { "target": "mtorch_everburning_lit", "msg": "You light the torch.", "menu_text": "Light torch", "type": "transform" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -102,14 +96,14 @@
       {
         "target": "mtorch_everburning",
         "msg": "The torch is extinguished.",
-        "active": false,
         "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "techniques": [ "WBLOCK_1" ],
     "sub": "fire",
-    "extend": { "flags": [ "FIRE", "LIGHT_60", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "light": 60,
+    "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ] }
   },
   {
     "name": { "str": "endless flask" },
@@ -178,8 +172,7 @@
           "parabolan_wool",
           "gutskin",
           "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "tool_quality": 1,

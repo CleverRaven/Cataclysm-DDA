@@ -94,6 +94,7 @@
       { "item": "button_plastic", "count": [ 1, 5 ], "prob": 75 },
       { "item": "button_steel", "count": [ 1, 5 ], "prob": 75 },
       { "item": "button_wood", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_bone", "count": [ 1, 5 ], "prob": 75 },
       { "item": "snapfastener_steel", "count": [ 1, 5 ], "prob": 75 },
       { "item": "zipper_long_plastic", "count": [ 1, 8 ], "prob": 75 },
       { "item": "zipper_short_plastic", "count": [ 1, 8 ], "prob": 75 }

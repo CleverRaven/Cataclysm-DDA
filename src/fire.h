@@ -53,6 +53,8 @@ struct mat_burn_data {
     float smoke = 0.0f;
     /** Volume of material destroyed per tick when this material burns. */
     float burn = 0.0f;
+
+    void deserialize( const JsonObject &jo );
 };
 
 #endif // CATA_SRC_FIRE_H

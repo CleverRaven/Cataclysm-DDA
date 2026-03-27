@@ -1,0 +1,8 @@
+[
+  {
+    "type": "region_settings",
+    "id": "dimension_sky_island_region",
+    "copy-from": "default_nohope",
+    "feature_flag_settings": { "extend": { "blacklist": [ "SKY_ISLAND" ] } }
+  }
+]

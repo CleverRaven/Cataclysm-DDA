@@ -8,12 +8,15 @@
 #include <string>
 #include <vector>
 
+#include "editmap.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item_location.h"
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
+
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 class item;
 
@@ -97,6 +100,66 @@ struct advanced_inv_save_state {
 extern void save_inv_state( JsonOut &json );
 extern void load_inv_state( const JsonObject &jo );
 
+struct overmap_sidebar_uistate {
+    bool quickref_header = true;
+    bool layers_header = true;
+    bool debug_header = true;
+    //expands/collapses all sidebar headers
+    void set_all( bool state ) {
+        quickref_header = state;
+        layers_header = state;
+        debug_header = state;
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
+// the consume menu reopens when done successfully consuming
+struct consume_menu_uistate {
+    // values[0] = inventory selector selected column index,
+    // values[1] = inventory selector selected index in column
+    std::vector<uint64_t> consume_menu_selections;
+    // targets[0...x] if collated, a pair of {0, 1}, otherwise all item_locations highlighted
+    std::vector<item_location> consume_menu_selected_items;
+    // str_values[0] = filter (the one you type in, not the new comestype filter)
+    std::string consume_menu_filter;
+    // values[2] = inventory selector collated bool
+    bool collated = false;
+    // new value to unify consume menus; when set, filter items by comestype
+    std::string consume_menu_comestype;
+
+    bool empty() const {
+        return consume_menu_selections.empty() && consume_menu_selected_items.empty() &&
+               consume_menu_filter.empty();
+    }
+    void clear() {
+        collated = false;
+        consume_menu_selections.clear();
+        consume_menu_selected_items.clear();
+        consume_menu_filter.clear();
+        //comestype does not clear
+    }
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
+struct editmap_uistate {
+
+    editmap_brush brush;
+
+    editmap_mode mode = editmap_mode::EMM_DRAWING;
+    bool advanced_info_toggle = false;
+    bool blink = false;
+    bool run_post_process = false;
+    bool fast_scroll = false;
+
+    std::array<bool, SELECTABLE_ACTIONS> selected; // NOLINT(cata-serialize)
+    tinymap *tmpmap_ptr = nullptr; // NOLINT(cata-serialize)
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -128,7 +191,6 @@ class uistatedata
         bool unload_auto_contain = true;
         std::optional<bool> hide_entries_override = std::nullopt;
 
-        bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_map_notes = true;
@@ -143,6 +205,14 @@ class uistatedata
         bool overmap_debug_mongroup = false;
         bool overmap_fast_travel = false;
         bool overmap_fast_scroll = false;
+
+        int tileset_zoom = DEFAULT_TILESET_ZOOM;
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
+
+        overmap_sidebar_uistate overmap_sidebar_state;
+        editmap_uistate editmap_state;
+
+        consume_menu_uistate consume_uistate;
 
         // Distraction manager stuff
         bool distraction_noise = true;
@@ -164,19 +234,29 @@ class uistatedata
         bool numpad_navigation = false;
 
         // V Menu Stuff
-        list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
+        // enum serialization relies on string conversion,
+        // which doesn't make too much sense for flag enums
+        // so we store them as ints instead
+        // todo: turn into surroundings_menu_sort_flags
+        // when flag enums can be serialized as numbers
+        int vmenu_item_sort = 0;
+        int vmenu_monster_sort = 0;
+        int vmenu_terfurn_sort = 0;
         std::set<itype_id> read_items;
 
-        // These three aren't serialized because deserialize can extract them
+        // These five aren't serialized because deserialize can extract them
         // from the history
         std::string list_item_filter; // NOLINT(cata-serialize)
         std::string list_item_downvote; // NOLINT(cata-serialize)
         std::string list_item_priority; // NOLINT(cata-serialize)
-        bool vmenu_show_items = true; // false implies show monsters
+        std::string monster_filter; // NOLINT(cata-serialize)
+        std::string terfurn_filter; // NOLINT(cata-serialize)
+        surroundings_menu_tab_enum vmenu_tab = surroundings_menu_tab_enum::items;
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
-        bool list_item_init = false; // NOLINT(cata-serialize)
+        bool list_monster_filter_active = false;
+        bool list_terfurn_filter_active = false;
 
         // construction menu selections
         std::string construction_filter;

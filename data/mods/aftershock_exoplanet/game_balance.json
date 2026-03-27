@@ -7,6 +7,16 @@
     "effect": [  ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "recurrence": [ "15 minutes", "9 hours" ],
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "test_eoc": "EOC_SHADOW_SPAWN_CONDITIONS" },
+    "effect": [  ],
+    "false_effect": [  ]
+  },
+  {
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_PROFESSION_ID",
     "stype": "string_input",

@@ -20,6 +20,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "npc.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
@@ -144,10 +145,6 @@ bool tutorial_game::init()
     // middle of the "real" game world
     avatar &player_character = get_avatar();
     player_character.normalize();
-    player_character.str_cur = player_character.str_max;
-    player_character.per_cur = player_character.per_max;
-    player_character.int_cur = player_character.int_max;
-    player_character.dex_cur = player_character.dex_max;
 
     player_character.set_all_parts_hp_to_max();
     player_character.clear_effects();
@@ -382,6 +379,6 @@ void tutorial_game::add_message( tut_lesson lesson )
     g->invalidate_main_ui_adaptor();
     std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id(
                                         io::enum_to_string<tut_lesson>( lesson ) ) ).value_or( translation() ).translated();
-    replace_keybind_tag( translated_lesson );
+    parse_tags( translated_lesson, get_player_character(), get_player_character() );
     popup( translated_lesson, PF_ON_TOP );
 }

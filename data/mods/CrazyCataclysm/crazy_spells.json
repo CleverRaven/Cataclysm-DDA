@@ -29,5 +29,47 @@
     "effect_str": "mon_zombie_hulk",
     "targeted_monster_ids": [ "mon_zombie_dancer" ],
     "extra_effects": [ { "id": "remove_controlled_jackson", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_clean_dust",
+    "name": { "str": "Clean Dust" },
+    "description": { "str": "Cleans Dust.", "//~": "NO_I18N" },
+    "message": "",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "valid_targets": [ "ground", "field" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "remove_field",
+    "effect_str": "fd_dust"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_clean_splinters",
+    "name": { "str": "Clean Splinters", "//~": "NO_I18N" },
+    "description": { "str": "Clean splinters.", "//~": "NO_I18N" },
+    "message": "",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "valid_targets": [ "ground", "field" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "remove_field",
+    "effect_str": "fd_splinters"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_clean_blood",
+    "name": { "str": "Clean Blood", "//~": "NO_I18N" },
+    "description": { "str": "Cleans blood.", "//~": "NO_I18N" },
+    "message": "",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "valid_targets": [ "ground", "field" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "remove_field",
+    "effect_str": "fd_blood"
   }
 ]

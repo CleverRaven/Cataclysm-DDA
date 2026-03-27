@@ -37,5 +37,12 @@
     "field": "fd_obscuring_fog",
     "intensity": 3,
     "qty": 80
+  },
+  {
+    "id": "emit_kreck_death_stones",
+    "type": "emit",
+    "field": "fd_kreck_death_debris",
+    "intensity": 1,
+    "qty": 2
   }
 ]

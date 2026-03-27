@@ -5,6 +5,7 @@
     "name": { "str": "zombie medic" },
     "description": "This shambling corpse is dressed like a medical professional.  It was either a doctor, or only played one on TV.",
     "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
     "death_drops": "mon_zombie_medical_death_drops",
     "color": "blue",
     "upgrades": { "half_life": 120, "into_group": "GROUP_MEDICAL_UPGRADE" }
@@ -15,6 +16,7 @@
     "name": { "str": "medical horror" },
     "description": "A former doctor of some sort, though its uniform has been torn apart.  You assume the oversized muscles that cover it to be the culprit.",
     "copy-from": "mon_zombie_brute",
+    "looks_like": "mon_zombie_brute",
     "death_drops": "mon_zombie_medical_death_drops",
     "color": "red"
   },
@@ -24,6 +26,7 @@
     "name": { "str": "regenerating zombie medic" },
     "description": "The zombified remains of a practitioner of medicine, you aren't certain what field - your focus is instead drawn to the way that its pink flesh snakes all over it, weaving its way over wounds and injuries.",
     "copy-from": "mon_zombie_regenerating",
+    "looks_like": "mon_zombie_regenerating",
     "death_drops": "mon_zombie_medical_death_drops",
     "upgrades": { "half_life": 120, "into": "mon_zombie_regenerating_hunter" }
   },
@@ -33,6 +36,7 @@
     "name": { "str_sp": "sawbones" },
     "description": "A malformed armor of misshapen bone has grown over this zombie, having pushed what remains of the skin out of the way.  The clothes of a medical worker are still draped over it.",
     "copy-from": "mon_skeleton",
+    "looks_like": "mon_skeleton",
     "death_drops": "zombie_medical_clothes",
     "color": "white"
   },
@@ -42,18 +46,21 @@
     "name": { "str_sp": "doctor burns" },
     "description": "This is the body of a doctor or nurse of some kind.  It's hard to tell now that most of its clothing has corroded away from whatever vile acid its secreting.",
     "copy-from": "mon_zombie_acidic",
+    "looks_like": "mon_zombie_acidic",
     "death_drops": "mon_zombie_medical_death_drops"
   },
   {
     "id": "mon_zombie_medical_pupa",
     "type": "MONSTER",
     "copy-from": "mon_zombie_pupa",
+    "looks_like": "mon_zombie_pupa",
     "death_drops": "mon_zombie_medical_death_drops"
   },
   {
     "id": "mon_zombie_pupa_medical_decoy",
     "type": "MONSTER",
     "copy-from": "mon_zombie_pupa_decoy",
+    "looks_like": "mon_zombie_pupa_decoy",
     "death_drops": "mon_zombie_medical_death_drops"
   }
 ]

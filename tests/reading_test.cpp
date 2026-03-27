@@ -33,7 +33,6 @@ static const efftype_id effect_darkness( "darkness" );
 
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
-static const itype_id itype_atomic_lamp( "atomic_lamp" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_child_book( "child_book" );
 static const itype_id itype_holybook_pastafarian( "holybook_pastafarian" );
@@ -43,6 +42,7 @@ static const itype_id itype_recipe_alpha( "recipe_alpha" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_ebook_reader( "test_ebook_reader" );
+static const itype_id itype_test_lamp( "test_lamp" );
 static const itype_id itype_test_textbook_fabrication( "test_textbook_fabrication" );
 
 static const limb_score_id limb_score_vision( "vision" );
@@ -193,13 +193,13 @@ TEST_CASE( "character_reading_speed", "[reading][character][speed]" )
     WHEN( "character has below-average intelligence" ) {
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
-            dummy.int_max = 7;
+            dummy.set_int_base( 7 );
             CHECK( dummy.read_speed() * 60 == 6180 );
-            dummy.int_max = 6;
+            dummy.set_int_base( 6 );
             CHECK( dummy.read_speed() * 60 == 6480 );
-            dummy.int_max = 5;
+            dummy.set_int_base( 5 );
             CHECK( dummy.read_speed() * 60 == 6780 );
-            dummy.int_max = 4;
+            dummy.set_int_base( 4 );
             CHECK( dummy.read_speed() * 60 == 7200 );
         }
     }
@@ -207,13 +207,13 @@ TEST_CASE( "character_reading_speed", "[reading][character][speed]" )
     WHEN( "character has above-average intelligence" ) {
 
         THEN( "reading speed gets faster as intelligence increases" ) {
-            dummy.int_max = 9;
+            dummy.set_int_base( 9 );
             CHECK( dummy.read_speed() * 60 == 5700 );
-            dummy.int_max = 10;
+            dummy.set_int_base( 10 );
             CHECK( dummy.read_speed() * 60 == 5460 );
-            dummy.int_max = 12;
+            dummy.set_int_base( 12 );
             CHECK( dummy.read_speed() * 60 == 5100 );
-            dummy.int_max = 14;
+            dummy.set_int_base( 14 );
             CHECK( dummy.read_speed() * 60 == 4800 );
         }
     }
@@ -249,7 +249,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE_FALSE( dummy.has_identified( western->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "identifying books takes 1/10th of the normal reading time" ) {
@@ -268,11 +268,11 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         REQUIRE( dummy.has_identified( alpha->typeId() ) );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {
-            dummy.int_max = 8;
+            dummy.set_int_base( 8 );
             REQUIRE( dummy.get_int() == 8 );
             REQUIRE( dummy.read_speed() * 60 == 6000 ); // 60s, "normal"
 
@@ -286,7 +286,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         }
 
         WHEN( "player has below average intelligence" ) {
-            dummy.int_max = 6;
+            dummy.set_int_base( 6 );
             REQUIRE( dummy.get_int() == 6 );
             REQUIRE( dummy.read_speed() * 60 == 6480 ); // 65s
 
@@ -298,7 +298,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
         }
 
         WHEN( "player has above average intelligence" ) {
-            dummy.int_max = 10;
+            dummy.set_int_base( 10 );
             REQUIRE( dummy.get_int() == 10 );
             REQUIRE( dummy.read_speed() * 60 == 5460 ); // 55s
 
@@ -314,7 +314,7 @@ TEST_CASE( "estimated_reading_time_for_a_book", "[reading][book][time]" )
 TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     Character &dummy = get_avatar();
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -358,7 +358,7 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
         dummy.identify( *alpha );
 
         // Get some light
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "you cannot read while illiterate" ) {
@@ -562,7 +562,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         REQUIRE( booklc );
 
         WHEN( "it is bright outside" ) {
-            dummy.i_add( item( itype_atomic_lamp ) );
+            dummy.i_add( item( itype_test_lamp ) );
             REQUIRE( dummy.fine_detail_vision_mod() == 1 );
             test_ebook_is_reading( dummy, ereader, booklc );
         }
@@ -578,7 +578,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
     GIVEN( "a book nearby" ) {
         map &here = get_map();
         tripoint_bub_ms pos = dummy.pos_bub();
-        dummy.i_add( item( itype_atomic_lamp ) );
+        dummy.i_add( item( itype_test_lamp ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         item_location ereader = here.add_item_or_charges_ret_loc( pos, item( itype_test_ebook_reader ) );

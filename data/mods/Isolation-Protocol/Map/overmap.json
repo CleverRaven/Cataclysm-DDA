@@ -40,6 +40,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "iso_nexus", "iso_nexus_1", "iso_nexus_2", "iso_nexus_3", "iso_nexus_4", "iso_nexus_5" ],
+    "copy-from": "iso_hallway_safe",
+    "name": "Balthazar Nexus",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "iso_office", "iso_elevator_office" ],
     "name": "Lab administrative office",
     "sym": "L",

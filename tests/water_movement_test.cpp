@@ -314,8 +314,8 @@ static int swimming_steps( avatar &swimmer )
 static void configure_swimmer( avatar &swimmer, const move_mode_id move_mode,
                                const swimmer_config &config )
 {
-    swimmer.str_max = config.stats.strength;
-    swimmer.dex_max = config.stats.dexterity;
+    swimmer.set_str_base( config.stats.strength );
+    swimmer.set_dex_base( config.stats.dexterity );
     swimmer.set_str_bonus( 0 );
     swimmer.set_dex_bonus( 0 );
 

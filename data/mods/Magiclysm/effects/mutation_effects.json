@@ -37,5 +37,20 @@
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -10 ], "pain_amount": [ 10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -5 ], "pain_amount": [ 5 ], "hurt_amount": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biomancer_npc_wretch_polymorph",
+    "name": [ { "str": "Fleshwarped Wretch NPC penalties", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Limb score penalties from being fleshwarped", "//~": "NO_I18N" } ],
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.2 },
+      { "limb_score": "grip", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0.4 },
+      { "limb_score": "lift", "modifier": 0.2 },
+      { "limb_score": "crawl", "modifier": 0.5 },
+      { "limb_score": "breathing", "modifier": 0.6 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

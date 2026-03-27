@@ -52,6 +52,7 @@
       [ "hybrid_sight_4x", 30 ],
       [ "rifle_scope_high_end_mount", 20 ],
       [ "modern_handguard", 20 ],
+      [ "mounted_flashlight", 80 ],
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
       [ "muzzle_weight", 10 ]
@@ -71,6 +72,7 @@
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
       [ "m26_mass", 35 ],
+      [ "mipim", 10 ],
       [ "sword_bayonet", 10 ]
     ]
   },
@@ -137,13 +139,6 @@
   },
   {
     "type": "item_group",
-    "id": "m38dmr_mods",
-    "//": "Default mods for the m38dmr variant of the NATO assault rifle",
-    "subtype": "collection",
-    "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
-  },
-  {
-    "type": "item_group",
     "id": "military_grenadier_mods",
     "//": "Default mods for m4 carbines issued with grenade launchers",
     "subtype": "distribution",
@@ -168,7 +163,7 @@
     "id": "mosin_mods",
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",
-    "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
+    "entries": [ { "item": "rail_mount" }, { "item": "stock_mount" } ]
   },
   {
     "type": "item_group",

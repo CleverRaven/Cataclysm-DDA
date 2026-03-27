@@ -233,7 +233,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_RESTOCK",
-    "dynamic_line": "If the cows don't get anything nasty it should be around <interval>.",
+    "dynamic_line": "If the cows don't get anything nasty it should be around <restock_time_point>.",
     "responses": [ { "text": "Cheers, bye.", "topic": "TALK_DONE" } ]
   },
   {

@@ -35,7 +35,7 @@
   },
   {
     "type": "recipe",
-    "name": "dreamforged long sword",
+    "name": "dreamforged longsword",
     "id": "dreamforged_longsword_ench",
     "activity_level": "ACTIVE_EXERCISE",
     "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],

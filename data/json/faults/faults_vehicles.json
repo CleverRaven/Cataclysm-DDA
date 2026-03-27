@@ -70,5 +70,32 @@
     "item_prefix": "faulty",
     "price_modifier": 0.5,
     "flags": [ "BAD_STARTER" ]
+  },
+  {
+    "id": "fault_punctured_tires",
+    "type": "fault",
+    "name": { "str": "Punctured tire" },
+    "description": "Something made a hole in the tire, and it is now as flat as the ground it drives onto.",
+    "price_modifier": 0.0,
+    "//COMMENT": "Reduced contact area, but not 0. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
+    "contact_area_mod": 0.75,
+    "rolling_resistance_mod": 10.0,
+    "vehicle_move_penalty_mod": 2,
+    "item_suffix": "deflating",
+    "flags": [ "FLAT_TIRE" ]
+  },
+  {
+    "id": "fault_flat_tire_riding_on_rims",
+    "type": "fault",
+    "name": { "str": "Down to rims" },
+    "//COMMENT": "INTENTIONALLY CANNOT BE REPAIRED. It must be replaced. You aren't fixing this!",
+    "description": "This used to be an entire wheel, but now it's just rim.  Bits of shredded rubber are jutting out of the cracked rim, the result of continuing to drive with a completely flat tire.  It needs total replacement.",
+    "price_modifier": 0.0,
+    "//COMMENT2": "Reduced contact area, but not 0. The rim is now in contact. Making the contact area lower actually reduces the effect of low traction and high rolling resistance.",
+    "contact_area_mod": 0.5,
+    "rolling_resistance_mod": 30.0,
+    "vehicle_move_penalty_mod": 5,
+    "item_suffix": "rim",
+    "flags": [ "FLAT_TIRE" ]
   }
 ]

@@ -18,7 +18,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 2, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_open_air_rooved",
@@ -49,7 +51,9 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -72,7 +76,9 @@
         { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 2, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -104,7 +110,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -482,7 +490,9 @@
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -504,7 +514,9 @@
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

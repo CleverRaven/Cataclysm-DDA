@@ -81,8 +81,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('pyrokinetic_call_flames') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('pyrokinetic_call_flames')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('pyrokinetic_call_flames_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('pyrokinetic_call_flames') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('pyrokinetic_call_flames_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -148,8 +148,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('pyrokinetic_cloak') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('pyrokinetic_cloak')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('pyrokinetic_cloak_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('pyrokinetic_cloak') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('pyrokinetic_cloak_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -215,7 +215,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('pyrokinetic_lance')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_lance') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
@@ -280,8 +280,8 @@
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "if": { "math": [ "u_spell_level('pyrokinetic_aura') >= 1" ] },
-        "then": { "math": [ "u_spell_exp('pyrokinetic_aura')", "+=", "psionic_power_experience_formula()" ] },
-        "else": { "math": [ "u_spell_exp('pyrokinetic_aura_knack')", "+=", "psionic_power_experience_formula()" ] }
+        "then": { "math": [ "u_spell_exp('pyrokinetic_aura') += psionic_power_experience_formula()" ] },
+        "else": { "math": [ "u_spell_exp('pyrokinetic_aura_knack') += psionic_power_experience_formula()" ] }
       },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -342,7 +342,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "psionic_power_experience_formula()" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_flame_immunity') += psionic_power_experience_formula()" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "run_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",

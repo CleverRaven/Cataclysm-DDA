@@ -65,7 +65,7 @@
     "subtypes": [ "ARMOR", "MAGAZINE" ],
     "name": { "str": "20-round shotshell belt" },
     "description": "A non-disintegrating cloth ammo belt which can hold up to 20 shotgun shells.  Notably less reliable than metal ammo belts.",
-    "weight": "41 g",
+    "weight": "17 g",
     "volume": "35 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",

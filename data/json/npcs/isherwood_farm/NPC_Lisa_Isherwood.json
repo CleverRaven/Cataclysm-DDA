@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
-    "dynamic_line": "He did?\"  She touches the shoulder strap on her rifle.  \"Like, action?  Yeah, I'm a pretty good shot, and I'd do anything to save Uncle Barry.  I'm surprised Chris didn't try to go all protective older brother on me.  What's the plan?\"",
+    "dynamic_line": "He did?\"  She touches the shoulder strap on her rifle.  \"Like, action?  Yeah, I'm a pretty good shot, and I'd do anything to save Uncle Barry.  I'm surprised Chris didn't try to go all protective older brother on me.  What's the plan?",
     "responses": [ { "text": "[Explain the plan.]", "topic": "TALK_ISHERWOOD_LISA_JOIN_RESCUE" } ]
   },
   {

@@ -13,6 +13,7 @@
     "color": "brown",
     "looks_like": "box_small",
     "variant_type": "generic",
+    "//": "These variants must remain 0 weight, as most ammo boxes copy from this and inherit variants",
     "variants": [
       {
         "id": "22lr_ammo_box_50",
@@ -84,7 +85,16 @@
     "weight": "5 g",
     "volume": "46 ml",
     "material": [ "plastic" ],
-    "pocket_data": [ { "ammo_restriction": { "22": 50 }, "rigid": true } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "26 mm",
+        "max_contains_volume": "33 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "200 g",
+        "rigid": true
+      }
+    ]
   },
   {
     "id": "22lr_ammo_box_100",
@@ -331,7 +341,7 @@
     "copy-from": "9mm_ammo_box_20",
     "type": "ITEM",
     "name": { "str": ".357 Magnum ammo box", "str_pl": ".357 Magnum ammo boxes" },
-    "description": "This box holds 20 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "description": "This box holds 50 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "18 g",
     "volume": "175 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "145 ml", "max_contains_weight": "650 g", "rigid": true } ]
@@ -341,7 +351,7 @@
     "copy-from": "9mm_ammo_box_20",
     "type": "ITEM",
     "name": { "str": ".357 Magnum ammo box", "str_pl": ".357 Magnum ammo boxes" },
-    "description": "This box holds 20 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "description": "This box holds 200 rounds of .357 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "73 g",
     "volume": "640 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "580 ml", "max_contains_weight": "2600 g", "rigid": true } ]
@@ -539,7 +549,7 @@
     "copy-from": "9mm_ammo_box_20",
     "type": "ITEM",
     "name": { "str": ".44 Magnum ammo box", "str_pl": ".44 Magnum ammo boxes" },
-    "description": "This box holds 50 rounds of .44 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "description": "This box holds 100 rounds of .44 Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "55 g",
     "volume": "570 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "435 ml", "max_contains_weight": "2500 g", "rigid": true } ]
@@ -576,7 +586,7 @@
       {
         "id": "762R_ammo_box_20",
         "name": { "str": "7.62x54mmR ammo box", "str_pl": "7.62x54mmR ammo boxes" },
-        "description": "This box holds 200 rounds of 7.62x54mmR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "description": "This box holds 20 rounds of 7.62x54mmR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       },
       {
@@ -743,7 +753,7 @@
       {
         "id": "458_ammo_box_20",
         "name": { "str": ".458 Winchester Magnum ammo box", "str_pl": ".458 Winchester Magnum ammo boxes" },
-        "description": "This box holds 200 rounds of .458 Winchester Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "description": "This box holds 20 rounds of .458 Winchester Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       },
       {
@@ -789,7 +799,7 @@
     "copy-from": "9mm_ammo_box_20",
     "type": "ITEM",
     "name": { "str": ".338 Lapua Magnum ammo box", "str_pl": ".338 Lapua Magnum ammo boxes" },
-    "description": "This box holds 10 rounds of .338 Lapua Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "description": "This box holds 20 rounds of .338 Lapua Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "41 g",
     "volume": "458 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "327 ml", "max_contains_weight": "400 g", "rigid": true } ]
@@ -904,5 +914,25 @@
     "weight": "17 g",
     "volume": "189 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "135 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "3030_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester ammo box", "str_pl": ".30-30 Winchester ammo boxes" },
+    "description": "This box holds 20 rounds of .30-30 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "10 g",
+    "volume": "164 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "117 ml", "max_contains_weight": "750 g", "rigid": true } ]
+  },
+  {
+    "id": "3030_ammo_box_200",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "ITEM",
+    "name": { "str": ".30-30 Winchester ammo box", "str_pl": ".30-30 Winchester ammo boxes" },
+    "description": "This box holds 200 rounds of .30-30 Winchester ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "100 g",
+    "volume": "1640 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1170 ml", "max_contains_weight": "7500 g", "rigid": true } ]
   }
 ]

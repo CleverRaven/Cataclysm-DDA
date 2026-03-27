@@ -118,7 +118,7 @@
     "effect": [
       { "u_message": "psi_nether_attention_nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 3" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain') += rand(7) + 3" ] }
     ]
   }
 ]

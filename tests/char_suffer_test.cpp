@@ -111,7 +111,7 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 //
 TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
     scoped_weather_override clear_weather( WEATHER_CLEAR );
@@ -216,7 +216,7 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 //
 TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     set_time_to_day();
     scoped_weather_override clear_weather( WEATHER_CLEAR );
@@ -381,7 +381,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 
 TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     Character &dummy = get_player_character();
     dummy.set_underwater( false );

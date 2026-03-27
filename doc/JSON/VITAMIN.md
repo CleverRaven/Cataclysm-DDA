@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Vitamins](#vitamins)
+  - [definition](#definition)
+    - [`id`](#id)
+    - [`type`](#type)
+    - [`vit_type`](#vit_type)
+      - [`vitamin`](#vitamin)
+      - [`toxin`](#toxin)
+      - [`counter`](#counter)
+      - [`drug`](#drug)
+    - [`name`](#name)
+    - [`deficiency`](#deficiency)
+    - [`excess`](#excess)
+    - [`min`](#min)
+    - [`max`](#max)
+    - [`weight_per_unit`](#weight_per_unit)
+    - [`rate`](#rate)
+    - [`flags`](#flags)
+    - [`disease`](#disease)
+    - [`disease_excess`](#disease_excess)
+    - [`decays_into`](#decays_into)
+  - [flags](#flags)
+      - [opiate MME conversion chart](#opiate-mme-conversion-chart)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Vitamins
 
 ## definition

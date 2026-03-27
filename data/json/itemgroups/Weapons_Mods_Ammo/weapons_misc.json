@@ -57,5 +57,31 @@
       [ "dynamite", 50 ],
       [ "c4", 50 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_primers_full",
+    "container-item": "primer_tray",
+    "items": [
+      { "item": "smpistol_primer", "charges": 100, "prob": 250 },
+      { "item": "lgpistol_primer", "charges": 100, "prob": 150 },
+      { "item": "smrifle_primer", "charges": 100, "prob": 250 },
+      { "item": "lgrifle_primer", "charges": 100, "prob": 200 },
+      { "item": "shotgun_primer", "charges": 100, "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_primers_used",
+    "container-item": "primer_tray",
+    "items": [
+      { "item": "smpistol_primer", "charges": [ 0, 100 ], "prob": 250 },
+      { "item": "lgpistol_primer", "charges": [ 0, 100 ], "prob": 150 },
+      { "item": "smrifle_primer", "charges": [ 0, 100 ], "prob": 250 },
+      { "item": "lgrifle_primer", "charges": [ 0, 100 ], "prob": 200 },
+      { "item": "shotgun_primer", "charges": [ 0, 100 ], "prob": 50 }
+    ]
   }
 ]

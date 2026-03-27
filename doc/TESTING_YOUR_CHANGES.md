@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Testing your changes and making sure they work as expected](#testing-your-changes-and-making-sure-they-work-as-expected)
+  - [Style](#style)
+  - [Applying your changes locally](#applying-your-changes-locally)
+  - [Using the debug menu](#using-the-debug-menu)
+    - [Items](#items)
+    - [Mapgen](#mapgen)
+    - [Monsters](#monsters)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Testing your changes and making sure they work as expected
 
 So you contributed or did something else that warrants testing. Nice work.

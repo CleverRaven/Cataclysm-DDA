@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Mod Compatibility](#mod-compatibility)
+  - [Summary](#summary)
+  - [Guide](#guide)
+  - [Limitations](#limitations)
+  - [Technical Summary](#technical-summary)
+    - [Developers](#developers)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Mod Compatibility
 
 ## Summary

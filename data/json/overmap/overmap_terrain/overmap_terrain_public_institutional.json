@@ -420,9 +420,6 @@
       "prison_1_3f_7",
       "prison_1_3f_8",
       "prison_1_3f_9",
-      "prison_1_b_7_hidden",
-      "prison_1_b_8_hidden_lab_stairs",
-      "prison_1_b_9_hidden",
       "prison_alcatraz_1",
       "prison_alcatraz_2",
       "prison_alcatraz_3",
@@ -660,15 +657,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
-    "vision_levels": "large_pavement",
-    "see_cost": "none",
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "nursing_home_sh4" ],
     "copy-from": "road_abstract",
     "sym": "┐"
@@ -696,12 +684,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
-    "vision_levels": "large_building",
+    "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11", "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
     "see_cost": "none",
     "name": "parking lot",
     "sym": "O",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "looks_like": "s_lot",
+    "vision_levels": "large_pavement"
   },
   {
     "type": "overmap_terrain",

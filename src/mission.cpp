@@ -49,6 +49,7 @@ mission mission_type::create( const character_id &npc_id ) const
     mission ret;
     ret.uid = g->assign_mission_id();
     ret.type = this;
+    ret.dimension = g->get_dimension_prefix();
     ret.npc_id = npc_id;
     ret.item_id = item_id;
     ret.item_count = item_count;
@@ -715,6 +716,11 @@ std::string mission::get_description() const
     return type->description.translated();
 }
 
+std::string mission::get_dimension() const
+{
+    return dimension;
+}
+
 bool mission::has_target() const
 {
     return !target.is_invalid();
@@ -801,6 +807,11 @@ bool mission::has_generic_rewards() const
 void mission::set_deadline( time_point new_deadline )
 {
     deadline = new_deadline;
+}
+
+void mission::set_dimension( const std::string &dimension_prefix )
+{
+    dimension = dimension_prefix;
 }
 
 void mission::set_target( const tripoint_abs_omt &p )

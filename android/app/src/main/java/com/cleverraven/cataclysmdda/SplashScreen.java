@@ -162,6 +162,13 @@ public class SplashScreen extends Activity {
                         dialog.dismiss();
                         return;
                     }
+            })
+            .setNegativeButton(getString(R.string.ignoreFalsePostives), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        CataclysmDDA_Helpers.saveAccessibilityServiceInfoFalsePositives(getApplicationContext());
+                        SplashScreen.this.installOrRun();
+                        return;
+                    }
             }).create();
     }
 

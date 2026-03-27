@@ -10,7 +10,7 @@
     "id": "astronaut_mre_contents",
     "subtype": "collection",
     "entries": [
-      { "group": "mre_entrees", "count": 2 },
+      { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": true, "count": 2 },
       { "item": "heatpack", "count": 2 },
       {
         "item": "crackers",

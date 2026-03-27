@@ -39,7 +39,7 @@
       { "item": "skull_human", "prob": 10 },
       { "item": "human_tallow", "prob": 2 },
       { "item": "bone_human", "prob": 20 },
-      { "item": "human_lard", "prob": 15 },
+      { "item": "human_tallow", "prob": 15 },
       { "item": "wastebread", "count": [ 0, 8 ], "prob": 70 },
       { "item": "dry_fruit", "count": [ 0, 8 ], "prob": 70 },
       { "item": "dry_veggy", "count": [ 0, 8 ], "prob": 70 },

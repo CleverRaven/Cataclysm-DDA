@@ -216,6 +216,15 @@
     "hidden_by": [ "mom_learn_flicker_flash_stance" ]
   },
   {
+    "id": "mom_learn_guided_evolution",
+    "type": "achievement",
+    "name": { "str": "Secrets of the Ooze", "//~": "This is a reference to Teenage Mutant Ninja Turtles" },
+    "description": "Mastered the EMERALD VANGUARD techniques and learned the Guided Evolution power.",
+    "manually_given": true,
+    "requirements": [  ],
+    "hidden_by": [ "mom_learn_guided_evolution" ]
+  },
+  {
     "id": "mom_get_the_hounds_on_your_trail",
     "type": "achievement",
     "name": "They Are Lean and Athirst!",

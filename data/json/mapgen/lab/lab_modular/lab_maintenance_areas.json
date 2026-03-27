@@ -49,7 +49,7 @@
         { "chunks": [ [ "lab_maintenance_5x5_room_NE", 90 ], [ "null", 10 ] ], "x": 15, "y": 13 },
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 18, "y": 0 }
       ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ]
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ]
     }
   },
   {
@@ -104,7 +104,7 @@
         { "chunks": [ [ "lab_maintenance_5x5_room_NE", 90 ], [ "null", 10 ] ], "x": 13, "y": 17 },
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 17, "y": 0 }
       ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ]
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ]
     }
   },
   {
@@ -142,7 +142,7 @@
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [ { "item": "id_science_maintenance_blue", "x": 22, "y": [ 8, 19 ], "chance": 100 } ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ],
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ],
       "place_nested": [
         { "chunks": [ [ "lab_maintenance_3x3_NS_open", 90 ], [ "null", 10 ] ], "x": 1, "y": 7 },
         { "chunks": [ [ "lab_maintenance_3x3_NS_open", 90 ], [ "null", 10 ] ], "x": 7, "y": 17 },
@@ -193,7 +193,7 @@
         "|||???||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ],
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ],
       "place_nested": [
         { "chunks": [ [ "lab_maintenance_3x3_NS_open", 90 ], [ "null", 10 ] ], "x": 20, "y": 7 },
         { "chunks": [ [ "lab_maintenance_3x3_NS_open", 90 ], [ "null", 10 ] ], "x": 14, "y": 17 },
@@ -253,7 +253,7 @@
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 5, "y": 14 },
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 1, "y": 0 }
       ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ]
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ]
     }
   },
   {
@@ -302,7 +302,7 @@
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 6, "y": 17 },
         { "chunks": [ [ "lab_maintenance_5x5_room_S", 90 ], [ "null", 10 ] ], "x": 2, "y": 0 }
       ],
-      "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ]
+      "place_monster": [ { "monster": "mon_grenade_hack", "x": 20, "y": 5, "chance": 90 } ]
     }
   }
 ]

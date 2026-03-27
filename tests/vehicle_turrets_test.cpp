@@ -1,6 +1,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
@@ -39,10 +40,18 @@ static std::vector<const vpart_info *> all_turret_types()
     return res;
 }
 
+static void clear_faults_from_vp( vehicle_part &vp )
+{
+    // Just some small trickery to manipulate the const reference provided by get_base().
+    item base_copy( vp.get_base() );
+    base_copy.faults.clear();
+    vp.set_base( std::move( base_copy ) );
+}
+
 // Install, reload and fire every possible vehicle turret.
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -91,8 +100,10 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             }
             const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count(
                     ammo_effect_RECYCLED ) > 0;
-            CAPTURE( default_ammo_is_RECYCLED );
-            INFO( "RECYCLED ammo can sometimes misfire and very rarely fail this test" );
+            if( default_ammo_is_RECYCLED ) {
+                CAPTURE( default_ammo_is_RECYCLED );
+                INFO( "RECYCLED ammo can sometimes misfire and very rarely fail this test" );
+            }
 
             turret_data qry = veh->turret_query( vp );
             REQUIRE( qry );
@@ -105,6 +116,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {
                 shots_fired += qry.fire( player_character, &here, player_character.pos_bub() + point( qry.range(),
                                          0 ) );
+                clear_faults_from_vp( vp );
             }
             CHECK( shots_fired > 0 );
 

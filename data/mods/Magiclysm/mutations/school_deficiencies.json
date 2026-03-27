@@ -7,7 +7,8 @@
     "description": "No matter how hard you try, you never managed to master channeling spells.  You are unable to cast any spell of the channeling school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_CHANNELING_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -17,7 +18,8 @@
     "description": "No matter how hard you try, you never managed to master evocation spells.  You are unable to cast any spell of the evocation school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_EVOCATION_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -27,7 +29,8 @@
     "description": "No matter how hard you try, you never managed to master conjuration spells.  You are unable to cast any spell of the conjuration school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_SUMMONING_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -37,7 +40,8 @@
     "description": "No matter how hard you try, you never managed to master enhancement spells.  You are unable to cast any spell of the enhancement school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_ENHANCEMENT_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -47,7 +51,8 @@
     "description": "No matter how hard you try, you never managed to master enervation spells.  You are unable to cast any spell of the enervation school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_ENERVATION_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -57,7 +62,8 @@
     "description": "No matter how hard you try, you never managed to master conveyance spells.  You are unable to cast any spell of the conveyance school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_CONVEYANCE_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -67,7 +73,8 @@
     "description": "No matter how hard you try, you never managed to master restoration spells.  You are unable to cast any spell of the restoration school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_RESTORATION_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -77,6 +84,7 @@
     "description": "No matter how hard you try, you never managed to master transformation spells.  You are unable to cast any spell of the transformation school.",
     "starting_trait": true,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "NO_CASTING_TRANSFORMATION_SPELLS" ]
   }
 ]

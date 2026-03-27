@@ -1,3 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Movement Modes](#movement-modes)
+  - [definition](#definition)
+    - [`type`](#type)
+    - [`id`](#id)
+    - [`character`](#character)
+    - [`panel_char`](#panel_char)
+    - [`name`](#name)
+    - [`panel_color`](#panel_color)
+    - [`symbol_color`](#symbol_color)
+    - [`exertion_level`](#exertion_level)
+    - [`change_good_x`](#change_good_x)
+    - [`change_bad_x`](#change_bad_x)
+    - [`move_type`](#move_type)
+    - [`stamina_multiplier`](#stamina_multiplier)
+    - [`sound_multiplier`](#sound_multiplier)
+    - [`move_speed_multiplier`](#move_speed_multiplier)
+    - [`mech_power_use`](#mech_power_use)
+    - [`swim_speed_mod`](#swim_speed_mod)
+    - [`stop_hauling`](#stop_hauling)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Movement Modes
 
 ## definition

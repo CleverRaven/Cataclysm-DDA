@@ -5,7 +5,7 @@
     "condition": { "math": [ "u_vitamin('dreamer_vit') >= 600" ] },
     "effect": [
       { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
-      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
+      { "math": [ "u_vitamin('dreamer_vit') -= 600" ] },
       {
         "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
@@ -89,7 +89,7 @@
       "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ]
     },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       { "u_message": "The grayscale starts to recede from your vision before it quickly reverts.", "type": "good" },
       {
         "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
@@ -130,7 +130,7 @@
     "id": "EOC_ETHEREAL_WINGS_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       {
         "u_message": "The wings behind you grow slightly more transparent, but they quickly revert back to normal.",
         "type": "good"
@@ -165,6 +165,22 @@
       }
     ],
     "false_effect": [
+      { "math": [ "u_hp('karma_arm_up_r') += 150" ] },
+      { "math": [ "u_hp('karma_arm_up_l') += 150" ] },
+      { "math": [ "u_hp('karma_arm_lw_r') += 150" ] },
+      { "math": [ "u_hp('karma_arm_lw_l') += 150" ] },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "bleed", "target_part": "karma_arm_lw_l" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "infected", "target_part": "karma_arm_lw_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_up_l" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_r" },
+      { "u_lose_effect": "bite", "target_part": "karma_arm_lw_l" },
       { "u_lose_trait": "karma_arms" },
       { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
     ]
@@ -174,7 +190,7 @@
     "id": "EOC_KARMA_ARMS_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       {
         "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.",
         "type": "good"
@@ -215,7 +231,7 @@
     "id": "EOC_DEVIL_TAIL_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana') >= 100" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "100" ] },
+      { "math": [ "u_val('mana') -= 100" ] },
       { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
       {
         "run_eocs": "EOC_DEVIL_TAIL_CONTINUE",
@@ -256,7 +272,7 @@
     "id": "EOC_STALKER_EYES_CONTINUE",
     "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana') >= 200" ] } ] },
     "effect": [
-      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "math": [ "u_val('mana') -= 200" ] },
       { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },
       {
         "run_eocs": "EOC_STALKER_EYES_CONTINUE",

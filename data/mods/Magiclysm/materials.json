@@ -99,7 +99,7 @@
     "latent_heat": 333,
     "chip_resist": 10,
     "breathability": "POOR",
-    "repaired_with": "demon_chitin_piece",
+    "repaired_with": "demon_chitin_flux",
     "salvaged_into": "demon_chitin_piece",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",

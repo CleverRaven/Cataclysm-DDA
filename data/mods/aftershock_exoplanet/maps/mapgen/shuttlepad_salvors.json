@@ -6,6 +6,12 @@
       [ "afs_shuttlepad_salvors_b1_1", "afs_shuttlepad_salvors_b2_1" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "   ℗℗ ℗℗℗         -            ℗℗℗ ℗℗℗          ",
@@ -29,7 +35,7 @@
         " |ΩΩÖÖÖÖ×Ω|‘ ℗¾℗‘‘‘‘‘‘‘ À╫ ‘‘‘ ‘ ╫℗℗ÀÀ‘‘‘‘ä¦ìì·#",
         " |||####|||    ℗   ℗¾‘‘‘ ╫╫╫╫‘╫╫╫╫½¾‘‘‘‘‘Ψä¦¦··#",
         "   ℗℗℗℗℗            ℗‘‘‘   ω‘‘℗¾¼¼‘‘‘╡ÅÅ╡‘ á¦·ú¦",
-        "    ℗    Χ            ‘‘℗℗¾¿‘℗ ‘‘‘‘‘‘╡Æ∙È‘ 2¦ûó¦",
+        "    ℗    Χ            ‘‘℗℗¾¿‘℗ ‘‘‘‘‘‘╡ÆθÈ‘ 2¦ûó¦",
         "      ℗℗ ℗℗   ℗℗℗℗    ‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘╡Éõ╡‘‘½╡╡¦¦",
         "    ---##------##---  ℗‘‘‘Ù‘‘‘‘Ù‘ Ψ ‘‘ ‘‘ ‘â╡ûø¦",
         "    -Υ.³³..ΦΦ..ΦΦ%©-  ¾‘‘¼╡----¦Á2 ‘ ‘Ù¦$$$$¦ýù¦",
@@ -78,7 +84,8 @@
         "χ": { "class": "uica_ground_soldier" },
         "ϋ": { "class": "uica_vehicle_merchant" },
         "ի": { "class": "salvor_camp_solo" },
-        "λ": { "class": "salvor_fabricator" }
+        "λ": { "class": "salvor_fabricator" },
+        "θ": { "class": "salvor_street_food" }
       },
       "monster": {
         "ψ": { "monster": "mon_uica_tankbot" },
@@ -162,6 +169,7 @@
         "è": "t_strconc_floor",
         "é": "t_strconc_floor_olight",
         "ê": "t_thconc_floor_no_roof",
+        "θ": "t_metal_floor_heated",
         "ë": "t_thconc_floor_no_roof",
         "ì": "t_thconc_floor_no_roof",
         "í": "t_thconc_floor_no_roof",
@@ -278,6 +286,12 @@
       [ "afs_shuttlepad_salvors_b1_2", "afs_shuttlepad_salvors_b2_2" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                  .                             ",
@@ -371,6 +385,12 @@
       [ "afs_shuttlepad_salvors_b1_3", "afs_shuttlepad_salvors_b2_3" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                                                ",
@@ -443,6 +463,12 @@
       [ "afs_shuttlepad_salvors_b1_4", "afs_shuttlepad_salvors_b2_4" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                                                ",
@@ -507,7 +533,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "afs_shuttlepad_salvors_garage_open",
+    "update_mapgen_id": "afs_shuttlepad_salvors_garage_open_and_remove_lynx",
     "object": {
       "set": [
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 3 },
@@ -518,7 +544,58 @@
         { "point": "terrain", "id": "t_grate", "x": 1, "y": 8 },
         { "point": "terrain", "id": "t_door_metal_c", "x": 10, "y": 8 },
         { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 10 }
-      ]
+      ],
+      "remove_vehicles": [ { "vehicles": [ "uica_lynx_ex" ], "x": [ 3, 8 ], "y": [ 4, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "afs_shuttlepad_salvors_garage_place_lynx",
+    "object": { "place_vehicles": [ { "vehicle": "uica_lynx_ex", "x": 6, "y": 5, "status": 0, "faction": "your_followers" } ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "afs_shuttlepad_salvors_old_pad",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "          ...           ",
+        "   ...    ... ......    ",
+        "  .  ...........  ...   ",
+        "  .  ..     .     ....  ",
+        "  .....     .  . .. ..  ",
+        "   ...      ... .. .    ",
+        "   .            .. .    ",
+        "  ..        ...  ... .  ",
+        "  .   .     .      . .  ",
+        "  .  ..   .        ...  ",
+        "  ...     ..     ....   ",
+        "  .       ....   .. ..  ",
+        "  . ...    ..        .  ",
+        "  ..   .    .       ..  ",
+        "  .         ..      .   ",
+        "  . .               .   ",
+        "  . ... ...  .   ... .  ",
+        "   .. .    ...  .....   ",
+        "  .. ...     ... ...    ",
+        "   ..     ...      ..   ",
+        "   . ..... .. .   ..    ",
+        "          ...           ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 3, "y": 10 } ],
+      "terrain": {
+        "R": "t_bay_rap_up",
+        "+": "t_afs_space_ship_hatch_c",
+        "|": "t_afs_gun_ship_hull_wall",
+        ".": "t_metal_floor",
+        ",": "t_dirt",
+        "<": "t_ship_stairs_up",
+        "#": "t_dirtmound"
+      },
+      "furniture": { "9": "f_landing_skid", "3": "f_landing_hydraulic" }
     }
   }
 ]

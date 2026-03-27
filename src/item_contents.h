@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <functional>
 #include <list>
-#include <map>
 #include <optional>
 #include <set>
 #include <string>
@@ -145,6 +144,10 @@ class item_contents
         std::list<item *> all_known_contents();
         std::list<const item *> all_known_contents() const;
 
+        // returns all items contained in holster pockets
+        std::list<item *> all_holstered_items();
+        std::list<const item *> all_holstered_items() const;
+
         // returns all the ablative armor in pockets
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;
@@ -197,28 +200,46 @@ class item_contents
         /** Get the total weight capacity of all pockets. */
         units::mass total_container_weight_capacity( bool unrestricted_pockets_only = false ) const;
 
-        /**
-         * Get the total volume available to be used.
-         * Does not guarantee that an item of that size can be inserted.
-         */
-        units::volume total_container_capacity( bool unrestricted_pockets_only = false ) const;
+        /** Get the total volume capacity of pockets belonging to this item. */
+        units::volume volume_capacity( const std::function<bool( const item_pocket & )> &include_pocket =
+                                           item_pocket::ok_default_containers ) const;
+        /** Get the total remaining volume of pockets belonging to or nested inside this item which pass the 'include' predicate.
+        * Accounts for limits applied by this item's pockets, but not pockets this item is stored in.
+        * @param include_pocket if a pocket is checked, whether to include its volume
+        * @param check_pocket_tree if this returns false for a pocket, it and all its nested pockets will be excluded.
+        * @param out_volume_expansion amount the item would need to increase in volume to actually provide all the returned capacity. will be <= the return value.
+        *       this arg is mostly for recursive bookkeeping.
+        */
+        units::volume volume_capacity_recursive( const std::function<bool( const item_pocket & )>
+                &include_pocket,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
+        /** Get the sum of volumes of items in pockets belonging to this item. */
+        units::volume contents_volume( const std::function<bool( const item_pocket & )> &include_pocket =
+                                           item_pocket::ok_default_containers ) const;
+        /** Get the remaining volume of pockets belonging to this item. This does not account for the
+            that possibility the pockets cannot actually be expanded that much due to a parent pocket.*/
+        units::volume remaining_volume( const std::function<bool( const item_pocket & )> &include_pocket =
+                                            item_pocket::ok_default_containers ) const;
+        /** Get the total remaining volume of pockets belonging to or nested inside this item which pass the 'include' predicate.
+        * Accounts for limits applied by this item's pockets, but not pockets this item is stored in.
+        * @param include_pocket if a pocket is checked, whether to include its volume
+        * @param check_pocket_tree if this returns false for a pocket, it and all its nested pockets will be excluded.
+        * @param out_volume_expansion amount the item would need to increase in volume to use all the returned remaining volume. will be <= the return value.
+        *       this arg is mostly for recursive bookkeeping.
+        */
+        units::volume remaining_volume_recursive( const std::function<bool( const item_pocket & )>
+                &include_pocket,
+                const std::function<bool( const item_pocket & )> &check_pocket_tree,
+                units::volume &out_volume_expansion ) const;
         /**
          * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
          *
          * Useful for quick can_contain rejection.
          */
         units::volume biggest_pocket_capacity() const;
-
-        /** Get the total volume of every is_standard_type container. */
-        units::volume total_standard_capacity( bool unrestricted_pockets_only = false ) const;
-
-        units::volume remaining_container_capacity( bool unrestricted_pockets_only = false ) const;
-        units::volume total_contained_volume( bool unrestricted_pockets_only = false ) const;
         units::mass remaining_container_capacity_weight( bool unrestricted_pockets_only = false ) const;
         units::mass total_contained_weight( bool unrestricted_pockets_only = false ) const;
-        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
-        const;
 
         /** Get all holsters. */
         int get_used_holsters() const;
@@ -228,17 +249,19 @@ class item_contents
         units::mass get_total_holster_weight() const;
         units::mass get_used_holster_weight() const;
 
-        /** Get all CONTAINER/standard/ablative pockets in this item. */
-        std::vector<const item_pocket *> get_all_contained_pockets() const;
-        std::vector<item_pocket *> get_all_contained_pockets();
-        std::vector<const item_pocket *> get_all_standard_pockets() const;
-        std::vector<item_pocket *> get_all_standard_pockets();
-        std::vector<const item_pocket *> get_all_ablative_pockets() const;
-        std::vector<item_pocket *> get_all_ablative_pockets();
+        /** Get CONTAINER/standard/ablative pockets that are part of this item. */
+        std::vector<const item_pocket *> get_container_pockets() const;
+        std::vector<item_pocket *> get_container_pockets();
+        std::vector<const item_pocket *> get_standard_pockets() const;
+        std::vector<item_pocket *> get_standard_pockets();
+        std::vector<const item_pocket *> get_ablative_pockets() const;
+        std::vector<item_pocket *> get_ablative_pockets();
+        std::vector<const item_pocket *> get_container_and_mod_pockets() const;
+        std::vector<item_pocket *> get_container_and_mod_pockets();
         std::vector<const item_pocket *>
-        get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
+        get_pockets( const std::function<bool( const item_pocket & )> &filter ) const;
         std::vector<item_pocket *>
-        get_pockets( std::function<bool( item_pocket const & )> const &filter );
+        get_pockets( const std::function<bool( const item_pocket & )> &filter );
 
         /**
          * Called when adding an item as pockets to a molle item.
@@ -439,6 +462,8 @@ class item_contents
         std::vector<item> additional_pockets;
         // TODO make this work with non torso items
         units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
+        // Similar to additional_pockets_volume but respect volume_encumber_modifier of the pocket
+        units::volume additional_pockets_effective_volume = 0_ml; // NOLINT(cata-serialize)
 
         /** An abstraction for how many 'spaces' of this item have been used attaching additional pockets. */
         int additional_pockets_space_used = 0; // NOLINT(cata-serialize)

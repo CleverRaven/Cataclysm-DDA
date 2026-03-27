@@ -25,6 +25,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
+    "use_action": { "type": "holster" },
     "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
   }
 ]

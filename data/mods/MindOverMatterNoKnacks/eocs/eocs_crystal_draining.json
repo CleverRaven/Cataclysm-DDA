@@ -1,0 +1,47 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_CRYSTAL_DRAINING",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CRYSTAL_DRAINING",
+    "effect": [  ]
+  }
+]

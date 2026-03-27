@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EXODII_HATES_YOU",
+    "effect": [
+      { "math": [ "faction_like('exodii') = -100" ] },
+      { "math": [ "faction_respect('exodii') = -100" ] },
+      { "math": [ "faction_trust('exodii') = -100" ] }
+    ]
+  }
+]

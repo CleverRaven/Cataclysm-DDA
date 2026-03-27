@@ -85,11 +85,11 @@
         { "item": "crystallized_mana", "x": 20, "y": 13, "chance": 10 },
         { "item": "crystallized_mana", "x": 22, "y": 13, "chance": 10 },
         { "item": "crystallized_mana", "x": 20, "y": 14, "chance": 10 },
-        { "item": "crystallized_mana", "x": 22, "y": 14, "chance": 10 },
-        { "item": "crystallized_mana", "x": 20, "y": 15, "chance": 10 },
-        { "item": "crystallized_mana", "x": 22, "y": 15, "chance": 10 },
-        { "item": "crystallized_mana", "x": 20, "y": 16, "chance": 10 },
-        { "item": "crystallized_mana", "x": 22, "y": 16, "chance": 10 }
+        { "item": "crystallized_mana_raw", "x": 22, "y": 14, "chance": 10 },
+        { "item": "crystallized_mana_raw", "x": 20, "y": 15, "chance": 10 },
+        { "item": "crystallized_mana_raw", "x": 22, "y": 15, "chance": 10 },
+        { "item": "crystallized_mana_raw", "x": 20, "y": 16, "chance": 10 },
+        { "item": "crystallized_mana_raw", "x": 22, "y": 16, "chance": 10 }
       ],
       "place_items": [
         { "item": "enchanted_wands_disposable_combat", "x": 2, "y": 18, "chance": 40 },

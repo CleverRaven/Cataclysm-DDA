@@ -10,15 +10,18 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "cata_compiler_support.h"
 #include "cata_utility.h"
+#include "creature.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "make_static.h"
+#include "mapdata.h"
 #include "material.h"
+#include "monster.h"
 #include "math_parser_type.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -29,14 +32,17 @@
 #include "type_id.h"
 #include "units.h"
 
+static const itype_id itype_debug_item_search( "debug_item_search" );
+
 static std::pair<std::string, std::string> get_both( std::string_view a );
 
-template<typename Unit>
+template<typename Unit, size_t N>
 static std::function< bool( const item & )> can_contain_filter( std::string_view hint,
-        std::string_view filter, Unit max, std::vector<std::pair<std::string, Unit>> units,
+        std::string_view filter, Unit max, const std::array<std::pair<std::string_view, Unit>, N> &units,
         std::function<item( itype *, Unit u )> set_function )
 {
-    auto const error = [hint, filter]( char const *, size_t /* offset */ ) {
+    // TODO: LAMBDA_NORETURN_CLANG21x1 can be replaced with [[noreturn]] once we switch to C++23 on all compilers
+    auto const error = [hint, filter]( char const *, size_t /* offset */ ) LAMBDA_NORETURN_CLANG21x1 {
         throw math::runtime_error( _( string_format( hint, filter ) ) );
     };
     // Start at max. On convert failure: results are empty and user knows it is unusable.
@@ -49,7 +55,7 @@ static std::function< bool( const item & )> can_contain_filter( std::string_view
     // copy the debug item template (itype), put it on heap so the itype pointer doesn't move
     // TODO unique_ptr
     std::shared_ptr<itype> filtered_fake_itype = std::make_shared<itype>
-            ( *item_controller->find_template( STATIC( itype_id( "debug_item_search" ) ) ) );
+            ( *item_controller->find_template( itype_debug_item_search ) );
     item filtered_fake_item = set_function( filtered_fake_itype.get(), uni );
     // pass to keep filtered_fake_itype valid until lambda capture is destroyed (while item is needed)
     return [filtered_fake_itype, filtered_fake_item]( const item & i ) {
@@ -217,4 +223,58 @@ std::pair<std::string, std::string> get_both( std::string_view a )
     size_t split_mark = a.find( ';' );
     return std::pair( std::string( a.substr( 0, split_mark ) ),
                       std::string( a.substr( split_mark + 1 ) ) );
+}
+
+std::function<bool( const Creature & )> creature_filter_from_string(
+    const std::string &filter )
+{
+    return filter_from_string<Creature>( filter, basic_creature_filter );
+}
+
+std::function<bool( const Creature & )> basic_creature_filter( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+
+    switch( flag ) {
+        default:
+            return [filter]( const Creature & a ) {
+                std::string name = a.disp_name();
+                if( a.is_monster() ) {
+                    name = a.as_monster()->name();
+                }
+                return lcmatch( remove_color_tags( name ), filter );
+            };
+    }
+}
+
+std::function<bool( const map_data_common_t & )> terfurn_filter_from_string(
+    const std::string &filter )
+{
+    return filter_from_string<map_data_common_t>( filter, basic_terfurn_filter );
+}
+
+std::function<bool( const map_data_common_t & )> basic_terfurn_filter( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+
+    switch( flag ) {
+        default:
+            return [filter]( const map_data_common_t &a ) {
+                return lcmatch( remove_color_tags( a.name() ), filter );
+            };
+    }
 }

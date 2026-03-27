@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_artifact_resonance_detection",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_perk_artifact_resonance_detection_active",
+            "effect": [
+              { "math": [ "_artifact_resonance = n_artifact_resonance()" ] },
+              { "math": [ "_your_total_resonance = u_artifact_resonance()" ] },
+              {
+                "u_message": { "str": "Exact resonance is <context_val:artifact_resonance>.", "//~": "NO_I18N" },
+                "type": "debug"
+              },
+              {
+                "u_message": { "str": "Your actual resonance is <context_val:your_total_resonance>.", "//~": "NO_I18N" },
+                "type": "debug"
+              },
+              {
+                "switch": { "math": [ "_artifact_resonance" ] },
+                "cases": [
+                  { "case": 0, "effect": { "u_message": "The artifact barely hums at all (resonance 0-250)." } },
+                  { "case": 251, "effect": { "u_message": "The artifact hums gently (resonance 251-750)." } },
+                  {
+                    "case": 751,
+                    "effect": { "u_message": "The artifact hums with a steady pulsing (resonance 751-1500)." }
+                  },
+                  {
+                    "case": 1501,
+                    "effect": { "u_message": "The artifact hums strongly and your skin tingles (resonance 1501-2500)." }
+                  },
+                  {
+                    "case": 2501,
+                    "effect": { "u_message": "The artifact hums loudly enough that it's almost vibrating (resonance 2501-5000)" }
+                  },
+                  {
+                    "case": 5001,
+                    "effect": { "u_message": "The artifact's hum drowns out all other sounds for a moment (resonance 5001+)" }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -7,7 +7,6 @@
     "weight": "258 g",
     "color": "white",
     "spoils_in": "1 d",
-    "container": "jug_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 70,
@@ -62,7 +61,6 @@
     "name": { "str_sp": "shelf stable milk" },
     "copy-from": "milk",
     "spoils_in": "7 d",
-    "container": "carton_sealed",
     "description": "This is milk that has been pasteurized at much higher temperatures than normal.  It tastes slightly different, but, unopened, will last far longer than regular milk.",
     "price": "50 cent",
     "price_postapoc": "1 USD 50 cent"
@@ -142,8 +140,18 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "fun": -7,
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "consumption_effect_on_conditions": [
+      {
+        "id": "EOC_BUTTER_NAUSEA",
+        "condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3" ] },
+        "effect": [
+          { "u_add_effect": "nausea", "duration": "10 minutes" },
+          { "u_message": "Ugh, you've been eating too much butter\u2026", "type": "bad" }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -151,6 +159,7 @@
     "id": "raw_butter",
     "name": { "str_sp": "raw butter" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "14 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -168,6 +177,7 @@
     "id": "ghee",
     "name": { "str_sp": "ghee" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "13500 mg",
     "spoils_in": "90 days",
     "container": "jar_glass_sealed",
@@ -178,7 +188,7 @@
     "material": [ "oil" ],
     "charges": 1,
     "phase": "liquid",
-    "flags": "ANIMAL_PRODUCT"
+    "flags": [ "ANIMAL_PRODUCT" ]
   },
   {
     "type": "ITEM",
@@ -224,7 +234,7 @@
     "charges": 1,
     "phase": "liquid",
     "fun": -12,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -234,7 +244,7 @@
     "copy-from": "cheese",
     "weight": "34 g",
     "spoils_in": "180 days",
-    "container": "wrapper",
+    "container": "cheese_wheel_wax",
     "quench": -5,
     "calories": 135,
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
@@ -426,7 +436,6 @@
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",
-    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,

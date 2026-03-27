@@ -181,6 +181,13 @@
     ]
   },
   {
+    "//": "This group is for NPCs were former experimental lab mutants.  This includes prisoners who were conscripted into the program and people who volunteered for something seemingly innocuous without knowing what they'd gotten themselves into.",
+    "type": "trait_group",
+    "id": "BG_survival_story_LAB_MUTANT",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Lab_Mutant_1" } ]
+  },
+  {
     "//": "This group is for NPCs that were left unusually emotionally or physically defenseless after the Cataclysm.",
     "type": "trait_group",
     "id": "BG_survival_story_VULNERABLE",

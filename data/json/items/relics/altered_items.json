@@ -106,7 +106,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "Hawaiian shirt" },
-    "description": "A slightly worn button-down shirt with a tropical pattern, straight out of the 80's.  You swear that every time you look away and look back, the pattern changes subtly."
+    "description": "A slightly worn button-down shirt with a tropical pattern, straight out of the 80's.  You swear that every time you look away and look back, the pattern changes subtly.",
+    "//": "delete shirt variants",
+    "variants": [  ]
   },
   {
     "id": "altered_badge",
@@ -121,15 +123,17 @@
     "copy-from": "sunglasses",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "pair of strange sunglasses", "str_pl": "pairs of strange sunglasses" },
-    "description": "A pair of thin, round sunglasses.  The tinted glass seems to reflect the same shade of baleful orange light no matter what light it reflects."
+    "name": { "str_sp": "strange sunglasses" },
+    "description": "A pair of thin, round sunglasses.  The tinted glass seems to reflect the same shade of baleful orange light no matter what light it reflects.",
+    "//": "delete sunglass variants",
+    "variants": [  ]
   },
   {
     "id": "altered_scissors",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "scissors",
-    "name": { "str": "pair of antique scissors", "str_pl": "pairs of antique scissors" },
+    "name": { "str_sp": "antique scissors" },
     "description": "A pair of ornately decorated steel scissors.  The handle is decorated with vicious-looking birds."
   },
   {
@@ -146,7 +150,9 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "varsity jacket" },
-    "description": "A jacket traditionally worn by school athletes.  The logo of the school has an oddly detailed fractal pattern that draws your eye in whenever you look at it."
+    "description": "A jacket traditionally worn by school athletes.  The logo of the school has an oddly detailed fractal pattern that draws your eye in whenever you look at it.",
+    "//": "delete jacket variants",
+    "variants": [  ]
   },
   {
     "id": "altered_apron",
@@ -154,6 +160,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "ambiguous apron" },
-    "description": "A long apron with a plain pattern on it.  Your eyes can't seem to decide what color it is."
+    "description": "A long apron with a plain pattern on it.  Your eyes can't seem to decide what color it is.",
+    "//": "delete apron variants",
+    "variants": [  ]
   }
 ]

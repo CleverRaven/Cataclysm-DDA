@@ -23,7 +23,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "protein_bar_evac", "prob": 60, "count": [ 2, 100 ] },
+      { "group": "protein_bar_box_small", "prob": 60, "count": [ 1, 8 ] },
       { "item": "toilet_paper", "count": [ 0, 10 ], "prob": 50 },
       { "group": "soap_packed", "count": [ 0, 1 ], "prob": 50 },
       { "item": "large_tent_kit", "count": [ 0, 3 ], "prob": 50 },
@@ -36,7 +36,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_medium",
-    "entries": [ { "item": "protein_bar_evac", "count": 100 } ]
+    "entries": [ { "group": "protein_bar_box_small", "count": 8 } ]
   },
   {
     "id": "bottle_pur_tablets",

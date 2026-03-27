@@ -27,7 +27,6 @@
 #include "game.h"
 #include "item.h"
 #include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -56,8 +55,11 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 
+static const efftype_id effect_absorbed_acidic( "absorbed_acidic" );
+static const efftype_id effect_absorbed_electric( "absorbed_electric" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_cramped_space( "cramped_space" );
@@ -90,6 +92,8 @@ static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
 
+static const mfaction_str_id monfaction_player( "player" );
+
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -120,13 +124,13 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return has_flag( mon_flag_NO_BREATHE );
     }
     if( ft.has_acid ) {
-        return has_flag( mon_flag_ACIDPROOF ) || flies();
+        return has_flag( mon_flag_ACIDPROOF ) || flies() || has_effect( effect_absorbed_acidic );
     }
     if( ft.has_fire ) {
         return has_flag( mon_flag_FIREPROOF );
     }
     if( ft.has_elec ) {
-        return has_flag( mon_flag_ELECTRIC );
+        return has_flag( mon_flag_ELECTRIC ) || has_effect( effect_absorbed_electric );
     }
     if( ft.immune_mtypes.count( type->id ) > 0 ) {
         return true;
@@ -147,6 +151,11 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
 {
     const std::vector<field_type_id> impassable_field_ids = here->get_impassable_field_type_ids_at( p );
+
+    if( here->has_flag( ter_furn_flag::TFLAG_MON_AVOID_STRICT, p ) ) {
+        return false;
+    }
+
     if( !here->passable_skip_fields( p ) || here->has_flag( ter_furn_flag::TFLAG_CLIMBABLE, p ) ||
         ( !impassable_field_ids.empty() &&
           !is_immune_fields( impassable_field_ids ) ) ) {
@@ -170,9 +179,33 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
         return false;
     }
+    // one dimensional creatures can ONLY move in their home dimension
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_X ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Y ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
+    if( has_flag( mon_flag_ONE_DIMENSIONAL_Z ) && (
+            !here->has_flag( ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z, p ) ||
+            // In the off chance a multidimensional vehicle enters a one dimensional tile
+            ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
+        ) ) {
+        return false;
+    }
 
     if( has_flag( mon_flag_AQUATIC ) && (
-            !here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+            !( here->has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ||
+               here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here->veh_at( p ) && !here->veh_at( pos_bub() ) )
         ) ) {
@@ -635,7 +668,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const mfaction_id actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
+    const mfaction_id actual_faction = friendly == 0 ? faction : monfaction_player;
     mon_plan.swarms = mon_plan.swarms && mon_plan.target == nullptr; // Only swarm if we have no target
     if( mon_plan.group_morale || mon_plan.swarms ) {
         tracker.for_each_reachable( *this, [actual_faction]( const mfaction_id & other ) {
@@ -938,7 +971,7 @@ void monster::move()
         return;
     }
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        stumble();
+        stumble_involuntary();
         moves = 0;
         return;
     }
@@ -983,7 +1016,7 @@ void monster::move()
             ( get_dest() == player_character.pos_abs() &&
               pos_abs().z() == player_character.pos_abs().z() ) ) {
             moves = 0;
-            stumble();
+            stumble_voluntary();
             return;
         }
     } else if( ( current_attitude == MATT_IGNORE && patrol_route.empty() ) ||
@@ -991,7 +1024,7 @@ void monster::move()
                    ( has_flag( mon_flag_KEEP_DISTANCE ) && !( current_attitude == MATT_FLEE ) ) )
                  && rl_dist( pos_abs(), get_dest() ) <= type->tracking_distance ) ) {
         moves = 0;
-        stumble();
+        stumble_voluntary();
         return;
     }
 
@@ -1121,11 +1154,19 @@ void monster::move()
         // Implement both avoiding obstacles and staggering.
         moved = false;
         float switch_chance = 0.0f;
-        const bool can_bash = bash_skill() > 0;
+        const bool can_bash = !bash_skill().empty();
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos_bub(), destination );
-        for( tripoint_bub_ms &candidate : squares_closer_to( pos_bub(), destination ) ) {
+        tripoint_bub_ms loc = pos_bub();
+        std::vector<tripoint_bub_ms> options = squares_closer_to( loc, destination );
+        if( destination.z() < loc.z() )  {
+            // HACK: Consider moving straight downward (because we might be flying!)
+            tripoint_bub_ms directly_below( loc.x(), loc.y(), loc.z() - 1 );
+            // EXTRA SUPER DUPER HACK: Put it at the front so it's checked first.
+            options.insert( options.begin(), directly_below );
+        }
+        for( tripoint_bub_ms &candidate : options ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1144,7 +1185,8 @@ void monster::move()
             }
             const tripoint_abs_ms candidate_abs = here.get_abs( candidate );
 
-            if( candidate.z() != pos_abs().z() ) {
+            const bool is_z_move = candidate.z() != pos_abs().z();
+            if( is_z_move ) {
                 bool can_z_move = true;
                 if( !here.valid_move( pos_bub(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
@@ -1191,7 +1233,8 @@ void monster::move()
                     continue;
                 }
                 const Attitude att = attitude_to( *target );
-                if( att == Attitude::HOSTILE ) {
+                if( att == Attitude::HOSTILE &&
+                    ( !is_z_move || here.on_matching_stairs( pos_bub(), candidate ) ) ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
@@ -1286,7 +1329,7 @@ void monster::move()
         }
     } else {
         moves = 0;
-        stumble();
+        stumble_voluntary();
         path.clear();
     }
     if( has_effect( effect_led_by_leash ) ) {
@@ -1503,7 +1546,7 @@ tripoint_bub_ms monster::scent_move()
         return { -1, -1, INT_MIN };
     }
 
-    const bool can_bash = bash_skill() > 0;
+    const bool can_bash = !bash_skill().empty();
     if( !fleeing && scent_here > smell_threshold ) {
         // Smell too strong to track, wander around
         sdirection.push_back( pos_bub() );
@@ -1546,15 +1589,15 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
     // I'm sure you can optimize this
     auto get_filtered_fieldcost = [&]( const field & field ) {
         int cost = 0;
-        // filter fields wethere they are ignored
-        for( const auto [field_id, field_entry] : field ) {
-            if( !is_immune_field( field_id ) ) {
-                const int mc = field_entry.get_intensity_level().move_cost;
+        // filter fields whether they are ignored
+        for( const std::pair<const int_id<field_type>, field_entry> &pair : field ) {
+            if( !is_immune_field( pair.first ) ) {
+                const int mc = pair.second.get_intensity_level().move_cost;
                 if( mc >= 0 ) {
                     cost += mc;
                 } else {
                     debugmsg( "%s cannot pass through field %s. monster::calc_movecost expects to be called with valid destination.",
-                              get_name(), field_id->get_name() );
+                              get_name(), pair.first->get_name() );
                     return -1;
                 }
             }
@@ -1621,7 +1664,8 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                       get_name(), veh ? veh->disp_name() : terrain.name() );
             return 0;
 
-        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
+        } else if( terrain.has_flag( ter_furn_flag::TFLAG_SWIMMABLE )  ||
+                   terrain.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER ) ) {
             if( swims() ) {
                 // swimmers dont care about terraincost/other effects.
                 // fish move as quickly as possible with a swimmod of 0.
@@ -1754,17 +1798,19 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         return false;
     }
 
+    // Note: Cramped space preventing movement is currently 'turned off', so the chance for them bashing is purposefully low
+    // This variable remains for maintenance purposes and the 1-in-1000 chance to prevent clang from complaining.
     const bool cramped = will_be_cramped_in_vehicle_tile( here, here.get_abs( p ) );
-    bool try_bash = !can_move_to( p ) || one_in( 3 ) || cramped;
+    bool try_bash = !can_move_to( p ) || one_in( 3 ) || ( cramped && one_in( 1000 ) );
     if( !try_bash ) {
         return false;
     }
 
-    if( bash_skill() <= 0 ) {
+    if( bash_skill().empty() ) {
         return false;
     }
 
-    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || cramped ) ) {
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( ter_furn_flag::TFLAG_ROAD, p ) ||
                            here.has_flag( ter_furn_flag::TFLAG_FLAT, p );
@@ -1773,34 +1819,48 @@ bool monster::bash_at( const tripoint_bub_ms &p )
         }
     }
 
-    int bashskill = group_bash_skill( p );
+    std::map<damage_type_id, int> bashskill = group_bash_skill( p );
     here.bash( p, bashskill );
     mod_moves( -get_speed() );
     return true;
 }
 
-int monster::bash_estimate() const
+std::map<damage_type_id, int> monster::bash_estimate() const
 {
-    int estimate = bash_skill();
+    std::map<damage_type_id, int> estimate = bash_skill();
     if( has_flag( mon_flag_GROUP_BASH ) ) {
         // Right now just give them a boost so they try to bash a lot of stuff.
         // TODO: base it on number of nearby friendlies.
-        estimate *= 2;
+        for( std::pair<const damage_type_id, int> &pr : estimate ) {
+            pr.second *= 2;
+        }
     }
     return estimate;
 }
 
-int monster::bash_skill() const
+std::map<damage_type_id, int> monster::bash_skill() const
 {
     return type->bash_skill;
 }
 
-int monster::group_bash_skill( const tripoint_bub_ms &target )
+static void add_map( std::map<damage_type_id, int> &to, const std::map<damage_type_id, int> &from,
+                     double divisor )
+{
+    for( const std::pair<const damage_type_id, int> &dam : from ) {
+        auto ret = to.emplace( dam.first, static_cast<int>( dam.second / divisor ) );
+        // add to existing, emplace had no effect
+        if( !ret.second ) {
+            ret.first->second += dam.second / divisor;
+        }
+    }
+}
+
+std::map<damage_type_id, int> monster::group_bash_skill( const tripoint_bub_ms &target )
 {
     if( !has_flag( mon_flag_GROUP_BASH ) ) {
         return bash_skill();
     }
-    int bashskill = 0;
+    std::map<damage_type_id, int> ret;
 
     // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
@@ -1832,15 +1892,26 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
         // If we made it here, the last monster checked was the candidate.
         monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
-        bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
+        add_map( ret, helpermon.bash_skill(), rl_dist( candidate, target ) );
     }
 
-    return bashskill;
+    return ret;
 }
 
 bool monster::attack_at( const tripoint_bub_ms &p )
 {
     const map &here = get_map();
+
+    // Aquatic monsters that are underwater should not be able to attack
+    // through the surface above them, except they may attack other monsters
+    // that are also underwater (fish fighting under the ice).
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
+        creature_tracker &creatures = get_creature_tracker();
+        monster *target_mon = creatures.creature_at<monster>( p );
+        if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
+            return false;
+        }
+    }
 
     if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
@@ -1849,7 +1920,8 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     Character &player_character = get_player_character();
     const bool sees_player = sees( here, player_character );
     // Targeting player location
-    if( p == player_character.pos_bub() ) {
+    if( p == player_character.pos_bub() &&
+        ( p.z() == pos_bub().z() || here.on_matching_stairs( pos_bub(), p ) ) ) {
         if( sees_player ) {
             return melee_attack( player_character );
         } else {
@@ -1876,7 +1948,11 @@ bool monster::attack_at( const tripoint_bub_ms &p )
         Creature::Attitude attitude = attitude_to( mon );
         // mon_flag_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( mon_flag_ATTACKMON ) ) {
-            return melee_attack( mon );
+            const bool attacked = melee_attack( mon );
+            if( attacked && get_player_view().sees( here, p ) ) {
+                g->draw_hit_mon( p, mon, mon.is_dead() );
+            }
+            return attacked;
         }
 
         return false;
@@ -1972,12 +2048,21 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
 
 
     //Check for moving into/out of water
-    bool was_water = underwater;
+    // Use map-based check for current location because `underwater` member
+    // always out-of-sync for monsters; was_water only affects messaging, not logic.
+    // This will remove tons of unnecessary msg.
+    bool was_water = is_likely_underwater( here );
     bool will_be_water =
         on_ground && (
             // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
-            has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
-        ) && here.is_divable( destination );
+            has_flag( mon_flag_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) ) ||
+            // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
+            ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
+        ) && ( here.is_divable( destination ) ||
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ||
+               // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
+               ( has_flag( mon_flag_AQUATIC ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
@@ -2043,6 +2128,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             const int rough_damage = rng( 1, 2 );
             if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos ) && !one_in( 4 ) &&
                 get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
+                here.bash( pos, sharp_damage ); // Moving through a sharp terrain also smashes the terrain, weakly.
                 apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
             }
             if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos ) && one_in( 6 ) &&
@@ -2278,11 +2364,30 @@ bool monster::push_to( const tripoint_bub_ms &p, const int boost, const size_t d
 }
 
 /**
- * Stumble in a random direction, but with some caveats.
+ * Wander in a random direction, without stepping into water (if not a swimmer)
+ * or into dangerious tiles (if has AVOID_DANGER flag)
  */
-void monster::stumble()
+void monster::stumble_voluntary()
 {
     add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble", name() );
+    stumble_base( true );
+}
+
+/**
+ * Forced stumble in a random direction
+ */
+void monster::stumble_involuntary()
+{
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble_involuntary", name() );
+    stumble_base( false );
+}
+
+
+/**
+ * Stumble in a random direction
+ */
+void monster::stumble_base( const bool is_voluntary )
+{
     // Only move every 10 turns.
     if( !one_in( 10 ) ) {
         return;
@@ -2297,28 +2402,42 @@ void monster::stumble()
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::below );
-            } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint::below );
-    if( here.valid_move( pos_bub(), below, false, true ) ) {
-        valid_stumbles.push_back( below );
+
+    // When forced to stumble, monsters can't stumble-walk downstairs
+    if( is_voluntary ) {
+        const tripoint_bub_ms below( pos_bub() + tripoint::below );
+        if( here.valid_move( pos_bub(), below, false, true ) ) {
+            valid_stumbles.push_back( below );
+        }
     }
 
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
+
+        // Stop zombies and other non-breathing monsters wandering INTO water
+        // (Unless they can swim/are aquatic)
+        // But let them wander OUT of water if they are there.
+        const bool avoiding_stepping_into_water = avoid_water &&
+                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() );
+
+
+        // If the stumble is voluntary (just moving around), don't step into water or known danger tiles
+        // If monster is made to stumble, they might walk into them even if they wouldn't normally
+        const bool safe_for_voluntary_step = !is_voluntary || ( !avoiding_stepping_into_water &&
+                                             know_danger_at( &here, dest ) );
+
+
         if( can_move_to( dest ) &&
-            //Stop zombies and other non-breathing monsters wandering INTO water
-            //(Unless they can swim/are aquatic)
-            //But let them wander OUT of water if they are there.
-            !( avoid_water &&
-               here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
-               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
+            safe_for_voluntary_step &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
                 break;
@@ -2335,8 +2454,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         return; // No effect
     }
 
-    if( is_hallucination() ) {
-        die( &here, nullptr );
+    if( hallucination_die( &here, nullptr ) ) {
         return;
     }
 
@@ -2368,7 +2486,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bodypart_id( "torso" ),
-                        damage_instance( STATIC( damage_type_id( "bash" ) ), static_cast<float>( type->size ) ) );
+                        damage_instance( damage_bash, static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->get_name() );
         }

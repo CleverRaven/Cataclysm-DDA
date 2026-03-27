@@ -300,8 +300,22 @@ class uilist // NOLINT(cata-xy)
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition();
-        bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+        struct scroll_amount {
+            enum { relative_wrapped, relative_clamped, absolute } type;
+            int qty;
+            static scroll_amount wrapped( int qty ) {
+                return {scroll_amount::relative_wrapped, qty};
+            };
+            static scroll_amount clamped( int qty ) {
+                return {scroll_amount::relative_clamped, qty};
+            };
+            static scroll_amount abs( int idx ) {
+                return {scroll_amount::absolute, idx};
+            };
+        };
+        bool scrollby( uilist::scroll_amount scrollby );
+        shared_ptr_fast<uilist_impl> query( bool loop = true, int timeout = 50,
+                                            bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -404,7 +418,7 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        int scroll_amount_from_action( const std::string &action );
+        scroll_amount scroll_amount_from_action( const std::string &action );
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
@@ -433,6 +447,7 @@ class uilist // NOLINT(cata-xy)
         std::optional<cataimgui::bounds> desired_bounds;
         bool desc_enabled = false;
 
+        std::string filter;
         bool filtering = false;
         bool filtering_nocase = false;
 
@@ -477,7 +492,6 @@ class uilist // NOLINT(cata-xy)
         weak_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup_imgui> filter_popup;
-        std::string filter;
 
         int max_entry_len = 0;
         int max_column_len = 0;

@@ -20,10 +20,18 @@ for message in diff["added"]:
     typos = set(spell_check(message))
     if len(typos) == 0:
         continue
-    message = message.replace('\n', "\\n")
+    long_message = len(message) > 125
+    message = message.replace("\n", "\\n")
+    bold_typos = []
     for typo in typos:
-        bold = "**" + typo + "**"
-        message = re.sub(re.escape(typo), lambda _: bold, message)
+        bold_typo = "**" + typo + "**"
+        if long_message:
+            bold_typos.append(bold_typo)
+        message = (
+            '"' + re.sub(re.escape(typo), lambda _: bold_typo, message) + '"'
+        )
+    if long_message:
+        message = " and ".join(bold_typos) + " in string: " + message
     errors.append(message)
 if errors:
     print("Spell checker encountered unrecognized words in the in-game text"

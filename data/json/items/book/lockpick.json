@@ -29,6 +29,12 @@
         "name": { "str": "E-Z Picking Manual", "str_pl": "copies of E-Z Picking Manual" },
         "description": "The combined experience of a few different locksmiths of how to do it properly, what skillset is required, and where it is legal to use it.  It says it comes with a DVD, but you can't find it anywhere nearby.",
         "//": "no info"
+      },
+      {
+        "id": "book_lockpick_4",
+        "name": { "str": "Locks, Safes, and Security", "str_pl": "copies of Locks, Safes, and Security" },
+        "description": "This book is a reference work intended for criminal investigators, locksmiths, security personnel, and similar professionals.  It details the history, development, and design of various forms of locks, keys, and other security equipment.",
+        "//": "0-398-07079-2"
       }
     ],
     "weight": "400 g",

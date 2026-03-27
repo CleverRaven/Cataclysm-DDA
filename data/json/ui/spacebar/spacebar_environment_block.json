@@ -1,15 +1,15 @@
 [
   {
-    "id": "enviroment_conditions_block",
+    "id": "environment_conditions_block",
     "type": "widget",
     "style": "layout",
-    "label": "1_enviroment block",
+    "label": "1_environment block",
     "arrange": "minimum_columns",
     "width": 58,
-    "widgets": [ "spacebar_separator_2", "enviroment_conditions_block_2", "spacebar_overmap_14x6_layout" ]
+    "widgets": [ "spacebar_separator_2", "environment_conditions_block_2", "spacebar_overmap_14x6_layout" ]
   },
   {
-    "id": "enviroment_conditions_block_2",
+    "id": "environment_conditions_block_2",
     "type": "widget",
     "style": "layout",
     "label": "environment block",

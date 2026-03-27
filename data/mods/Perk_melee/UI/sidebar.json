@@ -1,0 +1,279 @@
+[
+  {
+    "copy-from": "custom_sidebar",
+    "type": "widget",
+    "id": "custom_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_classic_sidebar",
+    "type": "widget",
+    "id": "legacy_classic_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "sidebar-mobile",
+    "type": "widget",
+    "id": "sidebar-mobile",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_compact_sidebar",
+    "type": "widget",
+    "id": "legacy_compact_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_labels_narrow_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_narrow_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "copy-from": "legacy_labels_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "structured_sidebar",
+    "type": "widget",
+    "id": "structured_sidebar",
+    "extend": { "widgets": [ "martial_mastery" ] }
+  },
+  {
+    "id": "martial_mastery",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "label": "Combat Style",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "martial_mastery_title", "style_stats", "poise" ]
+  },
+  {
+    "id": "martial_mastery_title",
+    "type": "widget",
+    "width": 8,
+    "style": "text",
+    "string": "Combat Stats:",
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "style_stats",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "label": "SHIELD",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "widgets": [ "tempo", "momentum", "insight" ]
+  },
+  {
+    "id": "tempo",
+    "type": "widget",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "tempo_3",
+        "text": " Tempo (3)",
+        "color": "white_red",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 2" ] }
+      },
+      {
+        "id": "tempo_2",
+        "text": " Tempo (2)",
+        "color": "light_gray",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 1" ] }
+      },
+      {
+        "id": "tempo_1",
+        "text": " Tempo (1)",
+        "color": "dark_gray",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 0" ] }
+      },
+      {
+        "id": "tempo",
+        "text": " Tempo (0)",
+        "color": "black",
+        "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') == 0" ] }, { "u_has_flag": "MELEE_PERK_TEMPO" } ] }
+      }
+    ]
+  },
+  {
+    "id": "momentum",
+    "type": "widget",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "momentum_6",
+        "text": " Momentum ",
+        "color": "light_green",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 4" ] }
+      },
+      {
+        "id": "momentum_4",
+        "text": " Momentum ",
+        "color": "light_cyan",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 3" ] }
+      },
+      {
+        "id": "momentum_3",
+        "text": " Momentum ",
+        "color": "cyan",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 2" ] }
+      },
+      {
+        "id": "momentum_2",
+        "text": " Momentum ",
+        "color": "light_blue",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 1" ] }
+      },
+      {
+        "id": "momentum_1",
+        "text": " Momentum ",
+        "color": "white",
+        "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 0" ] }
+      },
+      {
+        "id": "insight_0",
+        "text": "  Momentum  ",
+        "color": "black",
+        "condition": {
+          "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') == 0" ] }, { "u_has_flag": "MELEE_PERK_MOMENTUM" } ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "insight",
+    "type": "widget",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "insight_12",
+        "text": " ◉  △  ◉ ",
+        "color": "i_pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 499" ] }
+      },
+      {
+        "id": "insight_11",
+        "text": " ◉Insight◉ ",
+        "color": "i_pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 199" ] }
+      },
+      {
+        "id": "insight_10",
+        "text": " ◎Insight◎ ",
+        "color": "i_pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 149" ] }
+      },
+      {
+        "id": "insight_9",
+        "text": " ◯Insight◯ ",
+        "color": "i_pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 99" ] }
+      },
+      {
+        "id": "insight_8",
+        "text": "  Insight  ",
+        "color": "i_pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 79" ] }
+      },
+      {
+        "id": "insight_7",
+        "text": "  Insight  ",
+        "color": "i_magenta",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 49" ] }
+      },
+      {
+        "id": "insight_6",
+        "text": "  Insight  ",
+        "color": "red",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 29" ] }
+      },
+      {
+        "id": "insight_5",
+        "text": "  Insight  ",
+        "color": "pink",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 19" ] }
+      },
+      {
+        "id": "insight_4",
+        "text": "  Insight  ",
+        "color": "light_cyan",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 9" ] }
+      },
+      {
+        "id": "insight_3",
+        "text": "  Insight  ",
+        "color": "white",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 5" ] }
+      },
+      {
+        "id": "insight_2",
+        "text": "  Insight  ",
+        "color": "light_gray",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 1" ] }
+      },
+      {
+        "id": "insight_1",
+        "text": "  Insight  ",
+        "color": "dark_gray",
+        "condition": { "math": [ "u_effect_intensity('perk_insight') > 0" ] }
+      },
+      {
+        "id": "insight_0",
+        "text": "  Insight  ",
+        "color": "black",
+        "condition": { "and": [ { "math": [ "u_effect_intensity('perk_insight') == 0" ] }, { "u_has_flag": "MELEE_PERK_INSIGHT" } ] }
+      }
+    ]
+  },
+  {
+    "id": "poise",
+    "type": "widget",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "label": "Stance",
+    "clauses": [
+      {
+        "id": "poise_4",
+        "text": "▇▇▇ ▇▇▇ ▇▇▇ ▇▇▇",
+        "color": "light_green",
+        "condition": { "math": [ "u_poise == 4" ] }
+      },
+      {
+        "id": "poise_3",
+        "text": "▇▇▇ ▇▇▇ ▇▇▇    ",
+        "color": "light_cyan",
+        "condition": { "math": [ "u_poise == 3" ] }
+      },
+      {
+        "id": "poise_2",
+        "text": "▇▇▇ ▇▇▇            ",
+        "color": "cyan",
+        "condition": { "math": [ "u_poise == 2" ] }
+      },
+      {
+        "id": "poise_1",
+        "text": "▇▇▇                ",
+        "color": "white",
+        "condition": { "math": [ "u_poise == 1" ] }
+      },
+      {
+        "id": "poise_0",
+        "text": "    !BROKEN!    ",
+        "color": "red",
+        "condition": { "and": [ { "math": [ "u_poise == 0" ] }, { "u_has_flag": "MELEE_PERK_POISE" } ] }
+      }
+    ]
+  }
+]

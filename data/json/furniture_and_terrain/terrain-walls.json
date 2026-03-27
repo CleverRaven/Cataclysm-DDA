@@ -158,7 +158,9 @@
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -174,7 +176,17 @@
     "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "PERMEABLE",
+      "FLAMMABLE",
+      "PLACE_ITEM",
+      "INDOORS",
+      "AUTO_WALL_SYMBOL",
+      "THIN_OBSTACLE",
+      "MOUNTABLE",
+      "SHORT"
+    ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
@@ -206,7 +218,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -922,7 +936,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 5, 20 ] } ]
     }
   },
   {
@@ -938,7 +952,7 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
-      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 5, 40 ] } ]
     }
   },
   {
@@ -998,6 +1012,107 @@
       "ter_set": "t_null",
       "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container",
+    "copy-from": "t_abstract_wall_metal",
+    "name": "shipping container wall",
+    "description": "A shipping container made of corrugated weathering steel.",
+    "symbol": "#",
+    "color": "light_gray",
+    "bash": {
+      "str_min": 60,
+      "str_max": 350,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_black",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "black"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_white",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_red",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_green",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_green"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_blue",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_blue"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_light_cyan",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "light_cyan"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_magenta",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "magenta"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_brown",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "brown"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_pink",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "pink"
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_metal_shipping_container_yellow",
+    "copy-from": "t_wall_metal_shipping_container",
+    "color": "yellow"
   },
   {
     "type": "terrain",
@@ -1141,7 +1256,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1168,7 +1285,9 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
@@ -1214,7 +1333,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1232,7 +1353,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_chipped",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1249,7 +1372,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_broken",
-      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1270,7 +1395,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 50 ], "reduce_damage_laser": [ 10, 40 ], "destroy_damage": [ 40, 120 ] }
   },
@@ -1293,7 +1420,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1313,7 +1442,9 @@
       "ter_set": "t_wall_wattle_broken",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1331,7 +1462,9 @@
       "ter_set": "t_null",
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
     "connect_groups": "WALL",
@@ -1354,7 +1487,9 @@
       "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ]
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ]
   },
@@ -1569,6 +1704,7 @@
     "type": "terrain",
     "id": "t_reinforced_glass_lab",
     "copy-from": "t_reinforced_glass",
+    "description": "A thicker pane of glass with thin metal wires embedded throughout, strengthening the structural properties.  Still weaker than other types of walls, and not made to support a roof either.  Not the type of glass to stop a bullet, you realize.",
     "bash": {
       "str_min": 40,
       "str_max": 210,
@@ -1780,7 +1916,9 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -2066,7 +2204,11 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "field_stone", "count": [ 900, 980 ] }, { "item": "pebble", "count": [ 200, 380 ] } ]
+      "items": [
+        { "item": "field_stone", "count": [ 500, 800 ] },
+        { "item": "rock", "count": [ 200, 400 ] },
+        { "item": "pebble", "count": [ 100, 200 ] }
+      ]
     }
   },
   {
@@ -2080,7 +2222,17 @@
     "move_cost": 0,
     "coverage": 60,
     "examine_action": "chainfence",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE", "THIN_OBSTACLE", "CLIMBABLE", "BURROWABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "MINEABLE",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "BURROWABLE",
+      "PERMEABLE"
+    ],
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {
@@ -2089,7 +2241,11 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "rock", "count": [ 400, 480 ] }, { "item": "pebble", "count": [ 50, 120 ] } ]
+      "items": [
+        { "item": "field_stone", "count": [ 200, 300 ] },
+        { "item": "rock", "count": [ 200, 400 ] },
+        { "item": "pebble", "count": [ 100, 200 ] }
+      ]
     }
   },
   {

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <initializer_list>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -51,6 +52,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_ALWAYS_SEES_YOU,
             mon_flag_ALWAYS_VISIBLE,
             mon_flag_ANIMAL,
+            mon_flag_APPEARS_NEUTRAL,
             mon_flag_AQUATIC,
             mon_flag_ARTHROPOD_BLOOD,
             mon_flag_ATTACKMON,
@@ -66,6 +68,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_CAN_DIG,
             mon_flag_CAN_OPEN_DOORS,
             mon_flag_CLIMBS,
+            mon_flag_CLUMSY_ATTACKS,
             mon_flag_COMBAT_MOUNT,
             mon_flag_CONSOLE_DESPAWN,
             mon_flag_CONVERSATION,
@@ -91,6 +94,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
             mon_flag_FISHABLE,
+            mon_flag_FLASHBANGPROOF,
             mon_flag_FLIES,
             mon_flag_GOODHEARING,
             mon_flag_GRABS,
@@ -126,16 +130,21 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_NO_BREED,
             mon_flag_NO_FUNG_DMG,
             mon_flag_NO_NECRO,
+            mon_flag_ONE_DIMENSIONAL_X,
+            mon_flag_ONE_DIMENSIONAL_Y,
+            mon_flag_ONE_DIMENSIONAL_Z,
             mon_flag_PACIFIST,
             mon_flag_PARALYZEVENOM,
             mon_flag_PATH_AVOID_DANGER,
             mon_flag_PATH_AVOID_FALL,
             mon_flag_PATH_AVOID_FIRE,
             mon_flag_PAY_BOT,
+            mon_flag_PERMANENT_INVISIBILITY,
             mon_flag_PET_HARNESSABLE,
             mon_flag_PET_MOUNTABLE,
             mon_flag_PET_WONT_FOLLOW,
             mon_flag_PHOTOPHOBIC,
+            mon_flag_PLANT_BLOOD,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
@@ -164,6 +173,8 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SWARMS,
             mon_flag_SWIMS,
             mon_flag_TEEP_IMMUNE,
+            mon_flag_TRUESIGHT,
+            mon_flag_UNBREAKABLE_MORALE,
             mon_flag_VAMP_VIRUS,
             mon_flag_VENOM,
             mon_flag_WARM,
@@ -180,6 +191,7 @@ void set_mon_flag_ids()
     mon_flag_ALWAYS_SEES_YOU = mon_flag_id( "ALWAYS_SEES_YOU" );
     mon_flag_ALWAYS_VISIBLE = mon_flag_id( "ALWAYS_VISIBLE" );
     mon_flag_ANIMAL = mon_flag_id( "ANIMAL" );
+    mon_flag_APPEARS_NEUTRAL = mon_flag_id( "APPEARS_NEUTRAL" );
     mon_flag_AQUATIC = mon_flag_id( "AQUATIC" );
     mon_flag_ARTHROPOD_BLOOD = mon_flag_id( "ARTHROPOD_BLOOD" );
     mon_flag_ATTACKMON = mon_flag_id( "ATTACKMON" );
@@ -195,6 +207,7 @@ void set_mon_flag_ids()
     mon_flag_CAN_DIG = mon_flag_id( "CAN_DIG" );
     mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
     mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
+    mon_flag_CLUMSY_ATTACKS = mon_flag_id( "CLUMSY_ATTACKS" );
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
     mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
@@ -220,6 +233,7 @@ void set_mon_flag_ids()
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
     mon_flag_FISHABLE = mon_flag_id( "FISHABLE" );
+    mon_flag_FLASHBANGPROOF = mon_flag_id( "FLASHBANGPROOF" );
     mon_flag_FLIES = mon_flag_id( "FLIES" );
     mon_flag_GOODHEARING = mon_flag_id( "GOODHEARING" );
     mon_flag_GRABS = mon_flag_id( "GRABS" );
@@ -255,16 +269,21 @@ void set_mon_flag_ids()
     mon_flag_NO_BREED = mon_flag_id( "NO_BREED" );
     mon_flag_NO_FUNG_DMG = mon_flag_id( "NO_FUNG_DMG" );
     mon_flag_NO_NECRO = mon_flag_id( "NO_NECRO" );
+    mon_flag_ONE_DIMENSIONAL_X = mon_flag_id( "ONE_DIMENSIONAL_X" );
+    mon_flag_ONE_DIMENSIONAL_Y = mon_flag_id( "ONE_DIMENSIONAL_Y" );
+    mon_flag_ONE_DIMENSIONAL_Z = mon_flag_id( "ONE_DIMENSIONAL_Z" );
     mon_flag_PACIFIST = mon_flag_id( "PACIFIST" );
     mon_flag_PARALYZEVENOM = mon_flag_id( "PARALYZEVENOM" );
     mon_flag_PATH_AVOID_DANGER = mon_flag_id( "PATH_AVOID_DANGER" );
     mon_flag_PATH_AVOID_FALL = mon_flag_id( "PATH_AVOID_FALL" );
     mon_flag_PATH_AVOID_FIRE = mon_flag_id( "PATH_AVOID_FIRE" );
     mon_flag_PAY_BOT = mon_flag_id( "PAY_BOT" );
+    mon_flag_PERMANENT_INVISIBILITY = mon_flag_id( "PERMANENT_INVISIBILITY" );
     mon_flag_PET_HARNESSABLE = mon_flag_id( "PET_HARNESSABLE" );
     mon_flag_PET_MOUNTABLE = mon_flag_id( "PET_MOUNTABLE" );
     mon_flag_PET_WONT_FOLLOW = mon_flag_id( "PET_WONT_FOLLOW" );
     mon_flag_PHOTOPHOBIC = mon_flag_id( "PHOTOPHOBIC" );
+    mon_flag_PLANT_BLOOD = mon_flag_id( "PLANT_BLOOD" );
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
@@ -291,6 +310,8 @@ void set_mon_flag_ids()
     mon_flag_SWARMS = mon_flag_id( "SWARMS" );
     mon_flag_SWIMS = mon_flag_id( "SWIMS" );
     mon_flag_TEEP_IMMUNE = mon_flag_id( "TEEP_IMMUNE" );
+    mon_flag_TRUESIGHT = mon_flag_id( "TRUESIGHT" );
+    mon_flag_UNBREAKABLE_MORALE = mon_flag_id( "UNBREAKABLE_MORALE" );
     mon_flag_VAMP_VIRUS = mon_flag_id( "VAMP_VIRUS" );
     mon_flag_VENOM = mon_flag_id( "VENOM" );
     mon_flag_WARM = mon_flag_id( "WARM" );
@@ -331,7 +352,7 @@ mtype::mtype()
     harvest = harvest_list_human;
     decay = harvest_id::NULL_ID();
     luminance = 0;
-    bash_skill = 0;
+    bash_skill = {};
 
     aggro_character = true;
 
@@ -441,7 +462,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
-    if( made_of( material_veggy ) ) {
+    if( made_of( material_veggy ) || has_flag( mon_flag_PLANT_BLOOD ) ) {
         return fd_blood_veggy;
     }
     if( made_of( material_iflesh ) ) {
@@ -469,6 +490,16 @@ field_type_id mtype::gibType() const
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
     return fd_null;
+}
+
+int mtype::get_total_difficulty() const
+{
+    return difficulty;
+}
+
+int mtype::get_difficulty_adjustment() const
+{
+    return difficulty_adjustment;
 }
 
 itype_id mtype::get_meat_itype() const

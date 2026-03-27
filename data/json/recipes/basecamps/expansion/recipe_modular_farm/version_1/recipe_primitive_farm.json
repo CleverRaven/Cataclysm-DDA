@@ -66,7 +66,7 @@
     "blueprint_name": "Farm upgraded shed",
     "blueprint_requires": [ { "id": "fbmf_0" }, { "id": "faction_base_farm_1" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 36 ] ] ],
+    "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nails", 36, "LIST" ] ] ],
     "check_blueprint_needs": false
   },
   {
@@ -87,7 +87,7 @@
     "blueprint_provides": [ { "id": "reseeding" }, { "id": "farm_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_farm_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 2 ] ] ],
+    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nails", 176, "LIST" ] ], [ [ "glass_sheet", 2 ] ] ],
     "check_blueprint_needs": false
   }
 ]

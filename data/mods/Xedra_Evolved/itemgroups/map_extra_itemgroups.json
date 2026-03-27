@@ -76,6 +76,62 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "xe_nether_cult_artifact",
+    "subtype": "distribution",
+    "//": "Very small chance of a powerful, non-resonant artifact",
+    "entries": [
+      {
+        "group": "nether_cult_items_wielded",
+        "artifact": {
+          "procgen_id": "nether_cult_wield",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "nether_cult_items_wielded",
+        "artifact": {
+          "procgen_id": "nether_cult_wield",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "nether_cult_items_wielded",
+        "artifact": {
+          "procgen_id": "nether_cult_wield",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": false }
+        },
+        "prob": 1
+      },
+      {
+        "group": "nether_cult_items_worn",
+        "artifact": {
+          "procgen_id": "nether_cult_worn",
+          "rules": { "power_level": 1250, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      },
+      {
+        "group": "nether_cult_items_worn",
+        "artifact": {
+          "procgen_id": "nether_cult_worn",
+          "rules": { "power_level": 2500, "max_attributes": 6, "max_negative_power": -1500, "resonant": true }
+        },
+        "prob": 10
+      },
+      {
+        "group": "nether_cult_items_worn",
+        "artifact": {
+          "procgen_id": "nether_cult_worn",
+          "rules": { "power_level": 5000, "max_attributes": 8, "max_negative_power": -2500, "resonant": false }
+        },
+        "prob": 1
+      }
+    ]
+  },
+  {
     "type": "relic_procgen_data",
     "id": "spark_items",
     "//": "Needs to be adjusted and made specific to Xedra Inventor class powers that could be expected.  Remove this note after that is completed.",

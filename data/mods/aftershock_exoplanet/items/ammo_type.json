@@ -85,6 +85,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "30x200mm",
+    "name": "30x200mm railgun slug",
+    "default": "afs_30x200mm"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_5x50",
     "name": "5x50mm flechette",
     "default": "afs_5x50dart"

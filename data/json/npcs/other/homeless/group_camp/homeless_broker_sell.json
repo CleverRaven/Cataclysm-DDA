@@ -7,7 +7,7 @@
       { "group": "harddrugs", "prob": 70 },
       { "group": "preserved_food", "prob": 90 },
       { "group": "dry_goods", "prob": 90 },
-      { "group": "pet_food", "prob": 90 },
+      { "group": "pet_food_in_container", "prob": 90 },
       { "group": "SUS_pantry", "prob": 90 },
       { "group": "foodintincan", "prob": 90 },
       { "group": "cannedfood", "prob": 90 },

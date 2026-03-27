@@ -6,7 +6,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ],
       "yes": { "gendered_line": "Sorry I'd rather be left alone right now.", "relevant_genders": [ "npc" ] },
       "no": {
-        "gendered_line": "&A grim expression and deep sunken eyes imply some malady that can't be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor I'm wearing, I don't think I'll be needing it any more.  I-I'm just looking for someone to rid me of it",
+        "gendered_line": "&A grim expression and deep sunken eyes imply some malady that can't be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor I'm wearing, I don't think I'll be needing it any more.  I-I'm just looking for someone to rid me of it.\"",
         "relevant_genders": [ "npc" ]
       }
     },

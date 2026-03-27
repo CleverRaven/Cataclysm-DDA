@@ -73,7 +73,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "paint_brush", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "using": [ [ "paint", 2 ] ],
-    "components": [ [ [ "super_glue", 5 ] ], [ [ "scrap_dreamdross", 1 ] ] ]
+    "components": [ [ [ "glue_strong", 5 ] ], [ [ "scrap_dreamdross", 1 ] ] ]
   },
   {
     "type": "recipe",

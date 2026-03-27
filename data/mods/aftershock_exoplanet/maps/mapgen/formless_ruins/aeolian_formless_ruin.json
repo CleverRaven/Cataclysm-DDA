@@ -1,6 +1,12 @@
 [
   {
     "type": "mapgen",
+    "om_terrain": [ "afs_ruins_dynamic" ],
+    "weight": 3,
+    "object": { "predecessor_mapgen": "field" }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ "afs_formless_ruins_aeolian" ],
     "weight": 100,
     "object": {

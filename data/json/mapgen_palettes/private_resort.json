@@ -137,7 +137,7 @@
               { "prob": 100, "group": "snacks" },
               { "prob": 100, "group": "groce_condiment" },
               { "prob": 50, "group": "crate_wine" },
-              { "prob": 50, "group": "softdrinks_canned" },
+              { "prob": 50, "group": "soda_in_small_container" },
               { "prob": 50, "group": "crate_kitchen" },
               { "prob": 50, "group": "behindcounter" },
               { "prob": 50, "group": "foodintincan" },

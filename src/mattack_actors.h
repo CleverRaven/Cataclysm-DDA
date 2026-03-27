@@ -22,6 +22,13 @@ class Creature;
 class JsonObject;
 class monster;
 
+class invalid_mattack_actor : public mattack_actor
+{
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+        void load_internal( const JsonObject &, const std::string & ) override {}
+};
+
 class leap_actor : public mattack_actor
 {
     public:
@@ -71,6 +78,22 @@ class mon_spellcasting_actor : public mattack_actor
         void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class mon_eoc_actor : public mattack_actor
+{
+    public:
+        int range = 1;
+        bool allow_no_target = false;
+        std::vector<effect_on_condition_id> eoc;
+
+        mon_eoc_actor() = default;
+        ~mon_eoc_actor() override = default;
+
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+
 };
 
 struct grab {
@@ -140,6 +163,8 @@ class melee_actor : public mattack_actor
         bool attack_upper = true;
         grab grab_data;
         bool is_grab = false;
+        std::pair<int, int> attack_amount = {1, 1};
+        bool spread_damage = false;
 
         std::vector<effect_on_condition_id> eoc;
 
@@ -272,6 +297,22 @@ class gun_actor : public mattack_actor
         ~gun_actor() override = default;
 
         void load_internal( const JsonObject &obj, const std::string &src ) override;
+        bool call( monster & ) const override;
+        std::unique_ptr<mattack_actor> clone() const override;
+};
+
+class polymorph_special : public mattack_actor
+{
+    public:
+        mtype_id mon_id;
+        bool keep_speed = true;
+        bool keep_hp = true;
+        bool keep_anger = true;
+
+        polymorph_special() = default;
+        ~polymorph_special() override = default;
+
+        void load_internal( const JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };

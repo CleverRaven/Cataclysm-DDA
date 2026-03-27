@@ -20,7 +20,7 @@
     "damage": { "damage_type": "bullet", "amount": 2400, "armor_penetration": 600 },
     "range": 100,
     "recoil": 6000,
-    "effects": [ "EXPLOSIVE_ATGMHEAT", "NEVER_MISFIRES" ],
+    "effects": [ "EXPLOSIVE_ATGMHEAT" ],
     "melee_damage": { "bash": 1 }
   }
 ]

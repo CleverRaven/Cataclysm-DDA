@@ -206,18 +206,7 @@
     "furniture": [
       {
         "result": "f_rubble_rock",
-        "valid_furniture": [
-          "f_dirtmound_tall",
-          "f_dirtmound_shallow",
-          "f_dirtmound_pile_seed",
-          "f_dirtmound_pile_mature",
-          "f_dirtmound_shallow_seed",
-          "f_dirtmound_pile_harvest",
-          "f_dirtmound_pile_seedling",
-          "f_dirtmound_shallow_mature",
-          "f_dirtmound_shallow_harvest",
-          "f_dirtmound_shallow_seedling"
-        ],
+        "valid_furniture": [ "f_dirtmound_tall", "f_dirtmound_shallow" ],
         "message": "The pile of dirt hardens into a large pile of stones."
       }
     ]

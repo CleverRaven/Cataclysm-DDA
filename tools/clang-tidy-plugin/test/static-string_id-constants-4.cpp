@@ -1,6 +1,5 @@
 // RUN: %check_clang_tidy -allow-stdinc %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
-#include "make_static.h"
 #include "type_id.h"
 
 static const activity_id ACT_WASH( "ACT_WASH" );
@@ -23,8 +22,7 @@ void f0()
     // CHECK-MESSAGES: [[@LINE-1]]:9: warning: Temporary string_id instances with fixed content should be promoted to a static instance at global scope. [cata-static-string_id-constants]
     // CHECK-FIXES: g0( ACT_WASH );
 
-    // Don't mess with values inside STATIC macro calls
-    g1( STATIC( activity_id( "ACT_WASH" ) ) );
+    //TODO: This seems bad, we have NULL_ID sentinels for a reason?
     // Don't mess with values whose canonical name would be empty
     g1( bionic_id( "" ) );
 }

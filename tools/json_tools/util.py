@@ -163,7 +163,7 @@ class WhereAction(argparse.Action):
 
 
 def key_counter(data, where_fn_list):
-    """Count occurences of keys found in data {list of dicts}
+    """Count occurrences of keys found in data {list of dicts}
     that also match each where_fn_list {list of fns}.
 
     Returns a tuple of data.

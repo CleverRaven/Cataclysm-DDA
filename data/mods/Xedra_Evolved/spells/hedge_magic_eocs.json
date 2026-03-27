@@ -157,7 +157,7 @@
     "id": "EOC_HEDGE_CLAIRVOYANCE_CONE",
     "effect": [
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
-      { "math": [ "u_hp('head')", "-=", "1" ] },
+      { "math": [ "u_hp('head') -= 1" ] },
       { "u_cast_spell": { "id": "hedge_clairvoyance_cone_real", "hit_self": false }, "targeted": true }
     ]
   },
@@ -268,13 +268,14 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) *= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
+      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_SUBSUME_INTO_FORM" },
       { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
       {
         "u_run_inv_eocs": "random",
@@ -295,13 +296,14 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
+      { "run_eocs": "EOC_SHAPESHIFTING_ARMOR_CHECK_RETURN_ARMOR_TO_NORMAL" },
       {
         "run_eocs": [
           {
@@ -392,10 +394,10 @@
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
-          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true) /= 1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
       },
@@ -469,10 +471,12 @@
         { "material": "mc_steel", "wielded_only": true },
         { "material": "hc_steel", "wielded_only": true },
         { "material": "ch_steel", "wielded_only": true },
+        { "material": "qt_steel", "wielded_only": true },
         { "material": "lc_steel_chain", "wielded_only": true },
         { "material": "mc_steel_chain", "wielded_only": true },
         { "material": "hc_steel_chain", "wielded_only": true },
-        { "material": "ch_steel_chain", "wielded_only": true }
+        { "material": "ch_steel_chain", "wielded_only": true },
+        { "material": "qt_steel_chain", "wielded_only": true }
       ],
       "true_eocs": [
         {
@@ -719,6 +723,77 @@
         "if": { "math": [ "rand(1) == 1" ] },
         "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
         "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN",
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
+    "effect": [ "u_die", { "run_eocs": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN_CASTER", "alpha_talker": "npc" } ],
+    "false_effect": [
+      {
+        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.  Despite the sacrifice, nothing happens.  The temperature must be above freezing to call the rains.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CHICKEN_SACRIFICE_MAKE_RAIN_CASTER",
+    "//": "This is to swap talkers",
+    "effect": [
+      { "u_lose_effect": "effect_controlling_weather" },
+      {
+        "u_message": "With a quick cut, you slice the chicken's throat and, as you gut it and fill the corpse with the herbs, honey, and milk, you recite the names of the angels seven times.",
+        "type": "good"
+      },
+      { "math": [ "u_weather_change_limit = 3" ] },
+      { "math": [ "u_weather_stage_up_lower_bound = 120" ] },
+      { "math": [ "u_weather_stage_up_upper_bound = 480" ] },
+      { "u_add_effect": "effect_controlling_weather_rains", "duration": "6 hours" },
+      { "u_add_effect": "effect_controlling_weather", "duration": { "math": [ "rng(1800, 10800)" ] } },
+      {
+        "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+        "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_PREVENT_WILD_ANIMAL_ATTACKS",
+    "condition": "has_alpha",
+    "effect": [
+      { "math": [ "u_val('morale') -= 50" ] },
+      { "math": [ "u_val('anger') -= 50" ] },
+      { "u_add_effect": "effect_hedge_prevent_wild_animal_attacks", "duration": { "math": [ "rng(300, 900)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_PREVENT_WILD_ANIMAL_ATTACKS_EXPLOIT_PREVENTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "u_has_effect": "effect_hedge_prevent_wild_animal_attacks" },
+    "effect": [ { "math": [ "u_val('anger') += 100" ] }, { "u_lose_effect": "effect_hedge_prevent_wild_animal_attacks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WEARING_RAZIEL_PROTECTIVE_AMULET",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_hedge_magic_kamea_of_protection" },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 100 } },
+        "then": [
+          { "u_consume_item": "item_hedge_raziel_amulet_protection" },
+          {
+            "u_spawn_item": "item_hedge_raziel_amulet_protection_done",
+            "suppress_message": true,
+            "force_equip": true
+          }
+        ]
       }
     ]
   }

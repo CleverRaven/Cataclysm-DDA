@@ -5,26 +5,32 @@
     "text": [
       {
         "id": "LIXA_lab_files_1",
+        "name": "LIXA on-site staff notice",
         "text": "After last week's decompression event, all onsite personnel must find a spot on the weekly schedule for offsite transit and further testing.  This schedule will be rotated in five-hour blocks.  You may consider your requests for a timeline update to accommodate these interruptions already filed.  I'm working on it, people."
       },
       {
         "id": "LIXA_lab_files_2",
+        "name": "LIXA on-site staff notice",
         "text": "Personnel are reminded that unmonitored outside contact will result in disciplinary measures.  I understand that you are upset, but as has been stressed before, this is a temporary measure until the situation stabilizes."
       },
       {
         "id": "LIXA_lab_files_3",
+        "name": "LIXA on-site staff notice",
         "text": "The equipment malfunction has been resolved.  The return waveform was delayed by 39h 26m 12s.  Adjusting from beat frequency, this is a displacement of 4.24e10 km."
       },
       {
         "id": "LIXA_lab_files_4",
+        "name": "LIXA on-site staff notice",
         "text": "The phase difference between the cesium clocks on the device floor and at surface level has lowered to 6 seconds, suggesting a cyclic temporal displacement.  As the displacement remains under the caution threshold of 10 seconds, operation and maintenance will continue as normal."
       },
       {
         "id": "LIXA_lab_files_5",
+        "name": "LIXA on-site staff notice",
         "text": "After analysis, the signal extracted from the beat frequency run S2848 has been judged to be a statistical anomaly of the sort expected in exodimensional transit compressions.  Requests for testing halt have been denied.  I know it was spooky, but it didn't mean anything.  Stay focused."
       },
       {
         "id": "LIXA_lab_files_6",
+        "name": "LIXA on-site staff notice",
         "text": "The source of the testing wavelength shift has been identified.  A fault had developed in the vacuum casing of the laser chambers, allowing a small amount of ambient atmosphere in.  These were subsequently expanded on crossing the resonator threshold.  (I don't know what a stretched air molecule looks like either.)  Further tests awaiting approval."
       }
     ]
@@ -34,43 +40,31 @@
     "category": "LIXA_lab_notes",
     "text": [
       {
-        "name": "cyan postit 1",
+        "name": "cyan post-it note",
         "id": "lab_postit_LIXA_1",
         "text": "Word's in.  We're not DARPA funded anymore.  I don't know what that means.  Come talk to me, please."
       },
+      { "id": "lab_postit_LIXA_2", "text": "Coordinate distension not to exceed 7 steps under ANY CIRCUMSTANCES." },
       {
-        "name": "cyan postit 2",
-        "id": "lab_postit_LIXA_2",
-        "text": "Coordinate distension not to exceed 7 steps under ANY CIRCUMSTANCES."
-      },
-      {
-        "name": "cyan postit 3",
         "id": "lab_postit_LIXA_3",
         "text": "Mirror three's developed a nm fault again.  However we're machining them, we need them to do better."
       },
-      { "name": "cyan postit 4", "id": "lab_postit_LIXA_4", "text": "POKER NIGHT THURSDAY" },
+      { "id": "lab_postit_LIXA_4", "text": "POKER NIGHT THURSDAY" },
       {
-        "name": "cyan postit 5",
+        "name": "cyan post-it note",
         "id": "lab_postit_LIXA_5",
         "text": "New stuff's coming in.  It's inside the battery housings of the new soldering irons.  REMEMBER TO BURN THIS NOTE."
       },
+      { "id": "lab_postit_LIXA_6", "text": "There is an intricate pen drawing of a whale on this post-it note." },
       {
-        "name": "cyan postit 6",
-        "id": "lab_postit_LIXA_6",
-        "text": "There is an intricate pen drawing of a whale on this post-it note."
-      },
-      {
-        "name": "cyan postit 7",
         "id": "lab_postit_LIXA_7",
         "text": "Corporal Dickass is on the warpath about something.  For god's sake, keep your mouth SHUT during the debrief this week."
       },
       {
-        "name": "cyan postit 8",
         "id": "lab_postit_LIXA_8",
         "text": "This is a cartoony pen drawing of a pigtailed woman in a dirndl, smiling a gaptoothed grin while playing an accordion.  Underneath are the words 'LIXA PLAYS THE CLASSICS!!!'"
       },
       {
-        "name": "cyan postit 9",
         "id": "lab_postit_LIXA_9",
         "text": "I've got a keycard for the stairwell.  Meet me tonight, usual location.  REMEMBER TO BURN THIS NOTE."
       }
@@ -82,22 +76,27 @@
     "text": [
       {
         "id": "LIXA_mil_files_1",
+        "name": "LIXA military notice",
         "text": "Offsite leisure has been suspended for the duration of this change of command.  Leisure hours will not accrue during this time."
       },
       {
         "id": "LIXA_mil_files_2",
+        "name": "LIXA military notice",
         "text": "Protection of onsite research personnel is still considered a primary objective.  Termination of research personnel via action or negligence will be grounds for immediate discharge."
       },
       {
         "id": "LIXA_mil_files_3",
+        "name": "LIXA military notice",
         "text": "Deliveries of food and goods from civilian sources is being suspended as of Thursday, March 17th.  Offsite control has agreed to arrange one more handoff before suspension.  Personnel are advised to make it count."
       },
       {
         "id": "LIXA_mil_files_4",
+        "name": "LIXA military notice",
         "text": "In the interest of squad cohesion, all investigation into the perpetrators of Tuesday's incident has been suspended.  The new duty roster reflects an understanding that it will not, under any circumstances, be repeated.  The eggheads are not replaceable.  You are."
       },
       {
         "id": "LIXA_mil_files_5",
+        "name": "LIXA military notice",
         "text": "Effective immediately, all offsite transit has been suspended indefinitely."
       }
     ]

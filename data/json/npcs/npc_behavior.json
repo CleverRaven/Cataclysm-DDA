@@ -1,16 +1,67 @@
 [
   {
     "type": "behavior",
+    "id": "npc_decision",
+    "strategy": "fallback",
+    "children": [ "npc_combat", "npc_investigate", "npc_priorities" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_combat",
+    "strategy": "fallback",
+    "conditions": [ { "predicate": "npc_in_danger" } ],
+    "children": [ "npc_flee", "npc_fight" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_flee",
+    "conditions": [ { "predicate": "npc_should_flee" } ],
+    "goal": "flee"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_fight",
+    "conditions": [ { "predicate": "npc_has_target" } ],
+    "goal": "fight"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_investigate",
+    "conditions": [ { "predicate": "npc_has_sound_alerts" } ],
+    "goal": "investigate_sound"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_priorities",
+    "strategy": "utility",
+    "children": [ "npc_needs", "npc_duty" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_duty",
+    "strategy": "sequential",
+    "children": [ "npc_return_to_post" ],
+    "score": "npc_duty_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_return_to_post",
+    "conditions": [ { "predicate": "npc_displaced_from_post" } ],
+    "goal": "return_to_guard_pos"
+  },
+  {
+    "type": "behavior",
     "id": "npc_needs",
-    "strategy": "sequential_until_done",
-    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger" ]
+    "strategy": "utility",
+    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger", "npc_sleepiness" ]
   },
   {
     "type": "behavior",
     "id": "npc_homeostasis",
     "strategy": "fallback",
     "conditions": [ { "predicate": "npc_needs_warmth_badly" } ],
-    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ]
+    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ],
+    "score": "npc_warmth_urgency"
   },
   {
     "type": "behavior",
@@ -41,7 +92,8 @@
     "id": "npc_thirst",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_water_badly" } ],
-    "children": [ "npc_drink_water" ]
+    "children": [ "npc_drink_water" ],
+    "score": "npc_thirst_urgency"
   },
   {
     "type": "behavior",
@@ -54,12 +106,27 @@
     "id": "npc_hunger",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_food_badly" } ],
-    "children": [ "npc_eat_food" ]
+    "children": [ "npc_eat_food" ],
+    "score": "npc_hunger_urgency"
   },
   {
     "type": "behavior",
     "id": "npc_eat_food",
     "conditions": [ { "predicate": "npc_has_food" } ],
     "goal": "eat_food"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_sleepiness",
+    "strategy": "sequential",
+    "conditions": [ { "predicate": "npc_needs_sleep_badly" } ],
+    "children": [ "npc_go_to_sleep" ],
+    "score": "npc_sleepiness_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_go_to_sleep",
+    "conditions": [ { "predicate": "npc_can_sleep" } ],
+    "goal": "go_to_sleep"
   }
 ]

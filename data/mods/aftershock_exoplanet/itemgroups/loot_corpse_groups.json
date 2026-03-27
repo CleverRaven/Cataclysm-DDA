@@ -22,6 +22,25 @@
     ]
   },
   {
+    "id": "afs_ancient_corpse",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Someone who died concurrently with the Discontinuity or very shortly after.  No survival gear.",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "afs_corpse_old", "prob": 70 },
+          {
+            "collection": [ { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 }, { "item": "skull_human", "prob": 95 } ],
+            "prob": 30
+          }
+        ]
+      },
+      { "item": "afs_tattered_garment", "prob": 90 },
+      { "item": "afs_glass_AR_device", "prob": 5 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "afs_survivor_weapon_set",
     "subtype": "distribution",
@@ -65,5 +84,17 @@
       { "item": "afs_triple_stacker_pouch" },
       { "item": "bot_wraitheon_kaburaya", "prob": 20, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_old_imaginifer_laser",
+    "entries": [ { "group": "afs_any_laser_mag", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_old_imaginifer",
+    "entries": [ { "group": "afs_any_laser_mag", "prob": 10 } ]
   }
 ]

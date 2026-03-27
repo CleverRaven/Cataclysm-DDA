@@ -1,0 +1,123 @@
+[
+  {
+    "type": "attack_vector",
+    "id": "vector_bear_bite",
+    "limbs": [ "muzzle_bear" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_lupine_bite",
+    "limbs": [ "muzzle_lupine" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_reptile_bite",
+    "limbs": [ "muzzle_long" ],
+    "contact_area": [ "muzzle_long_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_rodent_bite",
+    "limbs": [ "muzzle_rodent" ],
+    "contact_area": [ "muzzle_rodent_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_rabbit_bite",
+    "limbs": [ "muzzle_rabbit" ],
+    "contact_area": [ "mouth_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_bird_peck",
+    "limbs": [ "beak_bird" ],
+    "contact_area": [ "beak_tip" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_bird_woodpecker_peck",
+    "limbs": [ "beak_woodpecker" ],
+    "contact_area": [ "beak_woodpecker_tip" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_crab_pincer",
+    "limbs": [ "crustacean_pincer_r" ],
+    "contact_area": [ "crustacean_pincer_claws_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_wing_slap",
+    "limbs": [ "arm_wing_bird_l", "arm_wing_bird_r" ],
+    "contact_area": [ "arm_wing_bird_lower_r", "arm_wing_bird_lower_l" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_vine_limb",
+    "limbs": [ "vine_limb_upper_r", "vine_limb_upper_l", "vine_limb_lower_r", "vine_limb_lower_l" ],
+    "contact_area": [ "vine_sublimb_ur", "vine_sublimb_ul", "vine_sublimb_lr", "vine_sublimb_ll" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_hoof_kick",
+    "limbs": [ "hoof_l", "hoof_r" ],
+    "contact_area": [ "hoof_sole_l", "hoof_sole_r", "hoof_wall_l", "hoof_wall_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_avian_talons",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_talons_l", "avian_talon_talons_r", "avian_talon_bottom_l", "avian_talon_bottom_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_digitigrade_paws",
+    "limbs": [ "animal_paw_l", "animal_paw_r" ],
+    "contact_area": [ "digitigrade_foot_toes_l", "digitigrade_foot_toes_r" ],
+    "limb_req": [ [ "leg", 2 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_avian_talons_rear",
+    "limbs": [ "avian_talon_l", "avian_talon_r" ],
+    "contact_area": [ "avian_talon_rear_l", "avian_talon_rear_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_sting",
+    "limbs": [ "tail_scorpion" ],
+    "contact_area": [ "tail_scorpion_stinger" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 2,
+    "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_thick",
+    "limbs": [ "tail_thick" ],
+    "contact_area": [ "tail_thick_center", "tail_thick_tip" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 4,
+    "bp_hp_limit": 50
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_tail_club",
+    "limbs": [ "tail_club" ],
+    "contact_area": [ "tail_club_center", "tail_club_club" ],
+    "strict_limb_definition": true,
+    "encumbrance_limit": 4,
+    "bp_hp_limit": 50
+  }
+]

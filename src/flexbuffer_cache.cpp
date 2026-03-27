@@ -326,6 +326,7 @@ class flexbuffer_disk_cache
 
             // Does the source file's mtime match what we cached previously
             if( source_mtime != disk_entry->second.mtime ) {
+#ifndef NO_STALE_DATA_WARN
                 std::string filepath_and_name = disk_entry->first;
                 // we use this as an exclusion condition. Configuration options can be changed all the time, we don't want to warn over those. Same for achievements.
                 bool stale_game_data = *root_relative_source_path.begin() != std::filesystem::u8path( "config" ) &&
@@ -341,6 +342,7 @@ class flexbuffer_disk_cache
                                                       filepath_and_name;
                     }
                 }
+#endif
                 // Cached flexbuffer on disk is out of date, remove it.
                 remove_file( disk_entry->second.flexbuffer_path.u8string() );
                 cached_flexbuffers_.erase( disk_entry );

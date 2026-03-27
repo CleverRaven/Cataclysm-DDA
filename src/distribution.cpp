@@ -74,6 +74,7 @@ struct binomial_distribution : int_distribution_impl {
     }
 
     int sample() override {
+        dist.reset();
         int distvalue = dist( rng_get_engine() );
         int rvalue = std::min( distvalue, bhi );
         rvalue = std::max( rvalue, blo );
@@ -100,6 +101,7 @@ struct poisson_distribution : int_distribution_impl {
     }
 
     int sample() override {
+        dist.reset();
         int rvalue = std::min( dist( rng_get_engine() ), bhi );
         rvalue = std::max( rvalue, blo );
         return rvalue;

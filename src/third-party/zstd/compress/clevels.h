@@ -11,7 +11,9 @@
 #ifndef ZSTD_CLEVELS_H
 #define ZSTD_CLEVELS_H
 
+#ifndef ZSTD_STATIC_LINKING_ONLY
 #define ZSTD_STATIC_LINKING_ONLY  /* ZSTD_compressionParameters  */
+#endif
 #include "../zstd.h"
 
 /*-=====  Pre-defined compression levels  =====-*/

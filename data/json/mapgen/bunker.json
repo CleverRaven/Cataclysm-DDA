@@ -208,7 +208,7 @@
   {
     "type": "item_group",
     "id": "bunker_basement_food",
-    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta", "prob": 50 } ]
+    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta_ingredients", "prob": 50 } ]
   },
   {
     "type": "item_group",

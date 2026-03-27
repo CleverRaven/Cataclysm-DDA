@@ -29,6 +29,24 @@ class character_oracle_t : public oracle_t
         status_t can_take_shelter( std::string_view ) const;
         status_t has_water( std::string_view ) const;
         status_t has_food( std::string_view ) const;
+        status_t needs_sleep_badly( std::string_view ) const;
+        status_t can_sleep( std::string_view ) const;
+        /**
+         * Top-level decision predicates (NPC-specific via dynamic_cast).
+         */
+        status_t in_danger( std::string_view ) const;
+        status_t should_flee( std::string_view ) const;
+        status_t has_target( std::string_view ) const;
+        status_t has_sound_alerts( std::string_view ) const;
+        status_t displaced_from_post( std::string_view ) const;
+        /**
+         * Score predicates for utility strategy (return 0-1 urgency).
+         */
+        float thirst_urgency( std::string_view ) const;
+        float hunger_urgency( std::string_view ) const;
+        float warmth_urgency( std::string_view ) const;
+        float sleepiness_urgency( std::string_view ) const;
+        float duty_urgency( std::string_view ) const;
     private:
         const Character *subject;
 };

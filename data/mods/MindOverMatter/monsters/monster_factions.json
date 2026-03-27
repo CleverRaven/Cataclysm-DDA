@@ -1,0 +1,21 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "silent_one",
+    "base_faction": "nether",
+    "neutral": [ "zombie" ],
+    "hate": [ "feral_psychic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "feral_psychic",
+    "base_faction": "zombie",
+    "by_mood": [ "silent_one" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "extend": { "neutral": [ "silent_one" ] }
+  }
+]

@@ -10,6 +10,8 @@
 
 class Character;
 class item;
+class JsonOut;
+class JsonValue;
 class json_talk_topic;
 class npc;
 class time_duration;
@@ -17,11 +19,16 @@ class time_duration;
 namespace talk_function
 {
 
+// anything that can be taught with training_activity_actor
+// only one of the given IDs should ever have contents
 struct teach_domain {
     skill_id skill;
     matype_id style;
     spell_id spell;
     proficiency_id prof;
+    std::string to_string() const;
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( const JsonValue &jsin );
 };
 
 void nothing( npc & );
@@ -60,6 +67,7 @@ void do_mopping( npc & );
 void do_read( npc & );
 void do_eread( npc & );
 void do_read_repeatedly( npc & );
+void do_study( npc & );
 void do_chop_plank( npc & );
 void do_vehicle_deconstruct( npc & );
 void do_vehicle_repair( npc & );

@@ -32,6 +32,20 @@
     "melee_damage": { "bash": 5, "cut": 3 }
   },
   {
+    "id": "crystallized_mana_raw",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "raw mana crystal" },
+    "description": "A large chunk of crystal, removed from a leyline nexus.  It requires alchemical processing to transform into crystallized mana.",
+    "weight": "10325 g",
+    "volume": "5 L",
+    "price": "50 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "material": [ "crystallized_mana" ],
+    "symbol": "=",
+    "color": "cyan"
+  },
+  {
     "id": "copper_infuser",
     "copy-from": "copper_bracelet",
     "type": "ITEM",
@@ -114,7 +128,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "smoking_result": "null",
     "price": "20 USD"
   },
   {
@@ -147,7 +161,8 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+    "light": 5,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glow_light_off",
@@ -220,6 +235,21 @@
     "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "melee_damage": { "stab": 7 }
+  },
+  {
+    "type": "ITEM",
+    "id": "demon_chitin_flux",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str_sp": "flux of demon chitin" },
+    "description": "Demon chitin turned into a paste like substance referred to as flux.  Used to create new; and fill in, repairing existing demon chitin items.",
+    "price": "10 USD",
+    "material": [ "demon_chitin" ],
+    "weight": "500 mg",
+    "volume": "1 ml",
+    "phase": "solid",
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "ITEM",

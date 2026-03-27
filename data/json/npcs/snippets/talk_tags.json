@@ -1,6 +1,16 @@
 [
   {
     "type": "snippet",
+    "category": "<punc>",
+    "//": "Random punctuation, dot, ellipsis or exclamation mark",
+    "text": [
+      { "text": { "ctxt": "punctuation", "str": "." } },
+      { "text": { "ctxt": "punctuation", "str": "!" } },
+      { "text": { "ctxt": "punctuation", "str": "…" } }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<punc.!>",
     "//": "Random punctuation, dot or exclamation mark",
     "text": [ { "text": { "ctxt": "punctuation", "str": "." } }, { "text": { "ctxt": "punctuation", "str": "!" } } ]
@@ -294,5 +304,29 @@
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ { "text": { "ctxt": "<granny_name_g>", "str": "child" } }, "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<pat_robo_nickname>",
+    "text": [
+      "Tin Tony",
+      "Wi-Fi",
+      "Bluetooth",
+      "Robocawp",
+      "Beep-Boop",
+      "Toastah",
+      "Clankah",
+      "Skinjob",
+      "HAL",
+      "WALL-E",
+      "3PO",
+      "Sparky",
+      "Transformah",
+      "Terminatah",
+      "Circuit Breakah",
+      "Tinfoil",
+      "Nuts'n'bolts",
+      "Neo"
+    ]
   }
 ]

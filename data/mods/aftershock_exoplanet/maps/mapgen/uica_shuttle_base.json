@@ -6,6 +6,12 @@
       [ "afs_uica_shuttle_base_x0y1z0", "afs_uica_shuttle_base_x1y1z0" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™™",
@@ -109,6 +115,12 @@
       [ "afs_uica_shuttle_base_x0y1z1", "afs_uica_shuttle_base_x1y1z1" ]
     ],
     "object": {
+      "faction_owner": [
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "UICA", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "UICA", "x": [ 24, 47 ], "y": [ 24, 47 ] }
+      ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "                                                ",

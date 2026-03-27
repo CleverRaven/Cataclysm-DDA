@@ -866,7 +866,7 @@
     "type": "ITEM",
     "category": "other",
     "id": "chopsticks",
-    "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
+    "name": { "str_sp": "chopsticks (pair)" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
     "flags": [ "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "symbol": "X",

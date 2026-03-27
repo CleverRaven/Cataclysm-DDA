@@ -44,6 +44,18 @@
         "name": { "str": "Ψ jumpsuit" },
         "description": "A black jumpsuit with white symbol \"Ψ\" on the back.",
         "weight": 1
+      },
+      {
+        "id": "xedra_jumpsuit_gamma",
+        "name": { "str": "γ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"γ\" on the back.",
+        "weight": 1
+      },
+      {
+        "id": "xedra_jumpsuit_chi",
+        "name": { "str": "χ jumpsuit" },
+        "description": "A black jumpsuit with white symbol \"χ\" on the back.",
+        "weight": 1
       }
     ]
   }

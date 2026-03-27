@@ -10,7 +10,7 @@
     "volume": "6500 ml",
     "material": [ "afs_steel" ],
     "symbol": "[",
-    "looks_like": "armguard_lightplate",
+    "looks_like": "armor_lc_armguard",
     "color": "light_gray",
     "warmth": 20,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],

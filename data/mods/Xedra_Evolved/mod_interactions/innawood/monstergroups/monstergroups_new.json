@@ -35,7 +35,7 @@
     "monsters": [
       { "monster": "mon_renfield", "weight": 200 },
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_vampire_moroi", "weight": 35 },
+      { "group": "GROUP_VAMPIRE_MOROI_TYPES", "weight": 35 },
       { "monster": "mon_vampire_strigoi", "weight": 25 },
       { "monster": "mon_vampire_strigoi", "weight": 5, "pack_size": [ 2, 4 ] },
       { "monster": "xe_mon_bat", "weight": 100, "pack_size": [ 2, 4 ] },

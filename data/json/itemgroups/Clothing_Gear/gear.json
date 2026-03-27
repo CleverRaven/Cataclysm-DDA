@@ -54,6 +54,31 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "papr_kit",
+    "items": [
+      { "item": "basic_papr_helmet" },
+      { "item": "basic_papr_belt_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "medium_battery_cell" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_papr_kit",
+    "items": [ { "item": "military_papr_mask" }, { "item": "military_papr_blower_off" }, { "group": "wrapped_gasmask_filter" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_papr_kit",
+    "items": [
+      { "item": "military_papr_mask" },
+      { "item": "molle_papr_blower_off" },
+      { "group": "wrapped_gasmask_filter" },
+      { "item": "modular_papr_strap" }
+    ]
+  },
+  {
     "id": "gasmask_bag_used",
     "type": "item_group",
     "subtype": "collection",
@@ -172,7 +197,8 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "box_of_batteries_random", "prob": 10 },
       { "group": "duct_tape_roll", "prob": 10 },
-      { "group": "superglue", "prob": 5 },
+      { "group": "glue_weak_domestic", "prob": 5 },
+      { "group": "glue_strong_domestic", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
@@ -297,7 +323,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
       { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
-      [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
   },

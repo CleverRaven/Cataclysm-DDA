@@ -9,9 +9,12 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "color.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "field_type.h"
 #include "type_id.h"
+
+class Creature;
 
 /**
  * An active or passive effect existing on a tile.
@@ -22,8 +25,9 @@ class field_entry
     public:
         field_entry() : type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) ), intensity( 1 ), age( 0_turns ),
             is_alive( false ) { }
-        field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
-            intensity( i ), age( a ), is_alive( true ) { }
+        field_entry( const field_type_id &t, const int i, const time_duration &a,
+                     effect_source source = effect_source() ) : type( t ),
+            intensity( i ), age( a ), causer( source ), is_alive( true ) { }
 
         nc_color color() const;
 
@@ -47,6 +51,14 @@ class field_entry
         // Allows you to modify the intensity of the current field entry.
         int set_field_intensity( int new_intensity );
         void mod_field_intensity( int mod );
+
+        // Get the creature responsible for this field (if any). May be nullptr.
+        Creature *get_causer() const;
+
+        void set_causer( effect_source source );
+
+        // Get direct access to the effect_source we're storing.
+        effect_source get_effect_source() const;
 
         /// @returns @ref age.
         time_duration get_field_age() const;
@@ -89,6 +101,8 @@ class field_entry
         int intensity;
         // The age, of the field effect. 0 is permanent.
         time_duration age;
+        // The creature responsible for this field, if any.
+        effect_source causer;
         // The time when the field will decay, initialized to 0.
         time_point decay_time;
         // True if this is an active field, false if it should be destroyed next check.
@@ -130,7 +144,7 @@ class field
          * @return false if the field_type_id already exists, true otherwise.
          */
         bool add_field( const field_type_id &field_type_to_add, int new_intensity = 1,
-                        const time_duration &new_age = 0_turns );
+                        const time_duration &new_age = 0_turns, effect_source source = effect_source() );
 
         /**
          * Removes the field entry with a type equal to the field_type_id parameter.

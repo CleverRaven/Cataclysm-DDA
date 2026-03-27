@@ -261,7 +261,8 @@
         "*************.~.********"
       ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
-      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover" }
+      "terrain": { "0": "t_region_soil", "b": "t_region_groundcover" },
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 12, "y": 7 } ]
     }
   },
   {
@@ -331,7 +332,8 @@
         "************************"
       ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
-      "terrain": { "0": "t_region_soil", "z": "t_region_soil" }
+      "terrain": { "0": "t_region_soil", "z": "t_region_soil" },
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 3, "y": 9 } ]
     }
   },
   {
@@ -400,7 +402,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ]
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 6, "y": 6 } ]
     }
   },
   {
@@ -469,7 +472,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ]
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "cabin_cellar_stairs", 1 ] ], "x": 5, "y": 8 } ]
     }
   },
   {
@@ -917,6 +921,41 @@
         }
       ],
       "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_cellar" ],
+    "//": "Used to clear out space to allow cellars to spawn without problems.",
+    "object": {
+      "fill_ter": "t_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_soil" }
     }
   }
 ]

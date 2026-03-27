@@ -44,7 +44,7 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
     {itype_id( "battery_motorbike" ), "Lead-acid"},
     {itype_id( "battery_motorbike_small" ), "Lead-acid"},
 
-    // These are in a seperate group because the car batteries might
+    // These are in a separate group because the car batteries might
     // end up being switched to something different.
     {itype_id( "large_storage_battery" ), "LiON"},
     {itype_id( "medium_storage_battery" ), "LiON"},
@@ -83,7 +83,7 @@ static const std::map<itype_id, std::string> battery_to_chemistry = {
 // Zinc-Manganese Dioxide
 // https://en.wikipedia.org/wiki/Energy_density_Extended_Reference_Table
 
-// Lithium/Iron Disulfide gravimetric energy density is picked from enerizer documentation
+// Lithium/Iron Disulfide gravimetric energy density is picked from Energizer documentation
 // https://data.energizer.com/pdfs/lithiuml91l92_appman.pdf
 // Volumetric is a lower bound from this article (560 Wh/L), rounded up to 600
 // https://www.sciencedirect.com/science/article/abs/pii/S2590116819300104

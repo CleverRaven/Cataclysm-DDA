@@ -8,10 +8,9 @@
     "description": "A high-density energy cell purposely made to power voltaic weaponry.",
     "weight": "20 g",
     "volume": "125 ml",
-    "price": "3 kUSD",
     "price_postapoc": "3 kUSD",
-    "flags": [ "MAG_COMPACT" ],
-    "capacity": 500,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
+    "capacity": 1500,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ]
   }
 ]

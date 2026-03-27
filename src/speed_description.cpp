@@ -28,6 +28,11 @@ void speed_description::load_speed_descriptions( const JsonObject &jo, const std
     speed_description_factory.load( jo, src );
 }
 
+void speed_description::finalize_all()
+{
+    speed_description_factory.finalize();
+}
+
 void speed_description::reset()
 {
     speed_description_factory.reset();

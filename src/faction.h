@@ -123,7 +123,6 @@ class faction_template
     private:
         explicit faction_template( const JsonObject &jsobj );
 
-
     public:
         static void load( const JsonObject &jsobj );
         static void check_consistency();
@@ -141,7 +140,16 @@ class faction_template
         // debug access to food supply
         cata::list<std::pair<time_point, nutrients>> &debug_food_supply();
 
+        // Returns (hopefully) translated version of the faction's name.
+        std::string get_name() const;
+        // TODO: Move to faction constructor?
+        void set_name( std::string new_name );
+
+    protected:
+        // TODO: Shouldn't this be a translation object...
         std::string name;
+
+    public:
         int likes_u;
         int respects_u;
         int trusts_u; // Determines which item groups are available for trading
@@ -154,6 +162,7 @@ class faction_template
         // Sorted list of nutrients and when they expire
         // The time_point == 0 mod 1_days, and calendar::turn_zero is non-perishable food
         cata::list<std::pair<time_point, nutrients>> _food_supply; //Total nutritional value held
+
     public:
         bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
         int wealth;  //Total trade currency

@@ -63,23 +63,22 @@
     "name": { "str": "protein ration" },
     "//": "Inspired by, but not based on, a true story",
     "description": "SoyPelusa ran a highly successful crowdfunding campaign for their signature protein bar, dubbed \"DaiZoom.\"\n\nA person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.\n\nNow, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
-    "weight": "150 g",
+    "weight": "180 g",
     "volume": "170 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "flags": [ "EDIBLE_FROZEN" ],
-    "healthy": -1,
-    "fun": -5,
-    "quench": -9,
+    "fun": -2,
+    "quench": -2,
     "material": [ "fruit", "veggy" ],
     "symbol": "%",
     "color": "green",
     "container": "wrapper_pr",
-    "calories": 400,
+    "calories": 800,
     "vitamins": [
-      [ "calcium", 30 ],
-      [ "iron", 30 ],
-      [ "vitC", 30 ],
+      [ "calcium", 32 ],
+      [ "iron", 32 ],
+      [ "vitC", 32 ],
       [ "bad_food", 5 ],
       [ "veggy_allergen", 1 ],
       [ "fruit_allergen", 1 ]
@@ -167,5 +166,144 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 18
+  },
+  {
+    "id": "protein_bar_zero",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": { "str": "protein bar" },
+    "description": "A dairy-free, nut-free, zero-allergen protein bar.",
+    "weight": "48 g",
+    "volume": "44 ml",
+    "price": "2 USD",
+    "price_postapoc": "20 cent",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": 6,
+    "quench": -2,
+    "material": [ "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "container": "wrapper_bar",
+    "calories": 250,
+    "spoils_in": "420 days",
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ],
+    "//": "Flavors inspired by No Nuts! protein bars",
+    "variants": [
+      {
+        "id": "chips",
+        "name": "protein bar",
+        "description": "This one is drizzled with chocolate and chocolate chips on top.",
+        "append": true,
+        "weight": 12
+      },
+      {
+        "id": "vanilla",
+        "name": "protein bar",
+        "description": "This one is vanilla flavored.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "cinnamon",
+        "name": "protein bar",
+        "description": "This one is flavored like a cinnamon roll.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "caramel",
+        "name": "protein bar",
+        "description": "This one is bound together by caramel, and has a chocolate coated underside.",
+        "append": true,
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "protein_bar_peanut",
+    "copy-from": "protein_bar_zero",
+    "description": "A dairy-free protein bar.  Contains peanuts.",
+    "vitamins": [ [ "iron", 10 ], [ "nut_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "//": "Flavors inspired by Perfect Bar",
+    "variants": [
+      {
+        "id": "chocolate",
+        "name": "protein bar",
+        "description": "This one is full of smooth peanut butter, with an outer coating of chocolate.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "chips",
+        "name": "protein bar",
+        "description": "This one is a mix of chocolate chips and peanut butter.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "pb",
+        "name": "protein bar",
+        "description": "This one is mostly just plain peanut butter that's been heavily sweetened.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "cookie",
+        "name": "protein bar",
+        "description": "This one has the soft consistency of cookie dough, filled with chocolate chips.",
+        "append": true,
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "protein_bar_milk",
+    "copy-from": "protein_bar_zero",
+    "description": "A nut-free protein bar.  Contains whey.",
+    "material": [ "fruit", "veggy" ],
+    "vitamins": [ [ "calcium", 10 ], [ "milk_allergen", 1 ], [ "fruit_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "//": "Flavors inspired by Quest Nutrition protein bars",
+    "variants": [
+      {
+        "id": "strawberry",
+        "name": "protein bar",
+        "description": "This one is flavored like strawberry shortcake, with a pink drizzle over a white coating.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "raspberry",
+        "name": "protein bar",
+        "description": "This one is white chocolate raspberry flavored, with a red and white coating.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "blueberry",
+        "name": "protein bar",
+        "description": "This one is flavored like a blueberry muffin.  You can see dried blueberries throughout the bar.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "lemon",
+        "name": "protein bar",
+        "description": "This one is flavored like lemon cake, with a sugary white drizzle over a yellow coating.",
+        "append": true,
+        "weight": 6
+      },
+      {
+        "id": "bday",
+        "name": "protein bar",
+        "description": "This one has a white coating covered in sprinkles to resemble a birthday cake.  Happy birthday?",
+        "append": true,
+        "weight": 1
+      }
+    ]
   }
 ]

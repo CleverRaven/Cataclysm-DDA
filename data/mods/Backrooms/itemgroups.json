@@ -134,7 +134,7 @@
       { "group": "magazines", "prob": 50 },
       { "group": "manuals_school", "prob": 50 },
       { "group": "pantry_liquids", "prob": 75 },
-      { "group": "pasta", "prob": 60 },
+      { "group": "pasta_ingredients", "prob": 60 },
       { "group": "cannedfood", "prob": 100 },
       { "group": "big_canned_food", "prob": 80 },
       { "group": "dry_goods", "prob": 100 },

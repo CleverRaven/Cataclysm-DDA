@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+*Contents*
+
+- [Proficiencies](#proficiencies)
+  - [Skills and proficiencies](#skills-and-proficiencies)
+  - [Proficiency trees or graphs](#proficiency-trees-or-graphs)
+  - [Effects of gaining proficiency](#effects-of-gaining-proficiency)
+  - [Proficiency categories](#proficiency-categories)
+  - [Definition](#definition)
+    - [JSON fields](#json-fields)
+    - [time multiplier and skill penalty](#time-multiplier-and-skill-penalty)
+    - [bonuses](#bonuses)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Proficiencies
 
 Proficiencies are specializations or fields of expertise a character may have. Having a proficiency

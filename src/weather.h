@@ -10,6 +10,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "pimpl.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather_gen.h"
@@ -114,6 +115,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
+bool can_creature_see_sky( const Creature &target );
 void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
@@ -166,13 +168,10 @@ std::string get_wind_desc( double );
 nc_color get_wind_color( double );
 
 /**
- * Is it warm enough to plant seeds?
- *
- * The first overload is in map-square coords, the second for larger scale
- * queries.
+ * Is it warm enough to plant seeds? Will it be warm enough during the type's grow periods?
+ * Also includes check for whether the tile is exposed to sunlight.
  */
-bool warm_enough_to_plant( const tripoint_bub_ms &pos );
-bool warm_enough_to_plant( const tripoint_abs_omt &pos );
+ret_val<void> warm_enough_to_plant( const tripoint_bub_ms &pos, const itype_id &it );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
 
@@ -186,12 +185,20 @@ void glare( const weather_type_id &w );
  */
 float incident_sunlight( const weather_type_id &wtype,
                          const time_point &t = calendar::turn );
+// Apply weather and time of day to the moonlight.
+float incident_moonlight( const weather_type_id &wtype,
+                          const time_point &t = calendar::turn );
 
 /* Amount of irradiance (W/m2) at ground after weather modifications */
 float incident_sun_irradiance( const weather_type_id &wtype,
                                const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
+
+struct omt_snow_state {
+    double depth_mm = 0;
+    time_point last_update = calendar::turn;
+};
 
 class weather_manager
 {
@@ -200,6 +207,10 @@ class weather_manager
         const weather_generator &get_cur_weather_gen() const;
         // Updates the temperature and weather patten
         void update_weather();
+        // Incrementally update snow depth at the player's current OMT
+        void update_snow_depth();
+        // Snow depth in mm at a given OMT (0 if no data)
+        double get_snow_depth_mm( const tripoint_abs_omt &omt_pos ) const;
         // The air temperature
         units::temperature temperature = 0_K;
         bool lightning_active = false;
@@ -207,6 +218,8 @@ class weather_manager
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+        // whether the last update_weather() resulted in `weather_id` changing
+        bool weather_changed = false;
 
         // For debug menu option "Force temperature"
         std::optional<units::temperature> forced_temperature;
@@ -221,10 +234,18 @@ class weather_manager
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint_bub_ms, units::temperature > temperature_cache;
-        // Returns outdoor or indoor temperature of given location
+        // Per-OMT snow depth state, updated incrementally
+        std::unordered_map< tripoint_abs_omt, omt_snow_state > snow_depth_map;
+        /*
+        * Returns current temperature of given tile. Includes temperature modifications from
+        * radiative and convective sources, such as fires or hot air from heaters.
+        */
         units::temperature get_temperature( const tripoint_bub_ms &location );
-        // Returns outdoor or indoor temperature of given location
-        units::temperature get_temperature( const tripoint_abs_omt &location ) const;
+        /*
+        * Returns temperature of given OMT. Does not include any modifications from local sourecs,
+        * this is essentially the "natural" temperature.
+        */
+        units::temperature get_area_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
         static void serialize_all( JsonOut &json );
         static void unserialize_all( const JsonObject &w );

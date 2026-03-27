@@ -238,6 +238,11 @@
       "effect_vitakinetic_healing_down",
       "psi_vitakinetic_degeneration",
       "pigeon_aura",
+      "effect_feral_heightened_senses",
+      "effect_feral_heightened_senses_2",
+      "effect_feral_heightened_senses_3",
+      "effect_feral_combat_sense_2",
+      "effect_feral_combat_sense_3",
       "effect_feral_regeneration",
       "effect_telepath_network_monster_effect",
       "effect_monster_neuro_acceleration",
@@ -260,16 +265,6 @@
     "apply_message": "You're in so much pain you can't concentrate to use your powers!",
     "rating": "bad",
     "flags": [ "NO_PSIONICS" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_psi_reduced_breathing",
-    "name": [ "Short of Breath" ],
-    "desc": [ "You're having a hard time getting enough air." ],
-    "remove_message": "You finally manage to catch your breath",
-    "base_mods": { "cough_chance": [ 20 ], "cough_tick": [ 120 ] },
-    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.5 }, { "limb_score": "lift", "modifier": 0.8 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -367,7 +362,7 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.5 }, { "limb_score": "night_vis", "modifier": 0.5 } ],
     "base_mods": { "hit_mod": [ -2 ] },
-    "flags": [ "MYOPIC_IN_LIGHT", "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "MYOPIC_SUPERNATURAL", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

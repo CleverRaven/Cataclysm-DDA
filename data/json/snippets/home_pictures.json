@@ -241,7 +241,9 @@
       { "id": "grad_base_03", "text": "a gently smiling but still reserved <character_gender_adjective>" },
       { "id": "grad_base_04", "text": "a nervous <character_gender_adjective>" },
       { "id": "grad_base_05", "text": "a vaguely sleepy-looking <character_gender_adjective>" },
-      { "id": "grad_base_06", "text": "a bespectacled <character_gender_adjective>" }
+      { "id": "grad_base_06", "text": "a bespectacled <character_gender_adjective>" },
+      { "id": "grad_base_07", "text": "a smugly grinning <character_gender_adjective>" },
+      { "id": "grad_base_08", "text": "a startled and blinking <character_gender_adjective>" }
     ]
   },
   {
@@ -294,7 +296,7 @@
       { "id": "dog_breed_02", "text": "bulldog" },
       { "id": "dog_breed_03", "text": "chihuahua" },
       { "id": "dog_breed_04", "text": "corgi" },
-      { "id": "dog_breed_05", "text": "labrador" },
+      { "id": "dog_breed_05", "text": "Labrador" },
       { "id": "dog_breed_06", "text": "pitbull" }
     ]
   }

@@ -4,7 +4,11 @@
 
 #include <cmath> // IWYU pragma: keep
 #include <ostream>
+
+#include <stdint.h>
+
 #include "map_scale_constants.h"
+#include "point.h"
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
 constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
@@ -50,7 +54,30 @@ constexpr inline int LIGHT_RANGE( float b )
                              LIGHT_TRANSPARENCY_OPEN_AIR ) );
 }
 
-enum class lit_level : int {
+// Per-tile accumulated light color energy (float RGB).
+// Stored as raw energy, not display-ready; the renderer converts to uint8.
+struct light_color_rgb {
+    float r = 0.0f;
+    float g = 0.0f;
+    float b = 0.0f;
+    bool is_colored() const {
+        return r > 0.0f || g > 0.0f || b > 0.0f;
+    }
+    light_color_rgb &operator+=( const light_color_rgb &rhs ) {
+        r += rhs.r;
+        g += rhs.g;
+        b += rhs.b;
+        return *this;
+    }
+    light_color_rgb operator*( float scale ) const {
+        return { r * scale, g * scale, b * scale };
+    }
+
+    // Create from HSV. h in [0,360), s and v in [0,1].
+    static light_color_rgb from_hsv( float h, float s, float v );
+};
+
+enum class lit_level : uint8_t {
     DARK = 0,
     LOW, // Hard to see
     BRIGHT_ONLY, // bright but indistinct
@@ -82,5 +109,8 @@ inline std::ostream &operator<<( std::ostream &os, const lit_level &ll )
 {
     return os << static_cast<int>( ll );
 }
+
+// Exposed for testing: precomputed 2D integer euclidean distance.
+int trig_dist_2d( point delta );
 
 #endif // CATA_SRC_LIGHTMAP_H

@@ -18,7 +18,7 @@
     "time": "1 m",
     "difficulty": 0,
     "components": [ [ [ "archery_target_box", 1 ] ] ],
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_archery_target_box"
   },
   {
@@ -91,7 +91,7 @@
     "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
     "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_training_dummy_heavy"
   },
   {
@@ -106,7 +106,7 @@
     "components": [ [ [ "training_dummy_light", 1 ] ] ],
     "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
-    "pre_special": "check_down_OK",
+    "pre_special": [ "check_empty", "check_down_OK" ],
     "post_terrain": "f_training_dummy_light"
   },
   {
@@ -134,12 +134,11 @@
       [ [ "heavy_punching_bag_sack", 1 ] ],
       [ [ "nuts_bolts", 4 ] ],
       [ [ "chain", 4 ] ],
-      [ [ "blanket", 6 ] ],
+      [ [ "blanket", 6 ], [ "blanket_weighted", 5 ], [ "down_blanket", 6 ], [ "fur_blanket", 3 ] ],
       [ [ "material_sand", 4000 ] ],
       [ [ "duct_tape", 20 ] ]
     ],
-    "pre_flags": [ "INDOORS" ],
-    "pre_special": "check_empty",
+    "pre_special": [ "check_empty", "check_floor_above" ],
     "post_terrain": "f_punching_bag"
   }
 ]

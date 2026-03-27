@@ -1,0 +1,223 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_garage_scientist_1",
+    "name_unique": "Sebastian Smith",
+    "name_suffix": "Hub Scientist",
+    "class": "NC_ROBOFAC_SCIENTIST_GARAGE",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ROBOFAC_SCIENTIST_GARAGE",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_SCIENTIST_GARAGE",
+    "name": { "str": "Hub Scientist" },
+    "job_description": "A Hub 01 scientist.",
+    "common": false,
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_ROBOFAC_SCIENTIST_GARAGE_worn",
+    "weapon_override": "NC_ROBOFAC_SCIENTIST_GARAGE_wield",
+    "skills": [ { "skill": "firstaid", "bonus": 8 }, { "skill": "electronics", "bonus": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_GARAGE_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "socks" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "welding_papr_helmet_raised", "contents-item": [ "diving_flashlight_small_hipower" ] },
+      { "item": "basic_papr_belt_off" },
+      { "item": "coat_lab" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_GARAGE_wield",
+    "subtype": "collection",
+    "items": [ { "item": "red_pen" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE",
+    "dynamic_line": {
+      "u_has_faction_trust": 10,
+      "yes": "Good to see you.  What can I do for you?",
+      "no": {
+        "compare_string": [ "yes", { "u_val": "dialogue_robofac_scientist_garage_first_meet" } ],
+        "yes": "Got something for me?",
+        "no": "Ah, good, another independent contractor, right?  I take it you've heard about the bounty?"
+      }
+    },
+    "responses": [
+      {
+        "text": "Bounty?",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_BOUNTY",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_scientist_garage_first_meet" } ] } },
+        "effect": [ { "u_add_var": "dialogue_robofac_scientist_garage_first_meet", "value": "yes" } ]
+      },
+      {
+        "text": "I'm here to collect on the bounty.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_scientist_garage_first_meet" } ] }
+      },
+      {
+        "text": "How goes research?",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_RESEARCH_PROGRESS",
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_scientist_garage_first_meet" } ] }
+      },
+      { "text": "Nevermind.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE_BOUNTY",
+    "dynamic_line": "That's right, bounty.  No doubt you've heard of the aliens known as the \"Exodii\", right?  Big killer-robot-vibes, am I right?  Well, I've spun off an initiative adjacent to our Cybernetic Enhancements Program.  The basic strategy is simple: learn what we can, synergize with our strengths, and fight fire with fire.\n\nSo here's the play: I'm actively sourcing \"decommissioned\" Exodii hardware for teardown and reverse engineering.\n\nIt's simple: you bring inactivated Exodii here, and I'll pay you for each one.  Think of yourself as a citizen scientist, yeah?  A community R&D effort.\n\nSmall note, though.  None of those \"zomborg\" things - the walking corpses with devices jammed into them.  Another team is running that pipeline, and honestly, the signals out of that aren't so great.\n\nRight now, the highest value pickups are worker drones, the big four-legged robots, and turret platforms.  They're hard to come by, but trust me, I'll pay a good price.",
+    "responses": [ { "text": "I'll keep that in mind.  See you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII",
+    "dynamic_line": "Is that so?  What do you have?",
+    "responses": [
+      {
+        "text": "[1 HGC] I've brought you one of those workers.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_worker", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 1 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[2 HGC] I've brought you one of those quadrupeds.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_quad", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[2 HGC] I've brought you one of those turrets.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_turret", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_turret", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[4 HGC] I found this strange balloon robot.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_sniper_drone", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_sniper_drone", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 4 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      { "text": "Nevermind.  Let's talk about something else.", "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE" },
+      { "text": "Actually, I'd better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+    "dynamic_line": "Thanks, man.  Enjoy that.",
+    "responses": [
+      {
+        "text": "[1 HGC] I've also got one of those workers.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_worker", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_worker", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 1 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[2 HGC] I've also got one of those quadrupeds.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_quad", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_quad", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[2 HGC] I've also got one of those turrets.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_turret", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_turret", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      {
+        "text": "[4 HGC] I also found this strange balloon robot.",
+        "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE_SELL_EXODII_PAID",
+        "condition": { "u_has_items": { "item": "broken_exodii_sniper_drone", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_exodii_sniper_drone", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 4 },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+        ]
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE" },
+      { "text": "I'd better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ROBOFAC_SCIENTIST_GARAGE_RESEARCH_PROGRESS",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ],
+      "yes": {
+        "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ],
+        "yes": {
+          "math": [ "robofac_exodii_cbm_knowledge > 50" ],
+          "yes": "R&D is going well.  Maybe we'll have new products ready sometime soon.",
+          "no": "Research is ongoing.  Nothing new to report."
+        },
+        "no": "We've made some progress.  If you're keen to use our newest prototypes, I'd encourage you to see the Doc across the street.  Now we're looking for some cool military tech to synergize with the circuits I'm slapping together.  The intercom will have a relevant open contract, if they don't already."
+      },
+      "no": "Honestly?  I'm able to reverse engineer a lot of this tech, but I can't recreate it.  Our top engineers know what we need to fix the problem, and are looking for mercs to help us solve the problem.  Ask about contracts at the intercom."
+    },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_SCIENTIST_GARAGE" },
+      { "text": "I'd better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_SCIENTIST_GARAGE_ADVANCE_EXODII_CBM_KNOWLEDGE",
+    "//": "A counter that represents how much Hub 01 knows about CBMs.  It only starts once they have autodoc tech.  +1 if garage is spawned.  +1 if chop shop scientist is still alive.",
+    "recurrence": "48 hours",
+    "global": true,
+    "condition": { "and": [ { "math": [ "ancilla_autodoc_placed == 1" ] }, { "math": [ "robofac_exodii_cbm_knowledge <= 99" ] } ] },
+    "effect": [
+      {
+        "if": { "math": [ "robofac_chop_shop_scientist_1_is_dead != 1" ] },
+        "then": { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+      },
+      {
+        "if": { "math": [ "ancilla_bionic_garage_placed == 1" ] },
+        "then": { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
+      }
+    ]
+  }
+]

@@ -6,9 +6,11 @@
 #include <climits>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -20,10 +22,13 @@
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
+#include "weighted_list.h"
+#include "wound.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
+class time_duration;
 struct body_part_type;
 struct localized_comparator;
 template <typename E> struct enum_traits;
@@ -60,6 +65,11 @@ enum body_part : int {
     bp_foot_r,
     num_bp
 };
+
+inline auto format_as( body_part bp )
+{
+    return static_cast<std::underlying_type_t<body_part>>( bp );
+}
 
 template<>
 struct enum_traits<body_part> {
@@ -102,6 +112,7 @@ struct stat_hp_mods {
 struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
         static void reset();
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
@@ -132,6 +143,14 @@ struct limb_score {
 struct bp_limb_score {
     float score = 0.0f;
     float max = 0.0f;
+};
+
+struct bp_wounds {
+    wound_type_id id;
+    // damage type that can apply this specific wound
+    std::vector<damage_type_id> damage_type;
+    // how much damage one need to deal to apply this wound, min and max
+    std::pair<int, int> damage_required;
 };
 
 struct bp_onhit_effect {
@@ -165,37 +184,22 @@ struct bp_onhit_effect {
     void load( const JsonObject &jo );
 };
 
+struct bp_qualities_provided {
+
+    quality_id quality;
+    int level;
+    // 0-1, if limb HP is below this percentage, it is deactivated
+    float disable_percent = 0;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
          * the different types of body parts there are.
          * this allows for the ability to group limbs or determine a limb of a certain type
          */
-        enum class type {
-            // this is where helmets go, and is a vital part.
-            head,
-            // the torso is generally the center of mass of a creature
-            torso,
-            // provides sight
-            sensor,
-            // you eat and scream with this
-            mouth,
-            // may manipulate objects to some degree, is a main part
-            arm,
-            // manipulates objects. usually is not a main part.
-            hand,
-            // provides motive power
-            leg,
-            // helps with balance. usually is not a main part
-            foot,
-            // may reduce fall damage
-            wing,
-            // may provide balance or manipulation
-            tail,
-            // more of a general purpose limb, such as horns.
-            other,
-            num_types
-        };
 
         std::vector<std::pair<bodypart_str_id, mod_id>> src;
 
@@ -226,10 +230,12 @@ struct body_part_type {
         bodypart_str_id opposite_part;
 
         // A weighted list of limb types. The type with the highest weight is the primary type
-        std::map<body_part_type::type, float> limbtypes;
+        std::map<bp_type, float> limbtypes;
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        std::vector<bp_qualities_provided> qualities;
 
         // Effect to trigger on being winded
         efftype_id windage_effect;
@@ -314,11 +320,13 @@ struct body_part_type {
 
         // These limbs should be covered by armor covering this limb (1:1 coverage)
         // TODO: Coverage/Encumbrance multiplier
-        std::vector<bodypart_str_id> similar_bodyparts;
+        std::optional<bodypart_str_id> similar_bodypart;
+
+        weighted_int_list<bp_wounds> potential_wounds;
 
     private:
         int bionic_slots_ = 0;
-        body_part_type::type _primary_limb_type = body_part_type::type::num_types;
+        bp_type _primary_limb_type = bp_type::num_types;
         // Protection from various damage types
         resistances armor;
 
@@ -332,8 +340,8 @@ struct body_part_type {
         bool was_loaded = false;
 
         bool has_flag( const json_character_flag &flag ) const;
-        body_part_type::type primary_limb_type() const;
-        bool has_type( const body_part_type::type &type ) const;
+        bp_type primary_limb_type() const;
+        bool has_type( const bp_type &type ) const;
 
         // return a random sub part from the weighted list of subparts
         // if secondary is true instead returns a part from only the secondary sublocations
@@ -377,11 +385,8 @@ struct body_part_type {
         // this version just pairs normal body parts
         static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
                 &covered );
-};
 
-template<>
-struct enum_traits<body_part_type::type> {
-    static constexpr body_part_type::type last = body_part_type::type::num_types;
+        std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
 };
 
 struct layer_details {
@@ -455,6 +460,8 @@ class bodypart
 
         std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
 
+        std::vector<wound> wounds;
+
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
         float wound_adjusted_limb_value( float val ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
@@ -484,11 +491,6 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs( const Creature &mon ) const;
 
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_windage_effect() const;
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_no_power_effect() const;
-
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
@@ -498,6 +500,14 @@ class bodypart
                               int override_encumb = -1,
                               int override_wounds = -1 ) const;
         float get_limb_score_max( const limb_score_id &score ) const;
+
+        std::vector<wound> get_wounds() const;
+
+        void add_wound( const wound &wd );
+        void add_wound( wound_type_id wd );
+        bool has_wound( wound_type_id wd ) const;
+        void remove_wound( wound_type_id wd );
+        void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;
         int get_hp_max() const;

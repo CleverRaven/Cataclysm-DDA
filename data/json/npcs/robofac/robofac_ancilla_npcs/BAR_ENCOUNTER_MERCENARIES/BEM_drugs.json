@@ -66,7 +66,6 @@
     "type": "item_group",
     "id": "pure_meth_bag_zipper_1_6",
     "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
     "entries": [ { "item": "pure_meth", "container-item": "null", "count": [ 1, 6 ] } ]
   }

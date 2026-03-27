@@ -108,6 +108,18 @@
         "topic": "SKYISLAND_SERVICES"
       },
       {
+        "text": "Save me from danger.",
+        "effect": [
+          { "math": [ "u_spell_level('island_hostile_eviction') = 1" ] },
+          { "math": [ "u_spell_level('island_close_tear_and_portal') = 1" ] },
+          {
+            "u_message": "You now have the power to close holes in existence and banish hostiles from the island until your next expedition.",
+            "popup": true
+          }
+        ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
         "text": "View my expedition stats.",
         "effect": [ { "run_eocs": [ "EOC_statcheck" ] } ],
         "topic": "SKYISLAND_SERVICES"
@@ -246,6 +258,21 @@
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security5" } ],
         "topic": "SKYISLAND_UPGRADES_RAIDS"
       },
+      {
+        "text": "Challenge Mode",
+        "//": "Requires hardest missions unlocked, all bonus missions unlocked and at least stability 6 upgrade",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_challenge_mode" } },
+            { "math": [ "bonusmissions >= 5" ] },
+            { "math": [ "hardestmissions > 0" ] },
+            { "math": [ "bonuspulses >= 6" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_challenge_mode" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]
   },
@@ -262,6 +289,48 @@
           "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_sunblock" } }, { "not": { "u_has_trait": "mut_skyisland_sunblock" } } ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_sunblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
+        "text": "Unlock: Personal Radiation Shield",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_radblock" } }, { "not": { "u_has_trait": "mut_skyisland_radblock" } } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_radblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
+        "text": "Unlock: Personal Windblocker",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_windblock" } },
+            { "not": { "u_has_trait": "mut_skyisland_windblock" } }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_windblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
+        "text": "Unlock: Island-Side Resilience",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_island_steady" } },
+            { "not": { "u_has_trait": "mut_skyisland_island_steady" } }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_island_steady" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
+      },
+      {
+        "text": "Unlock: Personal Temperature Adjustement",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_personal_temperature_adaptation" } },
+            { "math": [ "skyisland_bunker_temperature_adaptation == 1" ] },
+            { "math": [ "skyisland_personal_temperature_adaptation == 0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_personal_temperature_adaptation" } ],
         "topic": "SKYISLAND_UPGRADES_TERRAFORM"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
@@ -315,6 +384,42 @@
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
+        "text": "Upgrade: Stability 5",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability5" } },
+            { "math": [ "bonuspulses == 4" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability5" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Stability 6",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability6" } },
+            { "math": [ "bonuspulses == 5" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability6" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Stability 7",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability7" } },
+            { "math": [ "bonuspulses == 6" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability7" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
         "text": "Upgrade: Scouting 1",
         "condition": {
           "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting1" } }, { "math": [ "scoutingdistancetargets == 0" ] } ]
@@ -360,6 +465,66 @@
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting5" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 6",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting6" } },
+            { "math": [ "scoutingdistancetargets == 10" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting6" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 7",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting7" } },
+            { "math": [ "scoutingdistancetargets == 14" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting7" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 8",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting8" } },
+            { "math": [ "scoutingdistancetargets == 18" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting8" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting Clairvoyance 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } },
+            { "math": [ "scoutingdistancetargets == 4" ] },
+            { "math": [ "scoutingclairvoyancetime < 10" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting Clairvoyance 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } },
+            { "math": [ "scouting_clairvoyance == 1" ] },
+            { "math": [ "scoutingclairvoyancetime == 20" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
@@ -411,6 +576,78 @@
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
+        "text": "Upgrade: Landing 6",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing6" } },
+            { "math": [ "scoutingdistancelanding == 24" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing6" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 7",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing7" } },
+            { "math": [ "scoutingdistancelanding == 32" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing7" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 8",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing8" } },
+            { "math": [ "scoutingdistancelanding == 40" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing8" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing Water-Walking",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_water_walking" } },
+            { "math": [ "landing_waterwalk == 0" ] },
+            { "math": [ "scoutingdistancelanding >= 16" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing_water_walking" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing Flight",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_flight" } },
+            { "math": [ "landing_flight == 0" ] },
+            { "math": [ "scoutingdistancelanding >= 20" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing_flight" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing Phasing",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_phase" } },
+            { "math": [ "landing_phase == 0" ] },
+            { "math": [ "scoutingdistancelanding >= 20" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing_phase" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
         "text": "Unlock: Slaughter Missions",
         "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_slaughter" } }, { "math": [ "slaughterunlocked == 0" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_slaughter" } ],
@@ -435,6 +672,30 @@
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
+        "text": "Unlock: Four Exits per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_exit3" } },
+            { "math": [ "bonusexits == 2" ] },
+            { "math": [ "islandrank >= 3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_exit3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Five Exits per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_exit4" } },
+            { "math": [ "bonusexits == 3" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_exit4" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
         "text": "Unlock: Expedition Missions",
         "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions1" } }, { "math": [ "bonusmissions == 0" ] } ] },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions1" } ],
@@ -456,6 +717,30 @@
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Four Missions per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions4" } },
+            { "math": [ "bonusmissions == 3" ] },
+            { "math": [ "islandrank >= 3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions4" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Five Missions per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions5" } },
+            { "math": [ "bonusmissions == 4" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions5" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
@@ -785,15 +1070,83 @@
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
-        "text": "One of my bunker constructions had an error.  Could you help me fix it?",
+        "text": "Construct: South Room 1",
         "condition": {
-          "or": [
-            { "math": [ "skyisland_build_bigroom >= 2" ] },
-            { "math": [ "skyisland_build_northroom >= 2" ] },
-            { "math": [ "skyisland_build_westroom >= 2" ] },
-            { "math": [ "skyisland_build_eastroom >= 2" ] }
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse1" } },
+            { "math": [ "skyisland_build_greenhouse == 0" ] },
+            { "math": [ "skyisland_build_base == 1" ] },
+            { "math": [ "islandrank >= 2" ] }
           ]
         },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse2" } },
+            { "math": [ "skyisland_build_greenhouse == 1" ] },
+            { "math": [ "islandrank >= 2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse3" } },
+            { "math": [ "skyisland_build_greenhouse == 2" ] },
+            { "math": [ "skyisland_bunker_temperature_adaptation >= 1" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Room 4",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse4" } },
+            { "math": [ "skyisland_build_greenhouse == 3" ] },
+            { "math": [ "skyisland_bunker_temperature_adaptation >= 1" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Skylight 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse_skylight1" } },
+            { "math": [ "skyisland_build_greenhouse >= 1" ] },
+            { "math": [ "skyisland_build_greenhouse_skylight == 0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse_skylight1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: South Skylight 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_south_greenhouse_skylight2" } },
+            { "math": [ "skyisland_build_greenhouse >= 2" ] },
+            { "math": [ "skyisland_build_greenhouse_skylight == 1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_south_greenhouse_skylight2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "One of my bunker constructions had an error.  Could you help me fix it?",
+        "condition": { "math": [ "skyisland_build_base >= 1" ] },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
@@ -804,6 +1157,24 @@
     "id": "SKYISLAND_FIX_CONSTRUCTIONS",
     "dynamic_line": "Please remove all obstructing appliances or vehicles from the section of the island in question.  Where do you need help with?",
     "responses": [
+      {
+        "text": "I need help with the Bunker Entrance.",
+        "condition": { "math": [ "skyisland_build_base == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_base1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Miner's Cameo stage of the main room.",
+        "condition": { "math": [ "skyisland_build_bigroom == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_bigroom1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
       {
         "text": "I need help with the Hollow Carver stage of the main room.",
         "condition": { "math": [ "skyisland_build_bigroom == 2" ] },
@@ -962,6 +1333,60 @@
         "condition": { "math": [ "skyisland_build_centralskylight == 3" ] },
         "effect": [
           { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Miner's Cameo stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse1" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Hollow Carver stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 2" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse2" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Warped Reinforcement stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 3" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse3" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Cavernous Soul stage of the south room.",
+        "condition": { "math": [ "skyisland_build_greenhouse == 4" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse4" },
+          { "u_message": "You hear a grinding sound from beneath the earth.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Glass Figurine stage of the south skylight.",
+        "condition": { "math": [ "skyisland_build_greenhouse_skylight == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse_skylight1" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Crystalline Mirror stage of the south skylight.",
+        "condition": { "math": [ "skyisland_build_greenhouse_skylight == 2" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_greenhouse_skylight2" },
           { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"

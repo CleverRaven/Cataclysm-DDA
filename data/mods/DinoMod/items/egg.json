@@ -199,6 +199,14 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "id": "egg_nanotyrannus",
+    "name": "nanotyrannus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": { "monster": "mon_nanotyrannus_hatchling" }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
     "id": "egg_appalachiosaurus",
     "name": "appalachiosaurus egg",
     "copy-from": "egg_dino_theropod",

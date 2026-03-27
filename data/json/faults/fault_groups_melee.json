@@ -29,7 +29,7 @@
     "group": [
       { "fault": "fault_blade_rolled_edge", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
-      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 50 },
       { "fault": "fault_blade_broken", "weight": 3 },
       { "fault": "fault_blade_broken_half", "weight": 8 },
       { "fault": "fault_blade_broken_tip", "weight": 50 },
@@ -43,7 +43,7 @@
     "group": [
       { "fault": "fault_blade_rolled_edge", "weight": 100 },
       { "fault": "fault_blade_chipped", "weight": 100 },
-      { "fault": "fault_blade_cracked", "weight": 100 },
+      { "fault": "fault_blade_cracked", "weight": 50 },
       { "fault": "fault_blade_broken", "weight": 3 },
       { "fault": "fault_blade_broken_half", "weight": 8 }
     ]

@@ -76,5 +76,16 @@
     "symbol": "H",
     "color": "light_cyan",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+  },
+  {
+    "id": "fake_solar_cooker",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "solar cooker" },
+    "//": "Pseudo item for parabolic solar cooker furniture.  Provides cooking heat when sufficient sunlight is available.",
+    "copy-from": "fake_item",
+    "symbol": ")",
+    "color": "yellow",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "NEEDS_SUNLIGHT" ] }
   }
 ]

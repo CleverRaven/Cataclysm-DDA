@@ -7,12 +7,14 @@
     "copy-from": "mon_zombie_base",
     "hp": 120,
     "speed": 85,
+    "vision_day": 30,
     "color": "light_red_green",
     "melee_skill": 6,
     "melee_dice": 3,
     "death_drops": "mon_zombie_survivor_death_drops",
     "armor": { "bash": 7, "cut": 7, "stab": 5, "acid": 4, "bullet": 6, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] },
+    "delete": { "flag": [ "STUMBLES" ] }
   },
   {
     "id": "mon_zombie_survivor_no_weakpoints",

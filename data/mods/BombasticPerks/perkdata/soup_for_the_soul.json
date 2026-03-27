@@ -1,0 +1,45 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_soul_for_soul_sickness_blocker",
+    "//": "hidden effect, cures cold and flu",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "pre_common_cold", "common_cold", "pre_flu", "flu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_SOUP_FOR_SOUL_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_soup_healing" },
+        {
+          "or": [
+            { "compare_string": [ "mre_chickennoodle", { "context_val": "itype" } ] },
+            { "compare_string": [ "soup_chicken", { "context_val": "itype" } ] },
+            { "compare_string": [ "soup_instant_chicken_noodle_prepared", { "context_val": "itype" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_pain() -= 5" ] },
+      { "math": [ "u_hp('torso') += (3 + rand(4) )" ] },
+      { "math": [ "u_hp('head') += (3 + rand(4) )" ] },
+      { "math": [ "u_hp('arm_l') += (3 + rand(4) )" ] },
+      { "math": [ "u_hp('arm_r') += (3 + rand(4) )" ] },
+      { "math": [ "u_hp('leg_l') += (3 + rand(4) )" ] },
+      { "math": [ "u_hp('leg_r') += (3 + rand(4) )" ] },
+      {
+        "if": { "not": { "u_has_effect": "effect_perk_soul_for_soul_sickness_blocker" } },
+        "then": { "u_add_effect": "effect_perk_soul_for_soul_sickness_blocker", "duration": "10 days" }
+      },
+      {
+        "u_lose_effect": [ "poison", "badpoison", "venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "paralyzepoison" ],
+        "target_part": "ALL"
+      }
+    ]
+  }
+]

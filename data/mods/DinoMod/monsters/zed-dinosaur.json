@@ -257,6 +257,24 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanotyrannus",
+    "name": { "str_sp": "nanotyrannus zombie" },
+    "copy-from": "mon_zappalachiosaurus",
+    "//": "When large weights and volumes are fixed this should be 1500 L and 1500 kg",
+    "hp": 110,
+    "description": "Large jaws drooling black liquid lifted over a shuffling dinosaur corpse.",
+    "grab_strength": 50,
+    "special_attacks": [
+      { "id": "bite_grab", "cooldown": 30 },
+      { "id": "teeth_zino_mid", "cooldown": 15 },
+      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
+    ],
+    "burn_into": "mon_zanotyrannus_scorched",
+    "fungalize_into": "mon_zanotyrannus_fungus",
+    "upgrades": { "half_life": 120, "into_group": "GROUP_zanotyrannus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zappalachiosaurus",
     "name": { "str_sp": "appalachiosaurus zombie" },
     "copy-from": "mon_zorgosaurus",
@@ -876,7 +894,7 @@
     "hp": 500,
     "speed": 50,
     "attack_cost": 50,
-    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
+    "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
     "upgrades": { "half_life": 120, "into_group": "GROUP_zamarasaurus_UPGRADE" }

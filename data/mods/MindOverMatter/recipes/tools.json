@@ -125,7 +125,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "super_glue", 1 ] ],
+      [ [ "glue_strong", 1 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "matrix_crystal_electrokin_dust_refined", 2 ] ],
       [ [ "psionic_serum_base", 2 ] ],

@@ -1298,10 +1298,11 @@
     "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
-    "id": "curing_roe",
+    "id": "curing_roe_active",
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "egg_fish",
+    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "name": { "str_sp": "curing roe" },
     "description": "Roe in the process of becoming fully cured with salt, capable of becoming homemade caviar.  The flavor is slowly developing at this stage, and is currently significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
     "weight": "96 g",
@@ -1313,15 +1314,8 @@
     "price_postapoc": "2 USD 50 cent",
     "phase": "liquid",
     "fun": -15,
-    "use_action": {
-      "target": "cured_roe",
-      "msg": "You remove the roe from the brine and now have post apocalypse caviar.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 1800,
-      "not_ready_msg": "The roe isn't fully cured yet.",
-      "//": "30 minutes"
-    }
+    "countdown_interval": "30 minutes",
+    "revert_to": "cured_roe"
   },
   {
     "id": "cured_roe",

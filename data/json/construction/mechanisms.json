@@ -6,7 +6,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ],
     "time": "60 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "chain", 16 ] ], [ [ "wheel_metal", 2 ] ], [ [ "pipe", 4 ] ] ],
     "pre_note": "Must be adjacent to ordinary, concrete, brick, or rock wall that is itself adjacent to a metal gate in order to open said gate.",

@@ -22,6 +22,7 @@
     "weight": "340 g",
     "volume": "137 ml",
     "longest_side": "112 mm",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "ammo_type": "40x53mm",
     "symbol": "=",

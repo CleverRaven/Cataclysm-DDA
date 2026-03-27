@@ -120,7 +120,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 300,
-      "message": "You add the facilities to your map",
+      "message": "You add the facilities to your map.",
       "terrain": [
         "lab_res_8_SWD_ground",
         "lab_res_8_SED_ground",
@@ -350,6 +350,30 @@
     "weight": "500 g",
     "material": [ "plastic", "qt_steel" ],
     "flags": [ "TRADER_AVOID" ],
+    "price_postapoc": "0 cent",
+    "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_anduril_ar",
+    "copy-from": "card_plastic_abstract",
+    "color": "blue",
+    "name": { "str": "Anduril Industries ID card" },
+    "description": "An ID card for an Anduril Industries software engineer.",
+    "price": "600 USD",
+    "extend": { "flags": [ "ANDURIL_AR_CARD" ] },
+    "price_postapoc": "2 USD 50 cent",
+    "category": "keys"
+  },
+  {
+    "type": "ITEM",
+    "id": "id_exodii_string_dimension",
+    "copy-from": "card_plastic_abstract",
+    "color": "yellow",
+    "name": { "str": "strange plastic key" },
+    "description": "A thick plastic key with an archaic-looking, angled bit.",
+    "price": "0 cent",
+    "extend": { "flags": [ "EXODII_STRING_DIMENSION_CARD" ] },
     "price_postapoc": "0 cent",
     "category": "keys"
   }

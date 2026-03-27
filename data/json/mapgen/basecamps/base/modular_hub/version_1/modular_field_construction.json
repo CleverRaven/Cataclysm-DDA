@@ -9,6 +9,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -44,6 +45,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -88,6 +90,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -123,6 +126,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -167,6 +171,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -202,6 +207,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -246,6 +252,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -281,6 +288,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -325,6 +333,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -360,6 +369,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -388,6 +398,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -447,6 +458,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -482,6 +494,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -526,6 +539,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -571,6 +585,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -638,6 +653,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -673,6 +689,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -717,6 +734,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -762,6 +780,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -797,6 +816,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -841,6 +861,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -898,6 +919,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -943,6 +965,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -988,6 +1011,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",
@@ -1033,6 +1057,7 @@
           "scope": "omt",
           "default": {
             "distribution": [
+              "fbmh_0_adobe_palette",
               "fbmh_0_concrete_palette",
               "fbmh_0_log_palette",
               "fbmh_0_metal_palette",

@@ -115,6 +115,7 @@
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "wood" ],
+    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 6000, "qualities_needed": { "STRIKING_SURFACE": 1 } },
     "ammo_type": "match"
   },
   {
@@ -167,7 +168,8 @@
     "subtypes": [ "TOOL" ],
     "id": "betavoltaic",
     "category": "spare_parts",
-    "price": "100 USD",
+    "price": "407 USD 11 cents",
+    "price_postapoc": "2 USD",
     "name": { "str": "betavoltaic cell" },
     "symbol": "=",
     "color": "green",
@@ -398,6 +400,11 @@
         "name": { "str_sp": "day and night moisturizer" },
         "description": "A moisturizer that works all day and night.  A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
+      },
+      {
+        "id": "lube",
+        "name": { "str_sp": "lube" },
+        "description": "Helps insertion of different medical tools in the body, among other things."
       }
     ]
   },
@@ -492,7 +499,7 @@
     "weight": "20 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -512,7 +519,7 @@
     "weight": "38 g",
     "ammo_type": "uranium",
     "count": 1,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "ITEM",
@@ -563,7 +570,7 @@
     "category": "spare_parts",
     "material": [ "stone" ],
     "ammo_type": "rock",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "flags": [ "TRADER_AVOID", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
     "weight": "657 g",
     "volume": "250 ml",
     "damage": { "damage_type": "bash", "amount": 7 },
@@ -572,7 +579,7 @@
     "loudness": 0,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "recovery_chance": 99,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
+    "effects": [ "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "thrown_damage": { "damage_type": "bash", "amount": 7 }
@@ -595,7 +602,7 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -617,8 +624,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
-    "recovery_chance": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 50
   },
   {
     "type": "ITEM",
@@ -640,8 +646,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
-    "recovery_chance": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "recovery_chance": 10
   },
   {
     "type": "ITEM",
@@ -665,7 +670,7 @@
     "loudness": 0,
     "count": 50,
     "recovery_chance": 95,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -687,7 +692,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -719,10 +724,10 @@
     "symbol": "=",
     "color": "brown",
     "description": "A fluffy down feather from a bird.  Useful for making cozy bedclothes.",
-    "material": [ "cotton" ],
+    "material": [ "down_feathers" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "10 mg",
     "ammo_type": "components",
     "stack_size": 100,
     "count": 20
@@ -1376,7 +1381,7 @@
     "volume": "1500 ml",
     "weight": "1510 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 80, "armor_penetration": 80 },
+    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 10 },
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
@@ -1396,7 +1401,7 @@
     "volume": "1250 ml",
     "weight": "990 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 500, "armor_penetration": 125 },
+    "damage": { "damage_type": "stab", "amount": 30, "armor_penetration": 10 },
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
@@ -1416,7 +1421,7 @@
     "volume": "1500 ml",
     "weight": "1190 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 50, "armor_penetration": 15 },
+    "damage": { "damage_type": "stab", "amount": 20 },
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
@@ -1614,7 +1619,6 @@
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1638,7 +1642,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 80,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1662,7 +1665,6 @@
     "loudness": 0,
     "count": 7,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
   {
@@ -1693,20 +1695,6 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "ammo_type": "glowstick_juice"
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "graphite",
-    "name": { "str_sp": "graphite" },
-    "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation, and natural aging.",
-    "volume": "1 ml",
-    "weight": "1 mg",
-    "color": "dark_gray",
-    "looks_like": "charcoal",
-    "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "graphite"
   },
   {
     "type": "ITEM",
@@ -1803,7 +1791,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   },
   {
     "type": "ITEM",
@@ -1825,6 +1813,6 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NON_FOULING" ]
   }
 ]

@@ -1,0 +1,456 @@
+{
+  "type": "talk_topic",
+  "id": "TALK_SORCERER_PICK_FAV_SPELL",
+  "dynamic_line": "Pick a spell you have a special affinity for to gain a small boost in caster level for said spell.  The boost will quickly become obsolete, but will help you get started on your journey.",
+  "responses": [
+    { "text": "Go Back.", "topic": "TALK_SORCERER_MENU_MAIN" },
+    { "text": "Quit.", "topic": "TALK_DONE" },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_summon_undead > 0" ] },
+      "text": "Pick <spell_name:summon_undead> ( level <u_val:used_spell_slot_for_summon_undead> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('summon_undead') = max(3, u_spell_level('summon_undead') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_necrotic_gaze > 0" ] },
+      "text": "Pick <spell_name:necrotic_gaze> ( level <u_val:used_spell_slot_for_necrotic_gaze> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('necrotic_gaze') = max(3, u_spell_level('necrotic_gaze') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_disruption_bolt > 0" ] },
+      "text": "Pick <spell_name:disruption_bolt> ( level <u_val:used_spell_slot_for_disruption_bolt> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('disruption_bolt') = max(3, u_spell_level('disruption_bolt') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_summon_wisps > 0" ] },
+      "text": "Pick <spell_name:summon_wisps> ( level <u_val:used_spell_slot_for_summon_wisps> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('summon_wisps') = max(3, u_spell_level('summon_wisps') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_bleed > 0" ] },
+      "text": "Pick <spell_name:bleed> ( level <u_val:used_spell_slot_for_bleed> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('bleed') = max(3, u_spell_level('bleed') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_animist_detect_wizards > 0" ] },
+      "text": "Pick <spell_name:animist_detect_wizards> ( level <u_val:used_spell_slot_for_animist_detect_wizards> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('animist_detect_wizards') = max(3, u_spell_level('animist_detect_wizards') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_light_healing > 0" ] },
+      "text": "Pick <spell_name:light_healing> ( level <u_val:used_spell_slot_for_light_healing> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('light_healing') = max(3, u_spell_level('light_healing') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_bio_acidicspray > 0" ] },
+      "text": "Pick <spell_name:bio_acidicspray> ( level <u_val:used_spell_slot_for_bio_acidicspray> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('bio_acidicspray') = max(3, u_spell_level('bio_acidicspray') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_biomancer_paralytic_dart > 0" ] },
+      "text": "Pick <spell_name:biomancer_paralytic_dart> ( level <u_val:used_spell_slot_for_biomancer_paralytic_dart> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('biomancer_paralytic_dart') = max(3, u_spell_level('biomancer_paralytic_dart') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_biomancer_visceral_projection > 0" ] },
+      "text": "Pick <spell_name:biomancer_visceral_projection> ( level <u_val:used_spell_slot_for_biomancer_visceral_projection> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        {
+          "math": [ "u_spell_level('biomancer_visceral_projection') = max(3, u_spell_level('biomancer_visceral_projection') )" ]
+        },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_biomancer_cure_disease_minor > 0" ] },
+      "text": "Pick <spell_name:biomancer_cure_disease_minor> ( level <u_val:used_spell_slot_for_biomancer_cure_disease_minor> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('biomancer_cure_disease_minor') = max(3, u_spell_level('biomancer_cure_disease_minor') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_crystallize_mana > 0" ] },
+      "text": "Pick <spell_name:crystallize_mana> ( level <u_val:used_spell_slot_for_crystallize_mana> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('crystallize_mana') = max(3, u_spell_level('crystallize_mana') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_blinding_flash > 0" ] },
+      "text": "Pick <spell_name:blinding_flash> ( level <u_val:used_spell_slot_for_blinding_flash> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('blinding_flash') = max(3, u_spell_level('blinding_flash') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_ethereal_grasp > 0" ] },
+      "text": "Pick <spell_name:ethereal_grasp> ( level <u_val:used_spell_slot_for_ethereal_grasp> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('ethereal_grasp') = max(3, u_spell_level('ethereal_grasp') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_classless_clean_clothing_and_self > 0" ] },
+      "text": "Pick <spell_name:classless_clean_clothing_and_self> ( level <u_val:used_spell_slot_for_classless_clean_clothing_and_self> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        {
+          "math": [ "u_spell_level('classless_clean_clothing_and_self') = max(3, u_spell_level('classless_clean_clothing_and_self') )" ]
+        },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_classless_restore_crystal_mana > 0" ] },
+      "text": "Pick <spell_name:classless_restore_crystal_mana> ( level <u_val:used_spell_slot_for_classless_restore_crystal_mana> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        {
+          "math": [ "u_spell_level('classless_restore_crystal_mana') = max(3, u_spell_level('classless_restore_crystal_mana') )" ]
+        },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_druid_tornskin > 0" ] },
+      "text": "Pick <spell_name:druid_tornskin> ( level <u_val:used_spell_slot_for_druid_tornskin> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('druid_tornskin') = max(3, u_spell_level('druid_tornskin') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_druid_growth > 0" ] },
+      "text": "Pick <spell_name:druid_growth> ( level <u_val:used_spell_slot_for_druid_growth> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('druid_growth') = max(3, u_spell_level('druid_growth') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_druid_anti_heat > 0" ] },
+      "text": "Pick <spell_name:druid_anti_heat> ( level <u_val:used_spell_slot_for_druid_anti_heat> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('druid_anti_heat') = max(3, u_spell_level('druid_anti_heat') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_druid_traverse_the_wilds > 0" ] },
+      "text": "Pick <spell_name:druid_traverse_the_wilds> ( level <u_val:used_spell_slot_for_druid_traverse_the_wilds> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('druid_traverse_the_wilds') = max(3, u_spell_level('druid_traverse_the_wilds') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_stonefist > 0" ] },
+      "text": "Pick <spell_name:stonefist> ( level <u_val:used_spell_slot_for_stonefist> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('stonefist') = max(3, u_spell_level('stonefist') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_eshaper_piercing_bolt > 0" ] },
+      "text": "Pick <spell_name:eshaper_piercing_bolt> ( level <u_val:used_spell_slot_for_eshaper_piercing_bolt> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('eshaper_piercing_bolt') = max(3, u_spell_level('eshaper_piercing_bolt') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_earthshaper_boulder > 0" ] },
+      "text": "Pick <spell_name:earthshaper_boulder> ( level <u_val:used_spell_slot_for_earthshaper_boulder> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('earthshaper_boulder') = max(3, u_spell_level('earthshaper_boulder') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_earthshaper_turning_of_earth > 0" ] },
+      "text": "Pick <spell_name:earthshaper_turning_of_earth> ( level <u_val:used_spell_slot_for_earthshaper_turning_of_earth> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('earthshaper_turning_of_earth') = max(3, u_spell_level('earthshaper_turning_of_earth') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_earthshaper_remove_corpses > 0" ] },
+      "text": "Pick <spell_name:earthshaper_remove_corpses> ( level <u_val:used_spell_slot_for_earthshaper_remove_corpses> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('earthshaper_remove_corpses') = max(3, u_spell_level('earthshaper_remove_corpses') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_kelvinist_firebolt > 0" ] },
+      "text": "Pick <spell_name:kelvinist_firebolt> ( level <u_val:used_spell_slot_for_kelvinist_firebolt> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('kelvinist_firebolt') = max(3, u_spell_level('kelvinist_firebolt') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_magus_stop_attack_shield > 0" ] },
+      "text": "Pick <spell_name:magus_stop_attack_shield> ( level <u_val:used_spell_slot_for_magus_stop_attack_shield> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('magus_stop_attack_shield') = max(3, u_spell_level('magus_stop_attack_shield') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_magus_far_hand_pull > 0" ] },
+      "text": "Pick <spell_name:magus_far_hand_pull> ( level <u_val:used_spell_slot_for_magus_far_hand_pull> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('magus_far_hand_pull') = max(3, u_spell_level('magus_far_hand_pull') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_magus_light_target > 0" ] },
+      "text": "Pick <spell_name:magus_light_target> ( level <u_val:used_spell_slot_for_magus_light_target> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('magus_light_target') = max(3, u_spell_level('magus_light_target') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_stormshaper_wall_of_fog > 0" ] },
+      "text": "Pick <spell_name:stormshaper_wall_of_fog> ( level <u_val:used_spell_slot_for_stormshaper_wall_of_fog> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('stormshaper_wall_of_fog') = max(3, u_spell_level('stormshaper_wall_of_fog') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_stormshaper_cloak_of_frog > 0" ] },
+      "text": "Pick <spell_name:stormshaper_cloak_of_frog> ( level <u_val:used_spell_slot_for_stormshaper_cloak_of_frog> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('stormshaper_cloak_of_frog') = max(3, u_spell_level('stormshaper_cloak_of_frog') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_stormshaper_loud_voice_spell > 0" ] },
+      "text": "Pick <spell_name:stormshaper_loud_voice_spell> ( level <u_val:used_spell_slot_for_stormshaper_loud_voice_spell> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('stormshaper_loud_voice_spell') = max(3, u_spell_level('stormshaper_loud_voice_spell') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_create_atomic_lamp > 0" ] },
+      "text": "Pick <spell_name:create_atomic_lamp> ( level <u_val:used_spell_slot_for_create_atomic_lamp> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('create_atomic_lamp') = max(3, u_spell_level('create_atomic_lamp') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_technomancer_conjure_radio > 0" ] },
+      "text": "Pick <spell_name:technomancer_conjure_radio> ( level <u_val:used_spell_slot_for_technomancer_conjure_radio> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('technomancer_conjure_radio') = max(3, u_spell_level('technomancer_conjure_radio') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_create_atomic_light > 0" ] },
+      "text": "Pick <spell_name:create_atomic_light> ( level <u_val:used_spell_slot_for_create_atomic_light> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('create_atomic_light') = max(3, u_spell_level('create_atomic_light') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_classless_watch_spell > 0" ] },
+      "text": "Pick <spell_name:classless_watch_spell> ( level <u_val:used_spell_slot_for_classless_watch_spell> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('classless_watch_spell') = max(3, u_spell_level('classless_watch_spell') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_classless_easy_sleep_spell > 0" ] },
+      "text": "Pick <spell_name:classless_easy_sleep_spell> ( level <u_val:used_spell_slot_for_classless_easy_sleep_spell> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('classless_easy_sleep_spell') = max(3, u_spell_level('classless_easy_sleep_spell') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_druid_woodshaft > 0" ] },
+      "text": "Pick <spell_name:druid_woodshaft> ( level <u_val:used_spell_slot_for_druid_woodshaft> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('druid_woodshaft') = max(3, u_spell_level('druid_woodshaft') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_summon_cats > 0" ] },
+      "text": "Pick <spell_name:summon_cats> ( level <u_val:used_spell_slot_for_summon_cats> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('summon_cats') = max(3, u_spell_level('summon_cats') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_eshaper_rockbolt > 0" ] },
+      "text": "Pick <spell_name:eshaper_rockbolt> ( level <u_val:used_spell_slot_for_eshaper_rockbolt> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('eshaper_rockbolt') = max(3, u_spell_level('eshaper_rockbolt') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_create_lighter > 0" ] },
+      "text": "Pick <spell_name:create_lighter> ( level <u_val:used_spell_slot_for_create_lighter> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('create_lighter') = max(3, u_spell_level('create_lighter') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_chilling_touch > 0" ] },
+      "text": "Pick <spell_name:chilling_touch> ( level <u_val:used_spell_slot_for_chilling_touch> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('chilling_touch') = max(3, u_spell_level('chilling_touch') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_kelvinist_heat_food > 0" ] },
+      "text": "Pick <spell_name:kelvinist_heat_food> ( level <u_val:used_spell_slot_for_kelvinist_heat_food> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('kelvinist_heat_food') = max(3, u_spell_level('kelvinist_heat_food') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_shadow_field > 0" ] },
+      "text": "Pick <spell_name:shadow_field> ( level <u_val:used_spell_slot_for_shadow_field> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('shadow_field') = max(3, u_spell_level('shadow_field') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_magic_missile > 0" ] },
+      "text": "Pick <spell_name:magic_missile> ( level <u_val:used_spell_slot_for_magic_missile> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('magic_missile') = max(3, u_spell_level('magic_missile') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_shocking_lash > 0" ] },
+      "text": "Pick <spell_name:shocking_lash> ( level <u_val:used_spell_slot_for_shocking_lash> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('shocking_lash') = max(3, u_spell_level('shocking_lash') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_electric_arts > 0" ] },
+      "text": "Pick <spell_name:electric_arts> ( level <u_val:used_spell_slot_for_electric_arts> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('electric_arts') = max(3, u_spell_level('electric_arts') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_taze > 0" ] },
+      "text": "Pick <spell_name:taze> ( level <u_val:used_spell_slot_for_taze> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('taze') = max(3, u_spell_level('taze') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    },
+    {
+      "condition": { "math": [ "u_used_spell_slot_for_create_rune_sorcerer > 0" ] },
+      "text": "Pick <spell_name:create_rune_sorcerer> ( level <u_val:used_spell_slot_for_create_rune_sorcerer> )",
+      "topic": "TALK_SORCERER_MENU_MAIN",
+      "effect": [
+        { "math": [ "u_spell_level('create_rune_sorcerer') = max(3, u_spell_level('create_rune_sorcerer') )" ] },
+        { "math": [ "u_available_favorite_spells--" ] }
+      ]
+    }
+  ]
+}

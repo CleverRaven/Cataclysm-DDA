@@ -23,7 +23,7 @@
     "difficulty": 1,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "fake_clay_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
@@ -71,7 +71,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "super_glue", 5 ], [ "bone_glue", 1 ] ] ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "glue_strong", 5 ], [ "glue_weak", 150 ] ] ],
     "//": "Essentially a ball of glued-together string with some leather around it"
   },
   {
@@ -259,6 +259,60 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_heavy_field_point_fletched",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "glue_strong", 5, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_field_point_fletched",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "glue_strong", 5, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wood_atlatl_spear",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -288,7 +342,12 @@
     "charges": 2,
     "time": "30 m",
     "book_learn": [ [ "textbook_mesoam", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_fletching" },
+      { "proficiency": "prof_carving" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_redsmithing_adv" }
+    ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
@@ -335,7 +394,7 @@
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_metalworking" } ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -434,6 +493,31 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "bolt_wood_bodkin",
+    "id_suffix": "lathe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 3,
+    "charges": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_machining_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "fake_lathe", 30 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
+      [ [ "small_lc_steel_bar_round", 1 ], [ "small_mc_steel_bar_round", 1 ], [ "small_hc_steel_bar_round", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ],
+    "byproducts": [ [ "scrap", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -513,8 +597,7 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "nail", 10 ],
-        [ "bronze_nail", 10 ],
+        [ "nails", 10, "LIST" ],
         [ "rock_flaking_any", 1, "LIST" ]
       ],
       [ [ "fletching", 1, "LIST" ] ]
@@ -579,8 +662,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "blun_lead_shot",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
@@ -595,8 +678,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "blun_shot",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
@@ -616,8 +699,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "blun_shot",
     "id_suffix": "using_big_scrap",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "%s using big scrap",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
@@ -637,8 +721,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "blun_slug",
     "id_suffix": "using_lead",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "%s using lead",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
@@ -654,8 +739,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "blun_flechette",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
@@ -714,6 +799,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 6,
+    "charges": 250,
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "book_learn": {
@@ -735,19 +821,170 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "gelled_gasoline",
+    "id_suffix": "from_lye_and_rosin",
+    "//": [ "TM 21 210, Section V No. 4.1", "castor oil can be used instead of rosin" ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "difficulty": 2,
-    "time": "20 m",
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "time": "15 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "book_learn": {
       "textbook_gaswarfare": { "skill_level": 2 },
       "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
     },
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
-    "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 7 ] ],
+      [ [ "rosin", 13 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_lye_alcohol_tallow",
+    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "37 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 7 ] ],
+      [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
+      [ [ "any_tallow", 5, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_lye_alcohol_tallow_substitute",
+    "//": [ "TM 21 210, Section V No. 4.2" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "37 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "lye_powder", 14 ] ],
+      [ [ "chem_ethanol", 25 ], [ "disinfectant", 1 ] ],
+      [ [ "cooking_oil", 10 ], [ "any_butter", 16, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_alcohol_soap",
+    "//": [ "TM 21 210, Section V No. 4.3" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "20 m",
+    "charges": 500,
+    "batch_time_factors": [ 70, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "chem_ethanol", 14 ], [ "disinfectant", 1 ] ],
+      [ [ "soap", 12 ], [ "soap_flakes", 32 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_wax",
+    "//": [ "TM 21 210, Section V No. 4.6" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "35 m",
+    "charges": 1000,
+    "batch_time_factors": [ 50, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "gasoline", 1000 ], [ "avgas", 1000 ] ],
+      [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ],
+      [ [ "soap", 12 ], [ "soap_flakes", 32 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gelled_gasoline",
+    "id_suffix": "from_blood",
+    "//": [ "TM 21 210, Section V No. 4.7" ],
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "difficulty": 2,
+    "time": "10 m",
+    "charges": 500,
+    "batch_time_factors": [ 80, 3 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
+    "components": [
+      [ [ "gasoline", 500 ], [ "avgas", 500 ] ],
+      [ [ "any_blood", 2, "LIST" ] ],
+      [
+        [ "salt", 3 ],
+        [ "coffee_raw", 1 ],
+        [ "tea_bag", 2 ],
+        [ "tea_raw", 2 ],
+        [ "tea_green_raw", 2 ],
+        [ "tea_green_bag", 2 ],
+        [ "sugar", 3 ],
+        [ "material_limestone", 3 ],
+        [ "chem_caco3", 50 ],
+        [ "chem_baking_soda", 15 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -782,7 +1019,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welding_kit", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
       [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ]
     ],
     "components": [
@@ -890,6 +1127,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "tinder",
+    "name": "soft %s",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -922,6 +1160,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "tinder",
     "id_suffix": "softer",
+    "name": "softer %s",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
@@ -936,6 +1175,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "tinder",
     "id_suffix": "softest",
+    "name": "softest %s",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",

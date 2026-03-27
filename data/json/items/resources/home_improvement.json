@@ -131,7 +131,7 @@
     "description": "A roll of red carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -148,7 +148,7 @@
     "description": "A roll of green carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -165,7 +165,7 @@
     "description": "A roll of yellow carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -182,7 +182,7 @@
     "description": "A roll of purple carpet.",
     "material": [ "cotton" ],
     "volume": "7500 ml",
-    "weight": "6800 g",
+    "weight": "3750 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "ammo_type": "NULL"
   },
@@ -214,5 +214,22 @@
     "material": [ "plastic" ],
     "weight": "25 g",
     "volume": "1000 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "pipe_cpvc",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "pipe",
+    "name": { "str": "PVC pipe" },
+    "description": "White polyvinyl chloride pipe, commonly used for household plumbing, but also in many another applications.",
+    "//": "1 inch schedule 80 CPVC, 0.44 lbs/ft., thickness 0.179 in., inner diameter 0.957 in., outer 1.315 in.",
+    "category": "spare_parts",
+    "price": "315 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "vinyl" ],
+    "melee_damage": { "bash": 4 },
+    "weight": "327 g",
+    "volume": "1750 ml"
   }
 ]

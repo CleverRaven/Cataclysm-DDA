@@ -122,7 +122,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300 L" }
+    "workbench": { "multiplier": 1.1, "mass": "500 kg", "volume": "300 L" }
   },
   {
     "type": "furniture",
@@ -193,7 +193,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "50L" }
   },
   {
     "type": "furniture",
@@ -231,7 +231,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": "200 kg", "volume": "75L" }
   },
   {
     "type": "furniture",
@@ -399,7 +399,7 @@
     "id": "f_sealed_intermodal_crate",
     "name": "sealed intermodal crate",
     "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock.",
-    "required_str": 12,
+    "required_str": -1,
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
@@ -415,7 +415,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 9, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -440,7 +440,7 @@
     "name": "powered down intermodal crate",
     "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock that has shut down.",
     "looks_like": "f_sealed_intermodal_crate",
-    "required_str": 12,
+    "required_str": -1,
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
@@ -481,7 +481,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 0 },
               "alpha_talker": "avatar"
             }
           ]
@@ -510,7 +510,7 @@
     "color": "light_cyan",
     "move_cost_mod": 2,
     "coverage": 80,
-    "required_str": 10,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -680,7 +680,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 6 },
               "alpha_talker": "avatar"
             }
           ]
@@ -714,7 +714,7 @@
             { "math": [ "_t_delay = time('20 m')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 10, "t_radius": 10 },
               "alpha_talker": "avatar"
             }
           ]
@@ -795,7 +795,7 @@
             { "math": [ "_t_delay = time('1 h')" ] },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "13", "t_radius": "1" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": 13, "t_radius": 1 },
               "alpha_talker": "avatar"
             }
           ]

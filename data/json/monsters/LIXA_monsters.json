@@ -1,5 +1,14 @@
 [
   {
+    "id": "mon_zombie_soldier_lixa_police",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_soldier",
+    "looks_like": "mon_zombie_soldier",
+    "name": { "str": "military police zombie" },
+    "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.  Over its uniform is a vest reading \"military police\".",
+    "death_drops": "mon_zombie_soldier_lixa_police_death_drops"
+  },
+  {
     "id": "LIXA_spit_light",
     "type": "ITEM",
     "subtypes": [ "GUN" ],
@@ -7,7 +16,7 @@
     "name": { "str": "photonic gun", "//~": "NO_I18N" },
     "description": { "str": "Horks up a glob of congealed light.", "//~": "NO_I18N" },
     "flags": [ "NEVER_JAMS", "NO_TURRET" ],
-    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
+    "ammo_effects": [ "BLINDS_EYES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -77,7 +86,7 @@
     "description": { "str": "Fake gun that fires, uh.  Coordinate transform matrices?", "//~": "NO_I18N" },
     "flags": [ "NEVER_JAMS", "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "auto", 3 ] ],
-    "ammo_effects": [ "BLINDS_EYES", "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "ammo_effects": [ "BLINDS_EYES", "NO_PENETRATE_OBSTACLES", "NO_DAMAGE_SCALING" ],
     "skill": "rifle",
     "durability": 10,
     "range": 100,

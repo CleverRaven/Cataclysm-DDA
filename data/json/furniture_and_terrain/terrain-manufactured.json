@@ -378,6 +378,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_radiosphere_radio_tower_liminal_light",
+    "copy-from": "t_radio_tower",
+    "description": "The structure of a radio transmission tower, there's a bright spotlight hanging off it.",
+    "light_emitted": 50,
+    "light_color": [ 94, 94, 0 ]
+  },
+  {
+    "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
     "description": "A console that appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
@@ -564,63 +572,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_cvdbody",
-    "name": "CVD machine",
-    "description": "The bulk of a highly technical-looking apparatus controlled by a nearby console.",
-    "symbol": "%",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 65,
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
-    "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 8 ], "prob": 50 }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_cvdmachine",
-    "name": "CVD control panel",
-    "description": "A VERY expensive-looking apparatus that's labeled 'Chemical Vapor Deposition Machine'.  With the input of certain exceptionally rare chemicals and elements, one could conceivably coat one's weapon with diamond.  While the process is extremely complicated, a previous user has helpfully sketched: Hydrogen + charcoal = smiley face.",
-    "symbol": "&",
-    "color": "cyan",
-    "looks_like": "f_console",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE" ],
-    "examine_action": "cvdmachine",
-    "bash": {
-      "str_min": 8,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_metal_floor",
-      "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",
@@ -649,6 +600,16 @@
         { "item": "scrap", "count": [ 12, 18 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nanofab_body_broken",
+    "name": "broken nanofabricator",
+    "copy-from": "t_nanofab_body",
+    "symbol": "%",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3D printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.  It is broken beyond repair and it is generally nothing but a useless hunk of steel.",
+    "color": "dark_gray",
+    "delete": { "flags": [ "NANOFAB_TABLE" ] }
   },
   {
     "type": "terrain",
@@ -794,7 +755,9 @@
       "sound": "whack!",
       "sound_fail": "thunk.",
       "ter_set": "t_covered_well",
-      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
+      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "liquid_source": { "id": "water" },
     "examine_action": "water_source"
@@ -1367,7 +1330,7 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
@@ -1399,7 +1362,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1425,7 +1390,9 @@
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -1466,7 +1433,6 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
-      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",
@@ -1500,6 +1466,7 @@
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
+      "FLAMMABLE_ASH",
       "THIN_OBSTACLE",
       "REDUCE_SCENT",
       "INDOORS",
@@ -1542,7 +1509,9 @@
         { "item": "stick", "count": [ 2, 7 ] },
         { "item": "splinter", "count": [ 8, 20 ] },
         { "item": "pine_bough", "count": [ 0, 2 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
@@ -1566,7 +1535,9 @@
         { "item": "stick", "count": [ 1, 2 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 8 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
@@ -1622,8 +1593,9 @@
     "description": "A large brick oven that could make several pizzas at once.",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE", "FIRE_CONTAINER" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 25,
       "str_max": 50,

@@ -1,0 +1,293 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_chop_shop_merc_1",
+    "name_unique": "David Marceno",
+    "name_suffix": "Hub Mercenary",
+    "class": "NC_ANCILLA_BOSS_CHOP_SHOP",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "NC_ANCILLA_BOSS_CHOP_SHOP",
+    "faction": "robofac_auxiliaries_chop_shop"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ANCILLA_BOSS_CHOP_SHOP",
+    "name": { "str": "Hub Mercenary" },
+    "job_description": "Fighting in the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_ANCILLA_BOSS_CHOP_SHOP_worn",
+    "carry_override": "NC_ANCILLA_BOSS_CHOP_SHOP_carry",
+    "weapon_override": "NC_ANCILLA_BOSS_CHOP_SHOP_wield",
+    "skills": [
+      { "skill": "gun", "bonus": 4 },
+      { "skill": "rifle", "bonus": 4 },
+      { "skill": "pistol", "bonus": 1 },
+      { "skill": "melee", "bonus": 4 },
+      { "skill": "cutting", "bonus": 3 },
+      { "skill": "fabrication", "bonus": 1 },
+      { "skill": "firstaid", "bonus": 1 },
+      { "skill": "swimming", "bonus": 3 },
+      { "skill": "survival", "bonus": 4 },
+      { "skill": "cooking", "bonus": 4 },
+      { "skill": "computer", "bonus": 6 },
+      { "skill": "electronics", "bonus": 4 },
+      { "skill": "driving", "bonus": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BOSS_CHOP_SHOP_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "socks" },
+      { "item": "boots_combat" },
+      { "item": "pants_army" },
+      { "item": "kevlar" },
+      { "group": "molle_backpacks_and_accessories" },
+      { "group": "clothing_watch" },
+      { "item": "robofac_kevlar_vambraces" },
+      { "item": "robofac_kevlar_greaves" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "group": "robofac_helmet_merc" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BOSS_CHOP_SHOP_carry",
+    "subtype": "collection",
+    "items": [
+      { "group": "on_hand_545x39", "count": 2 },
+      { "group": "nested_aks74", "count": 2 },
+      { "group": "any_MRE", "count": 2 },
+      { "item": "RobofacCoin", "count": [ 15, 18 ] },
+      { "group": "charged_smart_phone" },
+      { "group": "full_1st_aid" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BOSS_CHOP_SHOP_wield",
+    "subtype": "collection",
+    "items": [ { "item": "ak74_semi", "contents-item": [ "shoulder_strap", "suppressor" ] } ]
+  },
+  {
+    "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary points their firearm at you and stares you down.  Their eyes are fierce, wide, and bloodshot.  In the background, another merc starts talking into their radio.",
+    "responses": [
+      {
+        "text": "[Put your hands up] Woah!  Easy!",
+        "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2",
+        "effect": [
+          { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU", "time_in_future": [ "60 seconds", "120 seconds" ] },
+          { "math": [ "robofac_chop_shop_mercs_spotted = 1" ] },
+          {
+            "if": {
+              "and": [
+                { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_kill_orders == 1" ] } }
+              ]
+            },
+            "then": [
+              { "math": [ "faction_like('robofac') = -100" ] },
+              { "math": [ "faction_respect('robofac') = -100" ] },
+              { "math": [ "faction_trust('robofac') = -100" ] },
+              { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "Hey, fuck you!",
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 },
+          {
+            "if": {
+              "and": [
+                { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] },
+                { "not": { "math": [ "robofac_chop_shop_scientist_1_kill_orders == 1" ] } }
+              ]
+            },
+            "then": [
+              { "math": [ "faction_like('robofac') = -100" ] },
+              { "math": [ "faction_respect('robofac') = -100" ] },
+              { "math": [ "faction_trust('robofac') = -100" ] },
+              { "run_eocs": "EOC_ROBOFAC_LOCK_INTERCOM" }
+            ]
+          }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary addresses you sternly: \"You got one minute to get the fuck out of here.  And don't try anything funny.  One of my guys is callin' in your description as we speak, got it?\"",
+    "responses": [
+      {
+        "text": "Who are you?",
+        "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_FAILED_1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] } },
+        "effect": { "u_add_var": "robofac_chop_shop_warned", "value": "yes" }
+      },
+      {
+        "text": "Who are you?",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] },
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ]
+      },
+      {
+        "text": "What is this place?",
+        "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_WHAT_FAILED_1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] } },
+        "effect": { "u_add_var": "robofac_chop_shop_warned", "value": "yes" }
+      },
+      {
+        "text": "What is this place?",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] },
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ]
+      },
+      {
+        "text": "Are you the only people here?",
+        "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_ELSE_FAILED_1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] } },
+        "effect": { "u_add_var": "robofac_chop_shop_warned", "value": "yes" }
+      },
+      {
+        "text": "Are you the only people here?",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_chop_shop_warned" } ] },
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ]
+      },
+      {
+        "text": "I know what you're doing here, and I'm not leaving until you're all dead.",
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" }
+      },
+      {
+        "text": "I'm here for the alien robot, and I'm not leaving until I get it.",
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE",
+        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" }
+      },
+      {
+        "text": "I'm here for the scientist, and just the scientist, on orders from the intercom.  I'll give you and your team one chance to back down.",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_CHOP_SHOP" },
+        "trial": { "type": "INTIMIDATE", "difficulty": 15, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            {
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"  The group unceremoniously packs up and leaves.",
+              "popup": true
+            },
+            { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS", "time_in_future": "5 seconds" },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 seconds" }
+          ]
+        },
+        "failure": {
+          "effect": [
+            "hostile",
+            { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+            { "u_faction_rep": -100 }
+          ],
+          "topic": "TALK_DONE"
+        }
+      },
+      {
+        "text": "I'm here for the alien.  I'll give you and your team one chance to back down.",
+        "condition": { "u_has_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "trial": { "type": "INTIMIDATE", "difficulty": 15, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": [
+            {
+              "u_message": "The mercenary makes a quick hand motion and shouts \"Fuck this, this hellhole isn't worth it.  Let's get out of here.\"  The group unceremoniously packs up and leaves.",
+              "popup": true
+            },
+            { "run_eocs": "EOC_ROBOFAC_CHOP_SHOP_CLEAN_UP_MERCS", "time_in_future": "5 seconds" },
+            { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 seconds" }
+          ]
+        },
+        "failure": {
+          "effect": [
+            "hostile",
+            { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+            { "u_faction_rep": -100 }
+          ],
+          "topic": "TALK_DONE"
+        }
+      },
+      {
+        "text": "Fuck you, I'm not leaving.",
+        "effect": [
+          "hostile",
+          { "u_message": "The mercenary makes a quick hand motion and shouts \"Kill'em!\"" },
+          { "u_faction_rep": -100 }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Alright, I'm leaving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_FAILED_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary chambers a round in their firearm.  \"I'm the one telling you to go.  Last warning.  No more questions.  Leave, or you're dead.  It's that simple.\"",
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
+  },
+  {
+    "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHAT_FAILED_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary chambers a round in their firearm.  \"Somewhere you don't belong, and definitely don't want to be.  Final warning.  No more questions.  Leave, or we shoot.\"",
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
+  },
+  {
+    "id": [ "NC_ANCILLA_BOSS_CHOP_SHOP_WHO_ELSE_FAILED_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary chambers a round in their firearm.  \"Just us and the guy who told us to shoot anyone that comes by.  Last chance.  No more questions.  Leave.  Or I'll fill you with holes, and the doc can turn you into one of his fucked up experiments.\"",
+    "responses": [ { "text": "Alright, I hear your warning.", "topic": "NC_ANCILLA_BOSS_CHOP_SHOP_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ROBOFAC_CHOP_SHOP_HATES_YOU",
+    "effect": [
+      { "math": [ "faction_like('robofac_auxiliaries_chop_shop') = -100" ] },
+      { "math": [ "faction_respect('robofac_auxiliaries_chop_shop') = -100" ] },
+      { "math": [ "faction_trust('robofac_auxiliaries_chop_shop') = -100" ] }
+    ]
+  }
+]

@@ -174,6 +174,10 @@
     <ClInclude Include="..\src\*.h" Exclude="..\src\messages.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\cata_allocator_c.c">
+      <ForcedIncludeFiles />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,10 +185,17 @@
       <Project>{8a533a64-435d-4d4f-9ff0-1e97aace9374}</Project>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
+    <ProjectReference Include="fmt.vcxproj">
+      <Project>{f2098959-aad9-4210-a64c-fc4a09a45556}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
     <ProjectReference Include="zstd.vcxproj">
       <Project>{f49f14c6-b046-41c7-b707-03366f4b1578}</Project>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\CDDA.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -86,7 +86,7 @@
   {
     "id": [ "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH" ],
     "type": "talk_topic",
-    "dynamic_line": "&Wait.  Hold on a second, please don't take this the wrong way, but you wouldn't happen to be from Earth by any chance?.",
+    "dynamic_line": "&Wait.  Hold on a second, please don't take this the wrong way, but wouldn't you happen to be from Earth by any chance?",
     "responses": [
       { "text": "How can you tell?", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_TRUTH" },
       { "text": "Sorry, you're mistaken.", "topic": "TALK_UICA_VEHICLE_MERCHANT_INTRODUCTION_EARTH_LIE" }
@@ -270,7 +270,10 @@
     "type": "effect_on_condition",
     "effect": [
       { "npc_add_var": "player_has_bought_car", "value": "yes" },
-      { "mapgen_update": "afs_shuttlepad_salvors_garage_open", "om_terrain": "afs_shuttlepad_salvors_a1_1" }
+      {
+        "mapgen_update": [ "afs_shuttlepad_salvors_garage_open_and_remove_lynx", "afs_shuttlepad_salvors_garage_place_lynx" ],
+        "om_terrain": "afs_shuttlepad_salvors_a1_1"
+      }
     ]
   },
   {

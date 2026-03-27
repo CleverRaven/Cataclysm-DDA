@@ -156,7 +156,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 static float get_avg_bullet_dmg( const itype_id &clothing_id )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
                                            badguy_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",
@@ -317,7 +317,7 @@ TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
 
 TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
-    SECTION( "Ablative not covered seperate limb" ) {
+    SECTION( "Ablative not covered separate limb" ) {
         item full = item( itype_test_ghost_vest );
         full.force_insert_item( item( itype_test_plate_skirt_super ), pocket_type::CONTAINER );
 

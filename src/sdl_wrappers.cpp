@@ -193,5 +193,61 @@ SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int
     throwErrorIf( !surface, "Failed to create surface" );
     return surface;
 }
+
+void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, const Uint8 alpha )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return;
+    }
+    printErrorIf( SDL_SetTextureAlphaMod( texture.get(), alpha ) != 0,
+                  "SDL_SetTextureAlphaMod failed" );
+}
+
+void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
+                   const SDL_Rect *const srcrect, const SDL_Rect *const dstrect,
+                   const double angle, const SDL_Point *const center,
+                   const SDL_RendererFlip flip )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to render to a null renderer";
+        return;
+    }
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to render a null texture";
+        return;
+    }
+    printErrorIf( SDL_RenderCopyEx( renderer.get(), texture, srcrect, dstrect, angle, center,
+                                    flip ) != 0,
+                  "SDL_RenderCopyEx failed" );
+}
+
+void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), rect ) != 0,
+                  "SDL_RenderSetClipRect failed" );
+}
+
+void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *const rect )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    SDL_RenderGetClipRect( renderer.get(), rect );
+}
+
+bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return false;
+    }
+    return SDL_RenderIsClipEnabled( renderer.get() ) == SDL_TRUE;
+}
 #endif // defined(TILES)
 #endif // defined(TILES) || defined(SDL_SOUND)

@@ -30,7 +30,9 @@
         { "item": "sheet_metal_small", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -58,7 +60,9 @@
         { "item": "stick", "count": [ 0, 3 ] },
         { "item": "birchbark", "count": [ 2, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
-      ]
+      ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {

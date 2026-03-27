@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-u8-path %t -- --load=%cata_plugin -- -isystem %cata_include/third-party
+// RUN: %check_clang_tidy -allow-stdinc %s cata-u8-path %t -- --load=%cata_plugin -- -isystem %cata_third_party_include
 
 #include <filesystem>
 

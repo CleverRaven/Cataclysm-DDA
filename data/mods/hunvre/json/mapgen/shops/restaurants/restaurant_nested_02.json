@@ -1,0 +1,186 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#eeeee #--#",
+        "#CCCCCc#  #",
+        "#      #  #",
+        "#=ddoO #  #",
+        "######+#  #",
+        "#      +  #",
+        "#HHHHH +  #",
+        "######+#  #",
+        "#      + A#",
+        "#HHFff + A#",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#H #H #= Ce",
+        "#H #H #d Ce",
+        "#F #H #d Ce",
+        "#f #H #o Ce",
+        "#f #H #O Ce",
+        "#  +  +  c ",
+        "#++#++#####",
+        "#         -",
+        "#AA       -",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#A + ffFHH#",
+        "#A +      #",
+        "#  #+######",
+        "#  + HHHHH#",
+        "#  +      #",
+        "#  #+######",
+        "#  # Oodd=#",
+        "#  #      #",
+        "#  #cCCCCC#",
+        "#--# eeeee#"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "-       AA#",
+        "-         #",
+        "#####++#++#",
+        " c  +  +  #",
+        "eC O# H# f#",
+        "eC o# H# f#",
+        "eC d# H# F#",
+        "eC d# H# H#",
+        "eC =# H# H#",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_n",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#--# eeeee#",
+        "#  #cCCCCC#",
+        "#  #      #",
+        "#  # Oodd=#",
+        "#  #+######",
+        "#  +      #",
+        "#  + HHHHH#",
+        "#  #+######",
+        "#A +      #",
+        "#A + ffFHH#",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_e",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#AA       -",
+        "#         -",
+        "#++#++#####",
+        "#  +  +  c ",
+        "#f #H #O Ce",
+        "#f #H #o Ce",
+        "#F #H #d Ce",
+        "#H #H #d Ce",
+        "#H #H #= Ce",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_s",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "#HHFff + A#",
+        "#      + A#",
+        "######+#  #",
+        "#HHHHH +  #",
+        "#      +  #",
+        "######+#  #",
+        "#=ddoO #  #",
+        "#      #  #",
+        "#CCCCCc#  #",
+        "#eeeee #--#"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "11x11_restaurant_w",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###########",
+        "eC =# H# H#",
+        "eC d# H# H#",
+        "eC d# H# F#",
+        "eC o# H# f#",
+        "eC O# H# f#",
+        " c  +  +  #",
+        "#####++#++#",
+        "-         #",
+        "-       AA#",
+        "###########"
+      ],
+      "palettes": [ "restaurant_palette_hunvre" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

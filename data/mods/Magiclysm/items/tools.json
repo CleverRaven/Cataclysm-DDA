@@ -95,7 +95,6 @@
         "gutskin",
         "denim",
         "canvas",
-        "demon_chitin",
         "black_dragon_hide"
       ],
       "skill": "tailor",
@@ -129,8 +128,7 @@
           "gutskin",
           "denim",
           "canvas",
-          "black_dragon_hide",
-          "demon_chitin"
+          "black_dragon_hide"
         ],
         "skill": "tailor",
         "tool_quality": 1,
@@ -138,6 +136,62 @@
         "move_cost": 800
       }
     ]
+  },
+  {
+    "id": "soldering_iron",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  Has a short cable that you can plug to your grid.",
+    "weight": "90 g",
+    "volume": "120 ml",
+    "longest_side": "22 cm",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper", "portion": 25 } ],
+    "symbol": ",",
+    "color": "light_gray",
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc", "demon_chitin" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
+    ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 },
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "soldering_iron_portable",
+    "copy-from": "soldering_iron",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "portable soldering iron" },
+    "description": "A device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  This one is a portable version, and contains a slot for a battery.",
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc", "demon_chitin" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
+    ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 }
   },
   {
     "id": "parabolan_wool_staple",

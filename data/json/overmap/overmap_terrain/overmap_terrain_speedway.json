@@ -213,6 +213,7 @@
       "speedway_4_9"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
+    "looks_like": "s_lot",
     "vision_levels": "large_pavement",
     "name": "parking lot",
     "sym": "O",

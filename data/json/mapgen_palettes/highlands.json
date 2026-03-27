@@ -1,0 +1,30 @@
+[
+  {
+    "type": "palette",
+    "id": "highlands",
+    "terrain": {
+      "#": "t_soil",
+      "'": "t_open_air",
+      ".": "t_moss",
+      "o": "t_dirt",
+      "w": "t_water_hot",
+      ",": [ [ "t_fern", 5 ], [ "t_grass_tall", 2 ] ],
+      "s": [ [ "t_moss", 5 ], [ "t_dirt", 5 ] ],
+      "F": [ [ "t_moss", 5 ], [ "t_dirt", 5 ] ],
+      "I": [ "t_tree_dead_warped" ]
+    },
+    "furniture": {
+      "s": [ [ "f_boulder_small", 5 ], [ "f_null", 5 ] ],
+      "F": [ [ "f_boulder_large", 5 ], [ "f_null", 5 ] ],
+      "W": "f_clear",
+      "o": "f_boulder_small",
+      "w": "f_clear"
+    },
+    "mapping": {
+      "*": {
+        "terrain": [ [ "t_moss", 40 ], [ "t_dirt", 5 ] ],
+        "furniture": [ [ "f_boulder_large", 20 ], [ "f_boulder_small", 1 ] ]
+      }
+    }
+  }
+]

@@ -180,7 +180,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
 
 }
 
-TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_casings", "[reload] [gun]" )
 {
 
     SECTION( "empty gun" ) {
@@ -246,7 +246,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_magazine", "[reload] [gun]" )
 {
     SECTION( "empty gun" ) {
         item gun( itype_glock_19 );
@@ -514,7 +514,7 @@ TEST_CASE( "liquid_reloading", "[reload]" )
     }
 }
 
-TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
+TEST_CASE( "speedloader_reloading", "[reload] [gun]" )
 {
     SECTION( "empty gun" ) {
         item gun( itype_sw_610 );
@@ -638,7 +638,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
+TEST_CASE( "gunmod_reloading", "[reload] [gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
         item gun( itype_debug_modular_m4_carbine );
@@ -804,7 +804,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_integral_magazine", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -825,7 +825,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     REQUIRE( gun->remaining_ammo_capacity() == 0 );
 }
 
-TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -868,7 +868,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( dummy.has_item( *speedloader ) );
 }
 
-TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
+TEST_CASE( "reload_gun_with_swappable_magazine", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -945,7 +945,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
     }
 }
 
-TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
+TEST_CASE( "automatic_reloading_action", "[reload] [gun]" )
 {
     Character &dummy = get_avatar();
 
@@ -1130,11 +1130,11 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 }
 
 // TODO: nested containers and frozen liquids.
-TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
+TEST_CASE( "reload_liquid_container", "[reload] [liquid]" )
 {
     Character &dummy = get_avatar();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     item backpack( itype_bigback );
     dummy.wear_item( backpack );
     item canteen( itype_2lcanteen );
@@ -1143,14 +1143,14 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     item_location ammo_jug = dummy.i_add( item( itype_jug_plastic ) );
     ammo_jug->put_in( item( itype_water_clean, calendar::turn_zero, 2 ),
                       pocket_type::CONTAINER );
-    units::volume ammo_volume = ammo_jug->total_contained_volume();
+    units::volume ammo_volume = ammo_jug->get_contents_volume();
 
     SECTION( "reload liquid into empty container" ) {
         g->reload_wielded();
         REQUIRE( dummy.activity );
         process_activity( dummy );
-        CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume );
-        CHECK( ammo_jug->total_contained_volume() == units::volume() );
+        CHECK( dummy.get_wielded_item()->get_contents_volume() == ammo_volume );
+        CHECK( ammo_jug->get_contents_volume() == units::volume() );
     }
 
     SECTION( "reload liquid into partially filled container with same type liquid" ) {
@@ -1160,8 +1160,8 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         g->reload_wielded();
         REQUIRE( dummy.activity );
         process_activity( dummy );
-        CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume + initial_volume );
-        CHECK( ammo_jug->total_contained_volume() == units::volume() );
+        CHECK( dummy.get_wielded_item()->get_contents_volume() == ammo_volume + initial_volume );
+        CHECK( ammo_jug->get_contents_volume() == units::volume() );
     }
 
     SECTION( "reload liquid into partially filled container with different type liquid" ) {
@@ -1172,8 +1172,8 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         if( !!dummy.activity ) {
             process_activity( dummy );
         }
-        CHECK( dummy.get_wielded_item()->total_contained_volume() == initial_volume );
-        CHECK( ammo_jug->total_contained_volume() == ammo_volume );
+        CHECK( dummy.get_wielded_item()->get_contents_volume() == initial_volume );
+        CHECK( ammo_jug->get_contents_volume() == ammo_volume );
     }
 
     SECTION( "reload liquid into container containing a non-liquid" ) {
@@ -1184,20 +1184,20 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         if( !!dummy.activity ) {
             process_activity( dummy );
         }
-        CHECK( dummy.get_wielded_item()->total_contained_volume() == initial_volume );
-        CHECK( ammo_jug->total_contained_volume() == ammo_volume );
+        CHECK( dummy.get_wielded_item()->get_contents_volume() == initial_volume );
+        CHECK( ammo_jug->get_contents_volume() == ammo_volume );
     }
 
     SECTION( "reload liquid container with more liquid than it can hold" ) {
         ammo_jug->fill_with( item( itype_water_clean, calendar::turn_zero, 1 ) );
-        ammo_volume = ammo_jug->total_contained_volume();
+        ammo_volume = ammo_jug->get_contents_volume();
         g->reload_wielded();
         REQUIRE( dummy.activity );
         process_activity( dummy );
-        CHECK( dummy.get_wielded_item()->get_total_capacity() ==
-               dummy.get_wielded_item()->total_contained_volume() );
-        CHECK( ammo_jug->total_contained_volume() +
-               dummy.get_wielded_item()->total_contained_volume() == ammo_volume );
+        CHECK( dummy.get_wielded_item()->get_volume_capacity() ==
+               dummy.get_wielded_item()->get_contents_volume() );
+        CHECK( ammo_jug->get_contents_volume() +
+               dummy.get_wielded_item()->get_contents_volume() == ammo_volume );
     }
 
     SECTION( "liquid reload from map" ) {
@@ -1211,12 +1211,12 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
             ammo_jug = item_location( map_cursor( near_point ), &here.add_item( near_point,
                                       item( itype_bottle_plastic ) ) );
             ammo_jug->fill_with( item( itype_water_clean ) );
-            ammo_volume = ammo_jug->total_contained_volume();
+            ammo_volume = ammo_jug->get_contents_volume();
             g->reload_wielded();
             REQUIRE( dummy.activity );
             process_activity( dummy );
-            CHECK( dummy.get_wielded_item()->total_contained_volume() == ammo_volume );
-            CHECK( ammo_jug->total_contained_volume() == units::volume() );
+            CHECK( dummy.get_wielded_item()->get_contents_volume() == ammo_volume );
+            CHECK( ammo_jug->get_contents_volume() == units::volume() );
         }
 
         SECTION( "liquid spill on floor" ) {
@@ -1225,8 +1225,8 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
             if( !!dummy.activity ) {
                 process_activity( dummy );
             }
-            CHECK( ammo_jug->total_contained_volume() == units::volume() );
-            CHECK( dummy.get_wielded_item()->total_contained_volume() == units::volume() );
+            CHECK( ammo_jug->get_contents_volume() == units::volume() );
+            CHECK( dummy.get_wielded_item()->get_contents_volume() == units::volume() );
         }
     }
 }

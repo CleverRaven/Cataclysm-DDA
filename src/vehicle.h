@@ -260,6 +260,7 @@ class turret_cpu
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
+        friend class vehicle_activity_actor;
         friend class vehicle_cursor;
         friend class vehicle_stack;
         friend item_location;
@@ -377,11 +378,16 @@ struct vehicle_part {
         /** Does this vehicle part have a fault with this flag */
         bool has_fault_flag( const std::string &searched_flag ) const;
 
+        bool has_fault( const fault_id &fault ) const;
+
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;
 
         /** Try to set fault returning false if specified fault cannot occur with this item */
         bool fault_set( const fault_id &f );
+
+        void load_furniture( map &here, const tripoint_bub_ms &from );
+        void unload_furniture( map &here, const tripoint_bub_ms &to );
 
         /**
          *  Get NPC currently assigned to this part (seat, turret etc)?
@@ -444,6 +450,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        bool is_wheel() const;
+
         /* if this is a carried part, what is the name of the carried vehicle */
         std::string carried_name() const;
         /*@}*/
@@ -499,6 +507,15 @@ struct vehicle_part {
         npc &get_targeting_npc( vehicle &veh );
         /*@}*/
 
+        // in cm^2
+        int contact_area() const;
+
+        // Part's base rolling resistance, plus any modifiers from faults etc
+        float rolling_resistance() const;
+
+        // Part's base move penalty, plus any modifiers from faults etc
+        int move_penalty() const;
+
         /** how much blood covers part (in turns). */
         int blood = 0;
 
@@ -514,6 +531,8 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
+        // set by power_parts() on deficit, cleared by grid resolution on recovery
+        bool power_disabled = false; // NOLINT(cata-serialize)
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -730,6 +749,7 @@ class vpart_display
         const vpart_id &id;
         const vpart_variant &variant;
         nc_color color = c_black;
+        std::string carried_furn;
         char32_t symbol = ' '; // symbol in unicode
         int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
         bool is_broken = false;
@@ -825,10 +845,12 @@ class vehicle
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
 
+    public:
         // direct damage to part (armor protection and internals are not counted)
         // @returns damage still left to apply
         int damage_direct( map &here, vehicle_part &vp, int dmg,
                            const damage_type_id &type = damage_type_id( "pure" ) );
+    private:
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, vehicle_part &vp, int dmg );
         // Returns if it did actually explode
@@ -1386,7 +1408,7 @@ class vehicle
         int next_part_to_unlock( int p, bool outside = false ) const;
 
         // returns indices of all parts in the given location slot
-        std::vector<int> all_parts_at_location( const std::string &location ) const;
+        std::vector<int> all_parts_at_location( const vpart_location_id &location ) const;
         // shifts an index to next available of that type for NPC activities
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
@@ -1560,6 +1582,12 @@ class vehicle
         units::power total_wind_epower( map &here ) const;
         // Total power currently being produced by all water wheels.
         units::power total_water_wheel_epower( map &here ) const;
+        // Rated (max) power from solar panels, ignoring weather and position.
+        units::power rated_solar_epower() const;
+        // Rated (max) power from wind turbines, ignoring weather and position.
+        units::power rated_wind_epower() const;
+        // Rated (max) power from water wheels, ignoring position.
+        units::power rated_water_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
         // Total power draw from all cable-connected devices. Is cleared every turn during idle().
@@ -1694,6 +1722,9 @@ class vehicle
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( map &here, int load, time_duration time = 1_turns );
 
+        // Actively moving vehicle with impaired wheels
+        void check_flats_do_rim_damage_or_sounds( map &here );
+
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
          */
@@ -1785,6 +1816,15 @@ class vehicle
          * Affects safe velocity, acceleration and handling difficulty.
          */
         float k_traction( map &here, float wheel_traction_area ) const;
+        // k_traction with explicit mass (for projected drag feasibility checks).
+        float k_traction( map &here, float wheel_traction_area, units::mass mass ) const;
+
+        // Drag strength required to move this vehicle through tile_pos at
+        // given mass.  For single-tile wheeled vehicles.  Returns the str_req
+        // that must be <= get_arm_str() for dragging to succeed.
+        int drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos,
+                             units::mass projected_mass ) const;
+        int drag_str_req_at( map &here, const tripoint_bub_ms &tile_pos ) const;
         /*@}*/
 
         // Extra drag on the vehicle from components other than wheels.
@@ -1853,6 +1893,16 @@ class vehicle
         // Returns collision, which has type, impulse, part, & target.
         veh_collision part_collision( map &here, int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
+
+        // Probability that the wheel will hit the item.
+        static double hit_probability( const item &it, const vehicle_part *vp_wheel );
+
+        // extracted helper for calculating damage chance in damage_wheel_on_item(). Used for tests.
+        double wheel_damage_chance_vs_item( const item &it, const vehicle_part &vp_wheel ) const;
+
+        // Calculates damage on the wheel from running over item and adds damage levels and messages to the vector if needed.
+        void damage_wheel_on_item( vehicle_part *vp_wheel, const item &it,
+                                   std::vector<std::string> *messages ) const;
 
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );
@@ -2190,9 +2240,11 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( map *here, const tripoint_bub_sm &p );
+        void translate_cables( const tripoint_rel_ms &offset );
         void use_autoclave( map &here, int p );
         void use_washing_machine( map &here, int p );
         void use_dishwasher( map &here, int p );
+        void use_mws( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_tiedown_furniture( int part, map *here, const tripoint_bub_ms & );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
@@ -2214,6 +2266,9 @@ class vehicle
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( map &here, const time_point &update_to );
+        // Catch up renewable generation for off-map vehicles using absolute positions.
+        // Returns energy generated in kJ. Updates last_update to prevent double-charge.
+        int catchup_off_map_renewables( const time_point &now );
 
         // The faction that owns this vehicle.
         faction_id owner = faction_id::NULL_ID();
@@ -2434,7 +2489,7 @@ class vehicle
         mutable bool mass_dirty = true; // NOLINT(cata-serialize)
         mutable bool mass_center_precalc_dirty = true; // NOLINT(cata-serialize)
         mutable bool mass_center_no_precalc_dirty = true; // NOLINT(cata-serialize)
-        // cached values for air, water, and  rolling resistance;
+        // cached values for air, water, and rolling resistance;
         mutable bool coeff_rolling_dirty = true; // NOLINT(cata-serialize)
         mutable bool coeff_air_dirty = true; // NOLINT(cata-serialize)
         mutable bool coeff_water_dirty = true; // NOLINT(cata-serialize)

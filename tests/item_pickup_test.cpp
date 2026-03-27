@@ -37,7 +37,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     avatar &they = get_avatar();
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // Spawn items on the map at this location
     const tripoint_bub_ms ground = they.pos_bub();
@@ -150,7 +150,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
     avatar &they = get_avatar();
     map &here = get_map();
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     // Spawn items on the map at this location
     const tripoint_bub_ms ground = they.pos_bub();

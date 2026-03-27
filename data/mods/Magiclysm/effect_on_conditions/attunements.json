@@ -18,26 +18,10 @@
           {
             "id": "EOC_ATTUNEMENT_ARTIFICER_BATTERY_RECHARGING_CHARGER",
             "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
-            "effect": [ { "math": [ "n_val('power')", "+=", "u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
+            "effect": [ { "math": [ "n_val('power') += u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
           }
         ]
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_GIVE_COLD_AURA_OFF",
-    "recurrence": [ "60 s", "60 s" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "BOREAL_MAGE" },
-        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_boreal_mage_attunement" } ] } }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "BOREAL_MAGE" } },
-    "effect": [
-      { "u_add_trait": "COLD_AURA_OFF" },
-      { "u_add_var": "attunement_attunement_u_got_boreal_mage_attunement", "value": "yes" }
     ]
   },
   {

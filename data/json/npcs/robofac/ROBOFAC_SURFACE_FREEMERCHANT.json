@@ -119,7 +119,7 @@
   {
     "id": "TALK_ROBOFAC_FREE_MERCHANT_INTERVAL",
     "type": "talk_topic",
-    "dynamic_line": "Around <interval>, if the caravan doesn't run into trouble.",
+    "dynamic_line": "Around <restock_time_point>, if the caravan doesn't run into trouble.",
     "responses": [ { "text": "Thanks for the info, bye.", "topic": "TALK_DONE" } ]
   }
 ]

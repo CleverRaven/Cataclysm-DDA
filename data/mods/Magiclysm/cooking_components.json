@@ -20,13 +20,24 @@
         [ "mossling_fur", 8 ],
         [ "dryad_bark", 3 ],
         [ "gnome_eye", 2 ],
-        [ "bracken_eye", 1 ]
+        [ "bracken_eye", 1 ],
+        [ "dragon_blood", 1 ],
+        [ "glowing_mushroom", 1 ]
       ]
     ]
   },
   {
     "id": "mana_energy_strong",
     "type": "requirement",
-    "components": [ [ [ "golden_reed_stalk", 1 ], [ "funnelcap_chunk", 5 ], [ "bracken_eye", 1 ], [ "dryad_bark", 10 ] ] ]
+    "components": [
+      [
+        [ "golden_reed_stalk", 1 ],
+        [ "funnelcap_chunk", 5 ],
+        [ "bracken_eye", 1 ],
+        [ "dryad_bark", 10 ],
+        [ "dragon_blood", 1 ],
+        [ "glowing_mushroom", 10 ]
+      ]
+    ]
   }
 ]

@@ -492,9 +492,13 @@ bool veh_menu::query()
 
     chosen._on_submit();
 
-    veh.refresh( );
-    here.invalidate_visibility_cache();
-    here.invalidate_map_cache( here.get_abs_sub().z() );
+    // There's probably a better way to detect this?
+    // If we're swapping dimensions the veh reference has been invalidated.
+    if( !g->swapping_dimensions ) {
+        veh.refresh( );
+        here.invalidate_visibility_cache();
+        here.invalidate_map_cache( here.get_abs_sub().z() );
+    }
 
     return chosen._keep_menu_open;
 }

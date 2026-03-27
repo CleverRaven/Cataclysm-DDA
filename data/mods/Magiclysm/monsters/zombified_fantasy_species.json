@@ -4,6 +4,7 @@
     "id": "mon_zombie_dwarf",
     "name": { "str": "zombie dwarf", "str_pl": "zombie dwarves" },
     "copy-from": "mon_zombie_tough",
+    "species": [ "ZOMBIE", "DWARF" ],
     "description": "Once a dwarf, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
     "proportional": { "volume": 0.7, "weight": 0.9 },
     "speed": 65,
@@ -17,6 +18,7 @@
     "id": "mon_zombie_dwarf_miner",
     "name": { "str": "zombie dwarven miner" },
     "copy-from": "mon_zombie_miner",
+    "species": [ "ZOMBIE", "DWARF" ],
     "description": "Once a dwarven miner, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
     "proportional": { "hp": 1.2, "volume": 0.7, "weight": 0.9, "speed": 0.9 },
     "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
@@ -29,6 +31,7 @@
     "id": "mon_zombie_elf",
     "name": { "str": "zombie elf", "str_pl": "zombie elves" },
     "copy-from": "mon_zombie",
+    "species": [ "ZOMBIE", "ELF" ],
     "description": "Its face twisted in an expression of pure rage and with glassy eyes, this elf looks nothing like the ethereal elves from before the Cataclysm.  Though it also lacks the elves' characteristic grace, its movements are quieter than the other dead.",
     "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "//": "Better night vision than default zombies, but not as good as living elves.",
@@ -116,7 +119,7 @@
     ],
     "vision_day": 35,
     "death_drops": "feral_ravenfolk_death_drops",
-    "upgrades": { "half_life": 360, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
+    "upgrades": { "half_life": 120, "into_group": "GROUP_ZOMBIE_RAVENFOLK_UPGRADE" }
   },
   {
     "id": "mon_zombie_lizardfolk",
@@ -124,7 +127,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "zombie lizardfolk" },
     "description": "A proud servant of dragons reduced to a walking corpse, this lizardfolk's scales are streaked with grime and its black eyes burn with rage.  It has not lost its teeth and claws in the transition to undeath.",
-    "species": [ "LIZARDFOLK" ],
+    "species": [ "LIZARDFOLK", "ZOMBIE" ],
     "volume": "80 L",
     "weight": "100 kg",
     "weakpoint_sets": [ "wps_humanoid_body" ],

@@ -73,7 +73,7 @@
       "rejected": "Well, someone's got to do it.",
       "inquire": "Do you have it?",
       "success": "Wonderful!  Thank you so much!  This will keep me running for a long, long time.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
   },

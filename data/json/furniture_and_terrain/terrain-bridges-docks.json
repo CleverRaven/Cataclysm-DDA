@@ -8,7 +8,7 @@
     "looks_like": "t_pavement",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER"
   },
   {
@@ -20,7 +20,7 @@
     "looks_like": "t_floor",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -29,7 +29,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_sh",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -52,7 +54,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_dp",
-      "items": [ { "item": "splinter", "count": [ 12, 24 ] } ]
+      "items": [ { "item": "splinter", "count": [ 12, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -63,7 +67,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "log", "count": 4 } ] },
     "looks_like": "t_wall_log_half",
@@ -73,7 +77,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_dock_deep_pile",
-      "items": [ { "item": "log", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 4, 8 ] } ]
+      "items": [ { "item": "log", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 4, 8 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -84,7 +90,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_dock_deep_frame",
@@ -97,7 +103,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_dock_deep_pile",
-      "items": [ { "item": "2x4", "count": 8, "prob": 25 }, { "item": "splinter", "count": [ 8, 24 ] } ]
+      "items": [ { "item": "2x4", "count": 8, "prob": 25 }, { "item": "splinter", "count": [ 8, 24 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -109,7 +117,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -118,7 +126,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_sh",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -130,7 +140,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_dp",
@@ -142,7 +152,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_dp",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -154,7 +166,7 @@
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_moving_dp",
@@ -166,7 +178,9 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_water_moving_dp",
-      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
+      "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "hit_field": [ "fd_dust", 2 ],
+      "destroyed_field": [ "fd_splinters", 1 ]
     }
   },
   {
@@ -240,7 +254,7 @@
     "looks_like": "t_metal_floor",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_sh",
@@ -291,7 +305,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_concrete_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "pipe", "count": 4 } ] },
     "looks_like": "t_sconc_wall_halfway",
@@ -312,7 +326,7 @@
     "symbol": "8",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_metal_dock_deep_frame",
@@ -337,7 +351,7 @@
     "symbol": "8",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SWIM_UNDER" ],
     "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_dp", "items": [ { "item": "sheet_metal", "count": [ 2, 4 ] }, { "item": "scrap", "count": 8 } ] },
     "bash": {
