@@ -2416,7 +2416,7 @@
     "id": "UNSTABLE",
     "name": { "str": "Genetically Unstable" },
     "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-    "category": [ "SLIME", "MEDICAL", "CHIMERA" ],
+    "category": [ "MEDICAL", "CHIMERA" ],
     "changes_to": [ "CHAOTIC" ],
     "points": -2,
     "mixed_effect": true,
