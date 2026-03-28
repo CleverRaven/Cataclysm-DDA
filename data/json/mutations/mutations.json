@@ -2419,7 +2419,6 @@
     "category": [ "SLIME", "MEDICAL", "CHIMERA" ],
     "changes_to": [ "CHAOTIC" ],
     "points": -2,
-    "purifiable": false,
     "mixed_effect": true,
     "vitamin_cost": 160
   },
