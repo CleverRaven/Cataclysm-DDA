@@ -98,10 +98,16 @@
         "strict": true,
         "condition": {
           "and": [
-            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            { "math": [ "ancilla_autodoc_placed == 1" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
           ]
         }
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_MVAS",
+        "rigid": true,
+        "strict": true,
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
       }
     ],
     "shopkeeper_blacklist": "robofac_blacklist"
@@ -147,6 +153,12 @@
       { "item": "robofac_lens_mask_gas", "prob": 70, "count": [ 1, 2 ] },
       { "item": "robofac_lens_mask_papr", "prob": 70, "count": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_MVAS",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_head_rig_ar", "prob": 100, "count": 1 } ]
   },
   {
     "id": "robofac_blacklist",

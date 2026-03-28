@@ -204,6 +204,18 @@ Ancilla doc can repair cybernetics
 Hub 01 cyborgs are not welcome at the Exodii castle
 Add event_statistic() dialogue function to math parser
 Per-overmap-tile snow depth tracking with movement penalty
+You can't use a computer while incorporeal or not having hands, add general can't use computers infrastructure
+Add steps to bread recipe
+Off-map renewable generation and persistent power network tracking
+Add `SNOWWALKING` flag, to allow you to ignore snow movement penalty
+Step iteration for recipe steps
+Add consumption_count(), eats_like field, and monotony grouping
+Tool speed modifiers for recipe steps
+brooms can broom
+Add `RAIN_IMMUNE` flag for effect-level rain immunity
+Gate NPC food complaints behind needs_food(), let saprovores eat rotten food, add BT utility strategy
+Appear Neutral Flag
+NPCs wear warm clothes and move to shelter when freezing
 
 
 ## Content:
@@ -453,6 +465,10 @@ The Yrax do things.
 You can start as a mutant in TCL with a specific tree
 Add bionic limbs
 Hub 01 will install & repair basic bionic limbs
+Hunvre mod: Generation ship stealth and melee survival in claustrophobic environment
+Add `Computer Illiterate` challenge trait
+Add inner cabins dimension
+Greenhouses!
 
 
 ## Interface:
@@ -610,6 +626,8 @@ Filter item info body part display by viewing character's anatomy
 debug map editor ImGui conversion
 Prioritize hostile targets over neutral when firing
 Show cable connections for appliances
+Split battery percentage into a separate widget from fuel
+Add viewport lock option for zone sorting
 
 
 ## Mods:
@@ -1089,6 +1107,8 @@ Master archer playstyle perk for Bombastic Perks
 [Xedra Evolved] Add Lashing Bough style, the Arvore martial art
 XE Proficiency CBMs
 [Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
+[MoM] No more astral projecting while driving
+[Xedra Evolved] Paraclesians are born ignorant of technology
 
 
 ## Balance:
@@ -1233,7 +1253,8 @@ Blocking costs Stamina
 Can't block attacks from creatures two sizes greater than you
 Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
-
+Fixes Cloud Formation and Pressure
+Respect magazine_well when calculating encumbrance
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1725,6 +1746,51 @@ Fix zone sort stalling on large zones with mostly empty tiles
 Fix zone sort hang with liquid containers at unload zones
 Fix zone activities ignoring player cancel
 Fix cables permanently disconnecting when target leaves reality bubble
+Fix monster melee special attacks being insanely inaccurate
+Allow melee attacks on matching stairs across z-levels
+Fix creatures under SWIM_UNDER terrain attacking through the surface, NPCs getting stuck, and visibility
+Make mod conflict checks bidirectional and name the conflicting mod
+Fix stale highway grid causing hw_reserved tiles to survive finalize_highways()
+Actually push all the commits into #85870
+Fix multi-zone activity hang on large zones
+Fix flaky swim_under tests that fail with certain RNG seeds
+[Bombastic Perks] More closet definitions
+dense bones provides +5% hp as listed rather than +4 flat
+[Magiclysm] Ravenfolk wings now have feathers
+Fix butchery yield for sub-gram harvest items like down feathers
+render idle hordes on the overmap, in addition to active hordes
+Fix flaky all-mods CI failure from corpse mapgen with empty monster groups
+Apply NPC_starting_traits to randomly generated NPCs
+Fix morale inconsistency wiping all temporary morale bonuses
+Fix item_location losing target across save/load when container contents change
+Fix unique overmap special spawn rates being up to 10x too common
+Update description of stat modifer CBM items
+[MoM] Allow noetic resonance detector to be used on yourself
+Fix crash from uninitialized highway connections on overmap scroll
+Cap sleepiness_mod in calculations to prevent never gaining weariness
+Saprophages and saprovores no longer get parasite warnings for food they can safely eat
+Fix crash loading saves with stale reload activity
+Fix broken starting locations for Innawoods
+NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
+[Hunvre] Fix the game crashing when using the sundial widget
+Fix SIGSEV fault when harvesting/clearing overgrown crops
+Unseen Hunters are considered Nether monsters
+Fix monster melee special attacks being insanely inaccurate
+Allow melee attacks on matching stairs across z-levels
+Fix creatures under SWIM_UNDER terrain attacking through the surface, NPCs getting stuck, and visibility
+Make mod conflict checks bidirectional and name the conflicting mod
+Fix multi-zone activity hang on large zones
+Fix flaky swim_under tests that fail with certain RNG seeds
+render idle hordes on the overmap, in addition to active hordes
+Apply NPC_starting_traits to randomly generated NPCs
+Fix morale inconsistency wiping all temporary morale bonuses
+Fix item_location losing target across save/load when container contents change
+Fix unique overmap special spawn rates being up to 10x too common
+Cap sleepiness_mod in calculations to prevent never gaining weariness
+Saprophages and saprovores no longer get parasite warnings for food they can safely eat
+NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
+Fix SIGSEV fault when harvesting/clearing overgrown crops
+Spell AOE string format specifier fix
 
 
 ## Performance:
@@ -1981,6 +2047,20 @@ Remove redundant pull_request trigger from IWYU Suggester workflow
 Reset calendar and weather between test cases
 Add map::is_roofed() API with vertical walk-up for precipitation checks
 Make iteminfo coverage/warmth test value-independent
+Remove Catch2 v2 internal API usage from test runner
+The correct location of the `CONTRIBUTING.md` file, according to GitHub recommendations
+Use Catch::Matchers:: namespace for all test matchers
+Add debug filter for NPC behavior tree needs evaluation
+Fix flaky vehicle cargo item_location tests
+Extract crafting menu helpers for testability
+Extract recipe info text builders to shared helpers
+Extract crafting filter engine for testability
+Improve overmap terrain coverage test for rare and optional specials
+Extract recipe result info builder for testability
+Extract recipe list pipeline for testability
+Add urgency score predicates and switch NPC behavior tree to utility strategy
+Expand NPC behavior tree diagnostic with convergence logging, sleepiness need, shelter detection, and can_make_fire bugfix
+Add sound support for ammo_type and specific melee ids
 
 
 ## Build:
@@ -2040,6 +2120,7 @@ Restructure the template file
 Miscellaneous NO_I18N additions
 Translate martial art condition text and cable notification text
 Add documentation for C++ translation context comments
+add missing translation
 
 
 # 0.H (Herbert)

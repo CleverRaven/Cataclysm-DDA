@@ -2197,8 +2197,60 @@ steed_type Character::get_steed_type() const
 
 bool Character::can_switch_to( const move_mode_id &mode ) const
 {
+    if( get_steed_type() == steed_type::ANIMAL &&
+        ( mode->type() == move_mode_type::PRONE || mode->type() == move_mode_type::CROUCHING ) ) {
+        return false;
+    }
     // Only running modes are restricted at the moment and only when its your legs doing the running
     return get_steed_type() != steed_type::NONE || mode->type() != move_mode_type::RUNNING || can_run();
+}
+
+int Character::move_mode_switch_cost( const move_mode_id &old_mode,
+                                      const move_mode_id &new_mode ) const
+{
+    const int standing_crouch_base_cost = 50;
+    const int crouch_prone_base_cost = 100;
+    float weight_ratio = static_cast<float>( weight_carried().value() ) /
+                         static_cast<float>( weight_capacity().value() );
+    int move_cost = 0;
+    if( ( old_mode->type() == move_mode_type::PRONE && new_mode->type() == move_mode_type::WALKING ) ||
+        ( old_mode->type() == move_mode_type::PRONE && new_mode->type() == move_mode_type::RUNNING ) ||
+        ( old_mode->type() == move_mode_type::WALKING && new_mode->type() == move_mode_type::PRONE ) ||
+        ( old_mode->type() == move_mode_type::RUNNING && new_mode->type() == move_mode_type::PRONE ) ) {
+        // Two steps of change prone to standing or standing to prone, so it costs both
+        move_cost = standing_crouch_base_cost + crouch_prone_base_cost;
+
+    } else if( ( old_mode->type() == move_mode_type::PRONE &&
+                 new_mode->type() == move_mode_type::CROUCHING ) ||
+               ( old_mode->type() == move_mode_type::CROUCHING && new_mode->type() == move_mode_type::PRONE ) ) {
+        // One step of change prone to crouch or crouch to prone
+        move_cost = crouch_prone_base_cost;
+
+    } else if( ( old_mode->type() == move_mode_type::CROUCHING &&
+                 new_mode->type() == move_mode_type::WALKING ) ||
+               ( old_mode->type() == move_mode_type::CROUCHING && new_mode->type() == move_mode_type::RUNNING ) ||
+               ( old_mode->type() == move_mode_type::WALKING && new_mode->type() == move_mode_type::CROUCHING ) ||
+               ( old_mode->type() == move_mode_type::RUNNING && new_mode->type() == move_mode_type::CROUCHING ) ) {
+        // One step of change walking to crouch or crouch to walking
+        move_cost = standing_crouch_base_cost;
+    }
+
+    // If we're carrying more than we should, make it cost more
+    if( weight_ratio > 1 ) {
+        move_cost *= weight_ratio;
+    }
+
+    // 50% less cost with deft
+    if( has_trait( trait_DEFT ) ) {
+        move_cost /= 2;
+    }
+
+    // 50% more cost with clumsy
+    if( has_trait( trait_CLUMSY ) ) {
+        move_cost *= 1.5;
+    }
+
+    return move_cost;
 }
 
 void Character::process_turn()

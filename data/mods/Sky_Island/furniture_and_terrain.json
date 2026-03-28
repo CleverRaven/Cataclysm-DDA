@@ -99,7 +99,8 @@
     "name": "red glowing wall",
     "description": "A red wall emitting otherworldly glow, enough to be noticeable at night.",
     "color": "red",
-    "light_emitted": 120
+    "light_emitted": 120,
+    "light_color": [ 149, 36, 20 ]
   },
   {
     "id": "fakeitem_statue",

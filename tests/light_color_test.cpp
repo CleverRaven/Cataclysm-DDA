@@ -585,7 +585,7 @@ TEST_CASE( "white_only_map_has_no_colored_light", "[light_color]" )
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 3;
-    place_ter_roofed( src, ter_t_utility_light );
+    place_ter_roofed( src, ter_test_t_utility_light );
 
     rebuild_lightmap( 0 );
 
@@ -672,7 +672,7 @@ TEST_CASE( "lut_wiring_respects_trigdist_option", "[light_color]" )
             place_ter_roofed( src + tripoint( dx, dy, 0 ), ter_t_floor );
         }
     }
-    place_ter_roofed( src, ter_t_utility_light );
+    place_ter_roofed( src, ter_test_t_utility_light );
 
     // Tile at (3,3) from source: Euclidean truncates to 4, Chebyshev gives 3
     const tripoint_bub_ms target = src + tripoint( 3, 3, 0 );

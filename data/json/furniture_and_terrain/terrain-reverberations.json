@@ -71,5 +71,17 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_inner_cabins_nether_glass_floor",
+    "name": "black glass",
+    "description": "An endless expanse of black glass, illuminated by dim, otherworldly light.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "light_emitted": 5,
+    "light_color": [ 150, 75, 0 ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   }
 ]

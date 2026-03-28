@@ -8517,6 +8517,7 @@ bool game::phasing_move( const tripoint_bub_ms &dest_loc, const bool via_ramp )
         u.grab( object_type::NONE );
         on_move_effects();
         here.creature_on_trap( u );
+        get_event_bus().send<event_type::phase_move>( tunneldist, true );
         return true;
     }
 
@@ -8581,6 +8582,8 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
         u.grab( object_type::NONE );
         on_move_effects();
         here.creature_on_trap( u );
+
+        get_event_bus().send<event_type::phase_move>( tunneldist, false );
         return true;
     }
 
@@ -8949,7 +8952,7 @@ void game::on_move_effects()
     if( u.is_running() ) {
         // If mounted, don't break trot
         if( !u.is_mounted() && !u.can_run() ) {
-            u.toggle_run_mode();
+            u.reset_move_mode();
         }
         if( u.get_stamina() <= 0 ) {
             u.add_effect( effect_winded, 10_turns );
@@ -9687,8 +9690,11 @@ bool game::travel_to_dimension( const std::string &new_prefix,
 {
     map &here = get_map();
     avatar &player = get_avatar();
+    std::vector<npc_ptr> moving_npcs;
+    moving_npcs.reserve( npc_travellers.size() );
     if( !npc_travellers.empty() ) {
         int traveller_count = npc_travellers.size();
+        overmap &old_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             // skip unloading a traveller
             bool skip = false;
@@ -9705,7 +9711,9 @@ bool game::travel_to_dimension( const std::string &new_prefix,
                 ( *it )->on_unload();
                 it = critter_tracker->active_npc.erase( it );
             } else {
-                it++;
+                if( const npc_ptr ptr = old_om.erase_npc( ( *it++ )->getID() ) ) {
+                    moving_npcs.push_back( ptr );
+                }
             }
         }
     } else {
@@ -9754,7 +9762,11 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     // Clear the overmap
     overmap_buffer.clear();
     // load/create new overmap
-    overmap_buffer.get( point_abs_om{} );
+    overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
+    // insert travelled NPCs
+    for( const npc_ptr &guy : moving_npcs ) {
+        new_om.insert_npc( guy );
+    }
     // clear map memory from the previous dimension
     player.clear_map_memory();
     // Load map memory in new dimension, if there is any

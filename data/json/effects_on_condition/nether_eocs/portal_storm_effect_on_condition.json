@@ -630,7 +630,17 @@
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
       {
-        "if": { "u_has_item": "inert_glowing_string" },
+        "if": {
+          "or": [
+            { "u_has_item": "inert_glowing_string" },
+            { "u_at_om_location": "xedra_rural_church_parking" },
+            { "u_at_om_location": "xedra_rural_church" },
+            { "u_at_om_location": "xedra_rural_church_steeple" },
+            { "u_at_om_location": "xedra_rural_church_steeple_roof" },
+            { "u_at_om_location": "xedra_rural_church_basement" },
+            { "u_near_om_location": "xedra_rural_church", "range": 2 }
+          ]
+        },
         "then": { "run_eocs": "EOC_PORTAL_STRING_DIMENSION" },
         "else": [
           { "u_location_variable": { "context_val": "loc" } },

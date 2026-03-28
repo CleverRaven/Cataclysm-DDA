@@ -121,6 +121,7 @@
     "color": "light_blue",
     "coverage": 30,
     "light_emitted": 55,
+    "light_color": [ 94, 175, 237 ],
     "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,

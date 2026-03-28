@@ -356,6 +356,46 @@
     "similar_bodypart": "beak_bottom"
   },
   {
+    "id": "gastropod_tongue_lips",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "mouth_lips"
+  },
+  {
+    "id": "gastropod_tongue_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nose",
+    "similar_bodypart": "mouth_nose"
+  },
+  {
+    "id": "gastropod_tongue_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "mouth_cheeks"
+  },
+  {
+    "id": "gastropod_tongue_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "mouth_chin"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",

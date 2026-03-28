@@ -317,22 +317,31 @@ class avatar : public Character
         // rebuilds the full aim cache for the character if it is dirty
         void rebuild_aim_cache() const;
 
+        // directly sets movement mode bypassing movecost of changing modes
         void set_movement_mode( const move_mode_id &mode ) override;
-
-        // Cycles to the next move mode.
-        void cycle_move_mode();
-        // Cycles to the previous move mode.
-        void cycle_move_mode_reverse();
-        // Resets to walking.
         void reset_move_mode();
-        // Toggles running on/off.
-        void toggle_run_mode();
-        // Toggles crouching on/off.
-        void toggle_crouch_mode();
-        // Toggles lying down on/off.
-        void toggle_prone_mode();
-        // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
+
+        // manages deferred move cost of changing move mods
+        // primarily used for player actions that change move mode
+        void set_desired_movement_mode( const move_mode_id &mode );
+        move_mode_id get_desired_move_mode() const;
+
+        void cycle_desired_move_mode();
+        void cycle_desired_move_mode_reverse();
+
+        bool is_walk_mode_desired() const;
+        void set_walk_mode_desired();
+
+        bool is_run_mode_desired() const;
+        void toggle_run_mode_desired();
+
+        bool is_crouch_mode_desired() const;
+        void toggle_crouch_mode_desired();
+
+        bool is_prone_mode_desired() const;
+        void toggle_prone_mode_desired();
+
 
         bool wield( item &it );
         bool wield( item_location loc, bool remove_old = true );
@@ -410,6 +419,8 @@ class avatar : public Character
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
+        bool is_waiting_to_change_mode_mode();
+
     private:
         npc &get_shadow_npc();
 
@@ -473,6 +484,8 @@ class avatar : public Character
 
         // true when the space is still visible when aiming
         mutable cata::mdarray<bool, point_bub_ms> aim_cache;
+
+        move_mode_id desired_move_mode;
 };
 
 avatar &get_avatar();

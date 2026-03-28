@@ -207,6 +207,21 @@
     "sub_parts": [ "beak_hummingbird_nares", "beak_hummingbird_top", "beak_hummingbird_tip", "beak_hummingbird_bottom" ]
   },
   {
+    "id": "gastropod_tongue",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "opposite_part": "gastropod_tongue",
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.9 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 0.9 ], [ "consume_solid", 0.9 ] ],
+    "side": "both",
+    "similar_bodypart": "mouth",
+    "squeamish_penalty": 6,
+    "drench_capacity": 700,
+    "techniques": [ "TECH_GASTROPOD_TONGUE" ],
+    "sub_parts": [ "gastropod_tongue_lips", "gastropod_tongue_nose", "gastropod_tongue_cheeks", "gastropod_tongue_chin" ],
+    "unarmed_damage": [ { "damage_type": "stab", "amount": 15 } ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",
