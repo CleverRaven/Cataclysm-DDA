@@ -2022,6 +2022,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED2" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_RAT", "THRESH_CHIMERA" ],
+    "purifiable": false,
     "points": -4,
     "vitamin_cost": 160,
     "visibility": 10,
