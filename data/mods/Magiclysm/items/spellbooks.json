@@ -54,7 +54,7 @@
     "category": "manuals",
     "name": { "str": "Magica Beginning", "str_pl": "copies of Magica Beginning" },
     "//": "2 Magus, 3 classless spell",
-    "description": "A English translation of the original Latin work, this book was written by one magus for her apprentices. In current days most of theory is outdated therefore this work have mostly historical interest, but it possible learn several spells from it.",
+    "description": "A English translation of the original Latin work, this book was written by one magus for her apprentices.  In current days most of theory is outdated therefore this work have mostly historical interest, but it possible learn several spells from it.",
     "weight": "585 g",
     "volume": "250 ml",
     "price": "50 USD",
