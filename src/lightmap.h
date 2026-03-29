@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 #include "map_scale_constants.h"
+#include "point.h"
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
 constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
@@ -108,5 +109,8 @@ inline std::ostream &operator<<( std::ostream &os, const lit_level &ll )
 {
     return os << static_cast<int>( ll );
 }
+
+// Exposed for testing: precomputed 2D integer euclidean distance.
+int trig_dist_2d( point delta );
 
 #endif // CATA_SRC_LIGHTMAP_H

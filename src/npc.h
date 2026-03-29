@@ -1096,6 +1096,11 @@ class npc : public Character
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
+        // Returns true if p is in an NPC_NO_GO zone for this NPC's faction.
+        bool is_no_go_position( const tripoint_abs_ms &p ) const;
+        // Returns true if p is a valid sleep target: not in NPC_NO_GO and
+        // reachable without bashing. Does not check occupancy.
+        bool is_valid_sleep_candidate( const tripoint_bub_ms &p ) const;
         void process_turn() override;
 
         using Character::invoke_item;

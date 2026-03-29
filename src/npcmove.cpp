@@ -204,6 +204,7 @@ static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
+static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -1847,7 +1848,9 @@ void npc::execute_action( npc_action action )
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
-            int best_sleepy = evaluate_sleep_spot( best_spot );
+            int best_sleepy = is_valid_sleep_candidate( pos_bub() )
+                              ? evaluate_sleep_spot( best_spot )
+                              : INT_MIN;
 
             // first build a list of positions to search
             std::vector<tripoint_bub_ms> search_positions;
@@ -1876,7 +1879,7 @@ void npc::execute_action( npc_action action )
                 // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
                 if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
                     const int sleepy = evaluate_sleep_spot( p );
-                    if( sleepy > best_sleepy ) {
+                    if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
                         best_sleepy = sleepy;
                         best_spot = p;
                     }
@@ -1886,7 +1889,7 @@ void npc::execute_action( npc_action action )
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
-            update_path( best_spot );
+            update_path( best_spot, true );
             // TODO: Handle empty path better
             if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();
@@ -3248,6 +3251,24 @@ bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool for
 void npc::set_guard_pos( const tripoint_abs_ms &p )
 {
     ai_cache.guard_pos = p;
+}
+
+bool npc::is_no_go_position( const tripoint_abs_ms &p ) const
+{
+    return zone_manager::get_manager().has( zone_type_NPC_NO_GO, p, fac_id );
+}
+
+bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
+{
+    const map &here = get_map();
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return false;
+    }
+    if( p == pos_bub() ) {
+        return true;
+    }
+    return !here.route( pos_bub(), pathfinding_target::point( p ),
+                        get_pathfinding_settings( true ), get_path_avoid() ).empty();
 }
 
 bool npc::can_open_door( const tripoint_bub_ms &p, const bool inside ) const
@@ -5837,6 +5858,9 @@ std::vector<npc::scored_water_source> npc::find_nearby_water_sources() const
     std::vector<scored_water_source> results;
     const map &here = get_map();
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
         if( !sees( here, p ) ) {
             continue;
         }
@@ -5888,6 +5912,9 @@ std::vector<npc::scored_item> npc::find_nearby_food()
     };
 
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
             continue;
         }
@@ -5955,6 +5982,9 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
     };
 
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
             continue;
         }
@@ -6073,6 +6103,9 @@ std::vector<npc::scored_shelter> npc::find_nearby_shelters() const
         if( p == cur ) {
             continue;
         }
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
         if( !here.has_flag( ter_furn_flag::TFLAG_INDOORS, p ) ) {
             continue;
         }
@@ -6099,6 +6132,9 @@ std::vector<npc::scored_water_source> npc::find_nearby_harvestable() const
     std::vector<scored_water_source> results;
     const map &here = get_map();
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
         // Detect both harvest-system terrain (fruit trees, berry bushes)
         // and examine-action foraging (underbrush -> shrub_wildveggies).
         const bool harvestable = here.is_harvestable( p ) ||

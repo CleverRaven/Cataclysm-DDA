@@ -83,6 +83,10 @@ static const efftype_id effect_wet( "wet" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_locker( "f_locker" );
+static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
+
 static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 
@@ -109,6 +113,7 @@ static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_ponywall( "t_ponywall" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
@@ -133,6 +138,7 @@ static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
+static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -2527,4 +2533,273 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
     // backlog triggers ACT_NULL when driving do_turn() directly in tests.
     // Completion coverage for forage_activity_actor should go in
     // player_activities_test.cpp or harvest_test.cpp.
+}
+
+// Helper: place double-thick glass enclosure around a point (seals diagonal gaps)
+static void enclose_in_glass( map &here, const tripoint_bub_ms &center )
+{
+    for( int r = 1; r <= 2; ++r ) {
+        for( const tripoint_bub_ms &w : here.points_in_radius( center, r ) ) {
+            if( w != center ) {
+                here.ter_set( w, ter_t_wall_glass );
+            }
+        }
+    }
+}
+
+// Helper: set up a sleepy non-ally NPC ready to call move().
+// Mirrors npc_nonally_sleeps_when_tired setup.
+static void make_npc_sleepy( npc &guy )
+{
+    guy.set_sleepiness( 800 );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    guy.set_mission( NPC_MISSION_SHELTER );
+    guy.set_moves( 100 );
+}
+
+TEST_CASE( "npc_sleep_spot_reachability", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    calendar::turn = calendar::turn_zero + 1_hours;
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    REQUIRE_FALSE( guy.is_player_ally() );
+    map &here = get_map();
+
+    SECTION( "reachable worse bed beats unreachable better bed" ) {
+        // Good bed behind glass walls (unreachable without bashing)
+        const tripoint_bub_ms walled_bed = guy.pos_bub() + tripoint( 5, 0, 0 );
+        here.ter_set( walled_bed, ter_t_floor );
+        here.furn_set( walled_bed, furn_f_bed );
+        enclose_in_glass( here, walled_bed );
+        // Worse bed on open ground (reachable)
+        const tripoint_bub_ms open_bed = guy.pos_bub() + tripoint( 0, 3, 0 );
+        here.ter_set( open_bed, ter_t_floor );
+        here.furn_set( open_bed, furn_f_makeshift_bed );
+
+        const int dist_walled_before = rl_dist( guy.pos_bub(), walled_bed );
+        const int dist_open_before = rl_dist( guy.pos_bub(), open_bed );
+
+        make_npc_sleepy( guy );
+        guy.move();
+
+        CHECK( rl_dist( guy.pos_bub(), open_bed ) < dist_open_before );
+        CHECK( rl_dist( guy.pos_bub(), walled_bed ) >= dist_walled_before );
+    }
+
+    SECTION( "bed behind closed door is reachable" ) {
+        const tripoint_bub_ms door = guy.pos_bub() + tripoint( 2, 0, 0 );
+        here.ter_set( door, ter_t_door_c );
+        const tripoint_bub_ms bed = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( bed, ter_t_floor );
+        here.furn_set( bed, furn_f_bed );
+
+        const int dist_before = rl_dist( guy.pos_bub(), bed );
+
+        make_npc_sleepy( guy );
+        guy.move();
+
+        CHECK( rl_dist( guy.pos_bub(), bed ) < dist_before );
+    }
+
+    SECTION( "bed behind bashable furniture is unreachable" ) {
+        // Seal bed behind double-thick locker enclosure (same pattern as glass
+        // wall tests -- single thickness has diagonal gaps A* can exploit).
+        const tripoint_bub_ms blocked_bed = guy.pos_bub() + tripoint( 5, 0, 0 );
+        here.ter_set( blocked_bed, ter_t_floor );
+        here.furn_set( blocked_bed, furn_f_bed );
+        for( int r = 1; r <= 2; ++r ) {
+            for( const tripoint_bub_ms &w : here.points_in_radius( blocked_bed, r ) ) {
+                if( w != blocked_bed ) {
+                    here.furn_set( w, furn_f_locker );
+                }
+            }
+        }
+        // Alternative on open ground
+        const tripoint_bub_ms open_bed = guy.pos_bub() + tripoint( 0, 3, 0 );
+        here.ter_set( open_bed, ter_t_floor );
+        here.furn_set( open_bed, furn_f_makeshift_bed );
+
+        const int dist_blocked_before = rl_dist( guy.pos_bub(), blocked_bed );
+        const int dist_open_before = rl_dist( guy.pos_bub(), open_bed );
+
+        make_npc_sleepy( guy );
+        guy.move();
+
+        CHECK( rl_dist( guy.pos_bub(), open_bed ) < dist_open_before );
+        CHECK( rl_dist( guy.pos_bub(), blocked_bed ) >= dist_blocked_before );
+    }
+
+    SECTION( "no reachable bed: NPC sleeps in place" ) {
+        const tripoint_bub_ms walled_bed = guy.pos_bub() + tripoint( 5, 0, 0 );
+        here.ter_set( walled_bed, ter_t_floor );
+        here.furn_set( walled_bed, furn_f_bed );
+        enclose_in_glass( here, walled_bed );
+
+        const tripoint_bub_ms before = guy.pos_bub();
+
+        make_npc_sleepy( guy );
+        guy.move();
+
+        CHECK( guy.pos_bub() == before );
+        CHECK( ( guy.has_effect( effect_sleep ) || guy.has_effect( effect_lying_down ) ) );
+    }
+}
+
+TEST_CASE( "npc_no_go_zone_blocks_needs", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    get_player_character().camps.clear();
+    calendar::turn = calendar::turn_zero + 1_hours;
+    get_weather().forced_temperature = 20_C;
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    guy.stomach.empty();
+    guy.guts.empty();
+    REQUIRE_FALSE( guy.is_player_ally() );
+    map &here = get_map();
+
+    // NPC_NO_GO zone covering tiles east of NPC (x >= npc_x + 1)
+    const tripoint_abs_ms zone_start = guy.pos_abs() + tripoint( 1, -10, 0 );
+    const tripoint_abs_ms zone_end = guy.pos_abs() + tripoint( 20, 10, 0 );
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.add( "test_no_go", zone_type_NPC_NO_GO, guy.get_fac_id(),
+             false, true, zone_start, zone_end );
+    mgr.cache_data();
+
+    SECTION( "sleep: best bed in NPC_NO_GO is skipped" ) {
+        // Good bed in no-go zone
+        const tripoint_bub_ms zoned_bed = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( zoned_bed, ter_t_floor );
+        here.furn_set( zoned_bed, furn_f_bed );
+        // Worse bed outside zone (west)
+        const tripoint_bub_ms open_bed = guy.pos_bub() + tripoint( 0, -3, 0 );
+        here.ter_set( open_bed, ter_t_floor );
+        here.furn_set( open_bed, furn_f_makeshift_bed );
+
+        const int dist_zoned_before = rl_dist( guy.pos_bub(), zoned_bed );
+        const int dist_open_before = rl_dist( guy.pos_bub(), open_bed );
+
+        make_npc_sleepy( guy );
+        guy.move();
+
+        CHECK( rl_dist( guy.pos_bub(), open_bed ) < dist_open_before );
+        CHECK( rl_dist( guy.pos_bub(), zoned_bed ) >= dist_zoned_before );
+    }
+
+    SECTION( "food: adjacent ground food in NPC_NO_GO not consumed" ) {
+        guy.set_stored_kcal( 2000 );
+        guy.set_hunger( 300 );
+        guy.set_thirst( 100 );
+        const tripoint_bub_ms food_at = guy.pos_bub() + point::east;
+        here.add_item_or_charges( food_at, item( itype_sandwich_cheese_grilled ) );
+        const size_t items_before = here.i_at( food_at ).size();
+        const tripoint_bub_ms before = guy.pos_bub();
+
+        guy.address_needs( 0 );
+
+        CHECK( here.i_at( food_at ).size() == items_before );
+        CHECK( guy.pos_bub() == before );
+    }
+
+    SECTION( "water: adjacent water in NPC_NO_GO not used" ) {
+        guy.set_thirst( 200 );
+        REQUIRE( guy.get_thirst() > 80 );
+        const tripoint_bub_ms water_at = guy.pos_bub() + point::east;
+        here.ter_set( water_at, ter_t_water_sh );
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.stomach.get_water() == 0_ml );
+    }
+
+    SECTION( "shelter: indoor tile in NPC_NO_GO skipped" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+        const tripoint_bub_ms shelter = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( shelter, ter_t_floor );
+        here.build_map_cache( 0 );
+        const tripoint_bub_ms before = guy.pos_bub();
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.pos_bub() == before );
+    }
+
+    SECTION( "harvest: harvestable in NPC_NO_GO skipped" ) {
+        guy.set_stored_kcal( 2000 );
+        guy.set_hunger( 300 );
+        guy.set_thirst( 100 );
+        const tripoint_bub_ms harvest_at = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( harvest_at, ter_t_underbrush );
+        here.build_map_cache( 0 );
+        const tripoint_bub_ms before = guy.pos_bub();
+
+        guy.address_needs( 0 );
+
+        CHECK( guy.pos_bub() == before );
+    }
+
+    SECTION( "clothing: warm clothing in NPC_NO_GO not picked up" ) {
+        guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+        const tripoint_bub_ms cloth_at = guy.pos_bub() + point::east;
+        here.add_item_or_charges( cloth_at, item( itype_sweater ) );
+        const size_t items_before = here.i_at( cloth_at ).size();
+
+        guy.address_needs( 0 );
+
+        CHECK( here.i_at( cloth_at ).size() == items_before );
+    }
+
+    // Cleanup: remove test zone so it doesn't leak into other tests
+    mgr.clear();
+    mgr.cache_data();
+}
+
+TEST_CASE( "npc_is_no_go_position", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+
+    const tripoint_abs_ms inside = guy.pos_abs() + tripoint( 3, 0, 0 );
+    const tripoint_abs_ms outside = guy.pos_abs() + tripoint( -3, 0, 0 );
+
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.add( "test_no_go", zone_type_NPC_NO_GO, guy.get_fac_id(),
+             false, true,
+             guy.pos_abs() + tripoint( 1, -5, 0 ),
+             guy.pos_abs() + tripoint( 10, 5, 0 ) );
+    mgr.cache_data();
+
+    SECTION( "true for matching faction zone" ) {
+        CHECK( guy.is_no_go_position( inside ) );
+    }
+
+    SECTION( "false outside zone" ) {
+        CHECK_FALSE( guy.is_no_go_position( outside ) );
+    }
+
+    SECTION( "false for different faction" ) {
+        // Zone is for guy's faction; a different NPC with different faction
+        // should not be blocked
+        npc &other = spawn_npc( { 55, 50 }, "test_talker" );
+        clear_character( other, true );
+        // Set a different faction
+        other.set_fac( faction_your_followers );
+        REQUIRE( other.get_fac_id() != guy.get_fac_id() );
+        CHECK_FALSE( other.is_no_go_position( inside ) );
+    }
+
+    mgr.clear();
+    mgr.cache_data();
 }

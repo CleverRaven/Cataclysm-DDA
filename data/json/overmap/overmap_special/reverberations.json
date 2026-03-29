@@ -27,6 +27,18 @@
   },
   {
     "type": "overmap_special",
+    "id": "inner_cabins_depths_entrance",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_entrance_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "inner_cabins_empty_cabin_roof_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 60, 100 ],
+    "locations": [ "inner_cabins" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "inner_cabins_warped_cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_warped_cabin_1_north" },

@@ -437,7 +437,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     cata_assert( original );
     SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
     cata_assert( surf );
-    throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
+    throwErrorIf( BlitSurface( original, nullptr, surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
     SDL_Color *pix = static_cast<SDL_Color *>( surf->pixels );
@@ -533,10 +533,10 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-        const Uint32 key = SDL_MapRGB( tile_atlas->format, 0, 0, 0 );
-        throwErrorIf( SDL_SetColorKey( tile_atlas.get(), SDL_TRUE, key ) != 0,
+        const Uint32 key = MapRGB( tile_atlas, 0, 0, 0 );
+        throwErrorIf( SetColorKey( tile_atlas, SDL_TRUE, key ) != 0,
                       "SDL_SetColorKey failed" );
-        throwErrorIf( SDL_SetSurfaceRLE( tile_atlas.get(), 1 ), "SDL_SetSurfaceRLE failed" );
+        throwErrorIf( SetSurfaceRLE( tile_atlas, 1 ), "SDL_SetSurfaceRLE failed" );
     }
 
     SDL_RendererInfo info;
@@ -616,8 +616,8 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
             smaller_surf = ::create_surface_32( w, h );
             cata_assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
-            throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(),
-                                           nullptr ) != 0, "SDL_BlitSurface failed" );
+            throwErrorIf( BlitSurface( tile_atlas, &inp, smaller_surf,
+                                       nullptr ) != 0, "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
         cata_assert( surf_to_use );
@@ -4524,8 +4524,8 @@ void tileset_cache::loader::ensure_default_item_highlight()
 
     const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
     cata_assert( surface );
-    throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
-                                highlight_alpha ) ) != 0, "SDL_FillRect failed" );
+    throwErrorIf( FillRect( surface, nullptr, MapRGBA( surface, 0, 0, 127,
+                            highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ),
                                  SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );

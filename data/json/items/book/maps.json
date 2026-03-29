@@ -622,5 +622,68 @@
     "flags": [ "PAPER_SHAPED" ],
     "weight": "5 g",
     "volume": "5 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note",
+    "name": "leather notebook",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An absolutely ancient-looking, leather-bound journal.  The pages are gilded at the edges.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the journal",
+      "description": "Study the journal",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_INNER_CABINS_DEPTHS_NOTE",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "if": { "u_has_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS" },
+              "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+              "else": [
+                {
+                  "u_message": "This book is written in a script that you do not recognize or understand.  However, there is a very clear map drawn on the inside of the front cover, with a location circled.  You make note of it.",
+                  "popup": true
+                },
+                { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS" }
+              ]
+            },
+            { "transform_item": "inner_cabins_depths_note_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_used",
+    "name": { "str": "leather notebook (used)", "str_pl": "leather notebooks (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An absolutely ancient-looking, leather-bound journal.  The pages are gilded at the edges.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
   }
 ]

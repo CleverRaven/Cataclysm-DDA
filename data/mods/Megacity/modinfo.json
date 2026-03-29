@@ -8,7 +8,7 @@
     "description": "The president's dead and the city stretches on.  Whether you walk for 24 hours or 24 days, there is only more city.  There is no escape from this steel and concrete hell.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "conflicts": [ "aftershock_exoplanet", "backrooms", "tropicata", "classic_zombies", "Isolation_Protocol", "innawood" ]
+    "conflicts": [ "aftershock_exoplanet", "backrooms", "tropicata", "classic_zombies", "Isolation_Protocol", "innawood", "no_hope" ]
   },
   {
     "type": "EXTERNAL_OPTION",

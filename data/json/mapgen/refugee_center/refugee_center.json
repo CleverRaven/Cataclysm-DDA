@@ -103,7 +103,18 @@
         { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 2, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 69, 71 ], "y": [ 2, 23 ] },
-        { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] }
+        { "type": "NPC_NO_INVESTIGATE", "faction": "no_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "free_merchants", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "wasteland_scavengers", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "wasteland_scavengers", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "old_guard", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "old_guard", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "no_faction", "x": [ 69, 71 ], "y": [ 2, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "no_faction", "x": [ 72, 95 ], "y": [ 0, 23 ] }
       ],
       "place_vehicles": [
         { "vehicle": "schoolbus", "x": 19, "y": 13, "chance": 75, "rotation": 270 },
@@ -200,7 +211,12 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "wasteland_scavengers", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "free_merchants", "x": [ 24, 32 ], "y": [ 3, 20 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "wasteland_scavengers", "x": [ 24, 32 ], "y": [ 3, 20 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 50 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 20 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] }
       ],
       "items": {
         "D": { "item": "SUS_trash_trashcan", "chance": 60 },
@@ -284,6 +300,11 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 59 ], "y": [ 2, 19 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 48 ], "y": [ 0, 0 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 48, 50 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 5, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 69, 71 ], "y": [ 0, 23 ] },
+        { "type": "NPC_NO_GO", "faction": "lobby_beggars", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 72, 72 ], "y": [ 0, 0 ] },
         { "type": "LOOT_CURRENCY", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 2, 2 ] },
         { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] },

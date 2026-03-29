@@ -1,13 +1,14 @@
-#include <memory> // IWYU pragma: keep
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "coordinates.h"
 #include "game.h"
 #include "level_cache.h"
 #include "lightmap.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
@@ -383,4 +384,390 @@ TEST_CASE( "vehicle_cone_light_carries_color", "[light_color]" )
     CAPTURE( behind_color.r, behind_color.g, behind_color.b );
 
     CHECK( best_r > behind_color.r );
+}
+
+TEST_CASE( "fused_color_output_matches_golden_values", "[light_color]" )
+{
+    // Golden values captured from pre-fusion code. These pin the exact
+    // per-tile RGB and scalar lightmap output for a single red point light
+    // on a dark roofed map with uniform floor.
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 5;
+
+    for( int dx = -6; dx <= 6; dx++ ) {
+        for( int dy = -6; dy <= 6; dy++ ) {
+            place_ter_roofed( src + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+    place_ter_roofed( src, ter_t_test_red_light );
+
+    rebuild_lightmap( 0 );
+
+    const map &here = get_map();
+    const level_cache &cache = here.access_cache( 0 );
+
+    // Golden 7x7 patch (inner tiles with actual color data): { delta, expected_r, expected_lm_max }
+    // g and b are always 0 for a pure red source.
+    struct golden_entry {
+        point d;
+        float r;
+        float lm;
+    };
+    // NOLINTBEGIN(cata-use-named-point-constants)
+    static const std::vector<golden_entry> golden = {
+        { { -3, -3 }, 1.438203f, 3.500000f },
+        { { -2, -3 }, 2.298876f, 3.500000f },
+        { { -1, -3 }, 2.582018f, 3.500000f },
+        { { 0, -3 }, 2.582018f, 3.500000f },
+        { { 1, -3 }, 2.582018f, 3.500000f },
+        { { 2, -3 }, 2.298876f, 3.500000f },
+        { { 3, -3 }, 1.438203f, 3.500000f },
+        { { -3, -2 }, 2.298876f, 3.500000f },
+        { { -2, -2 }, 4.239466f, 4.723102f },
+        { { -1, -2 }, 5.266641f, 4.723102f },
+        { { 0, -2 }, 5.821768f, 4.723102f },
+        { { 1, -2 }, 5.266641f, 4.723102f },
+        { { 2, -2 }, 4.239465f, 4.723102f },
+        { { 3, -2 }, 2.298876f, 3.500000f },
+        { { -3, -1 }, 2.582018f, 3.500000f },
+        { { -2, -1 }, 5.266641f, 4.723102f },
+        { { -1, -1 }, 6.974808f, 9.719253f },
+        { { 0, -1 }, 8.085064f, 9.719253f },
+        { { 1, -1 }, 6.974808f, 9.719253f },
+        { { 2, -1 }, 5.266640f, 4.723102f },
+        { { 3, -1 }, 2.582018f, 3.500000f },
+        { { -3, 0 }, 2.582018f, 3.500000f },
+        { { -2, 0 }, 5.821769f, 4.723102f },
+        { { -1, 0 }, 8.085064f, 9.719253f },
+        { { 0, 0 }, 9.750447f, 10.000000f },
+        { { 1, 0 }, 8.085064f, 9.719253f },
+        { { 2, 0 }, 5.821768f, 4.723102f },
+        { { 3, 0 }, 2.582018f, 3.500000f },
+        { { -3, 1 }, 2.582018f, 3.500000f },
+        { { -2, 1 }, 5.266641f, 4.723102f },
+        { { -1, 1 }, 6.974808f, 9.719253f },
+        { { 0, 1 }, 8.085063f, 9.719253f },
+        { { 1, 1 }, 6.974808f, 9.719253f },
+        { { 2, 1 }, 5.266640f, 4.723102f },
+        { { 3, 1 }, 2.582018f, 3.500000f },
+        { { -3, 2 }, 2.298876f, 3.500000f },
+        { { -2, 2 }, 4.239466f, 4.723102f },
+        { { -1, 2 }, 5.266641f, 4.723102f },
+        { { 0, 2 }, 5.821768f, 4.723102f },
+        { { 1, 2 }, 5.266641f, 4.723102f },
+        { { 2, 2 }, 4.239466f, 4.723102f },
+        { { 3, 2 }, 2.298876f, 3.500000f },
+        { { -3, 3 }, 1.438203f, 3.500000f },
+        { { -2, 3 }, 2.298876f, 3.500000f },
+        { { -1, 3 }, 2.582018f, 3.500000f },
+        { { 0, 3 }, 2.582018f, 3.500000f },
+        { { 1, 3 }, 2.582018f, 3.500000f },
+        { { 2, 3 }, 2.298876f, 3.500000f },
+        { { 3, 3 }, 1.438203f, 3.500000f },
+    };
+    // NOLINTEND(cata-use-named-point-constants)
+
+    for( const golden_entry &g : golden ) {
+        const point p = g.d + point( src.x(), src.y() );
+        CAPTURE( g.d );
+        CHECK( cache.light_color_cache[p.x][p.y].r == Approx( g.r ).margin( 0.01f ) );
+        CHECK( cache.light_color_cache[p.x][p.y].g == Approx( 0.0f ).margin( 0.01f ) );
+        CHECK( cache.light_color_cache[p.x][p.y].b == Approx( 0.0f ).margin( 0.01f ) );
+        CHECK( cache.lm[p.x][p.y].max() == Approx( g.lm ).margin( 0.01f ) );
+    }
+}
+
+// Manual-only capture helper for regenerating golden values.
+// Run with: ./tests/cata_test "[golden_capture]"
+TEST_CASE( "capture_golden_values_for_point_light", "[.][golden_capture]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 5;
+
+    for( int dx = -6; dx <= 6; dx++ ) {
+        for( int dy = -6; dy <= 6; dy++ ) {
+            place_ter_roofed( src + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+    place_ter_roofed( src, ter_t_test_red_light );
+
+    rebuild_lightmap( 0 );
+
+    const map &here = get_map();
+    const level_cache &cache = here.access_cache( 0 );
+
+    // NOLINTNEXTLINE(cata-text-style)
+    printf( "\n=== GOLDEN VALUES: 9x9 patch centered on red light ===\n" );
+    // NOLINTNEXTLINE(cata-text-style)
+    printf( "// { dx, dy, r, g, b, lm_max }\n" );
+    for( int dy = -4; dy <= 4; dy++ ) {
+        for( int dx = -4; dx <= 4; dx++ ) {
+            // NOLINTNEXTLINE(cata-combine-locals-into-point)
+            const int x = src.x() + dx;
+            const int y = src.y() + dy;
+            const auto &c = cache.light_color_cache[x][y];
+            const float lm = cache.lm[x][y].max();
+            // NOLINTNEXTLINE(cata-text-style)
+            printf( "{ %2d, %2d, %10.6ff, %10.6ff, %10.6ff, %10.6ff },\n",
+                    dx, dy, c.r, c.g, c.b, lm );
+        }
+    }
+}
+
+// Manual-only capture helper for arc golden values.
+// Run with: ./tests/cata_test "[golden_arc_capture]"
+TEST_CASE( "capture_golden_values_for_arc_light", "[.][golden_arc_capture]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = get_player_character().pos_bub() + tripoint::east * 5;
+
+    for( int dx = -10; dx <= 10; dx++ ) {
+        for( int dy = -10; dy <= 10; dy++ ) {
+            place_ter_roofed( veh_pos + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+
+    std::vector<point_rel_ms> hl_mounts;
+    for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_CONE_LIGHT ) ) {
+        hl_mounts.push_back( vpr.part().mount );
+        veh->remove_part( vpr.part() );
+    }
+    veh->part_removal_cleanup( here );
+    REQUIRE( !hl_mounts.empty() );
+
+    const int part_idx = veh->install_part( here, hl_mounts.front(), vpart_test_red_headlight );
+    REQUIRE( part_idx >= 0 );
+
+    vehicle_part &installed = veh->part( part_idx );
+    installed.enabled = true;
+
+    rebuild_lightmap( 0 );
+
+    const tripoint_bub_ms hl_pos = veh->bub_part_pos( here, installed );
+    const level_cache &cache = here.access_cache( 0 );
+
+    // NOLINTNEXTLINE(cata-text-style)
+    printf( "\n=== ARC GOLDEN: hl_pos=(%d,%d), mount=(%d,%d) ===\n",
+            hl_pos.x(), hl_pos.y(), hl_mounts.front().x(), hl_mounts.front().y() );
+    // NOLINTNEXTLINE(cata-text-style)
+    printf( "// { dx, dy, r, lm_max }\n" );
+    for( int dy = -5; dy <= 5; dy++ ) {
+        for( int dx = -5; dx <= 5; dx++ ) {
+            // NOLINTNEXTLINE(cata-combine-locals-into-point)
+            const int x = hl_pos.x() + dx;
+            const int y = hl_pos.y() + dy;
+            if( x < 0 || x >= MAPSIZE_X || y < 0 || y >= MAPSIZE_Y ) {
+                continue;
+            }
+            const float r = cache.light_color_cache[x][y].r;
+            const float lm = cache.lm[x][y].max();
+            if( r > 0.0f || ( dx >= -2 && dx <= 2 && dy >= -2 && dy <= 2 ) ) {
+                // NOLINTNEXTLINE(cata-text-style)
+                printf( "{ %2d, %2d, %10.6ff, %10.6ff },\n", dx, dy, r, lm );
+            }
+        }
+    }
+}
+
+TEST_CASE( "white_only_map_has_no_colored_light", "[light_color]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 3;
+    place_ter_roofed( src, ter_test_t_utility_light );
+
+    rebuild_lightmap( 0 );
+
+    const map &here = get_map();
+    const level_cache &cache = here.access_cache( 0 );
+
+    CHECK_FALSE( cache.has_colored_lights );
+
+    // Entire color cache should be zero
+    bool any_color = false;
+    for( int x = 0; x < MAPSIZE_X && !any_color; x++ ) {
+        for( int y = 0; y < MAPSIZE_Y && !any_color; y++ ) {
+            if( cache.light_color_cache[x][y].is_colored() ) {
+                any_color = true;
+            }
+        }
+    }
+    CHECK_FALSE( any_color );
+}
+
+TEST_CASE( "colored_terrain_sets_has_colored_lights", "[light_color]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 3;
+    place_ter_roofed( src, ter_t_test_red_light );
+
+    rebuild_lightmap( 0 );
+
+    const level_cache &cache = get_map().access_cache( 0 );
+    CHECK( cache.has_colored_lights );
+}
+
+TEST_CASE( "colored_vehicle_cone_sets_has_colored_lights", "[light_color]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = get_player_character().pos_bub() + tripoint::east * 5;
+
+    for( int dx = -10; dx <= 10; dx++ ) {
+        for( int dy = -10; dy <= 10; dy++ ) {
+            place_ter_roofed( veh_pos + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+
+    // Replace one stock headlight with our red test headlight
+    std::vector<point_rel_ms> hl_mounts;
+    for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_CONE_LIGHT ) ) {
+        hl_mounts.push_back( vpr.part().mount );
+        veh->remove_part( vpr.part() );
+    }
+    veh->part_removal_cleanup( here );
+    REQUIRE( !hl_mounts.empty() );
+
+    const int part_idx = veh->install_part( here, hl_mounts.front(), vpart_test_red_headlight );
+    REQUIRE( part_idx >= 0 );
+
+    vehicle_part &installed = veh->part( part_idx );
+    installed.enabled = true;
+
+    rebuild_lightmap( 0 );
+
+    const level_cache &cache = here.access_cache( 0 );
+    CHECK( cache.has_colored_lights );
+}
+
+TEST_CASE( "lut_wiring_respects_trigdist_option", "[light_color]" )
+{
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    restore_on_out_of_scope restore_trigdist( trigdist );
+
+    const tripoint_bub_ms src = get_player_character().pos_bub() + tripoint::east * 5;
+    // Place light and floor
+    for( int dx = -6; dx <= 6; dx++ ) {
+        for( int dy = -6; dy <= 6; dy++ ) {
+            place_ter_roofed( src + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+    place_ter_roofed( src, ter_test_t_utility_light );
+
+    // Tile at (3,3) from source: Euclidean truncates to 4, Chebyshev gives 3
+    const tripoint_bub_ms target = src + tripoint( 3, 3, 0 );
+    place_ter_roofed( target, ter_t_floor );
+
+    trigdist = true;
+    rebuild_lightmap( 0 );
+    const float lm_trig = get_map().access_cache( 0 ).lm[target.x()][target.y()].max();
+
+    trigdist = false;
+    rebuild_lightmap( 0 );
+    const float lm_cheb = get_map().access_cache( 0 ).lm[target.x()][target.y()].max();
+
+    // Euclidean distance at (3,3) truncates to 4, Chebyshev gives 3.
+    // Higher distance means more attenuation, so trigdist should be dimmer.
+    CAPTURE( lm_trig, lm_cheb );
+    CHECK( lm_trig < lm_cheb );
+}
+
+TEST_CASE( "fused_arc_color_output_matches_golden_values", "[light_color]" )
+{
+    // Golden values captured from pre-fusion code (master) for a vehicle
+    // with a red headlight cone. Pins forward-beam color propagation from
+    // apply_light_arc / CAST_ARC_OCTANT.
+    setup_dark_map();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = get_player_character().pos_bub() + tripoint::east * 5;
+
+    for( int dx = -10; dx <= 10; dx++ ) {
+        for( int dy = -10; dy <= 10; dy++ ) {
+            place_ter_roofed( veh_pos + tripoint( dx, dy, 0 ), ter_t_floor );
+        }
+    }
+
+    vehicle *veh = here.add_vehicle( vehicle_prototype_car, veh_pos, 0_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+
+    std::vector<point_rel_ms> hl_mounts;
+    for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_CONE_LIGHT ) ) {
+        hl_mounts.push_back( vpr.part().mount );
+        veh->remove_part( vpr.part() );
+    }
+    veh->part_removal_cleanup( here );
+    REQUIRE( !hl_mounts.empty() );
+
+    const int part_idx = veh->install_part( here, hl_mounts.front(), vpart_test_red_headlight );
+    REQUIRE( part_idx >= 0 );
+
+    vehicle_part &installed = veh->part( part_idx );
+    installed.enabled = true;
+
+    rebuild_lightmap( 0 );
+
+    const tripoint_bub_ms hl_pos = veh->bub_part_pos( here, installed );
+    const level_cache &cache = here.access_cache( 0 );
+
+    // Golden entries from pre-fusion master code.
+    // Mount is (2,-1), beam goes roughly east. Offsets relative to hl_pos.
+    struct golden_entry {
+        point d;
+        float r;
+        float lm;
+    };
+    // Near-source halo and forward beam
+    static const std::vector<golden_entry> golden = {
+        // Forward beam (dx=2..5, dy=-1..1) -- the core arc propagation path
+        { {  2, -1 }, 3104.943359f, 3778.481689f },
+        { {  2,  0 }, 4657.414551f, 3778.481689f },
+        { {  2,  1 }, 3104.943359f, 3778.481689f },
+        { {  3, -1 }, 1957.029907f, 2418.360840f },
+        { {  3,  0 }, 2645.568115f, 2418.360840f },
+        { {  3,  1 }, 1957.029907f, 2418.360840f },
+        { {  4, -1 }, 1562.625610f, 1739.861816f },
+        { {  4,  0 }, 1831.332275f, 1739.861816f },
+        { {  4,  1 }, 1562.625610f, 1739.861816f },
+        { {  5, -1 }, 1381.454834f, 1335.774170f },
+        { {  5,  0 }, 1381.454834f, 1335.774170f },
+        { {  5,  1 }, 1381.454834f, 1335.774170f },
+        // Behind the headlight -- no color
+        { { -2, -1 },    0.000000f,    3.500000f },
+        { { -2,  0 },    0.000000f,    3.500000f },
+        { { -2,  1 },    0.000000f,    3.500000f },
+    };
+
+    for( const golden_entry &g : golden ) {
+        const point p = g.d + point( hl_pos.x(), hl_pos.y() );
+        CAPTURE( g.d );
+        CHECK( cache.light_color_cache[p.x][p.y].r == Approx( g.r ).margin( 0.01f ) );
+        CHECK( cache.lm[p.x][p.y].max() == Approx( g.lm ).margin( 0.01f ) );
+    }
+
+    // Asymmetry: forward beam center must be brighter than behind
+    const float forward_r = cache.light_color_cache[hl_pos.x() + 4][hl_pos.y()].r;
+    const float behind_r = cache.light_color_cache[hl_pos.x() - 2][hl_pos.y()].r;
+    CHECK( forward_r > behind_r );
 }

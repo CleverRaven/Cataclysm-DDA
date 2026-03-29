@@ -105,13 +105,15 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rec
     printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
 }
 
-void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
+int FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
 {
     if( !surface ) {
         dbg( D_ERROR ) << "Tried to use a null surface";
-        return;
+        return -1;
     }
-    printErrorIf( SDL_FillRect( surface.get(), rect, color ) != 0, "SDL_FillRect failed" );
+    const int ret = SDL_FillRect( surface.get(), rect, color );
+    printErrorIf( ret != 0, "SDL_FillRect failed" );
+    return ret;
 }
 
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode )
@@ -248,6 +250,105 @@ bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer )
         return false;
     }
     return SDL_RenderIsClipEnabled( renderer.get() ) == SDL_TRUE;
+}
+
+int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *const srcrect,
+                 const SDL_Surface_Ptr &dst, SDL_Rect *const dstrect )
+{
+    if( !src ) {
+        dbg( D_ERROR ) << "Tried to blit from a null surface";
+        return -1;
+    }
+    if( !dst ) {
+        dbg( D_ERROR ) << "Tried to blit to a null surface";
+        return -1;
+    }
+    return SDL_BlitSurface( src.get(), srcrect, dst.get(), dstrect );
+}
+
+Uint32 MapRGB( const SDL_Surface_Ptr &surface, const Uint8 r, const Uint8 g, const Uint8 b )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to map color on a null surface";
+        return 0;
+    }
+    return SDL_MapRGB( surface->format, r, g, b );
+}
+
+Uint32 MapRGBA( const SDL_Surface_Ptr &surface, const Uint8 r, const Uint8 g, const Uint8 b,
+                const Uint8 a )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to map color on a null surface";
+        return 0;
+    }
+    return SDL_MapRGBA( surface->format, r, g, b, a );
+}
+
+int SetColorKey( const SDL_Surface_Ptr &surface, const int flag, const Uint32 key )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set colorkey on a null surface";
+        return -1;
+    }
+    return SDL_SetColorKey( surface.get(), flag, key );
+}
+
+int SetSurfaceRLE( const SDL_Surface_Ptr &surface, const int flag )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set RLE on a null surface";
+        return -1;
+    }
+    return SDL_SetSurfaceRLE( surface.get(), flag );
+}
+
+int SetSurfaceBlendMode( const SDL_Surface_Ptr &surface, const SDL_BlendMode blendMode )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set blend mode on a null surface";
+        return -1;
+    }
+    return SDL_SetSurfaceBlendMode( surface.get(), blendMode );
+}
+
+SDL_Surface_Ptr ConvertSurfaceFormat( const SDL_Surface_Ptr &surface, const Uint32 pixel_format )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to convert a null surface";
+        return SDL_Surface_Ptr();
+    }
+    SDL_Surface_Ptr result( SDL_ConvertSurfaceFormat( surface.get(), pixel_format, 0 ) );
+    printErrorIf( !result, "SDL_ConvertSurfaceFormat failed" );
+    return result;
+}
+
+int LockSurface( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to lock a null surface";
+        return -1;
+    }
+    return SDL_LockSurface( surface.get() );
+}
+
+void UnlockSurface( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to unlock a null surface";
+        return;
+    }
+    SDL_UnlockSurface( surface.get() );
+}
+
+Uint32 GetSurfacePixelFormat( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to get pixel format of a null surface";
+        return 0;
+    }
+    // SDL3: surface->format is the enum directly (no intermediate struct).
+    return surface->format->format;
 }
 #endif // defined(TILES)
 #endif // defined(TILES) || defined(SDL_SOUND)

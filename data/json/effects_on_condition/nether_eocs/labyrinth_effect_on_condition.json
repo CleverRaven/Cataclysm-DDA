@@ -55,6 +55,7 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "alter_timed_events": "string_dimension_lights_on" },
       { "u_message": "Zwoink.", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -104,6 +105,7 @@
       },
       { "u_teleport": { "u_val": "player_location_string_dimension_before_labyrinth" }, "force": true },
       { "u_message": "Zworunk", "popup": true },
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
       { "clear_dimension": "netherum_labyrinth" }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]

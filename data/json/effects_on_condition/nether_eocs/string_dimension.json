@@ -62,7 +62,8 @@
           "u_message": "You quickly and naturally orient yourself to this place - it's as if you stepped through a door that shut and vanished.",
           "popup": true
         }
-      }
+      },
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" }
     ],
     "false_effect": { "u_message": "Your glowing string rattles in its container.  There is almost a futile sadness to its struggle." }
   },
@@ -86,6 +87,7 @@
       },
       { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
       { "u_teleport": { "context_val": "player_teleport_loc" } },
+      { "alter_timed_events": "string_dimension_lights_on" },
       { "give_achievement": "achievement_reach_string_dimension" }
     ],
     "false_effect": [

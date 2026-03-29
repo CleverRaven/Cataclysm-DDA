@@ -4936,14 +4936,7 @@
     "active": true,
     "vitamin_cost": 210,
     "visibility": 1,
-    "attacks": {
-      "attack_text_u": "You tear into %s with your rasping tongue!",
-      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "cut", "amount": 15 },
-      "strength_damage": { "damage_type": "cut", "amount": 2 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "gastropod_tongue" } ] } ]
   },
   {
     "type": "mutation",
@@ -4959,14 +4952,7 @@
     "vitamin_cost": 300,
     "visibility": 5,
     "ugliness": 5,
-    "attacks": {
-      "attack_text_u": "You stab into %s with your harpoon tongue!",
-      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue!",
-      "body_part": "mouth",
-      "chance": 25,
-      "base_damage": { "damage_type": "stab", "amount": 15 },
-      "strength_damage": { "damage_type": "stab", "amount": 3 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "gastropod_tongue" } ] } ]
   },
   {
     "type": "mutation",

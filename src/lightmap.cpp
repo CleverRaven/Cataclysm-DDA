@@ -1,6 +1,7 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <array>
 #include <bitset>
 #include <cmath>
 #include <cstdlib>
@@ -455,6 +456,7 @@ void map::generate_lightmap( const int zlev )
     lm.fill( four_quadrants{} );
     sm.fill( 0 );
     map_cache.light_color_cache.fill( light_color_rgb{} );
+    map_cache.has_colored_lights = false;
 
     /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
          significant slowdown, so for stuff like fire and lava:
@@ -670,9 +672,9 @@ void map::generate_lightmap( const int zlev )
     }
 
     // 3x3 box blur on the color cache softens residual octant boundary seams.
-    // Even with per-channel max in update_light_color, attenuation differences
+    // Even with per-channel max in the color write, attenuation differences
     // between adjacent octants can leave visible intensity steps.
-    {
+    if( map_cache.has_colored_lights ) {
         auto &light_color_cache = map_cache.light_color_cache;
         static auto blur_buf =
             std::make_unique<cata::mdarray<light_color_rgb, point_bub_ms>>();
@@ -747,21 +749,6 @@ light_color_rgb light_color_rgb::from_hsv( float h, float s, float v )
     }
     return { r1 + m, g1 + m, b1 + m };
 }
-
-// Set before each castLight sequence, read by update_light_color callback.
-static light_color_rgb g_current_source_color;
-
-// castLight callback for color propagation. Per-channel max prevents octant
-// boundary seams (two adjacent octants hitting the same tile would double
-// the color with +=, but scalar light uses max() so it stays clean).
-static void update_light_color( light_color_rgb &tile_color, const float &intensity, quadrant )
-{
-    const light_color_rgb contrib = g_current_source_color * intensity;
-    tile_color.r = std::max( tile_color.r, contrib.r );
-    tile_color.g = std::max( tile_color.g, contrib.g );
-    tile_color.b = std::max( tile_color.b, contrib.b );
-}
-
 
 // Tile light/transparency: 3D
 
@@ -972,27 +959,57 @@ static constexpr quadrant quadrant_from_x_y( int x, int y )
            ( ( y > 0 ) ? quadrant::NE : quadrant::SE );
 }
 
-template<int xx, int xy, int yx, int yy, typename T, typename Out,
-         T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         void( *update_output )( Out &, const T &, quadrant ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
-                const cata::mdarray<T, point_bub_ms> &input_array,
-                const point_bub_ms &offset, int offsetDistance,
-                T numerator = VISIBILITY_FULL,
-                int row = 1, float start = 1.0f, float end = 0.0f,
-                T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+// Precomputed 2D Euclidean distances for castLight inner loop.
+// Eliminates sqrt calls from the hottest code path.
+static const auto &trig_dist_2d_lut()
+{
+    static const auto lut = []() {
+        constexpr int N = MAX_VIEW_DISTANCE + 1;
+        std::array<std::array<int, N>, N> t{};
+        for( int x = 0; x < N; ++x ) {
+            for( int y = 0; y < N; ++y ) {
+                t[x][y] = static_cast<int>(
+                              std::sqrt( static_cast<double>( x * x + y * y ) ) );
+            }
+        }
+        return t;
+    }
+    ();
+    return lut;
+}
+
+int trig_dist_2d( point delta )
+{
+    return trig_dist_2d_lut()[std::abs( delta.x )][std::abs( delta.y )];
+}
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
-         T( *accumulate )( const T &, const T &, const int & )>
+         T( *accumulate )( const T &, const T &, const int & ),
+         bool with_color = false>
+void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                const cata::mdarray<T, point_bub_ms> &input_array,
+                const point_bub_ms &offset, int offsetDistance,
+                T numerator = VISIBILITY_FULL,
+                int row = 1, float start = 1.0f, float end = 0.0f,
+                T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ),
+                light_color_rgb source_color = {},
+                cata::mdarray<light_color_rgb, point_bub_ms> *color_cache = nullptr );
+
+template<int xx, int xy, int yx, int yy, typename T, typename Out,
+         T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         void( *update_output )( Out &, const T &, quadrant ),
+         T( *accumulate )( const T &, const T &, const int & ),
+         bool with_color>
 void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 const cata::mdarray<T, point_bub_ms> &input_array,
                 const point_bub_ms &offset, const int offsetDistance, const T numerator,
-                const int row, float start, const float end, T cumulative_transparency )
+                const int row, float start, const float end, T cumulative_transparency,
+                const light_color_rgb source_color,
+                cata::mdarray<light_color_rgb, point_bub_ms> *color_cache )
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
     float newStart = 0.0f;
@@ -1028,7 +1045,9 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 current_transparency = input_array[ current.x ][ current.y ];
             }
 
-            const int dist = rl_dist( tripoint::zero, delta ) + offsetDistance;
+            const int dist = ( trigdist
+                               ? trig_dist_2d_lut()[std::abs( delta.x )][std::abs( delta.y )]
+                               : std::max( std::abs( delta.x ), std::abs( delta.y ) ) ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
 
             T new_transparency = input_array[ current.x ][ current.y ];
@@ -1040,16 +1059,25 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 update_output( output_cache[current.x][current.y], last_intensity, quad );
             }
 
+            if constexpr( with_color ) {
+                const light_color_rgb contrib = source_color * last_intensity;
+                auto &cc = ( *color_cache )[current.x][current.y];
+                cc.r = std::max( cc.r, contrib.r );
+                cc.g = std::max( cc.g, contrib.g );
+                cc.b = std::max( cc.b, contrib.b );
+            }
+
             if( new_transparency == current_transparency ) {
                 newStart = leadingEdge;
                 continue;
             }
             // Only cast recursively if previous span was not opaque.
             if( check( current_transparency, last_intensity ) ) {
-                castLight<xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate>(
+                castLight<xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate, with_color>(
                     output_cache, input_array, offset, offsetDistance,
                     numerator, distance + 1, start, trailingEdge,
-                    accumulate( cumulative_transparency, current_transparency, distance ) );
+                    accumulate( cumulative_transparency, current_transparency, distance ),
+                    source_color, color_cache );
             }
             // The new span starts at the leading edge of the previous square if it is opaque,
             // and at the trailing edge of the current square if it is transparent.
@@ -1335,10 +1363,12 @@ void map::apply_light_source( const tripoint_bub_ms &p, float luminance )
     // re-scales by the per-tile attenuated intensity -- same falloff as scalar.
     const auto &buf = light_source_buffer[p2.x()][p2.y()];
     const bool has_color = buf.color.is_colored();
+    light_color_rgb source_color;
     if( has_color ) {
-        g_current_source_color = buf.color * ( 1.0f / buf.luminance );
+        source_color = buf.color * ( 1.0f / buf.luminance );
         // Set source tile color directly
-        light_color_cache[p2.x()][p2.y()] += g_current_source_color * luminance;
+        light_color_cache[p2.x()][p2.y()] += source_color * luminance;
+        cache.has_colored_lights = true;
     }
 
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
@@ -1365,81 +1395,40 @@ void map::apply_light_source( const tripoint_bub_ms &p, float luminance )
                 light_source_buffer[p2.x() + 1][p2.y()].luminance < luminance;
     bool west = p2.x() != 0 && light_source_buffer[p2.x() - 1][p2.y()].luminance < luminance;
 
+    // Helper macro: cast scalar light through one octant, fusing the color
+    // write into the same traversal when the source has color.
+#define CAST_LIGHT_OCTANT( _xx, _xy, _yx, _yy ) \
+    if( has_color ) { \
+        castLight<_xx, _xy, _yx, _yy, float, four_quadrants, light_calc, light_check, \
+        update_light_quadrants, accumulate_transparency, true>( \
+                lm, transparency_cache, p2, 0, luminance, 1, 1.0f, 0.0f, \
+                LIGHT_TRANSPARENCY_OPEN_AIR, source_color, &light_color_cache ); \
+    } else { \
+        castLight<_xx, _xy, _yx, _yy, float, four_quadrants, light_calc, light_check, \
+        update_light_quadrants, accumulate_transparency>( \
+                lm, transparency_cache, p2, 0, luminance ); \
+    }
+
     if( north ) {
-        castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < 1, 0, 0, -1, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
-        castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < -1, 0, 0, -1, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
+        CAST_LIGHT_OCTANT( 1, 0, 0, -1 )
+        CAST_LIGHT_OCTANT( -1, 0, 0, -1 )
     }
 
     if( east ) {
-        castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < 0, -1, 1, 0, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
-        castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < 0, -1, -1, 0, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
+        CAST_LIGHT_OCTANT( 0, -1, 1, 0 )
+        CAST_LIGHT_OCTANT( 0, -1, -1, 0 )
     }
 
     if( south ) {
-        castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight<1, 0, 0, 1, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency>(
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
-        castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < -1, 0, 0, 1, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
+        CAST_LIGHT_OCTANT( 1, 0, 0, 1 )
+        CAST_LIGHT_OCTANT( -1, 0, 0, 1 )
     }
 
     if( west ) {
-        castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight<0, 1, 1, 0, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency>(
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
-        castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
-        if( has_color ) {
-            castLight < 0, 1, -1, 0, float, light_color_rgb, light_calc, light_check,
-                      update_light_color, accumulate_transparency > (
-                          light_color_cache, transparency_cache, p2, 0, luminance );
-        }
+        CAST_LIGHT_OCTANT( 0, 1, 1, 0 )
+        CAST_LIGHT_OCTANT( 0, 1, -1, 0 )
     }
+#undef CAST_LIGHT_OCTANT
 }
 
 void map::apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance )
@@ -1502,9 +1491,9 @@ void map::apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, 
 
     const bool has_color = color.is_colored();
     if( has_color ) {
-        g_current_source_color = color;
         // Source tile gets only the local halo intensity, matching scalar path
         light_color_cache[p2.x()][p2.y()] += color * LIGHT_SOURCE_LOCAL;
+        cache.has_colored_lights = true;
     }
 
     const units::angle wangle = wideangle / 2.0;
@@ -1532,16 +1521,18 @@ void map::apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, 
         start_angle = std::max( 45_degrees * start, oangle );
         end_angle = std::min( 45_degrees * end, cangle );
 
-        // Helper macro: cast scalar light, then color through the same octant.
-        // The template parameters encode the octant direction.
-#define CAST_ARC_OCTANT( xx, xy, yx, yy, s1, s2 ) \
-    castLight < xx, xy, yx, yy, float, four_quadrants, light_calc, light_check, \
-    update_light_quadrants, accumulate_transparency > ( \
-            lm, transparency_cache, p2, 0, luminance, 1, s1, s2 ); \
+        // Helper macro: cast scalar light through one octant, fusing the
+        // color write into the same traversal when the source has color.
+#define CAST_ARC_OCTANT( _xx, _xy, _yx, _yy, s1, s2 ) \
     if( has_color ) { \
-        castLight < xx, xy, yx, yy, float, light_color_rgb, light_calc, light_check, \
-        update_light_color, accumulate_transparency > ( \
-                light_color_cache, transparency_cache, p2, 0, luminance, 1, s1, s2 ); \
+        castLight<_xx, _xy, _yx, _yy, float, four_quadrants, light_calc, light_check, \
+        update_light_quadrants, accumulate_transparency, true>( \
+                lm, transparency_cache, p2, 0, luminance, 1, s1, s2, \
+                LIGHT_TRANSPARENCY_OPEN_AIR, color, &light_color_cache ); \
+    } else { \
+        castLight<_xx, _xy, _yx, _yy, float, four_quadrants, light_calc, light_check, \
+        update_light_quadrants, accumulate_transparency>( \
+                lm, transparency_cache, p2, 0, luminance, 1, s1, s2 ); \
     }
 
         // i is positive

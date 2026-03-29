@@ -47,7 +47,7 @@
     return faceIndex;
 }
 
-std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
                                        const std::string &typeface, int fontsize, int width,
                                        int height,
                                        const palette_array &palette,
@@ -57,17 +57,17 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {
-            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                           palette,
                                           typeface ) );
         } catch( std::exception & ) {
             try {
-                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                               palette,
                                               PATH_INFO::user_font() + typeface ) );
             } catch( std::exception & ) {
                 try {
-                    return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+                    return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, pixel_format, width, height,
                                                   palette,
                                                   PATH_INFO::fontdir() + typeface ) );
                 } catch( std::exception &err ) {
@@ -336,12 +336,12 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
     }
 
     // Copy without altering the source
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_NONE );
-    if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
+    SetSurfaceBlendMode( sglyph, SDL_BLENDMODE_NONE );
+    if( !printErrorIf( BlitSurface( sglyph, &src_rect, surface, &dst_rect ) != 0,
                        "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_BLEND );
+    SetSurfaceBlendMode( sglyph, SDL_BLENDMODE_BLEND );
 
     return CreateTextureFromSurface( renderer, sglyph );
 }
@@ -388,7 +388,7 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
 }
 
 BitmapFont::BitmapFont(
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
     const int w, const int h,
     const palette_array &palette,
     const std::string &typeface_path )
@@ -400,20 +400,20 @@ BitmapFont::BitmapFont(
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }
-    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
-    SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
+    Uint32 key = MapRGB( asciiload, 0xFF, 0, 0xFF );
+    SetColorKey( asciiload, SDL_TRUE, key );
     std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
-    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
+    ascii_surf[0] = ConvertSurfaceFormat( asciiload, pixel_format );
+    SetSurfaceRLE( ascii_surf[0], 1 );
     asciiload.reset();
 
     for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
+        ascii_surf[a] = ConvertSurfaceFormat( ascii_surf[0], pixel_format );
+        SetSurfaceRLE( ascii_surf[a], 1 );
     }
 
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
-        SDL_LockSurface( ascii_surf[a].get() );
+        throwErrorIf( LockSurface( ascii_surf[a] ) != 0, "SDL_LockSurface failed" );
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
         Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
@@ -422,7 +422,7 @@ BitmapFont::BitmapFont(
                 pixels[i] = color;
             }
         }
-        SDL_UnlockSurface( ascii_surf[a].get() );
+        UnlockSurface( ascii_surf[a] );
     }
     tilewidth = ascii_surf[0]->w / width;
 
@@ -582,7 +582,7 @@ void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRen
 }
 
 FontFallbackList::FontFallbackList(
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    SDL_Renderer_Ptr &renderer, Uint32 pixel_format,
     const int w, const int h,
     const palette_array &palette,
     const std::vector<font_config> &typefaces,
@@ -590,7 +590,8 @@ FontFallbackList::FontFallbackList(
     : Font( w, h, palette )
 {
     for( const font_config &font_config : typefaces ) {
-        std::unique_ptr<Font> font = Font::load_font( renderer, format, font_config.path, fontsize, w, h,
+        std::unique_ptr<Font> font = Font::load_font( renderer, pixel_format, font_config.path, fontsize, w,
+                                     h,
                                      palette, fontblending );
         if( !font ) {
             throw std::runtime_error( "Cannot load font " + font_config.path );

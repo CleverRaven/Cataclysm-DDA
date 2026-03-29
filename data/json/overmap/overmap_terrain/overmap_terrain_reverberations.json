@@ -117,5 +117,27 @@
     "travel_cost_type": "structure",
     "see_cost": "high",
     "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_depths_entrance" ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "red",
+    "vision_levels": "isolated_building",
+    "travel_cost_type": "structure",
+    "looks_like": "house_farm",
+    "see_cost": "high",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "inner_cabins_depths",
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
   }
 ]
