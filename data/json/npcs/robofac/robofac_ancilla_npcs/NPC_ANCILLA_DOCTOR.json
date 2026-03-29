@@ -228,7 +228,7 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_CYBERNETICS_INFO",
     "type": "talk_topic",
-    "dynamic_line": "&The doc cracks a wry grin.  \"Yup, believe it or not, motherfucker, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  So, for a DISCOUNTED fee of 20 HGCs, I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment to keep it charged, and an integrated two-way radio.  Crazy shit, huh?\"",
+    "dynamic_line": "&The Doc cracks a wry grin.  \"Yup, believe it or not, motherfucker, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  So, for a DISCOUNTED fee of 20 HGCs, I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment to keep it charged, and an integrated two-way radio.  Crazy shit, huh?\"",
     "responses": [
       {
         "text": "Actually, I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
@@ -345,8 +345,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "hub01_found_u_exodii_interface == 1" ],
-      "yes": "&The doc lays you down on the bed and tells you not to move - you're all too familiar with this process, having done it with the Exodii already.  You close your eyes and relax.  In an instant you wake up, now resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  Quite the cyborg already, weren't we?  No worries.  Doc Stevens Junior over here got that old, obsolete tech out without a problem.  The new stuff is ready to go, with the fresh upgrades to boot.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\"",
-      "no": "&The doc lays you down on the bed and tells you not to move.  The last thing you see is the robotic arm of the device slowly descend toward your neck.  A syringe full of some liquid is then plunged into your skin, and you wake up, resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\""
+      "yes": "&The Doc lays you down on the bed and tells you not to move - you're all too familiar with this process, having done it with the Exodii already.  You close your eyes and relax.  In an instant you wake up, now resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  Quite the cyborg already, weren't we?  No worries.  Doc Stevens Junior over here got that old, obsolete tech out without a problem.  The new stuff is ready to go, with the fresh upgrades to boot.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\"",
+      "no": "&The Doc lays you down on the bed and tells you not to move.  The last thing you see is the robotic arm of the device slowly descend toward your neck.  A syringe full of some liquid is then plunged into your skin, and you wake up, resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\""
     },
     "responses": [
       {
@@ -512,7 +512,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
-    "dynamic_line": "What do you need?  Repairing cybernetics isn't cheap, but I guess it's cheaper than replacing them.  Make sure you unload anything or remove any mods you want to keep.\"  The doc then gently pats the automated surgical suite.  \"Doc Junior here will tear up anything you leave in during the repair.",
+    "dynamic_line": "What do you need?  Repairing cybernetics isn't cheap, but I guess it's cheaper than replacing them.  Make sure you unload anything or remove any mods you want to keep.\"  The Doc then gently pats the automated surgical suite.  \"Doc Junior here will tear up anything you leave in during the repair.",
     "speaker_effect": {
       "effect": [
         {
@@ -758,7 +758,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
-    "dynamic_line": "&The Doc stares at you confusedly.  \"Give me a second.\"\n\nThe doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup, we're a go.  In fact, I've been authorized to give you a discount.  You'll be the first of the new Cybernetic Limb Enhancement Program, yeah?",
+    "dynamic_line": "&The Doc stares at you confusedly.  \"Give me a second.\"\n\nThe Doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup, we're a go.  In fact, I've been authorized to give you a discount.  You'll be the first of the new Cybernetic Limb Enhancement Program, yeah?",
     "responses": [
       {
         "text": "Alright, let's talk about limb replacement.",
