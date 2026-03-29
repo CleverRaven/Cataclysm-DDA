@@ -1061,7 +1061,7 @@
         }
       },
       {
-        "text": "[Wiggle your Squeeky Ankles] Well, I didn't say it was anything useful…",
+        "text": "[Wiggle your Squeaky Ankles] Well, I didn't say it was anything useful…",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
         "condition": {
           "and": [
@@ -1211,7 +1211,7 @@
         }
       },
       {
-        "text": "[Fire up your Integrated Circuitry Toolkit and touch a bit on solder on the desk]",
+        "text": "[Fire up your Integrated Circuitry Toolset and touch a bit on solder on the desk]",
         "topic": "TALK_ROBOFAC_MERC_PAT_TELL_U_CYBORG_2",
         "condition": {
           "and": [
