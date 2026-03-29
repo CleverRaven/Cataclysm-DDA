@@ -424,7 +424,7 @@ void monster_tab_data::init( const Character &you )
     if( uistate.list_monster_filter_active ) {
         filter = uistate.monster_filter;
     }
-    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_monster_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
@@ -575,7 +575,7 @@ void terfurn_tab_data::init( const Character &you, map &m )
     if( uistate.list_terfurn_filter_active ) {
         filter = uistate.terfurn_filter;
     }
-    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
+    sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_terfurn_sort );
     apply_filter();
     if( !filtered_list.empty() ) {
         selected_entry = filtered_list.front();
