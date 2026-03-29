@@ -129,6 +129,83 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_RESISTCHILL_RESISTWARM",
+    "name": { "str": "Ambient Resilience" },
+    "description": "You are less sensitive to hot and cold, but you can still freeze and overheat.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "changes_to": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
+    "points": 2,
+    "valid": true,
+    "vitamin_cost": 90,
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESISTCHILL_RESISTWARM_2",
+    "name": { "str": "High Ambient Resilience" },
+    "description": "Your body can handle extreme temperatures much better, but you can still freeze and overheat.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM" ],
+    "leads_to": [ "INTERSTICE_AURA" ],
+    "points": 3,
+    "valid": true,
+    "vitamin_cost": 120,
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 15 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_AURA",
+    "name": { "str": "Penumbral Interstitium" },
+    "description": "Your cells operate under different rules.  While you still need to breath, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "leads_to": [ "INTERSTICE_RESONANCE" ],
+    "purifiable": false,
+    "points": 6,
+    "vitamin_cost": 240,
+    "integrated_armor": [ "integrated_interstice_aura" ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE",
+    "name": { "str": "Resonant" },
+    "description": "Your physiology plays by different rules, and it seems the universe has noticed.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_AURA" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "changes_to": [ "INTERSTICE_RESONANCE_2" ],
+    "strict_threshreq": true,
+    "points": -3,
+    "purifiable": false,
+    "vitamin_cost": 120,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 2000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_2",
+    "name": { "str": "Outsider" },
+    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESONANCE" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": -6,
+    "purifiable": true,
+    "vitamin_cost": 300,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 4500 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "QUICK",
     "name": { "str": "Quick" },
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
@@ -856,7 +933,7 @@
     "points": 1,
     "starting_trait": true,
     "vitamin_cost": 60,
-    "enchantments": [ { "condition": { "not": { "is_day" } }, "values": [ { "value": "OVERMAP_SIGHT", "add": 15 } ] } ],
+    "enchantments": [ { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1540,7 +1617,7 @@
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Kaluptic Psychosis" },
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "INTERSTICE" ],
     "points": -3,
     "starting_trait": true,
     "chargen_allow_npc": false,
@@ -2059,12 +2136,13 @@
     "type": "mutation",
     "id": "DEFORMED_INTERSTICE",
     "name": { "str": "Gloam Presence" },
-    "description": "Something about you and your muted features darkens minds and moods.  People will be very unwilling to engage withy ou.",
+    "description": "Something about you and your muted features darkens minds and moods.  People will be very unwilling to engage with you.",
     "category": [ "INTERSTICE" ],
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "TERRIFYING" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
-    "points": -4,
+    "mixed_effect": true,
+    "points": 0,
     "vitamin_cost": 160,
     "visibility": 10,
     "ugliness": 10
@@ -2436,6 +2514,17 @@
     "description": "You're the perfect candidate to lead a pack.",
     "threshold": true,
     "threshold_substitutes": [ "THRESH_CHIMERA" ],
+    "points": 1,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_INTERSTICE",
+    "name": { "str": "Interstitial Traveler" },
+    "description": "You're still here, mostly.  But you're so much more than the world you were born into.",
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_INTERSTICE" ],
     "points": 1,
     "purifiable": false,
     "valid": false
@@ -3169,6 +3258,29 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_POSTURE",
+    "name": { "str": "Languid Posture" },
+    "description": "Your connective tissues are weakening.  -1 Strength.",
+    "changes_to": [ "INTERSTICE_POSTURE_2" ],
+    "category": [ "INTERSTICE" ],
+    "points": -2,
+    "vitamin_cost": 60,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_POSTURE_2",
+    "name": { "str": "Loosened Anatomy" },
+    "mixed_effect": true,
+    "description": "Your connective tissues and joints are unnaturally lose, leaving you nimble.  -1 Strength, +1 Dexterity.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_POSTURE" ],
+    "points": 2,
+    "vitamin_cost": 80,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -1 }, { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "DEX_UP",
     "name": { "str": "Dextrous" },
     "description": "You are a little nimbler.  +1 Dexterity.",
@@ -3231,7 +3343,15 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
-    "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_CHIROPTERAN", "THRESH_INTERSTICE" ],
+    "threshreq": [
+      "THRESH_BIRD",
+      "THRESH_ELFA",
+      "THRESH_FELINE",
+      "THRESH_CEPHALOPOD",
+      "THRESH_FISH",
+      "THRESH_CHIROPTERAN",
+      "THRESH_INTERSTICE"
+    ],
     "points": 3,
     "vitamin_cost": 200,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
@@ -3409,6 +3529,7 @@
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_3" ],
     "leads_to": [ "BIRD_EYE" ],
+    "changes_to": [ "PER_INTERSTICE" ],
     "threshreq": [ "THRESH_BIRD", "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
     "points": 4,
@@ -3425,6 +3546,7 @@
     "prereqs": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
+    "mixed_effect": true,
     "points": 4,
     "vitamin_cost": 300,
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 9 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
@@ -5565,17 +5687,18 @@
     "type": "mutation",
     "id": "INTERSTICE_MIND",
     "name": { "str": "Apathy of the Outer Dark" },
-    "description": "Your mind has been altered in such a way that you now find it very difficult to relate to understand humans, the things they know, and the things they care about.  You are no longer bothered by the cataclysm, but your ability to persuade, lie, and retain human knowledge is diminished.",
-    "category": [ "CEPHALOPOD" ],
+    "description": "Your mind has been altered in such a way that you now find it very difficult to relate to understand humans, the things they know, and the things they care about.  You are no longer bothered by much, but your ability to persuade, lie, and retain human knowledge is diminished.",
+    "category": [ "INTERSTICE" ],
     "types": [ "HUMAN_EMPATHY" ],
     "prereqs": [ "NUMB" ],
-    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
+    "mixed_effect": true,
     "cancels": [ "TRUTHTELLER", "LIAR", "SLOWLEARNER", "FASTLEARNER" ],
-    "points": 5,
+    "points": -1,
     "purifiable": false,
     "vitamin_cost": 210,
-    "social_modifiers": { "lie": -10, "persuade": -10 },
+    "social_modifiers": { "lie": -5, "persuade": -5 },
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
     "flags": [ "NUMB" ]
   },
@@ -6226,7 +6349,7 @@
     "category": [ "MEDICAL", "INTERSTICE" ],
     "types": [ "HUMAN_EMPATHY" ],
     "threshreq": [ "THRESH_MEDICAL", "THRESH_INTERSTICE" ],
-    "changes_to": [ "INTERSTICE_NUMB" ],
+    "changes_to": [ "INTERSTICE_MIND" ],
     "points": 0,
     "purifiable": false,
     "vitamin_cost": 160,
@@ -6465,9 +6588,8 @@
     "type": "mutation",
     "id": "SUNBURN_INTERSTICE",
     "name": { "str": "Daylight Exclusion" },
-    "description": "You simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
+    "description": "You cannot handle sunlight.  It will seriously burn you.",
     "category": [ "INTERSTICE" ],
-    "types": [ "skin_tone" ],
     "prereqs": [ "TROGLO2" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "points": -3,
@@ -6765,6 +6887,7 @@
     "types": [ "HEARING" ],
     "prereqs": [ "GOODHEARING" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
+    "mixed_effect": true,
     "points": 2,
     "vitamin_cost": 160,
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.95 }, { "value": "INTELLIGENCE", "add": -1 } ] } ]
@@ -7283,5 +7406,47 @@
     "purifiable": false,
     "valid": false,
     "description": "As if the apocalypse itself wasn't enough, you are constantly being at the ire of the zombies.  Zombies somehow can sense your presence from very far away and approach your general location."
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_PHYSIOLOGY",
+    "name": { "str": "Unbound Physiology" },
+    "description": "Your body is no longer constrained by the rules of this world.  You move deftly and quietly, but this forced existence is exhausting.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_POSTURE_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": 3,
+    "mixed_effect": true,
+    "purifiable": false,
+    "vitamin_cost": 300,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "DODGE_CHANCE", "add": 3 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.333 },
+          { "value": "SLEEPINESS", "multiply": 0.333 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_GROWING",
+    "name": { "str": "Growing Shadowy Flesh" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "The ends of your appendages are covered in an inky, shadowy substance.  It does not impede you at all, but you can feel it growing."
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_SHRINKING",
+    "name": { "str": "Retreating Shadowy Flesh" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "The ends of your appendages are covered in an inky, shadowy substance.  It does not impede you at all, and you can feel it slowly shrinking away."
   }
 ]
