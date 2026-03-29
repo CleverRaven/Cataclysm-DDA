@@ -2521,8 +2521,8 @@
   {
     "type": "mutation",
     "id": "THRESH_INTERSTICE",
-    "name": { "str": "Interstitial Traveler" },
-    "description": "You're still here, mostly.  But you're so much more than the world you were born into.",
+    "name": { "str": "Interstitial" },
+    "description": "You're still here, mostly.  But you have seen the other places, and part of you lives in the cracks between those realities.",
     "threshold": true,
     "threshold_substitutes": [ "THRESH_INTERSTICE" ],
     "points": 1,
