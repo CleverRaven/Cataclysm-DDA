@@ -3540,7 +3540,7 @@
     "type": "mutation",
     "id": "PER_INTERSTICE",
     "name": { "str": "Perceptual Overreach" },
-    "description": "You see all the colours of space.  It is maddening and confusing.  +9 Perception, -3 intelligence.",
+    "description": "You see all the colors of space.  It is maddening and confusing.  +9 Perception, -3 intelligence.",
     "category": [ "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_4" ],
