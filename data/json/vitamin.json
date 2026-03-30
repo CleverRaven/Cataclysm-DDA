@@ -493,7 +493,7 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Interdimensional Contaminant" },
-    "excess": "mutagen_slime",
+    "excess": "mutagen_interstice",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
