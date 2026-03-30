@@ -2205,11 +2205,7 @@
     "type": "effect_type",
     "id": "mutagen_interstice",
     "name": [ "Interstitial Mutation", "Interstitial Transformation", "Interstitial Metamorphosis" ],
-    "desc": [
-      "You consumed some interdimensional contaminant.",
-      "Who said that?",
-      "You see all the colors of space."
-    ],
+    "desc": [ "You consumed some interdimensional contaminant.", "Who said that?", "You see all the colors of space." ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_INTERSTICE" ],
     "base_mods": {
