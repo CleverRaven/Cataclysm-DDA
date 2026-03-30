@@ -225,7 +225,7 @@
     "id": "insect_proboscis",
     "copy-from": "mouth",
     "type": "body_part",
-    "opposite_part": "proboscis",
+    "opposite_part": "insect_proboscis",
     "name": "proboscis",
     "accusative": { "ctxt": "bodypart_accusative", "str": "proboscis" },
     "heading": "proboscis",
