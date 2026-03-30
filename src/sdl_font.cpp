@@ -25,17 +25,17 @@
     // return face index that has this size or below
     static int test_face_size( const std::string &f, int size, int faceIndex )
 {
-    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
+    const TTF_Font_Ptr fnt = OpenFontIndex( f.c_str(), size, faceIndex );
     if( fnt ) {
-        const char *style = TTF_FontFaceStyleName( fnt.get() );
+        const char *style = FontFaceStyleName( fnt );
         if( style != nullptr ) {
-            int faces = TTF_FontFaces( fnt.get() );
+            int faces = FontFaces( fnt );
             for( int i = faces - 1; i >= 0; i-- ) {
-                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
+                const TTF_Font_Ptr tf = OpenFontIndex( f.c_str(), size, i );
                 const char *ts = nullptr;
                 if( tf ) {
-                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
+                    if( nullptr != ( ts = FontFaceStyleName( tf ) ) ) {
+                        if( 0 == strcasecmp( ts, style ) && FontHeight( tf ) <= size ) {
                             return i;
                         }
                     }
@@ -295,11 +295,11 @@ CachedTTFFont::CachedTTFFont(
         strcasecmp( typeface.substr( typeface.length() - 4 ).c_str(), ".fon" ) == 0 ) {
         faceIndex = test_face_size( typeface, fontsize, faceIndex );
     }
-    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
+    font = OpenFontIndex( typeface.c_str(), fontsize, faceIndex );
     if( !font ) {
         throw std::runtime_error( TTF_GetError() );
     }
-    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
+    SetFontStyle( font, TTF_STYLE_NORMAL );
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
@@ -307,8 +307,9 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         int &ch_width,
         const int color )
 {
-    const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
+    SDL_Surface_Ptr sglyph = fontblending
+                             ? RenderUTF8_Blended( font, ch.c_str(), windowsPalette[color] )
+                             : RenderUTF8_Solid( font, ch.c_str(), windowsPalette[color] );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return nullptr;
@@ -349,13 +350,13 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
 bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
 {
     // Just return false if the glyph is not provided by the font
-    if( !TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) ) ) {
+    if( !CanRenderGlyph( font, UTF8_getch( ch ) ) ) {
         return false;
     }
 
     // Test whether the glyph can actually be rendered
     constexpr SDL_Color white{255, 255, 255, 0};
-    SDL_Surface_Ptr surface( TTF_RenderUTF8_Solid( font.get(), ch.c_str(), white ) );
+    SDL_Surface_Ptr surface = RenderUTF8_Solid( font, ch.c_str(), white );
     return static_cast<bool>( surface );
 }
 

@@ -82,6 +82,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
@@ -1424,6 +1425,9 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                 npcs_selected.push_back( 0 );
             } else {
                 std::vector<Character *> clist( available_for_activities.begin(), available_for_activities.end() );
+                std::sort( clist.begin(), clist.end(), []( const Character * a, const Character * b ) {
+                    return localized_compare( a->get_name(), b->get_name() );
+                } );
                 npcs_selected = npcs_select_menu( clist, _( "Who should we assign?" ), nullptr );
             }
 
@@ -1643,7 +1647,8 @@ static std::string bye_message( const npc *npc_actor )
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
-                      bool is_computer, bool is_not_conversation, const std::string &debug_topic )
+                      bool is_computer, bool is_not_conversation, const std::string &debug_topic,
+                      const std::string &remote_name )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
     const bool force_topic = !debug_topic.empty();
@@ -1653,6 +1658,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     dialogue d( get_talker_for( *this ), std::move( talk_with ), {} );
     d.by_radio = radio_contact;
     dialogue_by_radio = radio_contact;
+    dialogue_remote_name = remote_name;
     d.actor( true )->check_missions();
     for( mission *&mission : d.actor( true )->assigned_missions() ) {
         if( mission->get_assigned_player_id() == getID() ) {
@@ -1672,6 +1678,10 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     dialogue_window d_win;
     d_win.is_computer = is_computer;
     d_win.is_not_conversation = is_not_conversation;
+    if( !remote_name.empty() ) {
+        d_win.is_remote = true;
+        d_win.remote_name = remote_name;
+    }
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
@@ -1689,6 +1699,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             d.add_topic( next );
         }
     } while( !d.done );
+    dialogue_remote_name.clear();
 
     if( activity.id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
@@ -1704,6 +1715,17 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );
     }
+}
+
+std::string dialogue::speaker_name( const dialogue_window &d_win ) const
+{
+    if( d_win.is_not_conversation ) {
+        return "";
+    }
+    if( !d_win.remote_name.empty() ) {
+        return d_win.remote_name;
+    }
+    return actor( true )->disp_name();
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic )
@@ -2959,12 +2981,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         d_win.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
         // Prepend name
-        challenge = string_format( pgettext( "npc does something", "%s %s" ), actor( true )->disp_name(),
+        challenge = string_format( pgettext( "npc does something", "%s %s" ),
+                                   speaker_name( d_win ),
                                    challenge.substr( 1 ) );
         d_win.add_to_history( challenge );
     } else {
         npc *npc_actor = actor( true )->get_npc();
-        d_win.add_to_history( challenge, d_win.is_not_conversation ? "" : actor( true )->disp_name(),
+        d_win.add_to_history( challenge, speaker_name( d_win ),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
     if( debug_mode ) {
@@ -3015,7 +3038,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name() );
+        d_win.draw( speaker_name( d_win ) );
     } );
 
     size_t response_ind = response_hotkeys.size();

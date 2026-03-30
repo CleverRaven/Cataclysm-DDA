@@ -6,23 +6,32 @@
       {
         "if": { "math": [ "challenge_mode_active == 1" ] },
         "then": [ { "set_string_var": "<color_red>Enabled</color>", "target_var": { "global_val": "challenge_mode_warning" } } ],
-        "else": [ { "set_string_var": "Disabled", "target_var": { "global_val": "challenge_mode_warning" } } ]
+        "else": [ { "set_string_var": "<color_dark_gray>Disabled</color>", "target_var": { "global_val": "challenge_mode_warning" } } ]
+      },
+      {
+        "if": { "math": [ "si_npcs_will_join_raid == 1" ] },
+        "then": [ { "set_string_var": "<color_green>Will</color>", "target_var": { "global_val": "si_npcs_will_join_raid_warning" } } ],
+        "else": [
+          { "set_string_var": "<color_red>Will not</color>", "target_var": { "global_val": "si_npcs_will_join_raid_warning" } }
+        ]
       },
       {
         "run_eoc_selector": [
           "EOC_raidbegin_short",
           "EOC_raidbegin_medium",
           "EOC_raidbegin_long",
+          "EOC_raid_toggle_npcs_join_raids",
           "EOC_raid_toggle_challenge_mode",
           "EOC_raidcancel"
         ],
-        "names": [ "Quick Expedition", "Large Expedition", "Extended Expedition", "Toggle Challenge Mode", "Cancel" ],
-        "keys": [ "1", "2", "3", "4", "5" ],
-        "title": "Select Expedition Length.  Challenge Mode: <global_val:challenge_mode_warning>",
+        "names": [ "Quick Expedition", "Large Expedition", "Extended Expedition", "Toggle NPC Mode", "Toggle Challenge Mode", "Cancel" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "title": "Select Expedition Length.\nNPCs: <global_val:si_npcs_will_join_raid_warning> join expeditions.\nChallenge Mode: <global_val:challenge_mode_warning>",
         "descriptions": [
           "A simple, brief expedition at the normal time limit.  Missions and exits will be close together.  A good chance to quickly gather supplies and experience.",
           "A longer expedition that offers twice the time.  Missions and exits will be scattered over a wider area.  You will have more opportunity to dig deeper into surrounding points of interest, but also need more time to travel.  Missions offer extra warp shards as rewards.",
           "A very long expedition that triples the time limit.  Missions and exits will be very far away.  You will have time for extended activities, but a good deal of your time will be spent trying to reach objectives over potentially dangerous terrain.  Missions offer even more warp shards as rewards.",
+          "Toggles NPC Mode, changing whether NPCs will join you on a raid or not.",
           "Toggles Challenge Mode, granting more rewards at the cost of harder expeditions.  A random difficulty modifier will be applied.",
           "Stay on the island for now."
         ]
@@ -71,6 +80,24 @@
       { "math": [ "exfildistancemax = 160" ] },
       { "math": [ "exfildistancemin = 50" ] },
       { "run_eocs": [ "EOC_warp_choose_locale" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_toggle_npcs_join_raids",
+    "effect": [
+      {
+        "if": { "math": [ "si_npcs_will_join_raid == 1" ] },
+        "then": [
+          { "math": [ "si_npcs_will_join_raid = 0" ] },
+          { "u_message": "NPCs <color_red>will not</color> join you on expeditions.", "popup": true }
+        ],
+        "else": [
+          { "math": [ "si_npcs_will_join_raid = 1" ] },
+          { "u_message": "NPCs <color_green>will</color> join you on expeditions.", "popup": true }
+        ]
+      },
+      { "run_eocs": [ "EOC_warp_statue" ] }
     ]
   },
   {
@@ -331,64 +358,6 @@
       },
       { "math": [ "goingtolabs = 1" ] },
       { "run_eocs": [ "EOC_initiate_randomport" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
-    "effect": [
-      { "run_eocs": [ "EOC_raid_challenge_mode_pre_raid" ] },
-      { "u_location_variable": { "global_val": "OM_HQ_origin" } },
-      {
-        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
-        "passable_only": true,
-        "min_radius": 2,
-        "max_radius": 10
-      },
-      {
-        "u_location_variable": { "global_val": "sky_dimension_teleport_departure" },
-        "z_adjust": -3,
-        "z_override": true
-      },
-      {
-        "u_location_variable": { "global_val": "sky_dimension_teleport_departure_npc" },
-        "z_adjust": -3,
-        "z_override": true
-      },
-      {
-        "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
-        "x_adjust": [ -2, 2 ],
-        "y_adjust": [ -2, 2 ]
-      },
-      {
-        "u_run_npc_eocs": [
-          {
-            "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT_ADD_NPC_EFFECT",
-            "//": "Since NPC teleporting is bugged, the condition here and below prevents this from running for NPCs",
-            "condition": { "and": [ "u_following", { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
-            "effect": [
-              { "u_add_effect": "blind", "duration": 0 },
-              { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
-              { "u_teleport": { "global_val": "sky_dimension_teleport_departure_npc" }, "force": true },
-              {
-                "location_variable_adjust": { "global_val": "sky_dimension_teleport_departure_npc" },
-                "x_adjust": [ -2, 2 ],
-                "y_adjust": [ -2, 2 ]
-              }
-            ]
-          }
-        ],
-        "npc_range": 10,
-        "local": true
-      },
-      { "u_add_effect": "blind", "duration": 0 },
-      { "u_add_effect": "effect_sky_island_momentary_flight", "duration": 2 },
-      { "u_teleport": { "global_val": "sky_dimension_teleport_departure" }, "force": true },
-      {
-        "u_travel_to_dimension": "dimension_sky_island_mission",
-        "npc_travel_radius": 10,
-        "region_type": { "global_val": "sky_island_target_region_settings" }
-      }
     ]
   }
 ]

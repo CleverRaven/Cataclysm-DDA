@@ -832,6 +832,7 @@
       { "item": "trailmap", "prob": 20 },
       { "item": "touristmap", "prob": 5 },
       { "item": "restaurantmap", "prob": 5 },
+      { "item": "godco_flier", "prob": 1 },
       { "item": "magnifying_glass", "prob": 25 },
       { "item": "glasses_reading", "prob": 50 },
       { "item": "string_6", "prob": 25 },

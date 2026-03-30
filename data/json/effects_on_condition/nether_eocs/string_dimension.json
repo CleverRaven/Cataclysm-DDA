@@ -10,10 +10,11 @@
         "region_type": "string_dimension",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
-        "success_message": "Your glowing string flashes brightly, and your surroundings warp and fold into an ever-expanding plane of light."
+        "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."
       },
       {
-        "u_location_variable": { "context_val": "nearest_floor" },
+        "u_location_variable": { "context_val": "nearest_sd_floor" },
+        "target_params": { "om_terrain": "string_dimension_crossroads", "z": 0, "min_distance": 0, "search_range": 100, "random": true },
         "terrain": "t_string_xy",
         "target_max_radius": 20,
         "min_radius": 0,
@@ -23,7 +24,7 @@
         "if": { "compare_string": [ "yes", { "u_val": "general_yrax_u_met_apeirohedra" } ] },
         "then": { "run_eocs": "EOC_YRAX_WARP_IN", "time_in_future": [ "3 seconds", "6 seconds" ] }
       },
-      { "u_teleport": { "context_val": "nearest_floor" } },
+      { "u_teleport": { "context_val": "nearest_sd_floor" } },
       { "math": [ "u_string_dimension_visits += 1" ] },
       { "math": [ "u_ire -= 5" ] },
       {
@@ -65,7 +66,10 @@
       },
       { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" }
     ],
-    "false_effect": { "u_message": "Your glowing string rattles in its container.  There is almost a futile sadness to its struggle." }
+    "false_effect": {
+      "if": { "u_has_item": "inert_glowing_string" },
+      "then": { "u_message": "Your glowing string rattles in its container.  There is almost a futile sadness to its struggle." }
+    }
   },
   {
     "type": "effect_on_condition",

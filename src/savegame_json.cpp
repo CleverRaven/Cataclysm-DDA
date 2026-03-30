@@ -1689,6 +1689,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "power_prev_turn", power_prev_turn );
     json.member( "may_activity_occupancy_after_end_items_loc",
                  may_activity_occupancy_after_end_items_loc );
+
+    json.member_as_string( "desired_move_mode",  desired_move_mode );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1832,6 +1834,8 @@ void avatar::load( const JsonObject &data )
     data.read( "snippets_read", snippets_read );
     data.read( "may_activity_occupancy_after_end_items_loc",
                may_activity_occupancy_after_end_items_loc );
+
+    data.read( "desired_move_mode", desired_move_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

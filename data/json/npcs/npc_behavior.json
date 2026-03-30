@@ -39,15 +39,21 @@
   {
     "type": "behavior",
     "id": "npc_duty",
-    "strategy": "sequential",
-    "children": [ "npc_return_to_post" ],
+    "strategy": "fallback",
+    "children": [ "npc_return_to_post", "npc_hold_post" ],
     "score": "npc_duty_urgency"
   },
   {
     "type": "behavior",
     "id": "npc_return_to_post",
-    "conditions": [ { "predicate": "npc_displaced_from_post" } ],
+    "conditions": [ { "predicate": "npc_on_shift" }, { "predicate": "npc_displaced_from_post" } ],
     "goal": "return_to_guard_pos"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_hold_post",
+    "conditions": [ { "predicate": "npc_on_shift" } ],
+    "goal": "hold_position"
   },
   {
     "type": "behavior",

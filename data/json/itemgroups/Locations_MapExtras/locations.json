@@ -638,6 +638,7 @@
       [ "trailmap", 25 ],
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
+      [ "godco_flier", 15 ],
       [ "flyer", 120 ],
       { "item": "paper", "prob": 500, "count": [ 10, 60 ] },
       [ "wrapper", 150 ],

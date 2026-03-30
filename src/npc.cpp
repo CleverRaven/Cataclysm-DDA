@@ -89,11 +89,14 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_high( "high" );
 static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -162,9 +165,11 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
+static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
@@ -2303,6 +2308,82 @@ bool npc::is_shopkeeper() const
     return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
+npc &npc::get_trade_delegate()
+{
+    if( !has_trait( trait_INTERCOM_OPERATOR ) ) {
+        return *this;
+    }
+    const faction_id fac = get_fac_id();
+    for( npc *guy : g->get_npcs_if( [&fac]( const npc & n ) {
+    return n.has_trait( trait_TRADE_BACKEND ) &&
+               n.get_fac_id() == fac;
+    } ) ) {
+        return *guy;
+    }
+    return *this;
+}
+
+void npc::reconcile_schedule()
+{
+    if( myclass.is_null() ) {
+        return;
+    }
+    const auto &[shift_start, shift_end] = myclass.obj().get_work_hours();
+    if( shift_start == 0 && shift_end == 24 ) {
+        return;
+    }
+    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+    const bool on_shift = is_within_work_hours( hour, shift_start, shift_end );
+
+    if( on_shift && in_sleep_state() ) {
+        remove_effect( effect_sleep );
+        remove_effect( effect_lying_down );
+        remove_effect( effect_npc_suspend );
+        if( activity.id() == ACT_TRY_SLEEP ) {
+            activity.set_to_null();
+        }
+        if( !needs_food() ) {
+            set_sleepiness( 0 );
+        }
+        ai_cache.committed_goal.clear();
+    } else if( !on_shift && !in_sleep_state() && !needs_food() ) {
+        if( get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {
+            set_sleepiness( sleepiness_levels::TIRED );
+        }
+    }
+}
+
+void npc::reconcile_schedule_on_load()
+{
+    reconcile_schedule();
+
+    if( needs_food() || myclass.is_null() ) {
+        return;
+    }
+    const auto &[shift_start, shift_end] = myclass.obj().get_work_hours();
+    if( shift_start == 0 && shift_end == 24 ) {
+        return;
+    }
+    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+    const int minute = to_minutes<int>( time_past_midnight( calendar::turn ) ) % 60;
+    const int now_mins = hour * 60 + minute;
+    const int start_mins = shift_start * 60;
+    const int end_mins = shift_end * 60;
+    const bool wraps = shift_start > shift_end;
+    const bool on_shift = wraps ? ( now_mins >= start_mins || now_mins < end_mins )
+                          : ( now_mins >= start_mins && now_mins < end_mins );
+    const int shift_len = wraps ? ( 24 * 60 - start_mins + end_mins )
+                          : ( end_mins - start_mins );
+
+    if( on_shift && shift_len > 0 ) {
+        int mins_in = wraps && now_mins < start_mins
+                      ? ( 24 * 60 - start_mins + now_mins )
+                      : ( now_mins - start_mins );
+        int expected = mins_in * static_cast<int>( sleepiness_levels::TIRED ) / shift_len;
+        set_sleepiness( expected );
+    }
+}
+
 int npc::minimum_item_value() const
 {
     // TODO: Base on inventory
@@ -3297,6 +3378,7 @@ void npc::npc_update_body()
         update_body( last_updated, calendar::turn );
         last_updated = calendar::turn;
         update_bodytemp_and_wetness();
+        reconcile_schedule();
     }
 }
 
@@ -3393,6 +3475,7 @@ void npc::on_load( map *here )
         hallucination = true;
     }
     effect_on_conditions::load_existing_character( *this );
+    reconcile_schedule_on_load();
     shop_restock();
 }
 
@@ -4042,6 +4125,25 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+std::string npc::get_current_status() const
+{
+    if( current_target() != nullptr ) {
+        return _( "In Combat!" );
+    } else if( in_sleep_state() ) {
+        return _( "Sleeping" );
+    } else if( is_following() ) {
+        return _( "Following" );
+    } else if( is_leader() ) {
+        return _( "Leading" );
+    } else if( is_patrolling() ) {
+        return _( "Patrolling" );
+    } else if( is_guarding() ) {
+        return _( "Guarding" );
+    } else {
+        return get_current_activity();
     }
 }
 

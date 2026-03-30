@@ -31,13 +31,8 @@ class monster;
 enum class creature_size : int;
 enum class phase_id : int;
 
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
 struct const_dialogue;
 struct dealt_projectile_attack;
-struct point;
 template <typename E> struct enum_traits;
 
 using mon_action_death  = void ( * )( monster & );
@@ -614,7 +609,8 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
+        std::string get_difficulty_description() const;
+        std::string get_size_name() const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, std::string_view src );

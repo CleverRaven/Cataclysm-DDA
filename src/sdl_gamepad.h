@@ -30,12 +30,12 @@ enum class direction : int {
 
 void init();
 void quit();
-// Returns true if the selected direction changed (UI needs refresh)
-bool handle_axis_event( SDL_Event &event );
-void handle_button_event( SDL_Event &event );
-void handle_device_event( SDL_Event &event );
-void handle_scheduler_event( SDL_Event &event );
-SDL_GameController *get_controller();
+// Returns true if this event type belongs to the gamepad module.
+bool is_gamepad_event( const SDL_Event &event );
+// Dispatch any gamepad-related SDL event. Returns true if UI needs refresh.
+// Handles button, axis, device hotplug, and scheduler events internally.
+bool handle_event( SDL_Event &event );
+
 
 direction get_left_stick_direction();
 direction get_right_stick_direction();

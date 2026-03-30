@@ -491,7 +491,16 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd",
+          "glockmag_10",
+          "glock17_10"
+        ]
       }
     ]
   },

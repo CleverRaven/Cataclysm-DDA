@@ -16,6 +16,7 @@
     "type": "npc_class",
     "id": "NPC_ROBOFAC_MERC_PAT",
     "name": { "str": "Hub Mercenary" },
+    "traits": [ { "trait": "RETURN_TO_START_POS" } ],
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
     "worn_override": "NPC_ROBOFAC_MERC_PAT_worn",

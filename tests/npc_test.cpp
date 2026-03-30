@@ -21,6 +21,7 @@
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "character_attire.h"
+#include "character_id.h"
 #include "character_oracle.h"
 #include "clzones.h"
 #include "common_types.h"
@@ -45,6 +46,7 @@
 #include "map_selector.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "iexamine.h"
 #include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
@@ -81,6 +83,7 @@ static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_wet( "wet" );
 
+static const faction_id faction_robofac( "robofac" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
@@ -112,6 +115,11 @@ static const itype_id itype_space_cake( "space_cake" );
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const npc_class_id NC_ROBOFAC_INTERCOM_DAY( "NC_ROBOFAC_INTERCOM_DAY" );
+static const npc_class_id NC_ROBOFAC_INTERCOM_NIGHT( "NC_ROBOFAC_INTERCOM_NIGHT" );
+static const npc_class_id NC_ROBOFAC_INTERCOM_SUPPLY( "NC_ROBOFAC_INTERCOM_SUPPLY" );
+static const npc_class_id test_shop_class( "test_shop_class" );
+
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -123,8 +131,12 @@ static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
+static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_cargo_lock( "cargo_lock" );
@@ -2802,4 +2814,862 @@ TEST_CASE( "npc_is_no_go_position", "[npc][needs]" )
 
     mgr.clear();
     mgr.cache_data();
+}
+
+TEST_CASE( "npc_persistent_guard_pos_authority", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    calendar::turn = calendar::turn_zero + 1_hours;
+    map &here = get_map();
+
+    SECTION( "RETURN_TO_START_POS sets persistent guard_pos on first spawn" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        REQUIRE( guy.has_trait( trait_RETURN_TO_START_POS ) );
+
+        guy.regen_ai_cache();
+
+        CHECK( guy.guard_pos.has_value() );
+        CHECK( *guy.guard_pos == guy.pos_abs() );
+    }
+
+    SECTION( "cache loss re-fills from persistent, not current position" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+
+        guy.regen_ai_cache();
+        const tripoint_abs_ms original_post = guy.pos_abs();
+        REQUIRE( guy.guard_pos == original_post );
+
+        // Move NPC away from post
+        guy.setpos( here, guy.pos_bub() + tripoint( 5, 0, 0 ) );
+        REQUIRE( guy.pos_abs() != original_post );
+
+        // Simulate cache loss
+        guy.clear_ai_guard_pos();
+        REQUIRE_FALSE( guy.get_ai_guard_pos().has_value() );
+
+        guy.regen_ai_cache();
+
+        CHECK( guy.get_ai_guard_pos().has_value() );
+        CHECK( *guy.get_ai_guard_pos() == original_post );
+    }
+
+    SECTION( "set_guard_pos writes both persistent and cache" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        const tripoint_abs_ms duty_post = guy.pos_abs() + tripoint( 10, 0, 0 );
+
+        guy.set_guard_pos( duty_post );
+
+        CHECK( guy.guard_pos == duty_post );
+        CHECK( guy.get_ai_guard_pos() == duty_post );
+
+        // Simulate cache loss and rebuild
+        guy.clear_ai_guard_pos();
+        guy.regen_ai_cache();
+
+        CHECK( guy.get_ai_guard_pos() == duty_post );
+    }
+
+    SECTION( "sound anchor temporarily overrides cache, persistent survives" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        const tripoint_abs_ms permanent_post = guy.pos_abs();
+        guy.guard_pos = permanent_post;
+        guy.regen_ai_cache();
+        REQUIRE( guy.get_ai_guard_pos() == permanent_post );
+
+        // Sound investigation writes a temporary anchor to ai_cache
+        // without touching persistent guard_pos.
+        const tripoint_abs_ms sound_anchor = guy.pos_abs() + tripoint( 10, 0, 0 );
+        guy.set_ai_guard_pos( sound_anchor );
+        CHECK( guy.get_ai_guard_pos() == sound_anchor );
+        CHECK( guy.guard_pos == permanent_post );
+
+        // NPC reaches sound source; cache cleared by execute_action.
+        guy.clear_ai_guard_pos();
+        REQUIRE_FALSE( guy.get_ai_guard_pos().has_value() );
+        // Persistent still untouched.
+        CHECK( guy.guard_pos == permanent_post );
+
+        // Generic refill re-populates cache from persistent.
+        guy.regen_ai_cache();
+        CHECK( guy.get_ai_guard_pos() == permanent_post );
+    }
+}
+
+TEST_CASE( "npc_shopkeeper_sleep_wake_return", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    calendar::turn = calendar::turn_zero + 1_hours;
+    map &here = get_map();
+    // Move player underground so they don't interact with NPC at all
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+
+    SECTION( "shopkeeper returns to post after sleep and cache loss" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        guy.set_mission( NPC_MISSION_SHOPKEEP );
+        REQUIRE_FALSE( guy.is_player_ally() );
+
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+        REQUIRE( guy.guard_pos == post );
+
+        // Place a bed nearby and make NPC sleepy
+        const tripoint_bub_ms bed_pos = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( bed_pos, ter_t_floor );
+        here.furn_set( bed_pos, furn_f_bed );
+
+        guy.set_sleepiness( 800 );
+        guy.set_hunger( 0 );
+        guy.set_thirst( 0 );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+
+        // Move toward bed until asleep or 10 turns
+        for( int i = 0; i < 10 && !guy.has_effect( effect_sleep ); ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+        }
+        REQUIRE( guy.has_effect( effect_sleep ) );
+        REQUIRE( guy.pos_abs() != post );
+
+        // Simulate cache loss while at bed
+        guy.clear_ai_guard_pos();
+        REQUIRE_FALSE( guy.get_ai_guard_pos().has_value() );
+
+        // Regen re-fills from persistent post, not bed position
+        guy.regen_ai_cache();
+        CHECK( guy.get_ai_guard_pos() == post );
+
+        // Wake up and return
+        guy.remove_effect( effect_sleep );
+        guy.remove_effect( effect_lying_down );
+        guy.set_sleepiness( 0 );
+
+        for( int i = 0; i < 20; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+            if( guy.pos_abs() == post ) {
+                break;
+            }
+        }
+        CHECK( guy.pos_abs() == post );
+
+        // Stay at post on subsequent turns
+        for( int i = 0; i < 3; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+        }
+        CHECK( guy.pos_abs() == post );
+    }
+
+    SECTION( "shopkeeper at post with no needs stays put" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        guy.set_mission( NPC_MISSION_SHOPKEEP );
+        guy.set_hunger( 0 );
+        guy.set_thirst( 0 );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+
+        for( int i = 0; i < 3; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+        }
+        CHECK( guy.pos_abs() == post );
+    }
+
+    SECTION( "NO_NPC_FOOD caps unscheduled NPC at TIRED" ) {
+        override_option no_food( "NO_NPC_FOOD", "true" );
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_sleepiness( sleepiness_levels::TIRED );
+        REQUIRE_FALSE( guy.needs_food() );
+        guy.update_needs( 1 );
+        CHECK( guy.get_sleepiness() <= static_cast<int>( sleepiness_levels::TIRED ) );
+    }
+
+    SECTION( "DEAD_TIRED shopkeeper commits to sleep, no oscillation" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        guy.set_mission( NPC_MISSION_SHOPKEEP );
+        guy.set_hunger( 0 );
+        guy.set_thirst( 0 );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+        here.furn_set( guy.pos_bub() + tripoint( 3, 0, 0 ), furn_f_bed );
+        // Sleepiness 800: sleep_urgency 0.8 beats on-shift duty 0.45,
+        // so BT says go_to_sleep. While walking to bed (1-3 tiles from
+        // post), goal commitment prevents flipping to return_to_guard_pos.
+        guy.set_sleepiness( 800 );
+
+        bool oscillated = false;
+        bool reached_sleep = false;
+        for( int i = 0; i < 20; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+            if( guy.has_effect( effect_sleep ) ||
+                guy.has_effect( effect_lying_down ) ) {
+                reached_sleep = true;
+                break;
+            }
+            if( i > 0 && guy.pos_abs() == post ) {
+                oscillated = true;
+                break;
+            }
+        }
+        CHECK_FALSE( oscillated );
+        CHECK( reached_sleep );
+    }
+
+    SECTION( "shopkeeper at post sleeps when tired" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        guy.set_mission( NPC_MISSION_SHOPKEEP );
+        guy.set_hunger( 0 );
+        guy.set_thirst( 0 );
+        guy.set_stored_kcal( guy.get_healthy_kcal() );
+        guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+        guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+        guy.regen_ai_cache();
+        // Well above TIRED threshold -- BT says go_to_sleep.
+        guy.set_sleepiness( 800 );
+
+        guy.set_moves( 100 );
+        guy.move();
+
+        CHECK( ( guy.has_effect( effect_sleep ) || guy.has_effect( effect_lying_down ) ) );
+    }
+
+    SECTION( "tired-but-not-exhausted shopkeeper stays on duty" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+        guy.set_mutation( trait_RETURN_TO_START_POS );
+        guy.set_mission( NPC_MISSION_SHOPKEEP );
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+
+        // Displace 10 tiles from post. duty_urgency = min(0.5, 10*0.05) = 0.5.
+        // sleepiness_urgency = 400/1000 = 0.4. Duty wins.
+        guy.setpos( here, guy.pos_bub() + tripoint( 10, 0, 0 ) );
+        REQUIRE( guy.pos_abs() != post );
+        const int dist_to_post = rl_dist( guy.pos_bub(), here.get_bub( post ) );
+
+        guy.set_sleepiness( 400 );
+        guy.set_moves( 100 );
+        guy.move();
+
+        // Should move toward post, not sleep
+        CHECK( rl_dist( guy.pos_bub(), here.get_bub( post ) ) < dist_to_post );
+        CHECK_FALSE( guy.has_effect( effect_sleep ) );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+    }
+}
+
+// Helper: set up an NPC as an intercom operator with a given faction and shift.
+static npc &spawn_intercom_operator( const point_bub_ms &pos, const npc_class_id &cls,
+                                     const faction_id &fac )
+{
+    npc &guy = spawn_npc( pos, "test_talker" );
+    clear_character( guy, true );
+    guy.set_mutation( trait_INTERCOM_OPERATOR );
+    guy.myclass = cls;
+    guy.set_fac( fac );
+    return guy;
+}
+
+TEST_CASE( "find_intercom_operator_shift_selection", "[npc][intercom]" )
+{
+    clear_map_without_vision();
+
+    // Real intercom class IDs with work_hours from JSON.
+    // NC_ROBOFAC_INTERCOM_DAY [6,18], NC_ROBOFAC_INTERCOM_NIGHT [18,6].
+    SECTION( "noon selects day operator" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &day = spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_robofac );
+        npc &night = spawn_intercom_operator( { 52, 50 }, NC_ROBOFAC_INTERCOM_NIGHT, faction_robofac );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        REQUIRE( result != nullptr );
+        CHECK( result->getID() == day.getID() );
+        ( void )night; // suppress unused
+    }
+    SECTION( "midnight selects night operator" ) {
+        calendar::turn = calendar::turn_zero + 0_hours;
+        npc &day = spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_robofac );
+        npc &night = spawn_intercom_operator( { 52, 50 }, NC_ROBOFAC_INTERCOM_NIGHT, faction_robofac );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        REQUIRE( result != nullptr );
+        CHECK( result->getID() == night.getID() );
+        ( void )day;
+    }
+    SECTION( "boundary 06:00 selects day (start-inclusive)" ) {
+        calendar::turn = calendar::turn_zero + 6_hours;
+        npc &day = spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_robofac );
+        spawn_intercom_operator( { 52, 50 }, NC_ROBOFAC_INTERCOM_NIGHT, faction_robofac );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        REQUIRE( result != nullptr );
+        CHECK( result->getID() == day.getID() );
+    }
+    SECTION( "boundary 18:00 selects night (day end-exclusive)" ) {
+        calendar::turn = calendar::turn_zero + 18_hours;
+        spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_robofac );
+        npc &night = spawn_intercom_operator( { 52, 50 }, NC_ROBOFAC_INTERCOM_NIGHT, faction_robofac );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        REQUIRE( result != nullptr );
+        CHECK( result->getID() == night.getID() );
+    }
+    SECTION( "fallback to awake off-shift when on-shift is asleep" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &day = spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_robofac );
+        npc &night = spawn_intercom_operator( { 52, 50 }, NC_ROBOFAC_INTERCOM_NIGHT, faction_robofac );
+
+        // Put the on-shift (day) operator to sleep
+        day.add_effect( effect_sleep, 1_hours );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        REQUIRE( result != nullptr );
+        // Day is asleep, night is awake -- falls back to night
+        CHECK( result->getID() == night.getID() );
+    }
+    SECTION( "no operators returns nullptr" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        CHECK( result == nullptr );
+    }
+    SECTION( "wrong faction not selected" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        spawn_intercom_operator( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY, faction_your_followers );
+
+        npc *result = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+        CHECK( result == nullptr );
+    }
+}
+
+// --- Schedule reconciliation tests ---
+
+static npc &spawn_scheduled_npc( const point_bub_ms &pos, const npc_class_id &cls )
+{
+    npc &guy = spawn_npc( pos, "test_talker" );
+    clear_character( guy, true );
+    guy.myclass = cls;
+    guy.set_mutation( trait_RETURN_TO_START_POS );
+    guy.set_mission( NPC_MISSION_SHOPKEEP );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    return guy;
+}
+
+TEST_CASE( "schedule_reconciliation_no_npc_food", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    override_option no_food( "NO_NPC_FOOD", "true" );
+
+    SECTION( "wakes and zeroes sleepiness at shift start" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 100 );
+        guy.add_effect( effect_sleep, 1_hours );
+        REQUIRE( guy.in_sleep_state() );
+        REQUIRE_FALSE( guy.needs_food() );
+
+        guy.reconcile_schedule();
+
+        CHECK_FALSE( guy.in_sleep_state() );
+        CHECK( guy.get_sleepiness() == 0 );
+    }
+
+    SECTION( "floors sleepiness at off-shift transition" ) {
+        calendar::turn = calendar::turn_zero + 20_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 100 );
+        REQUIRE_FALSE( guy.needs_food() );
+
+        guy.reconcile_schedule();
+
+        CHECK( guy.get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) );
+    }
+
+    SECTION( "on_load sets sleepiness proportional to shift" ) {
+        // 12:00 is 6 hours into a [6,18] shift (12h total).
+        // Expected: TIRED * 6/12 = TIRED/2
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 0 );
+        REQUIRE_FALSE( guy.needs_food() );
+
+        guy.reconcile_schedule_on_load();
+
+        int expected = static_cast<int>( sleepiness_levels::TIRED ) / 2;
+        CHECK( guy.get_sleepiness() >= expected - 5 );
+        CHECK( guy.get_sleepiness() <= expected + 5 );
+    }
+
+    SECTION( "loaded NPC covers full shift then sleeps" ) {
+        // Start just before shift end so we don't need a massive time jump.
+        calendar::turn = calendar::turn_zero + 17_hours + 59_minutes;
+        map &here = get_map();
+        clear_avatar();
+        get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.update_body( calendar::turn, calendar::turn );
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+        REQUIRE( guy.guard_pos == post );
+
+        // Place a bed 3 tiles away for sleep target.
+        const tripoint_bub_ms bed_pos = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( bed_pos, ter_t_floor );
+        here.furn_set( bed_pos, furn_f_bed );
+
+        // On-shift: NPC should stay at post.
+        for( int i = 0; i < 5; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+        }
+        CHECK( guy.pos_abs() == post );
+        CHECK_FALSE( guy.in_sleep_state() );
+
+        // Cross shift boundary. Small time jump (2 minutes).
+        calendar::turn = calendar::turn_zero + 18_hours + 10_seconds;
+        guy.update_body( calendar::turn - 10_seconds, calendar::turn );
+        guy.npc_update_body();
+
+        CHECK( guy.get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) );
+
+        // BT should now send NPC to sleep.
+        bool reached_sleep = false;
+        for( int i = 0; i < 20; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+            if( guy.has_effect( effect_sleep ) ||
+                guy.has_effect( effect_lying_down ) ) {
+                reached_sleep = true;
+                break;
+            }
+        }
+        CHECK( reached_sleep );
+    }
+}
+
+TEST_CASE( "schedule_reconciliation_normal_needs", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+
+    SECTION( "wakes but preserves sleepiness at shift start" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 100 );
+        guy.add_effect( effect_sleep, 1_hours );
+        REQUIRE( guy.in_sleep_state() );
+        REQUIRE( guy.needs_food() );
+
+        guy.reconcile_schedule();
+
+        CHECK_FALSE( guy.in_sleep_state() );
+        CHECK( guy.get_sleepiness() == 100 );
+    }
+
+    SECTION( "does not floor sleepiness off-shift" ) {
+        calendar::turn = calendar::turn_zero + 20_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 50 );
+        REQUIRE( guy.needs_food() );
+
+        guy.reconcile_schedule();
+
+        CHECK( guy.get_sleepiness() == 50 );
+    }
+
+    SECTION( "on_load does not overwrite sleepiness" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 300 );
+        REQUIRE( guy.needs_food() );
+
+        guy.reconcile_schedule_on_load();
+
+        CHECK( guy.get_sleepiness() == 300 );
+    }
+
+    SECTION( "leaves sleeping NPC alone off-shift" ) {
+        calendar::turn = calendar::turn_zero + 22_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.add_effect( effect_sleep, 1_hours );
+        REQUIRE( guy.in_sleep_state() );
+
+        guy.reconcile_schedule();
+
+        CHECK( guy.in_sleep_state() );
+    }
+}
+
+TEST_CASE( "npc_update_body_calls_reconcile_schedule", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    override_option no_food( "NO_NPC_FOOD", "true" );
+
+    // Align to a 10-second boundary so once_every(10_seconds) fires.
+    calendar::turn = calendar::turn_zero + 12_hours;
+    npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+    guy.add_effect( effect_sleep, 1_hours );
+    guy.update_body( calendar::turn, calendar::turn );
+    REQUIRE( guy.in_sleep_state() );
+
+    // Advance exactly to the next 10-second boundary.
+    calendar::turn += 10_seconds;
+    guy.npc_update_body();
+
+    CHECK_FALSE( guy.in_sleep_state() );
+}
+
+// --- Trade delegate tests ---
+
+TEST_CASE( "trade_delegate", "[npc][trade]" )
+{
+    clear_map_without_vision();
+
+    SECTION( "default is self" ) {
+        npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( guy, true );
+
+        CHECK( &guy.get_trade_delegate() == &guy );
+    }
+
+    SECTION( "intercom operator returns supply clerk" ) {
+        npc &op = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( op, true );
+        op.set_mutation( trait_INTERCOM_OPERATOR );
+        op.set_fac( faction_robofac );
+
+        npc &clerk = spawn_npc( { 52, 50 }, "test_talker" );
+        clear_character( clerk, true );
+        clerk.set_mutation( trait_TRADE_BACKEND );
+        clerk.set_fac( faction_robofac );
+
+        CHECK( &op.get_trade_delegate() == &clerk );
+    }
+
+    SECTION( "no clerk falls back to self" ) {
+        npc &op = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( op, true );
+        op.set_mutation( trait_INTERCOM_OPERATOR );
+        op.set_fac( faction_robofac );
+
+        CHECK( &op.get_trade_delegate() == &op );
+    }
+
+    SECTION( "ignores non-backend shopkeepers" ) {
+        npc &op = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( op, true );
+        op.set_mutation( trait_INTERCOM_OPERATOR );
+        op.set_fac( faction_robofac );
+
+        // The intended backend.
+        npc &clerk = spawn_npc( { 52, 50 }, "test_talker" );
+        clear_character( clerk, true );
+        clerk.set_mutation( trait_TRADE_BACKEND );
+        clerk.set_fac( faction_robofac );
+
+        // Another robofac shopkeeper (no TRADE_BACKEND).
+        npc &other = spawn_npc( { 54, 50 }, "test_talker" );
+        clear_character( other, true );
+        other.myclass = test_shop_class;
+        other.set_fac( faction_robofac );
+
+        CHECK( &op.get_trade_delegate() == &clerk );
+    }
+
+    SECTION( "both operators share the same backend" ) {
+        npc &day = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( day, true );
+        day.set_mutation( trait_INTERCOM_OPERATOR );
+        day.set_fac( faction_robofac );
+
+        npc &night = spawn_npc( { 52, 50 }, "test_talker" );
+        clear_character( night, true );
+        night.set_mutation( trait_INTERCOM_OPERATOR );
+        night.set_fac( faction_robofac );
+
+        npc &clerk = spawn_npc( { 54, 50 }, "test_talker" );
+        clear_character( clerk, true );
+        clerk.set_mutation( trait_TRADE_BACKEND );
+        clerk.set_fac( faction_robofac );
+
+        CHECK( &day.get_trade_delegate() == &clerk );
+        CHECK( &night.get_trade_delegate() == &clerk );
+        CHECK( &day.get_trade_delegate() == &night.get_trade_delegate() );
+    }
+}
+
+TEST_CASE( "intercom_shopkeeper_isolation", "[npc][trade][intercom]" )
+{
+    clear_map_without_vision();
+    SECTION( "operators are not shopkeepers, clerk is" ) {
+        npc &day = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( day, true );
+        day.myclass = NC_ROBOFAC_INTERCOM_DAY;
+        day.set_fac( faction_robofac );
+
+        npc &night = spawn_npc( { 52, 50 }, "test_talker" );
+        clear_character( night, true );
+        night.myclass = NC_ROBOFAC_INTERCOM_NIGHT;
+        night.set_fac( faction_robofac );
+
+        npc &clerk = spawn_npc( { 54, 50 }, "test_talker" );
+        clear_character( clerk, true );
+        clerk.myclass = NC_ROBOFAC_INTERCOM_SUPPLY;
+        clerk.set_fac( faction_robofac );
+
+        CHECK_FALSE( day.is_shopkeeper() );
+        CHECK_FALSE( night.is_shopkeeper() );
+        CHECK( clerk.is_shopkeeper() );
+    }
+
+    SECTION( "shop_restock is no-op for non-shopkeeper operator" ) {
+        npc &day = spawn_npc( { 50, 50 }, "test_talker" );
+        clear_character( day, true );
+        day.myclass = NC_ROBOFAC_INTERCOM_DAY;
+        day.set_fac( faction_robofac );
+        day.restock = calendar::turn_zero;
+
+        day.shop_restock();
+
+        // restock timestamp should be unchanged: shop_restock() is a
+        // no-op for non-shopkeepers (is_shopkeeper() returns false).
+        CHECK( day.restock == calendar::turn_zero );
+    }
+}
+
+TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+    SECTION( "already sleeping at shift start, duty wins after wake" ) {
+        // Sleepiness 400: urgency 0.4, below on-shift duty at post (0.45).
+        // reconcile_schedule clears the stale go_to_sleep commitment so
+        // the BT picks duty instead of sending the NPC back to bed.
+        calendar::turn = calendar::turn_zero + 12_hours;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 400 );
+        guy.add_effect( effect_sleep, 1_hours );
+        guy.add_effect( effect_lying_down, 1_hours );
+        guy.set_committed_goal( "go_to_sleep" );
+        guy.regen_ai_cache();
+        const tripoint_abs_ms post = guy.pos_abs();
+
+        REQUIRE( guy.in_sleep_state() );
+        REQUIRE( guy.needs_food() );
+        REQUIRE( guy.guard_pos == post );
+
+        guy.reconcile_schedule();
+
+        CHECK_FALSE( guy.in_sleep_state() );
+        CHECK( guy.get_sleepiness() == 400 );
+        CHECK( guy.get_committed_goal().empty() );
+
+        // Gameplay outcome: NPC stays at post instead of heading to bed.
+        for( int i = 0; i < 3; ++i ) {
+            guy.set_moves( 100 );
+            guy.move();
+        }
+        CHECK( guy.pos_abs() == post );
+        CHECK_FALSE( guy.in_sleep_state() );
+    }
+
+    SECTION( "walking toward bed at shift start" ) {
+        // Off-shift, NPC committed to sleep but not sleeping yet.
+        calendar::turn = calendar::turn_zero + 5_hours + 50_minutes;
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 400 );  // sleep_urgency 0.4 < duty_urgency 0.45
+        guy.regen_ai_cache();
+        guy.set_committed_goal( "go_to_sleep" );
+
+        REQUIRE_FALSE( guy.in_sleep_state() );
+        REQUIRE( guy.needs_food() );
+
+        // Advance to on-shift.
+        calendar::turn = calendar::turn_zero + 6_hours + 10_minutes;
+        guy.set_moves( 100 );
+        guy.move();
+
+        // BT returns hold_position (duty 0.45 > sleep 0.4).
+        // go_to_sleep completes because new_goal != "go_to_sleep".
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+    }
+
+    SECTION( "committed sleep yields to a different needs goal" ) {
+        // Off-shift so duty is irrelevant. Sleepiness below TIRED (191)
+        // so can_sleep fails and sleep branch is not running. Thirst is
+        // high with water available, so BT returns drink_water (same
+        // needs category, but different goal).
+        calendar::turn = calendar::turn_zero + 20_hours; // off-shift [6,18]
+        npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+        guy.set_sleepiness( 100 );  // below TIRED (191): can_sleep fails
+        guy.set_thirst( 600 );       // thirst_urgency = 0.5
+        guy.i_add( item( itype_water_clean, calendar::turn ) );
+        guy.regen_ai_cache();
+        guy.set_committed_goal( "go_to_sleep" );
+
+        REQUIRE( guy.get_committed_goal() == "go_to_sleep" );
+
+        guy.set_moves( 100 );
+        guy.move();
+
+        // BT returns drink_water. Same needs category, but goal-level
+        // completion fires because new_goal != "go_to_sleep".
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+    }
+}
+
+TEST_CASE( "hold_position_commitment_completes_off_shift", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+    // Near end of shift.
+    calendar::turn = calendar::turn_zero + 17_hours + 50_minutes;
+    npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+    // Low needs so BT returns idle off-shift, not go_to_sleep.
+    guy.set_sleepiness( 0 );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    guy.update_body( calendar::turn, calendar::turn );
+    guy.regen_ai_cache();
+    REQUIRE( guy.guard_pos == guy.pos_abs() );
+    REQUIRE( guy.needs_food() );
+
+    guy.set_committed_goal( "hold_position" );
+
+    // Advance past shift end.
+    calendar::turn = calendar::turn_zero + 18_hours + 10_minutes;
+
+    guy.set_moves( 100 );
+    guy.move();
+
+    // BT returns idle (off-shift, no urgent needs). hold_position
+    // should complete because BT no longer returns hold_position.
+    CHECK( guy.get_committed_goal() != "hold_position" );
+}
+
+TEST_CASE( "intercom_operators_have_IGNORE_SOUND", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+
+    npc &day = spawn_npc( { 50, 50 }, "robofac_intercom_day" );
+    CHECK( day.has_trait( trait_IGNORE_SOUND ) );
+
+    npc &night = spawn_npc( { 52, 50 }, "robofac_intercom_night" );
+    CHECK( night.has_trait( trait_IGNORE_SOUND ) );
+}
+
+TEST_CASE( "off_shift_displaced_npc_does_not_return_to_post", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+    // Off-shift, low needs so BT returns "idle".
+    calendar::turn = calendar::turn_zero + 20_hours;
+    npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
+    guy.set_sleepiness( 0 );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    guy.update_body( calendar::turn, calendar::turn );
+    guy.regen_ai_cache();
+
+    const tripoint_abs_ms post = guy.pos_abs();
+    REQUIRE( guy.guard_pos == post );
+    REQUIRE( guy.needs_food() );
+
+    // Displace the NPC 5 tiles from their guard post.
+    guy.setpos( here, tripoint_bub_ms( 55, 50, 0 ) );
+    // Pin overmap goal to current OMT so the is_stationary path
+    // yields npc_pause rather than npc_goto_destination.
+    guy.goal = guy.pos_abs_omt();
+    guy.regen_ai_cache();
+    const tripoint_abs_ms displaced = guy.pos_abs();
+
+    REQUIRE( displaced != post );
+    REQUIRE( guy.get_effective_guard_pos() == post );
+
+    for( int i = 0; i < 3; ++i ) {
+        guy.set_moves( 100 );
+        guy.move();
+    }
+
+    CHECK( guy.pos_abs() == displaced );
+}
+
+TEST_CASE( "return_to_start_pos_npc_still_uses_legacy_fallback", "[npc][schedule]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, -2 ) );
+
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    // RETURN_TO_START_POS but NOT shopkeep/guard/guard_patrol,
+    // so the BT block is skipped and the legacy fallback applies.
+    guy.set_mutation( trait_RETURN_TO_START_POS );
+    guy.set_mission( NPC_MISSION_SHELTER );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_sleepiness( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    guy.regen_ai_cache();
+
+    const tripoint_abs_ms post = guy.pos_abs();
+    REQUIRE( guy.guard_pos == post );
+
+    // Displace the NPC.
+    guy.setpos( here, tripoint_bub_ms( 55, 50, 0 ) );
+    guy.goal = guy.pos_abs_omt();
+    guy.regen_ai_cache();
+    const int initial_dist = rl_dist( guy.pos_bub(), here.get_bub( post ) );
+
+    REQUIRE( guy.pos_abs() != post );
+
+    for( int i = 0; i < 3; ++i ) {
+        guy.set_moves( 100 );
+        guy.move();
+    }
+
+    // Legacy fallback should still fire: NPC moves closer to post.
+    CHECK( rl_dist( guy.pos_bub(), here.get_bub( post ) ) < initial_dist );
 }

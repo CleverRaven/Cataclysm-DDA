@@ -157,8 +157,8 @@
         { "class": "evac_broker", "x": 50, "y": 20 },
         { "class": "evac_teamster", "x": 54, "y": 4 },
         { "class": "guard", "x": 60, "y": 9 },
-        { "class": "guard", "x": 54, "y": 20 },
-        { "class": "guard", "x": 63, "y": 15 }
+        { "class": "night_guard", "x": 54, "y": 20 },
+        { "class": "night_guard", "x": 63, "y": 15 }
       ],
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 74, 87 ], "y": [ 4, 20 ], "density": 0.6 } ]
     }
@@ -245,7 +245,7 @@
         { "class": "refugee_UyenTran", "x": 69, "y": 4 },
         { "class": "refugee_RhyzaeaJohnny", "x": 69, "y": 2 },
         { "class": "refugee_FatimaalJadir", "x": 72, "y": 3 },
-        { "class": "guard", "x": 62, "y": 21 },
+        { "class": "night_guard", "x": 62, "y": 21 },
         { "class": "refugee_beggar5", "x": 64, "y": 22 }
       ]
     }
@@ -333,10 +333,10 @@
       "place_npcs": [
         { "class": "scavenger_merc", "x": 48, "y": 5 },
         { "class": "guard", "x": 39, "y": 4, "unique_id": "GUARD1" },
-        { "class": "guard", "x": 36, "y": 7, "unique_id": "GUARD2" },
+        { "class": "night_guard", "x": 36, "y": 7, "unique_id": "GUARD2" },
         { "class": "arsonist", "x": 38, "y": 19 },
         { "class": "old_guard_rep", "x": 47, "y": 10 },
-        { "class": "guard", "x": 45, "y": 3, "unique_id": "GUARD3" },
+        { "class": "night_guard", "x": 45, "y": 3, "unique_id": "GUARD3" },
         { "class": "free_merchants_merchant", "x": 71, "y": 0 },
         { "class": "science_rep", "x": 48, "y": 0 },
         { "class": "guard", "x": 52, "y": 4, "unique_id": "GUARD4" },
@@ -345,8 +345,8 @@
         { "class": "refugee_beggar3", "x": 64, "y": 0 },
         { "class": "refugee_beggar4", "x": 61, "y": 2 },
         { "class": "guard", "x": 73, "y": 3, "unique_id": "GUARD5" },
-        { "class": "guard", "x": 89, "y": 3, "unique_id": "GUARD6" },
-        { "class": "guard", "x": 88, "y": 19, "unique_id": "GUARD7" }
+        { "class": "night_guard", "x": 89, "y": 3, "unique_id": "GUARD6" },
+        { "class": "night_guard", "x": 88, "y": 19, "unique_id": "GUARD7" }
       ],
       "place_variables": [
         { "name": "GUARD1_First", "x": 39, "y": 4 },

@@ -104,6 +104,9 @@ class npc_class
         shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
         shopkeeper_whitelist_id shop_whitelist_id = shopkeeper_whitelist_id::NULL_ID();
         time_duration restock_interval = 6_days;
+        // Work shift hours [start, end). Default [0,24] = always on duty.
+        // Wraps midnight: [22,6] means 10pm-6am.
+        std::pair<int, int> work_hours_ = { 0, 24 };
 
     public:
         npc_class_id id;
@@ -151,6 +154,7 @@ class npc_class
             return !shop_whitelist_id.is_null();
         };
         const time_duration &get_shop_restock_interval() const;
+        const std::pair<int, int> &get_work_hours() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
         bool is_common() const;
@@ -170,5 +174,9 @@ class npc_class
 
         static void check_consistency();
 };
+
+// Check if an hour falls within [start, end) work hours,
+// handling midnight wrap (e.g., [22, 6) means 10pm to 6am).
+bool is_within_work_hours( int hour, int start, int end );
 
 #endif // CATA_SRC_NPC_CLASS_H

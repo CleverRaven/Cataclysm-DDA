@@ -1011,6 +1011,11 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Opened a strange temple." ) );
             break;
         }
+        case event_type::phase_move: {
+            add( pgettext( "memorial_male", "Phased through an obstacle." ),
+                 pgettext( "memorial_female", "Phased through an obstacle." ) );
+            break;
+        }
         case event_type::player_fails_conduct: {
             add( pgettext( "memorial_male", "Lost the conduct %s%s." ),
                  pgettext( "memorial_female", "Lost the conduct %s%s." ),

@@ -3341,24 +3341,6 @@ static void CheckMessages()
                 break;
             }
 #endif
-            case SDL_CONTROLLERBUTTONDOWN:
-            case SDL_CONTROLLERBUTTONUP:
-                gamepad::handle_button_event( ev );
-                break;
-            case SDL_CONTROLLERAXISMOTION:
-                if( gamepad::handle_axis_event( ev ) ) {
-                    // Direction indicator changed, need to redraw
-                    needupdate = true;
-                    ui_manager::redraw_invalidated();
-                }
-                break;
-            case SDL_CONTROLLERDEVICEADDED:
-            case SDL_CONTROLLERDEVICEREMOVED:
-                gamepad::handle_device_event( ev );
-                break;
-            case SDL_GAMEPAD_SCHEDULER:
-                gamepad::handle_scheduler_event( ev );
-                break;
             case SDL_MOUSEMOTION:
                 if( ! mouse.enabled ) {
                     break;
@@ -3677,6 +3659,14 @@ static void CheckMessages()
 
             case SDL_QUIT:
                 quit = true;
+                break;
+            default:
+                if( gamepad::is_gamepad_event( ev ) ) {
+                    if( gamepad::handle_event( ev ) ) {
+                        needupdate = true;
+                        ui_manager::redraw_invalidated();
+                    }
+                }
                 break;
         }
         if( text_refresh && !is_repeat ) {
@@ -4131,7 +4121,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 bool gamepad_available()
 {
-    return gamepad::get_controller() != nullptr;
+    return gamepad::is_active();
 }
 
 void rescale_tileset( int size )

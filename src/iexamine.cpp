@@ -67,6 +67,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -134,6 +135,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+static const faction_id faction_robofac( "robofac" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
@@ -300,6 +303,7 @@ static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -1447,16 +1451,48 @@ void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp 
     }
 }
 
+npc *find_intercom_operator( const trait_id &marker_trait,
+                             const faction_id &fac_id )
+{
+    npc *fallback = nullptr;
+    for( npc *guy : g->get_npcs_if( [&marker_trait, &fac_id]( const npc & n ) {
+    return n.has_trait( marker_trait ) &&
+               n.get_faction() && n.get_faction()->id == fac_id &&
+               !n.in_sleep_state();
+    } ) ) {
+        if( !guy->myclass.is_null() ) {
+            const auto &[start, end] = guy->myclass.obj().get_work_hours();
+            const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+            if( is_within_work_hours( hour, start, end ) ) {
+                return guy;
+            }
+        }
+        if( !fallback ) {
+            fallback = guy;
+        }
+    }
+    return fallback;
+}
+
 void iexamine::intercom( Character &you, const tripoint_bub_ms &examp )
 {
-    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
-        return guy.myclass == NC_ROBOFAC_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
-    } );
-    if( intercom_npcs.empty() ) {
+    // Prefer trait-based operators (new worlds with shift rotation)
+    npc *op = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+    if( !op ) {
+        // Legacy fallback: old class-based NPC (existing saves).
+        // Preserves original 10-tile distance check.
+        const std::vector<npc *> legacy = g->get_npcs_if( [examp]( const npc & n ) {
+            return n.myclass == NC_ROBOFAC_INTERCOM && rl_dist( n.pos_bub(), examp ) < 10;
+        } );
+        if( !legacy.empty() ) {
+            op = legacy.front();
+        }
+    }
+    if( !op ) {
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
-        // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
+        get_avatar().talk_to( get_talker_for( *op ), false, false, false, "",
+                              _( "the intercom" ) );
     }
 }
 

@@ -685,5 +685,19 @@
     "flags": [ "PAPER_SHAPED" ],
     "weight": "5 g",
     "volume": "5 ml"
+  },
+  {
+    "id": "godco_flier",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "name": { "str": "religious salvation flier" },
+    "description": "A small flier describing the coming end of the world and a promises of an Ark that will save those within it from 'the Second Flood'. There's an address written on the flier, leading to something called the New England Community Church.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 150,
+      "terrain": [ "godco_enter", "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
+      "message": "You add the location of the church to your map."
+    }
   }
 ]

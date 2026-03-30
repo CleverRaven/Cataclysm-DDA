@@ -39,6 +39,7 @@ class character_oracle_t : public oracle_t
         status_t has_target( std::string_view ) const;
         status_t has_sound_alerts( std::string_view ) const;
         status_t displaced_from_post( std::string_view ) const;
+        status_t on_shift( std::string_view ) const;
         /**
          * Score predicates for utility strategy (return 0-1 urgency).
          */

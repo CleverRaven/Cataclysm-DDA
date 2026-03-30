@@ -637,7 +637,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_nether_glass_floor" },
+      "terrain": { " ": "t_inner_cabins_nether_glass_floor" },
       "place_nested": [ { "chunks": [ "inner_cabins_depths_nest" ], "x": 0, "y": 0 } ]
     }
   },

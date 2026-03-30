@@ -211,6 +211,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NPC_STASIS( "NPC_STASIS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -1422,6 +1423,10 @@ bool Character::needs_food() const
 
 void Character::update_needs( int rate_multiplier )
 {
+    // Stasis NPCs don't accumulate any needs.
+    if( has_trait( trait_NPC_STASIS ) ) {
+        return;
+    }
     const int current_stim = get_stim();
     // Hunger, thirst, & sleepiness up every 5 minutes
     effect &sleep = get_effect( effect_sleep );

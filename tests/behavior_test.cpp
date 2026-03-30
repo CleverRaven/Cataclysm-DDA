@@ -360,14 +360,13 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
-    SECTION( "Dead tired but not exhausted -- sleep not feasible" ) {
-        // needs_sleep_badly fires at DEAD_TIRED (383) but can_sleep
-        // requires EXHAUSTED (575). Between the two, the need exists
-        // but the NPC pushes through.
+    SECTION( "Dead tired -- sleep is feasible" ) {
+        // can_sleep threshold matches needs_sleep_badly at DEAD_TIRED.
+        // Utility scoring handles duty priority, not can_sleep gating.
         test_npc.set_sleepiness( 500 );
         REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
-        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::failure );
-        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "go_to_sleep" );
     }
     SECTION( "Exhausted -- sleep is feasible" ) {
         test_npc.set_sleepiness( 600 );
@@ -1032,9 +1031,37 @@ TEST_CASE( "npc_decision_duty_predicates", "[npc][behavior]" )
     SECTION( "duty_urgency zero without post" ) {
         CHECK( oracle.duty_urgency( "" ) == Approx( 0.0f ) );
     }
-    SECTION( "duty_urgency nonzero when displaced" ) {
+    SECTION( "on_shift follows work_hours from npc_class" ) {
+        // Default work_hours [0,24] means always on shift.
+        guy.set_guard_pos( guy.pos_abs() );
+        calendar::turn = calendar::turn_zero + 14_hours;
+        CHECK( oracle.on_shift( "" ) == behavior::status_t::running );
+        calendar::turn = calendar::turn_zero + 2_hours;
+        CHECK( oracle.on_shift( "" ) == behavior::status_t::running );
+    }
+    SECTION( "on_shift requires guard_pos" ) {
+        CHECK( oracle.on_shift( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "duty_urgency on-shift at post" ) {
+        // Default work_hours [0,24]: always on shift.
+        guy.set_guard_pos( guy.pos_abs() );
+        calendar::turn = calendar::turn_zero + 12_hours;
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.45f ) );
+    }
+    SECTION( "duty_urgency on-shift scales with distance" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
+
+        guy.set_guard_pos( guy.pos_abs() + tripoint::east );
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.45f ) );
+
         guy.set_guard_pos( guy.pos_abs() + tripoint( 5, 0, 0 ) );
-        CHECK( oracle.duty_urgency( "" ) > 0.0f );
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.45f ) );
+
+        guy.set_guard_pos( guy.pos_abs() + tripoint( 10, 0, 0 ) );
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.5f ) );
+
+        guy.set_guard_pos( guy.pos_abs() + tripoint( 20, 0, 0 ) );
+        CHECK( oracle.duty_urgency( "" ) == Approx( 0.5f ) );
     }
 }
 
@@ -1123,15 +1150,28 @@ TEST_CASE( "npc_decision_tree_priorities", "[npc][behavior]" )
         CHECK( npc_decision.tick( &oracle ) == "go_to_sleep" );
     }
     SECTION( "tired but not exhausted guard stays on duty" ) {
-        // sleepiness 400 -> needs_sleep_badly running, but can_sleep fails
-        // (EXHAUSTED=575). No feasible sleep -> duty wins.
+        // sleepiness 400 -> can_sleep passes (DEAD_TIRED=383), but
+        // sleepiness_urgency(0.4) < duty_urgency(0.5) -> duty wins.
+        // Default work_hours [0,24] means always on shift.
         guy.set_sleepiness( 400 );
         REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
-        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::failure );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
         guy.set_guard_pos( guy.pos_abs() + tripoint( 10, 0, 0 ) );
         CHECK( npc_decision.tick( &oracle ) == "return_to_guard_pos" );
     }
+    SECTION( "on-shift at post beats DEAD_TIRED sleep" ) {
+        // At post during shift: duty 0.45 > sleepiness_urgency 0.383.
+        // Default work_hours [0,24], so NPC is always on shift.
+        guy.set_sleepiness( 383 );
+        REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+        guy.set_guard_pos( guy.pos_abs() );
+        CHECK( npc_decision.tick( &oracle ) == "hold_position" );
+    }
     SECTION( "idle when nothing fires" ) {
+        // Ensure no stale guard_pos from spawn (random traits may set it).
+        guy.guard_pos = std::nullopt;
+        guy.clear_ai_guard_pos();
         CHECK( npc_decision.tick( &oracle ) == "idle" );
     }
 }
@@ -1197,9 +1237,11 @@ TEST_CASE( "npc_decision_bt_contract_guard_duty", "[npc][behavior]" )
         REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
         CHECK( npc_decision.tick( &oracle ) == "go_to_sleep" );
     }
-    SECTION( "guard at post with no needs: BT returns idle" ) {
+    SECTION( "guard at post on shift: BT returns hold_position" ) {
         guy.set_guard_pos( guy.pos_abs() );
-        CHECK( npc_decision.tick( &oracle ) == "idle" );
+        // Default work_hours [0,24] = always on shift. At post, on shift
+        // means hold_position (duty 0.45 beats any sub-threshold need).
+        CHECK( npc_decision.tick( &oracle ) == "hold_position" );
     }
 }
 
@@ -1210,5 +1252,6 @@ TEST_CASE( "npc_decision_predicates_registered", "[npc][behavior]" )
     CHECK( behavior::predicate_map.count( "npc_has_target" ) == 1 );
     CHECK( behavior::predicate_map.count( "npc_has_sound_alerts" ) == 1 );
     CHECK( behavior::predicate_map.count( "npc_displaced_from_post" ) == 1 );
+    CHECK( behavior::predicate_map.count( "npc_on_shift" ) == 1 );
     CHECK( behavior::score_predicate_map.count( "npc_duty_urgency" ) == 1 );
 }

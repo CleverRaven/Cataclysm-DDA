@@ -350,5 +350,82 @@ Uint32 GetSurfacePixelFormat( const SDL_Surface_Ptr &surface )
     // SDL3: surface->format is the enum directly (no intermediate struct).
     return surface->format->format;
 }
+
+TTF_Font_Ptr OpenFontIndex( const char *const file, const int ptsize, const int64_t index )
+{
+    // NOLINTNEXTLINE(cata-no-long)
+    TTF_Font_Ptr result( TTF_OpenFontIndex( file, ptsize, static_cast<long>( index ) ) );
+    // Callers check the result and may call TTF_GetError themselves.
+    return result;
+}
+
+const char *FontFaceStyleName( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query style name of a null font";
+        return nullptr;
+    }
+    return TTF_FontFaceStyleName( font.get() );
+}
+
+int FontFaces( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query face count of a null font";
+        return 0;
+    }
+    return TTF_FontFaces( font.get() );
+}
+
+int FontHeight( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query height of a null font";
+        return 0;
+    }
+    return TTF_FontHeight( font.get() );
+}
+
+void SetFontStyle( const TTF_Font_Ptr &font, const int style )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to set style on a null font";
+        return;
+    }
+    TTF_SetFontStyle( font.get(), style );
+}
+
+SDL_Surface_Ptr RenderUTF8_Solid( const TTF_Font_Ptr &font, const char *const text,
+                                  const SDL_Color fg )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to render with a null font";
+        return SDL_Surface_Ptr();
+    }
+    return SDL_Surface_Ptr( TTF_RenderUTF8_Solid( font.get(), text, fg ) );
+}
+
+SDL_Surface_Ptr RenderUTF8_Blended( const TTF_Font_Ptr &font, const char *const text,
+                                    const SDL_Color fg )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to render with a null font";
+        return SDL_Surface_Ptr();
+    }
+    return SDL_Surface_Ptr( TTF_RenderUTF8_Blended( font.get(), text, fg ) );
+}
+
+bool CanRenderGlyph( const TTF_Font_Ptr &font, const Uint32 ch )
+{
+    if( !font ) {
+        return false;
+    }
+    // SDL2: TTF_GlyphIsProvided only takes Uint16, so clamp for now.
+    // SDL3_ttf will use Uint32 natively via glyph metrics.
+    if( ch > 0xFFFF ) {
+        return false;
+    }
+    return TTF_GlyphIsProvided( font.get(), static_cast<Uint16>( ch ) ) != 0;
+}
 #endif // defined(TILES)
 #endif // defined(TILES) || defined(SDL_SOUND)

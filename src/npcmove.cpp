@@ -175,6 +175,7 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
@@ -199,6 +200,7 @@ static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_deci
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_NPC_STASIS( "NPC_STASIS" );
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -276,7 +278,7 @@ decision_category bt_goal_to_category( const std::string &goal )
         goal == "wear_warmer_clothes" || goal == "take_shelter" || goal == "start_fire" ) {
         return decision_category::needs;
     }
-    if( goal == "return_to_guard_pos" ) {
+    if( goal == "return_to_guard_pos" || goal == "hold_position" ) {
         return decision_category::duty;
     }
     if( goal == "idle" ) {
@@ -1386,9 +1388,14 @@ void npc::regen_ai_cache()
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
-        if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos_abs();
+        if( !guard_pos ) {
+            guard_pos = pos_abs();
         }
+    }
+    // Any NPC with persistent guard_pos gets it re-filled into cache.
+    // Covers RETURN_TO_START_POS, dialogue-assigned guards, and any future source.
+    if( !ai_cache.guard_pos && guard_pos ) {
+        ai_cache.guard_pos = guard_pos;
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here,  here.get_bub( tripoint_abs_ms( i->abs_pos ) ) ) ) {
@@ -1483,6 +1490,11 @@ void npc::move()
     // NPCs under operation or casting spells should just stay still
     if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
         execute_action( npc_player_activity );
+        return;
+    }
+    // Stasis NPCs are completely inert until activated via dialogue.
+    if( has_trait( trait_NPC_STASIS ) ) {
+        move_pause();
         return;
     }
     act_on_danger_assessment();
@@ -1588,56 +1600,133 @@ void npc::move()
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() &&
                !has_flag( json_flag_CANNOT_MOVE ) ) {
-        tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
-        if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos_abs();
-        }
-        if( ai_cache.sound_alerts.size() > 1 ) {
-            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
-                       compare_sound_alert );
-            if( ai_cache.sound_alerts.size() > 10 ) {
-                ai_cache.sound_alerts.resize( 10 );
-            }
-        }
-        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+        if( has_trait( trait_IGNORE_SOUND ) ) {
+            // Discard alerts and fall through to BT/needs below.
+            // Hard-coding npc_return_to_guard_pos here would fight the
+            // BT sleep goal when ambient sounds keep refilling the queue.
             ai_cache.sound_alerts.clear();
-            action = npc_return_to_guard_pos;
         } else {
+            tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
+            if( !ai_cache.guard_pos ) {
+                ai_cache.guard_pos = pos_abs();
+            }
+            if( ai_cache.sound_alerts.size() > 1 ) {
+                std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
+                           compare_sound_alert );
+                if( ai_cache.sound_alerts.size() > 10 ) {
+                    ai_cache.sound_alerts.resize( 10 );
+                }
+            }
             action = npc_investigate_sound;
-        }
-        if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
-            ai_cache.stuck = 0;
-            ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
-        } else if( ai_cache.stuck > 10 ) {
-            ai_cache.stuck = 0;
-            if( ai_cache.sound_alerts.size() == 1 ) {
-                ai_cache.sound_alerts.clear();
-                action = npc_return_to_guard_pos;
-            } else {
-                ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+            if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
+                ai_cache.stuck = 0;
+                ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
+            } else if( ai_cache.stuck > 10 ) {
+                ai_cache.stuck = 0;
+                if( ai_cache.sound_alerts.size() == 1 ) {
+                    ai_cache.sound_alerts.clear();
+                    action = npc_return_to_guard_pos;
+                } else {
+                    ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+                }
+            }
+            if( action == npc_investigate_sound ) {
+                add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
+                               ai_cache.s_abs_pos.x(), ai_cache.s_abs_pos.y() );
             }
         }
-        if( action == npc_investigate_sound ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
-                           ai_cache.s_abs_pos.x(), ai_cache.s_abs_pos.y() );
-        }
-    } else {
+    }
+    if( action == npc_undecided ) {
         // No present danger
         cleanup_on_no_danger();
 
-        action = address_needs();
+        // Duty NPCs with a guard post: let BT arbitrate needs vs duty.
+        // The BT evaluates every turn but committed goals persist until
+        // completed or overridden by a higher-priority category
+        // (combat > investigation > needs/duty > idle).
+        bool bt_dispatched = false;
+        if( ( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+              mission == NPC_MISSION_GUARD_PATROL ) && get_effective_guard_pos() ) {
+            bt_dispatched = true;
+            behavior::character_oracle_t oracle( this );
+            behavior::tree decision_tree;
+            decision_tree.add( &behavior_node_t_npc_decision.obj() );
+            std::string new_goal = decision_tree.tick( &oracle );
+
+            // Goal commitment: prevent flip-flopping between goals.
+            std::string &committed = ai_cache.committed_goal;
+            if( !committed.empty() ) {
+                // Check if committed goal is completed.
+                bool completed_goal = false;
+                if( committed == "return_to_guard_pos" ) {
+                    std::optional<tripoint_abs_ms> gp = get_effective_guard_pos();
+                    completed_goal = gp && pos_abs() == *gp;
+                } else if( committed == "hold_position" ) {
+                    // Persists only while BT keeps returning hold_position.
+                    // Off-shift (BT returns idle) or displaced (return_to_guard_pos):
+                    // the commitment clears and the fresh goal takes over.
+                    completed_goal = ( new_goal != "hold_position" );
+                } else if( committed == "go_to_sleep" ) {
+                    completed_goal = has_effect( effect_sleep ) ||
+                                     get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED );
+                    // BT no longer wants sleep specifically: context changed
+                    // (shift started, or a more urgent need appeared).
+                    // If genuinely exhausted, BT still returns go_to_sleep
+                    // and commitment persists.
+                    if( !completed_goal ) {
+                        completed_goal = ( new_goal != "go_to_sleep" );
+                    }
+                }
+                if( completed_goal ) {
+                    committed.clear();
+                } else {
+                    // Override only if new goal is strictly higher priority.
+                    decision_category new_cat = bt_goal_to_category( new_goal );
+                    decision_category old_cat = bt_goal_to_category( committed );
+                    if( new_cat < old_cat ) {
+                        committed = new_goal;
+                    } else {
+                        new_goal = committed;
+                    }
+                }
+            } else if( new_goal != "idle" ) {
+                committed = new_goal;
+            }
+
+            // Dispatch based on the (possibly committed) goal.
+            if( new_goal == "return_to_guard_pos" ) {
+                if( !ai_cache.guard_pos ) {
+                    ai_cache.guard_pos = get_effective_guard_pos();
+                }
+                action = npc_return_to_guard_pos;
+            } else if( new_goal == "hold_position" || new_goal == "idle" ) {
+                // At post (on shift or idle). High danger parameter
+                // prevents address_needs from sending NPC to wander.
+                action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+            } else {
+                // Needs goal (sleep, eat, drink, etc.). Full address_needs.
+                action = address_needs();
+            }
+        } else {
+            action = address_needs();
+        }
         print_action( "address_needs %s", action );
 
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
         }
-        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos &&
+        if( action == npc_undecided && !bt_dispatched && ai_cache.sound_alerts.empty() &&
             !has_flag( json_flag_CANNOT_MOVE ) ) {
-            tripoint_abs_ms return_guard_pos = *ai_cache.guard_pos;
-            add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                           return_guard_pos.x(), return_guard_pos.y() );
-            action = npc_return_to_guard_pos;
+            std::optional<tripoint_abs_ms> effective = get_effective_guard_pos();
+            if( effective && pos_abs() != *effective ) {
+                if( !ai_cache.guard_pos ) {
+                    ai_cache.guard_pos = effective;
+                }
+                add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)",
+                               get_name(), effective->x(), effective->y() );
+                action = npc_return_to_guard_pos;
+            }
         }
     }
 
@@ -1832,11 +1921,14 @@ void npc::execute_action( npc_action action )
         break;
 
         case npc_return_to_guard_pos: {
-            const tripoint_bub_ms local_guard_pos = here.get_bub( *ai_cache.guard_pos );
+            const tripoint_abs_ms effective = ai_cache.guard_pos ? *ai_cache.guard_pos
+                                              : ( guard_pos ? *guard_pos : pos_abs() );
+            const tripoint_bub_ms local_guard_pos = here.get_bub( effective );
             update_path( local_guard_pos );
             if( pos_bub() == local_guard_pos || path.empty() ) {
                 move_pause();
                 ai_cache.guard_pos = std::nullopt;
+                // Persistent guard_pos stays; regen_ai_cache re-fills cache next turn.
                 path.clear();
             } else {
                 move_to_next();
@@ -1846,52 +1938,66 @@ void npc::execute_action( npc_action action )
 
         case npc_sleep: {
             // TODO: Allow stims when not too tired
-            // Find a nice spot to sleep
-            tripoint_bub_ms best_spot = pos_bub();
-            int best_sleepy = is_valid_sleep_candidate( pos_bub() )
-                              ? evaluate_sleep_spot( best_spot )
-                              : INT_MIN;
-
-            // first build a list of positions to search
-            std::vector<tripoint_bub_ms> search_positions;
-
-            if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
-                const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
-                if( player_part_pos ) {
-                    vehicle *player_vehicle = &player_part_pos->vehicle();
-                    for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                        search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
-                    }
+            // If we already have a path to a good sleep spot, keep following
+            // it instead of re-searching. Re-searching every turn causes
+            // oscillation when two beds are equidistant.
+            bool keep_existing_path = false;
+            if( !path.empty() ) {
+                const tripoint_bub_ms &dest = path.back();
+                if( is_valid_sleep_candidate( dest ) && g->is_empty( dest ) &&
+                    evaluate_sleep_spot( dest ) > INT_MIN ) {
+                    keep_existing_path = true;
                 }
             }
 
-            if( search_positions.empty() ) {
-                search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
-            }
+            if( !keep_existing_path ) {
+                // Find a nice spot to sleep
+                tripoint_bub_ms best_spot = pos_bub();
+                int best_sleepy = is_valid_sleep_candidate( pos_bub() )
+                                  ? evaluate_sleep_spot( best_spot )
+                                  : INT_MIN;
 
+                // first build a list of positions to search
+                std::vector<tripoint_bub_ms> search_positions;
 
-            // then search through all positions to find the best sleep spot
-            for( const tripoint_bub_ms &p : search_positions ) {
-                if( !could_move_onto( p ) || !g->is_empty( p ) ) {
-                    continue;
-                }
-
-                // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
-                if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
-                    const int sleepy = evaluate_sleep_spot( p );
-                    if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
-                        best_sleepy = sleepy;
-                        best_spot = p;
+                if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                    const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
+                    if( player_part_pos ) {
+                        vehicle *player_vehicle = &player_part_pos->vehicle();
+                        for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                            search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                        }
                     }
                 }
+
+                if( search_positions.empty() ) {
+                    search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+                }
+
+                // then search through all positions to find the best sleep spot
+                for( const tripoint_bub_ms &p : search_positions ) {
+                    if( !could_move_onto( p ) || !g->is_empty( p ) ) {
+                        continue;
+                    }
+
+                    // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
+                    if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
+                        const int sleepy = evaluate_sleep_spot( p );
+                        if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
+                            best_sleepy = sleepy;
+                            best_spot = p;
+                        }
+                    }
+                }
+
+                update_path( best_spot, true );
             }
 
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
-            update_path( best_spot, true );
             // TODO: Handle empty path better
-            if( best_spot == pos_bub() || path.empty() ) {
+            if( path.empty() ) {
                 move_pause();
                 if( !in_sleep_state() ) {
                     activate_bionic_by_id( bio_soporific );
@@ -3250,6 +3356,7 @@ bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool for
 
 void npc::set_guard_pos( const tripoint_abs_ms &p )
 {
+    guard_pos = p;
     ai_cache.guard_pos = p;
 }
 
@@ -6206,5 +6313,6 @@ void npc::set_movement_mode( const move_mode_id &new_mode )
 {
     // Enchantments based on move modes can stack inappropriately without a recalc here
     recalculate_enchantment_cache();
+    mod_moves( -move_mode_switch_cost( move_mode, new_mode ) );
     move_mode = new_mode;
 }

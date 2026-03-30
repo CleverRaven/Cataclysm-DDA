@@ -224,7 +224,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 
 void talk_function::start_trade( npc &p )
 {
-    npc_trading::trade( p, 0, _( "Trade" ) );
+    npc_trading::trade( p.get_trade_delegate(), 0, _( "Trade" ) );
 }
 
 void talk_function::sort_loot( npc &p )

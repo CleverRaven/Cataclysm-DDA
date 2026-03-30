@@ -120,6 +120,17 @@ void UnlockSurface( const SDL_Surface_Ptr &surface );
 // Returns the pixel format enum (SDL_PIXELFORMAT_*) for the surface.
 // SDL3: surface->format is the enum directly; SDL2: surface->format->format.
 Uint32 GetSurfacePixelFormat( const SDL_Surface_Ptr &surface );
+TTF_Font_Ptr OpenFontIndex( const char *file, int ptsize, int64_t index );
+const char *FontFaceStyleName( const TTF_Font_Ptr &font );
+int FontFaces( const TTF_Font_Ptr &font );
+int FontHeight( const TTF_Font_Ptr &font );
+void SetFontStyle( const TTF_Font_Ptr &font, int style );
+SDL_Surface_Ptr RenderUTF8_Solid( const TTF_Font_Ptr &font, const char *text, SDL_Color fg );
+SDL_Surface_Ptr RenderUTF8_Blended( const TTF_Font_Ptr &font, const char *text, SDL_Color fg );
+// Project-level helper: can this font produce a glyph for the given codepoint?
+// In SDL3_ttf there is no direct TTF_GlyphIsProvided equivalent; this will be
+// emulated via glyph metrics or a render attempt.
+bool CanRenderGlyph( const TTF_Font_Ptr &font, Uint32 ch );
 /**@}*/
 
 void StartTextInput();

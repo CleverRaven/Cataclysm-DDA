@@ -1082,19 +1082,7 @@ std::vector<std::string> monster::extended_description() const
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->get_total_difficulty() );
     } else {
-        if( type->get_total_difficulty() < 3 ) {
-            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
-        } else if( type->get_total_difficulty() < 10 ) {
-            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 20 ) {
-            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 30 ) {
-            difficulty_str = _( "<color_red>Very dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 50 ) {
-            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
-        } else {
-            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
-        }
+        difficulty_str = type->get_difficulty_description();
     }
     tmp.emplace_back( difficulty_str );
 

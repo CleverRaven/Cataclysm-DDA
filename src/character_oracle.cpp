@@ -8,11 +8,13 @@
 
 #include "behavior.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
 #include "item.h"
 #include "itype.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -125,9 +127,9 @@ status_t character_oracle_t::has_food( std::string_view ) const
 
 status_t character_oracle_t::needs_sleep_badly( std::string_view ) const
 {
-    // DEAD_TIRED (383) = microsleeps start, 38% of MASSIVE_SLEEPINESS.
-    // Parallels needs_water_badly at 43% of death threshold.
-    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::DEAD_TIRED ) ) {
+    // TIRED (191): low enough that off-shift NPCs go to bed early.
+    // On-shift duty (0.45) easily beats sleep urgency at this level (0.191).
+    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) ) {
         return status_t::running;
     }
     return status_t::success;
@@ -178,7 +180,7 @@ status_t character_oracle_t::can_sleep( std::string_view ) const
     if( subject->has_effect( effect_meth ) ) {
         return status_t::failure;
     }
-    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::EXHAUSTED ) ) {
+    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) ) {
         return status_t::running;
     }
     return status_t::failure;
@@ -259,6 +261,17 @@ status_t character_oracle_t::displaced_from_post( std::string_view ) const
     return n->pos_abs() != *gp ? status_t::running : status_t::failure;
 }
 
+status_t character_oracle_t::on_shift( std::string_view ) const
+{
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n || !n->get_effective_guard_pos() ) {
+        return status_t::failure;
+    }
+    const auto &[start, end] = n->myclass.obj().get_work_hours();
+    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+    return is_within_work_hours( hour, start, end ) ? status_t::running : status_t::failure;
+}
+
 float character_oracle_t::duty_urgency( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
@@ -266,10 +279,27 @@ float character_oracle_t::duty_urgency( std::string_view ) const
         return 0.0f;
     }
     std::optional<tripoint_abs_ms> gp = n->get_effective_guard_pos();
-    if( !gp || n->pos_abs() == *gp ) {
+    if( !gp ) {
         return 0.0f;
     }
-    return 0.5f;
+    const auto &[start, end] = n->myclass.obj().get_work_hours();
+    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+    const bool on = is_within_work_hours( hour, start, end );
+
+    if( n->pos_abs() == *gp ) {
+        // At post: on-shift returns a baseline that resists moderate
+        // tiredness. Off-shift returns 0 so needs (sleep) can win.
+        return on ? 0.45f : 0.0f;
+    }
+    // Off-shift: no duty pull at all. Guard stays where they are
+    // (bed, shelter, wherever) until their shift starts.
+    if( !on ) {
+        return 0.0f;
+    }
+    // Displaced on-shift: distance-based with a floor so the NPC
+    // strongly prefers returning even when close to post.
+    const int dist = rl_dist( n->pos_abs(), *gp );
+    return std::max( 0.45f, std::min( 0.5f, dist * 0.05f ) );
 }
 
 } // namespace behavior
