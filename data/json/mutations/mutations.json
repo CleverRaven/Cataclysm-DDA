@@ -2142,6 +2142,7 @@
     "prereqs": [ "TERRIFYING" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "mixed_effect": true,
+    "purifiable": false,
     "points": 0,
     "vitamin_cost": 160,
     "visibility": 10,
@@ -7418,7 +7419,6 @@
     "strict_threshreq": true,
     "points": 3,
     "mixed_effect": true,
-    "purifiable": false,
     "vitamin_cost": 300,
     "enchantments": [
       {
