@@ -396,6 +396,42 @@
     "similar_bodypart": "mouth_chin"
   },
   {
+    "id": "insect_proboscis_base",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "base"
+  },
+  {
+    "id": "insect_proboscis_labium",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "labium"
+  },
+  {
+    "id": "insect_proboscis_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "insect_proboscis_bottom",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "bottom"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",

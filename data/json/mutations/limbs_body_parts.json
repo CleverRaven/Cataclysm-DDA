@@ -222,6 +222,22 @@
     "unarmed_damage": [ { "damage_type": "stab", "amount": 15 } ]
   },
   {
+    "id": "insect_proboscis",
+    "copy-from": "mouth",
+    "type": "body_part",
+    "opposite_part": "proboscis",
+    "name": "proboscis",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "proboscis" },
+    "heading": "proboscis",
+    "heading_multiple": "proboscises",
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 0.7 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 3.0 ], [ "consume_solid", 0.1 ] ],
+    "side": "both",
+    "squeamish_penalty": 3,
+    "drench_capacity": 900,
+    "sub_parts": [ "insect_proboscis_base", "insect_proboscis_labium", "insect_proboscis_cheeks", "insect_proboscis_bottom" ]
+  },
+  {
     "id": "crustacean_pincer_r",
     "copy-from": "hand_r",
     "type": "body_part",

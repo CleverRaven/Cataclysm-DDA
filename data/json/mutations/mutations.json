@@ -5797,7 +5797,8 @@
     "vitamin_cost": 160,
     "visibility": 5,
     "ugliness": 7,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "insect_proboscis" } ] } ]
   },
   {
     "type": "mutation",
