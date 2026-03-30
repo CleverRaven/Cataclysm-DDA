@@ -2142,7 +2142,6 @@
     "prereqs": [ "TERRIFYING" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "mixed_effect": true,
-    "purifiable": false,
     "points": 0,
     "vitamin_cost": 160,
     "visibility": 10,

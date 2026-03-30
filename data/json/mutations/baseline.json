@@ -38,6 +38,7 @@
     "description": "Your attractiveness would be considered unremarkable by the average human.",
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS" ],
+    "cancels": [ "DEFORMED_INTERSTICE" ],
     "points": 0,
     "dummy": true,
     "player_display": false
