@@ -2,6 +2,7 @@
   {
     "id": "afs_plasma",
     "type": "damage_type",
+    "physical": true,
     "magic_color": "pink",
     "name": { "ctxt": "damage_type", "str": "plasma" },
     "derived_from": [ "heat", 0.4 ]
