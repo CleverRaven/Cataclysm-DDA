@@ -3339,6 +3339,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         { "SUR_START", translate_marker( "Zombies nearby" ) },
         { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
         { "LONE_START", translate_marker( "No starting NPC" ) },
+        { "FRIENDS_START", translate_marker( "Starts with friends nearby" )},
         { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
     };
 

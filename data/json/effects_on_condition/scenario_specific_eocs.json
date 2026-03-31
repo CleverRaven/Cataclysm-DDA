@@ -360,5 +360,10 @@
       },
       { "u_message": "The air shudders with a foreboding presence.  They know where you are." }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_evacuation_bus_start",
+    "effect": [ { "mapgen_update": "evacuation_bus_start_add" } ]
   }
 ]

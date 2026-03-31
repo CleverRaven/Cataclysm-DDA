@@ -20,6 +20,23 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "evacuation_bus_start_add",
+    "object": {
+      "place_npcs": [
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 },
+        { "class": "generic_survivor_player_faction", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "scenario_spawn_liam",
     "object": {
       "faction_owner": [ { "id": "your_followers", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],

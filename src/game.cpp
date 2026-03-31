@@ -874,7 +874,7 @@ bool game::start_game()
     get_auto_notes_settings().default_initialize();
 
     // spawn the starting NPC, assuming it's not disallowed by the scenario
-    if( !get_scenario()->has_flag( "LONE_START" ) ) {
+    if( !get_scenario()->has_flag( "LONE_START" ) && !get_scenario()->has_flag( "FRIENDS_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.

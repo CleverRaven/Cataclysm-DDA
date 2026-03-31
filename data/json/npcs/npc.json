@@ -1,6 +1,26 @@
 [
   {
     "type": "npc",
+    "id": "generic_survivor",
+    "name_suffix": "Survivor",
+    "class": "NC_NONE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "generic_survivor_player_faction",
+    "name_suffix": "Survivor",
+    "class": "NC_NONE",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc",
     "id": "deserter",
     "//": "Generic hostile military deserter.",
     "name_suffix": "Deserter",
