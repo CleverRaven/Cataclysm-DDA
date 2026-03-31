@@ -139,5 +139,98 @@
     "see_cost": "high",
     "vision_levels": "underground_dirt",
     "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_location",
+    "id": "inner_cabins_depths",
+    "terrains": [ "inner_cabins_depths" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "inner_cabins_depths_cathedral_b_NW",
+      "inner_cabins_depths_cathedral_b_NE",
+      "inner_cabins_depths_cathedral_b_SW",
+      "inner_cabins_depths_cathedral_b_SE"
+    ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "inner_cabins_depths_mall_a_56_basement",
+      "inner_cabins_depths_mall_a_57_basement",
+      "inner_cabins_depths_mall_a_58_basement",
+      "inner_cabins_depths_mall_a_59_basement",
+      "inner_cabins_depths_mall_a_60_basement",
+      "inner_cabins_depths_mall_a_61_basement",
+      "inner_cabins_depths_mall_a_62_basement",
+      "inner_cabins_depths_mall_a_65_basement",
+      "inner_cabins_depths_mall_a_66_basement",
+      "inner_cabins_depths_mall_a_67_basement",
+      "inner_cabins_depths_mall_a_68_basement",
+      "inner_cabins_depths_mall_a_69_basement",
+      "inner_cabins_depths_mall_a_70_basement",
+      "inner_cabins_depths_mall_a_71_basement",
+      "inner_cabins_depths_mall_a_67_sub_basement",
+      "inner_cabins_depths_mall_a_68_sub_basement",
+      "inner_cabins_depths_mall_a_69_sub_basement"
+    ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_depths_hotel_tower_b_3", "inner_cabins_depths_hotel_tower_b_2", "inner_cabins_depths_hotel_tower_b_1" ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "inner_cabins_depths_office_skyscraper_1",
+      "inner_cabins_depths_office_skyscraper_2",
+      "inner_cabins_depths_office_skyscraper_3",
+      "inner_cabins_depths_office_skyscraper_4"
+    ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_depths_sewer_sub_station" ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "inner_cabins_depths_zoo_3_2_basement", "inner_cabins_depths_zoo_3_3_basement" ],
+    "name": "cellar depths",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement"
   }
 ]
