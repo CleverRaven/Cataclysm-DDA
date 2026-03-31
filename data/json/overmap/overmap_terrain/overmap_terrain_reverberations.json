@@ -141,11 +141,6 @@
     "travel_cost_type": "basement"
   },
   {
-    "type": "overmap_location",
-    "id": "inner_cabins_depths",
-    "terrains": [ "inner_cabins_depths" ]
-  },
-  {
     "type": "overmap_terrain",
     "id": [
       "inner_cabins_depths_cathedral_b_NW",

@@ -110,7 +110,7 @@
         "                                                                   #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   "
       ],
-      "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_linoleum_palette", "mall_palette_basement" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_linoleum_palette", "inner_cabins_depths_mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
@@ -170,7 +170,7 @@
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "mall_palette_basement" ],
+      "palettes": [ "parametrized_linoleum_palette", "inner_cabins_depths_mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",

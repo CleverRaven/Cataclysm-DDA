@@ -61,91 +61,90 @@
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_cathedral",
-    "locations": [ "inner_cabins_depths" ],
+    "locations": [ "inner_cabins" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_cathedral_b_NW_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "inner_cabins_depths_cathedral_b_NE_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "inner_cabins_depths_cathedral_b_SW_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "inner_cabins_depths_cathedral_b_SE_north" }
+      { "point": [ 0, 0, -9 ], "overmap": "inner_cabins_depths_cathedral_b_NW_north" },
+      { "point": [ 1, 0, -9 ], "overmap": "inner_cabins_depths_cathedral_b_NE_north" },
+      { "point": [ 0, 1, -9 ], "overmap": "inner_cabins_depths_cathedral_b_SW_north" },
+      { "point": [ 1, 1, -9 ], "overmap": "inner_cabins_depths_cathedral_b_SE_north" }
     ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_mall",
-    "locations": [ "inner_cabins_depths" ],
+    "locations": [ "inner_cabins" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_north" },
-      { "point": [ 7, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_56_basement_south" },
-      { "point": [ 6, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_57_basement_south" },
-      { "point": [ 5, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_58_basement_south" },
-      { "point": [ 4, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_59_basement_south" },
-      { "point": [ 3, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_60_basement_south" },
-      { "point": [ 2, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_61_basement_south" },
-      { "point": [ 1, 3, 0 ], "overmap": "inner_cabins_depths_mall_a_62_basement_south" },
-      { "point": [ 7, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_65_basement_south" },
-      { "point": [ 6, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_66_basement_south" },
-      { "point": [ 5, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_67_basement_south" },
-      { "point": [ 5, 2, -1 ], "overmap": "inner_cabins_depths_mall_a_67_sub_basement_south" },
-      { "point": [ 4, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_68_basement_south" },
-      { "point": [ 4, 2, -1 ], "overmap": "inner_cabins_depths_mall_a_68_sub_basement_south" },
-      { "point": [ 3, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_69_basement_south" },
-      { "point": [ 3, 2, -1 ], "overmap": "inner_cabins_depths_mall_a_69_sub_basement_south" },
-      { "point": [ 2, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_70_basement_south" },
-      { "point": [ 1, 2, 0 ], "overmap": "inner_cabins_depths_mall_a_71_basement_south" }
+      { "point": [ 7, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_56_basement_south" },
+      { "point": [ 6, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_57_basement_south" },
+      { "point": [ 5, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_58_basement_south" },
+      { "point": [ 4, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_59_basement_south" },
+      { "point": [ 3, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_60_basement_south" },
+      { "point": [ 2, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_61_basement_south" },
+      { "point": [ 1, 3, -9 ], "overmap": "inner_cabins_depths_mall_a_62_basement_south" },
+      { "point": [ 7, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_65_basement_south" },
+      { "point": [ 6, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_66_basement_south" },
+      { "point": [ 5, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_67_basement_south" },
+      { "point": [ 5, 2, -10 ], "overmap": "inner_cabins_depths_mall_a_67_sub_basement_south" },
+      { "point": [ 4, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_68_basement_south" },
+      { "point": [ 4, 2, -10 ], "overmap": "inner_cabins_depths_mall_a_68_sub_basement_south" },
+      { "point": [ 3, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_69_basement_south" },
+      { "point": [ 3, 2, -10 ], "overmap": "inner_cabins_depths_mall_a_69_sub_basement_south" },
+      { "point": [ 2, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_70_basement_south" },
+      { "point": [ 1, 2, -9 ], "overmap": "inner_cabins_depths_mall_a_71_basement_south" }
     ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_hotel_tower_b",
-    "locations": [ "inner_cabins_depths" ],
+    "locations": [ "inner_cabins" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_hotel_tower_b_3_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "inner_cabins_depths_hotel_tower_b_2_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "inner_cabins_depths_hotel_tower_b_1_north" }
+      { "point": [ 0, 0, -9 ], "overmap": "inner_cabins_depths_hotel_tower_b_3_north" },
+      { "point": [ 1, 0, -9 ], "overmap": "inner_cabins_depths_hotel_tower_b_2_north" },
+      { "point": [ 2, 0, -9 ], "overmap": "inner_cabins_depths_hotel_tower_b_1_north" }
     ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_office_skyscraper",
-    "locations": [ "inner_cabins_depths" ],
+    "locations": [ "inner_cabins" ],
     "overmaps": [
-      { "point": [ 1, 1, 0 ], "overmap": "inner_cabins_depths_office_skyscraper_1_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "inner_cabins_depths_office_skyscraper_2_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "inner_cabins_depths_office_skyscraper_3_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_office_skyscraper_4_south" }
+      { "point": [ 1, 1, -9 ], "overmap": "inner_cabins_depths_office_skyscraper_1_south" },
+      { "point": [ 0, 1, -9 ], "overmap": "inner_cabins_depths_office_skyscraper_2_south" },
+      { "point": [ 1, 0, -9 ], "overmap": "inner_cabins_depths_office_skyscraper_3_south" },
+      { "point": [ 0, 0, -9 ], "overmap": "inner_cabins_depths_office_skyscraper_4_south" }
     ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_sewer_sub_station",
-    "locations": [ "inner_cabins_depths" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_sewer_sub_station_north" } ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "locations": [ "inner_cabins" ],
+    "overmaps": [ { "point": [ 0, 0, -9 ], "overmap": "inner_cabins_depths_sewer_sub_station_north" } ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   },
   {
     "type": "overmap_special",
     "id": "inner_cabins_depths_zoo",
-    "locations": [ "inner_cabins_depths" ],
+    "locations": [ "inner_cabins" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "inner_cabins_depths_zoo_3_2_basement_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "inner_cabins_depths_zoo_3_3_basement_north" }
+      { "point": [ 0, 0, -9 ], "overmap": "inner_cabins_depths_zoo_3_2_basement_north" },
+      { "point": [ 0, 1, -9 ], "overmap": "inner_cabins_depths_zoo_3_3_basement_north" }
     ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 33, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "INNER_CABINS_REVERBERATION", "EXTRADIMENSIONAL" ]
   }
 ]

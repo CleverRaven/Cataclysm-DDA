@@ -687,6 +687,69 @@
     "volume": "5 ml"
   },
   {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_2",
+    "name": "sketched map",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An old scrap of yellow, lined paper.  On it, a very detailed map has been sketched.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the map",
+      "description": "Study the map",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_INNER_CABINS_DEPTHS_NOTE_2",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "if": { "u_has_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_2" },
+              "then": { "u_message": "You study the map, but don't find anything interesting or new.", "popup": true },
+              "else": [
+                {
+                  "u_message": "The map shows a stylized cabin, a stairway, and then a path through what appears to be a maze.  It's remarkably well drawn, and you think you can discern where it leads.",
+                  "popup": true
+                },
+                { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_2" }
+              ]
+            },
+            { "transform_item": "inner_cabins_depths_note_2_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_2_used",
+    "name": { "str": "sketched map (used)", "str_pl": "sketched maps (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An old scrap of yellow, lined paper.  On it, a very detailed map has been sketched.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
+  },
+  {
     "id": "godco_flier",
     "copy-from": "abstractmap",
     "type": "ITEM",

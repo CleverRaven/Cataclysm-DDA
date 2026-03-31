@@ -29,5 +29,36 @@
       "success_lie": "…",
       "failure": "…"
     }
+  },
+  {
+    "id": "MISSION_INNER_CABINS_GO_TO_DEPTHS_2",
+    "type": "mission_definition",
+    "name": { "str": "Follow the old map" },
+    "description": "I found an old map detailing a maze in the depths.  Where could it lead, in this strange place?",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "inner_cabins_depths_sewer_sub_station",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "inner_cabins_depths_sewer_sub_station",
+        "om_special": "inner_cabins_depths_sewer_sub_station",
+        "reveal_radius": 0,
+        "random": false
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]

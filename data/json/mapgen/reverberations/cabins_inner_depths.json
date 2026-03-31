@@ -41,6 +41,7 @@
       "furniture": {
         "8": [ [ "f_null", 410 ], [ "f_black_eyed_susan", 1 ], [ "f_bluebell", 1 ], [ "f_lily", 1 ], [ "f_flower_tulip", 1 ] ]
       },
+      "place_loot": [ { "item": "inner_cabins_depths_note_2", "x": 10, "y": 15 } ],
       "place_nested": [
         { "chunks": [ "inner_cabins_depths_entrance_stairs_-1" ], "x": 10, "y": 14, "z": -1 },
         { "chunks": [ "inner_cabins_depths_entrance_stairs_-2" ], "x": 10, "y": 14, "z": -2 },
