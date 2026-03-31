@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LS_Teleport_to_labyrinth",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "player_location_home_before_labyrinth" } },
       { "u_add_var": "traveled_home_to_labyrinth", "value": "yes" },
@@ -31,7 +31,7 @@
     "id": "EOC_LS_SD_Teleport_to_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "string_dimension" }
       ]
@@ -65,7 +65,7 @@
     "id": "EOC_LS_Exit_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "netherum_labyrinth" }
       ]
@@ -89,7 +89,7 @@
     "id": "EOC_LS_SD_Exit_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "netherum_labyrinth" }
       ]

@@ -2,7 +2,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STRING_DIMENSION",
-    "condition": { "math": [ "u_string_dimension_ziggurat_exit <= 3" ] },
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        { "not": "u_driving" },
+        { "current_dimension": "string_dimension" },
+        { "math": [ "u_string_dimension_ziggurat_exit <= 3" ] }
+      ]
+    },
     "effect": [
       {
         "u_travel_to_dimension": "string_dimension",
@@ -76,7 +83,7 @@
     "id": "EOC_PORTAL_STRING_DIMENSION_RETURN",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "string_dimension" }
       ]
@@ -123,7 +130,7 @@
     "id": "EOC_PORTAL_STRING_DIMENSION_ZIGGURAT_RETURN",
     "effect": [
       {
-        "if": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "if": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         "then": {
           "u_message": "You touched the cube and there was an immense explosion of light.  The object is gone and you're back in the world you know.",
           "popup": true

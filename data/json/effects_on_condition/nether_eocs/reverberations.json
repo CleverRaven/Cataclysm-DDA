@@ -16,7 +16,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_RADIOSPHERE",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
@@ -47,7 +47,7 @@
     "id": "EOC_PORTAL_RADIOSPHERE_RETURN",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "radiosphere" }
       ]
@@ -104,7 +104,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_CABINS",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
@@ -132,7 +132,7 @@
     "id": "EOC_PORTAL_CABINS_RETURN",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "cabins" }
       ]
@@ -206,7 +206,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INNER_CABINS",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       {
         "u_travel_to_dimension": "inner_cabins",
@@ -233,7 +233,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INNER_CABINS_WARPED_CABIN",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_travel_to_dimension": "cabins", "npc_travel_radius": 0, "region_type": "cabins", "npc_travel_filter": "none" },
       { "u_location_variable": { "context_val": "nearest_bed" }, "furniture": "f_bed", "target_max_radius": 60 },
@@ -404,7 +404,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "inner_cabins_exit_loc" },
