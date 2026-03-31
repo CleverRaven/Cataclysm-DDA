@@ -215,14 +215,9 @@ brooms can broom
 Add `RAIN_IMMUNE` flag for effect-level rain immunity
 Gate NPC food complaints behind needs_food(), let saprovores eat rotten food, add BT utility strategy
 Appear Neutral Flag
-NPCs wear warm clothes and move to shelter when freezing
-NPCs drink from water, eat food, and wear clothes found on the ground
-NPCs search farther for shelter, loot vehicle cargo, and forage as last resort
+NPCs Behavior Tree improvements
 Colored light rendering overlay, dawn/dusk tint
-Church of Strings actually glows
-Fire emits colored light
-Tinted light for furniture/appliances/terrain
-The string dimension GLOWS
+Changing move mode can cost time and is deferred
 
 
 ## Content:
@@ -478,17 +473,6 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
-A slowly revealed exit from the inner cabins dimension
-Electricity fields are blue/white
-Triffid bulbs glow green
-make lights in radiosphere glow yellow
-Gastropod tongue is a body part
-cellar reverberation deep in the inner cabins dimension
-The barricaded rural church can serve as an entrance to the string dimension
-Inner cabins cellar depths have dim lighting
-Added more nightmares
-Hub Ancilla and adjacent return to posts after sleep/etc.
-Added New England Church Community fliers
 
 
 ## Interface:
@@ -1129,25 +1113,8 @@ XE Proficiency CBMs
 [Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
 [MoM] No more astral projecting while driving
 [Xedra Evolved] Paraclesians are born ignorant of technology
-Teleport crystals are blue
-[alt-map-key] Add new overmap terrain
-[Xedra Evolved] Add salamander rain immunity spell
-[Xedra Evolved] Buff Ierde skin armors
-[XE/CrazyCata] Rename all vampire variants to `Draculas`
-[Sky Island] Fix lab raid start selection 
-[Sky Island] Greenhouse bunker upgrades
-[MoM] Add Selective Autosomnia Vitakinetic power
-[Xedra Evolved] Salamander caster conditions
 [Sky Island] Challenge Mode
-[Sky Island] Add two new challenge mode modifiers
-[Sky Island] Fix first two tiers of greenhouse construction
-[alt-map-key] Add new overmap terrain
-[MoM] Moving under Ephemeral Walk costs extra stamina
-[No Hope/Megacity] Megacity is incompatible with no_hope due to region settings
-[Xedra Evolved] Salamander fae ban only broken once per water application
-[Sky Island] Update Teleportation EOCs 
-[alt-map-key] Add new overmap terrain
-[Sky Island] Add an NPC mode to control whether NPCs join raids
+[Sky Island] NPCs may join raids
 
 
 ## Balance:
@@ -1294,9 +1261,6 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
-The hearing buff from Enhanced Hearing CBM needs power
-remove food and water from the Cabin Reverberation's cabins. Make the item spawn rate slimmer in general
-Eggplants aren't unhealthy
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1833,23 +1797,6 @@ Saprophages and saprovores no longer get parasite warnings for food they can saf
 NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
 Fix SIGSEV fault when harvesting/clearing overgrown crops
 Spell AOE string format specifier fix
-Remove teleporting ramps in caves in Innawoods.
-[MoM] Fix artifact matrix crystal learning recipes
-Recategorize roasted coffee beans from Other to FOOD
-Prevent no_faction NPCs from investigating zombie sounds in Refugee Center back bay
-No kill xp for spawncampers
-Fix double spaces typos
-fix missing chimneys in cabin reverberation
-Fix zone sorting freeze and liquid loss with spillable containers
-Prevent NPCs from bashing through barricades to reach beds
-Fix find_parent debugmsg on every charged-item pickup
-Actually move NPCs to the new overmap when dimension shifting
-Correct movement mode cycling logic for horses
-Condiment Bottles Prevent Spoilage When Sealed
-Chop Shop NPCs return to their post after sleeping
-Portaling to the string dimension always places you on a walkable surface
-sub2000 10 round mag fix
-Fix NPC off-bubble sleepiness, shopkeeper/guard shift scheduling, Hub intercom
 
 
 ## Performance:
@@ -1892,7 +1839,6 @@ Optimize grab-aware pathfinding during zone sorting
 Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
-Fuse color shadowcasting, skip idle blur, LUT for castLight distances
 
 
 ## Infrastructure:
@@ -2121,19 +2067,6 @@ Extract recipe list pipeline for testability
 Add urgency score predicates and switch NPC behavior tree to utility strategy
 Expand NPC behavior tree diagnostic with convergence logging, sleepiness need, shelter detection, and can_make_fire bugfix
 Add sound support for ammo_type and specific melee ids
-Wire NPC bodytemp and wetness updates, route camp water through stomach, replace non-ally sleep hack with real sleep
-Add optional display name field to requirement definitions
-More granular horde indicators for ascii map
-Consolidate SDL rendering calls behind wrapper functions
-Add top-level NPC decision behavior tree as convergence diagnostic
-Move city size and spacing options to `region_settings_city` object
-Phasing enchant moves now cost moves and stamina
-Wrap SDL surface operations behind abstraction layer
-Fix build break from renamed test terrain fixture
-Add a `phase_move` event
-Wrap TTF font operations behind SDL abstraction layer
-Changing move mode can cost time and is deferred
-Centralize gamepad SDL boundary inside the gamepad module
 
 
 ## Build:
@@ -2168,7 +2101,6 @@ Upgrade vcpkg baseline
 Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
-Fix Mac build (Bump up dmg size limit in macOS release build)
 
 
 ## I18N and A11Y:
