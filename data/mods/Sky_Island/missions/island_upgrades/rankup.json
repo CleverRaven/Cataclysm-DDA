@@ -25,7 +25,6 @@
         { "u_forget_recipe": "upgradekey_rankup1" },
         { "u_learn_recipe": "warp_carrier" },
         { "u_learn_recipe": "recipe_craft_random_artifact" },
-        { "u_learn_recipe": "warp_vortex_token" },
         { "u_learn_recipe": "warp_healing_salve" },
         { "u_learn_recipe": "warphaulbag" },
         { "u_learn_recipe": "sky_island_warped_pond" },
