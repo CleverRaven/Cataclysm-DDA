@@ -1144,7 +1144,6 @@
       { "group": "exodii_pay_extra_for_metals", "premium": 4 },
       { "group": "exodii_pay_extra_for_medicine", "premium": 4 },
       { "group": "exodii_pay_extra_for_ammo", "premium": 4 },
-      { "group": "exodii_pay_extra_for_plastic", "premium": 4 },
       { "group": "exodii_pay_extra_for_petrochemical", "premium": 4 }
     ],
     "relations": {

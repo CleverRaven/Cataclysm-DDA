@@ -613,21 +613,6 @@
     ]
   },
   {
-    "id": "exodii_pay_extra_for_plastic",
-    "type": "item_group",
-    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
-    "//2": "Only includes useful plastics on purpose. Anyone can gather plastic bags, they want things they can store and fabricate tools with",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "plastic_sheet", "prob": 1 },
-      { "item": "plastic_sheet_small", "prob": 1 },
-      { "item": "rigid_plastic_sheet", "prob": 1 },
-      { "item": "polycarbonate_sheet", "prob": 1 },
-      { "item": "sheet_nylon", "prob": 1 },
-      { "item": "sheet_lycra", "prob": 1 }
-    ]
-  },
-  {
     "id": "exodii_pay_extra_for_petrochemical",
     "type": "item_group",
     "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
