@@ -5687,7 +5687,7 @@
     "type": "mutation",
     "id": "INTERSTICE_MIND",
     "name": { "str": "Apathy of the Outer Dark" },
-    "description": "Your mind has been altered in such a way that you now find it very difficult to relate to understand humans, the things they know, and the things they care about.  You are no longer bothered by much, but your ability to persuade, lie, and retain human knowledge is diminished.",
+    "description": "Your mind has been altered in such a way that you now find it very difficult to relate to or understand humans, the things they know, and the things they care about.  You are no longer bothered by much, but your ability to persuade, lie, and retain human knowledge is diminished.",
     "category": [ "INTERSTICE" ],
     "types": [ "HUMAN_EMPATHY" ],
     "prereqs": [ "NUMB" ],
