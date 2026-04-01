@@ -632,7 +632,7 @@
     "id": "MISSION_EVAC_BUS_DRIVER",
     "type": "mission_definition",
     "name": { "str": "Get to the refugee center" },
-    "description": "Facilitate the evacuation of the people assigned to you. Get them to the refugee center.",
+    "description": "Facilitate the evacuation of the people assigned to you.  Get them to the refugee center.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "evac_center_18",
     "difficulty": 4,
