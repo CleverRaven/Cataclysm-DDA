@@ -299,7 +299,7 @@
     "copy-from": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 5-round magazine" },
+    "name": { "str": "rifle shotgun 5-round magazine" },
     "description": "5-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [
@@ -325,7 +325,7 @@
     "id": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 10-round magazine" },
+    "name": { "str": "rifle shotgun 10-round magazine" },
     "description": "10-round box magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [
@@ -352,7 +352,7 @@
     "copy-from": "mka_1919_10",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "shotgun 20-round drum magazine" },
+    "name": { "str": "rifle shotgun 20-round drum magazine" },
     "description": "20-round drum magazine for rifle-like magazine-fed shotguns.",
     "variant_type": "gun",
     "variants": [
