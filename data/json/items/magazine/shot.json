@@ -5,7 +5,7 @@
     "looks_like": "shotbelt_20",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "10-round assault shotgun magazine" },
+    "name": { "str": "assault shotgun 10-round magazine" },
     "description": "A removable plastic 10-round box magazine, for use with compatible firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
@@ -33,7 +33,7 @@
     "looks_like": "shotbelt_20",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "20-round assault shotgun magazine" },
+    "name": { "str": "assault shotgun 20-round magazine" },
     "description": "A removable plastic 20-round drum magazine, for use with compatible firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
