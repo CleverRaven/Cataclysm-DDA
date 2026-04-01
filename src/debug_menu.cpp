@@ -162,6 +162,8 @@ static const morale_type morale_perm_debug( "morale_perm_debug" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
+static const spell_id spell_SPELL_EOC_DEBUG_TESTING( "SPELL_EOC_DEBUG_TESTING" );
+
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
@@ -4074,6 +4076,7 @@ void do_debug_quick_setup( bool flag_dirty )
     normalize_body( u );
     // Specifically only adds mutations instead of toggling them.
     u.set_mutations( setup_traits );
+    u.magic->set_spell_level( spell_SPELL_EOC_DEBUG_TESTING, 0, &get_avatar() );
     u.remove_weapon();
     u.clear_worn();
     item backpack( itype_debug_backpack );

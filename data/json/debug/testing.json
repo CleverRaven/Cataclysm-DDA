@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_TESTING",
+    "effect": [ { "u_message": "Override EOC_DEBUG_TESTING to use this for testing.", "popup": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "SPELL_EOC_DEBUG_TESTING",
+    "name": "Activate Debug EOC",
+    "description": "TESTING AHOY!  Fires the EOC_DEBUG_TESTING on cast.  Override this EOC for whatever testing you are doing and you can use this spell to fire it quickly and easily.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "NO_FAIL", "NO_LEGS", "NO_HANDS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DEBUG_TESTING",
+    "shape": "blast",
+    "base_casting_time": 0
+  }
+]
