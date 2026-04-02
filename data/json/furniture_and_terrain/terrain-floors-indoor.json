@@ -473,6 +473,22 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_bronze_floor",
+    "name": "bronze steps",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_metal_floor",
+    "description": "Large steps made of bronze, stained green with age, that lead up to nothing."
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_bronze_floor_inactive",
+    "name": "bronze steps",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_metal_floor",
+    "description": "Large steps made of bronze, stained green with age, that lead up to nothing."
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
     "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls.  Can support a roof.",
