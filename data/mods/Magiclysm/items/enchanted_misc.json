@@ -109,7 +109,7 @@
     "id": "mcandle_everburning",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "everburning candle", "str_pl": "everburning candles" },
+    "name": "everburning candle",
     "description": "A high quality thick wax candle.  On command, the wick ignites and provides a small amount of light.  It will burn forever.",
     "weight": "400 g",
     "volume": "466 ml",
@@ -125,7 +125,7 @@
     "id": "mcandle_everburning_lit",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "everburning candle", "str_pl": "everburning candles" },
+    "name": "everburning candle",
     "copy-from": "mcandle_everburning",
     "revert_to": "mcandle_everburning",
     "use_action": [
