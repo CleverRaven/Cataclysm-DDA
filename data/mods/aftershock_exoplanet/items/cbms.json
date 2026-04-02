@@ -1,15 +1,5 @@
 [
   {
-    "id": "bn_bio_solar",
-    "copy-from": "bionic_general",
-    "type": "ITEM",
-    "subtypes": [ "BIONIC_ITEM" ],
-    "name": { "str": "Solar Panels CBM" },
-    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-    "price": "3 kUSD 500 USD",
-    "difficulty": 4
-  },
-  {
     "id": "bio_microgen",
     "copy-from": "bionic_general_npc_usable",
     "type": "ITEM",

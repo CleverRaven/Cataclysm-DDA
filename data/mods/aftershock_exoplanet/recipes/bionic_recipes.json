@@ -46,29 +46,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bn_bio_solar",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_CBMS",
-    "skill_used": "electronics",
-    "skills_required": [ "firstaid", 5 ],
-    "difficulty": 7,
-    "time": "6 h",
-    "reversible": true,
-    "decomp_learn": 7,
-    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 40 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
-    "components": [
-      [ [ "afs_energy_storage_1", 4 ] ],
-      [ [ "afs_energy_storage_4", 2 ] ],
-      [ [ "afs_material_2", 12 ] ],
-      [ [ "afs_circuitry_2", 4 ] ],
-      [ [ "burnt_out_bionic", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "bio_batteries",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
