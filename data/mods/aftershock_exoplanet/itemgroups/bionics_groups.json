@@ -24,11 +24,7 @@
     "type": "item_group",
     "copy-from": "bionics_common",
     "extend": {
-      "items": [
-        [ "afs_bio_linguistic_coprocessor", 8 ],
-        [ "afs_bio_beavy_batteries", 20 ],
-        [ "bio_shield_weak", 25 ]
-      ]
+      "items": [ [ "afs_bio_linguistic_coprocessor", 8 ], [ "afs_bio_beavy_batteries", 20 ],[ "bio_shield_weak", 25 ]  ]
     }
   },
   {
