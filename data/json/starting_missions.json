@@ -627,17 +627,5 @@
     "value": 0,
     "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
-  },
-  {
-    "id": "MISSION_EVAC_BUS_DRIVER",
-    "type": "mission_definition",
-    "name": { "str": "Get to the refugee center" },
-    "description": "Facilitate the evacuation of the people assigned to you.  Get them to the refugee center.",
-    "goal": "MGOAL_GO_TO_TYPE",
-    "destination": "evac_center_18",
-    "difficulty": 4,
-    "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "reveal_radius": 10, "om_special": "evac_center" } },
-    "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

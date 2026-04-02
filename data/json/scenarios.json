@@ -1428,19 +1428,5 @@
     "requirement": "achievement_survive_one_day",
     "flags": [ "CITY_START", "LONE_START", "SUR_START" ],
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
-  },
-  {
-    "type": "scenario",
-    "id": "evacuation_bus_driver",
-    "name": "Evacuation Bus Driver",
-    "points": -1,
-    "description": "In your many years of being a bus driver, you never expected to be called upon to help evacuate the people of your town.  Now, the Cataclysm's happened, and it's up to you to bring these people to safety.",
-    "allowed_locs": [ "sloc_shelter_safe" ],
-    "eoc": [ "EOC_scenario_evacuation_bus_start" ],
-    "vehicle": "bus",
-    "missions": [ "MISSION_EVAC_BUS_DRIVER" ],
-    "professions": [ "bus_driver" ],
-    "start_name": "Evac Shelter",
-    "flags": [ "CITY_START", "FRIENDS_START" ]
   }
 ]
