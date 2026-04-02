@@ -552,6 +552,18 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
                                           colorize( info.specific_sublimb ? _( "Coverage" ) : _( "Coverage (Avg.)" ), c_magenta ),
                                           info.avg_coverage ) );
     info_txt.emplace_back( "--" );
+    // Env protection
+    info_txt.emplace_back(
+        string_format(
+            "%s: %d",
+            colorize(
+                info.specific_sublimb ? _( "Environmental protection" ) : _( "Environmental protection (Avg.)" ),
+                c_magenta
+            ),
+            info.avg_env_protection
+        )
+    );
+    info_txt.emplace_back( "--" );
     // encumbrance
     info_txt.emplace_back( string_format( "%s: %d", colorize( _( "Encumbrance" ), c_magenta ),
                                           info.total_encumbrance ) );
