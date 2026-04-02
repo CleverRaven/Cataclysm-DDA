@@ -270,7 +270,7 @@
     "copy-from": "t_rock",
     "looks_like": "t_rock",
     "name": "pitted rock",
-    "description": "A wall of solid rock, deeply pitted and patterend with metallic shine.",
+    "description": "A wall of solid rock, deeply pitted and patterned with metallic shine.",
     "color": "white",
     "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
     "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
