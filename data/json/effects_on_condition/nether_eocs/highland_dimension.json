@@ -1,0 +1,104 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "deactivate_imperial_road_gate",
+    "terrain": [ { "result": "t_highland_bronze_floor_inactive", "valid_terrain": [ "t_highland_bronze_floor" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HIGHLANDS_DIMENSION_TELEPORT",
+    "global": true,
+    "effect": [
+      {
+        "u_travel_to_dimension": "highlands",
+        "npc_travel_radius": 0,
+        "region_type": "highlands",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
+      },
+      { "u_location_variable": { "u_val": "safe_highland" }, "target_params": { "om_terrain": "highlands", "z": 0 } },
+      { "u_teleport": { "u_val": "safe_highland" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OPEN_IMPERIAL_ROAD_PREP",
+    "global": true,
+    "effect": [ { "run_eocs": "EOC_OPEN_IMPERIAL_ROAD_MAINTAIN", "time_in_future": "1 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OPEN_IMPERIAL_ROAD_MAINTAIN",
+    "global": true,
+    "condition": { "u_at_om_location": "conquerors_road" },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "u_is_on_terrain": "t_highland_bronze_floor" },
+            { "math": [ "gate_open != 1" ] },
+            { "math": [ "u_artifact_resonance() >= 4500" ] },
+            { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" }
+          ]
+        },
+        "then": [ { "mapgen_update": "conquerors_road_open" }, { "math": [ "gate_open = 1" ] } ]
+      },
+      {
+        "if": { "and": [ { "not": { "u_is_on_terrain": "t_highland_bronze_floor" } }, { "math": [ "gate_open == 1" ] } ] },
+        "then": [ { "mapgen_update": "conquerors_road_close" }, { "math": [ "gate_open = 0" ] } ]
+      },
+      { "run_eocs": "EOC_OPEN_IMPERIAL_ROAD_MAINTAIN", "time_in_future": "1 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IMPERIAL_ROAD_LOST",
+    "global": true,
+    "condition": { "and": [ { "math": [ "u_artifact_resonance() >= 4500" ] }, { "u_has_worn_with_flag": "IMPERIAL_ROAD_KEY" } ] },
+    "effect": [
+      {
+        "if": { "not": { "current_dimension": "imperial_road" } },
+        "then": [
+          {
+            "u_travel_to_dimension": "imperial_road",
+            "npc_travel_radius": 0,
+            "region_type": "highland_imperial_road",
+            "npc_travel_filter": "none",
+            "fail_message": "You feel like the weight of the air around you has shifted, but nothing else happens.",
+            "success_message": ""
+          },
+          { "u_message": "<imperial_road_early>" }
+        ]
+      },
+      {
+        "u_location_variable": { "u_val": "gateway" },
+        "target_params": { "om_terrain": "conquerors_road", "z": 0, "cant_see": true },
+        "terrain": "t_highland_bronze_floor",
+        "target_max_radius": 26
+      },
+      { "u_teleport": { "u_val": "gateway" } },
+      { "math": [ "imperial_gates_traveled++" ] },
+      { "if": { "math": [ "imperial_gates_traveled >= 3" ] }, "then": { "u_message": "<imperial_road_late>" } },
+      {
+        "u_transform_radius": 20,
+        "target_var": { "u_val": "gateway" },
+        "ter_furn_transform": "deactivate_imperial_road_gate"
+      }
+    ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_imperial_road_go",
+    "name": "",
+    "color": "white",
+    "symbol": "^",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "action": "eocs",
+    "eocs": [ "EOC_IMPERIAL_ROAD_LOST" ],
+    "always_invisible": true
+  }
+]

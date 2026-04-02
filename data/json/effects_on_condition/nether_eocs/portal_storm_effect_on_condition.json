@@ -666,12 +666,7 @@
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
       },
-      {
-        "u_location_variable": { "u_val": "safe_highland" },
-        "target_params": { "om_terrain": "highlands", "z": 0, "random": true, "search_range": 100 },
-        "terrain": "t_moss",
-        "target_max_radius": 26
-      },
+      { "u_location_variable": { "u_val": "safe_highland" }, "target_params": { "om_terrain": "highlands", "z": 0 } },
       { "u_teleport": { "u_val": "safe_highland" } },
       {
         "if": { "compare_string": [ "yes", { "u_val": "general_yrax_u_met_apeirohedra" } ] },
