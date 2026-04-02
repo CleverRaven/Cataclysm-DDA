@@ -448,7 +448,7 @@
     "drops": [ "alchemist_mine" ]
   },
   {
-    "id": "mfading_embers_active",
+    "id": "fading_embers_active",
     "type": "ITEM",
     "name": "fading embers",
     "description": "The embers of a slain Balrog.  It burns with otherworldly intensity.  Soon, it will fade into nothing.",

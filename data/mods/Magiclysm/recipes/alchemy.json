@@ -206,7 +206,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "sealed_fading_embers",
-    "components": [ [ [ "mfading_embers_active", 1 ] ], [ [ "enchanted_jar", 1 ] ] ],
+    "components": [ [ [ "fading_embers_active", 1 ] ], [ [ "enchanted_jar", 1 ] ] ],
     "time": "30 m",
     "skill_used": "spellcraft",
     "difficulty": 5,
