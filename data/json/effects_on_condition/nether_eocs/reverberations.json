@@ -227,7 +227,11 @@
         "u_message": "You dream you can fly over a vast plain of grass, mist in the air, clouds obscuring the sun.  You see \"home,\" whatever that means.  But there are other places.  Sad places.  And a dark place.\n\nAre you a traveler?  An explorer?  Do you find them?  Or do you enjoy your time here?  Do you just sleep it away?\n\nYou awake in bed.",
         "popup": true
       },
-      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_1", "time_in_future": [ "5 minutes", "2 hours" ] }
+      { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_1", "time_in_future": [ "5 minutes", "2 hours" ] },
+      { "math": [ "interstice_counter = 100" ] },
+      { "math": [ "previous_interstice_counter = 100" ] },
+      { "u_add_trait": "INTERSTICE_SHRINKING" },
+      { "run_eocs": "EOC_INNER_CABINS_INTERSTICE_COUNTER", "time_in_future": [ "1 minutes", "2 minutes" ] }
     ]
   },
   {
@@ -429,6 +433,38 @@
         "u_message": "You see the inside of a cabin, not unlike the ones you've seen before.  It's so clear that you think you could walk to it, through this thing, like a door.",
         "popup": true
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INNER_CABINS_INTERSTICE_COUNTER",
+    "condition": { "current_dimension": "inner_cabins" },
+    "effect": [
+      { "run_eocs": "EOC_INNER_CABINS_INTERSTICE_COUNTER", "time_in_future": [ "1 minutes", "2 minutes" ] },
+      { "math": [ "previous_interstice_counter = interstice_counter" ] },
+      {
+        "if": { "math": [ "u_val('pos_z') <= -8" ] },
+        "then": { "if": { "one_in_chance": 100 }, "then": { "math": [ "interstice_counter -= 10" ] } },
+        "else": { "if": { "one_in_chance": 200 }, "then": { "math": [ "interstice_counter += 1" ] } }
+      },
+      { "if": { "math": [ "interstice_counter < 100" ] }, "then": { "math": [ "interstice_counter = 100" ] } },
+      {
+        "if": { "math": [ "u_val('pos_z') <= -8" ] },
+        "then": [
+          { "u_lose_trait": "INTERSTICE_SHRINKING" },
+          { "u_add_trait": "INTERSTICE_GROWING" },
+          {
+            "if": { "one_in_chance": { "global_val": "interstice_counter" } },
+            "then": { "u_mutate_category": "INTERSTICE", "use_vitamins": false }
+          }
+        ],
+        "else": [ { "u_lose_trait": "INTERSTICE_GROWING" }, { "u_add_trait": "INTERSTICE_SHRINKING" } ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "A thought passes through your mind:  after all that, are you still you?" },
+      { "u_lose_trait": "INTERSTICE_GROWING" },
+      { "u_lose_trait": "INTERSTICE_SHRINKING" }
     ]
   }
 ]

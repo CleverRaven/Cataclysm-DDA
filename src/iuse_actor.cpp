@@ -1373,8 +1373,21 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
         p->add_msg_if_player( _( "It's too dark to read." ) );
         return std::nullopt;
     }
-    const tripoint_abs_omt center( coords::project_to<coords::omt>( it.get_var( "reveal_map_center",
-                                   p->pos_abs() ) ) );
+
+    const tripoint_abs_ms map_pos_ms = it.get_var( "spawn_location", tripoint_abs_ms::invalid );
+    city_reference closest_city = city_reference::invalid;
+    if( !map_pos_ms.is_invalid() ) {
+        const tripoint_abs_omt map_pos_omt = project_to<coords::omt>( map_pos_ms );
+        const tripoint_abs_sm map_pos = project_to<coords::sm>( map_pos_omt );
+        closest_city = overmap_buffer.closest_city( map_pos );
+    }
+    if( closest_city.city == nullptr ) {
+        p->add_msg_if_player( _( "The %s is unreadable." ), it.tname() );
+        return std::nullopt;
+    }
+
+    const tripoint_abs_omt center( project_to<coords::omt>( closest_city.abs_sm_pos ) );
+
     // Clear highlight on previously revealed OMTs before revealing new ones
     p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {
@@ -1382,13 +1395,14 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, map *,
             reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
     }
-    if( !message.empty() ) {
-        p->add_msg_if_player( m_good, "%s", message );
-    }
+
     if( p->map_revealed_omts.empty() ) {
         p->add_msg_if_player( _( "You didn't learn anything new from the %s." ), it.tname() );
+    } else if( !message.empty() ) {
+        p->add_msg_if_player( m_good, "%s", message );
     }
     it.mark_as_used_by_player( *p );
+
     return 0;
 }
 

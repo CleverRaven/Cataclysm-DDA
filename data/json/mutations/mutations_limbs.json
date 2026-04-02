@@ -236,6 +236,18 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_LIMBS",
+    "name": { "str": "Stretched Limbs" },
+    "description": "You limbs and digits are all slightly stretched, but otherwise function like normal.",
+    "category": [ "INTERSTICE" ],
+    "cancels": [ "HUMAN_ARMS", "HUMAN_LEGS" ],
+    "points": 0,
+    "vitamin_cost": 60,
+    "visibility": 2,
+    "ugliness": 2
+  },
+  {
+    "type": "mutation",
     "id": "ARACHNID_ARMS",
     "name": { "str": "Arachnid Limbs" },
     "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",

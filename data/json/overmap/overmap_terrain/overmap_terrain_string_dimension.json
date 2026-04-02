@@ -36,6 +36,11 @@
     "see_cost": "opaque"
   },
   {
+    "type": "overmap_location",
+    "id": "string_dimension_true_void",
+    "terrains": [ "string_dimension_true_void" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": [
       "string_dimension_small_ziggurat_1",
@@ -182,5 +187,33 @@
     "sym": "E",
     "color": "light_green",
     "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_utility_tunnel_entrance" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "islet",
+    "sym": "o",
+    "color": "light_gray",
+    "see_cost": "all_clear",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_utility_tunnel_four_way",
+      "string_dimension_utility_tunnel_T",
+      "string_dimension_utility_tunnel_straight",
+      "string_dimension_utility_tunnel_corner",
+      "string_dimension_utility_tunnel_end"
+    ],
+    "name": "utility tunnel",
+    "sym": "#",
+    "color": "red",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]

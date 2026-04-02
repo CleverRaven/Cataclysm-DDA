@@ -986,13 +986,38 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Collect all explicitly-covered BPs across all armor portions
+    body_part_set all_explicit_covers;
+    for( const armor_portion_data &data : obj.armor->sub_data ) {
+        if( data.covers.has_value() ) {
+            all_explicit_covers.unify_set( data.covers.value() );
+        }
+    }
+
     // Tally up all the hard-defined similar BPs
     for( armor_portion_data &data : obj.armor->sub_data ) {
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
             for( const bodypart_str_id &bp : data.covers.value() ) {
                 for( const bodypart_str_id &combined : bp->get_all_combined_similar_bodyparts() ) {
-                    similar_bp.set( combined );
+                    // skip if already explicitly covered in any portion
+                    if( all_explicit_covers.test( combined ) ) {
+                        continue;
+                    }
+                    // skip if this similar BP bridges multiple portions:
+                    // its own similar BPs include explicit BPs from a different portion
+                    bool bridges_portions = false;
+                    for( const bodypart_str_id &sibling :
+                         combined->get_all_combined_similar_bodyparts() ) {
+                        if( all_explicit_covers.test( sibling ) &&
+                            !data.covers.value().test( sibling ) ) {
+                            bridges_portions = true;
+                            break;
+                        }
+                    }
+                    if( !bridges_portions ) {
+                        similar_bp.set( combined );
+                    }
                 }
             }
         }
@@ -1014,13 +1039,36 @@ void Item_factory::finalize_post_armor( itype &obj )
         }
     }
 
+    // Collect all explicitly-covered sub-BPs across all armor portions
+    std::set<sub_bodypart_str_id> all_explicit_sub_covers;
+    for( const armor_portion_data &data : obj.armor->sub_data ) {
+        all_explicit_sub_covers.insert( data.sub_coverage.begin(), data.sub_coverage.end() );
+    }
+
+
     // Include similar sublimbs as well (after populating sub coverage)
     for( armor_portion_data &data : obj.armor->sub_data ) {
         std::set<sub_bodypart_str_id> similar_sbp;
         if( !data.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
                 for( const sub_bodypart_str_id &combined : sbp->get_all_combined_similar_sub_bodyparts() ) {
-                    similar_sbp.emplace( combined );
+                    // skip if already covered in any portion
+                    if( all_explicit_sub_covers.count( combined ) ) {
+                        continue;
+                    }
+                    // skip if this similar sub-BP bridges multiple portions
+                    bool bridges_portions = false;
+                    for( const sub_bodypart_str_id &sibling :
+                         combined->get_all_combined_similar_sub_bodyparts() ) {
+                        if( all_explicit_sub_covers.count( sibling ) &&
+                            !data.sub_coverage.count( sibling ) ) {
+                            bridges_portions = true;
+                            break;
+                        }
+                    }
+                    if( !bridges_portions ) {
+                        similar_sbp.emplace( combined );
+                    }
                 }
             }
         }

@@ -70,6 +70,12 @@ struct light_color_rgb {
         b += rhs.b;
         return *this;
     }
+    bool operator==( const light_color_rgb &rhs ) const {
+        return r == rhs.r && g == rhs.g && b == rhs.b;
+    }
+    bool operator!=( const light_color_rgb &rhs ) const {
+        return !( *this == rhs );
+    }
     light_color_rgb operator*( float scale ) const {
         return { r * scale, g * scale, b * scale };
     }

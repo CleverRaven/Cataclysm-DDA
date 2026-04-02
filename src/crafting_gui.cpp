@@ -489,6 +489,10 @@ class crafting_ui_impl : public cataimgui::window
         std::set<int> expanded_tool_groups;
         std::set<int> expanded_comp_groups;
 
+        // Cached because get_byproducts() randomizes via item_group each call
+        const recipe *cached_byproduct_recipe = nullptr;
+        std::map<itype_id, int> cached_byproducts;
+
         // --- Info panel keyboard navigation ---
         bool info_nav_active = false;
         int info_nav_cursor = 0;
@@ -1104,66 +1108,61 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 const std::string activity_str = string_format( _( "%s activity" ), activity_lc );
                 const int total_yield = recp.makes_amount() * batch_size;
 
-                // "~82% chance to yield 10 in about 30 min of light activity"
-                // or "~82% chance you can make it in about 30 min of light activity"
-                std::string yield_part;
+                // Single format string so translators can reorder parts.
+                // Plain version for width measurement, colored for rendering.
+                std::string plain;
+                std::string colored;
                 if( total_yield > 1 ) {
-                    yield_part = string_format( _( " chance to yield %d in " ), total_yield );
+                    //~ %1$s: success chance, %2$d: yield count, %3$s: time, %4$s: activity level
+                    const std::string fmt = _( "%1$s chance to yield %2$d in %3$s of %4$s" );
+                    plain = string_format( fmt, chance_str, total_yield, time_str, activity_str );
+                    colored = string_format( fmt,
+                                             colorize( chance_str, success_col ), total_yield,
+                                             colorize( time_str, c_cyan ),
+                                             colorize( activity_str, activity_col ) );
                 } else {
-                    yield_part = _( " chance you can make it in " );
+                    //~ %1$s: success chance, %2$s: time, %3$s: activity level
+                    const std::string fmt = _( "%1$s chance you can make it in %2$s of %3$s" );
+                    plain = string_format( fmt, chance_str, time_str, activity_str );
+                    colored = string_format( fmt,
+                                             colorize( chance_str, success_col ),
+                                             colorize( time_str, c_cyan ),
+                                             colorize( activity_str, activity_col ) );
                 }
-
-                const std::string p1 = chance_str + yield_part;
-                const std::string p2 = time_str + _( " of " );
-                const std::string full = p1 + p2 + activity_str;
-                float line_w = ImGui::CalcTextSize( full.c_str() ).x;
+                float line_w = ImGui::CalcTextSize( plain.c_str() ).x;
                 if( line_w < region_w ) {
                     ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
                 }
-
-                ImGui::TextColored( cataimgui::imvec4_from_color( success_col ), "%s",
-                                    chance_str.c_str() );
-                ImGui::SameLine( 0, 0 );
-                ImGui::TextColored( cataimgui::imvec4_from_color( c_light_gray ), "%s",
-                                    yield_part.c_str() );
-                ImGui::SameLine( 0, 0 );
-                ImGui::TextColored( cataimgui::imvec4_from_color( c_cyan ), "%s",
-                                    time_str.c_str() );
-                ImGui::SameLine( 0, 0 );
-                ImGui::TextColored( cataimgui::imvec4_from_color( c_light_gray ), "%s",
-                                    _( " of " ) );
-                ImGui::SameLine( 0, 0 );
-                ImGui::TextColored( cataimgui::imvec4_from_color( activity_col ), "%s",
-                                    activity_str.c_str() );
+                cataimgui::draw_colored_text( colored, c_light_gray );
             }
         }
         ImGui::Separator();
 
         // Warnings (right after stats)
         if( avail.can_craft && avail.would_use_rotten ) {
-            cataimgui::TextColoredParagraph( c_red, _( "Will use rotten ingredients" ) );
+            cataimgui::TextColoredParagraphNewline( c_red, _( "Will use rotten ingredients" ) );
         }
         if( avail.can_craft && avail.would_use_favorite ) {
-            cataimgui::TextColoredParagraph( c_red, _( "Will use favorited ingredients" ) );
+            cataimgui::TextColoredParagraphNewline( c_red, _( "Will use favorited ingredients" ) );
         }
         if( !avail.can_craft && !avail.has_proficiencies ) {
-            cataimgui::TextColoredParagraph( c_red,
-                                             _( "Cannot craft: crafter lacks required proficiencies." ) );
+            cataimgui::TextColoredParagraphNewline( c_red,
+                                                    _( "Cannot craft: crafter lacks required proficiencies." ) );
         }
         if( !avail.crafter_has_primary_skill ) {
-            cataimgui::TextColoredParagraph( c_red,
-                                             recp.is_practice()
-                                             ? _( "Crafter lacks theoretical knowledge to practice this." )
-                                             : _( "Crafter lacks theoretical knowledge for this recipe." ) );
+            cataimgui::TextColoredParagraphNewline( c_red,
+                                                    recp.is_practice()
+                                                    ? _( "Crafter lacks theoretical knowledge to practice this." )
+                                                    : _( "Crafter lacks theoretical knowledge for this recipe." ) );
         }
 
         // Complex/overlapping requirement warnings
         if( !recp.is_nested() ) {
             const bool too_complex = recp.deduped_requirements().is_too_complex();
             if( avail.can_craft && too_complex ) {
-                cataimgui::TextColoredParagraph( c_yellow,
-                                                 _( "Due to the complex overlapping requirements, this recipe "
-                                                    "may appear to be craftable when it is not." ) );
+                cataimgui::TextColoredParagraphNewline( c_yellow,
+                                                        _( "Due to the complex overlapping requirements, this recipe "
+                                                                "may appear to be craftable when it is not." ) );
             }
             std::string npc_reason;
             const bool npc_cant = avail.crafter.is_npc()
@@ -1171,12 +1170,12 @@ void crafting_ui_impl::draw_recipe_info_panel()
                                   && !avail.inv_override;
             if( !avail.can_craft && avail.apparently_craftable
                 && !npc_cant ) {
-                cataimgui::TextColoredParagraph( c_red,
-                                                 _( "Cannot be crafted because the same item is needed "
-                                                    "for multiple components." ) );
+                cataimgui::TextColoredParagraphNewline( c_red,
+                                                        _( "Cannot be crafted because the same item is needed "
+                                                                "for multiple components." ) );
             }
             if( !avail.can_craft && npc_cant ) {
-                cataimgui::TextColoredParagraph( c_red, npc_reason );
+                cataimgui::TextColoredParagraphNewline( c_red, npc_reason );
             }
         }
 
@@ -1274,10 +1273,14 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
             // Byproducts
             if( recp.has_byproducts() ) {
+                if( cached_byproduct_recipe != &recp ) {
+                    cached_byproduct_recipe = &recp;
+                    cached_byproducts = recp.get_byproducts();
+                }
                 ImGui::Spacing();
                 ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s",
                                     _( "Byproducts:" ) );
-                for( const auto &[bp_id, bp_count] : recp.get_byproducts() ) {
+                for( const auto &[bp_id, bp_count] : cached_byproducts ) {
                     ImGui::BulletText( "%s", string_format( "%s x%d",
                                                             item::nname( bp_id, bp_count ), bp_count ).c_str() );
                 }

@@ -2203,6 +2203,27 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_interstice",
+    "name": [ "Interstitial Mutation", "Interstitial Transformation", "Interstitial Metamorphosis" ],
+    "desc": [ "You consumed some interdimensional contaminant.", "Who said that?", "You see all the colors of space." ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_INTERSTICE" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 200 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 50 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "per_mod": [ 2.5 ], "int_mod": [ 1 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -15 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Interdimensional Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in a Beartrap" ],
     "desc": [ "You can't move until you get free!" ],

@@ -259,6 +259,7 @@ const flag_id flag_POLEARM( "POLEARM" );
 const flag_id flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 const flag_id flag_POWERED( "POWERED" );
 const flag_id flag_PREDATOR_FUN( "PREDATOR_FUN" );
+const flag_id flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
 const flag_id flag_PROCESSING_RESULT( "PROCESSING_RESULT" );

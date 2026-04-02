@@ -1874,6 +1874,142 @@
     ]
   },
   {
+    "id": "string_dimension_phase_immersion_suit",
+    "type": "ITEM",
+    "//": "string dimension 'gate suit', their version of a phase immersion suit, but without an integrated helmet, thus lacking most of its environmental and dimensional protection.",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "yellow",
+    "name": { "str": "KÁ expedition harness", "str_pl": "KÁ expedition harnesses" },
+    "description": "A protective body-suit built from layered textiles and segmented plates, all coated in a layer of gold.  The collar bares a prominent set of clasps and tube fittings.  An integrated harness is equipped with spring-loaded clips and a small electronic control apparatus stamped with \"KÁ\".",
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "carbide", "qt_steel", "superalloy", "gold" ],
+    "weight": "8400 g",
+    "volume": "4100 ml",
+    "pocket_data": [
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      }
+    ],
+    "warmth": 30,
+    "environmental_protection": 16,
+    "flags": [
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "STURDY",
+      "WATERPROOF",
+      "GAS_PROOF",
+      "RAINPROOF",
+      "PADDED",
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
+    ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_string_dimension_phase_immersion_suit_false_start",
+          "effect": { "u_message": "The device emits a whispered word: \"ḫuliam\"" }
+        }
+      ]
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 3.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 75, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "rebreather",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],

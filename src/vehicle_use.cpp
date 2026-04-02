@@ -289,6 +289,12 @@ static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, cons
                 e.enabled = state;
             }
         }
+        map &here = get_map();
+        for( const vpart_reference &vp : found )
+        {
+            here.set_lightmap_cache_dirty( vp.pos_bub( here ).z() );
+            break;
+        }
     } );
 }
 

@@ -30,7 +30,7 @@
         { "u_learn_recipe": "warphaulbag" },
         { "u_learn_recipe": "sky_island_warped_pond" },
         {
-          "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
+          "u_message": "You have proved your ability to survive to the island, to the warpstream, and to yourself.\nMore unlockable upgrades will be available as you progress.",
           "type": "mixed"
         },
         {
@@ -104,7 +104,7 @@
         { "u_learn_recipe": "warphome" },
         { "u_learn_recipe": "warp_autodoc_inert" },
         {
-          "u_message": "That you are still here, fighting on, makes your determination clear.  This new existence is strange and unpredictable, but you can adapt.  It's how you made it this far, and you're not about to stop now.\nMore unlockable upgrades will be available as you progress, and you may experience exits and targets in new locations.",
+          "u_message": "That you are still here, fighting on, makes your determination clear.  This new existence is strange and unpredictable, but you can adapt.  It's how you made it this far, and you're not about to stop now.\nMore unlockable upgrades will be available as you progress.",
           "type": "mixed"
         },
         {

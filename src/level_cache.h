@@ -27,6 +27,7 @@ struct level_cache {
         bool outside_cache_dirty = false;
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
+        bool lightmap_dirty = true;
         // True when at least one light source on this z-level has non-white color.
         // Used to skip the color blur pass when all lights are white.
         bool has_colored_lights = false;

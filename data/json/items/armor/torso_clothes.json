@@ -673,7 +673,9 @@
     "flags": [ "VARSIZE" ],
     "armor": [
       { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
-      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] }
+      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35, "encumbrance": 4 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20, "encumbrance": 4 }
     ],
     "variants": [
       {
@@ -700,7 +702,11 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "long dress", "str_pl": "long dresses" },
     "description": "A long cotton dress.",
-    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "armor": [
+      { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": 6 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 8 }
+    ],
     "variant_type": "generic",
     "variants": [
       {
@@ -768,7 +774,9 @@
     "armor": [
       { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
       { "encumbrance": 1, "coverage": 85, "covers": [ "arm_l", "arm_r" ] },
-      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] }
+      { "encumbrance": 4, "coverage": 55, "covers": [ "leg_l", "leg_r" ] },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35, "encumbrance": 4 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20, "encumbrance": 4 }
     ],
     "variant_type": "generic",
     "variants": [
@@ -821,7 +829,9 @@
     "armor": [
       { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] },
       { "encumbrance": 1, "coverage": 85, "covers": [ "arm_l", "arm_r" ] },
-      { "encumbrance": 7, "coverage": 85, "covers": [ "leg_l", "leg_r" ] }
+      { "encumbrance": 7, "coverage": 85, "covers": [ "leg_l", "leg_r" ] },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": 6 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 8 }
     ],
     "variant_type": "generic",
     "variants": [

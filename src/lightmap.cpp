@@ -482,6 +482,11 @@ void map::build_sunlight_cache( int pzlev )
 void map::generate_lightmap( const int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
+    if( !map_cache.lightmap_dirty ) {
+        return;
+    }
+    map_cache.lightmap_dirty = false;
+
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;

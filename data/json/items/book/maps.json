@@ -8,7 +8,7 @@
     "color": "blue",
     "volume": "10 ml",
     "weight": "10 g",
-    "flags": [ "CREDIT_CARD_SHAPED" ],
+    "extend": { "flags": [ "CREDIT_CARD_SHAPED" ] },
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
@@ -523,7 +523,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
+    "flags": [ "PRESERVE_SPAWN_LOC", "LOCATION_PRECISE_CLOSEST_CITY", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml",
     "use_action": {
@@ -567,6 +567,7 @@
     "category": "maps",
     "symbol": ",",
     "color": "white",
+    "looks_like": "book_binder",
     "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.",
     "price": "0 cent",
     "price_postapoc": "0 cent",

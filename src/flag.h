@@ -269,6 +269,7 @@ extern const flag_id flag_POLEARM;
 extern const flag_id flag_POWERARMOR_COMPATIBLE;
 extern const flag_id flag_POWERED;
 extern const flag_id flag_PREDATOR_FUN;
+extern const flag_id flag_PRESERVE_SPAWN_LOC;
 extern const flag_id flag_PRIMITIVE_RANGED_WEAPON;
 extern const flag_id flag_PROCESSING;
 extern const flag_id flag_PROCESSING_RESULT;

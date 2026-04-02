@@ -397,9 +397,8 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            if( pixel_minimap_option ) {
-                // TODO: more granular control to only redraw pixel minimap
-                invalidate_main_ui_adaptor();
+            if( pixel_minimap_option && g->w_pixel_minimap ) {
+                wnoutrefresh( g->w_pixel_minimap );
             }
 
             std::unique_ptr<static_popup> deathcam_msg_popup;

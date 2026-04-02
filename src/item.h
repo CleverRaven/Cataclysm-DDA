@@ -1113,6 +1113,12 @@ class item : public visitable
         void mod_charges( int mod );
 
         /**
+         * Store items current location into spawn_location, if flag PRESERVE_SPAWN_LOC is present. Works
+         * recursively.
+         */
+        void preserve_location( const tripoint_abs_ms &location );
+
+        /**
          * Returns rate of rot (rot/h) at the given temperature
          */
         float calc_hourly_rotpoints_at_temp( const units::temperature &temp ) const;

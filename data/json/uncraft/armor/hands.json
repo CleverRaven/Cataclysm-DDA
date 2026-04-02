@@ -12,7 +12,7 @@
       [ [ "chitin_piece", 2 ] ],
       [ [ "leather", 2 ] ],
       [ [ "cotton_patchwork", 8 ] ],
-      [ [ "button_wood", 2 ] ]
+      [ [ "button_plastic", 2 ] ]
     ]
   },
   {
@@ -28,7 +28,7 @@
       [ [ "chitin_piece", 1 ] ],
       [ [ "leather", 2 ] ],
       [ [ "cotton_patchwork", 8 ] ],
-      [ [ "button_wood", 2 ] ]
+      [ [ "button_plastic", 2 ] ]
     ]
   },
   {
@@ -44,7 +44,7 @@
       [ [ "chitin_piece", 3 ] ],
       [ [ "leather", 4 ] ],
       [ [ "cotton_patchwork", 8 ] ],
-      [ [ "button_wood", 2 ] ]
+      [ [ "button_plastic", 2 ] ]
     ]
   }
 ]

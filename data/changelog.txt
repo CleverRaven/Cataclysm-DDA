@@ -215,7 +215,9 @@ brooms can broom
 Add `RAIN_IMMUNE` flag for effect-level rain immunity
 Gate NPC food complaints behind needs_food(), let saprovores eat rotten food, add BT utility strategy
 Appear Neutral Flag
-NPCs wear warm clothes and move to shelter when freezing
+NPCs Behavior Tree improvements
+Colored light rendering overlay, dawn/dusk tint
+Changing move mode can cost time and is deferred
 
 
 ## Content:
@@ -469,6 +471,8 @@ Hunvre mod: Generation ship stealth and melee survival in claustrophobic environ
 Add `Computer Illiterate` challenge trait
 Add inner cabins dimension
 Greenhouses!
+Added the jetski map extra, a jetski abandoned on the side of the river
+Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
 
 
 ## Interface:
@@ -1109,6 +1113,8 @@ XE Proficiency CBMs
 [Xedra Evolved] Nonhumans can't take Genetic Chaos/Genetic Downward Spiral
 [MoM] No more astral projecting while driving
 [Xedra Evolved] Paraclesians are born ignorant of technology
+[Sky Island] Challenge Mode
+[Sky Island] NPCs may join raids
 
 
 ## Balance:
