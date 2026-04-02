@@ -2470,7 +2470,7 @@
     "id": "mon_halo_tangle",
     "type": "MONSTER",
     "name": { "str_sp": "halo tangle" },
-    "description": "A mass of uncountable, gleaming halos, each large enough to encompass ten humans, all impossibly intermingled and rapidly rotating.  At its core is a dark flame, with the shadow of a humanoid stretched and writhing at its core.",
+    "description": "A mass of uncountable, gleaming halos, each large enough to encompass ten humans, all impossibly intermingled and rapidly rotating.  At its core is a dark flame, with the shadow of a twitching humanoid.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 40,
