@@ -4106,7 +4106,7 @@
     "subtypes": [ "ARMOR", "ARTIFACT" ],
     "category": "armor",
     "name": { "str": "gold-latticed biosuit" },
-    "description": "This striated bodysuit constructed from a bilayer of stark-white white metallic fabric coated in a microscopically thin layer of gold.  A few of the fibers are more gold than others, giving it a barely perceptible hex pattern.  The textile bilayer is filled with liquid, giving it a squishy, cool-to-the-touch bodyfeel.",
+    "description": "A striated bodysuit constructed from a bilayer of stark-white white metallic fabric, coated in a microscopically thin layer of gold.  Some of the fibers are more gold than others, giving it a barely perceptible hex pattern.  The textile bilayer is filled with liquid, giving it a squishy, cool-to-the-touch bodyfeel.",
     "weight": "4000 g",
     "volume": "12 L",
     "price": "1 kUSD 175 USD",
