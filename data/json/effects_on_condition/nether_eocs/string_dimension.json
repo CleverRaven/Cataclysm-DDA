@@ -214,5 +214,56 @@
     "id": "EOC_SD_Computer",
     "type": "effect_on_condition",
     "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STRING_DIMENSION_PORTAL_TO_KA_STRUCTURE",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "string_dimension_ka",
+        "npc_travel_radius": 0,
+        "region_type": "string_dimension_ka",
+        "npc_travel_filter": "none"
+      },
+      {
+        "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
+        "target_params": { "om_terrain": "string_dimension_ka_facility_x4y0z0", "om_special": "string_dimension_ka_facility" },
+        "furniture": "f_string_dimension_floor_portal_enclosure",
+        "target_max_radius": 20
+      },
+      { "u_teleport": { "context_val": "string_dimension_floor_portal_enclosure" } },
+      {
+        "u_message": "You step into the moonpool and it's as if your entire world slowly rotated, leaving you to step upon the ceiling on the level below you.  You reorient and find yourself somewhere new.",
+        "popup": true
+      }
+    ],
+    "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STRING_DIMENSION_PORTAL_FROM_KA_STRUCTURE",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "string_dimension",
+        "npc_travel_radius": 0,
+        "region_type": "string_dimension",
+        "npc_travel_filter": "none",
+        "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+        "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."
+      },
+      {
+        "u_location_variable": { "context_val": "nearest_sd_floor" },
+        "target_params": { "om_terrain": "string_dimension_crossroads", "z": 0, "min_distance": 0, "search_range": 100, "random": true },
+        "terrain": "t_string_xy",
+        "target_max_radius": 20,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "context_val": "nearest_sd_floor" } },
+      { "u_message": "You fall for a brief moment, then find your footing somewhere familiar.", "popup": true }
+    ],
+    "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
   }
 ]

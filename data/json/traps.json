@@ -1153,5 +1153,35 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_string_dimension_ka_moonpool",
+    "name": "strange moonpool",
+    "symbol": "~",
+    "color": "blue",
+    "action": "eocs",
+    "eocs": [ "EOC_STRING_DIMENSION_PORTAL_TO_KA_STRUCTURE" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_string_dimension_ka_moonpool_exit",
+    "name": "1D plane",
+    "symbol": ".",
+    "color": "blue",
+    "action": "eocs",
+    "eocs": [ "EOC_STRING_DIMENSION_PORTAL_FROM_KA_STRUCTURE" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

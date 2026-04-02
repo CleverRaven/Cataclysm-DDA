@@ -256,7 +256,7 @@
         "|R||||||I,,,,o|         ",
         "|,,II|I|I,,,,o|         ",
         "|,,I,|||I,,,,o|         ",
-        "|>,I,+,+I,,,,o|         ",
+        "|&,I,+,+I,,,,o|         ",
         "|,,I,O,OI,,,,o|         ",
         "|,,I,|||I,,,,o|         ",
         "|IITI|I|I,,,,o|         ",
@@ -271,7 +271,13 @@
         "    ||||||o,,o|         "
       ],
       "palettes": [ "string_dimension_utility_tunnel" ],
-      "terrain": { "R": "t_strconc_floor_no_roof", "T": "t_strconc_floor_no_roof", "+": "t_door_metal_bulkhead_c", "O": "t_porthole" },
+      "terrain": {
+        "R": "t_strconc_floor_no_roof",
+        "T": "t_strconc_floor_no_roof",
+        "+": "t_door_metal_bulkhead_c",
+        "O": "t_porthole",
+        "&": "t_ka_moonpool"
+      },
       "furniture": { "R": "f_locker", "T": "f_console_broken_table" },
       "place_loot": [ { "item": "string_dimension_phase_immersion_suit", "x": 1, "y": 8, "chance": 70 } ]
     }

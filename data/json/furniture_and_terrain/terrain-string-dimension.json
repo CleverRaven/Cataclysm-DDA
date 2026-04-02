@@ -263,5 +263,60 @@
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
     },
     "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_dimension_meteoric_rock",
+    "copy-from": "t_rock",
+    "looks_like": "t_rock",
+    "name": "pitted rock",
+    "description": "A wall of solid rock, deeply pitted and patterend with metallic shine.",
+    "color": "white",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
+    "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_string_dimension_meteoric_rock_charred",
+    "copy-from": "t_rock",
+    "name": "charred rock",
+    "description": "A wall of solid rock, deeply pitted, charred, and coated in a residue with an acrid smell",
+    "color": "white",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
+    "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [ { "group": "mining_rock", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ka_moonpool",
+    "name": "strange moonpool",
+    "description": "At first glance this looks like a pool filled with deep, dark water, and a ladder leading down into it.  Upon closer inspection, you note that the \"liquid\" is some sort of tense membrane.  When you stare, you see something on the other side, illuminated by pale light.",
+    "symbol": "~",
+    "looks_like": "t_water_pool",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "trap": "tr_string_dimension_ka_moonpool"
   }
 ]
