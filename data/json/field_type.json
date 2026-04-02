@@ -1355,6 +1355,81 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_purple_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of purple incense",
+        "translucency": 5,
+        "color": "magenta",
+        "effects": [
+          {
+            "effect_id": "purple_incense_effect",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_tindalos_gas"
+  },
+  {
+    "id": "fd_red_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of red incense",
+        "translucency": 5,
+        "color": "red",
+        "effects": [
+          {
+            "effect_id": "red_incense_effect",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_yellow_incense",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "swirl of yellow incense", "translucency": 5, "color": "yellow" } ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
     "id": "fd_weedsmoke",
     "type": "field_type",
     "legacy_enum_id": 34,
