@@ -465,6 +465,24 @@
     "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "SPAWN_ACTIVE" ]
   },
   {
+    "id": "sealed_fading_embers",
+    "type": "ITEM",
+    "name": "fading embers (sealed)",
+    "description": "A small fragment of an otherworldly flame, sealed into a jar for preservation.",
+    "ascii_picture": "jar_glass_sealed",
+    "weight": "277 g",
+    "volume": "690 ml",
+    "longest_side": "127 mm",
+    "price": "1 USD",
+    "to_hit": -1,
+    "material": [ "glass", "concentrated_mana" ],
+    "symbol": ")",
+    "color": "red",
+    "//": "The embers are preserved and can be used to craft a candle.",
+    "category": "spare_parts",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "enchanted_jar",
     "type": "ITEM",
     "category": "container",
