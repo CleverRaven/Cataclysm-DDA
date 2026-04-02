@@ -655,6 +655,8 @@ class cata_tiles
         void init_draw_hit( const Creature &critter );
         void draw_hit_frame();
         void void_hit();
+        // Prune expired hit animations.  Returns true if any were removed.
+        bool expire_hit_animations();
 
         void draw_footsteps_frame( const tripoint_bub_ms &center );
 

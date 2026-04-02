@@ -1971,8 +1971,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             draw_bullet_frame();
         }
         if( do_draw_hit ) {
-            draw_hit_frame();
             void_hit();
+            if( do_draw_hit ) {
+                draw_hit_frame();
+            }
         }
         if( do_draw_line ) {
             draw_line();
@@ -4632,6 +4634,15 @@ void cata_tiles::void_hit()
     if( hit_animations.empty() ) {
         do_draw_hit = false;
     }
+}
+bool cata_tiles::expire_hit_animations()
+{
+    if( !do_draw_hit ) {
+        return false;
+    }
+    const size_t before = hit_animations.size();
+    void_hit();
+    return hit_animations.size() != before;
 }
 void cata_tiles::void_line()
 {
