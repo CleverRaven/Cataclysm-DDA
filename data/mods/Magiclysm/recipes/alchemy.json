@@ -207,7 +207,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "sealed_fading_embers",
     "components": [ [ [ "fading_embers_active", 1 ] ], [ [ "enchanted_jar", 1 ] ] ],
-    "time": "30 m",
+    "time": "6 m",
     "skill_used": "spellcraft",
     "difficulty": 5,
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
