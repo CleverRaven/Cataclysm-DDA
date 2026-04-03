@@ -467,7 +467,7 @@
   {
     "id": "sealed_fading_embers",
     "type": "ITEM",
-    "name": { "str": "fading embers (sealed)", "str_pl": "fading embers (sealed)" },
+    "name": { "str_sp": "fading embers (sealed)" },
     "description": "A small fragment of an otherworldly flame, sealed into a jar for preservation.",
     "ascii_picture": "jar_glass_sealed",
     "weight": "277 g",
