@@ -450,7 +450,7 @@
   {
     "id": "fading_embers_active",
     "type": "ITEM",
-    "name": { "str": "fading embers", "str_pl": "fading embers" },
+    "name": { "str_sp": "fading embers" },
     "description": "The embers of a slain Balrog.  It burns with otherworldly intensity.  Soon, it will fade into nothing.",
     "volume": "0 ml",
     "price": "1 USD",
