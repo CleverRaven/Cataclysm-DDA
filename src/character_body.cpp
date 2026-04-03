@@ -1580,3 +1580,17 @@ void Character::update_respiration_rate()
     constexpr float RESP_EFFECT_INT_TO_FLOAT_MULT = 0.0001f;
     respiration_rate = 1.0f + effect_mod * RESP_EFFECT_INT_TO_FLOAT_MULT;
 }
+
+bool Character::has_sub_bodypart( const sub_bodypart_id &sbp) const
+{
+    bool character_has_sub_part = false;
+    for (const bodypart_id& part : get_all_body_parts()) {
+        for (const sub_bodypart_id& sub_part : part->sub_parts) {
+            if (sub_part == sbp) {
+                character_has_sub_part = true;
+                break;
+            }
+        }
+    }
+    return character_has_sub_part;
+}
