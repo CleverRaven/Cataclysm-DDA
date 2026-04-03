@@ -158,8 +158,12 @@ static const fault_id fault_overheat_melting( "fault_overheat_melting" );
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
 static const fault_id fault_overheat_venting( "fault_overheat_venting" );
 
+static const flag_id json_flag_BOLT_ACTION( "BOLT_ACTION" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_LEVER_ACTION( "LEVER_ACTION" );
+static const flag_id json_flag_PUMP_ACTION( "PUMP_ACTION" );
+static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
@@ -689,6 +693,32 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
     return mv;
 }
 
+static int action_time( const Character &p, const itype &firing )
+{
+    float operation_time = 0.f;
+    if( firing.has_flag( json_flag_LEVER_ACTION ) ) {
+        // in moves, 0.8 seconds
+        operation_time += 80.f;
+    } else if( firing.has_flag( json_flag_SINGLE_ACTION ) ) {
+        operation_time += 100.f;
+    } else if( firing.has_flag( json_flag_PUMP_ACTION ) ) {
+        operation_time += 120.f;
+    } else if( firing.has_flag( json_flag_BOLT_ACTION ) ) {
+        operation_time += 160.f;
+    }
+
+    // either 10 in gun skill, or 10 in marksmanship, or something in between would mitigate 50% of penalty
+    const float operation_skill =
+        std::min( p.get_skill_level( skill_gun ) + p.get_skill_level( firing.gun->skill_used ), 10.f );
+
+    const float factor = 1.f - ( 0.05f * operation_skill );
+    operation_time *= factor;
+
+    add_msg_debug( debugmode::DF_RANGED, "operation time: %.0f", operation_time );
+
+    return static_cast<int>( operation_time );
+}
+
 bool Character::handle_gun_damage( item &it )
 {
     // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
@@ -776,7 +806,7 @@ bool Character::handle_gun_damage( item &it )
     const double jam_chance = gun_jam_chance + mag_jam_chance;
 
     add_msg_debug( debugmode::DF_RANGED,
-                   "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
+                   "Gun jam chance: %f\nMagazine jam chance: %f\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %f",
                    gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance );
 
     // Here we check if we're underwater and whether we should misfire.
@@ -986,6 +1016,45 @@ bool Character::handle_gun_overheat( item &it )
     return true;
 }
 
+static int get_action_penalty( const map &here, const Character &guy, const item &gun )
+{
+    // skip action penalty if we do not have any more rounds to load
+    if( gun.shots_remaining( here, &guy ) == 0 ) {
+        return 0;
+    }
+
+    float action_penalty = 0;
+
+    if( gun.has_flag( json_flag_LEVER_ACTION ) ) {
+        action_penalty += 800.f;
+    } else if( gun.has_flag( json_flag_SINGLE_ACTION ) ) {
+        action_penalty += 1000.f;
+    } else if( gun.has_flag( json_flag_PUMP_ACTION ) ) {
+        action_penalty += 1200.f;
+    } else if( gun.has_flag( json_flag_BOLT_ACTION ) ) {
+        action_penalty += 1600.f;
+    }
+
+    // for higher calibers, the penalty doesn't matter that much,
+    // their recoil is already hard enough they have to effectively re-aim from scratch every time
+    action_penalty = std::max( action_penalty - gun.gun_recoil( guy ), 0.f );
+
+    if( action_penalty == 0.f ) {
+        return 0;
+    }
+
+    // either 12 in marksmanship, or 12 in skill the gun uses, or something in between, would mitigate 80% of penalty
+    const float action_skill =
+        std::min( guy.get_skill_level( skill_gun ) + guy.get_skill_level( gun.gun_skill() ), 12.f );
+
+    const float factor = 1.f - ( 0.067f * action_skill );
+    action_penalty *= factor;
+
+    add_msg_debug( debugmode::DF_RANGED, "action_penalty: %.0f", action_penalty );
+
+    return action_penalty;
+}
+
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
@@ -1073,7 +1142,8 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                               static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
-    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, ammo );
+    int attack_moves = time_to_attack( *this, *gun_id ) +
+                       RAS_time( *this, ammo ) + action_time( *this, *gun_id ) ;
     skill_id gun_skill = gun.gun_skill();
     add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
@@ -1161,15 +1231,22 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         }
 
         int qty = gun.gun_recoil( *this, bipod );
-        delay  += qty * absorb;
-        // if shoots multiple barrels simultaneously, do not apply the recoil just yet
+
+        add_msg_debug( debugmode::DF_RANGED, "total recoil: %d; absorbed: %.0f%%",
+                       qty, absorb * 100 );
+
+        delay += qty * absorb;
+        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+        const int added_recoil = enchantment_cache->modify_value(
+                                     enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) * ( qty * ( 1.0 - absorb ) );
+
+        add_msg_debug( debugmode::DF_RANGED, "final recoil of this shot: %d", added_recoil );
+
+        // if shoots multiple barrels simultaneously, do not apply the recoil while shooting, only in the end
         if( gun.gun_current_mode().flags.count( "VOLLEY" ) ) {
-            delay += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                     ( qty * ( 1.0 - absorb ) );
+            delay += added_recoil;
         } else {
-            // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
-            recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
-                      ( qty * ( 1.0 - absorb ) );
+            recoil += added_recoil;
         }
 
         const itype_id current_ammo = gun.ammo_current();
@@ -1241,6 +1318,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     for( item *mod : gun.gunmods() ) {
         mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
     }
+
+    add_msg_debug( debugmode::DF_RANGED, "off it, a delayed recoil: %d", delay );
+
     if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
@@ -1252,6 +1332,9 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
             // TODO: shouldn't this affect only recoil accumulated during this function?
             recoil = recoil / 2;
         }
+
+        recoil += get_action_penalty( here, *this, gun );
+
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
     }
@@ -2324,9 +2407,15 @@ int time_to_attack( const Character &p, const itype &firing )
 {
     const skill_id &skill_used = firing.gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
-    return std::max( info.min_time,
-                     static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
-                                           skill_used ) ) ) );
+
+    const float reduction = info.time_reduction_per_level * p.get_skill_level( skill_used );
+    const int time = static_cast<int>( round( info.base_time - reduction ) );
+
+    const int ret = std::max( info.min_time, time );
+
+    add_msg_debug( debugmode::DF_RANGED, "time to attack: %d", ret );
+
+    return ret;
 }
 
 int RAS_time( const Character &p, const item_location &loc )

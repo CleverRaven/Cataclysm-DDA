@@ -386,6 +386,13 @@ class map
                 field_proc_data & );
         friend void field_processor_fd_incendiary( const tripoint_bub_ms &, field_entry &,
                 field_proc_data & );
+        friend void field_processor_monster_spawn( const tripoint_bub_ms &, field_entry &,
+                field_proc_data & );
+
+        // add_spawn is private; these classes need it for data-driven spawning
+        // (JSON mapgen and monster reproduction). Mapgen code should use place_spawns() instead.
+        friend class jmapgen_monster;
+        friend class monster;
 
         // for testing
         friend class map_meddler;
@@ -435,6 +442,8 @@ class map
         void set_seen_cache_dirty( int zlevel );
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty_below( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( const tripoint_bub_ms &p );
         /*@}*/
@@ -1734,13 +1743,6 @@ class map
         character_id place_npc( const point_bub_ms &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
                                       const faction_id &id );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
-                        int faction_id, int mission_id, const std::optional<std::string> &name,
-                        const spawn_data &data );
-        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -1876,6 +1878,14 @@ class map
         */
         void rotten_item_spawn( const item &item, const tripoint_bub_ms &p );
     private:
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
+                        const std::optional<std::string> &name = std::nullopt );
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
+                        int faction_id, int mission_id, const std::optional<std::string> &name,
+                        const spawn_data &data );
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
+
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
                                     bool spawn_nonlocal = false );
@@ -2101,11 +2111,15 @@ class map
         void apply_light_source( const tripoint_bub_ms &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
         // light rays from causing massive slowdowns, if there's a huge amount of light.
-        void add_light_source( const tripoint_bub_ms &p, float luminance );
+        // Color rides the same buffer; omit for white (uncolored) light.
+        void add_light_source( const tripoint_bub_ms &p, float luminance,
+                               const light_color_rgb &color = {} );
         // Handle just cardinal directions and 45 deg angles.
-        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance );
+        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance,
+                                      const light_color_rgb &color = {} );
         void apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, float luminance,
-                              const units::angle &wideangle = 30_degrees );
+                              const units::angle &wideangle = 30_degrees,
+                              const light_color_rgb &color = {} );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint_bub_ms &s, const tripoint_bub_ms &e, float luminance );
         void add_light_from_items( const tripoint_bub_ms &p, const item_stack &items );
@@ -2376,12 +2390,6 @@ class tinymap : private map
                                friendly,
                                name, mission_id );
         }
-        void add_spawn( const mtype_id &type, int count, const tripoint_omt_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt ) {
-            map::add_spawn( type, count, rebase_bub( p ), friendly, faction_id, mission_id, name );
-        }
-
         using map::translate;
         ter_id ter( const tripoint_omt_ms &p ) const {
             return map::ter( rebase_bub( p ) );

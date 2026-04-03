@@ -2402,7 +2402,7 @@ void monster::stumble_base( const bool is_voluntary )
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::below );
-            } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );

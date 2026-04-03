@@ -1113,6 +1113,12 @@ class item : public visitable
         void mod_charges( int mod );
 
         /**
+         * Store items current location into spawn_location, if flag PRESERVE_SPAWN_LOC is present. Works
+         * recursively.
+         */
+        void preserve_location( const tripoint_abs_ms &location );
+
+        /**
          * Returns rate of rot (rot/h) at the given temperature
          */
         float calc_hourly_rotpoints_at_temp( const units::temperature &temp ) const;
@@ -2634,10 +2640,6 @@ class item : public visitable
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
-        /**
-         * Return the first ammo found iterating all magazine pockets. Null if none found.
-         * Does not support multiple magazine pockets!
-         */
         item &first_ammo();
         const item &first_ammo() const;
         /**
@@ -2784,6 +2786,9 @@ class item : public visitable
          */
         item *magazine_current();
         const item *magazine_current() const;
+
+        std::vector<item *> magazines_current();
+        std::vector<const item *> magazines_current() const;
 
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();

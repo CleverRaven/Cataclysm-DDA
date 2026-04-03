@@ -391,6 +391,8 @@ static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_greenhouse( "t_greenhouse" );
+static const ter_str_id ter_t_greenhouse_tilled( "t_greenhouse_tilled" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
@@ -6505,7 +6507,11 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
             here.furn( examp )->plant != nullptr ) {
             here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            if( here.ter( examp ).id() == ter_t_greenhouse_tilled ) {
+                here.set( examp, ter_t_greenhouse, furn_f_plant_seed );
+            } else {
+                here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            }
         } else {
             here.furn_set( examp, furn_f_plant_seed );
         }
@@ -9384,8 +9390,15 @@ void churn_activity_actor::start( player_activity &act, Character & )
 void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.get_bub( act.placement ), ter_t_dirtmound );
+    tripoint_bub_ms examp = here.get_bub( act.placement );
+
+    if( here.ter( examp ).id() == ter_t_greenhouse ) {
+        here.ter_set( examp, ter_t_greenhouse_tilled );
+        who.add_msg_if_player( _( "You finish preparing the greenhouse here." ) );
+    } else {
+        here.ter_set( examp, ter_t_dirtmound );
+        who.add_msg_if_player( _( "You finish churning up the earth here." ) );
+    }
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
@@ -12907,6 +12920,30 @@ void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 {
     update_other_activity_items();
     zone_activity_actor::do_turn( act, you );
+
+    // True completion: activity nulled AND no auto-move destination pending.
+    // route_to_destination sets destination before nulling; true end does not.
+    if( act.is_null() && !you.has_destination() && viewport_was_active ) {
+        restore_viewport( you );
+    }
+}
+
+void zone_sort_activity_actor::canceled( player_activity &, Character &you )
+{
+    restore_viewport( you );
+}
+
+void zone_sort_activity_actor::restore_viewport( Character &you )
+{
+    if( !viewport_was_active || !you.is_avatar() ) {
+        return;
+    }
+    if( !test_mode ) {
+        g->set_zoom( viewport_saved_zoom );
+        g->mark_main_ui_adaptor_resize();
+    }
+    you.as_avatar()->zone_sort_viewport = {};
+    viewport_was_active = false;
 }
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
@@ -12920,6 +12957,29 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
                        you.get_faction_id() ) ) {
         coord_set.insert( p );
     }
+
+    if( you.is_avatar() && !coord_set.empty() ) {
+        viewport_was_active = true;
+        viewport_saved_zoom = g->get_zoom();
+
+        zone_sorting::viewport_bbox bbox = zone_sorting::calc_zone_bbox( coord_set );
+        int target = zone_sorting::calc_target_zoom(
+                         bbox.width(), bbox.height(),
+                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                         viewport_saved_zoom, viewport_saved_zoom );
+
+        avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+        vp.active = true;
+        vp.center = bbox.centroid;
+        vp.target_zoom = target;
+        vp.bbox_min = bbox.min_corner;
+        vp.bbox_max = bbox.max_corner;
+        if( !test_mode ) {
+            g->set_zoom( target );
+            g->mark_main_ui_adaptor_resize();
+        }
+    }
+
     stage = THINK;
 }
 
@@ -13070,8 +13130,9 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
         // check if there is valid destination for any item of the tile
         bool pickup_failure;
+        bool spillable_skipped = false;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items, &pickup_failure );
+                                    other_activity_items, items, &pickup_failure, &spillable_skipped );
 
         if( pickup_failure && !pickup_failure_reported ) {
             pickup_failure_reported = true;
@@ -13079,6 +13140,12 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                                     _( "At least one item to be sorted is too large/heavy for %s to sort.  "
                                        "Emptying the inventory and freeing up the hands will allow for more efficient sorting." ),
                                     you.disp_name() );
+        }
+
+        if( spillable_skipped && !spillable_skip_reported ) {
+            spillable_skip_reported = true;
+            you.add_msg_if_player( m_info,
+                                   _( "Some open containers were not sorted to avoid spilling." ) );
         }
 
         if( !has_items_to_work_on ) {
@@ -13494,6 +13561,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
             if( !drag_worst_tile ) {
                 drag_worst_tile = zone_sorting::worst_drag_tile_on_route( you, dropoff_coords );
+            }
+            // Expand viewport bbox to include newly discovered destinations.
+            if( you.is_avatar() && you.as_avatar()->zone_sort_viewport.active ) {
+                avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+                bool grew = false;
+                for( const tripoint_abs_ms &d : dropoff_coords ) {
+                    grew |= zone_sorting::expand_bbox_raw( vp.bbox_min, vp.bbox_max, d );
+                }
+                if( grew ) {
+                    const int bbox_w = vp.bbox_max.x() - vp.bbox_min.x();
+                    const int bbox_h = vp.bbox_max.y() - vp.bbox_min.y();
+                    vp.center.x() = ( vp.bbox_min.x() + vp.bbox_max.x() ) / 2;
+                    vp.center.y() = ( vp.bbox_min.y() + vp.bbox_max.y() ) / 2;
+                    vp.target_zoom = zone_sorting::calc_target_zoom(
+                                         bbox_w, bbox_h,
+                                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                                         g->get_zoom(), viewport_saved_zoom );
+                    if( !test_mode ) {
+                        g->set_zoom( vp.target_zoom );
+                        g->mark_main_ui_adaptor_resize();
+                    }
+                }
             }
         }
 
@@ -13991,6 +14080,8 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
     jsout.member( "virtual_pickup_active", virtual_pickup_active );
+    jsout.member( "viewport_was_active", viewport_was_active );
+    jsout.member( "viewport_saved_zoom", viewport_saved_zoom );
 
     jsout.end_object();
 }
@@ -14015,6 +14106,12 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     }
     if( data.has_member( "virtual_pickup_active" ) ) {
         data.read( "virtual_pickup_active", actor.virtual_pickup_active );
+    }
+    if( data.has_member( "viewport_was_active" ) ) {
+        data.read( "viewport_was_active", actor.viewport_was_active );
+    }
+    if( data.has_member( "viewport_saved_zoom" ) ) {
+        data.read( "viewport_saved_zoom", actor.viewport_saved_zoom );
     }
     return actor.clone();
 }

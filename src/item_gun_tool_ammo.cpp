@@ -1977,7 +1977,17 @@ item *item::magazine_current()
 
 const item *item::magazine_current() const
 {
-    return const_cast<item *>( this )->magazine_current();
+    return contents.magazine_current();
+}
+
+std::vector<item *> item::magazines_current()
+{
+    return contents.magazines_current();
+}
+
+std::vector<const item *> item::magazines_current() const
+{
+    return contents.magazines_current();
 }
 
 std::vector<item *> item::gunmods()
@@ -2056,7 +2066,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<void>::make_failure( _( "isn't big enough to use that mod" ) );
 
     } else if( mod.type->gunmod->location.str() == "underbarrel" &&
-               !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_ACTION ) ) {
+               !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_RAIL ) ) {
         return ret_val<void>::make_failure( _( "can only accept small mods on that slot" ) );
 
     } else if( mod.typeId() == itype_waterproof_gunmod && has_flag( flag_WATERPROOF_GUN ) ) {

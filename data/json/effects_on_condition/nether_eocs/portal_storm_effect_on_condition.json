@@ -29,6 +29,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR",
+    "condition": { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_EARLY_MESSAGES",
     "recurrence": [ "1 minutes", "30 minutes" ],
     "global": true,
@@ -627,10 +633,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DIMENSION_TRAVEL",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       {
-        "if": { "u_has_item": "inert_glowing_string" },
+        "if": {
+          "or": [
+            { "u_has_item": "inert_glowing_string" },
+            { "u_at_om_location": "xedra_rural_church_parking" },
+            { "u_at_om_location": "xedra_rural_church" },
+            { "u_at_om_location": "xedra_rural_church_steeple" },
+            { "u_at_om_location": "xedra_rural_church_steeple_roof" },
+            { "u_at_om_location": "xedra_rural_church_basement" },
+            { "u_near_om_location": "xedra_rural_church", "range": 2 }
+          ]
+        },
         "then": { "run_eocs": "EOC_PORTAL_STRING_DIMENSION" },
         "else": [
           { "u_location_variable": { "context_val": "loc" } },
@@ -646,7 +662,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HIGHLANDS",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       {
         "u_travel_to_dimension": "highlands",

@@ -1,0 +1,59 @@
+[
+  {
+    "id": "fae_eyes_arvore",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "limb_scores": [ [ "vision", 1.25 ], [ "night_vis", 1.0 ], [ "reaction", 0.8 ] ],
+    "bionic_slots": 0,
+    "conditional_flags": [ "GLARE_RESIST" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ]
+  },
+  {
+    "id": "fae_eyes_homullus",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "conditional_flags": [ "GLARE_RESIST" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "similar_bodypart": "eyes"
+  },
+  {
+    "id": "fae_eyes_ierde",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.5 ], [ "reaction", 0.8 ] ],
+    "bionic_slots": 0,
+    "conditional_flags": [ "GLARE_RESIST", "SEESLEEP" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "similar_bodypart": "eyes"
+  },
+  {
+    "id": "fae_eyes_salamander",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "limb_scores": [ [ "vision", 1.25 ], [ "night_vis", 0.6 ], [ "reaction", 0.95 ] ],
+    "bionic_slots": 0,
+    "conditional_flags": [ "GLARE_RESIST", "THERMOMETER" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "similar_bodypart": "eyes"
+  },
+  {
+    "id": "fae_eyes_sylph",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "limb_scores": [ [ "vision", 1.5 ], [ "night_vis", 1.0 ], [ "reaction", 1.1 ] ],
+    "bionic_slots": 0,
+    "conditional_flags": [ "GLARE_RESIST" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "similar_bodypart": "eyes"
+  },
+  {
+    "id": "fae_eyes_undine",
+    "copy-from": "eyes",
+    "type": "body_part",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.3 ], [ "reaction", 0.8 ] ],
+    "bionic_slots": 0,
+    "conditional_flags": [ "GLARE_RESIST", "EYE_MEMBRANE", "SWIM_GOGGLES", "SEESLEEP" ],
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "similar_bodypart": "eyes"
+  }
+]

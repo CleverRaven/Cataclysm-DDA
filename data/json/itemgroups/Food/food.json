@@ -780,7 +780,7 @@
   {
     "type": "item_group",
     "id": "alcohol",
-    "//": "all comestible alcohol -- packaged, mixed  and homemade",
+    "//": "all comestible alcohol -- packaged, mixed and homemade",
     "subtype": "distribution",
     "entries": [
       { "group": "alcohol_bottled_canned", "prob": 376 },

@@ -2489,7 +2489,7 @@ class vehicle
         mutable bool mass_dirty = true; // NOLINT(cata-serialize)
         mutable bool mass_center_precalc_dirty = true; // NOLINT(cata-serialize)
         mutable bool mass_center_no_precalc_dirty = true; // NOLINT(cata-serialize)
-        // cached values for air, water, and  rolling resistance;
+        // cached values for air, water, and rolling resistance;
         mutable bool coeff_rolling_dirty = true; // NOLINT(cata-serialize)
         mutable bool coeff_air_dirty = true; // NOLINT(cata-serialize)
         mutable bool coeff_water_dirty = true; // NOLINT(cata-serialize)

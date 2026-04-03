@@ -89,7 +89,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spiral_mine" } ] }
       },
       {
-        "text": "[Distorted images of the spider's lair] Well, I guess that might've been a good place",
+        "text": "[Distorted images of the spider's lair] Well, I guess that might've been a good place.",
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_VOID_SPIDER_LAIR",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_spider_dimension" } ] }
       },

@@ -1318,6 +1318,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_wet_rate_limiter",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_broke_fae_ban",
     "name": [ "Broken Ban" ],
     "desc": [ "You've broken one of the ancient laws that bind the fae and are suffering thereby." ],
@@ -1962,6 +1969,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_rain_immunity",
+    "name": [ "Steam Shell" ],
+    "desc": [ "A thin barrier of heat around your body is protecting you from rain." ],
+    "apply_message": "",
+    "remove_message": "The thin shell of heat around your body dissipates.",
+    "rating": "good",
+    "flags": [ "RAIN_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_burning_damage",
     "name": [ "" ],
     "desc": [ "" ],
@@ -2495,6 +2512,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_ward_off_rain",
+    "name": [ "To Keep Off the Rain and the Damp" ],
+    "desc": [ "Thanks to the words of the charm you spoke, you won't get wet in the rain." ],
+    "flags": [ "RAIN_IMMUNE" ]
   },
   {
     "type": "effect_type",

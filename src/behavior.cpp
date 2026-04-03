@@ -31,6 +31,10 @@ void node_t::add_child( const node_t *new_child )
 {
     children.push_back( new_child );
 }
+void node_t::set_score_function( const score_type &func, const std::string &argument )
+{
+    score_function_.emplace( func, argument );
+}
 
 status_t node_t::process_predicates( const oracle_t *subject ) const
 {
@@ -63,15 +67,23 @@ behavior_return node_t::tick( const oracle_t *subject ) const
 {
     if( children.empty() ) {
         status_t result = process_predicates( subject );
-
-        return { result, this };
+        float score = 0.0f;
+        if( result == status_t::running && score_function_ ) {
+            score = score_function_->first( subject, score_function_->second );
+        }
+        return { result, this, score };
     } else {
         cata_assert( strategy != nullptr );
         status_t result = process_predicates( subject );
         if( result == status_t::running ) {
-            return strategy->evaluate( subject, children );
+            behavior_return child_result = strategy->evaluate( subject, children );
+            if( child_result.result == status_t::running && score_function_ ) {
+                child_result.score = score_function_->first( subject,
+                                     score_function_->second );
+            }
+            return child_result;
         } else {
-            return { result, nullptr };
+            return { result, nullptr, 0.0f };
         }
     }
 }
@@ -165,6 +177,18 @@ void node_t::load( const JsonObject &jo, std::string_view )
                                  invert_result );
     }
     optional( jo, was_loaded, "goal", _goal );
+    if( jo.has_string( "score" ) ) {
+        const std::string score_id = jo.get_string( "score" );
+        const std::string score_arg = jo.get_string( "score_argument", "" );
+        auto new_score = score_predicate_map.find( score_id );
+        if( new_score != score_predicate_map.end() ) {
+            score_function_.emplace( new_score->second, score_arg );
+        } else {
+            debugmsg( "While loading %s, failed to find score predicate %s.",
+                      id.str(), score_id );
+            jo.throw_error( "Invalid score predicate in behavior." );
+        }
+    }
 }
 
 void node_t::check() const

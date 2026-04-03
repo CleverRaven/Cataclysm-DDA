@@ -128,5 +128,14 @@
         "ench_effects": [ { "effect": "effect_island_steady", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHALLENGE_MODE_HORDES",
+    "name": { "str": "Inverted Warp" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Instead of protecting you when you ended up here, the warpstream inverted itself and is now summoning zombies to your location."
   }
 ]

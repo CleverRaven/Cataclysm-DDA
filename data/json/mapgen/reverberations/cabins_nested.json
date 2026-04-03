@@ -106,6 +106,7 @@
         "       A                "
       ],
       "terrain": { "A": [ [ "t_water_sh", 10 ], [ "t_dirt", 90 ] ] },
+      "monster": { "A": { "monster": "mon_cabin_tunnel_shadow", "chance": 1 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

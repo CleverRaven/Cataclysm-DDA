@@ -829,6 +829,20 @@
   },
   {
     "type": "keybinding",
+    "id": "BATCH_SIZE_UP",
+    "category": "CRAFTING",
+    "name": "Increase batch size",
+    "bindings": [ { "input_method": "keyboard_any", "key": "+" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "BATCH_SIZE_DOWN",
+    "category": "CRAFTING",
+    "name": "Decrease batch size",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "CRAFTING",
     "name": "Scroll item info up",
@@ -900,6 +914,25 @@
     "category": "CRAFTING",
     "name": "Remove components from high priority in Item List",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "CRAFTING",
+    "name": "Close crafting menu",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_INFO_NAV",
+    "category": "CRAFTING",
+    "name": "Navigate recipe details",
+    "bindings": [ { "input_method": "keyboard_any", "key": "SPACE" } ]
   },
   {
     "type": "keybinding",

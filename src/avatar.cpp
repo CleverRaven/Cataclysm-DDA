@@ -143,6 +143,7 @@ avatar::avatar()
     grab_type = object_type::NONE;
     calorie_diary.emplace_front( );
     a_diary = nullptr;
+    desired_move_mode = move_mode_walk;
 }
 
 avatar::~avatar() = default;
@@ -176,6 +177,9 @@ void avatar::control_npc( npc &np, const bool debug )
     np.set_fac( faction_your_followers );
     // perception and mutations may have changed, so reset light level caches
     g->reset_light_level();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        get_map().set_lightmap_cache_dirty( z );
+    }
     // center the map on the new avatar character
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
@@ -1288,32 +1292,6 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     }
 }
 
-void avatar::toggle_run_mode()
-{
-    if( is_running() ) {
-        set_movement_mode( move_mode_walk );
-    } else {
-        set_movement_mode( move_mode_run );
-    }
-}
-
-void avatar::toggle_crouch_mode()
-{
-    if( is_crouching() ) {
-        set_movement_mode( move_mode_walk );
-    } else {
-        set_movement_mode( move_mode_crouch );
-    }
-}
-
-void avatar::toggle_prone_mode()
-{
-    if( is_prone() ) {
-        set_movement_mode( move_mode_walk );
-    } else {
-        set_movement_mode( move_mode_prone );
-    }
-}
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
@@ -1328,23 +1306,102 @@ void avatar::reset_move_mode()
     }
 }
 
-void avatar::cycle_move_mode()
+bool avatar::is_waiting_to_change_mode_mode()
 {
-    const move_mode_id next = current_movement_mode()->cycle();
-    set_movement_mode( next );
-    // if a movemode is disabled then just cycle to the next one
-    if( !movement_mode_is( next ) ) {
-        set_movement_mode( next->cycle() );
+    return move_mode != desired_move_mode;
+}
+
+void avatar::set_desired_movement_mode( const move_mode_id &new_mode )
+{
+    if( can_switch_to( new_mode ) ) {
+        add_msg( new_mode->prepare_message( get_steed_type() ) );
+        desired_move_mode = new_mode;
+    } else {
+        add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
 }
 
-void avatar::cycle_move_mode_reverse()
+move_mode_id avatar::get_desired_move_mode() const
 {
-    const move_mode_id prev = current_movement_mode()->cycle_reverse();
-    set_movement_mode( prev );
-    // if a movemode is disabled then just cycle to the previous one
-    if( !movement_mode_is( prev ) ) {
-        set_movement_mode( prev->cycle_reverse() );
+    return this->desired_move_mode;
+}
+
+bool avatar::is_run_mode_desired() const
+{
+    return desired_move_mode->type() == move_mode_type::RUNNING;
+}
+
+void avatar::toggle_run_mode_desired()
+{
+    if( is_run_mode_desired() ) {
+        set_desired_movement_mode( move_mode_walk );
+    } else {
+        set_desired_movement_mode( move_mode_run );
+    }
+}
+
+bool avatar::is_crouch_mode_desired() const
+{
+    return get_desired_move_mode()->type() == move_mode_type::CROUCHING;
+}
+
+void avatar::toggle_crouch_mode_desired()
+{
+    if( is_crouching() ) {
+        set_desired_movement_mode( move_mode_walk );
+    } else {
+        set_desired_movement_mode( move_mode_crouch );
+    }
+}
+
+bool avatar::is_prone_mode_desired() const
+{
+    return get_desired_move_mode()->type() == move_mode_type::PRONE;
+}
+
+void avatar::toggle_prone_mode_desired()
+{
+    if( is_prone() ) {
+        set_desired_movement_mode( move_mode_walk );
+    } else {
+        set_desired_movement_mode( move_mode_prone );
+    }
+}
+
+
+bool avatar::is_walk_mode_desired() const
+{
+    return get_desired_move_mode()->type() == move_mode_type::WALKING;
+}
+
+void avatar::set_walk_mode_desired()
+{
+    if( !is_walk_mode_desired() ) {
+        set_desired_movement_mode( move_mode_walk );
+    }
+}
+
+void avatar::cycle_desired_move_mode()
+{
+    move_mode_id next = get_desired_move_mode()->cycle();
+    while( next != get_desired_move_mode() ) {
+        if( can_switch_to( next ) ) {
+            set_desired_movement_mode( next );
+            return;
+        }
+        next = next->cycle();
+    }
+}
+
+void avatar::cycle_desired_move_mode_reverse()
+{
+    move_mode_id prev = get_desired_move_mode()->cycle_reverse();
+    while( prev != get_desired_move_mode() ) {
+        if( can_switch_to( prev ) ) {
+            set_desired_movement_mode( prev );
+            return;
+        }
+        prev = prev->cycle_reverse();
     }
 }
 
@@ -1712,6 +1769,16 @@ std::string avatar::total_daily_calories_string() const
         ret += "\n";
     }
     return ret;
+}
+
+std::set<character_id> avatar::get_followers() const
+{
+    return follower_ids;
+}
+
+std::set<character_id> avatar::get_known_faction_representatives() const
+{
+    return faction_representatives;
 }
 
 std::unique_ptr<talker> get_talker_for( avatar &me )

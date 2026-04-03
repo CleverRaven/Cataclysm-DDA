@@ -224,7 +224,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 
 void talk_function::start_trade( npc &p )
 {
-    npc_trading::trade( p, 0, _( "Trade" ) );
+    npc_trading::trade( p.get_trade_delegate(), 0, _( "Trade" ) );
 }
 
 void talk_function::sort_loot( npc &p )
@@ -429,7 +429,10 @@ void talk_function::assign_guard( npc &p )
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
-    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
+    p.chatbin.first_topic = p.assigned_camp
+                            ? "TALK_FRIEND_GUARD_CAMP"
+                            : p.chatbin.talk_friend_guard;
+    p.set_committed_goal( "" );
     p.set_omt_destination();
 }
 
@@ -447,18 +450,51 @@ void talk_function::assign_camp( npc &p )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.pos_abs_omt().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        if( p.has_player_activity() ) {
+            p.revert_after_activity();
+        }
         p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_GUARD_ALLY );
+        p.set_mission( NPC_MISSION_CAMP_RESIDENT );
+        p.guard_pos = std::nullopt;
+        p.clear_ai_guard_pos();
         temp_camp->add_assignee( p.getID() );
         temp_camp->job_assignment_ui();
         temp_camp->validate_assignees();
         add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
-        if( p.has_player_activity() ) {
-            p.revert_after_activity();
-        }
-        p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-        p.set_omt_destination();
+        p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+        p.path.clear();
+        p.chair_pos = std::nullopt;
+        p.wander_pos = std::nullopt;
+        p.clear_destination();
+        p.set_committed_goal( "" );
     }
+}
+
+void talk_function::return_to_camp_duties( npc &p )
+{
+    p.set_attitude( NPCATT_NULL );
+    p.set_mission( NPC_MISSION_CAMP_RESIDENT );
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.set_committed_goal( "" );
+    p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+    if( p.assigned_camp && p.pos_abs_omt() != *p.assigned_camp ) {
+        p.goal = *p.assigned_camp;
+        tripoint_abs_omt surface = p.pos_abs_omt();
+        surface.z() = 0;
+        p.omt_path = overmap_buffer.get_travel_path( surface, *p.assigned_camp,
+                     overmap_path_params::for_npc() ).points;
+    } else {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
+    }
+    p.path.clear();
+    p.chair_pos = std::nullopt;
+    p.wander_pos = std::nullopt;
+    p.clear_destination();
+    add_msg( _( "%s returns to camp duties." ), p.get_name() );
 }
 
 void talk_function::stop_guard( npc &p )
@@ -477,13 +513,10 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
     p.guard_pos = std::nullopt;
-    if( p.assigned_camp ) {
-        if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
-            ( *bcp )->remove_assignee( p.getID() );
-            ( *bcp )->validate_assignees();
-        }
-        p.assigned_camp = std::nullopt;
-    }
+    p.clear_ai_guard_pos();
+    p.set_committed_goal( "" );
+    // assigned_camp is preserved: the NPC remembers their camp while following.
+    // Player can send them back via "Go back to your camp" in follower dialogue.
 }
 
 void talk_function::wake_up( npc &p )

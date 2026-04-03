@@ -109,6 +109,46 @@
   },
   {
     "type": "vehicle",
+    "id": "jetski",
+    "name": "jetski",
+    "blueprint": [ [ "O>" ] ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "xlframe#horizontal", "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" }, "carbonfiber_boat_hull" ]
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [
+          "xlframe#horizontal",
+          "seat",
+          "controls",
+          "vehicle_alarm",
+          "engine_vtwin",
+          "alternator_motorbike",
+          "carbonfiber_boat_hull"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "vehicle",
+    "id": "jetski_electric",
+    "name": "electric jetski",
+    "blueprint": [ [ "O>" ] ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe#horizontal", "medium_storage_battery", "carbonfiber_boat_hull" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "xlframe#horizontal", "seat", "controls", "vehicle_alarm", "engine_electric", "carbonfiber_boat_hull" ]
+      }
+    ]
+  },
+  {
+    "type": "vehicle",
     "id": "raft",
     "name": "raft",
     "blueprint": [

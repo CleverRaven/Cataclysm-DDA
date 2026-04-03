@@ -760,8 +760,8 @@ static void field_processor_fd_electricity( const tripoint_bub_ms &p, field_entr
     }
 }
 
-static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
-        field_proc_data &pd )
+void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry &cur,
+                                    field_proc_data &pd )
 {
     const field_intensity_level &int_level = cur.get_intensity_level();
     int monster_spawn_chance = int_level.monster_spawn_chance;

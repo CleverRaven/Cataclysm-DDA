@@ -66,15 +66,7 @@ Sound effects can be included with a format like this:
     "type": "sound_effect",
     "id": "menu_move",
     "volume": 100,
-    "files": [ "nenadsimic_menu_selection_click.wav" ]
-  },
-  {
-    "type": "sound_effect",
-    "id": "fire_gun",
-    "volume": 90,
-    "variant": "bio_laser_gun",
-    "season": "summer",
-    "files": [ "guns/energy_generic/weapon_fire_laser.ogg" ]
+    "files": [ "menu_move.ogg" ]
   },
   {
     "type": "sound_effect",
@@ -85,11 +77,23 @@ Sound effects can be included with a format like this:
     "is_indoors": true,
     "is_night": false,
     "files": [ "indoors/open_door_daytime.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 90,
+    "variant": [
+        "modular_ar15",
+        "modular_m4_carbine",
+        "scar_l"
+    ],
+    "season": "summer",
+    "files": [ "fire_gun/rifles/rifles_1.ogg" ]
   }
 ]
 ```
 
-Each sound effect is identified by an id, a variant, and a season. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
+Each sound effect is identified by an id, a variant or an array of varinats, and a season. If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. Some sound effects may not use "default" variant. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
 
 ##### Adding variety
 
@@ -97,7 +101,7 @@ Several optional fields can be defined to target specific situations:
 
 | Field        | Purpose
 |---           |---
-| `variant`    | Defines a specific subset of the id's sound group. (ex: `"id": "environment", "variant": "WEATHER_DRIZZLE"`)
+| `variant`    | Defines a specific subset (or an array of subsets) of the id's sound group. (ex: `"id": "environment", "variant": "WEATHER_DRIZZLE"`, `"id": "fire_ammo", "variant": [ "223", "308" ]`)
 | `season`     | If defined, the sound will only play on the specified season. (possible values are `spring`, `summer`, `autumn`, and `winter`).
 | `is_indoors` | If defined, the sound will only play if the player is indoors/outdoors when true/false.
 | `is_night`   | If defined, the sound will only play if the current time is night/day when true/false.
@@ -179,7 +183,7 @@ A full list of sound effect IDs and variants is given in the following. Each lin
 
 `id variant1|variant2`
 
-Where `id` describes the ID of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
+Where `id` describes the ID of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed unless otherwise specified. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
 
 ### Open/close doors
 
@@ -197,15 +201,28 @@ Includes special ones that are furniture/terrain specific.
 
 ### Melee
 
-* `melee_swing default|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing`
-* `melee_hit_flesh default|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing|<weapon>`
-* `melee_hit_metal default|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing!<weapon>`
-* `melee_hit <weapon>` # note: use weapon id "null" for unarmed attacks
+Melee sound effects depends on which attack is used. For instance, attacking with a knife will make a stabbing sound, and punching or kicking with Force unarmed or martial arts will make unarmed or default melee sound.
+
+Note: `<weapon>` variant has priority over skill/damage type variant. If everything else fails to play, it will fallback to `"default"` variant.
+
+TODO: critical hit sounds
+
+* `melee_swing default|<weapon>|unarmed|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing`
+* `melee_hit_flesh default|<weapon>|unarmed|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing`
+* `melee_hit_metal default|<weapon>|unarmed|small_bash|small_cutting|small_stabbing|big_bash|big_cutting|big_stabbing`
 
 ### Firearm/ranged weapon
 
-* `fire_gun <weapon>|brass_eject|empty`
-* `fire_gun_distant <weapon>`
+Note: `fire_gun` has priority over `fire_ammo`. `fire_ammo` does not have default variant fallback. If everything else fails to play, it will fallback to `fire_gun default`.
+
+TODO: terrain-specific `brass_eject`, reload sounds id for guns with `RELOAD_ONE` flag
+
+* `fire_gun default|<weapon>|brass_eject|empty`
+* `fire_gun_distant default|<weapon>`
+* `fire_gun_suppressed default|<weapon>` # used if the gun has a gunmod that reduces loudness
+* `fire_ammo <ammo>` # `ammunition_type` used by gun (ex: `"223"`, `"44"`, `"shot"`)
+* `fire_ammo_distant <ammo>`
+* `fire_ammo_suppressed <ammo>`
 * `reload <weapon>`
 * `bullet_hit hit_flesh|hit_wall|hit_metal|hit_glass|hit_water`
 
@@ -236,8 +253,9 @@ Triggered by seeing large numbers of zombies.
 
 ### Chainsaw pack
 
+Note: Unused
+
 * `chainsaw_cord     chainsaw_on`
-* `chainsaw_start    chainsaw_on`
 * `chainsaw_start    chainsaw_on`
 * `chainsaw_stop     chainsaw_on`
 * `chainsaw_idle     chainsaw_on`
@@ -249,6 +267,8 @@ Triggered by seeing large numbers of zombies.
 * `weapon_theme      chainsaw`
 
 ### Monster death and bite attacks
+
+TODO: monster-specific sounds id
 
 * `mon_death zombie_death|zombie_gibbed`
 * `mon_bite bite_miss|bite_hit`
@@ -278,7 +298,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 ### Various bionics
 
 * `bionic elec_discharge|elec_crackle_low|elec_crackle_med|elec_crackle_high|elec_blast|elec_blast_muffled|acid_discharge|pixelated`
-* `bionic bio_resonator|bio_hydraulics|`
+* `bionic bio_resonator|bio_hydraulics`
 
 ### Various tools/traps being used
 

@@ -189,3 +189,13 @@ void talker_item::set_random_fault_of_type( const std::string &fault_type, bool 
 {
     me_it->get_item()->set_random_fault_of_type( fault_type, force, message );
 }
+
+int talker_item_const::get_price() const
+{
+    return me_it_const->get_item()->price( false );
+}
+
+int talker_item_const::get_price_postapoc() const
+{
+    return me_it_const->get_item()->price( true );
+}

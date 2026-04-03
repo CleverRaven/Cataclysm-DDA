@@ -1,0 +1,14 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "int_to_level",
+    "num_args": 1,
+    "return": "min( ( (u_val('intelligence') * 1.5) * (_0) ), 20)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "scaling_factor",
+    "num_args": 1,
+    "return": "min( ( ( _0 + 10) / 20 ), 1.25)"
+  }
+]

@@ -990,6 +990,20 @@ double pain_eval( const_dialogue const &d, char scope, std::vector<diag_value> c
     }
 }
 
+double price_eval( const_dialogue const &d, char scope,
+                   std::vector<diag_value> const & /* params */,
+                   diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_price();
+}
+
+double price_postapoc_eval( const_dialogue const &d, char scope,
+                            std::vector<diag_value> const & /* params */,
+                            diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_price_postapoc();
+}
+
 void pain_ass( double val, dialogue &d, char scope, std::vector<diag_value> const & /* params */,
                diag_kwargs const &kwargs )
 {
@@ -1840,6 +1854,8 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "oxygen", { "un", 0, oxygen_eval, oxygen_ass } },
     { "oxygen_max", { "un", 0, oxygen_max_eval } },
     { "pain", { "un", 0, pain_eval, pain_ass, { "type" } } },
+    { "price", { "un", 0, price_eval } },
+    { "price_postapoc", { "un", 0, price_postapoc_eval } },
     { "school_level", { "un", 1, school_level_eval } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval, school_level_adjustment_ass } },
     { "spellcasting_adjustment", { "u", 1, {}, spellcasting_adjustment_ass, { "mod", "school", "spell", "flag_whitelist", "flag_blacklist" } } },

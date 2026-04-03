@@ -5,7 +5,7 @@
     "condition": { "not": { "u_has_effect": "effect_telepathic_learning_bonus" } },
     "effect": [
       { "u_message": "Your vision narrows to what is directly in front of you as you concentrate.", "type": "good" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP" ] },
       { "u_add_effect": "effect_telepathic_learning_bonus", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_TELEPATH_CONCENTRATION_DRAIN",

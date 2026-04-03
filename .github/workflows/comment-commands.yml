@@ -62,6 +62,11 @@ jobs:
   pr-comment-job:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      actions: write
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -81,3 +86,32 @@ jobs:
           gh pr edit "$ISSUE_NUMBER" --remove-label "stale"
           gh pr edit "$ISSUE_NUMBER" --add-label "Help Wanted"
           gh pr reopen "$ISSUE_NUMBER"
+
+      - if: steps.comvent.outputs.retry-jobs != ''
+        name: Re-run failed CI jobs
+        run: |
+          HEAD_SHA=$(gh pr view "$ISSUE_NUMBER" --json headRefOid -q .headRefOid)
+          FAILED_RUNS=$(gh run list --commit "$HEAD_SHA" --status failure --json databaseId -q '.[].databaseId')
+          if [ -z "$FAILED_RUNS" ]; then
+            echo "No failed runs found for PR #$ISSUE_NUMBER"
+            exit 0
+          fi
+
+          # Collect failed job details
+          COMMENT="Retried failed jobs:"
+          while read -r run_id; do
+            JOBS=$(gh run view "$run_id" --json jobs \
+              -q '.jobs[] | select(.conclusion == "failure") | "- [\(.name)](\(.url))"')
+            if [ -n "$JOBS" ]; then
+              COMMENT="$COMMENT
+          $JOBS"
+            fi
+          done <<< "$FAILED_RUNS"
+
+          # Re-run failed jobs
+          while read -r run_id; do
+            echo "Re-running failed jobs in run $run_id"
+            gh run rerun "$run_id" --failed
+          done <<< "$FAILED_RUNS"
+
+          gh pr comment "$ISSUE_NUMBER" --body "$COMMENT"

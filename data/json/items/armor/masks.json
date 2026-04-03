@@ -622,5 +622,35 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "string_dimension_biocoif",
+    "type": "ITEM",
+    "//": "Headpiece for the string dimension biosuit.",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "gold-latticed biocoif" },
+    "description": "A skintight headsock constructed from a bilayer of stark-white white metallic fabric coated in a microscopically thin layer of gold.  A few of the fibers are more gold than others, giving it a barely perceptible hex pattern.  The textile bilayer is filled with liquid, giving it a squishy, cool-to-the-touch bodyfeel.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "1kUSD",
+    "price_postapoc": "150 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "warmth": 0,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "NO_REPAIR", "SKINTIGHT", "SOFT", "PSYSHIELD_PARTIAL" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.01 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
   }
 ]

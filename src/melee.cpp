@@ -708,7 +708,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos_bub(), t.pos_bub(), false, false );
+        sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), false, false );
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
@@ -918,7 +918,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos_bub(), t.pos_bub(), true, t.is_monster(), material );
+            sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 

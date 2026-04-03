@@ -22,7 +22,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "city.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -679,6 +678,27 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     return false;
 }
 
+bool _stacks_location_precise_closest_city( item const &lhs, item const &rhs )
+{
+    static const std::string omt_loc_var = "spawn_location";
+    const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
+    const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
+    if( this_loc == that_loc ) {
+        return true;
+    } else if( this_loc != tripoint_abs_ms::invalid && that_loc != tripoint_abs_ms::invalid ) {
+        const tripoint_abs_omt this_omt = project_to<coords::omt>( this_loc );
+        const tripoint_abs_sm this_sm = project_to<coords::sm>( this_omt );
+        const city_reference this_city = overmap_buffer.closest_city( this_sm );
+
+        const tripoint_abs_omt that_omt = project_to<coords::omt>( that_loc );
+        const tripoint_abs_sm that_sm = project_to<coords::sm>( that_omt );
+        const city_reference that_city = overmap_buffer.closest_city( that_sm );
+
+        return this_city.city == that_city.city;
+    }
+    return false;
+}
+
 bool _stacks_rot( item const &lhs, item const &rhs, bool combine_liquid )
 {
     // Stack items that fall into the same "bucket" of freshness.
@@ -883,6 +903,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
+    bits.set( tname::segments::LOCATION_PRECISE_CLOSEST_CITY,
+              _stacks_location_precise_closest_city( *this, rhs ) );
 
     bool const this_goes_bad = goes_bad();
     bool const that_goes_bad = rhs.goes_bad();
@@ -1628,17 +1650,6 @@ std::string item::display_name( unsigned int quantity ) const
             }
             cable = string_format( " (%s)", colorize( string_format( _( "%d/%d cable%s" ),
                                    link_max_len - link_len, link_max_len, extensions ), cable_color ) );
-        }
-    }
-    // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
-    if( is_map() && calendar::turn != calendar::turn_zero ) {
-        tripoint_abs_omt map_pos_omt =
-            project_to<coords::omt>( get_var( "reveal_map_center", player_character.pos_abs() ) );
-        tripoint_abs_sm map_pos =
-            project_to<coords::sm>( map_pos_omt );
-        const city *c = overmap_buffer.closest_city( map_pos ).city;
-        if( c != nullptr ) {
-            name = string_format( "%s %s", c->name, name );
         }
     }
 
@@ -4586,6 +4597,22 @@ void item::mod_charges( int mod )
         charges = INFINITE_CHARGES - 1; // Highly unlikely, but finite charges should not become infinite.
     } else {
         charges += mod;
+    }
+}
+
+void item::preserve_location( const tripoint_abs_ms &location )
+{
+    if( has_flag( flag_PRESERVE_SPAWN_LOC ) && !has_var( "spawn_location" ) ) {
+        // TODO migrate from old reveal_map_center, can be removed somewhere in the future
+        if( has_var( "reveal_map_center" ) ) {
+            set_var( "spawn_location", get_var( "reveal_map_center", tripoint_abs_ms::invalid ) );
+            remove_var( "reveal_map_center" );
+        } else {
+            set_var( "spawn_location", location );
+        }
+    }
+    for( item *subitem : all_items_ptr() ) {
+        subitem->preserve_location( location );
     }
 }
 

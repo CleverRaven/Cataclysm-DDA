@@ -29,6 +29,7 @@
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "blue",
+    "light_color": [ 255, 245, 240 ],
     "durability": 20,
     "epower": "-110 W",
     "bonus": 8000,
@@ -63,6 +64,7 @@
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
+    "light_color": [ 255, 245, 240 ],
     "durability": 20,
     "epower": "-60 W",
     "bonus": 8000,
@@ -84,6 +86,7 @@
     "categories": [ "lighting" ],
     "color": "white",
     "broken_color": "white",
+    "light_color": [ 255, 245, 240 ],
     "durability": 8,
     "epower": "-60 W",
     "bonus": 8000,
@@ -159,6 +162,7 @@
     "description": "A blue light from the top of an emergency services vehicle.",
     "color": "blue",
     "broken_color": "blue",
+    "light_color": [ 30, 60, 255 ],
     "extend": { "flags": [ "EVENTURN" ] }
   },
   {
@@ -169,6 +173,7 @@
     "description": "A red light from the top of an emergency services vehicle.",
     "color": "red",
     "broken_color": "red",
+    "light_color": [ 255, 30, 30 ],
     "extend": { "flags": [ "ODDTURN" ] }
   }
 ]

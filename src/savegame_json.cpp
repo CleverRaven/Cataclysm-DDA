@@ -1631,6 +1631,7 @@ void avatar::store( JsonOut &json ) const
     if( shadow_npc ) {
         json.member( "shadow_npc", *shadow_npc );
     }
+    json.member( "faction_representatives", faction_representatives );
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1689,6 +1690,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "power_prev_turn", power_prev_turn );
     json.member( "may_activity_occupancy_after_end_items_loc",
                  may_activity_occupancy_after_end_items_loc );
+
+    json.member_as_string( "desired_move_mode",  desired_move_mode );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1720,6 +1723,7 @@ void avatar::load( const JsonObject &data )
         shadow_npc = std::make_unique<npc>();
         data.read( "shadow_npc", *shadow_npc );
     }
+    data.read( "faction_representatives", faction_representatives );
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -1832,6 +1836,8 @@ void avatar::load( const JsonObject &data )
     data.read( "snippets_read", snippets_read );
     data.read( "may_activity_occupancy_after_end_items_loc",
                may_activity_occupancy_after_end_items_loc );
+
+    data.read( "desired_move_mode", desired_move_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2298,6 +2304,7 @@ void npc::load( const JsonObject &data )
     }
 
     data.read( "op_of_u", op_of_u );
+    data.read( "faction_representative", faction_representative );
     data.read( "chatbin", chatbin );
     if( !data.read( "rules", rules ) ) {
         data.read( "misc_rules", rules );
@@ -2367,6 +2374,7 @@ void npc::store( JsonOut &json ) const
     json.member( "attitude", static_cast<int>( attitude ) );
     json.member( "previous_attitude", static_cast<int>( previous_attitude ) );
     json.member( "op_of_u", op_of_u );
+    json.member( "faction_representative", faction_representative );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 

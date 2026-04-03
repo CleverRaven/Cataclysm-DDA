@@ -420,7 +420,11 @@ For instance, this `"uncraft"` recipe for a motorbike alternator uses either 20 
 ```
 
 Requirements may include `"tools"` or `"qualities"` in addition to
-`"components"`.  Here we have a standard soldering requirement needing either a
+`"components"`.  An optional `"name"` field provides a human-readable
+display name (e.g. "Heat source", "Welding tools") that UIs can show
+instead of listing every alternative tool individually.
+
+Here we have a standard soldering requirement needing either a
 `"soldering_iron"` or `"toolset"`, plus 1 unit of the `"solder_wire"` component:
 
 
@@ -428,6 +432,7 @@ Requirements may include `"tools"` or `"qualities"` in addition to
 {
   "id": "soldering_standard",
   "type": "requirement",
+  "name": "Soldering tools",
   "//": "Tools and materials needed for soldering metal items or electronics",
   "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
   "components": [ [ [ "solder_wire", 1 ] ] ]

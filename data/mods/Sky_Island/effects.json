@@ -151,5 +151,15 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "id": "challenge_mode_speed_reduction",
+    "type": "effect_type",
+    "name": [ "Slow Dimension" ],
+    "desc": [ { "str": "You are moving slower than usual in this dimension" } ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   }
 ]

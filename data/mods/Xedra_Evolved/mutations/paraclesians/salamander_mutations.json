@@ -264,12 +264,11 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander's eyes begin reflecting their mood, with warm yellows and deep reds when happy and blazing oranges, blues, and whites when angry.  Glare no longer impacts them and they can always see exactly what temperature it is.",
+    "description": "Upon gaining this ability the Salamander's eyes begin reflecting their mood, with warm yellows and deep reds when happy and blazing oranges, blues, and whites when angry.  Glare no longer impacts them and they can always see exactly what temperature it is.  In addition, and they have slightly better daytime vision and much reaction times, though their nighttime vision is reduced.",
     "leads_to": [ "SALAMANDER_HEAT_EYES" ],
     "category": [ "SALAMANDER" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_salamander_eyes" ],
-    "flags": [ "THERMOMETER" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_salamander" } ] } ]
   },
   {
     "type": "mutation",

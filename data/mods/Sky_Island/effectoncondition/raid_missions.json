@@ -1,0 +1,314 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Extract",
+    "//": "Picks a random location to place the extract based on the player's unlocked difficulty.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_Location1e", { "global_val": "target_fields_weight", "default": 15 } ],
+          [ "EOC_Location2e", { "global_val": "target_forests_weight", "default": 0 } ],
+          [ "EOC_Location3e", { "global_val": "target_houses_weight", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Mission",
+    "//": "Picks a random location to place the missions based on the player's unlocked difficulty.",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_Location1m", { "global_val": "target_fields_weight", "default": 15 } ],
+          [ "EOC_Location2m", { "global_val": "target_forests_weight", "default": 0 } ],
+          [ "EOC_Location3m", { "global_val": "target_houses_weight", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_extract",
+    "//": "Actually creates the extract by first choosing a location, then assigning a mission there.  It will also clean up that spot later so the exit room doesn't remain for future expeditions.",
+    "effect": [ { "run_eocs": [ "EOC_Random_Loc_Extract" ] }, { "assign_mission": "MISSION_REACH_EXTRACT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_slaughter",
+    "condition": { "math": [ "slaughterunlocked == 1" ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_slaughtermission1", 10 ],
+          [ "EOC_slaughtermission2", 20 ],
+          [ "EOC_slaughtermission3", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission4", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_slaughtermission5", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_slaughtermission6", 5 ],
+          [ "EOC_slaughtermission7", 5 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_create_bonus",
+    "//": "Actually creates a bonus mission by first choosing a location, then assigning a mission there.  It will also clean up that spot later so any map changes don't remain for future expeditions.",
+    "effect": [
+      { "run_eocs": [ "EOC_Random_Loc_Mission" ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_bonusmission_1", 45 ],
+          [ "EOC_bonusmission_2", 15 ],
+          [ "EOC_bonusmission_3", 10 ],
+          [ "EOC_bonusmission_4", 15 ],
+          [ "EOC_bonusmission_5", 10 ],
+          [ "EOC_bonusmission_6", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_bonusmission_7", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_8", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_9", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_12", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_13", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_bonusmission_10", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_bonusmission_11", { "global_val": "hardestmissions", "default": 0 } ],
+          [ "EOC_assassinmission1", { "global_val": "hardmissions", "default": 0 } ],
+          [ "EOC_assassinmission2", { "global_val": "hardermissions", "default": 0 } ],
+          [ "EOC_assassinmission3", { "global_val": "hardestmissions", "default": 0 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_TREASURE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_LIGHT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_4",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MID" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_5",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MID_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_6",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_HARD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_7",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_ELITE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_8",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_9",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_GROUP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_12",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_HORDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_13",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_BOSS_MULTI" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_10",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MIGO" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bonusmission_11",
+    "effect": [ { "assign_mission": "MISSION_BONUS_KILL_MIGO_ELITE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED1" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_ZED3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission4",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_MIGO" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission5",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_NETHER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission6",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slaughtermission7",
+    "effect": [ { "assign_mission": "MISSION_BONUS_SLAUGHTER_MAMMAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission1",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN1" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission2",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_assassinmission3",
+    "effect": [ { "assign_mission": "MISSION_BONUS_ASSASSIN3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location1e",
+    "//": "Picks a random field.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location2e",
+    "//": "Picks a random forest.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location3e",
+    "//": "Picks a random house.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "house",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "exfildistancemax", "default": 30 },
+          "min_distance": { "global_val": "exfildistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location1m",
+    "//": "Picks a random field.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      },
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location2m",
+    "//": "Picks a random forest.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "forest",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      },
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Location3m",
+    "//": "Picks a random house.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "house",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "missiondistancemax", "default": 30 },
+          "min_distance": { "global_val": "missiondistancemin", "default": 5 },
+          "reveal_radius": { "global_val": "scoutingdistancetargets", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      },
+      { "math": [ "total_difficulty_bonus = lengthofthisraid + 1" ] }
+    ]
+  }
+]

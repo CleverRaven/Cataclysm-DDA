@@ -31,7 +31,8 @@
       { "trait": "hair_medium", "variant": "blond" },
       { "trait": "natural_hair_color_blond" },
       { "trait": "eye_color", "variant": "blue" },
-      { "trait": "SKIN_PINK" }
+      { "trait": "SKIN_PINK" },
+      { "trait": "RETURN_TO_START_POS" }
     ],
     "bonus_str": 2,
     "bonus_dex": 3,

@@ -488,6 +488,12 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
+    // Only read display name from standalone requirement definitions,
+    // not from recipes/constructions that also pass through load_requirement.
+    if( id.is_null() && jsobj.has_member( "name" ) ) {
+        jsobj.read( "name", req.name_ );
+    }
+
     save_requirement( req, string_id<requirement_data>::NULL_ID(), &ext );
 }
 
@@ -1210,6 +1216,17 @@ void requirement_data::replace_items( const std::unordered_map<itype_id, itype_i
 {
     apply_replacements( tools, replacements );
     apply_replacements( components, replacements );
+}
+
+const std::string &requirement_data::display_name() const
+{
+    static const std::string empty;
+    return name_.empty() ? empty : name_.translated();
+}
+
+bool requirement_data::has_display_name() const
+{
+    return !name_.empty();
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const

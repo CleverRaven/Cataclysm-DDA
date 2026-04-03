@@ -34,7 +34,7 @@
     "points": 4,
     "starting_cash": 1120000,
     "traits": [ "CBM_Interface" ],
-    "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
+    "CBMs": [ "bio_weight", "bio_microgen", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {

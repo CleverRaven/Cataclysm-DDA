@@ -741,6 +741,18 @@ std::vector<overmap_special_terrain> mutable_overmap_special_data::get_terrains(
     return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };
 }
 
+std::vector<oter_type_id> mutable_overmap_special_data::get_terrain_type_ids() const
+{
+    std::vector<oter_type_id> result;
+    result.reserve( overmaps.size() );
+    for( const auto &pair : overmaps ) {
+        if( pair.second.terrain.is_valid() ) {
+            result.emplace_back( pair.second.terrain->get_type_id() );
+        }
+    }
+    return result;
+}
+
 std::vector<overmap_special_terrain> mutable_overmap_special_data::preview_terrains() const
 {
     return std::vector<overmap_special_terrain> { root_as_overmap_special_terrain() };

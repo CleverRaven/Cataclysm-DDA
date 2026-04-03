@@ -4098,5 +4098,37 @@
         "encumbrance": 14
       }
     ]
+  },
+  {
+    "id": "string_dimension_biosuit",
+    "type": "ITEM",
+    "//": "A sturdy biosuit-like underlayer that serves to passively moderate body temperature.  Its liquid components makes it impossible to repair.",
+    "subtypes": [ "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "gold-latticed biosuit" },
+    "description": "A striated bodysuit constructed from a bilayer of stark-white white metallic fabric, coated in a microscopically thin layer of gold.  Some of the fibers are more gold than others, giving it a barely perceptible hex pattern.  The textile bilayer is filled with liquid, giving it a squishy, cool-to-the-touch bodyfeel.",
+    "weight": "4000 g",
+    "volume": "12 L",
+    "price": "1 kUSD 175 USD",
+    "price_postapoc": "300 USD",
+    "material": [ "nanotubes", "alien_liquid", "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [
+      {
+        "material": [
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.01 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ],
+    "warmth": 0,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "NO_REPAIR", "SKINTIGHT", "MUNDANE", "SOFT" ],
+    "passive_effects": [ { "id": "ench_string_dimension_biosuit" } ]
   }
 ]

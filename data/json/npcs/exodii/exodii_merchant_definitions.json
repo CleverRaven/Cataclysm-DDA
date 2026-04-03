@@ -16,6 +16,7 @@
     "id": "NC_EXODII_TYPE_1_Merchant",
     "name": { "str": "Cyborg, type 1" },
     "job_description": "I'm a cyborg.",
+    "work_hours": [ 6, 22 ],
     "traits": [
       { "trait": "EXODII_BODY_1" },
       { "trait": "IGNORE_SOUND" },

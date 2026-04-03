@@ -437,7 +437,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     cata_assert( original );
     SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
     cata_assert( surf );
-    throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
+    throwErrorIf( BlitSurface( original, nullptr, surf, nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
     SDL_Color *pix = static_cast<SDL_Color *>( surf->pixels );
@@ -533,10 +533,10 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-        const Uint32 key = SDL_MapRGB( tile_atlas->format, 0, 0, 0 );
-        throwErrorIf( SDL_SetColorKey( tile_atlas.get(), SDL_TRUE, key ) != 0,
+        const Uint32 key = MapRGB( tile_atlas, 0, 0, 0 );
+        throwErrorIf( SetColorKey( tile_atlas, SDL_TRUE, key ) != 0,
                       "SDL_SetColorKey failed" );
-        throwErrorIf( SDL_SetSurfaceRLE( tile_atlas.get(), 1 ), "SDL_SetSurfaceRLE failed" );
+        throwErrorIf( SetSurfaceRLE( tile_atlas, 1 ), "SDL_SetSurfaceRLE failed" );
     }
 
     SDL_RendererInfo info;
@@ -616,8 +616,8 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
             smaller_surf = ::create_surface_32( w, h );
             cata_assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
-            throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(),
-                                           nullptr ) != 0, "SDL_BlitSurface failed" );
+            throwErrorIf( BlitSurface( tile_atlas, &inp, smaller_surf,
+                                       nullptr ) != 0, "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
         cata_assert( surf_to_use );
@@ -1347,8 +1347,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     {
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {dest.x, dest.y, width, height};
-        printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
-                      "SDL_RenderSetClipRect failed" );
+        RenderSetClipRect( renderer, &clipRect );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
         geometry->rect( renderer, clipRect, SDL_Color() );
@@ -1827,6 +1826,56 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                     }
                 }
             }
+            // Colored light overlay. Draws a tinted rect over tiles that have
+            // colored light energy in the cache (emergency beacons, colored fields,
+            // etc). Only the chromatic (saturated) component produces a tint --
+            // white light (equal RGB) is ignored. Alpha scales with the ratio of
+            // colored energy to total scalar light so the effect is subtle under
+            // bright ambient and vivid in darkness.
+            const level_cache &cur_cache = here.access_cache( cur_zlevel );
+            SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+            for( const tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
+                const tile_render_info::sprite *const
+                var = std::get_if<tile_render_info::sprite>( &p.var );
+                if( !var || var->ll == lit_level::DARK || var->ll == lit_level::BLANK ||
+                    var->ll == lit_level::MEMORIZED ) {
+                    continue;
+                }
+                const light_color_rgb &lc =
+                    cur_cache.light_color_cache[p.com.pos.x()][p.com.pos.y()];
+                if( !lc.is_colored() ) {
+                    continue;
+                }
+                // Subtract the achromatic (white) component to isolate saturated color.
+                const float min_ch = std::min( { lc.r, lc.g, lc.b } );
+                const float sat_r = lc.r - min_ch;
+                const float sat_g = lc.g - min_ch;
+                const float sat_b = lc.b - min_ch;
+                const float sat_mag = std::max( { sat_r, sat_g, sat_b } );
+                if( sat_mag < 0.01f ) {
+                    continue; // pure white light, no tint
+                }
+                // Alpha: saturated energy relative to total scalar light at this tile
+                const float scalar = cur_cache.lm[p.com.pos.x()][p.com.pos.y()].max();
+                const float ratio = scalar > 0.1f ? std::min( 1.0f, sat_mag / scalar ) : 0.0f;
+                const Uint8 alpha = static_cast<Uint8>( ratio * 80.0f );
+                if( alpha == 0 ) {
+                    continue;
+                }
+                // Normalize saturated color to full brightness for the SDL tint.
+                const SDL_Color tint = {
+                    static_cast<Uint8>( sat_r / sat_mag * 255.0f ),
+                    static_cast<Uint8>( sat_g / sat_mag * 255.0f ),
+                    static_cast<Uint8>( sat_b / sat_mag * 255.0f ),
+                    alpha
+                };
+                const point screen = player_to_screen( p.com.pos.xy() );
+                const SDL_Rect draw_rect = {
+                    screen.x, screen.y - p.com.height_3d, tile_width, tile_height
+                };
+                geometry->rect( renderer, draw_rect, tint );
+            }
+            SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
         }
         cur_zlevel += 1;
     }
@@ -1922,8 +1971,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             draw_bullet_frame();
         }
         if( do_draw_hit ) {
-            draw_hit_frame();
             void_hit();
+            if( do_draw_hit ) {
+                draw_hit_frame();
+            }
         }
         if( do_draw_line ) {
             draw_line();
@@ -1979,8 +2030,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         }
     }
 
-    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
-                  "SDL_RenderSetClipRect failed" );
+    RenderSetClipRect( renderer, nullptr );
 }
 
 void cata_tiles::set_draw_cache_dirty()
@@ -2997,16 +3047,17 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     }
 
     //draw it!
-    draw_tile_at( display_tile, screen_pos, loc_rand, rota, ll,
-                  nv_color_active, retract, height_3d, offset );
+    const tile_render_params rp{ ll, nv_color_active };
+    draw_tile_at( display_tile, screen_pos, loc_rand, rota, rp,
+                  retract, height_3d, offset );
 
     return true;
 }
 
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset )
+    const point &p, unsigned int loc_rand, bool rota_fg, int rota,
+    const tile_render_params &rp, int retract, int &height_3d, const point &offset )
 {
     const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
@@ -3043,12 +3094,12 @@ bool cata_tiles::draw_sprite_at(
 
     //use night vision colors when in use
     //then use low light tile if available
-    if( ll == lit_level::MEMORIZED ) {
+    if( rp.ll == lit_level::MEMORIZED ) {
         if( const texture *ptr = tileset_ptr->get_memory_tile( sprite_index ) ) {
             sprite_tex = ptr;
         }
-    } else if( apply_night_vision_goggles ) {
-        if( ll != lit_level::LOW ) {
+    } else if( rp.use_night_vision_tiles ) {
+        if( rp.ll != lit_level::LOW ) {
             if( const texture *ptr = tileset_ptr->get_overexposed_tile( sprite_index ) ) {
                 sprite_tex = ptr;
             }
@@ -3057,7 +3108,7 @@ bool cata_tiles::draw_sprite_at(
                 sprite_tex = ptr;
             }
         }
-    } else if( ll == lit_level::LOW ) {
+    } else if( rp.ll == lit_level::LOW ) {
         if( const texture *ptr = tileset_ptr->get_shadow_tile( sprite_index ) ) {
             sprite_tex = ptr;
         }
@@ -3162,14 +3213,14 @@ bool cata_tiles::draw_sprite_at(
 
 bool cata_tiles::draw_tile_at(
     const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
-    lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d,
+    const tile_render_params &rp, int retract, int &height_3d,
     const point &offset )
 {
     int fake_int = height_3d;
-    draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
-                    apply_night_vision_goggles, retract, fake_int, offset );
-    draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, ll,
-                    apply_night_vision_goggles, retract, height_3d, offset );
+    draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, rp,
+                    retract, fake_int, offset );
+    draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, rp,
+                    retract, height_3d, offset );
     return true;
 }
 
@@ -4435,8 +4486,8 @@ void tileset_cache::loader::ensure_default_item_highlight()
 
     const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
     cata_assert( surface );
-    throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
-                                highlight_alpha ) ) != 0, "SDL_FillRect failed" );
+    throwErrorIf( FillRect( surface, nullptr, MapRGBA( surface, 0, 0, 127,
+                            highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ),
                                  SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     ts.tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {index} ), 1 );
@@ -4584,6 +4635,15 @@ void cata_tiles::void_hit()
         do_draw_hit = false;
     }
 }
+bool cata_tiles::expire_hit_animations()
+{
+    if( !do_draw_hit ) {
+        return false;
+    }
+    const size_t before = hit_animations.size();
+    void_hit();
+    return hit_animations.size() != before;
+}
 void cata_tiles::void_line()
 {
     do_draw_line = false;
@@ -4616,10 +4676,14 @@ void cata_tiles::void_zones()
 {
     do_draw_zones = false;
 }
-void cata_tiles::void_async_anim()
+bool cata_tiles::void_async_anim()
 {
+    if( !do_draw_async_anim ) {
+        return false;
+    }
     do_draw_async_anim = false;
     async_anim_layer.clear();
+    return true;
 }
 void cata_tiles::void_radiation_override()
 {

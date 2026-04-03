@@ -824,11 +824,11 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Arvore's eyes begin reflecting the seasons: a bright yellow-green in spring; verdant green in summer; red, yellow, or orange in autumn, and dark brown in winter.  Glare no longer impacts them.",
+    "description": "Upon gaining this ability the Arvore's eyes begin reflecting the seasons: a bright yellow-green in spring; verdant green in summer; red, yellow, or orange in autumn, and dark brown in winter.  Glare no longer impacts them, and they have slightly better daytime vision and reaction times.",
     "category": [ "ARVORE", "ARVORE_ALCHEMY" ],
     "purifiable": false,
     "types": [ "EYES" ],
-    "integrated_armor": [ "integrated_arvore_eyes" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_arvore" } ] } ]
   },
   {
     "type": "mutation",

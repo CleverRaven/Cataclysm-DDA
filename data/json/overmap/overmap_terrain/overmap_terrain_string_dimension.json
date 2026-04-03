@@ -36,6 +36,11 @@
     "see_cost": "opaque"
   },
   {
+    "type": "overmap_location",
+    "id": "string_dimension_true_void",
+    "terrains": [ "string_dimension_true_void" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": [
       "string_dimension_small_ziggurat_1",
@@ -182,5 +187,53 @@
     "sym": "E",
     "color": "light_green",
     "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "string_dimension_utility_tunnel_entrance" ],
+    "vision_levels": "open_land",
+    "land_use_code": "open_land",
+    "name": "islet",
+    "sym": "o",
+    "color": "light_gray",
+    "see_cost": "all_clear",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_utility_tunnel_four_way",
+      "string_dimension_utility_tunnel_T",
+      "string_dimension_utility_tunnel_straight",
+      "string_dimension_utility_tunnel_corner",
+      "string_dimension_utility_tunnel_end"
+    ],
+    "name": "utility tunnel",
+    "sym": "#",
+    "color": "red",
+    "see_cost": "high",
+    "vision_levels": "underground_dirt",
+    "travel_cost_type": "basement",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "string_dimension_ka_facility_x0y0z0",
+      "string_dimension_ka_facility_x1y0z0",
+      "string_dimension_ka_facility_x2y0z0",
+      "string_dimension_ka_facility_x3y0z0",
+      "string_dimension_ka_facility_x4y0z0",
+      "string_dimension_ka_facility_x0y1z0",
+      "string_dimension_ka_facility_x1y1z0",
+      "string_dimension_ka_facility_x2y1z0",
+      "string_dimension_ka_facility_x3y1z0",
+      "string_dimension_ka_facility_x4y1z0"
+    ],
+    "vision_levels": "industrial_building",
+    "name": "strange facility",
+    "sym": "K",
+    "color": "red",
+    "see_cost": "full_high"
   }
 ]

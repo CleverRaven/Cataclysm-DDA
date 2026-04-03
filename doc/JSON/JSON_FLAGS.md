@@ -437,6 +437,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills.  Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills.  Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the `guilt` mondeath effect.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty.
+- ```RAIN_IMMUNE``` Precipitation will not get you wet
 - ```READ_IN_DARKNESS``` You can read regardless of light level.
 - ```ROOTS2``` Gain enhanced effects from the Mycorrhizal Communion mutation.
 - ```ROOTS3``` Gain enhanced effects from the Mycorrhizal Communion mutation (slightly faster than `ROOTS2`).
@@ -972,8 +973,12 @@ These can be applied to guns or gunmods, adding different effects to the guns.
 - ```NO_TURRET``` Prevents generation of a vehicle turret prototype for this gun.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair (but not reinforce) it.
-- ```PUMP_ACTION``` Gun has rails on its pump action, allowing to install only mods with `PUMP_RAIL_COMPATIBLE` flag on underbarrel slot.
+- ```PUMP_RAIL``` Gun has rails on its pump action, allowing to install only mods with `PUMP_RAIL_COMPATIBLE` flag on underbarrel slot.
 - ```PUMP_RAIL_COMPATIBLE``` Mod can be installed on underbarrel slot of guns with rails on their pump action.
+- ```BOLT_ACTION```  this gun uses bolt-action mechanism, this applies major penalty (1.6 seconds) of time and aim between each shot (can be mitigated by skill, up to 50%)
+- ```PUMP_ACTION``` same as BOLT_ACTION, but minor penalty (1.2 seconds)
+- ```SINGLE_ACTION``` same as BOLT_ACTION, but minor penalty (1 second)
+- ```LEVER_ACTION``` same as BOLT_ACTION, but minor penalty (0.8 seconds)
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 - ```RELOAD_ONE``` Only reloads one round at a time.
@@ -1360,7 +1365,7 @@ See [Character](#character)
 - ```KNOWN_UP``` There's a known way up.
 - ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
-- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This  might be because it exists only for testing purposes, or it is part of a partially completed feature where more work is required before it can start spawning.
+- ```SHOULD_NOT_SPAWN``` The terrain should not be expected to spawn.  This might be because it exists only for testing purposes, or it is part of a partially completed feature where more work is required before it can start spawning.
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```IGNORE_ROTATION_FOR_ADJACENCY``` When mapgen for this OMT performs neighbor checks, the directions will be treated as absolute, rather than rotated to account for the rotation of the mapgen itself.  Probably only useful for hardcoded mapgen.
@@ -1810,4 +1815,3 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```IMMOBILIZER``` Prevents engine from starting and makes it beep.
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
 - ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6.  Does not stack with multiples of itself.
-
