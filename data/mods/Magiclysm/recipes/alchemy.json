@@ -233,7 +233,7 @@
       [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 20, "LIST" ], [ "edible_tallow", 20, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ] ],
       [ [ "sealed_fading_embers", 1 ] ],
-      [ [ "mana_dust", 2 ]]
+      [ [ "mana_dust", 2 ] ]
     ]
   }
 ]
