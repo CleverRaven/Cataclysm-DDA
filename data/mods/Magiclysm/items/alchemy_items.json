@@ -450,7 +450,7 @@
   {
     "id": "fading_embers_active",
     "type": "ITEM",
-    "name": "fading embers",
+    "name": { "str": "fading embers", "str_pl": "fading embers" },
     "description": "The embers of a slain Balrog.  It burns with otherworldly intensity.  Soon, it will fade into nothing.",
     "volume": "0 ml",
     "price": "1 USD",
@@ -467,7 +467,7 @@
   {
     "id": "sealed_fading_embers",
     "type": "ITEM",
-    "name": "fading embers (sealed)",
+    "name": { "str": "fading embers (sealed)", "str_pl": "fading embers (sealed)" },
     "description": "A small fragment of an otherworldly flame, sealed into a jar for preservation.",
     "ascii_picture": "jar_glass_sealed",
     "weight": "277 g",
