@@ -178,7 +178,7 @@
     "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
     "description": "The official silver bullion coin of the United States, it has a nominal face value of one dollar and is guaranteed to contain one troy ounce of 99.9% pure silver.",
-    "weight": "31 g",
+    "weight": "10 g",
     "volume": "1 ml",
     "price": "23 USD",
     "price_postapoc": "3 USD 10 cent",

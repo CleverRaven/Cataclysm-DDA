@@ -94,7 +94,7 @@
     "id": "highland_purple_incense",
     "type": "ITEM",
     "name": { "str": "purple incense" },
-    "description": "Small shards of a crystalline substance. It has a strange smell, mostly of ozone.",
+    "description": "Small shards of a crystalline substance.  It has a strange smell, mostly of ozone.",
     "category": "other",
     "weight": "10 g",
     "volume": "10 ml",

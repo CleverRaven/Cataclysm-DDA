@@ -81,7 +81,7 @@
     "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "IMPERIAL_ROAD" ],
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 0, -1 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 4 ],
     "joins": [ "road_to_road" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "nether" ] ],

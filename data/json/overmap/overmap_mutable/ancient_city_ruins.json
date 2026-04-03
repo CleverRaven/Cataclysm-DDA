@@ -25,7 +25,7 @@
         "west": "ruin_to_ruin",
         "locations": [ "nether" ]
       },
-      "road_straight": { "overmap": "highland_road_ns", "north": "road_to_road", "south": "road_to_road", "locations": [ "land" ] },
+      "road_straight": { "overmap": "highland_road_ns", "north": "road_to_road", "south": "road_to_road" },
       "road_curve": { "overmap": "highland_road_ne", "north": "road_to_road", "east": "road_to_road" },
       "road_end": { "overmap": "highland_road_end_north", "north": "road_to_road" },
       "gate": { "overmap": "conquerors_road_north", "south": "road_to_road" },
@@ -66,10 +66,10 @@
       ],
       [ { "overmap": "road_straight_core", "max": 6 }, { "overmap": "road_straight", "max": 4 } ],
       [
-        { "overmap": "road_curve", "max": { "poisson": 1.5, "bounds": [ 1, 2 ] } },
+        { "overmap": "road_curve", "max": { "poisson": 1.5, "bounds": [ 0, 1 ] } },
         { "overmap": "road_straight", "max": 30 }
       ],
-      [ { "overmap": "road_end", "max": 1 } ],
+      [ { "overmap": "road_end", "max": 2 } ],
       [ { "overmap": "ruin_core", "max": 3 } ],
       [ { "overmap": "ruin_core", "max": 2 }, { "overmap": "ruin_line", "max": 10 } ],
       [ { "overmap": "ruin_core", "max": 5 }, { "overmap": "ruin_line", "max": 10 } ],
@@ -83,7 +83,7 @@
     "locations": [ "nether" ],
     "city_distance": [ 0, -1 ],
     "city_sizes": [ 0, -1 ],
-    "occurrences": [ 2, 4 ],
+    "occurrences": [ 0, 4 ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "nether" ] ],
       [ [ 0, 1, 0 ], [ "nether" ] ],
