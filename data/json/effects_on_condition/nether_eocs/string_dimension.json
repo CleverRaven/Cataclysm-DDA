@@ -230,7 +230,7 @@
         "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
         "target_params": { "om_terrain": "string_dimension_ka_facility_x4y0z0", "om_special": "string_dimension_ka_facility" },
         "furniture": "f_string_dimension_floor_portal_enclosure",
-        "target_max_radius": 20
+        "target_max_radius": 100
       },
       { "u_teleport": { "context_val": "string_dimension_floor_portal_enclosure" } },
       {
