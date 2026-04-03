@@ -36,6 +36,7 @@
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
