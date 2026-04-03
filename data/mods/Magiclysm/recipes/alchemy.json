@@ -213,7 +213,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
-    "autolearn": true
+    "book_learn": [ [ "harnessing_hellfire", 5 ] ]
   },
   {
     "type": "recipe",
@@ -225,7 +225,7 @@
     "difficulty": 5,
     "skills_required": [ "fabrication", 1 ],
     "time": "8 m",
-    "autolearn": true,
+    "book_learn": [ [ "harnessing_hellfire", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
