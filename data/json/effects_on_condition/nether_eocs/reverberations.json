@@ -228,8 +228,8 @@
         "popup": true
       },
       { "run_eocs": "EOC_INNER_CABINS_UPDATE_EXIT_1", "time_in_future": [ "5 minutes", "2 hours" ] },
-      { "math": [ "interstice_counter = 100" ] },
-      { "math": [ "previous_interstice_counter = 100" ] },
+      { "math": [ "interstice_counter = 600" ] },
+      { "math": [ "previous_interstice_counter = 600" ] },
       { "u_add_trait": "INTERSTICE_SHRINKING" },
       { "run_eocs": "EOC_INNER_CABINS_INTERSTICE_COUNTER", "time_in_future": [ "1 minutes", "2 minutes" ] }
     ]
@@ -444,8 +444,8 @@
       { "math": [ "previous_interstice_counter = interstice_counter" ] },
       {
         "if": { "math": [ "u_val('pos_z') <= -8" ] },
-        "then": { "if": { "one_in_chance": 100 }, "then": { "math": [ "interstice_counter -= 10" ] } },
-        "else": { "if": { "one_in_chance": 200 }, "then": { "math": [ "interstice_counter += 1" ] } }
+        "then": { "if": { "one_in_chance": 500 }, "then": { "math": [ "interstice_counter -= 10" ] } },
+        "else": { "if": { "one_in_chance": 500 }, "then": { "math": [ "interstice_counter += 1" ] } }
       },
       { "if": { "math": [ "interstice_counter < 100" ] }, "then": { "math": [ "interstice_counter = 100" ] } },
       {
@@ -455,7 +455,10 @@
           { "u_add_trait": "INTERSTICE_GROWING" },
           {
             "if": { "one_in_chance": { "global_val": "interstice_counter" } },
-            "then": { "u_mutate_category": "INTERSTICE", "use_vitamins": false }
+            "then": [
+              { "u_message": "<inner_cabins_interstice_snippet>", "type": "info", "snippet": true },
+              { "u_mutate_category": "INTERSTICE", "use_vitamins": false }
+            ]
           }
         ],
         "else": [ { "u_lose_trait": "INTERSTICE_GROWING" }, { "u_add_trait": "INTERSTICE_SHRINKING" } ]
