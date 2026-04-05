@@ -1457,11 +1457,11 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
             return it.is_seed();
         } );
 
-         if( seed == items.end() ) {
-        debugmsg( "Missing seed for plant at %s", target.to_string() );
-        here.i_clear( tile );
-        here.furn_set( target, furn_str_id::NULL_ID() );
-        return;
+        if( seed == items.end() ) {
+            debugmsg( "Missing seed for plant at %s", target.to_string() );
+            potential_target.i_clear( target );
+            potential_target.furn_set( target, furn_str_id::NULL_ID() );
+            return;
         }
 
         seed->set_birthday( seed->birthday() - fertilizerEpoch );
