@@ -440,7 +440,7 @@ class crafting_ui_impl : public cataimgui::window
         int manual_batch = 1;
         bool show_hidden = false;
         bool is_wide = false;
-        bool details_expanded = false;
+        bool details_expanded = true;
         bool steps_expanded = true;
 
         // --- Scroll state ---
