@@ -1843,13 +1843,13 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
         if( is_expanded ) {
             ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", bullet.c_str() );
             float indent = ImGui::CalcTextSize( "    " ).x;
-            for ( size_t i = 0; i < sorted_alts.size(); ++i ) {
+            for( size_t i = 0; i < sorted_alts.size(); ++i ) {
                 const item_comp *ic = sorted_alts[i];
                 // Draw the first item on the same line as the bullet, then indent the rest
-                if ( i == 0 ) {
+                if( i == 0 ) {
                     ImGui::SameLine( 0, 0 );
                 }
-                if ( i == 1) {
+                if( i == 1 ) {
                     ImGui::Indent( indent );
                 }
                 nc_color col = ic->get_color( any_available, crafting_inv, filter, batch_size );
