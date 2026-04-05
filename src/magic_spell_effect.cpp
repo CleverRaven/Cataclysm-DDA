@@ -1447,10 +1447,11 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
                                                      );
         if( fertilizer != items.end() ) {
             continue;
-       }
-       // Reduce the amount of time it takes until the next stage of the plant by
-       // the spell's damage (0.1% per damage point) relative to season length
-       const time_duration fertilizerEpoch = calendar::season_length() * (static_cast<float>( sp.damage( caster ) ) / 1000.0f );
+        }
+        // Reduce the amount of time it takes until the next stage of the plant by
+        // the spell's damage (0.1% per damage point) relative to season length
+        const time_duration fertilizerEpoch = calendar::season_length() * ( static_cast<float>( sp.damage(
+                caster ) ) / 1000.0f );
 
        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
          return it.is_seed();
