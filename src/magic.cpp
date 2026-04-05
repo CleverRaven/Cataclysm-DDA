@@ -3473,7 +3473,7 @@ static void draw_spellbook_info( const spell_type &sp )
         has_damage_type = sp.min_damage.evaluate( d ) > 0 && sp.max_damage.evaluate( d ) > 0;
     } else if( fx == "spawn_item" || fx == "summon_monster" ) {
         damage_string = _( "Spawned" );
-    } else if ( fx == "fertilize_plant" ) {
+    } else if( fx == "fertilize_plant" ) {
         damage_string = _( "Fertility Increase" );
         aoe_string = _( "AoE" );
     } else if( fx == "targeted_polymorph" ) {
