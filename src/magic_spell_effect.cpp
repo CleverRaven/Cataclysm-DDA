@@ -1472,7 +1472,6 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         here.furn_set( tile, furn_str_id::NULL_ID() );
         here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
         here.furn_set( tile, old_furn );
-
     }
 }
 
