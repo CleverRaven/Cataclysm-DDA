@@ -43,6 +43,11 @@
         "condition": { "math": [ "islandrank >= 4" ] }
       }
     ],
+    "shopkeeper_price_rules": [
+      { "group": "SI_TRIFFID_DECOR_MERCHANT_CARPETS", "price": 250, "fixed_adj": 0 },
+      { "item": "teddy_bear", "price": 500 },
+      { "item": "shark_plushie", "price": 500 }
+    ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_whitelist": "si_triffid_decor_merchant_whitelist",
     "weapon_override": "si_triffid_decor_merchant_wield",
@@ -79,30 +84,41 @@
     "message": "<npcname>'s fronds wave back and forth vigorously.",
     "entries": [
       { "category": "seeds" },
-      { "item": "apple", "prob": 70 },
-      { "item": "orange", "prob": 65 },
-      { "item": "banana", "prob": 40 },
-      { "item": "blueberries", "prob": 3 },
-      { "item": "strawberries", "prob": 2 },
-      { "item": "pear", "prob": 65 },
-      { "item": "grapefruit", "prob": 1 },
-      { "item": "cherries", "prob": 5 },
-      { "item": "plums", "prob": 9 },
-      { "item": "grapes", "prob": 45 },
-      { "item": "pineapple", "prob": 2 },
-      { "item": "peach", "prob": 1 },
-      { "item": "cranberries", "prob": 15, "count": 3 },
-      { "item": "watermelon", "prob": 2 },
-      { "item": "melon", "prob": 1 },
-      { "item": "raspberries", "prob": 3 },
-      { "item": "blackberries", "prob": 3 },
-      { "item": "mango", "prob": 1 },
-      { "item": "pomegranate", "prob": 1 },
-      { "item": "papaya", "prob": 1 },
-      { "item": "kiwi", "prob": 2 },
-      { "item": "apricot", "prob": 1 },
-      { "item": "teddy_bear", "prob": 2 },
-      { "item": "shark_plushie", "prob": 2 }
+      { "item": "apple" },
+      { "item": "orange" },
+      { "item": "banana" },
+      { "item": "blueberries" },
+      { "item": "strawberries" },
+      { "item": "pear" },
+      { "item": "grapefruit" },
+      { "item": "cherries" },
+      { "item": "plums" },
+      { "item": "grapes" },
+      { "item": "pineapple" },
+      { "item": "peach" },
+      { "item": "cranberries" },
+      { "item": "watermelon" },
+      { "item": "melon" },
+      { "item": "raspberries" },
+      { "item": "blackberries" },
+      { "item": "mango" },
+      { "item": "pomegranate" },
+      { "item": "papaya" },
+      { "item": "kiwi" },
+      { "item": "apricot" },
+      { "item": "teddy_bear" },
+      { "item": "shark_plushie" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_TRIFFID_DECOR_MERCHANT_CARPETS",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "y_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] }
     ]
   },
   {
@@ -114,7 +130,8 @@
       { "item": "y_carpet", "prob": 90, "count": [ 5, 12 ] },
       { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
       { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
-      { "item": "birthbath_token", "prob": 80, "count": [ 1, 2 ] }
+      { "item": "birdbath_token", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "display_case_token", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -145,7 +162,7 @@
         "effect": "start_trade",
         "topic": "TALK_SI_TRIFFID_DECOR_MERCHANT"
       },
-      { "text": "Uh, bye?  <end_talking_leave>", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -154,7 +171,7 @@
     "dynamic_line": "*waves one frond at a pad of paper on the table.  When you bend down to look at it, you see words in English on it:\n\n\"Greetings, mammal.  I come to trade.  Bring me fruits.\"",
     "responses": [
       { "text": "Well, I guess that sounds fine.", "effect": "start_trade", "topic": "TALK_SI_TRIFFID_DECOR_MERCHANT" },
-      { "text": "Not at the moment, thanks.  <end_talking_leave>", "topic": "TALK_DONE" }
+      { "text": "Not at the moment, thanks.", "topic": "TALK_DONE" }
     ]
   }
 ]

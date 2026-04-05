@@ -23,6 +23,7 @@
       "effect": [
         { "math": [ "skyisland_merchant_stall = 1" ] },
         { "u_forget_recipe": "buildkey_merchant_stall" },
+        { "u_learn_recipe": "item_merchant_attractor" },
         { "run_eocs": "EOC_skyisland_build_merchant_stall" },
         { "u_message": "Construction complete.  Merchants can now visit your island.", "popup": true }
       ]

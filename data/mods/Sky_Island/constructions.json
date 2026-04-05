@@ -386,6 +386,18 @@
   },
   {
     "type": "construction",
+    "id": "build_display_case_from_token",
+    "group": "build_display_case_from_token",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 s",
+    "components": [ [ [ "display_case_token", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_displaycase",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "build_statue_from_token",
     "group": "build_statue_from_token",
     "category": "OTHER",
@@ -525,5 +537,10 @@
     "type": "construction_group",
     "id": "build_statue_from_token",
     "name": "Transform the token into a statue"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_display_case_from_token",
+    "name": "Transform the token into a display case"
   }
 ]
