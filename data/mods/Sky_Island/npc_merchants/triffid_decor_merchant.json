@@ -1,0 +1,65 @@
+[
+  {
+    "type": "npc",
+    "id": "si_triffid_decor_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_SKY_ISLAND_TRIFFID_DECOR_MERCHANT",
+    "name_unique": "Tabani",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SI_HUMAN_AMMO_MERCHANT",
+    "faction": "sky_island_traders",
+    "personality": { "aggression": -4, "bravery": -1, "collector": 6, "altruism": -1 },
+    "gender": "male"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SKY_ISLAND_TRIFFID_DECOR_MERCHANT",
+    "name": { "str": "Triffid Decor Merchant" },
+    "job_description": "I sell people decor pieces in exchange for seeds.",
+    "traits": [
+      { "trait": "SI_TRIFFID_DECOR_MUTATION" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": [
+      { "group": "SI_HUMAN_AMMO_Store", "rigid": true },
+      {
+        "group": "SI_HUMAN_AMMO_Store_Tier3",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 3" ] }
+      },
+      {
+        "group": "SI_HUMAN_AMMO_Store_Tier4",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 4" ] }
+      }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_whitelist": "si_human_ammo_merchant_whitelist",
+    "weapon_override": "si_human_ammo_merchant_wield",
+    "worn_override": "si_human_ammo_merchant_worn",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": 10 }
+    ]
+  }
+]
