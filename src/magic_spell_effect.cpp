@@ -1443,9 +1443,9 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         map_stack items = here.i_at( tile );
         map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.has_flag( flag_FERTILIZER );
-        } 
-       );
-       if( fertilizer != items.end() ) {
+        }
+                                                     );
+        if( fertilizer != items.end() ) {
             continue;
        }
        // Reduce the amount of time it takes until the next stage of the plant by
