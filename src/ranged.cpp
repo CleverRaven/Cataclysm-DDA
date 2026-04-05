@@ -1124,6 +1124,12 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         return 0;
     }
 
+    short times_shot_target = 0;
+    Creature *maybe_target = get_creature_tracker().creature_at( here.get_abs( target ) );
+    if( maybe_target && maybe_target->as_monster() ) {
+        times_shot_target = maybe_target->as_monster()->times_combatted_player;
+    }
+
     // usage of any attached bipod is dependent upon terrain or on being prone
     bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub( here ) ) ||
                  is_prone();
@@ -1202,6 +1208,8 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                 continue;
             }
             if( monster *const m = hit_entry.first->as_monster() ) {
+                times_shot_target = std::max( times_shot_target, m->times_combatted_player );
+                m->times_combatted_player++;
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 projectile_use_ammo_id,
                                 false,
@@ -1300,13 +1308,16 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                                body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
     }
 
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
-        practice( skill_gun, ( hits + 1 ) * 5 );
+    // Preventing using a trapped creature as an infinite training dummy.
+    if( times_shot_target < 100 ) {
+        // Practice the base gun skill proportionally to number of hits, but always by one.
+        if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+            practice( skill_gun, ( hits + 1 ) * 5 );
+        }
+        // launchers train weapon skill for both hits and misses.
+        int practice_units = gun_skill == skill_launcher ? curshot : hits;
+        practice( gun_skill, ( practice_units + 1 ) * 5 );
     }
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun_skill == skill_launcher ? curshot : hits;
-    practice( gun_skill, ( practice_units + 1 ) * 5 );
 
     if( !gun.is_gun() ) {
         // If we lose our gun as a side effect of firing it, skip the rest of the function.
