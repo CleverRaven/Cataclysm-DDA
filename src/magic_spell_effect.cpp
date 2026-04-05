@@ -1432,16 +1432,15 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
 {
 
     std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    ::map &here = get_map();
+    
+    for( const tripoint_bub_ms &tile : area ) {
 
-     for( const tripoint_bub_ms &potential_target : area ) {
-
-        ::map &potential_target = get_map();
-
-        if( !potential_target.has_flag_furn( ter_furn_flag::TFLAG_PLANT, target ) ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
         continue;
         }
          // Can't use item_stack::only_item() since there might be fertilizer
-        map_stack items = potential_target.i_at( target );
+        map_stack items = here.i_at( tile );
         map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.has_flag( flag_FERTILIZER );
         } 
@@ -1459,8 +1458,8 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
 
          if( seed == items.end() ) {
         debugmsg( "Missing seed for plant at %s", target.to_string() );
-        potential_target.i_clear( target );
-        potential_target.furn_set( target, furn_str_id::NULL_ID() );
+        here.i_clear( tile );
+        here.furn_set( target, furn_str_id::NULL_ID() );
         return;
         }
 
@@ -1468,10 +1467,10 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         // The plant furniture has the NOITEM token which prevents adding items on that square,
         // spawned items are moved to an adjacent field instead, but the fertilizer token
         // must be on the square of the plant, therefore this hack:
-        const furn_id &old_furn = potential_target.furn( target );
-        potential_target.furn_set( target, furn_str_id::NULL_ID() );
-        potential_target.spawn_item( target, itype_fertilizer, 1, 1, calendar::turn );
-        potential_target.furn_set( target, old_furn );
+        const furn_id &old_furn = here.furn( tile );
+        here.furn_set( tile, furn_str_id::NULL_ID() );
+        here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+        here.furn_set( tile, old_furn );
 
     }
 
