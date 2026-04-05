@@ -374,6 +374,30 @@
   },
   {
     "type": "construction",
+    "id": "build_planter_from_token",
+    "group": "build_planter_from_token",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 s",
+    "components": [ [ [ "planter_token", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_planter",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "transform_door_into_glass_door",
+    "group": "transform_door_into_glass_door",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 s",
+    "components": [ [ [ "glass_door_token", 1 ] ] ],
+    "pre_flags": [ "DOOR" ],
+    "post_terrain": "t_door_glass_c",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "build_birdbath_from_token",
     "group": "build_birdbath_from_token",
     "category": "OTHER",
@@ -542,5 +566,15 @@
     "type": "construction_group",
     "id": "build_display_case_from_token",
     "name": "Transform the token into a display case"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_planter_from_token",
+    "name": "Transform the token into a display case"
+  },
+  {
+    "type": "construction_group",
+    "id": "transform_door_into_glass_door",
+    "name": "Transform a closed door into a glass door"
   }
 ]
