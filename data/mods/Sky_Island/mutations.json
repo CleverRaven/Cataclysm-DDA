@@ -137,5 +137,15 @@
     "purifiable": false,
     "valid": false,
     "description": "Instead of protecting you when you ended up here, the warpstream inverted itself and is now summoning zombies to your location."
+  },
+  {
+    "type": "mutation",
+    "id": "SI_TRIFFID_DECOR_MUTATION",
+    "name": { "str": "Triffid" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You are a triffid.",
+    "override_look": { "id": "mon_triffid", "tile_category": "monster" }
   }
 ]

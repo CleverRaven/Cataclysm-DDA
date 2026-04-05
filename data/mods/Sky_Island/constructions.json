@@ -373,6 +373,30 @@
     "activity_level": "LIGHT_EXERCISE"
   },
   {
+    "type": "construction",
+    "id": "build_birdbath_from_token",
+    "group": "build_birdbath_from_token",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 s",
+    "components": [ [ [ "birdbath_token", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_birdbath",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "build_statue_from_token",
+    "group": "build_statue_from_token",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 s",
+    "components": [ [ [ "statue_token", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_statue",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
     "type": "construction_group",
     "id": "sow_grass",
     "name": "Cover soil with grass"
@@ -491,5 +515,15 @@
     "type": "construction_group",
     "id": "water_into_deep_pond",
     "name": "Deepen a warped pond"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_birdbath_from_token",
+    "name": "Transform the token into a birdbath"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_statue_from_token",
+    "name": "Transform the token into a statue"
   }
 ]

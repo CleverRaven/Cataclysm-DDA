@@ -96,7 +96,7 @@
     "id": "t_traderwall_stone",
     "name": "masonry wall",
     "looks_like": "t_stone_masonry_wall_whitewashed",
-    "description": "A wall of carefully cut and laid stones, joined with mortar. The exterior has been finished with plaster and whitewashed.  You notice that it seems to have no scratches on it whatsoever.",
+    "description": "A wall of carefully cut and laid stones, joined with mortar.  The exterior has been finished with plaster and whitewashed.  You notice that it seems to have no scratches on it whatsoever.",
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
