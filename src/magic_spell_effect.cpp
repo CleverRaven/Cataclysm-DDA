@@ -47,6 +47,7 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
