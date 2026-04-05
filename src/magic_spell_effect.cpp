@@ -1453,8 +1453,8 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         const time_duration fertilizerEpoch = calendar::season_length() * ( static_cast<float>( sp.damage(
                 caster ) ) / 1000.0f );
 
-       const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-         return it.is_seed();
+        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.is_seed();
         } );
 
          if( seed == items.end() ) {
