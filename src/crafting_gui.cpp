@@ -1193,7 +1193,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
             // Practice recipes always show details
             bool show_details = uistate.crafting_expand_details || recp.is_practice();
             if( !recp.is_practice() ) {
-                const char *details_label = uistate.crafting_expand_details ? _( "- details -" ) : _( "+ details +" );
+                const char *details_label = uistate.crafting_expand_details ? _( "- details -" ) :
+                                            _( "+ details +" );
                 float btn_w = ImGui::CalcTextSize( details_label ).x;
                 float rgn_w = ImGui::GetContentRegionAvail().x;
                 ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( rgn_w - btn_w ) / 2.f );
