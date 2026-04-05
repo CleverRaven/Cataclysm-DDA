@@ -1449,9 +1449,9 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
             continue;
         }
         // Reduce the amount of time it takes until the next stage of the plant by
-        // the spell's damage (0.1% per damage point) relative to season length
+        // the spell's damage (1% per damage point) relative to season length
         const time_duration fertilizerEpoch = calendar::season_length() * ( static_cast<float>( sp.damage(
-                caster ) ) / 1000.0f );
+                caster ) ) / 100.0f );
 
         const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.is_seed();
@@ -1459,8 +1459,8 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
 
         if( seed == items.end() ) {
             debugmsg( "Missing seed for plant at %s", target.to_string() );
-            potential_target.i_clear( target );
-            potential_target.furn_set( target, furn_str_id::NULL_ID() );
+            here.i_clear( target );
+            here.furn_set( target, furn_str_id::NULL_ID() );
             return;
         }
 

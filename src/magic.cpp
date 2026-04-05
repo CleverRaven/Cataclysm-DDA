@@ -3102,7 +3102,7 @@ void spellcasting_callback::display_spell_info( size_t index )
             ImGui::Text( "%s: ", _( "Fertility Increase" ) );
             ImGui::SameLine( 0, 0 );
             ImGui::TextColored( c_light_green,
-                                "%s", sp.damage_string( pc ).c_str() );
+                                "%s percent of a season", sp.damage_string( pc ).c_str() );
         }
     } else if( sp.effect() == "spawn_item" ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
