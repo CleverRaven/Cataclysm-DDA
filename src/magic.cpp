@@ -3063,6 +3063,10 @@ void spellcasting_callback::display_spell_info( size_t index )
         }
     } else if( sp.effect() == "summon" ) {
         ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
+    } else if( sp.effect() == "fertilize_plant" ) {
+        ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
+    } else if( sp.effect() == "effect_on_condition" ) {
+        ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
     } else if( sp.effect() == "ter_transform" ) {
         ImGui::Text( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ).c_str() );
     } else if( sp.effect() == "banishment" ) {
