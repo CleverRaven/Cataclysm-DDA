@@ -1437,7 +1437,7 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
     for( const tripoint_bub_ms &tile : area ) {
 
         if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
-        continue;
+            continue;
         }
          // Can't use item_stack::only_item() since there might be fertilizer
         map_stack items = here.i_at( tile );
