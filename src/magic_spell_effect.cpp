@@ -1428,7 +1428,7 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
 }
 
 void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
-                                     const tripoint_bub_ms &target )
+                                    const tripoint_bub_ms &target )
 {
 
     std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
