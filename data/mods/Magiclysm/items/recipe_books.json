@@ -388,7 +388,7 @@
     "category": "manuals",
     "name": { "str": "Harnessing Hellfire", "str_pl": "copies of Harnessing Hellfire" },
     "description": "A detailed guide on how one could use otherworldly flames for crafting everlasting light sources.  Long considered outdated, now might be time for these methods to make a comeback.",
-    "weight": "400 g",
+    "weight": "160 g",
     "volume": "700 ml",
     "price": "60 USD",
     "material": [ "paper" ],
