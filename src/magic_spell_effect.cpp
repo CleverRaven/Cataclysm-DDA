@@ -77,7 +77,7 @@ class translation;
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const flag_id flag_FERTILIZER( "FERTILIZER" );
+static const flag_id json_flag_FERTILIZER( "FERTILIZER" );
 static const flag_id json_flag_FIT( "FIT" );
 
 static const itype_id itype_fertilizer( "fertilizer" );
@@ -1441,7 +1441,7 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         // Can't use item_stack::only_item() since there might be fertilizer
         map_stack items = here.i_at( tile );
         map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-            return it.has_flag( flag_FERTILIZER );
+            return it.has_flag( json_flag_FERTILIZER );
         }
                                                      );
         if( fertilizer != items.end() ) {

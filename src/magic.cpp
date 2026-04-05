@@ -3102,7 +3102,6 @@ void spellcasting_callback::display_spell_info( size_t index )
         }
     } else if( sp.effect() == "fertilize_plant" ) {
         if( damage > 0 ) {
-            int damage_to_percent = damage / 10;
             ImGui::Text( "%s: ", _( "Fertility Increase" ) );
             ImGui::SameLine( 0, 0 );
             ImGui::TextColored( c_light_green,
