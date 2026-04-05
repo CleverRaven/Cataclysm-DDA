@@ -2220,6 +2220,7 @@
     "name": "field stone wall",
     "looks_like": "t_rock_wall",
     "description": "A sturdy, dry stone wall.  Just rocks fitted together without mortar.",
+    "roof": "t_drystone_roof",
     "bash": {
       "str_min": 50,
       "str_max": 200,
