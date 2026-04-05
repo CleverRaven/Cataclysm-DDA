@@ -77,7 +77,10 @@ class translation;
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
+static const flag_id flag_FERTILIZER( "FERTILIZER" );
 static const flag_id json_flag_FIT( "FIT" );
+
+static const itype_id itype_fertilizer( "fertilizer" );
 
 static const json_character_flag
 json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
@@ -1422,6 +1425,59 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
     } else {
         veh.discharge_battery( here, -sp.damage( caster ), false );
     }
+}
+
+void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
+                                     const tripoint_bub_ms &target )
+{
+
+    std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+
+     for( const tripoint_bub_ms &potential_target : area ) {
+
+        ::map &potential_target = get_map();
+
+        if( !potential_target.has_flag_furn( ter_furn_flag::TFLAG_PLANT, target ) ) {
+        continue;
+        }
+         // Can't use item_stack::only_item() since there might be fertilizer
+        map_stack items = potential_target.i_at( target );
+        map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.has_flag( flag_FERTILIZER );
+        } 
+       );
+       if( fertilizer != items.end() ) {
+            continue;
+       }
+       // Reduce the amount of time it takes until the next stage of the plant by
+       // the spell's damage (0.1% per damage point) relative to season length
+       const time_duration fertilizerEpoch = calendar::season_length() * (static_cast<float>( sp.damage( caster ) ) / 1000.0f );
+
+       const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+         return it.is_seed();
+        } );
+
+         if( seed == items.end() ) {
+        debugmsg( "Missing seed for plant at %s", target.to_string() );
+        potential_target.i_clear( target );
+        potential_target.furn_set( target, furn_str_id::NULL_ID() );
+        return;
+        }
+
+        seed->set_birthday( seed->birthday() - fertilizerEpoch );
+        // The plant furniture has the NOITEM token which prevents adding items on that square,
+        // spawned items are moved to an adjacent field instead, but the fertilizer token
+        // must be on the square of the plant, therefore this hack:
+        const furn_id &old_furn = potential_target.furn( target );
+        potential_target.furn_set( target, furn_str_id::NULL_ID() );
+        potential_target.spawn_item( target, itype_fertilizer, 1, 1, calendar::turn );
+        potential_target.furn_set( target, old_furn );
+
+    }
+
+
+
+   
 }
 
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint_bub_ms &target )

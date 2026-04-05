@@ -3096,6 +3096,14 @@ void spellcasting_callback::display_spell_info( size_t index )
         if( sp.aoe( pc ) > 0 ) {
             ImGui::Text( "%s: %d", _( "Variance" ), sp.aoe( pc ) );
         }
+    } else if( sp.effect() == "fertilize_plant" ) {
+        if( damage > 0 ) {
+            int damage_to_percent = damage / 10;
+            ImGui::Text( "%s: ", _( "Fertility Increase" ) );
+            ImGui::SameLine( 0, 0 );
+            ImGui::TextColored( c_light_green,
+                                "%s", sp.damage_string( pc ).c_str() );
+        }
     } else if( sp.effect() == "spawn_item" ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             // todo: more user-friendly presentation
@@ -3465,6 +3473,9 @@ static void draw_spellbook_info( const spell_type &sp )
         has_damage_type = sp.min_damage.evaluate( d ) > 0 && sp.max_damage.evaluate( d ) > 0;
     } else if( fx == "spawn_item" || fx == "summon_monster" ) {
         damage_string = _( "Spawned" );
+    } else if ( fx == "fertilize_plant" ) {
+        damage_string = _( "Fertility Increase" );
+        aoe_string = _( "AoE" );
     } else if( fx == "targeted_polymorph" ) {
         damage_string = _( "Threshold" );
     } else if( fx == "recover_energy" ) {
