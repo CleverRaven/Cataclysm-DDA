@@ -1477,7 +1477,6 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
 
 
 
-   
 }
 
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
