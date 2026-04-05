@@ -440,7 +440,6 @@ class crafting_ui_impl : public cataimgui::window
         int manual_batch = 1;
         bool show_hidden = false;
         bool is_wide = false;
-        bool details_expanded = false;
         bool steps_expanded = true;
 
         // --- Scroll state ---
@@ -1191,16 +1190,15 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
         // Centered "Details" button that opens the modifier table
         if( !recp.is_nested() ) {
-            // details_expanded is a member variable, reset in invalidate_info_panels()
             // Practice recipes always show details
-            bool show_details = details_expanded || recp.is_practice();
+            bool show_details = uistate.crafting_expand_details || recp.is_practice();
             if( !recp.is_practice() ) {
-                const char *details_label = details_expanded ? _( "- details -" ) : _( "+ details +" );
+                const char *details_label = uistate.crafting_expand_details ? _( "- details -" ) : _( "+ details +" );
                 float btn_w = ImGui::CalcTextSize( details_label ).x;
                 float rgn_w = ImGui::GetContentRegionAvail().x;
                 ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( rgn_w - btn_w ) / 2.f );
                 if( nav_clickable( details_label, c_cyan ) ) {
-                    details_expanded = !details_expanded;
+                    uistate.crafting_expand_details = !uistate.crafting_expand_details;
                 }
             }
             if( show_details ) {
