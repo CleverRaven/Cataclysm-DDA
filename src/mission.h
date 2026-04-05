@@ -104,9 +104,6 @@ struct mission_start {
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
-    static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
-    static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
-    static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
 };
 
 // These functions are run when a mission ends
@@ -146,8 +143,6 @@ struct mission_target_params {
 namespace mission_util
 {
 tripoint_abs_omt random_house_in_closest_city();
-tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
-        mission *miss );
 bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                   overmapbuffer &omb );
 tripoint_abs_omt reveal_om_ter( tripoint_abs_omt origin, const std::string &omter, int reveal_rad,

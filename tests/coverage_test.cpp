@@ -156,7 +156,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 static float get_avg_bullet_dmg( const itype_id &clothing_id )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
                                            badguy_pos, std::vector<itype_id>(), 0, 8, 8, 8, 8 );
     std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",

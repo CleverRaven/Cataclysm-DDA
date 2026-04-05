@@ -63,7 +63,7 @@ $(PCH_P): $(PCH_H)
 TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
 
 $(TEST_BATCHES): $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex $@
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order lex --user-dir test_user_dir_$$$$ $@
 
 check: $(TEST_TARGET) $(TEST_BATCHES)
 

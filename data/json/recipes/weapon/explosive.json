@@ -198,6 +198,7 @@
     "tools": [
       [
         [ "welder", 20 ],
+        [ "welding_kit", 20 ],
         [ "welder_crude", 30 ],
         [ "integrated_welder", 30 ],
         [ "soldering_iron", 30 ],

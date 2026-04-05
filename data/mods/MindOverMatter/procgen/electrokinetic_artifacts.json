@@ -132,7 +132,7 @@
         "max_value": 30,
         "type": "LUMINATION",
         "increment": 5,
-        "power_per_increment": 50,
+        "power_per_increment": 25,
         "ench_has": "WIELD"
       },
       {
@@ -279,7 +279,7 @@
         "max_value": 30,
         "type": "LUMINATION",
         "increment": 5,
-        "power_per_increment": 50,
+        "power_per_increment": 25,
         "ench_has": "WIELD"
       },
       {

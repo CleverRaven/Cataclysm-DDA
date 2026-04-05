@@ -39,8 +39,10 @@
 struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+static const json_character_flag json_flag_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const trait_group::Trait_group_tag
 Trait_group_BG_survival_story_UNIVERSAL( "BG_survival_story_UNIVERSAL" );
+static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 
 namespace
 {
@@ -461,6 +463,30 @@ void profession::check_definition() const
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
+        }
+    }
+    if( !_starting_CBMs.empty() && !is_hobby() ) {
+        bool has_interface = false;
+        for( const trait_and_var &t : _starting_traits ) {
+            if( t.trait.is_valid() ) {
+                // Accept traits that cancel NO_CBM_INSTALLATION (e.g. CBM_Interface)
+                const std::vector<trait_id> &t_cancels = t.trait->cancels;
+                if( std::find( t_cancels.begin(), t_cancels.end(),
+                               trait_NO_CBM_INSTALLATION ) != t_cancels.end() ) {
+                    has_interface = true;
+                    break;
+                }
+                // Accept traits that have the NO_CBM_INSTALLATION flag themselves:
+                // the profession pre-installs CBMs but blocks future installation.
+                if( t.trait->flags.count( json_flag_NO_CBM_INSTALLATION ) ) {
+                    has_interface = true;
+                    break;
+                }
+            }
+        }
+        if( !has_interface ) {
+            debugmsg( "profession %s has starting CBMs but no trait that cancels "
+                      "NO_CBM_INSTALLATION (e.g. CBM_Interface)", id.c_str() );
         }
     }
 

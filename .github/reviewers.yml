@@ -27,6 +27,8 @@ files:
     - Maleclypse
   'data/mods/MindOverMatter/**':
     - Standing-Storm
+  'data/mods/Megacity/**':
+    - RenechCDDA
   'data/mods/innawood/**':
     - Light-Wave
   'data/mods/MA/**':

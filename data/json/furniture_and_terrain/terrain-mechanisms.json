@@ -1124,5 +1124,27 @@
       "success_msg": "You opened the door!",
       "redundant_msg": "The door is already open."
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_exodii_string_dimension",
+    "name": "keyhole",
+    "description": "An large keyhole attached to a physically toggled mechanism.",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "EXODII_STRING_DIMENSION_CARD" ],
+      "consume_card": false,
+      "allow_hacking": false,
+      "despawn_monsters": false,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_o" },
+      "query": true,
+      "query_msg": "The large plastic key looks like it will fit in this odd keyhole.  Use it?",
+      "success_msg": "The key fits in the lock with a soft, plasticky noise.  The door opens!",
+      "redundant_msg": "The door is already open."
+    }
   }
 ]

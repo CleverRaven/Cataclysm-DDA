@@ -31,7 +31,7 @@ see their info later in this document.
 | `forest_composition`     | `region_settings_forest_mapgen`     | Defines flora (and "stuff") that cover the `forest` terrain types.    |
 | `forest_trails`          | `region_settings_forest_trail`      | Defines the overmap and local structure of forest trails. `null` to disable. |
 | `highways`               | `region_settings_highway`           | Defines parameters for generating highways in the region. `null` to disable. |
-| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities. `null` to disable city generation. |
+| `cities`                 | `region_settings_city`              | Defines the structural compositions of cities. `"no_cities"` to disable city generation. |
 | `map_extras`             | `region_settings_map_extras`        | Defines the map extra groups referenced by overmap terrains.          |
 | `terrain_furniture`      | `region_settings_terrain_furniture` | Defines the resolution of regional terrain/furniture to actual types. |
 | `weather`                | `weather_generator`                 | Defines the base weather attributes for the region.                   |
@@ -444,14 +444,17 @@ relative placements of various classes of buildings.
 
 ### Fields
 
-|       Identifier        |                            Description                             |
-| ----------------------- | ------------------------------------------------------------------ |
-| `name_snippet`          | Snippet used to generate city names. Default is `<city_name>`.     |
-| `shop_radius`           | Radial frequency of shop placement. Smaller number = more shops.   |
-| `park_radius`           | Radial frequency of park placement. Smaller number = more parks.   |
-| `houses`                | Weighted list of overmap terrains and specials used for houses.    |
-| `parks`                 | Weighted list of overmap terrains and specials used for parks.     |
-| `shops`                 | Weighted list of overmap terrains and specials used for shops.     |
+|       Identifier       |                            Description                                        |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| `name_snippet`         | Snippet used to generate city names. Default is `<city_name>`.                |
+| `shop_radius`          | Radial frequency of shop placement. Smaller number = more shops.              |
+| `park_radius`          | Radial frequency of park placement. Smaller number = more parks.              |
+| `houses`               | Weighted list of overmap terrains and specials used for houses.               |
+| `parks`                | Weighted list of overmap terrains and specials used for parks.                |
+| `shops`                | Weighted list of overmap terrains and specials used for shops.                |
+| `city_size`            | Required Setting. Size of cities. Larger number = bigger cities. 0 = no cities. Range: 0 - 16   |
+| `city_spacing`         | Space between cities. Larger number = more space between cities. Range: 0 - 8 |
+| `is_megacity`          | Special flag to trigger special map generation. Generates a megacity.         |
 
 ### Placing shops, parks, and houses
 
@@ -466,6 +469,9 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 {
     "type": "region_settings_city",
     "id": "default",
+    "is_megacity": false,
+    "city_size": 8,
+    "city_spacing": 4,
     "shop_radius": 30,
     "shop_sigma": 50,
     "park_radius": 20,
@@ -556,10 +562,10 @@ See above.
 | ------------------------------ | --------------------------------------------------------------------- |
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
-| `base_pressure`                | Base pressure for the region in millibars.                            |
+| `base_pressure`                | Base pressure for the region in millibars.  Increasing it decreases the wind strength |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
-| `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `base_wind_season_variation`   | How the wind varies with season. Increases wind speed in the summer, decreases wind speed in the winter. Larger values amplify effects, negative values reverse effects.  |
 | `weather_black_list`           | Ids of weather types not allowed in this region.                      |
 | `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 

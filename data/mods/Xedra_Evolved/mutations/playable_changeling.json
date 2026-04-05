@@ -209,6 +209,7 @@
       }
     ],
     "flags": [ "HERITAGE", "NO_CBM_INSTALLATION" ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -228,6 +229,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -258,6 +260,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -288,6 +291,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {
@@ -318,6 +322,7 @@
         ]
       }
     ],
+    "cancels": [ "CHAOTIC", "CHAOTIC_BAD" ],
     "chargen_allow_npc": false
   },
   {

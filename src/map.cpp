@@ -83,6 +83,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
+#include "power_network.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "relic.h"
@@ -131,7 +132,9 @@ static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_gliding( "gliding" );
+static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_incorporeal( "incorporeal" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_slow_descent( "slow_descent" );
@@ -149,7 +152,6 @@ static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_PHASE_BACK( "PHASE_BACK" );
 static const flag_id json_flag_PLOWABLE( "PLOWABLE" );
-static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
@@ -170,15 +172,27 @@ static const itype_id
 itype_HEW_printout_data_cabin_reverb_dimension( "HEW_printout_data_cabin_reverb_dimension" );
 static const itype_id itype_HEW_printout_data_exodii( "HEW_printout_data_exodii" );
 static const itype_id itype_HEW_printout_data_highlands( "HEW_printout_data_highlands" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_home_cabin( "HEW_printout_data_inner_cabins_home_cabin" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_open_field( "HEW_printout_data_inner_cabins_open_field" );
+static const itype_id
+itype_HEW_printout_data_inner_cabins_warped_cabin( "HEW_printout_data_inner_cabins_warped_cabin" );
 static const itype_id itype_HEW_printout_data_labyrinth( "HEW_printout_data_labyrinth" );
 static const itype_id itype_HEW_printout_data_lixa( "HEW_printout_data_lixa" );
 static const itype_id itype_HEW_printout_data_monster_corpse( "HEW_printout_data_monster_corpse" );
 static const itype_id itype_HEW_printout_data_morgantown( "HEW_printout_data_morgantown" );
 static const itype_id itype_HEW_printout_data_physics_lab( "HEW_printout_data_physics_lab" );
+static const itype_id itype_HEW_printout_data_portal( "HEW_printout_data_portal" );
 static const itype_id itype_HEW_printout_data_portal_storm( "HEW_printout_data_portal_storm" );
 static const itype_id itype_HEW_printout_data_radiosphere( "HEW_printout_data_radiosphere" );
+static const itype_id itype_HEW_printout_data_spiral_mine( "HEW_printout_data_spiral_mine" );
 static const itype_id itype_HEW_printout_data_strange_temple( "HEW_printout_data_strange_temple" );
+static const itype_id
+itype_HEW_printout_data_string_dimension( "HEW_printout_data_string_dimension" );
 static const itype_id itype_HEW_printout_data_vitrified( "HEW_printout_data_vitrified" );
+static const itype_id
+itype_HEW_printout_data_void_spider_lair( "HEW_printout_data_void_spider_lair" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_mws_monster_corpse_weather_data( "mws_monster_corpse_weather_data" );
@@ -254,6 +268,7 @@ static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
+static const trap_str_id tr_portal( "tr_portal" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -328,6 +343,7 @@ void map::set_transparency_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).transparency_cache_dirty.set();
+        set_lightmap_cache_dirty_below( zlev );
     }
 }
 
@@ -336,6 +352,7 @@ void map::set_transparency_cache_dirty( const tripoint_bub_ms &p, bool field )
     if( inbounds( p ) ) {
         const tripoint_bub_sm smp = coords::project_to<coords::sm>( p );
         get_cache( smp.z() ).transparency_cache_dirty.set( smp.x() * MAPSIZE + smp.y() );
+        set_lightmap_cache_dirty_below( smp.z() );
         if( !field ) {
             get_creature_tracker().invalidate_reachability_cache();
         }
@@ -368,6 +385,7 @@ void map::set_outside_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).outside_cache_dirty = true;
+        set_lightmap_cache_dirty_below( zlev );
     }
 }
 
@@ -375,6 +393,23 @@ void map::set_floor_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_cache( zlev ).floor_cache_dirty = true;
+        set_lightmap_cache_dirty_below( zlev );
+    }
+}
+
+void map::set_lightmap_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).lightmap_dirty = true;
+    }
+}
+
+void map::set_lightmap_cache_dirty_below( const int zlev )
+{
+    for( int z = zlev; z >= -OVERMAP_DEPTH; z-- ) {
+        if( inbounds_z( z ) ) {
+            get_cache( z ).lightmap_dirty = true;
+        }
     }
 }
 
@@ -433,6 +468,7 @@ void map::invalidate_map_cache( const int zlev )
         ch.floor_cache_dirty = true;
         ch.seen_cache_dirty = true;
         ch.outside_cache_dirty = true;
+        ch.lightmap_dirty = true;
         set_transparency_cache_dirty( zlev );
     }
 }
@@ -707,6 +743,128 @@ void map::on_vehicle_moved( const int smz )
     set_pathfinding_cache_dirty( smz );
 }
 
+void map::resolve_off_map_grid_generation()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    std::unordered_set<vehicle *> resolved;
+
+    // Build set of in-bubble vehicles for fast membership check
+    std::unordered_set<vehicle *> in_bubble;
+    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+        const level_cache *cache = get_cache_lazy( zlev );
+        if( !cache ) {
+            continue;
+        }
+        in_bubble.insert( cache->vehicle_list.begin(), cache->vehicle_list.end() );
+    }
+
+    power_network_manager &pnm = g->power_networks();
+    pnm.begin_rebuild();
+
+    for( vehicle *veh : in_bubble ) {
+        if( resolved.count( veh ) ) {
+            continue;
+        }
+        std::map<vehicle *, float> grid = veh->search_connected_vehicles( *this );
+        bool has_off_map_renewables = false;
+        for( const auto &[grid_veh, loss] : grid ) {
+            resolved.insert( grid_veh );
+            if( !in_bubble.count( grid_veh ) &&
+                ( !grid_veh->solar_panels.empty() ||
+                  !grid_veh->wind_turbines.empty() ||
+                  !grid_veh->water_wheels.empty() ) ) {
+                has_off_map_renewables = true;
+            }
+        }
+
+        // Record every grid in the power network manager
+        pnm.add_grid( veh, grid );
+
+        if( !has_off_map_renewables ) {
+            continue;
+        }
+        // Process each off-map source individually so charge_battery()
+        // computes the correct cable loss path from that source.
+        for( const auto &[grid_veh, loss] : grid ) {
+            if( in_bubble.count( grid_veh ) ) {
+                continue;
+            }
+            int energy = grid_veh->catchup_off_map_renewables( calendar::turn );
+            if( energy > 0 ) {
+                grid_veh->charge_battery( *this, energy );
+            }
+        }
+    }
+
+    pnm.finish_rebuild();
+}
+
+void map::resolve_appliance_grid_power()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    std::unordered_set<vehicle *> resolved;
+
+    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+        const level_cache *cache = get_cache_lazy( zlev );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
+            if( !veh->is_appliance() ) {
+                continue;
+            }
+            if( resolved.count( veh ) ) {
+                continue;
+            }
+            bool has_power_disabled = false;
+            for( const vpart_reference &vp : veh->get_all_parts() ) {
+                if( vp.part().power_disabled ) {
+                    has_power_disabled = true;
+                    break;
+                }
+            }
+            if( !has_power_disabled ) {
+                continue;
+            }
+            // found a candidate -- resolve its entire grid
+            std::map<vehicle *, float> grid = veh->search_connected_vehicles( *this );
+            int total_charge = 0;
+            for( const auto &[grid_veh, loss] : grid ) {
+                total_charge += grid_veh->battery_power_level().first;
+            }
+            if( total_charge > 0 ) {
+                for( const auto &[grid_veh, loss] : grid ) {
+                    if( !grid_veh->is_appliance() ) {
+                        continue;
+                    }
+                    for( const vpart_reference &vp : grid_veh->get_all_parts() ) {
+                        vehicle_part &pt = vp.part();
+                        if( !pt.power_disabled ) {
+                            continue;
+                        }
+                        if( pt.is_unavailable() ) {
+                            pt.power_disabled = false;
+                            continue;
+                        }
+                        if( pt.enabled ) {
+                            // user re-enabled it manually, just clear the flag
+                            pt.power_disabled = false;
+                            continue;
+                        }
+                        pt.enabled = true;
+                        pt.power_disabled = false;
+                    }
+                }
+            }
+            for( const auto &[grid_veh, loss] : grid ) {
+                resolved.insert( grid_veh );
+            }
+        }
+    }
+}
+
 void map::vehmove()
 {
     // give vehicles movement points
@@ -774,6 +932,9 @@ void map::vehmove()
         veh_pair.first->recalculate_enchantment_cache();
         veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
+
+    resolve_off_map_grid_generation();
+    resolve_appliance_grid_power();
 
     // refresh vehicle zones for moved vehicles
     zone_manager::get_manager().cache_vzones( this );
@@ -1884,6 +2045,11 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
         set_seen_cache_dirty( p );
     }
 
+    if( old_f.light_emitted != new_f.light_emitted ||
+        old_f.light_color != new_f.light_color ) {
+        set_lightmap_cache_dirty( p.z() );
+    }
+
     if( old_f.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_f.has_flag(
             ter_furn_flag::TFLAG_INDOORS ) ) {
         set_outside_cache_dirty( p.z() );
@@ -1937,7 +2103,7 @@ bool map::can_move_furniture( const tripoint_bub_ms &pos, Character *you ) const
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    int adjusted_str = you->str_cur;
+    int adjusted_str = you->get_str();
     if( you->is_mounted() ) {
         auto *mons = you->mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
@@ -2370,6 +2536,11 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
             ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
+    }
+
+    if( old_t.light_emitted != new_t.light_emitted ||
+        old_t.light_color != new_t.light_color ) {
+        set_lightmap_cache_dirty( p.z() );
     }
 
     if( old_t.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_t.has_flag(
@@ -3233,6 +3404,25 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms 
            current_submap->get_furn( l ).obj().has_flag( flag );
 }
 
+bool map::on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const
+{
+    if( a.xy() != b.xy() ) {
+        return false;
+    }
+    const int dz = b.z() - a.z();
+    if( std::abs( dz ) != 1 ) {
+        return false;
+    }
+    const tripoint_bub_ms &lower = dz > 0 ? a : b;
+    const tripoint_bub_ms &upper = dz > 0 ? b : a;
+    if( has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, lower ) ||
+        has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, upper ) ) {
+        return false;
+    }
+    return has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) &&
+           has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper );
+}
+
 // End of 3D flags
 
 // returns 0 if not damageable
@@ -3464,6 +3654,76 @@ bool map::is_outside( const tripoint_bub_ms &p ) const
 
     const auto &outside_cache = get_cache_ref( p.z() ).outside_cache;
     return outside_cache[p.x()][p.y()];
+}
+
+bool map::is_roofed( const tripoint_bub_ms &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    // Walk upward through z-levels looking for any surface that blocks
+    // precipitation. The first blocking surface found means this tile is roofed.
+    for( int z = p.z() + 1; z <= OVERMAP_HEIGHT; ++z ) {
+        const tripoint_bub_ms check_pos( p.x(), p.y(), z );
+        const level_cache *cache = get_cache_lazy( z );
+
+        // Fast path: use floor_cache when it exists and is clean
+        if( cache && !cache->floor_cache_dirty ) {
+            if( cache->floor_cache[p.x()][p.y()] ) {
+                return true;
+            }
+            // Transparent floors (glass, ramps, grates) are marked as "no floor"
+            // in floor_cache but are physical surfaces that block precipitation
+            if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
+                return true;
+            }
+            // Water surfaces absorb precipitation before it reaches tiles below
+            if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
+                return true;
+            }
+            continue;
+        }
+
+        // Fallback: direct terrain/furniture/vehicle checks when cache is
+        // missing or dirty. Mirrors build_floor_cache semantics.
+
+        // TRANSPARENT_FLOOR checked first: blocks precipitation even when
+        // combined with vertical-transition flags like GOES_DOWN
+        if( has_flag_ter( ter_furn_flag::TFLAG_TRANSPARENT_FLOOR, check_pos ) ) {
+            return true;
+        }
+
+        const bool no_floor = has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, check_pos );
+        const bool goes_down = has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, check_pos );
+
+        if( !no_floor && !goes_down ) {
+            return true;
+        }
+
+        if( has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR_WATER, check_pos ) ) {
+            return true;
+        }
+
+        // SUN_ROOF_ABOVE on furniture at z-1 overrides no-floor at z
+        // (matching build_floor_cache which checks below_submap furniture)
+        const tripoint_bub_ms below_pos( p.x(), p.y(), z - 1 );
+        if( inbounds( below_pos ) &&
+            has_flag_furn( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE, below_pos ) ) {
+            return true;
+        }
+
+        // Check for vehicle roof/opaque parts at this level
+        const optional_vpart_position vp = veh_at( check_pos );
+        if( vp ) {
+            if( vp->part_with_feature( VPFLAG_ROOF, false ) ||
+                vp->part_with_feature( VPFLAG_OPAQUE, false ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool map::is_last_ter_wall( const bool no_furn, const point_bub_ms &p,
@@ -5253,6 +5513,9 @@ map_stack::iterator map::i_rem( const tripoint_bub_ms &p, const map_stack::const
     }
 
     current_submap->update_lum_rem( l, *it );
+    if( it->is_emissive() ) {
+        set_lightmap_cache_dirty( p.z() );
+    }
 
     return current_submap->get_items( l ).erase( it );
 }
@@ -5275,6 +5538,9 @@ void map::i_clear( const tripoint_bub_ms &p )
         return;
     }
 
+    if( current_submap->get_lum( l ) > 0 ) {
+        set_lightmap_cache_dirty( p.z() );
+    }
     current_submap->set_lum( l, 0 );
     current_submap->get_items( l ).clear();
 }
@@ -5577,18 +5843,7 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         new_item.active = true;
     }
 
-    if( new_item.is_map() && !new_item.has_var( "reveal_map_center" ) ) {
-        new_item.set_var( "reveal_map_center", get_abs( p ) );
-    }
-
-    std::list<item *> all_items = new_item.all_items_ptr();
-    all_items.emplace_back( &new_item );
-    for( item *it : all_items ) {
-        if( it->has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
-            !it->has_var( "spawn_location" ) ) {
-            it->set_var( "spawn_location", get_abs( p ) );
-        }
-    };
+    new_item.preserve_location( get_abs( p ) );
 
     if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
         new_item.activate();
@@ -5598,6 +5853,9 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
     invalidate_max_populated_zlev( p.z() );
 
     current_submap->update_lum_add( l, new_item );
+    if( new_item.is_emissive() ) {
+        set_lightmap_cache_dirty( p.z() );
+    }
 
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
     while( --copies > 0 ) {
@@ -5687,6 +5945,7 @@ void map::update_lum( item_location &loc, bool add )
     } else {
         current_submap->update_lum_rem( l, *target );
     }
+    set_lightmap_cache_dirty( loc.pos_bub( *this ).z() );
 }
 
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
@@ -5818,6 +6077,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             cur_veh.add_item( here, vp, item( itype_mws_weather_data, calendar::turn_zero ) );
             if( vpi.has_flag( VPFLAG_ADVANCED_MWS ) ) {
                 const tripoint_abs_omt veh_position = cur_veh.pos_abs_omt();
+                const tripoint_bub_ms veh_position_bub = cur_veh.pos_bub( here );
+                bool portal_nearby = false;
+                for( const tripoint_bub_ms &p : points_in_radius( veh_position_bub, 50 ) ) {
+                    if( here.tr_at( p ).id == tr_portal ) {
+                        portal_nearby = true;
+                        break;
+                    }
+                }
                 const tripoint_abs_omt closest_vitrified_farm = overmap_buffer.find_closest( veh_position,
                         "unvitrified_orchard", 10, false );
                 const tripoint_abs_omt closest_lixa = overmap_buffer.find_closest( veh_position, "LIXA_surface_1a",
@@ -5846,6 +6113,22 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         "cabin_3_reverberation_hint", 10, false );
                 const tripoint_abs_omt closest_monster_corpse = overmap_buffer.find_closest( veh_position,
                         "corpse_bowels_mid", 10, false );
+                const tripoint_abs_omt closest_spiral_mine = overmap_buffer.find_closest( veh_position,
+                        "mine_spiral_finale_s", 10, false );
+                const tripoint_abs_omt closest_string_dimension = overmap_buffer.find_closest( veh_position,
+                        "string_dimension_crossroads", 10, false );
+                const tripoint_abs_omt closest_void_spider_lair = overmap_buffer.find_closest( veh_position,
+                        "void_spider_lair", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_open_land = overmap_buffer.find_closest( veh_position,
+                        "inner_cabins", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_warped_cabin = overmap_buffer.find_closest(
+                            veh_position,
+                            "inner_cabins_warped_cabin_10", 10, false );
+                const tripoint_abs_omt closest_inner_cabins_home_cabin = overmap_buffer.find_closest( veh_position,
+                        "inner_cabins_cabin", 10, false );
+                if( portal_nearby ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_portal, calendar::turn_zero ) );
+                }
                 if( trig_dist( veh_position, closest_vitrified_farm ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_vitrified, calendar::turn_zero ) );
                 }
@@ -5886,6 +6169,27 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 if( trig_dist( veh_position, closest_radiosphere ) <= 10 ) {
                     cur_veh.add_item( here, vp, item( itype_HEW_printout_data_radiosphere, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_spiral_mine ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_spiral_mine, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_string_dimension ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_string_dimension, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_void_spider_lair ) <= 10 ) {
+                    cur_veh.add_item( here, vp, item( itype_HEW_printout_data_void_spider_lair, calendar::turn_zero ) );
+                }
+                if( trig_dist( veh_position, closest_inner_cabins_open_land ) <= 10 ) {
+                    if( trig_dist( veh_position, closest_inner_cabins_home_cabin ) <= 10 ) {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_home_cabin,
+                                                          calendar::turn_zero ) );
+                    } else if( trig_dist( veh_position, closest_inner_cabins_warped_cabin ) <= 10 ) {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_warped_cabin,
+                                                          calendar::turn_zero ) );
+                    } else {
+                        cur_veh.add_item( here, vp, item( itype_HEW_printout_data_inner_cabins_open_field,
+                                                          calendar::turn_zero ) );
+                    }
                 }
                 if( trig_dist( veh_position, closest_monster_corpse ) < 1 ) {
                     cur_veh.add_item( here, vp, item( itype_mws_monster_corpse_weather_data, calendar::turn_zero ) );
@@ -6598,6 +6902,21 @@ partial_con *map::partial_con_at( const tripoint_bub_ms &p )
 
 void map::partial_con_remove( const tripoint_bub_ms &p )
 {
+    partial_con_remove_impl( p );
+    memory_cache_dec_set_dirty( p, true );
+    avatar &player_character = get_avatar();
+    if( player_character.sees( *this, p ) ) {
+        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
+    }
+}
+
+void map::partial_con_remove_no_vision_for_testing( const tripoint_bub_ms &p )
+{
+    partial_con_remove_impl( p );
+}
+
+void map::partial_con_remove_impl( const tripoint_bub_ms &p )
+{
     if( !inbounds( p ) ) {
         return;
     }
@@ -6608,11 +6927,6 @@ void map::partial_con_remove( const tripoint_bub_ms &p )
         return;
     }
     current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
-    memory_cache_dec_set_dirty( p, true );
-    avatar &player_character = get_avatar();
-    if( player_character.sees( *this, p ) ) {
-        player_character.memorize_clear_decoration( get_abs( p ), "tr_" );
-    }
 }
 
 void map::partial_con_set( const tripoint_bub_ms &p, const partial_con &con )
@@ -6984,6 +7298,8 @@ void map::delete_field( const tripoint_bub_ms &p, const field_type_id &field_to_
         if( it->second.get_field_type() == field_to_remove ) {
             --current_submap->field_count;
             curfield.remove_field( it );
+            set_lightmap_cache_dirty( p.z() );
+            set_transparency_cache_dirty( p, true );
             break;
         }
     }
@@ -6998,11 +7314,14 @@ void map::clear_fields( const tripoint_bub_ms &p )
     point_sm_ms l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     current_submap->clear_fields( l );
+    set_lightmap_cache_dirty( p.z() );
+    set_transparency_cache_dirty( p, true );
 }
 
 void map::on_field_modified( const tripoint_bub_ms &p, const field_type &fd_type )
 {
     invalidate_max_populated_zlev( p.z() );
+    set_lightmap_cache_dirty( p.z() );
 
     get_cache( p.z() ).field_cache.set(
         static_cast<size_t>( p.x() / SEEX ) + ( ( p.y() / SEEX ) * MAPSIZE ) );
@@ -10153,6 +10472,48 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
             }
         }
     }
+    // Detect character/NPC light changes reactively.
+    // Covers equipment, effects, trade/dialogue mutations, and position changes.
+    {
+        struct char_light_state {
+            float light;
+            tripoint_bub_ms pos;
+            bool operator==( const char_light_state &o ) const {
+                return light == o.light && pos == o.pos;
+            }
+            bool operator!=( const char_light_state &o ) const {
+                return !( *this == o );
+            }
+        };
+        auto compute = []( const Character & ch ) -> char_light_state {
+            float light = ch.active_light();
+            if( ch.has_effect( effect_onfire ) )
+            {
+                light += 8.0f;
+            } else if( ch.has_effect( effect_haslight ) )
+            {
+                light += 4.0f;
+            }
+            return { light, ch.pos_bub() };
+        };
+
+        static std::vector<char_light_state> cached_char_lights;
+        std::vector<char_light_state> current_lights;
+        current_lights.push_back( compute( get_player_character() ) );
+        for( const npc &guy : g->all_npcs() ) {
+            current_lights.push_back( compute( guy ) );
+        }
+        if( current_lights != cached_char_lights ) {
+            for( const char_light_state &s : cached_char_lights ) {
+                set_lightmap_cache_dirty( s.pos.z() );
+            }
+            for( const char_light_state &s : current_lights ) {
+                set_lightmap_cache_dirty( s.pos.z() );
+            }
+            cached_char_lights = std::move( current_lights );
+        }
+    }
+
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }
@@ -11041,6 +11402,10 @@ void map::update_pathfinding_cache( const tripoint_bub_ms &p ) const
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
         !this->has_vehicle_floor( p ) ) {
         cur_value |= PathfindingFlag::DangerousTrap;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && !this->has_vehicle_floor( p ) ) {
+        cur_value |= PathfindingFlag::Air;
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {

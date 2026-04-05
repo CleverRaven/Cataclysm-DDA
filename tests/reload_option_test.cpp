@@ -29,7 +29,7 @@ static const itype_id itype_m134( "m134" );
 static const itype_id itype_sw_619( "sw_619" );
 static const itype_id itype_water_clean( "water_clean" );
 
-TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
+TEST_CASE( "revolver_reload_option", "[reload] [reload_option] [gun]" )
 {
     avatar dummy;
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -55,7 +55,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     CHECK( gun_speedloader_option.qty() == speedloader->ammo_capacity( gun_ammo_type ) );
 }
 
-TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
+TEST_CASE( "magazine_reload_option", "[reload] [reload_option] [gun]" )
 {
     avatar dummy;
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -74,7 +74,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
     CHECK( gun_option.qty() == 1 );
 }
 
-TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
+TEST_CASE( "belt_reload_option", "[reload] [reload_option] [gun]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -101,7 +101,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
     CHECK( gun_option.qty() == 1 );
 }
 
-TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
+TEST_CASE( "canteen_reload_option", "[reload] [reload_option] [liquid]" )
 {
     avatar dummy;
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );

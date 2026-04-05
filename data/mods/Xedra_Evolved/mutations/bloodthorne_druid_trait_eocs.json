@@ -170,7 +170,6 @@
           { "u_lose_trait": "VAMPIRE_HEALTH_BONUS" },
           { "u_lose_trait": "VAMPIRE_HEIGHTENED_S" },
           { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
-          { "u_lose_trait": "BLOODBANK" },
           { "u_lose_trait": "STAMINAFORBLOOD" },
           { "u_lose_trait": "COMMUNE_NIGHT" },
           { "u_lose_trait": "COAGULANTWEAVE" },

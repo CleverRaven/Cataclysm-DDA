@@ -91,7 +91,7 @@
       "type": "effect_on_conditions",
       "consume": true,
       "description": "You graft this organ onto your body replacing whatever was there before.",
-      "effect_on_conditions": [ "shade_hands" ]
+      "effect_on_conditions": [ "gracken_shade_hands" ]
     }
   },
   {

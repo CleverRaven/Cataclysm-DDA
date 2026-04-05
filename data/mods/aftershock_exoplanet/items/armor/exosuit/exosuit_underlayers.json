@@ -20,7 +20,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_standard_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -98,7 +98,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_combat_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -176,7 +176,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_eva_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {
@@ -222,7 +222,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "name": { "str": "exosuit EVA underlayer (on)", "str_pl": "exosuit EVA underlayers (on)" },
-    "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for hazardous environments and sacrifices mobility for extra protection.\n\nIts temperature control unit is active and drawing power from its own battery port.",
+    "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for EVA operation, offering protection against breaches.\n\nIts temperature control unit is active and drawing power from its own battery port.",
     "power_draw": "15432 mW",
     "warmth": 150,
     "revert_to": "afs_exo_eva_underlayer",
@@ -256,7 +256,7 @@
       "msg": "You activate your %s.",
       "target": "afs_exo_hazard_underlayer_on",
       "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "armor": [
       {

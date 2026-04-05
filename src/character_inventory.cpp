@@ -65,7 +65,6 @@
 #include "pocket_type.h"
 #include "profession.h"
 #include "ret_val.h"
-#include "safe_reference.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
 #include "translations.h"
@@ -1253,9 +1252,9 @@ bool Character::is_wielding( const item &target ) const
 
 bool Character::has_worn_module_with_flag( const flag_id &f )
 {
-    std::vector<item *> flag_items = cache_get_items_with( f );
+    std::vector<item_location> flag_items = cache_get_items_with( f );
     bool has_flag = std::any_of( flag_items.begin(), flag_items.end(),
-    [this]( item * i ) {
+    [this]( item_location & i ) {
         return is_worn_module( *i );
     } );
     return has_flag;
@@ -1919,34 +1918,34 @@ bool Character::can_use_collar() const
 }
 
 void Character::cache_visit_items_with( const itype_id &type,
-                                        const std::function<void( item & )> &do_func )
+                                        const std::function<void( item_location & )> &do_func )
 {
     cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const flag_id &type_flag,
-                                        const std::function<void( item & )> &do_func )
+                                        const std::function<void( item_location & )> &do_func )
 {
     cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                        const std::function<void( item & )> &do_func )
+                                        const std::function<void( item_location & )> &do_func )
 {
     cache_visit_items_with( key, {}, {}, filter_func, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
                                         const flag_id &type_flag, bool( item::*filter_func )() const,
-                                        const std::function<void( item & )> &do_func )
+                                        const std::function<void( item_location & )> &do_func )
 {
     // If the cache already exists, use it. Remove all invalid item references.
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
-        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+        inv_search_caches[key].items.end(), [&do_func]( item_location & it ) {
             if( it ) {
-                do_func( *it );
+                do_func( it );
                 return false;
             }
             return true;
@@ -1962,8 +1961,9 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
-                inv_search_caches[key].items.push_back( it->get_safe_reference() );
-                do_func( *it );
+                item_location cache_loc = form_loc_recursive( *this, *it );
+                inv_search_caches[key].items.push_back( cache_loc );
+                do_func( cache_loc );
             }
             return VisitResponse::NEXT;
         } );
@@ -1971,34 +1971,34 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
 }
 
 void Character::cache_visit_items_with( const itype_id &type,
-                                        const std::function<void( const item & )> &do_func ) const
+                                        const std::function<void( const item_location & )> &do_func ) const
 {
     cache_visit_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const flag_id &type_flag,
-                                        const std::function<void( const item & )> &do_func ) const
+                                        const std::function<void( const item_location & )> &do_func ) const
 {
     cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
-                                        const std::function<void( const item & )> &do_func ) const
+                                        const std::function<void( const item_location & )> &do_func ) const
 {
     cache_visit_items_with( key, {}, {}, filter_func, do_func );
 }
 
 void Character::cache_visit_items_with( const std::string &key, const itype_id &type,
                                         const flag_id &type_flag, bool( item::*filter_func )() const,
-                                        const std::function<void( const item & )> &do_func ) const
+                                        const std::function<void( const item_location & )> &do_func ) const
 {
     // If the cache already exists, use it. Remove all invalid item references.
     auto found_cache = inv_search_caches.find( key );
     if( found_cache != inv_search_caches.end() ) {
         inv_search_caches[key].items.erase( std::remove_if( inv_search_caches[key].items.begin(),
-        inv_search_caches[key].items.end(), [&do_func]( const safe_reference<item> &it ) {
+        inv_search_caches[key].items.end(), [&do_func]( const item_location & it ) {
             if( it ) {
-                do_func( *it );
+                do_func( it );
                 return false;
             }
             return true;
@@ -2014,8 +2014,9 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
-                inv_search_caches[key].items.push_back( it->get_safe_reference() );
-                do_func( *it );
+                item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), *it );
+                inv_search_caches[key].items.push_back( cache_loc );
+                do_func( cache_loc );
             }
             return VisitResponse::NEXT;
         } );
@@ -2071,7 +2072,8 @@ bool Character::cache_has_item_with( const std::string &key, const itype_id &typ
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
                 ( filter_func == nullptr || ( it->*filter_func )() ) ) {
 
-                inv_search_caches[key].items.push_back( it->get_safe_reference() );
+                item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), *it );
+                inv_search_caches[key].items.push_back( cache_loc );
                 // If check_func returns true, stop running it but keep populating the cache.
                 if( !aborted && check_func( *it ) ) {
                     aborted = true;
@@ -2100,66 +2102,69 @@ bool Character::cache_has_item_with_flag( const flag_id &type_flag, bool need_ch
     } );
 }
 
-std::vector<item *> Character::cache_get_items_with( const itype_id &type,
-        const std::function<bool( item & )> &do_and_check_func )
+std::vector<item_location> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( item_location & )> &do_and_check_func )
 {
     return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, do_and_check_func );
 }
 
-std::vector<item *> Character::cache_get_items_with( const flag_id &type_flag,
-        const std::function<bool( item & )> &do_and_check_func )
+std::vector<item_location> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( item_location & )> &do_and_check_func )
 {
     return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
                                  do_and_check_func );
 }
 
-std::vector<item *> Character::cache_get_items_with( const std::string &key,
+std::vector<item_location> Character::cache_get_items_with( const std::string &key,
         bool( item::*filter_func )() const,
-        const std::function<bool( item & )> &do_and_check_func )
+        const std::function<bool( item_location & )> &do_and_check_func )
 {
     return cache_get_items_with( key, {}, {}, filter_func, do_and_check_func );
 }
 
-std::vector<item *> Character::cache_get_items_with( const std::string &key, const itype_id &type,
+std::vector<item_location> Character::cache_get_items_with( const std::string &key,
+        const itype_id &type,
         const flag_id &type_flag, bool( item::*filter_func )() const,
-        const std::function<bool( item & )> &do_and_check_func )
+        const std::function<bool( item_location & )> &do_and_check_func )
 {
-    std::vector<item *> ret;
-    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &do_and_check_func]( item & it ) {
+    std::vector<item_location> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret,
+    &do_and_check_func]( item_location & it ) {
         if( do_and_check_func( it ) ) {
-            ret.push_back( &it );
+            ret.push_back( it );
         }
     } );
     return ret;
 }
 
-std::vector<const item *> Character::cache_get_items_with( const itype_id &type,
-        const std::function<bool( const item & )> &check_func ) const
+std::vector<item_location> Character::cache_get_items_with( const itype_id &type,
+        const std::function<bool( const item_location & )> &check_func ) const
 {
     return cache_get_items_with( "HAS TYPE " + type.str(), type, {}, nullptr, check_func );
 }
 
-std::vector<const item *> Character::cache_get_items_with( const flag_id &type_flag,
-        const std::function<bool( const item & )> &check_func ) const
+std::vector<item_location> Character::cache_get_items_with( const flag_id &type_flag,
+        const std::function<bool( const item_location & )> &check_func ) const
 {
     return cache_get_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
 }
 
-std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+std::vector<item_location> Character::cache_get_items_with( const std::string &key,
         bool( item::*filter_func )() const,
-        const std::function<bool( const item & )> &check_func ) const
+        const std::function<bool( const item_location & )> &check_func ) const
 {
     return cache_get_items_with( key, {}, {}, filter_func, check_func );
 }
 
-std::vector<const item *> Character::cache_get_items_with( const std::string &key,
+std::vector<item_location> Character::cache_get_items_with( const std::string &key,
         const itype_id &type, const flag_id &type_flag, bool( item::*filter_func )() const,
-        const std::function<bool( const item & )> &check_func ) const
+        const std::function<bool( const item_location & )> &check_func ) const
 {
-    std::vector<const item *> ret;
-    cache_visit_items_with( key, type, type_flag, filter_func, [&ret, &check_func]( const item & it ) {
+    std::vector<item_location> ret;
+    cache_visit_items_with( key, type, type_flag, filter_func, [&ret,
+    &check_func]( const item_location & it ) {
         if( check_func( it ) ) {
-            ret.push_back( &it );
+            ret.push_back( it );
         }
     } );
     return ret;
@@ -2176,14 +2181,15 @@ void Character::add_to_inv_search_caches( item &it ) const
 
         // If item is already in the cache, remove it so it can be re-added in its current state.
         for( auto iter = cache.second.items.begin(); iter != cache.second.items.end(); ) {
-            if( *iter && iter->get() == &it ) {
+            if( *iter && iter->get_item() == &it ) {
                 iter = inv_search_caches[cache.first].items.erase( iter );
             } else {
                 ++iter;
             }
         }
 
-        cache.second.items.push_back( it.get_safe_reference() );
+        item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), it );
+        cache.second.items.push_back( cache_loc );
     }
 }
 
@@ -2618,14 +2624,15 @@ void Character::process_items( map *here )
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&here]( item & it ) {
-        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining_linked( *here, nullptr ) ||
-                 ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
+    std::vector<item_location> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&here](
+    item_location & it ) {
+        return ( it->ammo_capacity( ammo_battery ) > it->ammo_remaining_linked( *here, nullptr ) ||
+                 ( it->type->battery && it->type->battery->max_capacity > it->energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
         units::energy ups_used = 0_kJ;
-        for( item * const &it : inv_use_ups ) {
+        for( item_location &it : inv_use_ups ) {
             // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
             if( it->is_power_armor() && can_interface_armor() && has_power() ) {
                 // Bionic power costs are handled elsewhere

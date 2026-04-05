@@ -105,13 +105,15 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rec
     printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
 }
 
-void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
+int FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
 {
     if( !surface ) {
         dbg( D_ERROR ) << "Tried to use a null surface";
-        return;
+        return -1;
     }
-    printErrorIf( SDL_FillRect( surface.get(), rect, color ) != 0, "SDL_FillRect failed" );
+    const int ret = SDL_FillRect( surface.get(), rect, color );
+    printErrorIf( ret != 0, "SDL_FillRect failed" );
+    return ret;
 }
 
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode )
@@ -192,6 +194,238 @@ SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int
                              Amask ) );
     throwErrorIf( !surface, "Failed to create surface" );
     return surface;
+}
+
+void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, const Uint8 alpha )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return;
+    }
+    printErrorIf( SDL_SetTextureAlphaMod( texture.get(), alpha ) != 0,
+                  "SDL_SetTextureAlphaMod failed" );
+}
+
+void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
+                   const SDL_Rect *const srcrect, const SDL_Rect *const dstrect,
+                   const double angle, const SDL_Point *const center,
+                   const SDL_RendererFlip flip )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to render to a null renderer";
+        return;
+    }
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to render a null texture";
+        return;
+    }
+    printErrorIf( SDL_RenderCopyEx( renderer.get(), texture, srcrect, dstrect, angle, center,
+                                    flip ) != 0,
+                  "SDL_RenderCopyEx failed" );
+}
+
+void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), rect ) != 0,
+                  "SDL_RenderSetClipRect failed" );
+}
+
+void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *const rect )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    SDL_RenderGetClipRect( renderer.get(), rect );
+}
+
+bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return false;
+    }
+    return SDL_RenderIsClipEnabled( renderer.get() ) == SDL_TRUE;
+}
+
+int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *const srcrect,
+                 const SDL_Surface_Ptr &dst, SDL_Rect *const dstrect )
+{
+    if( !src ) {
+        dbg( D_ERROR ) << "Tried to blit from a null surface";
+        return -1;
+    }
+    if( !dst ) {
+        dbg( D_ERROR ) << "Tried to blit to a null surface";
+        return -1;
+    }
+    return SDL_BlitSurface( src.get(), srcrect, dst.get(), dstrect );
+}
+
+Uint32 MapRGB( const SDL_Surface_Ptr &surface, const Uint8 r, const Uint8 g, const Uint8 b )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to map color on a null surface";
+        return 0;
+    }
+    return SDL_MapRGB( surface->format, r, g, b );
+}
+
+Uint32 MapRGBA( const SDL_Surface_Ptr &surface, const Uint8 r, const Uint8 g, const Uint8 b,
+                const Uint8 a )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to map color on a null surface";
+        return 0;
+    }
+    return SDL_MapRGBA( surface->format, r, g, b, a );
+}
+
+int SetColorKey( const SDL_Surface_Ptr &surface, const int flag, const Uint32 key )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set colorkey on a null surface";
+        return -1;
+    }
+    return SDL_SetColorKey( surface.get(), flag, key );
+}
+
+int SetSurfaceRLE( const SDL_Surface_Ptr &surface, const int flag )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set RLE on a null surface";
+        return -1;
+    }
+    return SDL_SetSurfaceRLE( surface.get(), flag );
+}
+
+int SetSurfaceBlendMode( const SDL_Surface_Ptr &surface, const SDL_BlendMode blendMode )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to set blend mode on a null surface";
+        return -1;
+    }
+    return SDL_SetSurfaceBlendMode( surface.get(), blendMode );
+}
+
+SDL_Surface_Ptr ConvertSurfaceFormat( const SDL_Surface_Ptr &surface, const Uint32 pixel_format )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to convert a null surface";
+        return SDL_Surface_Ptr();
+    }
+    SDL_Surface_Ptr result( SDL_ConvertSurfaceFormat( surface.get(), pixel_format, 0 ) );
+    printErrorIf( !result, "SDL_ConvertSurfaceFormat failed" );
+    return result;
+}
+
+int LockSurface( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to lock a null surface";
+        return -1;
+    }
+    return SDL_LockSurface( surface.get() );
+}
+
+void UnlockSurface( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to unlock a null surface";
+        return;
+    }
+    SDL_UnlockSurface( surface.get() );
+}
+
+Uint32 GetSurfacePixelFormat( const SDL_Surface_Ptr &surface )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to get pixel format of a null surface";
+        return 0;
+    }
+    // SDL3: surface->format is the enum directly (no intermediate struct).
+    return surface->format->format;
+}
+
+TTF_Font_Ptr OpenFontIndex( const char *const file, const int ptsize, const int64_t index )
+{
+    // NOLINTNEXTLINE(cata-no-long)
+    TTF_Font_Ptr result( TTF_OpenFontIndex( file, ptsize, static_cast<long>( index ) ) );
+    // Callers check the result and may call TTF_GetError themselves.
+    return result;
+}
+
+const char *FontFaceStyleName( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query style name of a null font";
+        return nullptr;
+    }
+    return TTF_FontFaceStyleName( font.get() );
+}
+
+int FontFaces( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query face count of a null font";
+        return 0;
+    }
+    return TTF_FontFaces( font.get() );
+}
+
+int FontHeight( const TTF_Font_Ptr &font )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to query height of a null font";
+        return 0;
+    }
+    return TTF_FontHeight( font.get() );
+}
+
+void SetFontStyle( const TTF_Font_Ptr &font, const int style )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to set style on a null font";
+        return;
+    }
+    TTF_SetFontStyle( font.get(), style );
+}
+
+SDL_Surface_Ptr RenderUTF8_Solid( const TTF_Font_Ptr &font, const char *const text,
+                                  const SDL_Color fg )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to render with a null font";
+        return SDL_Surface_Ptr();
+    }
+    return SDL_Surface_Ptr( TTF_RenderUTF8_Solid( font.get(), text, fg ) );
+}
+
+SDL_Surface_Ptr RenderUTF8_Blended( const TTF_Font_Ptr &font, const char *const text,
+                                    const SDL_Color fg )
+{
+    if( !font ) {
+        dbg( D_ERROR ) << "Tried to render with a null font";
+        return SDL_Surface_Ptr();
+    }
+    return SDL_Surface_Ptr( TTF_RenderUTF8_Blended( font.get(), text, fg ) );
+}
+
+bool CanRenderGlyph( const TTF_Font_Ptr &font, const Uint32 ch )
+{
+    if( !font ) {
+        return false;
+    }
+    // SDL2: TTF_GlyphIsProvided only takes Uint16, so clamp for now.
+    // SDL3_ttf will use Uint32 natively via glyph metrics.
+    if( ch > 0xFFFF ) {
+        return false;
+    }
+    return TTF_GlyphIsProvided( font.get(), static_cast<Uint16>( ch ) ) != 0;
 }
 #endif // defined(TILES)
 #endif // defined(TILES) || defined(SDL_SOUND)

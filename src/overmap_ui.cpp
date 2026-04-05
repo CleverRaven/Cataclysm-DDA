@@ -339,6 +339,8 @@ void overmap_sidebar::draw_debug()
 
     if( ( draw_data.debug_editor && center_vision != om_vision_level::unseen ) ||
         draw_data.debug_info ) {
+        draw_sidebar_text( string_format( "current dimension: %s",
+                                          g->get_dimension_prefix().empty() ? "default" : g->get_dimension_prefix() ), c_white );
         draw_sidebar_text( string_format( "abs_omt: %s", cursor_pos.to_string() ), c_white );
         const oter_t &oter = overmap_buffer.ter( cursor_pos ).obj();
         draw_sidebar_text( string_format( "oter: %s (rot %d)", oter.id.str(),
@@ -2237,7 +2239,7 @@ static tripoint_abs_omt display()
         } else if( action == "zoom_out" ) {
             g->zoom_out_overmap();
             ui->mark_resize();
-        } else  if( action == "zoom_in" ) {
+        } else if( action == "zoom_in" ) {
             g->zoom_in_overmap();
             ui->mark_resize();
         } else if( action == "CONFIRM" ) {
@@ -2538,7 +2540,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                                opts.sight_points ) || debug_horde ;
     const bool show_hordes = blink && opts.showhordes && can_see_horde;
     const int horde_size = show_hordes ? overmap_buffer.get_horde_size( omp,
-                           horde_map_flavors::active ) : 0;
+                           horde_map_flavors::active | horde_map_flavors::idle ) : 0;
 
     if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
@@ -2608,8 +2610,37 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = "&";
     } else if( horde_size >= HORDE_VISIBILITY_SIZE ) {
         // Display Hordes only when within player line-of-sight
-        ret.second = c_green;
-        ret.first = horde_size > 16 ? "Z" : "z";
+        if( horde_size < 5 ) {
+            ret.second = c_light_green;
+            ret.first = "z";
+        } else if( horde_size < 13 ) {
+            ret.second = c_light_green;
+            ret.first = "Z";
+        } else if( horde_size < 27 ) {
+            ret.second = c_green;
+            ret.first = "z";
+        } else if( horde_size < 47 ) {
+            ret.second = c_green;
+            ret.first = "Z";
+        } else if( horde_size < 73 ) {
+            ret.second = c_yellow;
+            ret.first = "z";
+        } else if( horde_size < 106 ) {
+            ret.second = c_yellow;
+            ret.first = "Z";
+        } else if( horde_size < 147 ) {
+            ret.second = c_light_red;
+            ret.first = "z";
+        } else if( horde_size < 195 ) {
+            ret.second = c_light_red;
+            ret.first = "Z";
+        } else if( horde_size < 251 ) {
+            ret.second = c_red;
+            ret.first = "z";
+        } else {
+            ret.second = c_red;
+            ret.first = "Z";
+        }
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );

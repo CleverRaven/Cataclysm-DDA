@@ -71,6 +71,61 @@
 
 template <typename T> struct enum_traits;
 
+// Reader for item qualities that accepts both legacy array ["CUT", 1] and
+// new object {"id": "CUT", "level": 1, "speed": 0.5} formats.
+// Produces std::pair<quality_id, itype::item_quality> for use with optional()
+// so that copy-from / extend / delete / proportional / relative all work.
+class item_quality_reader : public generic_typed_reader<item_quality_reader>
+{
+    public:
+        static constexpr bool read_objects = true;
+
+        std::pair<quality_id, itype::item_quality> get_next( const JsonValue &val ) const {
+            if( val.test_array() ) {
+                // Legacy: ["CUT", 1]
+                JsonArray arr = val.get_array();
+                if( arr.size() != 2 ) {
+                    arr.throw_error( "quality array must have exactly 2 entries [id, level]" );
+                }
+                return { quality_id( arr[0].get_string() ),
+                         itype::item_quality{ arr[1].get_int(), 1.0f } };
+            } else if( val.test_object() ) {
+                // New: {"id": "CUT", "level": 1, "speed": 0.5}
+                JsonObject obj = val.get_object();
+                quality_id qid( obj.get_string( "id" ) );
+                int level = obj.get_int( "level" );
+                float speed = obj.get_float( "speed", 1.0f );
+                if( speed <= 0.0f ) {
+                    obj.throw_error_at( "speed", "quality speed must be > 0" );
+                }
+                return { qid, itype::item_quality{ level, speed } };
+            } else if( val.test_string() ) {
+                // Bare string: "COOK" (used in "delete" context)
+                return { quality_id( val.get_string() ), itype::item_quality{ 0, 1.0f } };
+            } else if( val.is_member() ) {
+                // Map format: { "CUT": 1 }
+                const JsonMember &jm = dynamic_cast<const JsonMember &>( val );
+                return { quality_id( jm.name() ),
+                         itype::item_quality{ static_cast<int>( val.get_float() ), 1.0f } };
+            }
+            val.throw_error( "quality entry must be an array, object, or string" );
+        }
+
+        // Override relative_next to bypass the supports_relative<item_quality> trait
+        // which the PCH may evaluate before item_quality has operator+=.
+        // "relative" on qualities means add to level, leave speed unchanged.
+        template<typename C>
+        void relative_next( JsonValue &jv, C &container ) const {
+            auto parsed = get_next( jv );
+            auto iter = container.find( parsed.first );
+            if( iter == container.end() ) {
+                jv.throw_error( "relative: no existing quality to modify" );
+                return;
+            }
+            iter->second.level += parsed.second.level;
+        }
+};
+
 static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" );
@@ -340,7 +395,7 @@ void Item_factory::finalize_pre( itype &obj )
             var.alt_name = obj.name;
         };
         if( var.alt_description.empty() ) {
-            var.alt_description = obj.name;
+            var.alt_description = obj.description;
         }
     }
 
@@ -348,7 +403,7 @@ void Item_factory::finalize_pre( itype &obj )
     // if a method was already set the specific values remain unchanged
     for( const auto &q : obj.qualities ) {
         for( const auto &u : q.first.obj().usages ) {
-            if( q.second >= u.first ) {
+            if( q.second.level >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
@@ -359,7 +414,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     for( const auto &q : obj.charged_qualities ) {
         for( const auto &u : q.first.obj().usages ) {
-            if( q.second >= u.first ) {
+            if( q.second.level >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
                 // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
             }
@@ -837,9 +892,9 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
 
-        obj.qualities[qual_GUN] = std::max( obj.qualities[qual_GUN], 1 );
+        obj.qualities[qual_GUN].level = std::max( obj.qualities[qual_GUN].level, 1 );
         if( qual_gun_skill.is_valid() ) {
-            obj.qualities[qual_gun_skill] = std::max( obj.qualities[qual_gun_skill], 1 );
+            obj.qualities[qual_gun_skill].level = std::max( obj.qualities[qual_gun_skill].level, 1 );
         }
     }
 
@@ -931,13 +986,38 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Collect all explicitly-covered BPs across all armor portions
+    body_part_set all_explicit_covers;
+    for( const armor_portion_data &data : obj.armor->sub_data ) {
+        if( data.covers.has_value() ) {
+            all_explicit_covers.unify_set( data.covers.value() );
+        }
+    }
+
     // Tally up all the hard-defined similar BPs
     for( armor_portion_data &data : obj.armor->sub_data ) {
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
             for( const bodypart_str_id &bp : data.covers.value() ) {
                 for( const bodypart_str_id &combined : bp->get_all_combined_similar_bodyparts() ) {
-                    similar_bp.set( combined );
+                    // skip if already explicitly covered in any portion
+                    if( all_explicit_covers.test( combined ) ) {
+                        continue;
+                    }
+                    // skip if this similar BP bridges multiple portions:
+                    // its own similar BPs include explicit BPs from a different portion
+                    bool bridges_portions = false;
+                    for( const bodypart_str_id &sibling :
+                         combined->get_all_combined_similar_bodyparts() ) {
+                        if( all_explicit_covers.test( sibling ) &&
+                            !data.covers.value().test( sibling ) ) {
+                            bridges_portions = true;
+                            break;
+                        }
+                    }
+                    if( !bridges_portions ) {
+                        similar_bp.set( combined );
+                    }
                 }
             }
         }
@@ -959,13 +1039,36 @@ void Item_factory::finalize_post_armor( itype &obj )
         }
     }
 
+    // Collect all explicitly-covered sub-BPs across all armor portions
+    std::set<sub_bodypart_str_id> all_explicit_sub_covers;
+    for( const armor_portion_data &data : obj.armor->sub_data ) {
+        all_explicit_sub_covers.insert( data.sub_coverage.begin(), data.sub_coverage.end() );
+    }
+
+
     // Include similar sublimbs as well (after populating sub coverage)
     for( armor_portion_data &data : obj.armor->sub_data ) {
         std::set<sub_bodypart_str_id> similar_sbp;
         if( !data.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
                 for( const sub_bodypart_str_id &combined : sbp->get_all_combined_similar_sub_bodyparts() ) {
-                    similar_sbp.emplace( combined );
+                    // skip if already covered in any portion
+                    if( all_explicit_sub_covers.count( combined ) ) {
+                        continue;
+                    }
+                    // skip if this similar sub-BP bridges multiple portions
+                    bool bridges_portions = false;
+                    for( const sub_bodypart_str_id &sibling :
+                         combined->get_all_combined_similar_sub_bodyparts() ) {
+                        if( all_explicit_sub_covers.count( sibling ) &&
+                            !data.sub_coverage.count( sibling ) ) {
+                            bridges_portions = true;
+                            break;
+                        }
+                    }
+                    if( !bridges_portions ) {
+                        similar_sbp.emplace( combined );
+                    }
                 }
             }
         }
@@ -2228,19 +2331,11 @@ void Item_factory::check_definitions() const
             msg +=  "item has unknown ascii_picture.";
         }
 
-        int mag_pocket_number = 0;
         for( const pocket_data &data : type->pockets ) {
-            if( data.type == pocket_type::MAGAZINE ||
-                data.type == pocket_type::MAGAZINE_WELL ) {
-                mag_pocket_number++;
-            }
             std::string pocket_error = data.check_definition();
             if( !pocket_error.empty() ) {
                 msg += "problem with pocket: " + pocket_error;
             }
-        }
-        if( mag_pocket_number > 1 ) {
-            msg += "cannot have more than one pocket that handles ammo (MAGAZINE or MAGAZINE_WELL)\n";
         }
 
         if( !type->category_force.is_valid() ) {
@@ -2436,6 +2531,14 @@ void Item_factory::check_definitions() const
                                       type->default_container->c_str() );
             }
         }
+        if( !type->repairs_like.is_empty() && !has_template( type->repairs_like ) ) {
+            msg += string_format( "invalid repairs_like %s\n", type->repairs_like.c_str() );
+        }
+        if( type->source_monster != mtype_id::NULL_ID() &&
+            !type->source_monster.is_valid() ) {
+            msg += string_format( "invalid source_monster %s\n",
+                                  type->source_monster.c_str() );
+        }
 
         for( const auto &e : type->emits ) {
             if( !e.is_valid() ) {
@@ -2468,6 +2571,32 @@ void Item_factory::check_definitions() const
             static const std::set<std::string> allowed_ctypes = { "FOOD", "DRINK", "MED", "INVALID" };
             if( allowed_ctypes.count( type->comestible->comesttype ) == 0 ) {
                 msg += string_format( "Invalid comestible type %s\n", type->comestible->comesttype );
+            }
+            if( !type->comestible->cooks_like.is_empty() &&
+                !has_template( type->comestible->cooks_like ) ) {
+                msg += string_format( "invalid cooks_like %s\n",
+                                      type->comestible->cooks_like.c_str() );
+            }
+            if( !type->comestible->eats_like.is_empty() &&
+                !has_template( type->comestible->eats_like ) ) {
+                msg += string_format( "invalid eats_like %s\n",
+                                      type->comestible->eats_like.c_str() );
+            }
+            if( !type->comestible->smoking_result.is_null() &&
+                !type->comestible->smoking_result.is_empty() &&
+                !has_template( type->comestible->smoking_result ) ) {
+                msg += string_format( "invalid smoking_result %s\n",
+                                      type->comestible->smoking_result.c_str() );
+            }
+            if( type->comestible->rot_spawn.rot_spawn_monster != mtype_id::NULL_ID() &&
+                !type->comestible->rot_spawn.rot_spawn_monster.is_valid() ) {
+                msg += string_format( "invalid rot_spawn monster %s\n",
+                                      type->comestible->rot_spawn.rot_spawn_monster.c_str() );
+            }
+            if( type->comestible->rot_spawn.rot_spawn_group != mongroup_id::NULL_ID() &&
+                !type->comestible->rot_spawn.rot_spawn_group.is_valid() ) {
+                msg += string_format( "invalid rot_spawn group %s\n",
+                                      type->comestible->rot_spawn.rot_spawn_group.c_str() );
             }
         }
         if( type->brewable ) {
@@ -3413,6 +3542,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "freezing_point", freeze_point );
     optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{0_seconds} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
+    optional( jo, was_loaded, "eats_like", eats_like );
     optional( jo, was_loaded, "smoking_result", smoking_result, itype_id::NULL_ID() );
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
@@ -4199,9 +4329,8 @@ void itype::load( const JsonObject &jo, std::string_view src )
         }
     }
 
-    optional( jo, was_loaded, "qualities", qualities, weighted_string_id_reader<quality_id, int> {1} );
-    optional( jo, was_loaded, "charged_qualities", charged_qualities,
-              weighted_string_id_reader<quality_id, int> {1} );
+    optional( jo, was_loaded, "qualities", qualities, item_quality_reader {} );
+    optional( jo, was_loaded, "charged_qualities", charged_qualities, item_quality_reader {} );
 
     optional( jo, was_loaded, "properties", properties );
 

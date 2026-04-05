@@ -404,5 +404,22 @@
     "symbol": "7",
     "color": "yellow_red",
     "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
+  },
+  {
+    "id": "solar_cooker",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "parabolic solar cooker" },
+    "description": "A portable faceted reflector dish on a tripod, made of shaped metal panels that concentrate sunlight into a focal point for cooking.  Requires some assembly to set up and only works outdoors in strong direct sunlight.",
+    "weight": "14000 g",
+    "volume": "30 L",
+    "longest_side": "120 cm",
+    "price": "80 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "steel", "aluminum" ],
+    "symbol": ")",
+    "color": "yellow",
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 4 }
   }
 ]

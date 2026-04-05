@@ -573,6 +573,13 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return ch == nullptr || !ch->is_invisible();
     };
 
+    // Creatures underwater beneath a solid surface (walkway, ice) are hidden
+    // from non-underwater observers. Underwater observers can still see each other.
+    if( !is_likely_underwater( here ) && critter.is_underwater() &&
+        here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter_pos ) ) {
+        return false;
+    }
+
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( target_range <= 1 ) {
@@ -829,7 +836,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         bool maybe_boo = false;
         if( angle_iff ) {
             units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle diff = units::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {

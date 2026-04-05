@@ -1098,6 +1098,7 @@
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_NO_NEED_FOR_SLEEP",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BANISH_ILLNESS",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SUPER_HEAL",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_LIMB_RESTORE",
@@ -1183,6 +1184,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_blood_purge') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_blood_purge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_NO_NEED_FOR_SLEEP",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_no_need_for_sleep') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_no_need_for_sleep" } ]
   },
   {
     "type": "effect_on_condition",

@@ -50,7 +50,7 @@ Most distros seem to package essential build tools as either a single package (D
 
 Besides the essentials you will need `git`.
 
-If you plan on keeping up with experimentals you should also install `ccache`, which  will considerably speed-up partial builds.
+If you plan on keeping up with experimentals you should also install `ccache`, which will considerably speed-up partial builds.
 
 ## Dependencies
 
@@ -511,7 +511,7 @@ Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    brew install sdl2 sdl2_image sdl2_ttf
+    brew install pkgconfig freetype sdl2 sdl2_image sdl2_ttf
 
 with sound:
 
@@ -729,7 +729,7 @@ First, install g++, gmake, and libexecinfo from packages (g++ 4.8 or 4.9 should 
 
     pkg_add g++ gmake libexecinfo
 
-Then you should  be able to build with something like:
+Then you should be able to build with something like:
 
     CXX=eg++ gmake
 

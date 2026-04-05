@@ -942,6 +942,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SUMMON_MUSHROOMS",
+    "effect": [ { "u_cast_spell": { "id": "mag_summon_mushrooms", "min_level": 1 }, "targeted": false } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CALL_FORAGING_BEETLES",
     "//": "Consider changing this into a periodic for foraging in the area with randomized returns",
     "effect": [

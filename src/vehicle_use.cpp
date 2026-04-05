@@ -289,6 +289,12 @@ static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, cons
                 e.enabled = state;
             }
         }
+        map &here = get_map();
+        for( const vpart_reference &vp : found )
+        {
+            here.set_lightmap_cache_dirty( vp.pos_bub( here ).z() );
+            break;
+        }
     } );
 }
 
@@ -900,7 +906,8 @@ void vehicle::honk_horn( map &here ) const
 void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 {
     Character &player_character = get_player_character();
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = player_character.cache_get_items_with( "is_seed",
+                                          &item::is_seed );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), itype_id::NULL_ID(), _( "No seed" ), 0 );
@@ -1294,7 +1301,9 @@ bool vehicle::can_close( int part_index, Character &who )
                 if( doors::check_mon_blocking_door( who, abs_part_pos( parts[partID] ) ) ) {
                     return false;
                 }
-                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
+                if( parts[partID].has_fake &&
+                    parts[partID].fake_part_at < static_cast<int>( parts.size() ) &&
+                    parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -2139,7 +2148,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                     g->setremoteveh( nullptr );
                 } );
             } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
-                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                menu.add( engine_on ? colorize( _( "Turn off the engine" ), c_pink ) : _( "Turn on the engine" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
                 .on_submit( [this, here] {

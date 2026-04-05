@@ -140,6 +140,7 @@ static const json_character_flag json_flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR
 static const json_character_flag json_flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
+static const json_character_flag json_flag_BIONIC_REMOVABLE( "BIONIC_REMOVABLE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
@@ -364,6 +365,10 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
 
     optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
+    optional( jsobj, was_loaded, "activate_remove_cbm", activate_remove_cbm, false );
+    if( activate_remove_cbm ) {
+        activated_close_ui = true;
+    }
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
@@ -418,6 +423,7 @@ void bionic_data::load( const JsonObject &jsobj, std::string_view src )
     }
 
     activated = has_flag( json_flag_BIONIC_TOGGLED ) ||
+                has_flag( json_flag_BIONIC_REMOVABLE ) ||
                 has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
                 spell_on_activate ||
@@ -721,6 +727,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
+
 bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics_ui )
 {
     const bool mounted = is_mounted();
@@ -728,6 +735,31 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
                  bio.info().name );
         return false;
+    }
+
+    if( !eff_only && bio.info().activate_remove_cbm ) {
+        // Close bionics UI if caller requested it
+        if( close_bionics_ui ) {
+            *close_bionics_ui = true;
+        }
+
+        int difficulty = 12;
+        if( item::type_is_defined( bio.id->itype() ) ) {
+            const itype *type = item::find_type( bio.id->itype() );
+            if( type->bionic ) {
+                difficulty = type->bionic->difficulty;
+            }
+        }
+
+        const int success_positive = 1;
+        const int pl_skill_big = INT_MAX / 4;
+
+        perform_uninstall( bio, difficulty, success_positive, pl_skill_big );
+
+        bio_flag_cache.clear();
+        calc_encumbrance();
+
+        return true;
     }
 
     // eff_only means only do the effect without messing with stats or displaying messages
@@ -1096,7 +1128,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             bio.powered = g->remoteveh() != nullptr || maybe_get_value( "remote_controlling" );
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = cache_get_items_with( flag_CABLE_SPOOL );
+        std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL );
         bool has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
@@ -1104,7 +1136,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            for( const item *cable : cables ) {
+            for( const item_location &cable : cables ) {
                 if( cable->has_no_links() ) {
                     free_cable = true;
                 } else if( cable->link_has_states( link_state::no_link, link_state::bio_cable ) ) {
@@ -1175,6 +1207,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
     return true;
 }
+
 
 ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) const
 {
@@ -2019,7 +2052,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
 
     float pl_skill;
     if( skill_level == -1 ) {
-        pl_skill = int_cur                                  * 4 +
+        pl_skill = get_int()                                  * 4 +
                    get_greater_skill_or_knowledge_level( most_important_skill )  * 4 +
                    get_greater_skill_or_knowledge_level( important_skill )       * 3 +
                    get_greater_skill_or_knowledge_level( least_important_skill ) * 1;
@@ -3332,8 +3365,8 @@ std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::ups, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::ups, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return stored_fuels;
@@ -3364,8 +3397,8 @@ std::vector<item *> Character::get_cable_solar()
 {
     std::vector<item *> solar_sources;
 
-    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
-        return it.link_has_states( link_state::solarpack, link_state::bio_cable );
+    int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item_location & it ) {
+        return it->link_has_states( link_state::solarpack, link_state::bio_cable );
     } ).size();
     if( n == 0 ) {
         return solar_sources;
@@ -3394,11 +3427,11 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 {
     std::vector<vehicle *> remote_vehicles;
 
-    std::vector<const item *> cables = cache_get_items_with( flag_CABLE_SPOOL,
-    []( const item & it ) {
-        return it.link_has_state( link_state::bio_cable ) &&
-               ( it.link_has_state( link_state::vehicle_battery ) ||
-                 it.link_has_state( link_state::vehicle_port ) );
+    const std::vector<item_location> cables = cache_get_items_with( flag_CABLE_SPOOL,
+    []( const item_location & it ) {
+        return it->link_has_state( link_state::bio_cable ) &&
+               ( it->link_has_state( link_state::vehicle_battery ) ||
+                 it->link_has_state( link_state::vehicle_port ) );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3407,7 +3440,7 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
 
     map &here = get_map();
 
-    for( const item *cable : cables ) {
+    for( const item_location &cable : cables ) {
         if( cable->link().t_veh ) {
             remote_vehicles.emplace_back( cable->link().t_veh.get() );
         } else {

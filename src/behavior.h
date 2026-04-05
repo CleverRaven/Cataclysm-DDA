@@ -3,6 +3,7 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -24,6 +25,7 @@ enum class status_t : char { running, success, failure };
 struct behavior_return {
     status_t result;
     const node_t *selection;
+    float score = 0.0f;
 };
 
 // The behavior tree is (at least initially) intended to decide on a goal for a given subject.
@@ -69,6 +71,8 @@ class node_t
                             new_predicate, const std::string &argument = "", const bool &invert_result = false );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );
+        using score_type = std::function<float( const oracle_t *, std::string_view )>;
+        void set_score_function( const score_type &func, const std::string &argument = "" );
 
         // Loading interface.
         void load( const JsonObject &jo, std::string_view src );
@@ -84,6 +88,7 @@ class node_t
         status_t process_predicates( const oracle_t *subject ) const;
         // TODO: make into an ID?
         std::string _goal;
+        std::optional<std::pair<score_type, std::string>> score_function_;
 };
 
 // Deserialization support.

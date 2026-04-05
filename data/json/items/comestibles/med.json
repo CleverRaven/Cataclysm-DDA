@@ -5,7 +5,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "melatonin tablet" },
-    "description": "An over-the-counter melatonin supplement, commonly prescribed to treat sleep deprivation and to mitigate its effects.  One tablet a day combined with a good night's sleep will help you recover faster.",
+    "description": "An over-the-counter sleep hormone.  Melatonin can help you fall asleep faster and stay asleep longer.  Using it may help restore your sleep schedule, but you might wake up feeling groggy.",
     "material": [ "drug_filler" ],
     "weight": "1 g",
     "volume": "8 ml",
@@ -17,8 +17,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You pop a melatonin tablet.",
-      "effects": [ { "id": "melatonin", "duration": "16 h" } ]
+      "activation_message": "You take a melatonin tablet.",
+      "effects": [ { "id": "melatonin", "duration": "14 h" } ]
     }
   },
   {

@@ -376,6 +376,7 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "light_color": [ 255, 200, 200 ],
     "heat_radiation": 3,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],
@@ -645,6 +646,36 @@
     "connects_to": "WATER",
     "liquid_source": { "id": "water", "min_temp": 25 },
     "heat_radiation": 1,
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_interstice_mutagen_sh",
+    "name": "perfectly clear water",
+    "description": "A pool of what appears to be, in most respects, water.  However, it's so clear that you can barely perceive it unless in motion.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "mutagen_interstice", "min_temp": 2.2 },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_interstice_mutagen_pool",
+    "name": "perfectly clear water",
+    "description": "This is clearly a swimming pool, but it contains just a shallow layer of what appears to be, in most respects, water.  However, the liquid is so clear that you can barely perceive it unless in motion.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": [ "INDOORFLOOR", "WATER" ],
+    "connects_to": "WATER",
+    "liquid_source": { "id": "mutagen_interstice", "min_temp": 2.2 },
     "examine_action": "water_source"
   }
 ]

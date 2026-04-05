@@ -107,6 +107,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_clairsentience",
     "flags": [ "MATRIX_CRYSTAL_CLAIRSENTIENCE", "RELIC_PINK" ]
   },
@@ -155,6 +156,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_electrokinesis",
     "flags": [ "MATRIX_CRYSTAL_ELECTROKINESIS", "RELIC_PINK" ]
   },
@@ -203,6 +205,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_photokinesis",
     "flags": [ "MATRIX_CRYSTAL_PHOTOKINESIS", "RELIC_PINK" ]
   },
@@ -242,6 +245,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_pyrokinesis_artifact",
     "name": { "str_sp": "strange crystal, red" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing red light in its depths.  Holding it, you feel hot.",
@@ -250,6 +254,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_pyrokinesis",
     "flags": [ "MATRIX_CRYSTAL_PYROKINESIS", "RELIC_PINK" ]
   },
@@ -354,6 +359,22 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
+    "id": "matrix_crystal_teleportation_artifact",
+    "name": { "str_sp": "strange crystal, blue" },
+    "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing blue light in its depths.  Holding it, you feel more mobile.",
+    "color": "blue",
+    "symbol": "+",
+    "volume": "10 ml",
+    "weight": "150 g",
+    "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
+    "looks_like": "matrix_crystal_teleportation",
+    "flags": [ "MATRIX_CRYSTAL_TELEPORTATION", "RELIC_PINK" ]
+  },
+  {
+    "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "id": "matrix_crystal_vitakinesis",
     "name": { "str_sp": "strange crystal, green" },
@@ -388,6 +409,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "ARTIFACT" ],
+    "category": "artifacts",
     "id": "matrix_crystal_vitakinesis_artifact",
     "name": { "str_sp": "strange crystal, green" },
     "description": "A strange-looking, surprisingly-heavy crystal with a faintly-glowing green light in its depths.  Holding it, you feel healthier.",
@@ -396,6 +418,7 @@
     "volume": "10 ml",
     "weight": "150 g",
     "longest_side": "21 mm",
+    "material": [ "nether_crystal" ],
     "looks_like": "matrix_crystal_vitakinesis",
     "flags": [ "MATRIX_CRYSTAL_VITAKINESIS", "RELIC_PINK" ]
   },

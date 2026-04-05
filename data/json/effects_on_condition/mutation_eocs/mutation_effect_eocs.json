@@ -658,16 +658,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_insect_wings_shutoff",
-    "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "and": [ { "math": [ "u_val('stamina') < 3000" ] }, { "u_has_trait": "WINGS_INSECT_active" } ] },
-    "effect": [
-      { "u_activate_trait": "WINGS_INSECT_active" },
-      { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_social1_bonus",
     "recurrence": [ "10 minutes", "30 minutes" ],
     "//": "Alcohol and sedatives prevent the bad effects of these EOCs.  Antidepressants prevent (but don't remove) both the good and bad effects, keeping you at a baseline state.",

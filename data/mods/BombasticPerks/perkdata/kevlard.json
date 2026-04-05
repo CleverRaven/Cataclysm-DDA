@@ -1,0 +1,128 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_kevlard_obese",
+    "name": { "str": "Kevlard I" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "description": "You shouldn't see this; provides integrated armor while Obese for kevlard perk.",
+    "integrated_armor": [ "integrated_kevlard_obese" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_kevlard_veryobese",
+    "name": { "str": "Kevlard II" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "description": "You shouldn't see this; provides integrated armor while Very Obese for kevlard perk.",
+    "integrated_armor": [ "integrated_kevlard_veryobese" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_kevlard_morbidlyobese",
+    "name": { "str": "Kevlard III" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "description": "You shouldn't see this; provides integrated armor while Morbidly Obese for kevlard perk.",
+    "integrated_armor": [ "integrated_kevlard_morbidlyobese" ]
+  },
+  {
+    "id": "integrated_kevlard_obese",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "kevlard I" },
+    "description": "Your fat protects you from bullets, a little.  Maybe eat more.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "hflesh", "kevlar_layered" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "//": "No encumbrance, obesity penalties already account for it",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "SOFT", "ZERO_WEIGHT", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 2.2, "ignore_sheet_thickness": true }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_kevlard_veryobese",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "kevlard II" },
+    "description": "Your fat protects you from bullets, but there's still room for improvement.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "hflesh", "kevlar_layered" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "//": "No encumbrance, obesity penalties already account for it",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "SOFT", "ZERO_WEIGHT", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3, "ignore_sheet_thickness": true }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  },
+  {
+    "id": "integrated_kevlard_morbidlyobese",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "kevlard III" },
+    "description": "Your substantial fat deflects bullets with ease.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "hflesh", "kevlar_layered" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "//": "No encumbrance, obesity penalties already account for it",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "SOFT", "ZERO_WEIGHT", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 7.5 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4, "ignore_sheet_thickness": true }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 0,
+        "breathability": "SECOND_SKIN"
+      }
+    ]
+  }
+]

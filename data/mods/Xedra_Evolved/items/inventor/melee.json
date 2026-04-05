@@ -43,7 +43,7 @@
       "msg": "You turn on the chainsaw spear.",
       "type": "transform",
       "need_charges": 1,
-      "need_charges_msg": "The chainsaw spear battery is dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "techniques": [ "SWEEP", "IMPALE", "SPIN" ],
     "flags": [
@@ -147,7 +147,7 @@
       "msg": "You turn on your \"Neon Angle\".",
       "type": "transform",
       "need_charges": 1,
-      "need_charges_msg": "The \"Neon Angle\" battery is dead."
+      "need_charges_msg": "The batteries are dead."
     },
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP", "PLASMA_AXE_WIDE" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "MUNDANE", "INVENTOR_CRAFTED" ],

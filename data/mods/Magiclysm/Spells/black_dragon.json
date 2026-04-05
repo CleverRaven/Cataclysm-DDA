@@ -41,7 +41,7 @@
     "name": "Acid Bite",
     "description": "Your maw drips with acid as you make a bite attack.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "LOUD" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "TOUCH_REQUIRED", "LOUD" ],
     "spell_class": "NONE",
     "effect": "attack",
     "effect_str": "dragon_acidburn",

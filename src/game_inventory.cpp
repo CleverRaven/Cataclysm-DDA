@@ -1734,7 +1734,7 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
         inv_title += _( " which device" ) + used_device_name;
         select_one_edevice.set_title( inv_title );
         if( select_one_edevice.empty() ) {
-            popup( std::string( _( "You have no eligible devices to " + action_name + "." ) ), PF_GET_KEY );
+            popup( string_format( _( "You have no eligible devices to %s." ), action_name ), PF_GET_KEY );
             return drop_locations();
         }
         drop_locations returned_device;
@@ -1744,13 +1744,14 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
         }
         return returned_device;
     } else {
-        inventory_multiselector inv_s( who, preset, _( "Select devices to " + action_name ) );
+        inventory_multiselector inv_s( who, preset, string_format( _( "Select devices to %s" ),
+                                       action_name ) );
         inv_s.add_character_items( who );
         inv_s.add_nearby_items( PICKUP_RANGE );
         inv_title += _( " which devices" ) + used_device_name;
         inv_s.set_title( inv_title );
         if( inv_s.empty() ) {
-            popup( std::string( _( "You have no eligible devices to " + action_name + "." ) ), PF_GET_KEY );
+            popup( string_format( _( "You have no eligible devices to %s." ), action_name ), PF_GET_KEY );
             return drop_locations();
         }
         return inv_s.execute();

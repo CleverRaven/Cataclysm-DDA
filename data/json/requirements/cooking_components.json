@@ -1154,6 +1154,23 @@
     ]
   },
   {
+    "id": "sweet_fruit_like_no_pulp",
+    "type": "requirement",
+    "//": "Similar to sweet_fruit_like, but removes Juice_pulp to prevent infinte recycling.",
+    "components": [
+      [
+        [ "sweet_fruit", 1, "LIST" ],
+        [ "lemon", 1 ],
+        [ "apple_canned", 1 ],
+        [ "apple_sugar", 1 ],
+        [ "dry_fruit", 1 ],
+        [ "can_peach", 1 ],
+        [ "rehydrated_fruit", 1 ],
+        [ "rhubarb", 2 ]
+      ]
+    ]
+  },
+  {
     "id": "veggy_green",
     "type": "requirement",
     "//": "anything you would consider a leafy green vegetable",

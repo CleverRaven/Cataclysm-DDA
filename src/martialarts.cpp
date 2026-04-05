@@ -1114,24 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+        dump += string_format( _( "* Can dodge <good>%d</good> extra times per turn" ),
                                dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
-                               dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>%d</bad> fewer times per turn" ),
+                               std::abs( dodges_bonus ) ) + "\n";
     }
 
     if( free_dodges > 0 ) {
-        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+        dump += string_format( _( "* <good>%d</good> dodges each turn will not consume stamina" ),
                                free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+        dump += string_format( _( "* Can block <good>%d</good> extra times per turn" ),
                                blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
-                               blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>%d</bad> fewer times per turn" ),
+                               std::abs( blocks_bonus ) ) + "\n";
     }
 
     if( quiet ) {
@@ -1439,9 +1439,9 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
     // If we have any items that also provide techniques
-    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+    const std::vector<item_location> tech_providing_items = u.cache_get_items_with(
                 json_flag_PROVIDES_TECHNIQUES );
-    for( const item *it : tech_providing_items ) {
+    for( const item_location &it : tech_providing_items ) {
         const std::set<matec_id> &item_techs = it->get_techniques();
         tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
     }

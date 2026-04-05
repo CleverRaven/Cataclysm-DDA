@@ -6,9 +6,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Unholy Devastation" },
-    "description": "You gain additional strength when smashing terrain when you have Vigor Mortis active."
+    "description": "Your ability to smash inanimate objects increases when you have Vigor Mortis active."
   },
   {
     "type": "mutation",
@@ -17,7 +17,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Zephyr" },
     "description": "You can run across water when you have Blood-driven Speed active."
   },
@@ -28,7 +28,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Flesh of Marble" },
     "description": "The first attack after activating Sanguine Resilience does no damage."
   },
@@ -39,7 +39,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Soulsight" },
     "description": "You can see invisible creatures.",
     "flags": [ "TRUE_SEEING" ]
@@ -51,7 +51,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Corpse's Torpor" },
     "description": "You gain some of Torpor's benefits while using Corpse's Countenance and benefit from the effects of Corpse's countenance while in torpor."
   },
@@ -62,7 +62,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Carmine Clarity" },
     "description": "The bonuses gained from Carmine Vitality also apply to your intelligence and perception."
   },
@@ -73,7 +73,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Shape of the Night Fliers' Swarm" },
     "description": "Your hit points aren't reduced while in bat form."
   },
@@ -84,7 +84,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "player_display": false,
+    "player_display": true,
     "name": { "str": "Incarnadine Relentlessness" },
     "description": "You gain a temporary stackable cardio boost when using Unholy Endurance."
   }

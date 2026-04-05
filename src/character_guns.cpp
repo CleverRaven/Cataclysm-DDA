@@ -104,10 +104,10 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } );
 }
 
-std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+std::vector<item_location> Character::get_ammo( const ammotype &at ) const
 {
-    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item & it ) {
-        return it.ammo_type() == at;
+    return cache_get_items_with( "is_ammo", &item::is_ammo, [at]( const item_location & it ) {
+        return it->ammo_type() == at;
     } );
 }
 
@@ -115,9 +115,29 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
 {
     map &here = get_map();
 
-    std::vector<item_location> res;
+    std::vector<item_location> res = cache_get_items_with( "is_ammo",
+    &item::is_ammo, [&obj]( const item_location & it ) {
+        return obj.can_reload_with( *it, true );
+    } );
 
-    find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
+    std::vector<item_location> mag_locs = cache_get_items_with( "is_magazine",
+    &item::is_magazine, [&obj, &empty]( const item_location & it ) {
+        if( &obj == &*it ) {
+            return false;
+        }
+        if( it.parent_item() && &*it == it.parent_item()->magazine_current() ) {
+            return false;
+        }
+        if( !it->ammo_remaining() && !empty ) {
+            return false;
+        }
+        if( it->has_flag( flag_SPEEDLOADER ) && ( !it->ammo_remaining() || !obj.magazine_integral() ) ) {
+            return false;
+        }
+        return obj.can_reload_with( *it, true );
+    } );
+
+    res.insert( res.end(), mag_locs.begin(), mag_locs.end() );
 
     if( radius >= 0 ) {
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {

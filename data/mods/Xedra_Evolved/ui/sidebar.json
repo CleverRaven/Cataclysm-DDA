@@ -8,6 +8,7 @@
   {
     "clauses": [
       { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels" },
+      { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "id": "content", "widgets": "vampire_blood_levels" },
       { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_meter" }
     ],
     "default_clause": { "widgets": "blood_ruach_blank_line" },
@@ -20,6 +21,7 @@
   {
     "clauses": [
       { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels_numbers" },
+      { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "id": "content", "widgets": "vampire_blood_levels" },
       { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_numbers" }
     ],
     "default_clause": { "widgets": "blood_ruach_blank_line" },
@@ -32,6 +34,7 @@
   {
     "clauses": [
       { "condition": { "u_has_effect": "vampire_virus" }, "id": "content", "widgets": "vampire_blood_levels_graph" },
+      { "condition": { "u_has_trait": "DHAMPIR_TRAIT" }, "id": "content", "widgets": "vampire_blood_levels" },
       { "condition": { "u_has_trait": "LILIN_TRAITS" }, "id": "content", "widgets": "ruach_counter_graph" }
     ],
     "default_clause": { "widgets": "blood_ruach_blank_line" },

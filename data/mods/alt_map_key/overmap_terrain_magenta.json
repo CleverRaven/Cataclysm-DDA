@@ -208,6 +208,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "robofac_strip_mall_x0y0", "robofac_strip_mall_x1y0", "robofac_strip_mall_x2y0", "robofac_strip_mall_x3y0" ],
+    "copy-from": "robofac_strip_mall_x0y0",
+    "name": "strip mall",
+    "sym": "S",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofac_strip_mall_roof_1", "robofac_strip_mall_roof_2", "robofac_strip_mall_roof_3", "robofac_strip_mall_roof_4" ],
+    "copy-from": "robofac_strip_mall_roof_1",
+    "name": "strip mall roof",
+    "sym": "S",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
     "copy-from": "craft_shop",
     "name": "craft shop",

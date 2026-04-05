@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_UI_EXTENDED_DESCRIPTION_H
 #define CATA_SRC_UI_EXTENDED_DESCRIPTION_H
 
-#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -19,8 +18,7 @@ enum class description_target : int {
     num_targets
 };
 
-void draw_extended_description( const std::vector<std::string> &description, uint64_t width,
-                                cataimgui::scroll &s );
+void draw_extended_description( const std::vector<std::string> &description, cataimgui::scroll &s );
 
 class extended_description_window : public cataimgui::window
 {

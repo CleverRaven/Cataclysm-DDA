@@ -687,7 +687,6 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "fruit_allergen", 1 ] ],
     "brew_time": "14 days",
     "brew_results": [ "vinegar" ]

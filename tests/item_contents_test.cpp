@@ -32,7 +32,7 @@ TEST_CASE( "item_contents" )
 {
     map &here = get_map();
 
-    clear_map();
+    clear_map_without_vision();
     item tool_belt( itype_test_tool_belt );
 
     const units::volume tool_belt_vol = tool_belt.volume();
@@ -102,7 +102,7 @@ TEST_CASE( "item_contents" )
 
 TEST_CASE( "overflow_on_combine", "[item]" )
 {
-    clear_map();
+    clear_map_without_vision();
     tripoint_bub_ms origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
@@ -119,7 +119,7 @@ TEST_CASE( "overflow_on_combine", "[item]" )
 
 TEST_CASE( "overflow_test", "[item]" )
 {
-    clear_map();
+    clear_map_without_vision();
     tripoint_bub_ms origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
@@ -133,7 +133,7 @@ TEST_CASE( "overflow_test_into_parent_item", "[item]" )
 {
     map &here = get_map();
 
-    clear_map();
+    clear_map_without_vision();
     tripoint_bub_ms origin{ 60, 60, 0 };
     item jar( itype_jar_glass_sealed );
     item pickle( itype_pickle );

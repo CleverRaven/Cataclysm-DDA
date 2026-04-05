@@ -315,7 +315,7 @@
     "copy-from": "afs_atomic_smartphone_flashlight",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
-    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Executive's smartphones - Flashlight" },
+    "name": { "str": "Wraitheon executive's smartphone - Flashlight", "str_pl": "Wraitheon executive's smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": [
       "PORTABLE_GAME",
@@ -540,7 +540,7 @@
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
         "need_charges": 1,
-        "need_charges_msg": "The laptop's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -600,9 +600,8 @@
       {
         "target": "vr_laptop_holosuite",
         "msg": "The holosuite comes to life around you.",
-        "menu_text": "power on holosuite",
         "need_charges": 1,
-        "need_charges_msg": "The laptop's batteries need more charge.",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       }
     ],
@@ -758,8 +757,8 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "category": "tools",
-    "name": { "str": "infolink jack" },
-    "description": "The interface jack of an implanted infolink, coiled within your forearm and accessible through a small port in your wrist.  It can be used to interface and hack into electronic devices.",
+    "name": { "str": "Infolink jack" },
+    "description": "The interface jack of an implanted Infolink, coiled within your forearm and accessible through a small port in your wrist.  It can be used to interface and hack into electronic devices.",
     "weight": "20 g",
     "volume": "2 ml",
     "price": "1 USD",

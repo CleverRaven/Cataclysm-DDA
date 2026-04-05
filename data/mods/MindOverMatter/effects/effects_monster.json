@@ -475,14 +475,16 @@
     "remove_message": "The feeling of weakness fades away.",
     "rating": "bad",
     "max_duration": "18 hours",
-    "base_mods": {
-      "str_mod": [ -2 ],
-      "h_mod_min": [ -2 ],
-      "h_mod_chance": [ 1 ],
-      "h_mod_chance_bot": [ 4 ],
-      "h_mod_tick": [ 500 ],
-      "healing_rate": [ 0.5 ]
-    },
+    "base_mods": { "str_mod": [ -2 ], "h_mod_min": [ -2 ], "h_mod_chance": [ 1 ], "h_mod_chance_bot": [ 4 ], "h_mod_tick": [ 500 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_STAMINA", "multiply": -0.15 }
+        ]
+      }
+    ],
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },
   {
@@ -500,9 +502,17 @@
       "h_mod_min": [ -3 ],
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 4 ],
-      "h_mod_tick": [ 300 ],
-      "healing_rate": [ 0.25 ]
+      "h_mod_tick": [ 300 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -0.8 },
+          { "value": "REGEN_STAMINA", "multiply": -0.3 }
+        ]
+      }
+    ],
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },
   {

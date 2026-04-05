@@ -742,7 +742,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 },
+        "sealed_data": { "spoil_multiplier": 0.0 },
         "moves": 400
       }
     ],
@@ -5064,7 +5064,7 @@
     "price": "15 USD",
     "price_postapoc": "50 cent",
     "material": [ "wood" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -5094,7 +5094,7 @@
     "price": "30 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "looks_like": "clay_canister",
+    "looks_like": "ceramic_mug",
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [

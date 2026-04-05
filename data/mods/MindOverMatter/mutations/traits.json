@@ -277,11 +277,11 @@
     "purifiable": false,
     "enchantments": [
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
       },
       {
-        "condition": { "not": "u_has_weapon" },
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "not": { "u_has_flag": "NO_PSIONICS" } } ] },
         "melee_damage_bonus": [ { "type": "bash", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
       }
     ]
@@ -361,5 +361,16 @@
     "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
     "valid": false,
     "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_CBM_INTERFACE",
+    "name": { "str": "Tonallichicahualizmeya" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "cancels": [ "NO_CBM_INSTALLATION" ]
   }
 ]

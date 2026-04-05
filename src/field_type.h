@@ -13,6 +13,8 @@
 #include <utility>
 #include <vector>
 
+#include "lightmap.h"
+
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -64,7 +66,7 @@ struct field_immunity_data {
 
 struct field_effect {
     efftype_id id;
-    std::vector<std::pair<efftype_id, mod_id>> src;
+    std::vector<std::pair<efftype_id, mod_id>> src; // NOLINT(cata-serialize)
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
@@ -93,6 +95,8 @@ struct field_effect {
         return effect( effect_source::empty(), &id.obj(), get_duration(), bp, false, intensity,
                        start_time );
     }
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct field_intensity_level {
@@ -114,6 +118,7 @@ struct field_intensity_level {
     int monster_spawn_radius = 0;
     mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
+    light_color_rgb light_color;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
     int concentration = 0;

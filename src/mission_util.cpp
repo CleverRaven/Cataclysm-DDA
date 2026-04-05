@@ -146,35 +146,6 @@ tripoint_abs_omt mission_util::random_house_in_closest_city()
     return random_house_in_city( cref );
 }
 
-tripoint_abs_omt mission_util::target_closest_lab_entrance(
-    const tripoint_abs_omt &origin, int reveal_rad, mission *miss )
-{
-    tripoint_abs_omt testpoint = origin;
-    // Get the surface locations for labs and for spaces above hidden lab stairs.
-    testpoint.z() = 0;
-    tripoint_abs_omt surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false,
-                               ot_match_type::contains );
-
-    testpoint.z() = -1;
-    tripoint_abs_omt underground =
-        overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
-                                     ot_match_type::contains );
-    underground.z() = 0;
-
-    tripoint_abs_omt closest;
-    if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
-        closest = surface;
-    } else {
-        closest = underground;
-    }
-
-    if( !closest.is_invalid() && reveal_rad >= 0 ) {
-        overmap_buffer.reveal( closest, reveal_rad );
-    }
-    miss->set_target( closest );
-    return closest;
-}
-
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params, dialogue &d )
 {

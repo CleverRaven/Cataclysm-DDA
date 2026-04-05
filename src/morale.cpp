@@ -876,6 +876,36 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     return test_points( *this, morale ) && test_points( morale, *this );
 }
 
+void player_morale::sync_permanent( const player_morale &reference )
+{
+    // Remove all permanent points, keep temporaries
+    const auto new_end = std::remove_if( points.begin(), points.end(),
+    []( const morale_point & mp ) {
+        return mp.is_permanent();
+    } );
+    points.erase( new_end, points.end() );
+
+    // Copy permanent points from reference
+    for( const morale_point &mp : reference.points ) {
+        if( mp.is_permanent() ) {
+            points.push_back( mp );
+        }
+    }
+
+    // Sync non-point state that consistent_with() checks
+    took_prozac = reference.took_prozac;
+    took_prozac_bad = reference.took_prozac_bad;
+    perceived_pain = reference.perceived_pain;
+    radiation = reference.radiation;
+
+    // Sync mutation and body part state for correct future updates
+    body_parts = reference.body_parts;
+    no_body_part = reference.no_body_part;
+    mutations = reference.mutations;
+
+    invalidate();
+}
+
 void player_morale::clear()
 {
     points.clear();

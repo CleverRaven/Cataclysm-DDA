@@ -830,7 +830,7 @@
         "-...##########_##+##........................-   ",
         "-...#AAAAAAAAA_#__L#........................-   ",
         "-...#r_________+__L#<.......................-   ",
-        "-...#1111111111#__>#.......XXX..XXX..XXX....-   ",
+        "-...#ZZZZZZZZZZ#__>#.......XXX..XXX..XXX....-   ",
         "-...################........................-   ",
         "-....ЯЯЯЯЯЯЯЯЯЯ.............................-   ",
         "-..........................XXX..XXX..XXX....-   ",
@@ -854,7 +854,7 @@
         "#": "t_strconc_wall",
         "+": "t_door_metal_c",
         "_": "t_thconc_floor",
-        "1": "t_thconc_floor",
+        "Z": "t_thconc_floor",
         "r": "t_thconc_floor",
         "L": "t_thconc_floor",
         "A": "t_thconc_floor",
@@ -864,7 +864,7 @@
         "L": [ { "item": "jackets", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "r": [ { "item": "tools_mechanic", "chance": 40 }, { "item": "tools_common", "chance": 80 } ]
       },
-      "furniture": { "1": "f_water_purifier", "G": "f_generator_broken" },
+      "furniture": { "Z": "f_water_purifier", "G": "f_generator_broken" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 25, 30 ], "density": 0.06 }

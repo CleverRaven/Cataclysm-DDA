@@ -150,12 +150,6 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
 
-    check_memorial<event_type::dermatik_eggs_hatch>(
-        m, b, "Dermatik eggs hatched.", ch );
-
-    check_memorial<event_type::dermatik_eggs_injected>(
-        m, b, "Injected with dermatik eggs.", ch );
-
     check_memorial<event_type::destroys_triffid_grove>(
         m, b, "Destroyed a triffid grove." );
 

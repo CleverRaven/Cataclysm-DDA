@@ -9,7 +9,7 @@
     "//7": "- Huge quantities of spare parts, such as solder, thread, nails, tailoring supplies, and so on;",
     "//8": "- Civilian-grade ammo;",
     "//9": "- Small quantities of low-end melee weapons, with a chance for civilian-grade guns;",
-    "//10": "- A selection of mens' and womens' clothing;",
+    "//10": "- A selection of men's and women's clothing;",
     "//11": "- A lot of assorted tools and other hardware.",
     "type": "item_group",
     "id": "FREE_MERCHANTS_Shop",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "//": "A collection of welding consumables for both steel and aluminium.",
+    "//": "A collection of welding consumables for both steel and aluminum.",
     "type": "item_group",
     "id": "FREE_MERCHANTS_Shop_Parts_Mechanics",
     "subtype": "collection",

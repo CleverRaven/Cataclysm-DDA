@@ -484,7 +484,7 @@
     "price": "136 cent",
     "price_postapoc": "2 USD",
     "material": [ "wheat" ],
-    "volume": "1 ml",
+    "volume": "48 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 4,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ] ]

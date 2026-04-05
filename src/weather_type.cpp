@@ -102,6 +102,8 @@ void weather_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "map_color", map_color, nc_color_reader{} );
 
     mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+    optional( jo, was_loaded, "sun_sym", sun_symbol, unicode_codepoint_from_symbol_reader,
+              static_cast<uint32_t>( 0x263C ) ); // ☼
 
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
@@ -120,6 +122,14 @@ void weather_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
+    }
+
+    if( jo.has_array( "passive_effects" ) ) {
+        for( JsonObject job : jo.get_array( "passive_effects" ) ) {
+            field_effect fe;
+            fe.deserialize( job );
+            passive_effect.emplace_back( fe );
+        }
     }
     optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
     optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );

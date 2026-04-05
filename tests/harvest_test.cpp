@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "butchery.h"
@@ -22,6 +23,7 @@ static const item_group_id
 Item_spawn_data_cattle_sample_single( "cattle_sample_single" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_down_feather( "down_feather" );
 static const itype_id itype_fake_lift_light( "fake_lift_light" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_knife_combat( "knife_combat" );
@@ -29,6 +31,7 @@ static const itype_id itype_plastic_sheet( "plastic_sheet" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_scalpel( "scalpel" );
 
+static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_deer( "mon_deer" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
@@ -140,4 +143,57 @@ static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
 TEST_CASE( "butchery_speed", "[harvest]" )
 {
     do_butchery_timing( 8 * 60 * 60, butcher_type::FULL, 5, mon_deer );
+}
+
+// Regression test for #85877 / #85136: butchering birds with sub-gram harvest
+// items (down_feather weighs 10 mg) caused division by zero in the yield
+// calculation because to_gram() truncates sub-gram weights to 0.
+// On x86 this silently produces 0 feathers; on ARM64 it produces 333333 per tile.
+TEST_CASE( "butchery_sub_gram_harvest_items", "[harvest]" )
+{
+    Character &u = get_player_character();
+    map &here = get_map();
+    const tripoint_abs_ms orig_pos = u.pos_abs();
+
+    clear_character( u, true );
+    u.set_skill_level( skill_firstaid, 10 );
+    u.set_skill_level( skill_survival, 10 );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
+    u.i_add( item( itype_knife_combat ) );
+
+    monster bird( mon_chicken, mon_pos );
+    const tripoint_bub_ms bird_loc = bird.pos_bub();
+    here.i_clear( bird_loc );
+    bird.die( &here, nullptr );
+    u.move_to( bird.pos_abs() );
+
+    item_location loc = item_location( map_cursor( u.pos_abs() ), &*here.i_at( bird_loc ).begin() );
+    butchery_data bd( loc, butcher_type::FULL );
+    butchery_activity_actor act( bd );
+    act.calculate_butchery_data( u, bd );
+    destroy_the_carcass( bd, u );
+
+    // Count down_feather charges on the butchery tile and all overflow tiles
+    int total_down_feathers = 0;
+    for( const tripoint_bub_ms &p : closest_points_first( bird_loc, 0, 3 ) ) {
+        for( const item &it : here.i_at( p ) ) {
+            if( it.typeId() == itype_down_feather ) {
+                total_down_feathers += it.charges;
+            }
+        }
+    }
+
+    // Chicken is 2 kg, down_feather mass_ratio is 0.005, so 10g of feather material.
+    // Each down_feather weighs 10 mg, so the correct yield is around 500-1000
+    // (depending on skill multiplier which maxes at 1.0).
+    // Before the fix: 0 on x86 (negative roll from UB), 333333/tile on ARM64.
+    CAPTURE( total_down_feathers );
+    CHECK( total_down_feathers > 0 );
+    CHECK( total_down_feathers < 5000 );
+
+    // Clean up all tiles that might have overflow items
+    for( const tripoint_bub_ms &p : closest_points_first( bird_loc, 0, 3 ) ) {
+        here.i_clear( p );
+    }
+    u.move_to( orig_pos );
 }

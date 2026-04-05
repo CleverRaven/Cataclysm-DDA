@@ -1,0 +1,302 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_base1",
+    "effect": [
+      { "run_eocs": "EOC_memorize_island" },
+      { "mapgen_update": "mx_skyisland_surface_entrance", "target_var": { "global_val": "OM_island_center" } },
+      { "mapgen_update": "mx_skyisland_base1", "target_var": { "global_val": "OM_island_subcenter" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_bigroom1",
+    "effect": [
+      { "mapgen_update": "mx_skyisland_a1", "target_var": { "global_val": "OM_island_subcenter" } },
+      { "mapgen_update": "mx_skyisland_skylight", "target_var": { "global_val": "OM_island_center" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_bigroom2",
+    "effect": [ { "mapgen_update": "mx_skyisland_a2", "target_var": { "global_val": "OM_island_subcenter" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_bigroom3",
+    "effect": [ { "mapgen_update": "mx_skyisland_a3", "target_var": { "global_val": "OM_island_subcenter" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_bigroom4",
+    "effect": [ { "mapgen_update": "mx_skyisland_a4", "target_var": { "global_val": "OM_island_subcenter" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_westroom1",
+    "effect": [ { "mapgen_update": "mx_skyisland_w1", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_westroom2",
+    "effect": [ { "mapgen_update": "mx_skyisland_w2", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_westroom3",
+    "effect": [ { "mapgen_update": "mx_skyisland_w3", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_westroom4",
+    "effect": [ { "mapgen_update": "mx_skyisland_w4", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_west_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_w_sides", "target_var": { "global_val": "OM_island_subw" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_eastroom1",
+    "effect": [ { "mapgen_update": "mx_skyisland_e1", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_eastroom2",
+    "effect": [ { "mapgen_update": "mx_skyisland_e2", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_eastroom3",
+    "effect": [ { "mapgen_update": "mx_skyisland_e3", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_eastroom4",
+    "effect": [ { "mapgen_update": "mx_skyisland_e4", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_east_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_e_sides", "target_var": { "global_val": "OM_island_sube" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_northroom1",
+    "effect": [ { "mapgen_update": "mx_skyisland_n1", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_northroom2",
+    "effect": [ { "mapgen_update": "mx_skyisland_n2", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_northroom3",
+    "effect": [ { "mapgen_update": "mx_skyisland_n3", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_northroom4",
+    "effect": [ { "mapgen_update": "mx_skyisland_n4", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_north_side_rooms",
+    "effect": [ { "mapgen_update": "mx_skyisland_n_sides", "target_var": { "global_val": "OM_island_subn" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight2",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight2", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight3",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight3", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight4",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight4", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_climatecontrol",
+    "effect": [ { "u_add_trait": "mut_skyisland_temperature_adaptation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse1",
+    "effect": [
+      { "run_eocs": "EOC_memorize_island" },
+      { "mapgen_update": "mx_skyisland_base2", "target_var": { "global_val": "OM_island_subcenter" } },
+      { "mapgen_update": "mx_skyisland_s1", "target_var": { "global_val": "OM_island_subs" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse2",
+    "effect": [ { "mapgen_update": "mx_skyisland_s2", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse3",
+    "effect": [ { "mapgen_update": "mx_skyisland_s3", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse4",
+    "effect": [ { "mapgen_update": "mx_skyisland_s4", "target_var": { "global_val": "OM_island_subs" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse_skylight1",
+    "effect": [ { "mapgen_update": "mx_skyisland_greenhouse_skylight1", "target_var": { "global_val": "OM_island_s" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_greenhouse_skylight2",
+    "effect": [ { "mapgen_update": "mx_skyisland_greenhouse_skylight2", "target_var": { "global_val": "OM_island_s" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_memorize_island",
+    "//": "Tracks various map or overmap spots for the island's construction upgrades.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_island_center" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS" }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_nw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_n" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_ne" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_w" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_e" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_sw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": -1, "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_s" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_se" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_x": 1, "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subcenter" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subnw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subn" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subne" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1, "offset_y": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_sube" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subsw" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": -1, "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subs" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_y": 1 }
+      },
+      {
+        "u_location_variable": { "global_val": "OM_island_subse" },
+        "target_params": { "om_terrain": "sky_island_core", "om_terrain_match_type": "CONTAINS", "offset_z": -1, "offset_x": 1, "offset_y": 1 }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION",
+    "effect": [
+      {
+        "u_choose_adjacent_highlight": { "context_val": "warped_pond_location" },
+        "condition": {
+          "or": [
+            { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_water_pump", "loc": { "context_val": "loc" } }
+          ]
+        },
+        "message": "Select nearby water source"
+      },
+      {
+        "if": { "math": [ "has_var(_warped_pond_location)" ] },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_WARPED_POND_CREATION_NW",
+            "EOC_WARPED_POND_CREATION_NE",
+            "EOC_WARPED_POND_CREATION_SW",
+            "EOC_WARPED_POND_CREATION_SE"
+          ],
+          "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
+          "title": "Choose the location for a pond",
+          "descriptions": [
+            "Place a pond in the northwest.",
+            "Place a pond in the northeast.",
+            "Place a pond in the southwest.",
+            "Place a pond in the southeast."
+          ]
+        },
+        "else": [
+          { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
+          { "u_message": "You must be near a water source to created a warped pond.", "type": "neutral" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_NW",
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": -1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_NE",
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": -1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_SW",
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": -1, "offset_y": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_SE",
+    "effect": [ { "mapgen_update": "mx_skyisland_pond", "om_terrain": "sky_island_core", "offset_x": 1, "offset_y": 1 } ]
+  }
+]

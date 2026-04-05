@@ -65,7 +65,7 @@
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.  Need something salvor?",
+    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.  <npc_name> barely acknowledges your presence, their eyes never leaving their PDA as they address you.\n\"Need something salvor?\"",
     "responses": [
       {
         "text": "Show me what you have.",
@@ -94,7 +94,7 @@
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE" ],
     "type": "talk_topic",
-    "dynamic_line": "&This isn't a store.  Go to the Spaceport if you want to buy supplies.",
+    "dynamic_line": "This isn't a store.  Go to the Spaceport if you want to buy supplies.",
     "responses": [
       {
         "text": "I'm sure we can work something out.  [Bribe $3000]",
@@ -117,13 +117,13 @@
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_FAILURE" ],
     "type": "talk_topic",
-    "dynamic_line": "&I think you should leave.",
+    "dynamic_line": "I think you should leave.",
     "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_UICA_GROUND_QUARTERMASTER_BRIBE_RECENTLY_FAILED" ],
     "type": "talk_topic",
-    "dynamic_line": "&I already told you no.",
+    "dynamic_line": "I already told you no.",
     "responses": [ { "text": "Nevermind then.", "topic": "TALK_DONE" } ]
   },
   {

@@ -62,9 +62,7 @@ void end_screen_data::draw_end_screen_ui( bool actually_dead )
 {
     input_context ctxt;
     ctxt.register_action( "TEXT.CONFIRM" );
-#if defined(WIN32) || defined(TILES)
     ctxt.set_timeout( 50 );
-#endif
     end_screen_ui_impl p_impl;
 
     while( true ) {

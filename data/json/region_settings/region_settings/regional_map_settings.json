@@ -81,7 +81,7 @@
     "ocean_start_north": 500,
     "ocean_start_east": 10,
     "ocean_start_west": 1000,
-    "ocean_start_south": 0,
+    "ocean_start_south": null,
     "sandy_beach_width": 6
   },
   {
@@ -172,7 +172,6 @@
       "campsite_field_biker",
       "campsite_field_biker_destroyed",
       "cave",
-      "central_lab_entrance",
       "corpse_tentacle_surface_entry",
       "derelict_property",
       "desolatebarn",
@@ -363,6 +362,8 @@
   {
     "type": "region_settings_city",
     "id": "default",
+    "city_size": 8,
+    "city_spacing": 4,
     "shop_radius": 30,
     "shop_sigma": 50,
     "park_radius": 20,
@@ -460,7 +461,6 @@
       [ "house_29", 50 ],
       [ "house_30", 50 ],
       [ "house_31", 50 ],
-      [ "basement_hidden_lab_entrance", 50 ],
       [ "house_32", 50 ],
       [ "house_33", 50 ],
       [ "house_34", 50 ],
@@ -800,7 +800,6 @@
       [ "office_tower_2", 150 ],
       [ "office_skyscraper", 300 ],
       [ "office_tower_large", 300 ],
-      [ "office_tower_hiddenlab", 50 ],
       [ "mall", 200 ],
       [ "home_improvement_superstore_new", 150 ],
       [ "lumberyard", 75 ],
@@ -826,6 +825,19 @@
       [ "barber_shop", 350 ],
       [ "s_airsoft", 100 ]
     ]
+  },
+  {
+    "type": "region_settings_city",
+    "id": "no_cities",
+    "city_size": 0,
+    "city_spacing": 0,
+    "shop_radius": 0,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0,
+    "houses": [  ],
+    "parks": [  ],
+    "shops": [  ]
   },
   {
     "type": "map_extra_collection",
@@ -968,6 +980,7 @@
       [ "mx_collegekids", 30 ],
       [ "mx_drugdeal", 30 ],
       [ "mx_corpses", 30 ],
+      [ "mx_finalshowdown", 20 ],
       [ "mx_worm_sign", 20 ],
       [ "mx_toxic_waste", 10 ],
       [ "mx_portal", 10 ],
@@ -1100,7 +1113,7 @@
     "type": "map_extra_collection",
     "id": "river",
     "chance": 1,
-    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_reed", 33 ] ]
+    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_riverside_jetski", 1 ], [ "mx_reed", 33 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1644,11 +1657,11 @@
   {
     "type": "weather_generator",
     "id": "default",
-    "base_temperature": 6.5,
+    "base_temperature": 11.1,
     "base_humidity": 70.0,
     "base_pressure": 1015.0,
     "base_wind": 3.4,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   }
 ]

@@ -315,6 +315,7 @@
     "vision_night": 5,
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 168, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "fungalize_into": "mon_zoose_fungus",
@@ -647,6 +648,7 @@
     "harvest": "zombie_leather",
     "decay": "zombie_decay_bone",
     "fungalize_into": "mon_zeer_fungus",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 1, "cut": 3, "electric": 1 }
   },

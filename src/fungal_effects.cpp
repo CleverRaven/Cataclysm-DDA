@@ -76,7 +76,7 @@ void fungal_effects::fungalize( const tripoint_bub_ms &p, Creature *origin, doub
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( player_character.has_trait( trait_TAIL_CATTLE ) &&
-            one_in( 20 - player_character.dex_cur - player_character.get_skill_level( skill_melee ) ) ) {
+            one_in( 20 - player_character.get_dex() - player_character.get_skill_level( skill_melee ) ) ) {
             add_msg( _( "The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
         }

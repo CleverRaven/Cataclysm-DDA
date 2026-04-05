@@ -96,6 +96,7 @@ namespace io
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::MELEE_RANGE_MODIFIER: return "MELEE_RANGE_MODIFIER";
             case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
+            case enchant_vals::mod::SMASH_BONUS: return "SMASH_BONUS";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
@@ -1457,7 +1458,7 @@ void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *ta
                                       sp.npc_trigger_message,
                                       caster.get_name() );
         sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
-    } else  if( target != nullptr ) {
+    } else if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
         if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||

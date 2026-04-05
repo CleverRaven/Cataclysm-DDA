@@ -196,7 +196,7 @@ static void expect_to_find( const item &in, const std::list<const unique_item *>
 static void clear_everything()
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     auto_pickup::player_settings &rules = get_auto_pickup();
     rules.clear_character_rules();

@@ -308,5 +308,16 @@
     "mutagen_message": "",
     "memorial_message": "Dissolved into the collective.",
     "vitamin": "null"
+  },
+  {
+    "type": "mutation_category",
+    "id": "INTERSTICE",
+    "name": "Interstice",
+    "threshold_mut": "THRESH_INTERSTICE",
+    "mutagen_message": "You get a glimpse of the spaces between reality.  It's maddening.",
+    "memorial_message": "Went somewhere else.",
+    "vitamin": "mutagen_interstice",
+    "base_removal_chance": 33,
+    "base_removal_cost_mul": 2.5
   }
 ]

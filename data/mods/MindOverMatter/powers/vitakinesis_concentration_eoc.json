@@ -480,6 +480,77 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_NO_NEED_FOR_SLEEP",
+    "condition": { "not": { "u_has_effect": "effect_vitakin_no_need_for_sleep" } },
+    "effect": [
+      { "u_message": "You blink suddenly.", "type": "good" },
+      { "u_add_effect": "effect_vitakin_no_need_for_sleep", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION" ] },
+      {
+        "run_eocs": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_REMOVE_NO_NEED_FOR_SLEEP",
+    "condition": { "u_has_effect": "effect_vitakin_no_need_for_sleep" },
+    "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE" ] }, { "u_lose_effect": "effect_vitakin_no_need_for_sleep" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_DRAIN",
+    "condition": { "u_has_effect": "effect_vitakin_no_need_for_sleep" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('vita_no_need_for_sleep') += psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "if": { "math": [ "u_val('sleep_deprivation') >= 250" ] },
+        "then": { "math": [ "u_val('sleep_deprivation') -= 250" ] }
+      },
+      {
+        "if": { "math": [ "u_val('sleep_deprivation') >= 100" ] },
+        "then": { "math": [ "u_val('sleep_deprivation') -= 100" ] }
+      },
+      {
+        "if": { "math": [ "u_val('sleep_deprivation') >= 50" ] },
+        "then": { "math": [ "u_val('sleep_deprivation') -= 50" ] }
+      },
+      {
+        "run_eocs": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_SUPER_HEAL_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_vita_super_heal" } },
     "effect": [

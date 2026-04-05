@@ -790,6 +790,10 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "math": [ "u_val('strength') >= 25" ] },
+        "ench_effects": [ { "effect": "effect_xe_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
   },
@@ -804,7 +808,7 @@
       {
         "values": [
           {
-            "value": "STRENGTH",
+            "value": "SMASH_BONUS",
             "add": {
               "math": [
                 "(1 + (vampire_total_tier_one_traits_plus_potency() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)  + (vampire_total_tier_five_traits_plus_cauldron() * 1) ) * (u_effect_intensity('effect_vampire_unholy_devastation') * 0.25 )"
@@ -1310,6 +1314,13 @@
     "id": "effect_sylph_underground_timer",
     "name": [ "Underground in Dead Air" ],
     "desc": [ "You were not born to crawl beneath the dirt like a mole.  You need to get out to the open sky." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_wet_rate_limiter",
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "bad"
   },
   {
@@ -1855,6 +1866,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_is_near_a_fire",
+    "//": "Hidden effect, used in Salamander spellcasting failure calculations",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_featherfall",
     "name": [ "" ],
     "desc": [ "" ],
@@ -1948,6 +1966,16 @@
       "pain_chance": [ 3 ],
       "pain_tick": [ 1 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_salamander_rain_immunity",
+    "name": [ "Steam Shell" ],
+    "desc": [ "A thin barrier of heat around your body is protecting you from rain." ],
+    "apply_message": "",
+    "remove_message": "The thin shell of heat around your body dissipates.",
+    "rating": "good",
+    "flags": [ "RAIN_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -2398,6 +2426,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_paraclesian_cannot_use_computers_flag",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_see_fae",
     "name": [ "Wyrd Sight" ],
     "desc": [ "You can sense nearby creatures that come from under the hill." ],
@@ -2476,6 +2512,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_ward_off_rain",
+    "name": [ "To Keep Off the Rain and the Damp" ],
+    "desc": [ "Thanks to the words of the charm you spoke, you won't get wet in the rain." ],
+    "flags": [ "RAIN_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -3630,7 +3673,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_destabilizing_strikes') ), 250 )" ] }
           }
         ]
       }
@@ -3652,7 +3695,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_stabilize_timeline') ), 125 )" ] }
           }
         ]
       }
@@ -4166,6 +4209,22 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism",
+    "name": [ "Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bloodthorne_druid_prevent_vampirism_active",
+    "name": [ "Blooming Sapshield" ],
+    "desc": [ "You are protected against the vampires' curse." ],
+    "show_in_info": true,
+    "removes_effects": [ "vampire_virus" ],
+    "remove_message": "Your sapshield fades away."
   },
   {
     "type": "effect_type",

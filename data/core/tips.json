@@ -140,7 +140,11 @@
       "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!",
       "If you want something to stop existing, setting it on fire is a tried and true method.",
       "The higher up you are, the farther you can see on the overmap.",
-      "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them."
+      "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them.",
+      "There's an ocean to the East from your starting location.  Might be worth checking it out!  But beware, the East is where the population centers were, it's infested with zombie hordes now.",
+      "The 'cities' slider in world creation isn't that important, you can experience both rural and urban environments in the same world if you go West or East!",
+      "Want a less populated and urbanized map?  Go West or North!  The map gets more rural the further you go.",
+      "Want a more populated and urbanized map?  Go South or East!  The map gets more urban the further you go."
     ]
   }
 ]

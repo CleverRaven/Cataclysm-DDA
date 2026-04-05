@@ -36,6 +36,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vpart_position.h"
+#include "weather.h"
 
 static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );
@@ -520,6 +521,15 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zon
     form_from_map( m, pts, pl, assign_invlet );
 }
 
+static bool tile_has_sufficient_sunlight( const map &m, const tripoint_bub_ms &p )
+{
+    if( !m.is_outside( p ) || p.z() < 0 ) {
+        return false;
+    }
+    const weather_type_id wtype = current_weather( m.get_abs( p ), calendar::turn );
+    return incident_sun_irradiance( wtype, calendar::turn ) > irradiance::high;
+}
+
 void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                                bool assign_invlet )
 {
@@ -539,7 +549,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
         }
         const furn_id &f = m.furn( p );
         const furn_t &fo = f.obj();
-        if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+        const itype_id &pseudo_id = fo.crafting_pseudo_item;
+        if( pseudo_id.is_valid() &&
+            pseudo_id->has_flag( flag_NEEDS_SUNLIGHT ) &&
+            !tile_has_sufficient_sunlight( m, p ) ) {
+            // Not enough sunlight for this tool
+        } else if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
             for( const itype *ammo : fo.crafting_ammo_item_types() ) {
                 if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!

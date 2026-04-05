@@ -184,6 +184,7 @@ static const mtype_id mon_breather( "mon_breather" );
 static const mtype_id mon_breather_hub( "mon_breather_hub" );
 static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_devourer_daitya_clone( "mon_devourer_daitya_clone" );
 static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
 static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
@@ -646,7 +647,7 @@ bool mattack::shriek_stun( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &cone : here.points_in_radius( z->pos_bub(), 4 ) ) {
         units::angle tile_angle = coord_to_angle( z->pos_bub().raw(), cone.raw() );
-        units::angle diff = units::fabs( target_angle - tile_angle );
+        units::angle diff = units::abs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
         if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos_bub() ) {
             continue;
@@ -937,9 +938,9 @@ bool mattack::pull_metal_weapon( monster *z )
                 z->mod_moves( -att_cost_pull );
                 int success = 100;
                 ///\Grip strength increases resistance to pull_metal_weapon special attack
-                if( foe->str_cur > min_str ) {
+                if( foe->get_str() > min_str ) {
                     ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->get_str() - 6 ) * foe->get_limb_score(
                                             limb_score_grip ) ) - ( 6 * wp_skill ),
                                         0.0f );
                 }
@@ -3573,7 +3574,7 @@ bool mattack::riotbot( monster *z )
         amenu.addentry( ur_arrest, true, 'a', _( "Allow yourself to be arrested." ) );
         amenu.addentry( ur_resist, true, 'r', _( "Resist arrest!" ) );
         ///\EFFECT_INT >10 allows and increases chance whether you can feign death to avoid riot bot arrest
-        if( foe->int_cur > 12 || ( foe->int_cur > 10 && !one_in( foe->int_cur - 8 ) ) ) {
+        if( foe->get_int() > 12 || ( foe->get_int() > 10 && !one_in( foe->get_int() - 8 ) ) ) {
             amenu.addentry( ur_trick, true, 't', _( "Feign death." ) );
         }
 
@@ -3595,7 +3596,7 @@ bool mattack::riotbot( monster *z )
                                     foe->get_power_level() > bio_uncanny_dodge.obj().power_trigger &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of handcuffs
-            const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );
+            const bool is_dex = foe->get_dex() > 13 && !one_in( foe->get_dex() - 11 );
 
             if( is_uncanny || is_dex ) {
 
@@ -3636,7 +3637,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_trick ) {
 
             ///\EFFECT_INT >10 allows and increases chance of successful feign death
-            if( !one_in( foe->int_cur - 10 ) ) {
+            if( !one_in( foe->get_int() - 10 ) ) {
 
                 add_msg( m_good,
                          _( "You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the robot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help." ) );
@@ -4602,6 +4603,47 @@ bool mattack::zombie_fuse( monster *z )
     critter->death_drops = false;
     critter->quiet_death = true;
     critter->die( &here, z );
+    return true;
+}
+
+bool mattack::eat_clone( monster *z )
+{
+    if( z->get_hp() >= 100 ) {
+        return false;
+    }
+
+    map &here = get_map();
+
+    const int search_range = 8;
+    monster *nearest_clone = nullptr;
+    int nearest_distance = search_range + 1;
+
+    creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &p : here.points_in_radius( z->pos_bub(), search_range ) ) {
+        monster *critter = creatures.creature_at<monster>( p );
+        if( critter != nullptr && critter->type->id == mon_devourer_daitya_clone ) {
+            int distance = rl_dist( z->pos_bub(), critter->pos_bub() );
+            if( distance < nearest_distance ) {
+                nearest_distance = distance;
+                nearest_clone = critter;
+            }
+        }
+    }
+
+    if( !nearest_clone ) {
+        return false;
+    }
+
+    z->heal( 72, true );
+
+    add_msg_if_player_sees( *z,
+                            _( "An orifice on the side of %s swells and splits open, and a monstrous tongue reaches out grabbing the nearest Daitya clone and sucking it back inside the Daitya!" ),
+                            z->name() );
+
+    nearest_clone->quiet_death = true;
+    nearest_clone->death_drops = false;
+    nearest_clone->die( &here, z );
+
     return true;
 }
 

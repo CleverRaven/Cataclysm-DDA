@@ -1682,7 +1682,7 @@ void vehicle::pldrive( map &here, Character &driver, const int trn, const int ac
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) <
-            driver.dex_cur + effective_driver_skill * 2 ) {
+            driver.get_dex() + effective_driver_skill * 2 ) {
             driver.add_msg_if_player( _( "You regain control of the %s." ), name );
             driver.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
@@ -2330,6 +2330,70 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     return traction_wheel_area;
 }
 
+float map::vehicle_wheel_traction( const vehicle &veh, const tripoint_bub_ms &at_origin,
+                                   bool ignore_movement_modifiers )
+{
+    if( veh.is_in_water( /* deep_water = */ true ) ) {
+        return veh.can_float( *this ) ? 1.0f : -1.0f;
+    }
+    if( veh.is_watercraft() && veh.can_float( *this ) ) {
+        return 1.0f;
+    }
+
+    if( veh.wheelcache.empty() ) {
+        return 0.0f;
+    }
+
+    float traction_wheel_area = 0.0f;
+    for( const int wheel_idx : veh.wheelcache ) {
+        const vehicle_part &vp = veh.part( wheel_idx );
+        const vpart_info &vpi = vp.info();
+        const tripoint_bub_ms pp = at_origin + vp.precalc[0];
+        const ter_t &tr = ter( pp ).obj();
+        if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
+            tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
+            continue;
+        }
+
+        int move_mod = move_cost_ter_furn( pp );
+        if( move_mod == 0 ) {
+            return 0.0f;
+        }
+
+        if( ignore_movement_modifiers ) {
+            traction_wheel_area += vp.contact_area();
+            continue;
+        }
+
+        for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
+            const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
+            if( ter_has_flag && mod.move_override ) {
+                move_mod = mod.move_override;
+                break;
+            } else if( !ter_has_flag && mod.move_penalty ) {
+                move_mod += mod.move_penalty;
+                break;
+            }
+        }
+
+        move_mod = std::max( move_mod, move_mod + vp.move_penalty() );
+
+        if( move_mod == 0 ) {
+            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
+            continue;
+        }
+
+        constexpr float THICK_ICE_TRACTION_FACTOR = 0.3f;
+        if( tr.has_flag( ter_furn_flag::TFLAG_THICK_ICE ) ) {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod * THICK_ICE_TRACTION_FACTOR;
+        } else {
+            traction_wheel_area += 2.0 * vp.contact_area() / move_mod;
+        }
+    }
+
+    return traction_wheel_area;
+}
+
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                  const units::angle &direction )
 {
@@ -2365,7 +2429,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         int move_resist = 1;
         if( psg ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
-            move_resist = psg->str_cur * 150 + 500;
+            move_resist = psg->get_str() * 150 + 500;
             if( veh.part( ps ).info().has_flag( "SEAT_REQUIRES_BALANCE" ) ) {
                 // Much harder to resist being thrown on a skateboard-like vehicle.
                 // Penalty mitigated by Deft and Skater.
@@ -2412,7 +2476,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
             ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
+            if( lose_ctrl_roll > psg->get_dex() * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ), veh.name );

@@ -8,29 +8,40 @@ Then eventually the Cataclysm occurs and Kaiju appear with natural disasters and
 Classes and scenarios specific to this mod will likely revolve around either investigating Xedra or working for Xedra or another alphabet soup agency.  Each section of this mod will expand on various monster of the week ideas.   The first set of monsters I'm exploring are what if our world became contaminated by a Nether realm that is the origin of the Kindly Ones, the good people under the hill, the fae.  Future sections will revolve around whatever mythos has caught my attention that week and that I can create reasonable content for.   
 
 ## Chapter 1 Hail Arcadia
-The first bit of content for Xedra Evolved revolves around a dimension that's relatively nearby in Nether terms, even pre-portal technology mankind had records of encounters with beings matching the descriptions of these creatures across multiple cultures and times.  Future additions will explore other avenues.  Welcoming mapgen and monsters in this section. A musician at the Refugee Center might have some knowledge about these creatures. 
+The first bit of content for Xedra Evolved revolves around a dimension that's relatively nearby in Nether terms, even pre-portal technology mankind had records of encounters with beings matching the descriptions of these creatures across multiple cultures and times.  Changeling commoners and nobles gather what treasures remain before taking the silver trods away from this planet.  Welcoming mapgen and monsters in this section. A musician at the Refugee Center might have some knowledge about these creatures. 
 ### Rumours of New Birth
 When dimensional seepage began many of the fae returned to their old places of power.  This included the elemental fae which were less likely to interact with humans due to a more alien lifecycle.  As the Cataclysm began most of the fae left for less actively hostile dimensions.  In the case of the elemental fae this proves to be a problem as their unborn children aren't carried in the belly of a fae but rather are born over time in sacred locations, known as genius locii.  In hidden locations across the Earth a few unlucky elemental fae are waking up to find themselves abandoned in a dying world.  Maybe they'll be able to find a way out, one day.  
 
 ## Chapter 2 Powers beyond mere imagination
-This section introduces several magical classes and spells and abilities for the these classes.  The player can grasp powers that they never dreamed of before the portals to other worlds started opening.  This magical system can be used alongside Magiclysm's but doesn't require it. The goal is for each of the classes to feel different from each other.  Currently looking for mapgen locations that could play a good host for the various items that grant these powers.  Such as pawn shops, museums and monster lairs.
+This section introduces several magical classes and spells and abilities for the these classes.  The player can grasp powers that they never dreamed of before the portals to other worlds started opening.  This magical system can be used alongside Magiclysm's but doesn't require it.  The goal is for each of the classes to feel different from each other.  Currently looking for mapgen locations that could play a good host for the various items that grant these powers.  Such as pawn shops, museums and monster lairs.  You can start as Occult Government Agents, an accidental Chronomancer, or learn Nether sorcery or hedge magic.
 
 ## Chapter 3 A Thirst for Blood
-The third chapter has brought with it Vampires both as monsters and as a disease that can infect you the player character and render you a being with unnatural powers and thirsts.  This section has also added some CBMs and the monsters you can dissect them out of.   Looking for more location, similarly themed CBMs and content for Vampire Hunters including NPCs and quests. The ability to use the blood you consume to power new abilities has been added.  Vampire traits are a side lane of the mutation code and should be available no matter what threshold you pursue.
+The third chapter has brought with it Vampires both as monsters and as a disease that can infect you the player character and render you a being with unnatural powers and thirsts.  This section has also added some CBMs and the monsters you can dissect them out of.   Looking for more location, similarly themed CBMs and content for Vampire Hunters including NPCs and quests.  The ability to use the blood you consume to power new abilities has been added.  Vampire traits are a side lane of the mutation code and should be available no matter what threshold you pursue. The Dhampir was born between the living and the dead and never quite walks either path fully.  The Lilin has lurked among humanity for millenia as a spirit of disease.  Now its prey are vanishing and its habitat eroding.  What would you do as a spirit of decay in the face of final entropy?  Werewolves long kept the boundaries of this world strong in the face of dimensional incursion but in recent years the barriers were washed out in a flood of interdimensional energies.  The Final Hunts call and each moon could be your last.  What heights of heroism can you achieve when all is lost?
+
+## Chapter 4 Liminal Spaces, Mundane Concerns
+The fourth chapter of Xedra Evolved chases rumors of cryptids and trophy hunting shadow creatures.  Missions and random encounters with pre-cataclysm cryptids can reward you with unique experiences and items.  The Gracken came to Earth looking to hunt the most dangerous game and it's certainly not man.  They use trophy parts from these kills to evolve new and interesting traits mimicking the powers of the monsters they hunted.  We are looking for harvest items from existing monsters that Gracken can use to manufacture new evolutions and powers.
 
 ### Shipping manifest
-Dozens of new monsters
+Dozens of new monsters including unique cryptid monsters with special abilities and trophies.
 The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
-A combat rated mount can be found via a short mission chain.
-16 professions
+Dhampir racial background and Bloodthorne Druid Vampire Hunter.
+Lilin racial scenario that is a demon of disease and illness.
+Werewolf racial scenario that gains abilities from hunting and killing nether beings.
+Gracken, shadow beings that restructure their bodies with evolutions ripped from them foes.
+A dozen plus missions and mission unique rewards
+27 professions
+Multiple new and unique diseases/parasites to catch
 6 Elemental Race Mutation Categories locked to Paraclesian starts, similar to Made of Sugar
+5 Changeling Races based on their mythological namesakes
 Over a dozen Map Specials
 5 Map Extra
 Dozens of items
 2 NPC classes
-Several new CBMs
+Many new CBMs
 4 Magical classes with unique playstyles and spells.  Dreamers, who can summon things from nearby dimensions.  Eaters, who consume the substance of dreams for mana and health and abilities to improve their body and banish monsters not native to this dimension.  Dreamsmiths are the blacksmiths of dreams and can forge dreamdross into a more durable substance that can be repaired.  The Mad Genius is an inventor who borrows the physics of other dimensions to temporarily improve toys and other objects into powerful devices.  Eater locks out Dreamer and Mad Genius locks out Dreamsmith.  
-Dozens of new spells
+Chronomancer magickal class can control time.  Locks out all other major magickal paths.
+Hedge magic, lesser magics that can be used by anyone but have very limited effects.
+Over a hundred new spells
 1 Vehicle
 1 new skill
 Perks for Bombastic Perks and Xedra Evolved.

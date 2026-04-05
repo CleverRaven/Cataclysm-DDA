@@ -135,7 +135,7 @@ static Font_Ptr overmap_font;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
-static SDL_PixelFormat_Ptr format;
+static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
 #if defined(__ANDROID__)
@@ -337,9 +337,8 @@ static void WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
     }
 #endif
-    const Uint32 wformat = SDL_GetWindowPixelFormat( ::window.get() );
-    format.reset( SDL_AllocFormat( wformat ) );
-    throwErrorIf( !format, "SDL_AllocFormat failed" );
+    pixel_format = SDL_GetWindowPixelFormat( ::window.get() );
+    throwErrorIf( pixel_format == SDL_PIXELFORMAT_UNKNOWN, "SDL_GetWindowPixelFormat failed" );
 
     int renderer_id = -1;
 #if !defined(__ANDROID__)
@@ -453,7 +452,6 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
-    format.reset();
     display_buffer.reset();
     renderer.reset();
     ::window.reset();
@@ -780,8 +778,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     {
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = { dest.x, dest.y, width, height };
-        printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
-                      "SDL_RenderSetClipRect failed" );
+        RenderSetClipRect( renderer, &clipRect );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
         geometry->rect( renderer, clipRect, SDL_Color() );
@@ -894,7 +891,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     }
                 }
                 if( showhordes && los ) {
-                    const int horde_size = overmap_buffer.get_horde_size( omp, horde_map_flavors::active );
+                    const int horde_size = overmap_buffer.get_horde_size( omp,
+                                           horde_map_flavors::active | horde_map_flavors::idle );
                     if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                         // Scale down the range of horde population, which can be 1-576 to a range of 1-10
                         // These thresholds are generated with pow( sprite_size, 2.4 ).
@@ -1257,8 +1255,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
-                  "SDL_RenderSetClipRect failed" );
+    RenderSetClipRect( renderer, nullptr );
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
@@ -2468,8 +2465,8 @@ void draw_virtual_joystick()
         return;
     }
 
-    SDL_SetTextureAlphaMod( touch_joystick.get(),
-                            get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f * 255.0f );
+    SetTextureAlphaMod( touch_joystick,
+                        get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f * 255.0f );
 
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
 
@@ -3344,24 +3341,6 @@ static void CheckMessages()
                 break;
             }
 #endif
-            case SDL_CONTROLLERBUTTONDOWN:
-            case SDL_CONTROLLERBUTTONUP:
-                gamepad::handle_button_event( ev );
-                break;
-            case SDL_CONTROLLERAXISMOTION:
-                if( gamepad::handle_axis_event( ev ) ) {
-                    // Direction indicator changed, need to redraw
-                    needupdate = true;
-                    ui_manager::redraw_invalidated();
-                }
-                break;
-            case SDL_CONTROLLERDEVICEADDED:
-            case SDL_CONTROLLERDEVICEREMOVED:
-                gamepad::handle_device_event( ev );
-                break;
-            case SDL_GAMEPAD_SCHEDULER:
-                gamepad::handle_scheduler_event( ev );
-                break;
             case SDL_MOUSEMOTION:
                 if( ! mouse.enabled ) {
                     break;
@@ -3681,6 +3660,14 @@ static void CheckMessages()
             case SDL_QUIT:
                 quit = true;
                 break;
+            default:
+                if( gamepad::is_gamepad_event( ev ) ) {
+                    if( gamepad::handle_event( ev ) ) {
+                        needupdate = true;
+                        ui_manager::redraw_invalidated();
+                    }
+                }
+                break;
         }
         if( text_refresh && !is_repeat ) {
             break;
@@ -3962,14 +3949,14 @@ void catacurses::init_interface()
     }
 #endif // SOUND
 
-    font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+    font = std::make_unique<FontFallbackList>( renderer, pixel_format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
-    gui_font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+    gui_font = std::make_unique<FontFallbackList>( renderer, pixel_format, fl.fontwidth, fl.fontheight,
                windowsPalette, fl.gui_typeface, fl.fontsize, fl.fontblending );
-    map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
+    map_font = std::make_unique<FontFallbackList>( renderer, pixel_format, fl.map_fontwidth,
                fl.map_fontheight,
                windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
-    overmap_font = std::make_unique<FontFallbackList>( renderer, format, fl.overmap_fontwidth,
+    overmap_font = std::make_unique<FontFallbackList>( renderer, pixel_format, fl.overmap_fontwidth,
                    fl.overmap_fontheight,
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point::zero );
@@ -4134,7 +4121,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 bool gamepad_available()
 {
-    return gamepad::get_controller() != nullptr;
+    return gamepad::is_active();
 }
 
 void rescale_tileset( int size )
@@ -4406,7 +4393,7 @@ bool save_screenshot( const std::string &file_path )
     SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
 
     // Get data from SDL_Renderer and save them into surface
-    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, GetSurfacePixelFormat( surface ),
                                             surface->pixels, surface->pitch ) != 0,
                       "save_screenshot: cannot read data from SDL_Renderer." ) ) {
         return false;

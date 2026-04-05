@@ -1,0 +1,409 @@
+[
+  {
+    "id": "SKYISLAND_bunker_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Construct: Climate Control",
+    "description": "Completing this mission will instantly enhance the bunker on your home island.\n\nCraft a Lukewarm Sphere from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_climatecontrol",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_climatecontrol" },
+        {
+          "u_message": "The bunker is expansive, but it's too hot in summer and much too cold in winter.  A climate control system would make it a more comfortable place to rest when not on raids.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Infrastructure: Climate Control.  Control the climate within the bunker so it's not too warm in the summer or too cold in the winter.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_bunker_temperature_adaptation = 1" ] },
+        { "u_forget_recipe": "buildkey_climatecontrol" },
+        { "run_eocs": "EOC_skyisland_build_climatecontrol" },
+        { "u_message": "Construction complete.  The bunker's temperature is now controlled.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_climatecontrol",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Lukewarm Sphere" },
+    "description": "This strange metaphysical artifact is used to build infrastructure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Climate Control",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_climatecontrol",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "FABRIC_CUT", "level": 2 }, { "id": "BLOW_HOT_AIR", "level": 1 } ],
+    "components": [
+      [ [ "coat_winter", 1 ] ],
+      [ [ "down_blanket", 1 ] ],
+      [ [ "mask_ski", 1 ] ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "flag_swimsuit", 1 ], [ "trunks", 1 ], [ "bikini_bottom_short", 1 ], [ "bikini_bottom", 1 ] ],
+      [ [ "tshirt_cropped", 1 ] ],
+      [ [ "large_space_heater", 1 ] ],
+      [ [ "mountable_cooler", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_sunblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal sunblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Solar Refractor from sunglasses, glass and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_sunblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_sunblock" },
+        { "u_forget_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "The sun's rays shift a little.  As long as you are on the island, any harm they could do to you will be negated.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_sunblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Solar Refractor" },
+    "description": "This strange metaphysical artifact will make the island protect your skin from the sun while you are not earthside.  If your skin doesn't burn as the sun shines on it, this artifact will not do much to help but still won't hinder.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal sunblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_sunblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as the bunker and constructing on the surface makes it mostly obsolete.",
+    "//2": "The amount of glass shards is equal to the amount disassembling a standing mirror would give.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_radblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal Radiation Shield",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Focused Scrubber from janitor supplies.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Radiation cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_radblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_radblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Radiation cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_radblock" },
+        { "u_forget_recipe": "upgradekey_radblock" },
+        {
+          "u_message": "The light shifts a little.  As long as you are on the island, radiation won't hurt you.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_radblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Focused Scrubber" },
+    "description": "This strange metaphysical artifact will make the island protect you from radiation while you are on it.  There might never be a single source of radiation on the island, but better prepared than sorry.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal radiation shield.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_radblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as island-side radiation immunity is a very niche effect.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "bleach", 30 ], [ "ammonia_hydroxide", 30 ] ],
+      [ [ "broom", 1 ] ],
+      [ [ "mop", 1 ], [ "mop_folded", 1 ] ],
+      [ [ "soap", 10 ], [ "detergent", 10 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_windblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal windblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Wind Redirector from wind-blocking clothes and creams.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The winds cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_windblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_windblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The winds cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_windblock" },
+        { "u_forget_recipe": "upgradekey_windblock" },
+        { "math": [ "windblock = 1" ] },
+        {
+          "u_message": "The winds shift a little.  As long as you are on the island, they will not touch you.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_windblock",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Wind Redirector" },
+    "description": "This strange metaphysical artifact will make the island protect you from the winds while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal windblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_windblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a midgame craft, as the winds are a good motivator to drive early exploration.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jacket_windbreaker", 3 ] ],
+      [ [ "survival_book", 1 ] ],
+      [ [ "milk_cream", 5 ], [ "moisturizer", 5 ], [ "bristol_sherry", 5 ] ],
+      [ [ "any_tallow", 60, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_island_steady",
+    "type": "mission_definition",
+    "name": "Upgrade: Island-Side Resilience",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Unyielding Sinew from fibers and cables.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Your speed cannot be below its default while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_island_steady",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_island_steady" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Your speed cannot be below its default while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_island_steady" },
+        { "u_forget_recipe": "upgradekey_island_steady" },
+        {
+          "u_message": "Your sinews tingle for a second.  As long as you are on the island, your speed won't be lower than its default.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_island_steady",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Unyielding Sinew" },
+    "description": "This strange metaphysical artifact will make the island maintain your speed while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: island-side resilience.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_island_steady",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jumper_cable", 3 ], [ "jumper_cable_heavy", 3 ], [ "hd_tow_cable", 3 ] ],
+      [ [ "hc_chain_link", 11 ], [ "qt_chain_link", 11 ], [ "ch_chain_link", 11 ] ],
+      [ [ "plant_fibre", 500 ], [ "sinew", 500 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_personal_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal temperature adjustement",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_temperature_control",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_temperature_control" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Temperature cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" },
+        { "u_forget_recipe": "upgradekey_temperature_control" },
+        { "math": [ "skyisland_personal_temperature_adaptation = 1" ] },
+        {
+          "u_message": "Your skin shimmer for a second.  As long as you are on the island, you won't be affected by temperature.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_temperature_control",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Climate Self-Injector" },
+    "description": "This strange metaphysical artifact will make the island protect you from temperature while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal temperature adaptation.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_temperature_control",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a lategame craft, something the player focuses on as winter draws near.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "thermal_outfit", 20 ],
+        [ "thermal_suit", 20 ],
+        [ "bio_climate", 1 ],
+        [ "bio_heatsink", 1 ],
+        [ "exodii_ac_kit", 3 ]
+      ],
+      [ [ "mountable_cooler", 3 ], [ "condensor_coil", 30 ], [ "evaporator_coil", 30 ] ],
+      [ [ "mountable_heater", 3 ], [ "element", 30 ] ],
+      [ [ "air_compressor", 1 ], [ "1l_gold", 1 ] ],
+      [ [ "railroad_track_item", 1 ] ]
+    ]
+  }
+]

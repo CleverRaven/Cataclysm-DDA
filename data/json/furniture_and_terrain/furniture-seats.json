@@ -12,6 +12,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "lc_steel_chunk", "count": 8 } ]
@@ -44,6 +45,7 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
+    "mass": "27 kg",
     "item": "armchair",
     "flags": [
       "TRANSPARENT",
@@ -118,6 +120,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "item": "chair_wood",
     "bash": {
@@ -141,6 +144,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
+    "mass": "50 kg",
     "deconstruct": {
       "items": [
         { "item": "wooden_post_short", "count": 6 },
@@ -182,6 +186,7 @@
     "comfort": 1,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
+    "mass": "3 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "item": "stool_wood",
     "max_volume": "875 L",
@@ -208,6 +213,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
+    "mass": "2 kg",
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
@@ -229,6 +235,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
+    "mass": "11 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "item": "stool_log",
@@ -255,6 +262,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
+    "mass": "6 kg",
     "deployed_item": "deck_chair",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "SHORT", "EASY_DECONSTRUCT", "CAN_SIT" ],
@@ -280,6 +288,7 @@
     "move_cost_mod": 1,
     "coverage": 30,
     "required_str": 7,
+    "mass": "24 kg",
     "comfort": 1,
     "floor_bedding_warmth": -2000,
     "bonus_fire_warmth_feet": 1000,
@@ -346,6 +355,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 12,
+    "mass": "20 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "lc_steel_chunk", "count": 12 } ]
@@ -376,6 +386,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": 5,
+    "mass": "7 kg",
     "comfort": 1,
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
@@ -397,6 +408,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
+    "mass": "3 kg",
     "deployed_item": "chair_folding",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
@@ -418,6 +430,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "item": "chair_plywood",
     "bash": {
@@ -443,6 +456,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "item": "chair_wood_black",
     "bash": {
@@ -468,6 +482,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
+    "mass": "12 kg",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "item": "chair_wood_white",
     "bash": {
@@ -514,6 +529,7 @@
     "comfort": 6,
     "floor_bedding_warmth": 500,
     "required_str": 10,
+    "mass": "4 kg",
     "item": "beanbag",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT", "UNSTABLE" ],
     "bash": { "str_min": 12, "str_max": 40, "sound": "smash!", "sound_fail": "whump." }

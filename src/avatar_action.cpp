@@ -259,9 +259,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
+    // Riding an animal is less exerting, riding a mech has no exertion level
     if( !is_riding ) {
         you.set_activity_level( you.enchantment_cache->modify_value(
                                     enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER, you.current_movement_mode()->exertion_level() ) );
+    } else if( you.get_steed_type() == steed_type::ANIMAL ) {
+        you.set_activity_level( you.enchantment_cache->modify_value(
+                                    enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER,
+                                    you.current_movement_mode()->exertion_level_animal_riding() ) );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -374,8 +379,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
     if( monster *const mon_ptr = creatures.creature_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
-        if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet ) ) {
+        // Creatures swimming under a solid surface don't block surface movement
+        if( critter.is_underwater() &&
+            m.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, dest_loc ) ) {
+            // They're under the walkway/ice, player walks over them
+        } else if( critter.friendly == 0 &&
+                   !critter.has_effect( effect_pet ) ) {
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
@@ -741,12 +750,15 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
     const item_location weapon = you.get_wielded_item();
-    int reach = weapon ? weapon->reach_range( you ) : std::max( 1,
+    int reach = weapon ? weapon->reach_range( you ).first : std::max( 1,
                 static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
         if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
+        if( !you.can_reach_attack( *c ) ) { // target on different z-level
             return true;
         }
         if( !c->is_npc() ) {

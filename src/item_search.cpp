@@ -12,13 +12,16 @@
 #include "bodypart.h"
 #include "cata_compiler_support.h"
 #include "cata_utility.h"
+#include "creature.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "mapdata.h"
 #include "material.h"
+#include "monster.h"
 #include "math_parser_type.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -220,4 +223,58 @@ std::pair<std::string, std::string> get_both( std::string_view a )
     size_t split_mark = a.find( ';' );
     return std::pair( std::string( a.substr( 0, split_mark ) ),
                       std::string( a.substr( split_mark + 1 ) ) );
+}
+
+std::function<bool( const Creature & )> creature_filter_from_string(
+    const std::string &filter )
+{
+    return filter_from_string<Creature>( filter, basic_creature_filter );
+}
+
+std::function<bool( const Creature & )> basic_creature_filter( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+
+    switch( flag ) {
+        default:
+            return [filter]( const Creature & a ) {
+                std::string name = a.disp_name();
+                if( a.is_monster() ) {
+                    name = a.as_monster()->name();
+                }
+                return lcmatch( remove_color_tags( name ), filter );
+            };
+    }
+}
+
+std::function<bool( const map_data_common_t & )> terfurn_filter_from_string(
+    const std::string &filter )
+{
+    return filter_from_string<map_data_common_t>( filter, basic_terfurn_filter );
+}
+
+std::function<bool( const map_data_common_t & )> basic_terfurn_filter( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+
+    switch( flag ) {
+        default:
+            return [filter]( const map_data_common_t &a ) {
+                return lcmatch( remove_color_tags( a.name() ), filter );
+            };
+    }
 }

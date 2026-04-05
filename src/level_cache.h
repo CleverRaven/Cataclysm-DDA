@@ -9,13 +9,13 @@
 #include <utility>
 
 #include "coordinates.h"
+#include "lightmap.h"
 #include "map_scale_constants.h"
 #include "mdarray.h"
 #include "shadowcasting.h"
 
 // IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
-enum class lit_level : int;
 
 struct level_cache {
     public:
@@ -27,14 +27,25 @@ struct level_cache {
         bool outside_cache_dirty = false;
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
+        bool lightmap_dirty = true;
+        // True when at least one light source on this z-level has non-white color.
+        // Used to skip the color blur pass when all lights are white.
+        bool has_colored_lights = false;
         // This is a single value indicating that the entire level is floored.
         bool no_floor_gaps = false;
 
         cata::mdarray<four_quadrants, point_bub_ms> lm;
         cata::mdarray<float, point_bub_ms> sm;
-        // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
-        // This is only valid for the duration of generate_lightmap
-        cata::mdarray<float, point_bub_ms> light_source_buffer;
+        // Accumulated colored light energy per tile. Populated during generate_lightmap
+        // alongside lm/sm. Zero = uncolored (white) light only.
+        cata::mdarray<light_color_rgb, point_bub_ms> light_color_cache;
+        // Bulk light source buffer. Scalar luminance uses max() for dedup;
+        // color accumulates additively. Only valid during generate_lightmap.
+        struct buffered_light_source {
+            float luminance = 0.0f;
+            light_color_rgb color;
+        };
+        cata::mdarray<buffered_light_source, point_bub_ms> light_source_buffer;
 
         // Cache of natural light level is useful if it needs to be in sync with the light cache.
         float natural_light_level_cache;

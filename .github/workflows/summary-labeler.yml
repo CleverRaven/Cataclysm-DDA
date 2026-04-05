@@ -8,8 +8,10 @@ jobs:
     name: labeler
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: fuxingloh/multi-labeler@v4.0.0
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - uses: fuxingloh/multi-labeler@b15a54460c38f54043fa75f7b08a0e2aa5b94b5b # v4.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           config-path: '.github/summary-labels.yml'

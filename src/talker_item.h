@@ -61,6 +61,8 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int get_weight() const override;
         int get_quality( const std::string &, bool strict ) const override;
 
+        int get_price() const override;
+        int get_price_postapoc() const override;
     private:
         const item_location *me_it_const{};
 };

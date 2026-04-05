@@ -213,7 +213,7 @@
     "name": { "str_sp": "magnesium powder" },
     "description": "A handful of powdered magnesium, a highly flammable alkaline earth metal.  Useful for constructing flares and similar items.",
     "weight": "1120 mg",
-    "//": "Weight should be 1.12g because magnesium is 64% less dense than aluminum (1.74g/cm³ vs 2.70g/cm³), at 250ml aluminium powder has a weight of ~0.176kg at 250ml, assuming same particle size => magnesium powder has a weight of ~0.112kg at 250ml",
+    "//": "Weight should be 1.12g because magnesium is 64% less dense than aluminum (1.74g/cm³ vs 2.70g/cm³), at 250ml aluminum powder has a weight of ~0.176kg at 250ml, assuming same particle size => magnesium powder has a weight of ~0.112kg at 250ml",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "50 cent",

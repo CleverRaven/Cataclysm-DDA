@@ -675,7 +675,7 @@
             "variant": "itzcuauhtli_wrist_computer_standard",
             "charges": [ 7000, 10000 ]
           },
-          { "item": "matrix_crystal_teleportation" },
+          { "group": "teleportation_matrix_crystals_group", "prob": 1 },
           {
             "item": "mom_fusion_mag",
             "ammo-item": "mom_fusion_ammo",
@@ -828,7 +828,7 @@
       "bio_physical_buffs_fifth_sun",
       "bio_cameleoflage_fifth_sun"
     ],
-    "traits": [ "FIFTH_SUN_PEOPLE" ],
+    "traits": [ "FIFTH_SUN_PEOPLE", "FIFTH_SUN_CBM_INTERFACE" ],
     "items": {
       "both": {
         "entries": [

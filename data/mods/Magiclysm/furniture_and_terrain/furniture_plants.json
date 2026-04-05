@@ -70,6 +70,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "light_emitted": 10,
+    "light_color": [ 0, 80, 160 ],
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "glowing_mushroom_harv" } ],

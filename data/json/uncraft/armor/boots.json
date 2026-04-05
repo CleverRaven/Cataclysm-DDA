@@ -48,7 +48,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chitin_piece", 3 ] ], [ [ "leather", 1 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_wood", 2 ] ] ]
+    "components": [ [ [ "chitin_piece", 3 ] ], [ [ "leather", 1 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_plastic", 2 ] ] ]
   },
   {
     "result": "xs_boots_chitin",
@@ -56,7 +56,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chitin_piece", 2 ] ], [ [ "leather", 1 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_wood", 2 ] ] ]
+    "components": [ [ [ "chitin_piece", 2 ] ], [ [ "leather", 1 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_plastic", 2 ] ] ]
   },
   {
     "result": "xl_boots_chitin",
@@ -64,6 +64,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chitin_piece", 4 ] ], [ [ "leather", 2 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_wood", 2 ] ] ]
+    "components": [ [ [ "chitin_piece", 4 ] ], [ [ "leather", 2 ] ], [ [ "cotton_patchwork", 12 ] ], [ [ "button_plastic", 2 ] ] ]
   }
 ]

@@ -58,7 +58,7 @@
     "forests": null,
     "forest_trails": null,
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
     "terrain_furniture": "default",
@@ -119,6 +119,6 @@
     "base_pressure": 1015.0,
     "base_wind": 90.0,
     "base_wind_distrib_peaks": 80,
-    "base_wind_season_variation": 50
+    "base_wind_season_variation": 0
   }
 ]

@@ -16,9 +16,11 @@ jobs:
       CCACHE: 1
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      with:
+        persist-credentials: false
 
-    - uses: mymindstorm/setup-emsdk@v14
+    - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021 # v14
 
     - name: Install ccache
       run: |
@@ -33,7 +35,7 @@ jobs:
         echo "ccache-path=$(echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
 
     - name: ccache cache files
-      uses: actions/cache@v4
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
@@ -65,12 +67,14 @@ jobs:
         export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         ccache --show-stats
         NOW=`/bin/date +%s`
-        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        DELTA=$(( $NOW - ${STEPS_GET_VARS_OUTPUTS_DATETIME_SECONDS} ))
         ccache --evict-older-than ${DELTA}s
         ccache --show-stats
         ccache -M 1G
         ccache -c
         ccache --show-stats
+      env:
+        STEPS_GET_VARS_OUTPUTS_DATETIME_SECONDS: ${{ steps.get-vars.outputs.datetime-seconds }}
 
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' && !failure() }}
@@ -83,7 +87,7 @@ jobs:
       run: ./build-scripts/prepare-web.sh
 
     - name: Create artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: play-cdda
         path: build/*

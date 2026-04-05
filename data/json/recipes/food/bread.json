@@ -87,15 +87,12 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "bread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 2,
     "charges": 10,
-    "time": "20 m",
-    "batch_time_factors": [ 50, 4 ],
     "book_learn": [
       [ "family_cookbook", 1 ],
       [ "baking_book", 1 ],
@@ -103,10 +100,25 @@
       [ "cookbook_italian", 3 ],
       [ "atomic_survival", 6 ]
     ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
-    "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ]
+    "components": [ [ [ "flour", 22 ], [ "bread_flour", 5 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ],
+    "steps": [
+      {
+        "name": "Mix dough",
+        "time": "5 m",
+        "activity_level": "MODERATE_EXERCISE",
+        "batch_time_factors": [ 25, 4 ],
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ]
+      },
+      { "name": "Let dough rise", "time": "10 m", "activity_level": "NO_EXERCISE", "batch_time_factors": [ 5, 4 ] },
+      {
+        "name": "Bake",
+        "time": "5 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "batch_time_factors": [ 50, 4 ],
+        "qualities": [ { "id": "OVEN", "level": 1 } ],
+        "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -218,7 +230,7 @@
     "//": "flour = 20u, milk = 2u, oil = 2u.",
     "components": [
       [ [ "flour_any", 20, "LIST" ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "buttermilk", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]

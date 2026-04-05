@@ -434,4 +434,12 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     testexp.eval( d );
     CHECK( get_avatar().get_stamina() == 459 );
 
+    // event_statistic lookup
+    CHECK( testexp.parse( "event_statistic('num_avatar_wake_ups')" ) );
+    CHECK( testexp.eval( d ) == 0 );
+
+    // invalid event_statistic should throw
+    CHECK( testexp.parse( "event_statistic('nonexistent_stat_blorg')" ) );
+    CHECK_THROWS_AS( testexp.eval( d ), math::exception );
+
 }

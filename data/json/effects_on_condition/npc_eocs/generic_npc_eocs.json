@@ -232,6 +232,8 @@
     "//": "Runs once an hour and moves refugee center npcs around based on what hour it is.",
     "global": true,
     "recurrence": "1 hours",
+    "condition": { "current_dimension": "" },
+    "deactivate_condition": { "not": { "current_dimension": "" } },
     "effect": [
       {
         "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },

@@ -42,7 +42,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "60 m",
-    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "sheet_metal", 2 ] ] ],
     "pre_terrain": "t_floor",
@@ -723,7 +723,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welding_kit", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_terrain": "t_scrap_wall_halfway",
     "post_terrain": "t_scrap_wall"
@@ -737,7 +737,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welding_kit", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_scrap_wall_halfway"

@@ -392,8 +392,7 @@
         "target": "large_space_heater_on",
         "msg": "You turn on the heater.",
         "need_charges": 1,
-        "need_charges_msg": "The heater needs more charge.",
-        "menu_text": "Turn on",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }
@@ -603,8 +602,7 @@
         "target": "small_space_heater_on",
         "msg": "You turn on the heater.",
         "need_charges": 1,
-        "need_charges_msg": "The heater needs more charge.",
-        "menu_text": "Turn on",
+        "need_charges_msg": "The batteries are dead.",
         "type": "transform"
       },
       { "type": "link_up", "cable_length": 2, "charge_rate": "500 W" }

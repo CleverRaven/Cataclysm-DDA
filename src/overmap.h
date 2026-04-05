@@ -648,6 +648,7 @@ class overmap
         point_om_omt get_fallback_road_connection_point() const;
     private:
         friend class overmapbuffer;
+        friend class overmap_test_helper;
 
         std::vector<shared_ptr_fast<npc>> npcs;
 
@@ -659,7 +660,10 @@ class overmap
         std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
         // Whether this overmap has a highway connection point at this direction (N/E/S/W)
-        std::array<tripoint_om_omt, 4> highway_connections;
+        std::array<tripoint_om_omt, 4> highway_connections = {
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid,
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid
+        };
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
@@ -891,8 +895,6 @@ class overmap
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town,
                                 std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
-                        const std::string &prefix, int train_odds );
         void place_ravines();
 
         // Connection laying

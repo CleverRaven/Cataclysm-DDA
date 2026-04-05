@@ -129,10 +129,87 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_RESISTCHILL_RESISTWARM",
+    "name": { "str": "Ambient Resilience" },
+    "description": "You are less sensitive to hot and cold, but you can still freeze and overheat.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "changes_to": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
+    "points": 2,
+    "valid": true,
+    "vitamin_cost": 90,
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESISTCHILL_RESISTWARM_2",
+    "name": { "str": "High Ambient Resilience" },
+    "description": "Your body can handle extreme temperatures much better, but you can still freeze and overheat.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM" ],
+    "leads_to": [ "INTERSTICE_AURA" ],
+    "points": 3,
+    "valid": true,
+    "vitamin_cost": 120,
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 15 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_AURA",
+    "name": { "str": "Penumbral Interstitium" },
+    "description": "Your cells operate under different rules.  While you still need to breath, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESISTCHILL_RESISTWARM_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "leads_to": [ "INTERSTICE_RESONANCE" ],
+    "purifiable": false,
+    "points": 6,
+    "vitamin_cost": 240,
+    "integrated_armor": [ "integrated_interstice_aura" ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE",
+    "name": { "str": "Resonant" },
+    "description": "Your physiology plays by different rules, and it seems the universe has noticed.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_AURA" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "changes_to": [ "INTERSTICE_RESONANCE_2" ],
+    "strict_threshreq": true,
+    "points": -3,
+    "purifiable": false,
+    "vitamin_cost": 120,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 2000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_2",
+    "name": { "str": "Outsider" },
+    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESONANCE" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": -6,
+    "purifiable": true,
+    "vitamin_cost": 300,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 4500 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "QUICK",
     "name": { "str": "Quick" },
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
-    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "CHIROPTERAN" ],
+    "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "CHIROPTERAN", "INTERSTICE" ],
     "points": 5,
     "starting_trait": true,
     "vitamin_cost": 210,
@@ -143,7 +220,7 @@
     "id": "DEFT",
     "name": { "str": "Deft" },
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
-    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE" ],
+    "category": [ "BIRD", "BEAST", "RAPTOR", "FELINE", "INTERSTICE" ],
     "points": 1,
     "starting_trait": true,
     "vitamin_cost": 60
@@ -153,7 +230,7 @@
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
-    "category": [ "FELINE" ],
+    "category": [ "FELINE", "INTERSTICE" ],
     "points": 2,
     "starting_trait": true,
     "vitamin_cost": 160,
@@ -164,7 +241,7 @@
     "id": "FLEET",
     "name": { "str": "Fleet-Footed" },
     "description": "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
-    "category": [ "SPIDER", "MOUSE", "RABBIT", "BIRD" ],
+    "category": [ "SPIDER", "MOUSE", "RABBIT", "BIRD", "INTERSTICE" ],
     "types": [ "RUNNING" ],
     "changes_to": [ "FLEET2" ],
     "points": 2,
@@ -328,7 +405,7 @@
     "id": "GOODHEARING",
     "name": { "str": "Good Hearing" },
     "description": "Your hearing is better than average, and you can hear distant sounds more easily.",
-    "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
+    "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN", "INTERSTICE" ],
     "types": [ "HEARING" ],
     "changes_to": [ "BATEARS" ],
     "points": 1,
@@ -758,7 +835,8 @@
       "LUPINE",
       "MOUSE",
       "SPIDER",
-      "TROGLOBITE"
+      "TROGLOBITE",
+      "INTERSTICE"
     ],
     "types": [ "VISION" ],
     "changes_to": [ "NIGHTVISION2" ],
@@ -773,7 +851,7 @@
     "id": "NIGHTVISION2",
     "name": { "str": "High Night Vision" },
     "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
-    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "TROGLOBITE", "SPIDER" ],
+    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "TROGLOBITE", "SPIDER", "INTERSTICE" ],
     "types": [ "VISION" ],
     "prereqs": [ "NIGHTVISION" ],
     "changes_to": [ "NIGHTVISION3" ],
@@ -787,7 +865,7 @@
     "id": "NIGHTVISION3",
     "name": { "str": "Full Night Vision" },
     "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
-    "category": [ "FISH", "TROGLOBITE", "SPIDER", "INSECT" ],
+    "category": [ "FISH", "TROGLOBITE", "SPIDER", "INSECT", "INTERSTICE" ],
     "types": [ "VISION" ],
     "prereqs": [ "NIGHTVISION2" ],
     "leads_to": [ "INFRARED" ],
@@ -823,7 +901,7 @@
     "id": "MESOPIC",
     "name": { "str": "Mesopic" },
     "description": "You find it difficult to see very far in bright light.  On its own, this doesn't necessarily make you any better in the dark.",
-    "category": [ "CHIROPTERAN", "TROGLOBITE" ],
+    "category": [ "CHIROPTERAN", "TROGLOBITE", "INTERSTICE" ],
     "cancels": [ "MYOPIC", "HYPEROPIC" ],
     "points": -1,
     "starting_trait": true,
@@ -845,6 +923,20 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_VISION",
+    "name": { "str": "Tenebrous Sight" },
+    "description": "Useless things like light have no bearing on your ability to navigate the universe.",
+    "category": [ "INTERSTICE" ],
+    "cancels": [ "UNOBSERVANT" ],
+    "prereqs": [ "INTERSTICEEYES" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "points": 1,
+    "starting_trait": true,
+    "vitamin_cost": 60,
+    "enchantments": [ { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "UNOBSERVANT",
     "name": { "str": "Topographagnosia" },
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
@@ -859,7 +951,7 @@
     "id": "HEAVYSLEEPER",
     "name": { "str": "Heavy Sleeper" },
     "description": "You're quite the heavy sleeper.  Noises are unlikely to wake you up.",
-    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST", "URSINE" ],
+    "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "BEAST", "URSINE", "INTERSTICE" ],
     "changes_to": [ "HEAVYSLEEPER2" ],
     "points": -1,
     "starting_trait": true,
@@ -870,7 +962,7 @@
     "id": "HEAVYSLEEPER2",
     "name": { "str": "Very Heavy Sleeper" },
     "description": "You could probably sleep through a firefight.",
-    "category": [ "BEAST", "LUPINE", "URSINE" ],
+    "category": [ "BEAST", "LUPINE", "URSINE", "INTERSTICE" ],
     "prereqs": [ "HEAVYSLEEPER" ],
     "points": -2,
     "vitamin_cost": 160
@@ -880,7 +972,7 @@
     "id": "SLEEPY",
     "name": { "str": "Sleepy" },
     "description": "You need sleep more often, but still spend most of your time awake.",
-    "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
+    "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT", "INTERSTICE" ],
     "types": [ "SLEEP" ],
     "changes_to": [ "SLEEPY2", "MET_RAT" ],
     "points": -1,
@@ -893,7 +985,7 @@
     "id": "SLEEPY2",
     "name": { "str": "Very Sleepy" },
     "description": "You find yourself needing to sleep quite often.  You'll spend about half of your time in or around a bed.",
-    "category": [ "FELINE" ],
+    "category": [ "FELINE", "INTERSTICE" ],
     "types": [ "SLEEP" ],
     "prereqs": [ "SLEEPY" ],
     "points": -3,
@@ -1016,7 +1108,7 @@
     "id": "NO_CBM_INSTALLATION",
     "name": { "str": "Oversensitive System" },
     "description": "While it doesn't cause you any problems in daily life, your immune system and body chemistry are overly sensitive to foreign implants.  You cannot have any CBMs installed.",
-    "cancels": [ "CBM_Interface" ],
+    "cancels": [ "CBM_Interface", "Hub01_CBM_Interface" ],
     "points": -8,
     "player_display": true,
     "starting_trait": true,
@@ -1355,6 +1447,7 @@
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "points": 2,
+    "random_start_allowed": false,
     "starting_trait": true,
     "chargen_allow_npc": false,
     "valid": false,
@@ -1367,6 +1460,7 @@
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "points": 1,
+    "random_start_allowed": false,
     "starting_trait": true,
     "chargen_allow_npc": false,
     "valid": false,
@@ -1523,7 +1617,7 @@
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Kaluptic Psychosis" },
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "INTERSTICE" ],
     "points": -3,
     "starting_trait": true,
     "chargen_allow_npc": false,
@@ -1583,6 +1677,17 @@
     "points": -8,
     "starting_trait": true,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "COMPUTER_ILLITERATE",
+    "name": { "str": "Computer Illiterate" },
+    "description": "You just never really figured out how to use those infernal devices.  You cannot use computer terminals and cannot raise the computer skill above 0.",
+    "points": -5,
+    "starting_trait": true,
+    "valid": false,
+    "enchantments": [ { "skills": [ { "value": "computer", "multiply": -1 } ] } ],
+    "flags": [ "CANNOT_USE_COMPUTERS" ]
   },
   {
     "type": "mutation",
@@ -2029,6 +2134,21 @@
   },
   {
     "type": "mutation",
+    "id": "DEFORMED_INTERSTICE",
+    "name": { "str": "Gloam Presence" },
+    "description": "Something about you and your muted features darkens minds and moods.  People will be very unwilling to engage with you.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "ATTRACTIVENESS" ],
+    "prereqs": [ "TERRIFYING" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "mixed_effect": true,
+    "points": 0,
+    "vitamin_cost": 160,
+    "visibility": 10,
+    "ugliness": 10
+  },
+  {
+    "type": "mutation",
     "id": "LIAR",
     "name": { "str": "Skilled Liar" },
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
@@ -2079,7 +2199,7 @@
     "id": "ASOCIAL1",
     "name": { "str": "Introvert" },
     "description": "You can tolerate others, but you prefer to be alone.  Spending time by yourself will boost your mood slightly.",
-    "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA" ],
+    "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA", "INTERSTICE" ],
     "types": [ "SOCIAL" ],
     "changes_to": [ "ASOCIAL2" ],
     "cancels": [ "SOCIAL1", "SOCIAL2" ],
@@ -2093,7 +2213,7 @@
     "id": "ASOCIAL2",
     "name": { "str": "Loner" },
     "description": "You'd really rather be by yourself.  Being alone will improve your mood, but spending too much time around other people can grate on your nerves.",
-    "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ],
+    "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST", "INTERSTICE" ],
     "types": [ "SOCIAL" ],
     "cancels": [ "SOCIAL1", "SOCIAL2" ],
     "points": 1,
@@ -2400,6 +2520,17 @@
   },
   {
     "type": "mutation",
+    "id": "THRESH_INTERSTICE",
+    "name": { "str": "Interstitial" },
+    "description": "You're still here, mostly.  But you have seen the other places, and part of you lives in the cracks between those realities.",
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_INTERSTICE" ],
+    "points": 1,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "ROBUST",
     "name": { "str": "Robust Genetics" },
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
@@ -2443,8 +2574,8 @@
     "cancels": [ "ROBUST", "RESTRICTED", "RESISTANT_GENETICS" ],
     "points": -8,
     "starting_trait": true,
+    "random_start_allowed": false,
     "purifiable": false,
-    "valid": false,
     "vitamin_cost": 300,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
@@ -3127,6 +3258,29 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICE_POSTURE",
+    "name": { "str": "Languid Posture" },
+    "description": "Your connective tissues are weakening.  -1 Strength.",
+    "changes_to": [ "INTERSTICE_POSTURE_2" ],
+    "category": [ "INTERSTICE" ],
+    "points": -2,
+    "vitamin_cost": 60,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_POSTURE_2",
+    "name": { "str": "Loosened Anatomy" },
+    "mixed_effect": true,
+    "description": "Your connective tissues and joints are unnaturally lose, leaving you nimble.  -1 Strength, +1 Dexterity.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_POSTURE" ],
+    "points": 2,
+    "vitamin_cost": 80,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -1 }, { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "DEX_UP",
     "name": { "str": "Dextrous" },
     "description": "You are a little nimbler.  +1 Dexterity.",
@@ -3144,7 +3298,8 @@
       "ELFA",
       "FELINE",
       "CEPHALOPOD",
-      "FISH"
+      "FISH",
+      "INTERSTICE"
     ],
     "types": [ "DEX" ],
     "changes_to": [ "DEX_UP_2" ],
@@ -3169,7 +3324,8 @@
       "CEPHALOPOD",
       "FISH",
       "ALPHA",
-      "CHIROPTERAN"
+      "CHIROPTERAN",
+      "INTERSTICE"
     ],
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP" ],
@@ -3183,11 +3339,19 @@
     "id": "DEX_UP_3",
     "name": { "str": "Extremely Dextrous" },
     "description": "You are nimble and quick.  +4 Dexterity.",
-    "category": [ "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "CHIROPTERAN" ],
+    "category": [ "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "CHIROPTERAN", "INTERSTICE" ],
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
-    "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_CHIROPTERAN" ],
+    "threshreq": [
+      "THRESH_BIRD",
+      "THRESH_ELFA",
+      "THRESH_FELINE",
+      "THRESH_CEPHALOPOD",
+      "THRESH_FISH",
+      "THRESH_CHIROPTERAN",
+      "THRESH_INTERSTICE"
+    ],
     "points": 3,
     "vitamin_cost": 200,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
@@ -3322,7 +3486,7 @@
     "id": "PER_UP",
     "name": { "str": "Perceptive" },
     "description": "Your senses are a little keener.  +1 Perception.",
-    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
+    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER", "INTERSTICE" ],
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
     "points": 1,
@@ -3333,7 +3497,7 @@
     "id": "PER_UP_2",
     "name": { "str": "Very Perceptive" },
     "description": "Your senses are keener.  +2 Perception.",
-    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SPIDER" ],
+    "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SPIDER", "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP" ],
     "changes_to": [ "PER_UP_3", "PER_ALPHA" ],
@@ -3346,11 +3510,11 @@
     "id": "PER_UP_3",
     "name": { "str": "Extremely Perceptive" },
     "description": "Your senses are much keener.  +4 Perception.",
-    "category": [ "ELFA", "RAPTOR", "BIRD" ],
+    "category": [ "ELFA", "RAPTOR", "BIRD", "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_2" ],
     "changes_to": [ "PER_UP_4" ],
-    "threshreq": [ "THRESH_ELFA", "THRESH_RAPTOR", "THRESH_BIRD" ],
+    "threshreq": [ "THRESH_ELFA", "THRESH_RAPTOR", "THRESH_BIRD", "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
     "points": 3,
     "vitamin_cost": 200,
@@ -3361,15 +3525,31 @@
     "id": "PER_UP_4",
     "name": { "str": "Insanely Perceptive" },
     "description": "You can sense things you never imagined.  +7 Perception.",
-    "category": [ "BIRD" ],
+    "category": [ "BIRD", "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_3" ],
     "leads_to": [ "BIRD_EYE" ],
-    "threshreq": [ "THRESH_BIRD" ],
+    "changes_to": [ "PER_INTERSTICE" ],
+    "threshreq": [ "THRESH_BIRD", "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
     "points": 4,
     "vitamin_cost": 300,
     "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 7 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_INTERSTICE",
+    "name": { "str": "Perceptual Overreach" },
+    "description": "You see all the colors of space.  It is maddening and confusing.  +9 Perception, -3 intelligence.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "PER" ],
+    "prereqs": [ "PER_UP_4" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "mixed_effect": true,
+    "points": 4,
+    "vitamin_cost": 300,
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 9 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
   },
   {
     "type": "mutation",
@@ -3884,7 +4064,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.02 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 },
-          { "value": "MAX_HP", "add": 14 }
+          { "value": "MAX_HP", "add": 14 },
+          { "value": "WEIGHT", "multiply": 0.15 }
         ]
       }
     ]
@@ -3904,7 +4085,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.04 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 },
-          { "value": "MAX_HP", "add": 21 }
+          { "value": "MAX_HP", "add": 21 },
+          { "value": "WEIGHT", "multiply": 0.25 }
         ]
       }
     ]
@@ -3925,10 +4107,11 @@
         "values": [
           { "value": "MOVE_COST", "multiply": 0.05 },
           { "value": "ATTACK_SPEED", "multiply": 0.05 },
-          { "value": "MAX_HP", "add": 4 },
+          { "value": "MAX_HP", "multiply": 0.05 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
           { "value": "DODGE_CHANCE", "add": -1 },
-          { "value": "CARRY_WEIGHT", "multiply": 0.15 }
+          { "value": "CARRY_WEIGHT", "multiply": 0.15 },
+          { "value": "WEIGHT", "multiply": 0.05 }
         ]
       }
     ]
@@ -3945,7 +4128,9 @@
     "points": 2,
     "active": true,
     "cost": 0,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "//": "Also allows you to break down normally indigestible triffid fiber 3x as quickly.",
+    "vitamin_rates": [ [ "triffid_fiber", 3600 ] ]
   },
   {
     "type": "mutation",
@@ -3959,7 +4144,9 @@
     "points": 3,
     "active": true,
     "cost": 0,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "//": "Also allows you to break down normally indigestible triffid fiber 5x as quickly.",
+    "vitamin_rates": [ [ "triffid_fiber", 1800 ] ]
   },
   {
     "type": "mutation",
@@ -3982,20 +4169,14 @@
     "category": [ "URSINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
     "visibility": 5,
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s!",
-      "attack_text_npc": "%1$s bites %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_bear" } ] } ]
   },
   {
     "type": "mutation",
@@ -4026,7 +4207,15 @@
     "ugliness": 1,
     "bodytemp_modifiers": [ 200, 200 ],
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 },
+          { "value": "WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4080,6 +4269,7 @@
     "category": [ "BEAST", "LUPINE" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4087,14 +4277,7 @@
     "ugliness": 4,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 6 },
-    "attacks": {
-      "attack_text_u": "You nip at %s!",
-      "attack_text_npc": "%1$s nips and harries %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "cut", "amount": 4 }
-    }
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_lupine" } ] } ]
   },
   {
     "type": "mutation",
@@ -4221,14 +4404,7 @@
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 15 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your saber teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their saber teeth!",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 1 }
-    }
+    "integrated_armor": [ "integrated_saber_teeth" ]
   },
   {
     "type": "mutation",
@@ -4244,6 +4420,8 @@
     "active": true,
     "vitamin_cost": 160,
     "activated_is_setup": false,
+    "stamina": true,
+    "cost": 2000,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you."
   },
@@ -4306,7 +4484,8 @@
     "points": -1,
     "vitamin_cost": 90,
     "visibility": 6,
-    "ugliness": 1
+    "ugliness": 1,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rabbit" } ] } ]
   },
   {
     "type": "mutation",
@@ -4320,14 +4499,7 @@
     "points": 2,
     "vitamin_cost": 160,
     "visibility": 3,
-    "ugliness": 3,
-    "attacks": {
-      "attack_text_u": "You bite into %s with your ratlike incisors!",
-      "attack_text_npc": "%1$s bites %2$s with their ratlike incisors!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
+    "ugliness": 3
   },
   {
     "type": "mutation",
@@ -4341,7 +4513,8 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 4,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_rodent" } ] } ]
   },
   {
     "type": "mutation",
@@ -4544,6 +4717,7 @@
     "category": [ "LIZARD" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
+    "prereqs2": [ "FANGS" ],
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
@@ -4551,14 +4725,7 @@
     "ugliness": 8,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You bite a chunk out of %s!",
-      "attack_text_npc": "%1$s bites a chunk out of %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -4568,21 +4735,14 @@
     "category": [ "RAPTOR" ],
     "types": [ "MUZZLE" ],
     "prereqs": [ "SNOUT" ],
-    "points": -3,
+    "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 8,
     "restricts_gear": [ "mouth" ],
     "social_modifiers": { "intimidate": 20 },
-    "attacks": {
-      "attack_text_u": "You dart your head and snap at %s!",
-      "attack_text_npc": "%1$s darts their head and snaps at %2$s!",
-      "blocker_mutations": [ "FANGS" ],
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": { "damage_type": "stab", "amount": 18 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "muzzle_long" } ] } ]
   },
   {
     "type": "mutation",
@@ -4697,7 +4857,7 @@
     "vitamin_cost": 160,
     "visibility": 7,
     "ugliness": 4,
-    "encumbrance_always": [ [ "mouth", 10 ] ]
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_slit_nostrils_breathing_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4717,12 +4877,12 @@
     "name": { "str": "Bat Ears" },
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "category": [ "CHIROPTERAN" ],
-    "types": [ "HEARING" ],
+    "types": [ "HEARING", "EARS" ],
     "prereqs": [ "GOODHEARING" ],
     "points": 5,
     "vitamin_cost": 210,
     "visibility": 8,
-    "ugliness": 8,
+    "ugliness": 2,
     "flags": [ "HEARING_PROTECTION", "SAFECRACK_NO_TOOL" ],
     "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.3 } ] } ],
     "//": "A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM."
@@ -4761,21 +4921,25 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "name": { "str": "Feathered Arms" },
-    "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
+    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.",
     "category": [ "RAPTOR", "BIRD" ],
+    "types": [ "ARMS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "points": 2,
     "mixed_effect": true,
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 2,
-    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
-    "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 50 },
-      { "part": "arm_r", "neutral": 50 },
-      { "part": "hand_l", "neutral": 10 },
-      { "part": "hand_r", "neutral": 10 }
+    "encumbrance_covered": [ [ "arm_feathers_l", 4 ], [ "arm_feathers_r", 4 ] ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "gain": "arm_feathers_l" } ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "ARM_BIONIC_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "arm_r" }, { "gain": "arm_feathers_r" } ]
+      }
     ]
   },
   {
@@ -4796,7 +4960,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 },
+          { "value": "WEIGHT", "multiply": -0.05 }
         ]
       }
     ]
@@ -4818,7 +4983,8 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.4 }
+          { "value": "CARRY_WEIGHT", "multiply": -0.4 },
+          { "value": "WEIGHT", "multiply": -0.1 }
         ]
       }
     ]
@@ -4856,7 +5022,7 @@
     "type": "mutation",
     "id": "BEAK",
     "name": { "str": "Beak" },
-    "description": "You have a beak for a mouth.  You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
+    "description": "You have a beak for a mouth.  You can use it to peck at your enemies, but it is impossible for you to wear mouth gear.  Slightly reduces wet effects.",
     "category": [ "BIRD", "CEPHALOPOD" ],
     "types": [ "TEETH" ],
     "changes_to": [ "BEAK_HUM", "BEAK_PECK" ],
@@ -4868,14 +5034,8 @@
     "ugliness": 4,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You peck %s!",
-      "attack_text_npc": "%1$s pecks %2$s!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "stab", "amount": 15 }
-    },
-    "wet_protection": [ { "part": "mouth", "ignored": 1 } ]
+    "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_bird" } ] } ]
   },
   {
     "type": "mutation",
@@ -4894,16 +5054,9 @@
     "ugliness": 5,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "attacks": [
-      {
-        "attack_text_u": "You jackhammer into %s with your beak!",
-        "attack_text_npc": "%1$s jackhammer into %2$s with their beak!",
-        "body_part": "mouth",
-        "chance": 15,
-        "hardcoded_effect": true
-      }
-    ],
-    "wet_protection": [ { "part": "mouth", "ignored": 2 } ]
+    "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_woodpecker" } ] } ],
+    "armor": [ { "parts": [ "head", "beak" ], "bash": 3 } ]
   },
   {
     "type": "mutation",
@@ -4924,7 +5077,7 @@
     "ugliness": 5,
     "destroys_gear": true,
     "restricts_gear": [ "mouth" ],
-    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.8 } ] } ],
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "beak_hummingbird" } ] } ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ]
   },
   {
@@ -4954,14 +5107,7 @@
     "active": true,
     "vitamin_cost": 210,
     "visibility": 1,
-    "attacks": {
-      "attack_text_u": "You tear into %s with your rasping tongue!",
-      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue!",
-      "body_part": "mouth",
-      "chance": 15,
-      "base_damage": { "damage_type": "cut", "amount": 15 },
-      "strength_damage": { "damage_type": "cut", "amount": 2 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "gastropod_tongue" } ] } ]
   },
   {
     "type": "mutation",
@@ -4977,14 +5123,7 @@
     "vitamin_cost": 300,
     "visibility": 5,
     "ugliness": 5,
-    "attacks": {
-      "attack_text_u": "You stab into %s with your harpoon tongue!",
-      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue!",
-      "body_part": "mouth",
-      "chance": 25,
-      "base_damage": { "damage_type": "stab", "amount": 15 },
-      "strength_damage": { "damage_type": "stab", "amount": 3 }
-    }
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "gastropod_tongue" } ] } ]
   },
   {
     "type": "mutation",
@@ -5001,13 +5140,18 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 9,
-    "flags": [ "SLUDGE_IMMUNE" ],
-    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "SLUDGE_IMMUNE", "TOUGH_FEET" ],
     "destroys_gear": true,
-    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
+      },
+      {
+        "condition": {
+          "and": [ { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } }, { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } } ]
+        },
+        "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
       }
     ]
   },
@@ -5032,6 +5176,7 @@
     "prereqs": [ "GASTROPOD_FOOT" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
     "changes_to": [ "SNAIL_TRAIL" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
     "points": 1,
     "vitamin_cost": 80,
     "visibility": 2,
@@ -5042,21 +5187,29 @@
     "type": "mutation",
     "id": "MUCUS_SECRETION2",
     "name": { "str": "Acidic Secretion" },
-    "description": "Your mucus has developed an acidic component that seems to soften your prey up.",
+    "description": "Your mucus has developed an acidic component that seems to soften your prey up.  When attacking unarmed, sometimes your slime will hit your target as well.",
     "category": [ "GASTROPOD" ],
     "prereqs": [ "MUCUS_SECRETION" ],
+    "threshreq": [ "THRESH_GASTROPOD" ],
     "points": 3,
     "vitamin_cost": 160,
     "visibility": 2,
     "ugliness": 2,
     "flags": [ "IRRITANT_IMMUNE" ],
-    "attacks": {
-      "attack_text_u": "You smear slime on %s!",
-      "attack_text_npc": "%1$s smears slime on %2$s!",
-      "body_part": "torso",
-      "chance": 23,
-      "base_damage": { "damage_type": "acid", "amount": 6 }
-    }
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } },
+            {
+              "x_in_y_chance": { "x": 1, "y": { "math": [ "max( (23 - u_skill('unarmed') - (u_val('dexterity') / 2 ) ), 2)" ] } }
+            }
+          ]
+        },
+        "melee_damage_bonus": [ { "type": "acid", "add": { "math": [ "rng(2, ( (u_skill('unarmed') / 2) + 6) )" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5476,14 +5629,7 @@
     "visibility": 10,
     "ugliness": 8,
     "social_modifiers": { "intimidate": 5 },
-    "attacks": {
-      "attack_text_u": "You tear into %s with your teeth!",
-      "attack_text_npc": "%1$s tears into %2$s with their teeth!",
-      "body_part": "mouth",
-      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-      "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 }
-    },
+    "integrated_armor": [ "integrated_shark_teeth" ],
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.7 } ] } ]
   },
   {
@@ -5540,6 +5686,25 @@
     "vitamin_cost": 210,
     "social_modifiers": { "lie": -5, "persuade": -5 },
     "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 17 }, { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_MIND",
+    "name": { "str": "Apathy of the Outer Dark" },
+    "description": "Your mind has been altered in such a way that you now find it very difficult to relate to or understand humans, the things they know, and the things they care about.  You are no longer bothered by much, but your ability to persuade, lie, and retain human knowledge is diminished.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "HUMAN_EMPATHY" ],
+    "prereqs": [ "NUMB" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "mixed_effect": true,
+    "cancels": [ "TRUTHTELLER", "LIAR", "SLOWLEARNER", "FASTLEARNER" ],
+    "points": -1,
+    "purifiable": false,
+    "vitamin_cost": 210,
+    "social_modifiers": { "lie": -5, "persuade": -5 },
+    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
+    "flags": [ "NUMB" ]
   },
   {
     "type": "mutation",
@@ -5795,7 +5960,7 @@
     "vitamin_cost": 90,
     "visibility": 8,
     "ugliness": 6,
-    "butchering_quality": 4,
+    "provided_qualities": { "BUTCHER": 4 },
     "integrated_armor": [ "integrated_mandibles" ],
     "attacks": {
       "attack_text_u": "You bite %s with your fangs!",
@@ -5822,7 +5987,8 @@
     "vitamin_cost": 160,
     "visibility": 5,
     "ugliness": 7,
-    "restricts_gear": [ "mouth" ]
+    "restricts_gear": [ "mouth" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "mouth" }, { "gain": "insect_proboscis" } ] } ]
   },
   {
     "type": "mutation",
@@ -6185,9 +6351,10 @@
     "id": "NUMB",
     "name": { "str": "Numb" },
     "description": "Your ability to feel or express emotion has been greatly hampered.",
-    "category": [ "MEDICAL" ],
+    "category": [ "MEDICAL", "INTERSTICE" ],
     "types": [ "HUMAN_EMPATHY" ],
-    "threshreq": [ "THRESH_MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL", "THRESH_INTERSTICE" ],
+    "changes_to": [ "INTERSTICE_MIND" ],
     "points": 0,
     "purifiable": false,
     "vitamin_cost": 160,
@@ -6377,7 +6544,7 @@
     "id": "TROGLO",
     "name": { "str": "Light Sensitive" },
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
-    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE", "CHIROPTERAN" ],
+    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE", "CHIROPTERAN", "INTERSTICE" ],
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
     "cancels": [ "SEASONAL_AFFECTIVE" ],
@@ -6389,7 +6556,7 @@
     "id": "TROGLO2",
     "name": { "str": "Very Light Sensitive" },
     "description": "Sunlight makes you very uncomfortable.  If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
-    "category": [ "RAT", "TROGLOBITE" ],
+    "category": [ "RAT", "TROGLOBITE", "INTERSTICE" ],
     "types": [ "SUNLIGHT" ],
     "prereqs": [ "TROGLO" ],
     "changes_to": [ "TROGLO3" ],
@@ -6402,6 +6569,7 @@
     "name": { "str": "Troglobite" },
     "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
     "category": [ "TROGLOBITE" ],
+    "purifiable": false,
     "types": [ "SUNLIGHT" ],
     "prereqs": [ "TROGLO2" ],
     "points": -5,
@@ -6418,6 +6586,20 @@
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
     "points": -3,
     "vitamin_cost": 160,
+    "purifiable": false,
+    "flags": [ "SUNBURN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SUNBURN_INTERSTICE",
+    "name": { "str": "Daylight Exclusion" },
+    "description": "You cannot handle sunlight.  It will seriously burn you.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "TROGLO2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "points": -3,
+    "vitamin_cost": 160,
+    "purifiable": false,
     "flags": [ "SUNBURN" ]
   },
   {
@@ -6466,6 +6648,7 @@
     "name": { "str": "Subterranean Build" },
     "description": "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading mobility for muscle mass.  (+2 Strength, -2 Dexterity)",
     "category": [ "TROGLOBITE" ],
+    "purifiable": false,
     "threshreq": [ "THRESH_TROGLOBITE" ],
     "points": 0,
     "vitamin_cost": 60,
@@ -6690,6 +6873,32 @@
   },
   {
     "type": "mutation",
+    "id": "INTERSTICEEYES",
+    "name": { "str": "Pale Eyes" },
+    "description": "Your eyes have turned almost completely white.  The effect is unpleasant and intimidating.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "EYES" ],
+    "leads_to": [ "INTERSTICE_VISION" ],
+    "points": 1,
+    "vitamin_cost": 60,
+    "social_modifiers": { "persuade": -5, "intimidate": 5 }
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICEHEARING",
+    "name": { "str": "Otherworldly Hearing" },
+    "description": "You hear so well you could the whisper of a shadow.  And you do.  Everything speaks to you.  You have extreme hearing, but -1 Intelligence.",
+    "category": [ "INTERSTICE" ],
+    "types": [ "HEARING" ],
+    "prereqs": [ "GOODHEARING" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "mixed_effect": true,
+    "points": 2,
+    "vitamin_cost": 160,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.95 }, { "value": "INTELLIGENCE", "add": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
     "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
@@ -6782,7 +6991,7 @@
     "id": "TERRIFYING",
     "name": { "str": "Terrifying" },
     "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
-    "category": [ "BEAST", "INSECT", "CHIMERA", "CRUSTACEAN" ],
+    "category": [ "BEAST", "INSECT", "CHIMERA", "CRUSTACEAN", "INTERSTICE" ],
     "types": [ "ANIMAL_EMPATHY" ],
     "points": 1,
     "starting_trait": true,
@@ -6954,12 +7163,23 @@
     "ugliness": 5,
     "flags": [ "VINE_RAPPEL" ],
     "encumbrance_always": [ [ "torso", 10 ] ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_r') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_r') > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_hp('vine_limb_upper_l') > 15" ] }, { "math": [ "u_hp('vine_limb_lower_l') > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },
@@ -6983,12 +7203,23 @@
     "ugliness": 6,
     "flags": [ "VINE_RAPPEL" ],
     "spawn_item": { "type": "vine_30", "message": "You detach a vine from your body." },
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You lash %s with one of your vines!",
-        "attack_text_npc": "%1$s lashes %2$s with one of their vines!",
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "gain": "vine_limb_upper_r" },
+          { "gain": "vine_limb_upper_l" },
+          { "gain": "vine_limb_lower_r" },
+          { "gain": "vine_limb_lower_l" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "vine_limb_upper_r > 15" ] }, { "math": [ "vine_limb_lower_r > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "vine_limb_upper_l > 15" ] }, { "math": [ "vine_limb_lower_l > 15" ] } ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 } ]
       }
     ]
   },
@@ -7171,5 +7402,55 @@
     "visibility": 5,
     "ugliness": 9,
     "flags": [ "IMMUNE_SPOIL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELDRITCH_IRE",
+    "name": { "str": "Eldritch Ire" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "As if the apocalypse itself wasn't enough, you are constantly being at the ire of the zombies.  Zombies somehow can sense your presence from very far away and approach your general location."
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_PHYSIOLOGY",
+    "name": { "str": "Unbound Physiology" },
+    "description": "Your body is no longer constrained by the rules of this world.  You move deftly and quietly, but this forced existence is exhausting.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_POSTURE_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": 3,
+    "mixed_effect": true,
+    "vitamin_cost": 300,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "DODGE_CHANCE", "add": 3 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.333 },
+          { "value": "SLEEPINESS", "multiply": 0.333 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_GROWING",
+    "name": { "str": "Growing Shadowy Flesh" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "The ends of your appendages are covered in an inky, shadowy substance.  It does not impede you at all, but you can feel it growing."
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_SHRINKING",
+    "name": { "str": "Retreating Shadowy Flesh" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "The ends of your appendages are covered in an inky, shadowy substance.  It does not impede you at all, and you can feel it slowly shrinking away."
   }
 ]

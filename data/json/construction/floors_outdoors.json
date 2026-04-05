@@ -50,7 +50,7 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welding_kit", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [ [ [ "steel_plate", 2 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support_below",

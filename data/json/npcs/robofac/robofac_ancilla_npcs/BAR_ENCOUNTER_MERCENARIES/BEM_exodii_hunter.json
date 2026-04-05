@@ -1,0 +1,86 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BEM_EXODII_HUNTER",
+    "name": { "str": "Mercenary" },
+    "job_description": "Fighting for the name of Hub 01 and money, mostly money.",
+    "common": false,
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "BEM_EXODII_HUNTER_worn",
+    "carry_override": "BEM_EXODII_HUNTER_STOCK",
+    "weapon_override": "BEM_EXODII_HUNTER_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 6, 8 ] } }
+    ],
+    "shopkeeper_price_rules": [ { "group": "BEM_EXODII_HUNTER_STOCK", "markup": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_EXODII_HUNTER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "helmet_sallet_raised" },
+      { "item": "survivor_goggles" },
+      { "item": "torso_bandolier_shotgun" },
+      { "item": "briefs" },
+      { "item": "pants_tactical", "variant": "tactical_pants_desert" },
+      { "item": "turtleneck_shirt_rolled" },
+      { "item": "coat_fur", "variant": "coat_tiger_fur" },
+      { "item": "socks_wool" },
+      { "item": "knee_high_boots", "variant": "chelsea_boots" },
+      { "item": "duffelbag_xl_nylon" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_EXODII_HUNTER_wield",
+    "subtype": "collection",
+    "items": [ { "item": "pamd71z" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "BEM_EXODII_HUNTER_STOCK",
+    "subtype": "collection",
+    "entries": [
+      { "group": "EXODII_CBM_Store_Tier1", "prob": 100, "count": [ 1, 2 ] },
+      { "group": "EXODII_CBM_Store_Tier2", "prob": 80, "count": 1 },
+      { "group": "EXODII_CBM_Store_Tier3", "prob": 40, "count": 1 },
+      { "group": "EXODII_CBM_Store_Tier4", "prob": 20, "count": 1 }
+    ]
+  },
+  {
+    "id": [ "BEM_EXODII_HUNTER_1" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "ancilla_autodoc_placed == 1" ],
+      "yes": "&The garishly-dressed hunter greets you with an easy smile and a haughty accent.  Their exotic-looking rifle is resting against the table.  \"Excellent, excellent, come chat, talk, and see.  You, yes you.  I'm a hunter, you see, and I've been stalking those infernal tin nightmares - you know the ones - since the very first tear in the sky.  Capital sport, I assure you.  Splendid chase, even when they shoot back.\"\n\n\"Well, I am told we've developed a rather practical appetite for their innards.  So, I've taken the liberty of collecting and cleaning a few choice specimens.  Do have a look.  These are the finest cuts of alien machinery you're likely to find this side of oblivion.\"",
+      "no": "&The garishly-dressed hunter greets you with an easy smile and a haughty accent.  Their exotic-looking rifle is resting against the table.  \"I am here for a drink and a moment's blessed quiet.  Please allow me to enjoy both.  Undisturbed.\""
+    },
+    "speaker_effect": { "effect": [ { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "Sure, let's see what you have to offer.",
+        "condition": { "math": [ "ancilla_autodoc_placed == 1" ] },
+        "topic": "TALK_DONE",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Sorry, not interested.",
+        "condition": { "math": [ "ancilla_autodoc_placed == 1" ] },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright.  Maybe some other time.",
+        "condition": { "math": [ "ancilla_autodoc_placed != 1" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

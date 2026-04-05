@@ -3179,7 +3179,6 @@
       [ "hsurvivor_jumpsuit", 6 ],
       [ "wsurvivor_jumpsuit", 6 ],
       [ "wsurvivor_jumpsuit_nofur", 4 ],
-      [ "h20survivor_jumpsuit", 2 ],
       [ "touring_suit", 16 ],
       [ "armor_larmor", 28 ],
       [ "armor_blarmor", 14 ],
@@ -3199,10 +3198,6 @@
     "type": "item_group",
     "id": "survivorzed_tops",
     "items": [
-      [ "trenchcoat_survivor", 5 ],
-      [ "sleeveless_trenchcoat_survivor", 2 ],
-      [ "duster_survivor", 5 ],
-      [ "sleeveless_duster_survivor", 2 ],
       [ "vest", 40 ],
       [ "kevlar", 16 ],
       [ "jacket_army", 5 ],
@@ -3245,7 +3240,6 @@
     "type": "item_group",
     "id": "survivorzed_bottoms",
     "items": [
-      [ "pants_survivor", 10 ],
       [ "pants_tactical", 15 ],
       [ "pants_hiking", 12 ],
       [ "pants_cargo", 40 ],
@@ -3263,12 +3257,8 @@
     "type": "item_group",
     "id": "survivorzed_gloves",
     "items": [
-      [ "gloves_lsurvivor", 10 ],
       [ "gloves_survivor", 8 ],
-      [ "gloves_hsurvivor", 4 ],
-      [ "gloves_wsurvivor", 4 ],
       [ "gloves_fsurvivor", 2 ],
-      [ "gloves_h20survivor", 1 ],
       [ "gloves_fingerless", 28 ],
       [ "gloves_fingerless_mod", 20 ],
       [ "gloves_tactical", 12 ],
@@ -3290,12 +3280,8 @@
     "type": "item_group",
     "id": "survivorzed_boots",
     "items": [
-      [ "boots_lsurvivor", 10 ],
       [ "boots_survivor", 8 ],
-      [ "boots_hsurvivor", 4 ],
       [ "boots_wsurvivor", 4 ],
-      [ "boots_fsurvivor", 2 ],
-      [ "boots_h20survivor", 1 ],
       [ "boots", 20 ],
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
@@ -3314,11 +3300,8 @@
     "type": "item_group",
     "id": "survivorzed_head",
     "items": [
-      [ "hood_lsurvivor", 10 ],
       [ "hood_survivor", 8 ],
       [ "hood_wsurvivor", 4 ],
-      [ "hood_fsurvivor", 2 ],
-      [ "hood_h20survivor", 1 ],
       [ "helmet_army", 26 ],
       [ "tac_helmet", 22 ],
       [ "helmet_riot", 18 ],
@@ -3363,7 +3346,6 @@
       [ "duffelbag", 8 ],
       { "group": "large_duffelbags", "prob": 4 },
       [ "quiver_takedown_bow", 1 ],
-      [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
       [ "throat_guard_nylon", 2 ],
@@ -3427,7 +3409,6 @@
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
       { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt_notools", 2 ],
-      [ "survivor_mess_kit", 6 ],
       [ "acetylene_cooker", 12 ],
       [ "survivor_shavingkit", 3 ],
       [ "survivor_hairtrimmer", 1 ],
@@ -3912,7 +3893,7 @@
   {
     "id": "shirts_womens",
     "type": "item_group",
-    "//": "womens shirts",
+    "//": "women's shirts",
     "subtype": "distribution",
     "items": [ { "item": "halter_top", "prob": 30 }, { "item": "tank_top", "prob": 15 }, { "item": "camisole", "prob": 15 } ]
   },
@@ -3934,7 +3915,7 @@
   {
     "id": "underwear_womens",
     "type": "item_group",
-    "//": "womens underwear.",
+    "//": "women's underwear.",
     "subtype": "distribution",
     "items": [
       { "item": "boy_shorts", "prob": 30 },
@@ -3958,7 +3939,7 @@
   {
     "id": "underwear_mens",
     "type": "item_group",
-    "//": "mens underwear.",
+    "//": "men's underwear.",
     "subtype": "distribution",
     "items": [
       { "item": "boxer_briefs", "prob": 30 },
@@ -4015,7 +3996,7 @@
   {
     "id": "pants_womens",
     "type": "item_group",
-    "//": "womens pants and leg coverings for domestic locations.",
+    "//": "women's pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [
       { "item": "nanoskirt", "prob": 1 },
@@ -4028,7 +4009,7 @@
   {
     "id": "pants_mens",
     "type": "item_group",
-    "//": "mens pants and leg coverings for domestic locations.",
+    "//": "men's pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [ { "item": "kilt", "prob": 50 }, { "item": "kilt_leather", "prob": 25 } ]
   },
@@ -4061,7 +4042,7 @@
   {
     "id": "gloves_womens",
     "type": "item_group",
-    "//": "womens gloves and mittens for domestic locations.",
+    "//": "women's gloves and mittens for domestic locations.",
     "subtype": "distribution",
     "items": [ { "item": "long_glove_white", "prob": 5 } ]
   },
@@ -4438,7 +4419,7 @@
   {
     "id": "shoes_womens",
     "type": "item_group",
-    "//": "womens only shoes",
+    "//": "women's only shoes",
     "subtype": "distribution",
     "items": [ { "item": "heels", "prob": 100 } ]
   },
@@ -4616,7 +4597,7 @@
   {
     "id": "accesories_personal_womens",
     "type": "item_group",
-    "//": "womens personal accessories",
+    "//": "women's personal accessories",
     "subtype": "distribution",
     "items": [
       { "group": "accesories_personal_womens_child", "prob": 380 },
@@ -4635,7 +4616,7 @@
   {
     "id": "accesories_personal_womens_child",
     "type": "item_group",
-    "//": "womens personal accessories that do not contain the adult-specific ones",
+    "//": "women's personal accessories that do not contain the adult-specific ones",
     "subtype": "distribution",
     "items": [
       { "item": "hairpin", "prob": 90 },

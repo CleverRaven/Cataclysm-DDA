@@ -72,7 +72,7 @@ static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -114,7 +114,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     map &here = get_map();
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
@@ -137,7 +137,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
@@ -210,7 +210,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
@@ -350,7 +350,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     // only the part damage is pseudo-random spread, while total damage should
     // round trip well in integers
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     map &m = get_map();
     Character &u = get_player_character();
@@ -473,7 +473,7 @@ static void connect_power_line( const tripoint_bub_ms &src_pos, const tripoint_b
 
 TEST_CASE( "power_cable_stretch_disconnect" )
 {
-    clear_map();
+    clear_map_without_vision();
     clear_avatar();
     map &m = get_map();
     Character &player_character = get_player_character();
@@ -611,7 +611,7 @@ static void rack_check( const rack_preset &preset )
     Character &u = get_player_character();
 
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     clear_vehicles( &m );
 
     std::vector<vehicle *> vehs;
@@ -773,7 +773,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra_part )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -825,7 +825,7 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
 TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -861,7 +861,7 @@ TEST_CASE( "vehicle_enchantments", "[vehicle][enchantments]" )
 TEST_CASE( "vehicle_effects", "[vehicle][effects]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
@@ -938,7 +938,7 @@ static void run_squish_test( const std::map<itype_id, double> &to_squish,
 
 TEST_CASE( "vehicle_wheels_damaged_by_running_over_items", "[vehicle]" )
 {
-    clear_map();
+    clear_map_without_vision();
     map &here = get_map();
     const tripoint_bub_ms test_point( 60, 60, 0 );
     REQUIRE( !here.veh_at( test_point ) );

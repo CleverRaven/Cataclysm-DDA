@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <Type Name="Character">
+        <DisplayString>{name}</DisplayString>
+    </Type>
+    <Type Name="units::quantity&lt;*, units::volume_in_milliliter_tag&gt;">
+        <DisplayString>{value_} ml</DisplayString>
+    </Type>
+    <Type Name="units::quantity&lt;*, units::length_in_millimeter_tag&gt;">
+        <DisplayString>{value_ / 10} cm</DisplayString>
+    </Type>
+    <Type Name="units::quantity&lt;*, units::mass_in_milligram_tag&gt;">
+        <DisplayString>{value_ / 1000} g</DisplayString>
+    </Type>
+    <Type Name="item">
+        <DisplayString Condition="is_favorite">* {type->name}</DisplayString>
+        <DisplayString Condition="!is_favorite">{type->name}</DisplayString>
+    </Type>
+    <Type Name="item_pocket">
+        <DisplayString Condition="data->pocket_name.raw._Mypair._Myval2._Mysize != 0">{data->pocket_name} in {data->name}</DisplayString>
+        <DisplayString>{data->name}</DisplayString>
+    </Type>
+    <Type Name="item_location">
+        <DisplayString Condition="ptr._Ptr->what.impl._Rep->_Uses">{*ptr._Ptr}</DisplayString>
+        <DisplayString Condition="!ptr._Ptr->what.impl._Rep->_Uses">invalid item location</DisplayString>
+    </Type>
+    <Type Name="item_location::impl::item_in_container">
+        <DisplayString Condition="what.impl._Rep->_Uses">{*what.impl._Ptr} in {container}</DisplayString>
+        <DisplayString Condition="!what.impl._Rep->_Uses">invalid item location</DisplayString>
+    </Type>
+    <Type Name="item_location::impl::item_on_map">
+        <DisplayString Condition="what.impl._Rep->_Uses">{*what.impl._Ptr} at {cur}</DisplayString>
+        <DisplayString Condition="!what.impl._Rep->_Uses">invalid item location</DisplayString>
+    </Type>
+    <Type Name="item_location::impl::item_on_person">
+        <DisplayString Condition="what.impl._Rep->_Uses">{*what.impl._Ptr} on {*who}</DisplayString>
+        <DisplayString Condition="!what.impl._Rep->_Uses">invalid item location</DisplayString>
+    </Type>
+    <Type Name="item_location::impl::item_on_vehicle">
+        <DisplayString Condition="what.impl._Rep->_Uses">{*what.impl._Ptr} in vehicle {cur.veh.name}</DisplayString>
+        <DisplayString Condition="!what.impl._Rep->_Uses">invalid item location</DisplayString>
+    </Type>
+    <Type Name="translation">
+        <DisplayString>{raw}</DisplayString>
+    </Type>
+</AutoVisualizer>

@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "ammo.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_path.h"
@@ -716,6 +717,14 @@ item *item_pocket::magazine_current()
     return iter != contents.end() ? &*iter : nullptr;
 }
 
+const item *item_pocket::magazine_current() const
+{
+    auto iter = std::find_if( contents.begin(), contents.end(), []( const item & it ) {
+        return !it.is_null();
+    } );
+    return iter != contents.end() ? &*iter : nullptr;
+}
+
 itype_id item_pocket::magazine_default() const
 {
     if( is_type( pocket_type::MAGAZINE_WELL ) ) {
@@ -811,7 +820,9 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
         if( iter->made_of( phase_id::LIQUID ) ) {
             liquid_dest_opt liquid_target;
             while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
-                // query until completely handled or explicitly canceled
+                // Reset so the next iteration re-prompts for a target,
+                // matching consume_liquid (handle_liquid.cpp).
+                liquid_target.dest_opt = LD_NULL;
             }
             if( iter->charges == 0 ) {
                 iter = contents.erase( iter );
@@ -1157,13 +1168,23 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
     if( !no_rigid.empty() ) {
         std::vector<sub_bodypart_id> no_rigid_vec( no_rigid.begin(), no_rigid.end() );
-        std::set<translation, localized_comparator> to_print = body_part_type::consolidate( no_rigid_vec );
-        std::string bps = enumerate_as_string( to_print.begin(),
-        to_print.end(), []( const translation & t ) {
-            return t.translated();
+        // Filter to the viewing character's actual anatomy
+        const Character &viewer = get_player_character();
+        body_part_set viewer_parts;
+        viewer_parts.fill( viewer.get_all_body_parts() );
+        erase_if( no_rigid_vec, [&viewer_parts]( const sub_bodypart_id & sbp ) {
+            return !viewer_parts.test( sbp->parent );
         } );
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
-                           bps ) );
+        if( !no_rigid_vec.empty() ) {
+            std::set<translation, localized_comparator> to_print = body_part_type::consolidate(
+                        no_rigid_vec );
+            std::string bps = enumerate_as_string( to_print.begin(),
+            to_print.end(), []( const translation & t ) {
+                return t.translated();
+            } );
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
+                               bps ) );
+        }
     }
 }
 

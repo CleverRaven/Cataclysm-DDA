@@ -551,7 +551,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "inactive exterminatron" },
-    "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
+    "description": "An inactive Hub 01 exterminatron.  If programmed and reloaded successfully, the robot will track you while providing fire-support.  Activate it while carrying 7.62x51mm NATO M80 to turn it on and reload it.",
     "//": "Volume and weight based on Boston Dynamics Spot.",
     "volume": "125 L",
     "weight": "36 kg",
@@ -569,6 +569,32 @@
       "difficulty": 1,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
+  },
+  {
+    "id": "bot_robofac_hound",
+    "looks_like": "broken_skitterbot",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "inactive Hub 01 HOUND" },
+    "description": "A Hub 01 Hostile Overstimulation & Unmanned Neutralization Drone.  If programmed successfully, this quadrupedal robot will closely track you, using a taser and noise-generator to distract, disorient, and ultimately neutralize nearby enemies.  Activate it to turn it on.",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "price": "800 USD",
+    "price_postapoc": "600 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_hound",
+      "friendly_msg": "The HOUND gives a quick bow and falls in at your side.",
+      "hostile_msg": "The HOUND darts around you and menacingly clicks its tasers.  RUN!",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ]
   },

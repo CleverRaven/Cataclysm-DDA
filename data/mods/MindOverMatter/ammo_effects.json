@@ -11,5 +11,11 @@
     "type": "ammo_effect",
     "//": "Stuns the target",
     "eoc": [ "EOC_FIFTH_SUN_NEURAL_STUNGUN" ]
+  },
+  {
+    "id": "EXODII_NEURAL_STUNGUN",
+    "type": "ammo_effect",
+    "//": "Stuns the target if they have a mind",
+    "eoc": [ "EOC_EXODII_NEURAL_STUNGUN" ]
   }
 ]

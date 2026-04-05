@@ -136,6 +136,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_photophobia( "photophobia" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_revived_marker( "revived_marker" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_spooked( "spooked" );
@@ -160,7 +161,6 @@ static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
-static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 
 static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_milk( "milk" );
@@ -173,6 +173,7 @@ static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const json_character_flag json_flag_ANIMALEMPATH( "ANIMALEMPATH" );
 static const json_character_flag json_flag_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -339,6 +340,12 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
+    if( has_effect( effect_onfire ) ||
+        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+        map &here = get_map();
+        here.set_lightmap_cache_dirty( old_pos.z() );
+        here.set_lightmap_cache_dirty( pos_bub().z() );
+    }
     if( has_effect( effect_ridden ) && mounted_player &&
         mounted_player->pos_abs() != pos_abs() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
@@ -347,6 +354,15 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     }
     if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
+    }
+}
+
+void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/,
+                                    const bodypart_id &/*bp*/ )
+{
+    map &here = get_map();
+    if( here.inbounds( pos_bub() ) ) {
+        here.set_lightmap_cache_dirty( posz() );
     }
 }
 
@@ -1080,19 +1096,7 @@ std::vector<std::string> monster::extended_description() const
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->get_total_difficulty() );
     } else {
-        if( type->get_total_difficulty() < 3 ) {
-            difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
-        } else if( type->get_total_difficulty() < 10 ) {
-            difficulty_str = _( "<color_light_gray>Mildly dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 20 ) {
-            difficulty_str = _( "<color_light_red>Dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 30 ) {
-            difficulty_str = _( "<color_red>Very dangerous.</color>" );
-        } else if( type->get_total_difficulty() < 50 ) {
-            difficulty_str = _( "<color_red>Extremely dangerous.</color>" );
-        } else {
-            difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
-        }
+        difficulty_str = type->get_difficulty_description();
     }
     tmp.emplace_back( difficulty_str );
 
@@ -2185,6 +2189,13 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool monster_missed = monster_hit_roll < 0.0;
         // Miss
+        if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
+            add_effect( effect_downed, 2_turns, true );
+            if( target.is_avatar() && u_see_my_spot && !target.in_sleep_state() ) {
+                add_msg( _( "%s stumbles and falls as it attacks you." ),
+                         u_see_me ? disp_name() : _( "something" ) );
+            }
+        }
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( monster_missed ) {
@@ -3020,8 +3031,10 @@ void monster::die( map *here, Creature *nkiller )
             ch = get_killer()->get_summoner()->as_character();
         }
         if( !is_hallucination() && ch != nullptr ) {
+            // Revived creatures never grant any kill xp.
+            const int kill_xp = has_effect( effect_revived_marker ) ? 0 : compute_kill_xp( type->id );
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
-                            compute_kill_xp( type->id ) );
+                            kill_xp );
             get_event_bus().send_with_talker( ch, this, e );
         }
     }
@@ -3291,7 +3304,7 @@ void monster::generate_inventory( bool disableDrops )
     no_extra_death_drops = disableDrops;
 }
 
-void monster::drop_items_on_death( map *here, item *corpse )
+void monster::drop_items_on_death( map *here, item *corpse ) const
 {
     if( is_hallucination() ) {
         return;
@@ -3306,6 +3319,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
 
     for( item &e : new_items ) {
         e.randomize_rot();
+        e.preserve_location( pos_abs() );
     }
 
     // for non corpses this is much simpler
@@ -3354,25 +3368,6 @@ void monster::drop_items_on_death( map *here, item *corpse )
             }
         }
     }
-
-    // Check if item has PRESERVE_SPAWN_LOC and set it if necessary
-    // This probably needs to be encapsulated in some generic function
-    for( item &it : new_items ) {
-        if( it.has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
-            !it.has_var( "spawn_location" ) ) {
-            it.set_var( "spawn_location", pos_abs().to_string_writable() );
-        }
-
-        // since efiles are not in standard pocket, check it separately
-        if( it.has_pocket_type( pocket_type::E_FILE_STORAGE ) ) {
-            for( item *it_software : it.all_items_top( pocket_type::E_FILE_STORAGE ) ) {
-                if( it_software->has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
-                    !it_software->has_var( "spawn_location" ) ) {
-                    it_software->set_var( "spawn_location", pos_abs().to_string_writable() );
-                }
-            }
-        }
-    };
 }
 
 void monster::spawn_dissectables_on_death( item *corpse ) const
@@ -3453,7 +3448,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
-    } else if( id == effect_no_sight || id == effect_blind ) {
+    } else if( id == effect_no_sight || id == effect_blind ||
+               has_effect_with_flag( json_flag_BLIND ) ) {
         effect_cache[VISION_IMPAIRED] = true;
     } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
@@ -4026,8 +4022,9 @@ void monster::hear_sound( const tripoint_bub_ms &source, const int vol, const in
     if( !tmp_provocative ) {
         return;
     }
-    // already following a more interesting sound
-    if( provocative_sound && wandf > 0 ) {
+    // already following a more interesting sound,
+    // so 50% will try to stick to it, and 50% will move in direction of a new sound
+    if( provocative_sound && wandf > 0 && rng( 0, 1 ) ) {
         return;
     }
 

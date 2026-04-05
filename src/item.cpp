@@ -22,7 +22,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "city.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -173,7 +172,8 @@ item::item() : bday( calendar::start_of_cataclysm )
     select_itype_variant();
 }
 
-item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
+item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn ),
+    uid_( generate_next_item_uid() )
 {
     contents = item_contents( type->pockets );
     if( type->countdown_interval > 0_seconds ) {
@@ -678,6 +678,27 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     return false;
 }
 
+bool _stacks_location_precise_closest_city( item const &lhs, item const &rhs )
+{
+    static const std::string omt_loc_var = "spawn_location";
+    const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
+    const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::invalid ) );
+    if( this_loc == that_loc ) {
+        return true;
+    } else if( this_loc != tripoint_abs_ms::invalid && that_loc != tripoint_abs_ms::invalid ) {
+        const tripoint_abs_omt this_omt = project_to<coords::omt>( this_loc );
+        const tripoint_abs_sm this_sm = project_to<coords::sm>( this_omt );
+        const city_reference this_city = overmap_buffer.closest_city( this_sm );
+
+        const tripoint_abs_omt that_omt = project_to<coords::omt>( that_loc );
+        const tripoint_abs_sm that_sm = project_to<coords::sm>( that_omt );
+        const city_reference that_city = overmap_buffer.closest_city( that_sm );
+
+        return this_city.city == that_city.city;
+    }
+    return false;
+}
+
 bool _stacks_rot( item const &lhs, item const &rhs, bool combine_liquid )
 {
     // Stack items that fall into the same "bucket" of freshness.
@@ -882,6 +903,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
+    bits.set( tname::segments::LOCATION_PRECISE_CLOSEST_CITY,
+              _stacks_location_precise_closest_city( *this, rhs ) );
 
     bool const this_goes_bad = goes_bad();
     bool const that_goes_bad = rhs.goes_bad();
@@ -1629,17 +1652,6 @@ std::string item::display_name( unsigned int quantity ) const
                                    link_max_len - link_len, link_max_len, extensions ), cable_color ) );
         }
     }
-    // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
-    if( is_map() && calendar::turn != calendar::turn_zero ) {
-        tripoint_abs_omt map_pos_omt =
-            project_to<coords::omt>( get_var( "reveal_map_center", player_character.pos_abs() ) );
-        tripoint_abs_sm map_pos =
-            project_to<coords::sm>( map_pos_omt );
-        const city *c = overmap_buffer.closest_city( map_pos ).city;
-        if( c != nullptr ) {
-            name = string_format( "%s %s", c->name, name );
-        }
-    }
 
     return string_format( "%s%s%s%s", name, sidetxt, amt, cable );
 }
@@ -2199,9 +2211,9 @@ int item::get_quality_nonrecursive( const quality_id &id, const bool strict_boil
     int return_quality = INT_MIN;
 
     // Check for inherent item quality
-    for( const std::pair<const quality_id, int> &quality : type->qualities ) {
+    for( const auto &quality : type->qualities ) {
         if( quality.first == id ) {
-            return_quality = quality.second;
+            return_quality = quality.second.level;
         }
     }
 
@@ -2209,9 +2221,9 @@ int item::get_quality_nonrecursive( const quality_id &id, const bool strict_boil
     // (using ammo_remaining() with player character to include bionic/UPS power)
     if( !type->charged_qualities.empty() && ammo_sufficient( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
-        for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
+        for( const auto &quality : type->charged_qualities ) {
             if( quality.first == id ) {
-                return_quality = std::max( return_quality, quality.second );
+                return_quality = std::max( return_quality, quality.second.level );
             }
         }
     }
@@ -2235,6 +2247,69 @@ int item::get_quality( const quality_id &id, const bool strict_boiling ) const
     return_quality = std::max( return_quality, contents.best_quality( id ) );
 
     return return_quality;
+}
+
+float item::get_quality_speed( const quality_id &id, int level,
+                               const Character *crafter ) const
+{
+    // BOIL special case: empty containers only (mirrors get_quality)
+    if( id == qual_BOIL && !contents.empty_container() ) {
+        return 1.0f;
+    }
+
+    bool found = false;
+    float best_speed = 1.0f;
+
+    // Helper: consider a source that provides the quality at qual_level with speed s
+    const auto consider = [&]( int qual_level, float s ) {
+        if( qual_level >= level ) {
+            if( !found || s < best_speed ) {
+                best_speed = s;
+                found = true;
+            }
+        }
+    };
+
+    // Inherent qualities
+    auto it = type->qualities.find( id );
+    if( it != type->qualities.end() ) {
+        consider( it->second.level, it->second.speed );
+    }
+
+    // Charged qualities (only if crafter provided for ammo_sufficient check)
+    if( crafter && !type->charged_qualities.empty() && ammo_sufficient( crafter ) ) {
+        auto cit = type->charged_qualities.find( id );
+        if( cit != type->charged_qualities.end() ) {
+            consider( cit->second.level, cit->second.speed );
+        }
+    }
+
+    // Contained items: recursive through contents (mirrors get_quality -> contents.best_quality)
+    for( const item *contained : contents.all_items_top() ) {
+        // Recurse: child checks its own inherent, charged, and contained items
+        float child_speed = contained->get_quality_speed( id, level, crafter );
+        // Child already returns 1.0 if it doesn't qualify, but we use found flag
+        // to distinguish "qualifies at 1.0" from "doesn't qualify". Check the
+        // child's quality level directly without leaking get_player_character():
+        // use the same crafter-aware resolution we do above.
+        int child_level = INT_MIN;
+        auto cit = contained->type->qualities.find( id );
+        if( cit != contained->type->qualities.end() ) {
+            child_level = cit->second.level;
+        }
+        if( crafter && !contained->type->charged_qualities.empty() &&
+            contained->ammo_sufficient( crafter ) ) {
+            auto ccit = contained->type->charged_qualities.find( id );
+            if( ccit != contained->type->charged_qualities.end() ) {
+                child_level = std::max( child_level, ccit->second.level );
+            }
+        }
+        if( child_level >= level ) {
+            consider( child_level, child_speed );
+        }
+    }
+
+    return best_speed;
 }
 
 int item::get_comestible_fun() const
@@ -4130,7 +4205,7 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
         return true; //destroy fake mill
     }
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::mill_finalize( get_avatar(), pos ); //activate effects when timers goes to zero
+        iexamine::mill_finalize( get_avatar(), here, pos ); //activate effects when timers goes to zero
         return true; //destroy fake mill item
     }
 
@@ -4147,7 +4222,7 @@ bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoin
     }
 
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
+        iexamine::on_smoke_out( here, pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
@@ -4525,6 +4600,22 @@ void item::mod_charges( int mod )
     }
 }
 
+void item::preserve_location( const tripoint_abs_ms &location )
+{
+    if( has_flag( flag_PRESERVE_SPAWN_LOC ) && !has_var( "spawn_location" ) ) {
+        // TODO migrate from old reveal_map_center, can be removed somewhere in the future
+        if( has_var( "reveal_map_center" ) ) {
+            set_var( "spawn_location", get_var( "reveal_map_center", tripoint_abs_ms::invalid ) );
+            remove_var( "reveal_map_center" );
+        } else {
+            set_var( "spawn_location", location );
+        }
+    }
+    for( item *subitem : all_items_ptr() ) {
+        subitem->preserve_location( location );
+    }
+}
+
 bool item::is_seed() const
 {
     return !!type->seed;
@@ -4843,6 +4934,40 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
 {
     cata_assert( craft_data_ );
     return craft_data_->cached_tool_selections;
+}
+
+int item::get_current_step() const
+{
+    cata_assert( craft_data_ );
+    if( craft_data_->making && craft_data_->making->has_steps() ) {
+        int max_step = static_cast<int>( craft_data_->making->steps().size() ) - 1;
+        return std::clamp( craft_data_->current_step, 0, max_step );
+    }
+    return 0;
+}
+
+void item::set_current_step( int step )
+{
+    cata_assert( craft_data_ );
+    craft_data_->current_step = step;
+}
+
+double item::get_step_progress() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->step_progress;
+}
+
+void item::set_step_progress( double progress )
+{
+    cata_assert( craft_data_ );
+    craft_data_->step_progress = progress;
+}
+
+void item::mod_step_progress( double delta )
+{
+    cata_assert( craft_data_ );
+    craft_data_->step_progress += delta;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const

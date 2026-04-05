@@ -93,13 +93,13 @@ static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_FUNGI_QUEEN( "GROUP_FUNGI_QUEEN" );
 static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
-static const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 
 static const oter_type_str_id oter_type_road( "road" );
 
@@ -1049,7 +1049,8 @@ static bool mx_fungal_zone( map &m, const tripoint_abs_sm &abs_sub )
     }
 
     const tripoint_bub_ms suitable_location = random_entry( suitable_locations, omt_center );
-    m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
+    m.place_spawns( GROUP_FUNGI_QUEEN, 1, suitable_location.xy(), suitable_location.xy(),
+                    suitable_location.z(), 1, true );
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
                     suitable_location.xy() + point::north_west,
                     suitable_location.xy() + point::south_east,

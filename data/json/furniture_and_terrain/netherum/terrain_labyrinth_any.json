@@ -21,5 +21,16 @@
     "coverage": 0,
     "trap": "tr_nl_chasm",
     "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_chasm_no_trap",
+    "name": "sparkling chasm",
+    "description": "At a glance this just looks like darkness.  Then, gazing deeper, you think it might be full of stars.  Still deeper, perhaps those stars are eyes?",
+    "symbol": "*",
+    "color": "dark_gray",
+    "move_cost": -1,
+    "coverage": 0,
+    "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ]
   }
 ]

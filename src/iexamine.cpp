@@ -67,6 +67,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -135,6 +136,8 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
+static const faction_id faction_robofac( "robofac" );
+
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
@@ -178,7 +181,6 @@ static const itype_id itype_dahlia_root( "dahlia_root" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
-static const itype_id itype_fertilizer( "fertilizer" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
@@ -211,18 +213,11 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
-static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
-static const material_id material_ch_steel( "ch_steel" );
-static const material_id material_hc_steel( "hc_steel" );
-static const material_id material_iron( "iron" );
-static const material_id material_lc_steel( "lc_steel" );
-static const material_id material_mc_steel( "mc_steel" );
-static const material_id material_qt_steel( "qt_steel" );
-static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
@@ -253,7 +248,6 @@ static const quality_id qual_TREE_TAP( "TREE_TAP" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
-static const requirement_id requirement_data_cvd_diamond( "cvd_diamond" );
 
 static const skill_id skill_chemistry( "chemistry" );
 static const skill_id skill_cooking( "cooking" );
@@ -309,6 +303,7 @@ static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -353,50 +348,6 @@ bool iexamine::harvestable_now( const tripoint_bub_ms &examp )
 {
     const harvest_id hid = get_map().get_harvest( examp );
     return !hid->is_null() && !hid->empty();
-}
-
-/**
- * Pick an appropriate item and apply diamond coating if possible.
- */
-void iexamine::cvdmachine( Character &you, const tripoint_bub_ms & )
-{
-    // Select an item to which it is possible to apply a diamond coating
-    item_location loc = g->inv_map_splice( []( const item & e ) {
-        return e.has_edged_damage() &&
-               !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
-               ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
-                 e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
-                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) ||
-                 e.made_of( material_iron ) );
-    }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
-
-    if( !loc ) {
-        return;
-    }
-
-    // Require materials proportional to selected item volume
-    auto qty = loc->volume() / 250_ml;
-    qty = std::max( 1, qty );
-    requirement_data reqs = *requirement_data_cvd_diamond * qty;
-
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
-        popup( "%s", reqs.list_missing() );
-        return;
-    }
-
-    // Consume materials
-    for( const auto &e : reqs.get_components() ) {
-        you.consume_items( e, 1, is_crafting_component );
-    }
-    for( const auto &e : reqs.get_tools() ) {
-        you.consume_tools( e );
-    }
-    you.invalidate_crafting_inventory();
-
-    // Apply flag to item
-    loc->set_flag( flag_DIAMOND );
-    add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
-    you.mod_moves( -to_moves<int>( 10_seconds ) );
 }
 
 /**
@@ -1500,16 +1451,48 @@ void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp 
     }
 }
 
+npc *find_intercom_operator( const trait_id &marker_trait,
+                             const faction_id &fac_id )
+{
+    npc *fallback = nullptr;
+    for( npc *guy : g->get_npcs_if( [&marker_trait, &fac_id]( const npc & n ) {
+    return n.has_trait( marker_trait ) &&
+               n.get_faction() && n.get_faction()->id == fac_id &&
+               !n.in_sleep_state();
+    } ) ) {
+        if( !guy->myclass.is_null() ) {
+            const auto &[start, end] = guy->myclass.obj().get_work_hours();
+            const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+            if( is_within_work_hours( hour, start, end ) ) {
+                return guy;
+            }
+        }
+        if( !fallback ) {
+            fallback = guy;
+        }
+    }
+    return fallback;
+}
+
 void iexamine::intercom( Character &you, const tripoint_bub_ms &examp )
 {
-    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
-        return guy.myclass == NC_ROBOFAC_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
-    } );
-    if( intercom_npcs.empty() ) {
+    // Prefer trait-based operators (new worlds with shift rotation)
+    npc *op = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+    if( !op ) {
+        // Legacy fallback: old class-based NPC (existing saves).
+        // Preserves original 10-tile distance check.
+        const std::vector<npc *> legacy = g->get_npcs_if( [examp]( const npc & n ) {
+            return n.myclass == NC_ROBOFAC_INTERCOM && rl_dist( n.pos_bub(), examp ) < 10;
+        } );
+        if( !legacy.empty() ) {
+            op = legacy.front();
+        }
+    }
+    if( !op ) {
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
-        // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
+        get_avatar().talk_to( get_talker_for( *op ), false, false, false, "",
+                              _( "the intercom" ) );
     }
 }
 
@@ -2566,10 +2549,10 @@ void iexamine::fungus( Character &you, const tripoint_bub_ms &examp )
 /**
  *  Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
  */
-std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
+std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item_location> &seed_inv )
 {
     std::map<itype_id, int> seed_map;
-    for( const item *seed : seed_inv ) {
+    for( const item_location &seed : seed_inv ) {
         seed_map[seed->typeId()] += ( seed->charges > 0 ? seed->charges : 1 );
     }
 
@@ -2637,7 +2620,7 @@ void iexamine::dirtmound( Character &you, const tripoint_bub_ms &examp )
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    std::vector<item *> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
+    std::vector<item_location> seed_inv = you.cache_get_items_with( "is_seed", &item::is_seed );
     if( seed_inv.empty() ) {
         add_msg( m_info, _( "You have no seeds to plant." ) );
         return;
@@ -2843,12 +2826,9 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
 ret_val<void> iexamine::can_fertilize( Character &you, const tripoint_bub_ms &tile,
                                        const itype_id &fertilizer )
 {
-    map &here = get_map();
-    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
-        return ret_val<void>::make_failure( _( "Tile isn't a plant" ) );
-    }
-    if( here.i_at( tile ).size() > 1 ) {
-        return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
+    ret_val<void> fertilize_check = multi_farm_activity_actor::can_fertilize( you, tile );
+    if( !fertilize_check.success() ) {
+        return fertilize_check;
     }
     if( ( fertilizer->count_by_charges() && !you.has_charges( fertilizer, 1 ) ) ||
         !you.has_amount( fertilizer, 1 ) ) {
@@ -2869,78 +2849,24 @@ void iexamine::fertilize_plant( Character &you, const tripoint_bub_ms &tile,
         return;
     }
 
-    std::list<item> planted;
-    if( fertilizer->count_by_charges() ) {
-        planted = you.use_charges( fertilizer, 1 );
-    } else {
-        planted = you.use_amount( fertilizer, 1 );
-    }
-
-    // Reduce the amount of time it takes until the next stage of the plant by
-    // 20% of a seasons length. (default 2.8 days).
-    const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
-
-    map &here = get_map();
-    // Can't use item_stack::only_item() since there might be fertilizer
-    map_stack items = here.i_at( tile );
-    const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-        return it.is_seed();
-    } );
-    if( seed == items.end() ) {
-        debugmsg( "Missing seed for plant at %s", tile.to_string() );
-        here.i_clear( tile );
-        here.furn_set( tile, furn_str_id::NULL_ID() );
-        return;
-    }
-
-    // TODO: item should probably clamp the value on its own
-    seed->set_birthday( seed->birthday() - fertilizerEpoch );
-    // The plant furniture has the NOITEM token which prevents adding items on that square,
-    // spawned items are moved to an adjacent field instead, but the fertilizer token
-    // must be on the square of the plant, therefore this hack:
-    const furn_id &old_furn = here.furn( tile );
-    here.furn_set( tile, furn_str_id::NULL_ID() );
-    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
-    here.furn_set( tile, old_furn );
-    you.mod_moves( -to_moves<int>( 10_seconds ) );
-
-    //~ %1$s: plant name, %2$s: fertilizer name
-    add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
-             planted.front().tname() );
+    you.assign_activity( fertilize_plant_activity_actor( 10_seconds, tile, fertilizer ) );
 }
 
 itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
                                       bool ask_player )
 {
-    std::vector<item *> f_inv = you.cache_get_items_with( flag_FERTILIZER );
-    if( f_inv.empty() ) {
-        add_msg( m_info, _( "You have no fertilizer for the %s." ), pname );
+    std::optional<itype_id> fertilizer_selected = multi_farm_activity_actor::query_fertilizer( you );
+
+    std::vector<item_location> f_inv = you.cache_get_items_with( flag_FERTILIZER );
+    if( !fertilizer_selected ) {
         return itype_id();
     }
 
-    std::vector<itype_id> f_types;
-    std::vector<std::string> f_names;
-    for( const item * const &f : f_inv ) {
-        if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
-            f_types.push_back( f->typeId() );
-            f_names.push_back( f->tname() );
-        }
-    }
-
-    if( ask_player && !query_yn( _( "Fertilize the %s" ), pname ) ) {
+    if( ask_player && !query_yn( _( "Fertilize the %s?" ), pname ) ) {
         return itype_id();
     }
 
-    // Choose fertilizer from list
-    int f_index = 0;
-    if( f_types.size() > 1 ) {
-        f_index = uilist( _( "Use which fertilizer?" ), f_names );
-    }
-    if( f_index < 0 ) {
-        return itype_id();
-    }
-
-    return f_types[f_index];
+    return *fertilizer_selected;
 
 }
 void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
@@ -3736,7 +3662,7 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for( const item *b : b_inv ) {
+        for( const item_location &b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
@@ -3967,7 +3893,7 @@ void iexamine::compost_empty( Character &you, const tripoint_bub_ms &examp )
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for( const item *b : b_inv ) {
+        for( const item_location &b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
@@ -4714,7 +4640,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
-    move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
+    move_cost /= rng( std::max( 4, you.get_per() ), 4 + you.get_per() * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
     you.activity.placement = here.get_abs( examp );
     you.activity.auto_resume = true;
@@ -4755,9 +4681,9 @@ void trap::examine( const tripoint_bub_ms &examp ) const
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
         const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
-        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
-                                              player_character.dex_cur +
-                                              player_character.int_cur ) / 6.0f;
+        const float weighted_stat_average = ( 2.0f * player_character.get_per() + 3.0f *
+                                              player_character.get_dex() +
+                                              player_character.get_int() ) / 6.0f;
         int proficiency_effect = -2;
         // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
@@ -5222,8 +5148,8 @@ static int findBestGasDiscount( Character &you )
 {
     int discount = 0;
 
-    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item & it ) {
-        discount = std::max( discount, getGasDiscountCardQuality( it ) );
+    you.cache_visit_items_with( flag_GAS_DISCOUNT, [&discount]( const item_location & it ) {
+        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     } );
 
     return discount;
@@ -5511,7 +5437,8 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
     }
 
     if( refund == choice ) {
-        std::vector<item *> cash_cards = you.cache_get_items_with( "is_cash_card", &item::is_cash_card );
+        std::vector<item_location> cash_cards = you.cache_get_items_with( "is_cash_card",
+                                                &item::is_cash_card );
         if( cash_cards.empty() ) {
             popup( _( "You do not have a cash card to refund money!" ) );
             return;
@@ -5529,10 +5456,10 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
         // getGasPricePerLiter( platinum_discount) min price to avoid exploit
         int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
-        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item_location & l, const item_location & r ) {
             return l->ammo_remaining( ) > r->ammo_remaining( );
         } );
-        for( item * const &cc : cash_cards ) {
+        for( item_location &cc : cash_cards ) {
             if( amount_money == 0 ) {
                 break;
             }
@@ -5605,7 +5532,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
     if( you.has_flag( json_flag_GLIDE ) || you.has_flag( json_flag_WING_GLIDE ) ||
-        you.has_bodypart_with_flag( json_flag_WING_ARM ) ) {
+        you.has_bodypart_with_flag( json_flag_WING_ARMS ) ) {
         cmenu.addentry( ledge_glide, you.can_fly(), 'g',
                         ( you.can_fly() ? _( "Glide away." ) : _( "You can't glide in your current state" ) ) );
     }
@@ -6561,9 +6488,8 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
     return true;
 }
 
-void iexamine::mill_finalize( Character &, const tripoint_bub_ms &examp )
+void iexamine::mill_finalize( Character &, map &here, const tripoint_bub_ms &examp )
 {
-    map &here = get_map();
     const furn_id &cur_mill_type = here.furn( examp );
     furn_id next_mill_type = furn_str_id::NULL_ID();
     if( cur_mill_type == furn_f_wind_mill_active ) {
@@ -6677,10 +6603,9 @@ void iexamine::mill_finalize( Character &, const tripoint_bub_ms &examp )
     here.furn_set( examp, next_mill_type );
 }
 
-static void smoker_finalize( Character &, const tripoint_bub_ms &examp,
+static void smoker_finalize( map &here, Character &, const tripoint_bub_ms &examp,
                              const time_point &start_time )
 {
-    map &here = get_map();
     const furn_id &cur_smoker_type = here.furn( examp );
     furn_id next_smoker_type = furn_str_id::NULL_ID();
     if( cur_smoker_type == furn_f_smoking_rack_active ) {
@@ -6914,12 +6839,12 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
     you.invalidate_crafting_inventory();
 }
 
-void iexamine::on_smoke_out( const tripoint_bub_ms &examp, const time_point &start_time )
+void iexamine::on_smoke_out( map &here, const tripoint_bub_ms &examp, const time_point &start_time )
 {
-    const furn_id &f = get_map().furn( examp );
+    const furn_id &f = here.furn( examp );
     if( f == furn_f_smoking_rack_active ||
         f == furn_f_metal_smoking_rack_active ) {
-        smoker_finalize( get_avatar(), examp, start_time );
+        smoker_finalize( here, get_avatar(), examp, start_time );
     }
 }
 
@@ -7530,7 +7455,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
     static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
             { "deployed_furniture", &iexamine::deployed_furniture },
-            { "cvdmachine", &iexamine::cvdmachine },
             { "change_appearance", &iexamine::change_appearance },
             { "genemill", &iexamine::genemill },
             { "nanofab", &iexamine::nanofab },
@@ -7641,7 +7565,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 void iexamine::practice_survival_while_foraging( Character &who )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = who.int_cur / 3 + 1;
+    const int max_forage_skill = who.get_int() / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
                                   skill_survival ) ) );

@@ -184,6 +184,16 @@ struct bp_onhit_effect {
     void load( const JsonObject &jo );
 };
 
+struct bp_qualities_provided {
+
+    quality_id quality;
+    int level;
+    // 0-1, if limb HP is below this percentage, it is deactivated
+    float disable_percent = 0;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
@@ -224,6 +234,8 @@ struct body_part_type {
 
         // Limb-specific attacks
         std::set<matec_id> techniques;
+
+        std::vector<bp_qualities_provided> qualities;
 
         // Effect to trigger on being winded
         efftype_id windage_effect;
@@ -479,11 +491,6 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs( const Creature &mon ) const;
 
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_windage_effect() const;
-        /** Returns the string id of the effect to be used. */
-        efftype_id get_no_power_effect() const;
-
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
@@ -496,8 +503,10 @@ class bodypart
 
         std::vector<wound> get_wounds() const;
 
-        void add_wound( wound &wd );
+        void add_wound( const wound &wd );
         void add_wound( wound_type_id wd );
+        bool has_wound( wound_type_id wd ) const;
+        void remove_wound( wound_type_id wd );
         void update_wounds( time_duration time_passed );
 
         int get_hp_cur() const;

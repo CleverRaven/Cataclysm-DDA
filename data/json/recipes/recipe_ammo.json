@@ -785,7 +785,8 @@
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
-    "difficulty": 2,
+    "difficulty": 4,
+    "charges": 83,
     "time": "180 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_chunk_any", 1 ] ],
@@ -1019,7 +1020,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welding_kit", 30 ], [ "welder_crude", 45 ], [ "integrated_welder", 45 ] ],
       [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ]
     ],
     "components": [

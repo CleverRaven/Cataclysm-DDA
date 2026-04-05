@@ -135,6 +135,7 @@ class plot_options : public zone_options, public mark_option
     private:
         itype_id mark;
         itype_id seed;
+        itype_id fertilizer;
 
         enum query_seed_result {
             canceled,
@@ -143,6 +144,7 @@ class plot_options : public zone_options, public mark_option
         };
 
         query_seed_result query_seed();
+        bool query_fertilizer();
 
     public:
         std::string get_mark() const override {
@@ -150,6 +152,9 @@ class plot_options : public zone_options, public mark_option
         }
         itype_id get_seed() const {
             return seed;
+        }
+        itype_id get_fertilizer() const {
+            return fertilizer;
         }
 
         bool has_options() const override {
@@ -661,11 +666,16 @@ class zone_manager
         void cache_vzones( map *pmap = nullptr );
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,
                   const faction_id &fac = your_fac ) const;
+        bool has_terrain( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
+        bool has_vehicle( const zone_type_id &type, const tripoint_abs_ms &where,
+                          const faction_id &fac = your_fac ) const;
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
-                              const zone_type_id &ztype, const faction_id &fac = your_fac ) const;
+                              const zone_type_id &ztype, const faction_id &fac = your_fac,
+                              std::optional<bool> from_vehicle = std::nullopt ) const;
         std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
                 const tripoint_abs_ms &where, int range,
                 const faction_id &fac = your_fac ) const;

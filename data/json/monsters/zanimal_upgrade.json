@@ -449,7 +449,11 @@
     "vision_night": 6,
     "//grab": "Assuming it's grabbing with its mouth a bit grabbier than a zed should be about right",
     "grab_strength": 30,
-    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5, "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
+      { "id": "smash", "throw_strength": 108, "cooldown": 30 },
+      { "id": "grab", "cooldown": 7 }
+    ],
     "upgrades": false,
     "flags": [
       "SEES",
@@ -488,7 +492,12 @@
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "//grab": "Let's say the thorns make it half again as grabby",
     "grab_strength": 45,
-    "special_attacks": [ { "id": "scratch" }, { "id": "grab", "cooldown": 7 }, [ "PARA_STING", 30 ] ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5, "condition": { "not": { "u_has_flag": "GRAB_FILTER" } } },
+      { "id": "scratch" },
+      { "id": "grab", "cooldown": 7 },
+      [ "PARA_STING", 30 ]
+    ],
     "upgrades": false,
     "flags": [
       "SEES",

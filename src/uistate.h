@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "editmap.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item_location.h"
@@ -142,6 +143,23 @@ struct consume_menu_uistate {
     void deserialize( const JsonObject &jo );
 };
 
+struct editmap_uistate {
+
+    editmap_brush brush;
+
+    editmap_mode mode = editmap_mode::EMM_DRAWING;
+    bool advanced_info_toggle = false;
+    bool blink = false;
+    bool run_post_process = false;
+    bool fast_scroll = false;
+
+    std::array<bool, SELECTABLE_ACTIONS> selected; // NOLINT(cata-serialize)
+    tinymap *tmpmap_ptr = nullptr; // NOLINT(cata-serialize)
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &jo );
+};
+
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -173,7 +191,6 @@ class uistatedata
         bool unload_auto_contain = true;
         std::optional<bool> hide_entries_override = std::nullopt;
 
-        bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool overmap_show_map_notes = true;
@@ -193,6 +210,7 @@ class uistatedata
         int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM;
 
         overmap_sidebar_uistate overmap_sidebar_state;
+        editmap_uistate editmap_state;
 
         consume_menu_uistate consume_uistate;
 

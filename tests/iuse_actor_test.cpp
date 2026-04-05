@@ -95,7 +95,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
     Character &player_character = get_avatar();
-    clear_map();
+    clear_map_without_vision();
 
     g->clear_zombies();
     item_location test_item = player_character.i_add( item( itype_bot_manhack, calendar::turn_zero,
@@ -165,7 +165,7 @@ static void cut_up_yields( const itype_id &target )
     Character &guy = get_avatar();
     clear_avatar();
     // Nominal dex to avoid yield penalty.
-    guy.dex_cur = 12;
+    guy.set_dex_base( 12 );
     //guy.set_skill_level( skill_id( "fabrication" ), 10 );
     here.i_at( guy.pos_bub() ).clear();
 

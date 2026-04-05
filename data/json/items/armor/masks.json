@@ -185,7 +185,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
-    "weight": "168 g",
+    "weight": "6 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
@@ -197,7 +197,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "mouth", "muzzle" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -282,6 +282,15 @@
         "append": true
       }
     ]
+  },
+  {
+    "id": "xl_mask_dust",
+    "copy-from": "mask_dust",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "dust mask" },
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mask_hockey",
@@ -611,6 +620,36 @@
         "color": "dark_gray",
         "weight": 25,
         "append": true
+      }
+    ]
+  },
+  {
+    "id": "string_dimension_biocoif",
+    "type": "ITEM",
+    "//": "Headpiece for the string dimension biosuit.",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "gold-latticed biocoif" },
+    "description": "A skintight headsock constructed from a bilayer of stark-white white metallic fabric coated in a microscopically thin layer of gold.  A few of the fibers are more gold than others, giving it a barely perceptible hex pattern.  The textile bilayer is filled with liquid, giving it a squishy, cool-to-the-touch bodyfeel.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "1kUSD",
+    "price_postapoc": "150 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "warmth": 0,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "NO_REPAIR", "SKINTIGHT", "SOFT", "PSYSHIELD_PARTIAL" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.01 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 7
       }
     ]
   }

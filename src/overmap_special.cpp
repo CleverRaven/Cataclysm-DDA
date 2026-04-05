@@ -16,7 +16,6 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "mod_tracker.h"
-#include "options.h"
 #include "string_formatter.h"
 #include "talker.h"
 
@@ -117,13 +116,14 @@ const std::vector<overmap_special> &overmap_specials::get_all()
     return specials.get_all();
 }
 
-overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &origin )
+overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &origin,
+        int city_size )
 {
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
     for( const overmap_special &elem : specials.get_all() ) {
-        if( elem.can_spawn() ) {
+        if( elem.can_spawn( city_size ) ) {
             res.push_back( &elem );
         }
     }
@@ -181,13 +181,12 @@ overmap_special::overmap_special( const overmap_special_id &i, const overmap_spe
     , data_{ make_shared_fast<fixed_overmap_special_data>( ter ) }
 {}
 
-bool overmap_special::can_spawn() const
+bool overmap_special::can_spawn( int city_size ) const
 {
     if( get_constraints().occurrences.empty() ) {
         return false;
     }
 
-    const int city_size = get_option<int>( "CITY_SIZE" );
     return city_size != 0 || get_constraints().city_size.min <= city_size;
 }
 
@@ -250,6 +249,11 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
     return data_->preview_terrains();
 }
 
+std::vector<oter_type_id> overmap_special::get_terrain_type_ids() const
+{
+    return data_->get_terrain_type_ids();
+}
+
 std::vector<overmap_special_locations> overmap_special::required_locations() const
 {
     return data_->required_locations();
@@ -297,27 +301,29 @@ void overmap_special::load( const JsonObject &jo, const std::string_view src )
         eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
         has_eoc_ = true;
     }
-    switch( subtype_ ) {
-        case overmap_special_subtype::fixed: {
-            shared_ptr_fast<fixed_overmap_special_data> fixed_data =
-                make_shared_fast<fixed_overmap_special_data>();
-            optional( jo, was_loaded, "overmaps", fixed_data->terrains );
-            if( is_special ) {
-                optional( jo, was_loaded, "connections", fixed_data->connections );
+    if( !was_loaded ) {
+        switch( subtype_ ) {
+            case overmap_special_subtype::fixed: {
+                shared_ptr_fast<fixed_overmap_special_data> fixed_data =
+                    make_shared_fast<fixed_overmap_special_data>();
+                optional( jo, was_loaded, "overmaps", fixed_data->terrains );
+                if( is_special ) {
+                    optional( jo, was_loaded, "connections", fixed_data->connections );
+                }
+                data_ = std::move( fixed_data );
+                break;
             }
-            data_ = std::move( fixed_data );
-            break;
+            case overmap_special_subtype::mutable_: {
+                shared_ptr_fast<mutable_overmap_special_data> mutable_data =
+                    make_shared_fast<mutable_overmap_special_data>( id );
+                mutable_data->load( jo, was_loaded );
+                data_ = std::move( mutable_data );
+                break;
+            }
+            default:
+                jo.throw_error( string_format( "subtype %s not implemented",
+                                               io::enum_to_string( subtype_ ) ) );
         }
-        case overmap_special_subtype::mutable_: {
-            shared_ptr_fast<mutable_overmap_special_data> mutable_data =
-                make_shared_fast<mutable_overmap_special_data>( id );
-            mutable_data->load( jo, was_loaded );
-            data_ = std::move( mutable_data );
-            break;
-        }
-        default:
-            jo.throw_error( string_format( "subtype %s not implemented",
-                                           io::enum_to_string( subtype_ ) ) );
     }
 
     optional( jo, was_loaded, "city_sizes", constraints_.city_size, { 0, INT_MAX } );

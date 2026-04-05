@@ -1,0 +1,402 @@
+[
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "BG_LAB_MUTANT_Tree_Choice",
+    "subtype": "distribution",
+    "traits": [
+      { "group": "NC_MUTANT_BIRD" },
+      { "group": "NC_MUTANT_TROG" },
+      { "group": "NC_MUTANT_CAT" },
+      { "group": "NC_MUTANT_WOLF" },
+      { "group": "NC_MUTANT_PLANT" },
+      { "group": "NC_MUTANT_FISH" },
+      { "group": "NC_MUTANT_LIZARD" },
+      { "group": "NC_MUTANT_ELFA" },
+      { "group": "NC_MUTANT_RAT" },
+      { "group": "NC_MUTANT_MOUSE" },
+      { "group": "NC_MUTANT_CEPH" },
+      { "group": "NC_MUTANT_COW" },
+      { "group": "NC_MUTANT_BEAR" },
+      { "group": "NC_MUTANT_RABBIT" },
+      { "group": "NC_MUTANT_INSECT" },
+      { "group": "NC_MUTANT_SPIDER" },
+      { "group": "NC_MUTANT_BEAST" },
+      { "group": "NC_MUTANT_MEDICAL" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_BIRD",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "BEAK" },
+      { "trait": "ARM_FEATHERS" },
+      { "trait": "FEATHERS" },
+      { "trait": "HOLLOW_BONES" },
+      { "trait": "TALONS" },
+      { "trait": "PER_UP" },
+      { "trait": "GLASSJAW" },
+      { "trait": "FLEET" },
+      { "trait": "SCREECH" },
+      { "trait": "NOMAD" },
+      { "trait": "WINGS_STUB" },
+      { "trait": "EAGLEEYED" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_FISH",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "WEBBED" },
+      { "trait": "WEBBED_FEET" },
+      { "trait": "TAIL_FIN" },
+      { "trait": "SCALES" },
+      { "trait": "ELECTRORECEPTORS" },
+      { "trait": "SLIMY" },
+      { "trait": "BIOLUM1" },
+      { "trait": "THIRST" },
+      { "trait": "SMELLY2" },
+      { "trait": "FANGS" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "MEMBRANE" },
+      { "trait": "DEX_UP" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_SPIDER",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "CHITIN" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "CARNIVORE" },
+      { "trait": "WEB_WALKER" },
+      { "trait": "POISONOUS" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "RAP_TALONS" },
+      { "trait": "POISRESIST" },
+      { "trait": "FANGS_SPIDER" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "STRONG_LEGS" },
+      { "trait": "CHITIN2" },
+      { "trait": "ASOCIAL" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_WOLF",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "LUPINE_EARS" },
+      { "trait": "LUPINE_FUR" },
+      { "trait": "CARNIVORE" },
+      { "trait": "TAIL_FLUFFY" },
+      { "trait": "GOURMAND" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "FANGS" },
+      { "trait": "RESISTCHILL" },
+      { "trait": "PAWS" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "STRONG_LEGS" },
+      { "trait": "ANIMAL_FEET" },
+      { "trait": "MANSBESTFRIEND" },
+      { "trait": "SOCIAL2" },
+      { "trait": "MUZZLE" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_BEAST",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "CANINE_EARS" },
+      { "trait": "FELINE_FUR" },
+      { "trait": "CARNIVORE" },
+      { "trait": "SPINES" },
+      { "trait": "TAIL_STUB" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "STR_UP" },
+      { "trait": "GROWL" },
+      { "trait": "CLAWS" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "STRONG_LEGS" },
+      { "trait": "PAWS" },
+      { "trait": "FANGS" },
+      { "trait": "HUNGER" },
+      { "trait": "HORNS_CURLED" },
+      { "trait": "ANIMAL_FEET" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_INSECT",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "CHITIN" },
+      { "trait": "COMPOUND_EYES" },
+      { "trait": "ANIMALDISCORD" },
+      { "trait": "MANDIBLES" },
+      { "trait": "WINGS_INSECT" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "TAIL_STUB" },
+      { "trait": "POISRESIST" },
+      { "trait": "COLDBLOOD" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "SMELLY2" },
+      { "trait": "CHITIN2" },
+      { "trait": "TERRIFYING" },
+      { "trait": "FORGETFUL" },
+      { "trait": "ANTENNAE" },
+      { "trait": "PROJUNK" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_CAT",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "GROWL" },
+      { "trait": "FANGS" },
+      { "trait": "CARNIVORE" },
+      { "trait": "FEL_EYE" },
+      { "trait": "FEL_NV" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "SNOUT" },
+      { "trait": "WHISKERS" },
+      { "trait": "FELINE_FUR" },
+      { "trait": "SLEEPY" },
+      { "trait": "ANIMAL_FEET" },
+      { "trait": "HATES_WATER" },
+      { "trait": "TAIL_LONG" },
+      { "trait": "CLAWS_RETRACT" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_TROG",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "SUNBURN" },
+      { "trait": "TROGLO2" },
+      { "trait": "STR_UP" },
+      { "trait": "TOLERANCE" },
+      { "trait": "SAPROVORE" },
+      { "trait": "ALCMET" },
+      { "trait": "NIGHTVISION2" },
+      { "trait": "FASTHEALER" },
+      { "trait": "PAINRESIST" },
+      { "trait": "DISRESISTANT" },
+      { "trait": "NIGHT_RAIDER" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_BEAR",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "URSINE_FUR" },
+      { "trait": "PAWS" },
+      { "trait": "CLAWS_RAT" },
+      { "trait": "URSINE_EARS" },
+      { "trait": "GROWL" },
+      { "trait": "STR_UP_2" },
+      { "trait": "URSINE_EYE" },
+      { "trait": "LARGE" },
+      { "trait": "MUZZLE_BEAR" },
+      { "trait": "FAT" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "SMELLY" },
+      { "trait": "TAIL_STUB" },
+      { "trait": "FANGS" },
+      { "trait": "DENSE_BONES" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_MOUSE",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "SMALL2" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "TAIL_RAT" },
+      { "trait": "PROJUNK" },
+      { "trait": "FELINE_FUR" },
+      { "trait": "PADDED_FEET" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "FLIMSY" },
+      { "trait": "QUICK" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "ANIMALDISCORD2" },
+      { "trait": "SLEEPY" },
+      { "trait": "MET_RAT" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_RABBIT",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "SMALL" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "TAIL_RABBIT" },
+      { "trait": "RABBIT_EARS" },
+      { "trait": "RABBIT_FEET" },
+      { "trait": "RABBIT_FUR" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "HERBIVORE" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "ANIMALDISCORD2" },
+      { "trait": "WHISKERS" },
+      { "trait": "FLEET" },
+      { "trait": "GOODHEARING" },
+      { "trait": "PAWS_LITTLE" },
+      { "trait": "SLEEPY" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_ELFA",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "ANIMALEMPATH2" },
+      { "trait": "LIGHT_BONES" },
+      { "trait": "BEAUTIFUL" },
+      { "trait": "PLANTSKIN" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "WAKEFUL" },
+      { "trait": "ELFAEYES" },
+      { "trait": "SOCIAL1" },
+      { "trait": "LIGHTSTEP" },
+      { "trait": "FLIMSY" },
+      { "trait": "GOODHEARING" },
+      { "trait": "WEAKSTOMACH" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_PLANT",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "DISRESISTANT" },
+      { "trait": "FASTHEALER" },
+      { "trait": "COLDBLOOD2" },
+      { "trait": "PLANTSKIN" },
+      { "trait": "BARK" },
+      { "trait": "LEAVES" },
+      { "trait": "THORNS" },
+      { "trait": "HAIRROOTS" },
+      { "trait": "VINES2" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "SEASONAL_AFFECTIVE" },
+      { "trait": "SUNLIGHT_DEPENDENT" },
+      { "trait": "PONDEROUS1" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_LIZARD",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "CARNIVORE" },
+      { "trait": "FASTHEALER" },
+      { "trait": "SCALES" },
+      { "trait": "LIZ_EYE" },
+      { "trait": "LIZ_IR" },
+      { "trait": "TALONS" },
+      { "trait": "HISS" },
+      { "trait": "TAIL_THICK" },
+      { "trait": "VERY_TALL" },
+      { "trait": "FORKED_TONGUE" },
+      { "trait": "FANGS" },
+      { "trait": "SLIT_NOSTRILS" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_COW",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "LARGE" },
+      { "trait": "DENSE_BONES" },
+      { "trait": "HERBIVORE" },
+      { "trait": "RUMINANT" },
+      { "trait": "HOOVES" },
+      { "trait": "HORNS" },
+      { "trait": "FUR" },
+      { "trait": "BOVINE_BULK" },
+      { "trait": "LARGE" },
+      { "trait": "TAIL_CATTLE" },
+      { "trait": "PONDEROUS1" },
+      { "trait": "THICKSKIN" },
+      { "trait": "CANINE_EARS" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_RAT",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "GROWL" },
+      { "trait": "FUR" },
+      { "trait": "UGLY" },
+      { "trait": "TAIL_RAT" },
+      { "trait": "MUZZLE_RAT" },
+      { "trait": "WHISKERS_RAT" },
+      { "trait": "PAWS" },
+      { "trait": "CLAWS_RAT" },
+      { "trait": "POISRESISTANT" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "DISRESISTANT" },
+      { "trait": "SLEEPY" },
+      { "trait": "HUNGER" },
+      { "trait": "MET_RAT" }
+    ]
+  },
+  {
+    "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
+    "type": "trait_group",
+    "id": "NC_MUTANT_CEPH",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "BEAK" },
+      { "trait": "INT_UP_2" },
+      { "trait": "THIRST" },
+      { "trait": "CAMO1" },
+      { "trait": "LEG_TENTACLES" },
+      { "trait": "ARM_TENTACLES_4" },
+      { "trait": "THICKSKIN" },
+      { "trait": "SHELL" },
+      { "trait": "BEAK" },
+      { "trait": "POISRESIST" },
+      { "trait": "SLIMY" },
+      { "trait": "DEX_UP_2" },
+      { "trait": "MOUTH_TENTACLES" },
+      { "trait": "CEPH_EYES" },
+      { "trait": "CEPH_VISION" }
+    ]
+  }
+]
+
+
+
+
+
+]

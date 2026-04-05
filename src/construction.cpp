@@ -1547,7 +1547,7 @@ void build_construction_activity_actor::complete_construction( player_activity &
     if( you.is_avatar() && !you.backlog.empty() &&
         you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         you.backlog.clear();
-        you.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+        you.assign_activity( multi_build_construction_activity_actor() );
     }
 }
 

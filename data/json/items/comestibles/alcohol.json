@@ -952,7 +952,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "drink_pinacolada",
     "looks_like": "rum",
-    "name": { "str_sp": "pina colada" },
+    "name": { "str_sp": "piña colada" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "whiskey", "name": { "str_sp": "Scotsman colada" } },
       { "type": "COMPONENT_ID", "condition": "vodka", "name": { "str_sp": "chi chi" } },

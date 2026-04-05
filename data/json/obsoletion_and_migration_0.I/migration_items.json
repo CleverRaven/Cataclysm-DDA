@@ -352,7 +352,7 @@
   {
     "id": "mil_mess_kit",
     "type": "MIGRATION",
-    "replace": "survivor_mess_kit"
+    "replace": "mess_kit"
   },
   {
     "id": "5x50dart",
@@ -2180,7 +2180,7 @@
   {
     "id": "stillsuit",
     "type": "MIGRATION",
-    "replace": "h20survivor_jumpsuit"
+    "replace": "wetsuit"
   },
   {
     "id": "m1911-460",

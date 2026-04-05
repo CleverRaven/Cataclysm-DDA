@@ -21,6 +21,7 @@
       [ "cleansuit", 5 ],
       [ "laptop_hard_case_back", 20 ],
       { "group": "papr_kit", "prob": 5 },
+      [ "papr_half_mask", 5 ],
       { "group": "used_laptops", "prob": 10, "contents-group": "efiles_science" },
       { "group": "used_eink_tablet_pcs", "prob": 20, "contents-group": "efiles_science" },
       { "group": "used_memory_cards", "prob": 50, "contents-group": "efiles_science" },

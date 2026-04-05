@@ -92,6 +92,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 13,
+    "mass": "41 kg",
     "max_volume": "120 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_dishwasher" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "NO_SELF_CONNECT" ],
@@ -108,6 +109,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
+    "mass": "66 kg",
     "max_volume": "37500 ml",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "SMALL_HIDE" ],
     "deconstruct": {
@@ -192,6 +194,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 12,
+    "mass": "66 kg",
     "max_volume": "135 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_washing_machine" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
@@ -208,6 +211,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "75 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oven" },
     "//": "TODO: Replace FIRE_CONTAINER with some flag choking out small files",
     "flags": [
@@ -237,6 +241,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "75 kg",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
@@ -310,6 +315,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "20 kg",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -344,6 +350,7 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "mass": "40 kg",
     "flags": [ "TRANSPARENT" ],
     "crafting_pseudo_item": "fake_drop_hammer",
     "deconstruct": {
@@ -395,6 +402,7 @@
     "bgcolor": "white",
     "move_cost_mod": 5,
     "required_str": 6,
+    "mass": "5 kg",
     "looks_like": "f_filing_cabinet",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
     "deconstruct": {
@@ -603,6 +611,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 4,
+    "mass": "80 kg",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE_HARD",

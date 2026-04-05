@@ -371,7 +371,7 @@
           "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "%1$s's touches %3$s with a jolt!"
+          "monster_message": "%1$s reaches for %3$s as sparks play over their hand!"
         }
       ]
     },
@@ -400,7 +400,7 @@
           "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
           "cooldown": { "math": [ "4 + rand(8)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "%1$s's touches %3$s with a jolt!"
+          "monster_message": "%1$s reaches for %3$s as sparks play over their hand!"
         },
         {
           "id": "psi_electrokin2_lightning_bolt",
@@ -445,7 +445,7 @@
           "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 5 },
           "cooldown": { "math": [ "4 + rand(8)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "%1$s's touches %3$s with a jolt!"
+          "monster_message": "%1$s reaches for %3$s as sparks play over their hand!"
         },
         {
           "id": "psi_electrokin3_lightning_bolt",
@@ -1479,7 +1479,7 @@
           "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
           "cooldown": { "math": [ "10 + rand(20)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
+          "monster_message": "The air wavers around %1$s as they reach for %3$s."
         },
         {
           "id": "psi_porter3_reactive_displacement",
@@ -1567,7 +1567,7 @@
           "blockable": true,
           "eoc": [ "EOC_FERAL_VITAKIN1_ENERVATING_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
-          "hit_dmg_u": "%1$s touches you and you feel weaker!",
+          "hit_dmg_u": "%1$s reaches for you you and you feel weaker!",
           "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
           "miss_msg_u": "%1$s tries to touch you, but you dodge!",
           "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",

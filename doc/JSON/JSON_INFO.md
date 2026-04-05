@@ -1053,18 +1053,22 @@ reference at least one body part or sub body part.
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched. 0 makes the limb waterproof, morale checks for absolute wetness while other effects for wetness percentage - making a high `drench_capacity` prevent the penalties longer.
 | `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
-| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability, weather, and `drying_capacity` of the bodypart.
+| `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability and weather.
 | `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
+| `feels_discomfort`     | (_optional ) Whether the limb will suffer from chafing if rigid armor is worn directly on it (default: `true`)
 | `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated.
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `windage_effect`       | (_optional_) Effect applied to the limb when out of stamina.
+| `no_power_effect`      | (_optional_) Effect applied to the limb if a bionic limb is out of power.
+| `power_efficiency`     | (_optional_) Power usage of bionic limbs, measured in joules per stamina
 | `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
 | `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
@@ -1082,7 +1086,7 @@ reference at least one body part or sub body part.
   Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
   Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
-
+| `qualities`            | (_optional_) Object that defines potential tool qualities this bodypart provide; `quality` and `level` fields are self-explanatory, `disable_percent` removes a quality if limb HP is less than percent defined
 ```jsonc
 {
   "id": "arm_l",
@@ -1116,6 +1120,7 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "similar_bodyparts": [ "arm_bear_l" ],
+  "qualities": [ { "quality": "HAMMER", "level": 1, "disable_percent": 0.5 }, { "quality": "BUTCHER", "level": 2 } ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
@@ -1212,6 +1217,7 @@ Here are the currently defined limb scores:
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
 | `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
 | `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
@@ -2533,15 +2539,17 @@ it is present to help catch errors.
     { "level": 2, "description": "foo" },
     { "level": 3, "description": "bar" },
     { "level": 4, "description": "xyz" }
-],
-"level_descriptions_practice": [
-    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
-    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
-    { "level": 2, "description": "foo" },
-    { "level": 3, "description": "bar" },
-    { "level": 4, "description": "xyz" }
-],
-  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
+  ],
+  "level_descriptions_practice": [
+      { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+      { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+      { "level": 2, "description": "foo" },
+      { "level": 3, "description": "bar" },
+      { "level": 4, "description": "xyz" }
+  ],
+  "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ],
+  "required_traits": [ "THINSKIN", "HORNS" ],
+  "allowed_traits": [ "PAWS", "SKIN_DARK" ]
 }
 ```
 
@@ -2561,6 +2569,10 @@ it is present to help catch errors.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
+| `requires_all_traits` | Traits that the player is required to have to display the skill in the character tab. All traits are required |
+| `requires_any_traits` | Traits that the player needs at least one of to display the skill in the character tab. At least one trait is required |
+
+If neither `requires_all_traits` or `requires_any_traits` are defined, the skill will always display in the character tab
 
 ### Speed Description
 
@@ -2685,6 +2697,14 @@ Qualities are (non-exclusively) associated with items in the various item
 definitions in the json files by adding a `"qualities":` line.
 For example: `"qualities": [ [ "ANVIL", 2 ] ],` associates the `ANVIL` quality
 at level `2` to the item.
+
+Qualities also accept an object format with an optional `speed` field:
+`"qualities": [ { "id": "SEW", "level": 2, "speed": 0.3 } ]`.
+The `speed` value (default 1.0) is a multiplier applied to recipe steps that
+require this quality. Values below 1.0 make the step faster (e.g. a sewing
+machine with speed 0.3 completes sewing steps in 30% of the base time).
+Both array and object formats can be mixed freely. `charged_qualities` accepts
+the same format.
 
 ### Traits/Mutations
 
@@ -4423,27 +4443,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "concentration": 1, // How concentrated this intensity of gas is. Generally the thin/hazy cloud intensity will be 1, the standard gas will be 2, and thick gas will be 4. The amount of time a gas mask filter will last will be divided by this value.
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
-        [
-          {
-            "effect_id": "webbed", // Effect ID
-            "min_duration": "1 minutes",
-            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
-            "intensity": 1, // Intensity of the effect to apply
-            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
-            "immune_in_vehicle": // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
-            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
-            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
-            "chance_in_vehicle": 2,
-            "chance_inside_vehicle": 2,
-            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
-            "message": "You're debilitated!", // Message to print when the effect is applied to the player
-            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
-            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
-            "immunity_data": {...} // See Immunity Data below
-          }
-        ]
+        "effects": [  ] // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself. See field_effect below for syntax
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
@@ -4507,6 +4507,33 @@ Defines field emissions
   "qty": 100,             // amount of fields that would be emitted, in a circle, 1 means 1 field; 9 would be 3x3, 16 would be 4x4 square etc
   "chance": 50            // chance to emit one unit of field, from 1 to 100
 },
+```
+
+## field_effect
+Field effect defines what effect/effects will be applied on character or monsters, and what immunity protections can be used to defend against this effect.
+currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in `weather_type`
+
+```jsonc
+[
+  {
+    "effect_id": "webbed", // Effect ID
+    "min_duration": "1 minutes",
+    "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+    "intensity": 1, // Intensity of the effect to apply
+    "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+    "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
+    "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
+    "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,
+    "chance_in_vehicle": 2,
+    "chance_inside_vehicle": 2,
+    "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+    "message": "You're debilitated!", // Message to print when the effect is applied to the player
+    "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+    "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+    "immunity_data": {...} // See Immunity Data below
+  }
+]
 ```
 
 ## Immunity data

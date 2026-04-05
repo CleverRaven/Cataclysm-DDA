@@ -8,15 +8,7 @@
     "points": 1,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ],
     "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "labtech", "security", "medic" ],
-    "allowed_locs": [
-      "sloc_forest",
-      "sloc_field",
-      "sloc_lab_random",
-      "sloc_lab_escape_cells",
-      "sloc_lab_finale",
-      "sloc_ice_lab_stairs",
-      "sloc_ice_lab_finale"
-    ],
+    "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "traits": [
       "ALCMET",
       "ANIMALDISCORD2",

@@ -71,16 +71,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_HOMULLUS_NO_TRACE_ON",
-    "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
-    "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
-    "false_effect": [
-      { "u_lose_trait": "NO_TRACE_YET_I_WISH_active" },
-      { "u_message": "Your body begins producing scent.", "type": "neutral" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_BACKSTAGE_ON",
     "condition": { "not": { "u_has_trait": "HOMULLUS_BACKSTAGE_active" } },
     "effect": [

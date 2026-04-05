@@ -90,7 +90,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
     if( do_clear_avatar ) {
         clear_avatar();
     }
-    clear_map();
+    clear_map_without_vision();
 
     avatar &guy = get_avatar();
     // Ensure we have enough light to see

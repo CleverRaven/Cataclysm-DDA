@@ -18,5 +18,15 @@
     "type": "ter_furn_migration",
     "from_ter": "t_underbrush_harvested_winter",
     "to_ter": "t_underbrush_harvested"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_cvdbody",
+    "to_ter": "t_thconc_floor"
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_cvdmachine",
+    "to_ter": "t_thconc_floor"
   }
 ]

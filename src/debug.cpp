@@ -208,6 +208,11 @@ bool debug_has_error_been_observed()
     return error_observed;
 }
 
+void debug_reset_error_observed()
+{
+    error_observed = false;
+}
+
 // saved in game::serialize
 bool debug_mode = false;
 
@@ -254,6 +259,7 @@ std::string filter_name( debug_filter value )
         case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
         case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
         case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
+        case DF_NPC_NEEDS: return "DF_NPC_NEEDS";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";

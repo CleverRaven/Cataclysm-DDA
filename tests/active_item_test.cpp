@@ -34,7 +34,7 @@ static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart
 TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 {
     clear_avatar();
-    clear_map();
+    clear_map_without_vision();
     avatar &player_character = get_avatar();
     map &here = get_map();
     // An arbitrary active item that ticks every turn.

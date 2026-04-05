@@ -38,6 +38,10 @@ namespace sounds
 enum class sound_t : int;
 } // namespace sounds
 
+// this might not be the ideal place for this, but for now it'll do
+template<typename T>
+item_location form_loc_recursive( T &loc, item &it );
+
 /**
  * Transform an item into a specific type.
  * Optionally activate it.
@@ -468,8 +472,8 @@ class reveal_map_actor : public iuse_actor
          * The radius of the overmap area that gets revealed.
          * This is in overmap terrain coordinates.
          * A radius of 1 means all terrains directly around center are revealed.
-         * The center is location of nearest city defined in `reveal_map_center` variable of
-         * activated item (or current player global omt location if variable is not set).
+         * The center is location of nearest city defined in `spawn_location` variable of
+         * activated item. Skip if location is missing.
          */
         int radius = 0;
         /**

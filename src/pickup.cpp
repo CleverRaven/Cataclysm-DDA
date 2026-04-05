@@ -303,7 +303,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
             if( ret.success() ) {
                 if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
-                    newit.on_pickup( player_character );
+                    // Don't call on_pickup on this local copy -- the real items
+                    // already got it via add_stash -> fill_with (#85439).
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
                         entry.second += newit.charges;

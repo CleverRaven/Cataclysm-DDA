@@ -21,7 +21,7 @@
     "id": "EOC_CLAIR_RAD_SENSE",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_CLAIR_RAD_SENSE_SELF", "EOC_CLAIR_RAD_SENSE_OUTSIDE", "EOC_PORTAL_NULL_AWAKENING" ],
+        "run_eoc_selector": [ "EOC_CLAIR_RAD_SENSE_SELF", "EOC_CLAIR_RAD_SENSE_OUTSIDE", "EOC_MOM_NO_EFFECT" ],
         "names": [ "Check yourself", "Check your surroundings", "Nevermind" ],
         "keys": [ "1", "2", "3" ],
         "descriptions": [
@@ -219,6 +219,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "condition": { "not": "u_controlling_vehicle" },
+    "effect": [ { "run_eocs": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE_POST_VEHICLE_CHECK" } ],
+    "false_effect": [
+      { "u_add_effect": "effect_no_nether_attunement_from_channel", "duration": 0 },
+      {
+        "u_message": "Trying to send your spirit out of your body while driving is dangerous at best and suicidal at worst.  You had better not do it.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE_POST_VEHICLE_CHECK",
     "effect": [
       { "u_location_variable": { "u_val": "clair_astral_projection_original_location" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_clair_astral_projection", "duration": "PERMANENT" },
@@ -237,7 +250,6 @@
       { "u_remove_item_with": "item_clair_astral_projection_cord" },
       { "u_lose_effect": [ "effect_clair_astral_projection", "incorporeal" ] },
       { "u_lose_trait": "CLAIR_ASTRAL_PROJECTION_APPEARANCE" },
-      { "math": [ "u_spell_level('clair_astral_projection_passwall') = -1" ] },
       { "math": [ "u_spell_level('clair_astral_projection_return') = -1" ] },
       {
         "u_teleport": { "u_val": "clair_astral_projection_original_location" },
