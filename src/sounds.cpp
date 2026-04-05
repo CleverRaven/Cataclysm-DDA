@@ -1742,6 +1742,12 @@ void sfx::do_footstep( const Character &ch )
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( ch.pos_bub() );
+
+        if( heard_volume <= 0 ) {
+            return;
+        }
+
+        units::angle heard_angle = ch.is_npc() ? sfx::get_heard_angle( ch.pos_bub() ) : 0_degrees;
         const auto terrain = here.ter( ch.pos_bub() ).id();
         static const std::set<ter_str_id> grass = {
             ter_t_grass,
@@ -1830,7 +1836,7 @@ void sfx::do_footstep( const Character &ch )
                                                const std::optional<bool> &indoors,
         const std::optional<bool> &night ) {
             play_variant_sound( "plmove", variant, season, indoors, night,
-                                heard_volume, 0_degrees, 0.8, 1.2 );
+                                heard_volume, heard_angle, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
