@@ -109,7 +109,7 @@
     "id": "bio_noise_quiet_burn",
     "condition": { "or": [ { "u_has_bionics": "bio_ethanol" }, { "u_has_bionics": "bio_lampoil" } ] },
     "effect": [
-      { "if": { "one_in_chance": 120 }, "then": [ { "u_make_sound": "Hiss!!!", "volume": 10, "type": "movement" } ] },
+      { "if": { "one_in_chance": 120 }, "then": [ { "u_make_sound": "Hiss!!!", "volume": 6, "type": "movement" } ] },
       {
         "run_eocs": [
           {
@@ -138,12 +138,12 @@
       {
         "run_eocs": [
           {
-            "id": "bio_noise_quiet_burn_hearing",
+            "id": "bio_noise_quiet_digestive_hearing",
             "condition": { "not": "u_is_deaf" },
             "effect": [ { "u_message": "Your stomach gurgles and churns loudly.", "type": "bad" } ]
           },
           {
-            "id": "bio_noise_quiet_burn_deaf",
+            "id": "bio_noise_quiet_digestive_deaf",
             "condition": "u_is_deaf",
             "effect": [ { "u_message": "Your stomach gurgles and churns.", "type": "bad" } ]
           }
