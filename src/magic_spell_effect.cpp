@@ -1474,9 +1474,6 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
         here.furn_set( tile, old_furn );
 
     }
-
-
-
 }
 
 void spell_effect::translocate( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
