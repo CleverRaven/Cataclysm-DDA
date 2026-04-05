@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS",
-    "condition": { "or": [ { "one_in_chance": 1 }, { "u_has_effect": "effect_sky_island_merchant_attraction" } ] },
+    "condition": { "or": [ { "one_in_chance": 7 }, { "u_has_effect": "effect_sky_island_merchant_attraction" } ] },
     "effect": [
       {
         "weighted_list_eocs": [
