@@ -1433,7 +1433,6 @@ void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
 
     std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
     ::map &here = get_map();
-    
     for( const tripoint_bub_ms &tile : area ) {
 
         if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
