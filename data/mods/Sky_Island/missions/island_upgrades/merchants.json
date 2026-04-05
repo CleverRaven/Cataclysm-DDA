@@ -5,7 +5,7 @@
     "name": "Construct: Merchant Stall",
     "description": "Completing this mission will instantly enhance your home island.\n\nCraft a Jangling Pouch from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Infrastructure: Merchant Stall.  Build a structure where merchants from…somewhere…can come to your island and offer their wares to you.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "buildkey_climatecontrol",
+    "item": "buildkey_merchant_stall",
     "count": 1,
     "difficulty": 0,
     "value": 0,
