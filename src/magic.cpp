@@ -3158,7 +3158,7 @@ void spellcasting_callback::display_spell_info( size_t index )
                 ImGui::NewLine();
             }
         }
-       if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
                      0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
@@ -3262,7 +3262,7 @@ int known_magic::get_invlet( const spell_id &sp )
         return ctx;
     }();
     for( char &ch : inv_chars.get_allowed_chars() ) {
-        int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );       
+        int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
         if( invlets_to_spells.count( invlet ) ) {
             continue;
         }
