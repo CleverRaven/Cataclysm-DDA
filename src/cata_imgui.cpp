@@ -1,5 +1,7 @@
 #include "cata_imgui.h"
 
+#include <cmath>
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -380,10 +382,14 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
 // Load all fonts that exist in typefaces list
 // - typefaces is a list of paths.
 static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
-                       const ImWchar *ranges )
+                       const ImWchar *ranges, float font_size = 0.0f )
 {
     std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
+
+    if( font_size <= 0.0f ) {
+        font_size = fontheight;
+    }
 
     ImFontConfig config = ImFontConfig();
 
@@ -395,7 +401,7 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
         } else {
             config.MergeMode = !first;
             config.FontBuilderFlags = it->imgui_config();
-            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config, ranges );
             first = false;
         }
     }
@@ -445,17 +451,22 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x, Fonts[3] = gui 2x
         load_font( io, gui_typefaces, ranges.begin() );
         load_font( io, mono_typefaces, ranges.begin() );
-        io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        load_font( io, gui_typefaces, ranges.begin(),
+                   static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+        load_font( io, gui_typefaces, ranges.begin(),
+                   static_cast<float>( fontheight * 2 ) );
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+            io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
+            io.Fonts->Fonts[i]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        }
         io.Fonts->Build();
-        check_font( io.Fonts->Fonts[0] );
-        check_font( io.Fonts->Fonts[1] );
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            check_font( io.Fonts->Fonts[i] );
+        }
         ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
@@ -1084,6 +1095,20 @@ void cataimgui::PushMonoFont()
 {
 #ifdef TILES
     ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
+#endif
+}
+
+void cataimgui::PushGuiFont1_5x()
+{
+#ifdef TILES
+    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[2] );
+#endif
+}
+
+void cataimgui::PushGuiFont2x()
+{
+#ifdef TILES
+    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[3] );
 #endif
 }
 

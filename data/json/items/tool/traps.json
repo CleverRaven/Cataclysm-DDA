@@ -51,32 +51,6 @@
     }
   },
   {
-    "id": "blade_trap",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "name": { "str": "blade trap" },
-    "category": "traps",
-    "description": "A machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
-    "weight": "10142 g",
-    "volume": "9500 ml",
-    "price": "50 USD",
-    "price_postapoc": "15 USD",
-    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "clumsy" },
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "use_action": {
-      "type": "place_trap",
-      "outer_layer_trap": "tr_blade",
-      "trap": "tr_engine",
-      "moves": 400,
-      "practice": 12,
-      "done_message": "You set the blade trap 2 squares away."
-    },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 4, "cut": 14 }
-  },
-  {
     "id": "board_trap",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

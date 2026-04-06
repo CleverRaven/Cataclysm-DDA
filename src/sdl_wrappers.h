@@ -92,7 +92,10 @@ void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 int FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode );
+void SetTextureBlendMode( const std::shared_ptr<SDL_Texture> &texture, SDL_BlendMode blendMode );
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
+bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
+                         Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
@@ -101,6 +104,7 @@ void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
 void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, Uint8 alpha );
+void SetTextureAlphaMod( const std::shared_ptr<SDL_Texture> &texture, Uint8 alpha );
 void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
                    double angle, const SDL_Point *center, SDL_RendererFlip flip );
@@ -111,6 +115,8 @@ int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *srcrect,
                  const SDL_Surface_Ptr &dst, SDL_Rect *dstrect );
 Uint32 MapRGB( const SDL_Surface_Ptr &surface, Uint8 r, Uint8 g, Uint8 b );
 Uint32 MapRGBA( const SDL_Surface_Ptr &surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+void GetRGBA( Uint32 pixel, const SDL_Surface_Ptr &surface, Uint8 &r, Uint8 &g, Uint8 &b,
+              Uint8 &a );
 int SetColorKey( const SDL_Surface_Ptr &surface, int flag, Uint32 key );
 int SetSurfaceRLE( const SDL_Surface_Ptr &surface, int flag );
 int SetSurfaceBlendMode( const SDL_Surface_Ptr &surface, SDL_BlendMode blendMode );

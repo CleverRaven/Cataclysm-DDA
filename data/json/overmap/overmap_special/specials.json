@@ -3203,7 +3203,7 @@
       { "point": [ 2, 0, 1 ], "overmap": "rural_church_steeple_north" },
       { "point": [ 2, 0, 2 ], "overmap": "rural_church_steeple_roof_north" }
     ],
-    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "connections": [ { "point": [ 0, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ], "existing": true } ],
     "locations": [ "forest", "field" ],
     "city_distance": [ 5, 50 ],
     "occurrences": [ 0, 3 ],

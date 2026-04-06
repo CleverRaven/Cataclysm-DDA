@@ -12952,9 +12952,13 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
     mgr.cache_avatar_location();
     coord_set.clear();
     unreachable_sources.clear();
+    const faction_id fac = you.get_faction_id();
+    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     for( const tripoint_abs_ms &p :
-         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr,
-                       you.get_faction_id() ) ) {
+         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac ) ) {
+        if( skip_personal && !mgr.has_nonpersonal( zone_type_LOOT_UNSORTED, p, fac ) ) {
+            continue;
+        }
         coord_set.insert( p );
     }
 
@@ -13246,6 +13250,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const zone_manager &mgr = zone_manager::get_manager();
 
     const faction_id fac_id = you.get_faction_id();
+    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     const tripoint_abs_ms src( placement );
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
@@ -13434,8 +13439,17 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         const zone_type_id zt_id = mgr.get_near_zone_type_for_item( thisitem, abspos,
                                    MAX_VIEW_DISTANCE, fac_id );
 
-        const std::unordered_set<tripoint_abs_ms> dest_set =
+        std::unordered_set<tripoint_abs_ms> dest_set =
             mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
+        if( skip_personal ) {
+            for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
+                if( !mgr.has_nonpersonal( zt_id, *dit, fac_id ) ) {
+                    dit = dest_set.erase( dit );
+                } else {
+                    ++dit;
+                }
+            }
+        }
 
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
                                              zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set, num_processed );

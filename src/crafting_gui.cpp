@@ -943,7 +943,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
         // Line 1: recipe name with inline batch controls [-] name [xN] [+]
         {
             const std::string recipe_name = recp.result_name( true );
-            ImGui::SetWindowFontScale( 1.4f );
+            cataimgui::PushGuiFont1_5x();
             float region_w = ImGui::GetContentRegionAvail().x;
             float space = ImGui::CalcTextSize( " " ).x;
 
@@ -994,7 +994,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
 
-            ImGui::SetWindowFontScale( 1.0f );
+            ImGui::PopFont();
         }
 
         // Batch size for all subsequent calculations

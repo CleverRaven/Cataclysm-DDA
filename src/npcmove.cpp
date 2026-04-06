@@ -5955,8 +5955,7 @@ void npc::do_reload( const item_location &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
-    int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining( ) ) );
+    int qty = reload_opt.qty();
     int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

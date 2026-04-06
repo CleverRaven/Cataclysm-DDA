@@ -22,6 +22,7 @@
 
 #include "animation.h"
 #include "calendar.h"
+#include "cata_small_literal_vector.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cuboid_rectangle.h"
@@ -43,6 +44,8 @@ class memorized_tile;
 class monster;
 class nc_color;
 class pixel_minimap;
+struct sprite_screen_bounds;
+struct tint_sprite_record;
 enum class direction : unsigned int;
 enum class lit_level : uint8_t;
 enum class visibility_type : int;
@@ -134,16 +137,30 @@ class texture
     private:
         std::shared_ptr<SDL_Texture> sdl_texture_ptr;
         SDL_Rect srcrect = { 0, 0, 0, 0 };
+        // Tightest rect containing non-transparent pixels, relative to srcrect origin.
+        // Used for tint overlay bounds so transparent padding is excluded.
+        SDL_Rect opaque_rect = { 0, 0, 0, 0 };
 
     public:
         texture( std::shared_ptr<SDL_Texture> ptr,
                  const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
-            srcrect( rect ) { }
+            srcrect( rect ), opaque_rect( { 0, 0, rect.w, rect.h } ) { }
+        texture( std::shared_ptr<SDL_Texture> ptr,
+                 const SDL_Rect &rect, const SDL_Rect &opaque ) : sdl_texture_ptr( std::move( ptr ) ),
+            srcrect( rect ), opaque_rect( opaque ) { }
         texture() = default;
 
         /// Returns the width (first) and height (second) of the stored texture.
         std::pair<int, int> dimension() const {
             return std::make_pair( srcrect.w, srcrect.h );
+        }
+        /// Returns the opaque pixel bounding box relative to the sprite origin.
+        const SDL_Rect &get_opaque_rect() const {
+            return opaque_rect;
+        }
+        /// Returns the underlying SDL_Texture pointer (for blend mode changes).
+        const std::shared_ptr<SDL_Texture> &get_texture_ptr() const {
+            return sdl_texture_ptr;
         }
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// the stored source rectangle. Other parameters are simply passed through.
@@ -212,6 +229,7 @@ class tileset
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
+        std::vector<texture> silhouette_tile_values;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -278,6 +296,9 @@ class tileset
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );
         }
+        const texture *get_silhouette_tile( const size_t index ) const {
+            return get_if_available( index, silhouette_tile_values );
+        }
 
         const std::unordered_set<std::string> &get_duplicate_ids() const {
             return duplicate_ids;
@@ -343,7 +364,8 @@ class tileset_cache::loader
         void ensure_default_item_highlight();
 
         void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
-                                      std::vector<texture> &target );
+                                      std::vector<texture> &target,
+                                      const std::vector<SDL_Rect> &opaque_bounds );
         void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
@@ -825,6 +847,20 @@ class cata_tiles
 
         int fog_alpha = 0;
 
+        // During the layer loop, these point to the current tile's tint tracking
+        // state. draw_sprite_at uses them to accumulate screen bounds and record
+        // sprites for later silhouette replay. Only set for ortho tiles that need
+        // tinting; null for iso tiles, UI overlays, and non-tinted tiles.
+        sprite_screen_bounds *m_cur_bounds = nullptr;
+        small_literal_vector<tint_sprite_record, 4> *m_cur_tint_sprites = nullptr;
+
+        // Scratch render target for the ortho silhouette mask tint path. Sized
+        // to fit the largest batched sprite region; reused across tiles/frames.
+        SDL_Texture_Ptr tint_mask_tex;
+        int tint_mask_w = 0;
+        int tint_mask_h = 0;
+        void ensure_tint_mask_texture( int w, int h );
+
         bool in_animation = false;
 
         bool disable_occlusion = false;
@@ -897,10 +933,17 @@ class cata_tiles
          * Allows usage of night vision tilesets during sprite rendering.
          */
         bool nv_goggles_activated = false;
+        // Set during draw() when any tile with animated=true is rendered.
+        bool has_animated_tiles_ = false;
 
         pimpl<pixel_minimap> minimap;
 
     public:
+        // True if the last draw() rendered any animated tiles.
+        bool has_animated_tiles() const {
+            return has_animated_tiles_;
+        }
+
         // Draw caches persist data between draws and are only recalculated when dirty
         void set_draw_cache_dirty();
 

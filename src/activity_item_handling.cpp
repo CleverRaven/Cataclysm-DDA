@@ -121,6 +121,7 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
+static const requirement_id requirement_data_mopping_standard( "mopping_standard" );
 static const requirement_id requirement_data_multi_butcher( "multi_butcher" );
 static const requirement_id requirement_data_multi_butcher_big( "multi_butcher_big" );
 static const requirement_id requirement_data_multi_chopping_planks( "multi_chopping_planks" );
@@ -2484,6 +2485,7 @@ bool activity_reason_continue( do_activity_reason reason )
         reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
         reason == do_activity_reason::NEEDS_FISHING ||
         reason == do_activity_reason::NEEDS_MINING ||
+        reason == do_activity_reason::NEEDS_MOP ||
         reason == do_activity_reason::NEEDS_CRAFT ||
         reason == do_activity_reason::NEEDS_DISASSEMBLE;
 }
@@ -2500,7 +2502,8 @@ bool activity_reason_picks_up_tools( do_activity_reason reason )
         reason == do_activity_reason::NEEDS_VEH_DECONST ||
         reason == do_activity_reason::NEEDS_VEH_REPAIR ||
         reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-        reason == do_activity_reason::NEEDS_MINING;
+        reason == do_activity_reason::NEEDS_MINING ||
+        reason == do_activity_reason::NEEDS_MOP;
 }
 
 bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_loc )
@@ -3879,6 +3882,15 @@ bool multi_mine_activity_actor::multi_activity_do( Character &you,
         }
     }
     return true;
+}
+
+std::optional<requirement_id> multi_mop_activity_actor::multi_activity_requirements( Character &,
+        activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_MOP ) {
+        return requirement_data_mopping_standard;
+    }
+    return requirement_id::NULL_ID();
 }
 
 bool multi_mop_activity_actor::multi_activity_do( Character &you,

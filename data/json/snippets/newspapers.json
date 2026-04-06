@@ -161,7 +161,7 @@
       {
         "id": "one_year_old_news_4",
         "name": "TELEPORTATION?",
-        "text": "TELEPORTATION?  An unidentified source working in a major university contacted multiple media outlets this week with a far-fetched story that is nonetheless corroborated by third-party physicists as \"shockingly possible\".  This source, nicknamed \"Deep Space\", describes secret government experimentation into teleportation, dating back to before 2008.  \"When I read the tagline, I just scoffed,\" said Dr. Alice Feyn, a physics professor at MIT.  \"Then I read on.  This is strongly reminiscent of Dr. Takatoshi's lost work.  It feels bizarre to say it, but I think there's a grain of truth to all of this.\"  Dr. Amy Takatoshi was a quantum physicist who went missing, along with all records of her work, in July 2007."
+        "text": "TELEPORTATION?  An unidentified source working in a major university contacted multiple media outlets this week with a far-fetched story that is nonetheless corroborated by third-party physicists as \"shockingly possible\".  This source, nicknamed \"Deep Space\", describes secret government experimentation into teleportation, dating back over a decade.  \"When I read the tagline, I just scoffed,\" said Dr. Alice Feyn, a physics professor at MIT.  \"Then I read on.  This is strongly reminiscent of Dr. Takatoshi's lost work.  It feels bizarre to say it, but I think there's a grain of truth to all of this.\"  Dr. Amy Takatoshi was a quantum physicist who went missing, along with all records of her work, several years ago."
       },
       {
         "id": "one_year_old_news_5",
@@ -247,6 +247,36 @@
         "id": "one_year_old_news_21",
         "name": "UNCANNY: SHADOWS IN PARADISE",
         "text": "UNCANNY: SHADOWS IN PARADISE.  Uncanny, a tech development firm that has gone from nothing to a household name throughout the United States in the last two years, has been a hot topic since they entered the limelight.  We all know about James Hawthorne and his charismatic combination of sarcastic quipping and insightful observations.  Everyone has seen his tweets, and his TED Talk went viral last year.  Behind the smokescreen, though, hides labor practices that have left employees scarred and, in some cases, permanently unable to work.  Did you know that Uncanny's Portland manufacturing site tried unsuccessfully to unionize last month?  I bet you didn't.  Did you know that four union organizers disappeared prior to the vote?  I bet you didn't.  Are you wondering why none of this was reported?  So am I."
+      },
+      {
+        "id": "one_year_old_news_22",
+        "name": "CHINA CLAIMS FUSION BREAKTHROUGH",
+        "text": "CHINA CLAIMS FUSION BREAKTHROUGH.  Beijing announced the successful activation of what it called a \"commercially viable\" fusion reactor at a remote facility in Qinghai Province, a claim that, if verified, would represent a stunning leap past Western research programs.  Satellite imagery appears to confirm that the facility is connected to the regional power grid and that construction of additional transmission infrastructure is underway.  The White House declined to comment, but congressional leaders were quick to respond, with Senator Hargrove calling for an emergency intelligence briefing."
+      },
+      {
+        "id": "one_year_old_news_23",
+        "name": "PHYSICISTS QUESTION CHINESE FUSION CLAIMS",
+        "text": "PHYSICISTS QUESTION CHINESE FUSION CLAIMS.  Dr. Dantua Sadowski of Princeton's Plasma Physics Laboratory was among several researchers to express doubt, calling the published reactor specifications \"hard to comprehend\" and noting that the described containment temperatures would require materials that are, to her knowledge, physically impossible.  Beijing's energy ministry dismissed these concerns in a statement and reiterated its invitation for international observers, though no date has been confirmed.  ITER spokesperson Evan Colten declined to comment on the claims directly but acknowledged that the consortium's own timeline was \"being reassessed in light of recent developments.\""
+      },
+      {
+        "id": "one_year_old_news_24",
+        "name": "ADMINISTRATION PUSHES BACK ON \"FUSION GAP\"",
+        "text": "ADMINISTRATION PUSHES BACK ON \"FUSION GAP\".  Press Secretary Hyland pushed back on what she called \"irresponsible speculation\" about the United States falling behind China in energy technology, telling reporters that domestic research programs \"remain the most advanced in the world\" and that the administration sees \"no cause for alarm.\"  She declined to address questions about the classified intelligence briefing requested by members of the Senate Armed Services Committee last week."
+      },
+      {
+        "id": "one_year_old_news_25",
+        "name": "ITER VISIT TO CHINESE REACTOR \"STILL PENDING\"",
+        "text": "ITER VISIT TO CHINESE REACTOR \"STILL PENDING\".  Three months after Beijing agreed \"in principle\" to allow international observers to visit the Qinghai fusion facility, no visit has taken place.  Evan Colten, a spokesperson for the ITER consortium, declined to comment on what ITER has characterized as \"repeated scheduling difficulties.\"  Chinese officials have cited construction activity at the site and safety protocols as reasons for the delay, and have twice rescheduled preparatory meetings with consortium representatives.  ITER's director noted in a separate statement that the consortium \"remains committed to verification\" but declined to characterize the delays further."
+      },
+      {
+        "id": "one_year_old_news_26",
+        "name": "SATELLITE IMAGES RAISE NEW QUESTIONS ON CHINESE ENERGY PROGRAM",
+        "text": "SATELLITE IMAGES RAISE NEW QUESTIONS ON CHINESE ENERGY PROGRAM.  Orbital84, a commercial satellite imagery firm, released photos this week showing several construction projects across western China that it says share \"significant structural similarities\" with the Qinghai fusion facility.  The firm also noted that their archival imagery indicates that construction at these sites began eighteen months before the Qinghai announcement, and has expanded considerably over that period.  A State Department spokesperson cautioned against \"drawing conclusions from commercial satellite photography\" and reiterated that the original fusion claims remain unverified by any independent body."
+      },
+      {
+        "id": "one_year_old_news_27",
+        "name": "CHINESE ISOTOPE EXPORTS SURGE, BEIJING CREDITS FUSION PROGRAM",
+        "text": "CHINESE ISOTOPE EXPORTS SURGE, BEIJING CREDITS FUSION PROGRAM.  Global markets for medical and industrial isotopes have been shaken by a sudden influx of Chinese supply, driving prices to multi-year lows.  Beijing's energy ministry attributed the surplus to \"byproducts of ongoing fusion operations at the Qinghai facility,\" claiming that the reactor has been in partial operation for months longer than previously disclosed."
       }
     ]
   },
@@ -327,7 +357,7 @@
       {
         "id": "months_old_news_16",
         "name": "THE MAN BEHIND THE RIOTS",
-        "text": "THE MAN BEHIND THE RIOTS.  [Photograph: Interpol identification photograph of Qiang Ye, taken in Maastricht airport in June, 2019.]  Our sources in the UN have informed reporters that the investigative committee in charge of the riots currently engulfing most of the world, nicknamed the \"FriendFace Riots\" for the role of social media in spreading the violence, are the work of a discredited Chinese hacker and alleged intelligence agent, Qiang Ye.  Ye is wanted by Interpol for his involvement in a cyberterror attack on Dutch banks in 2018 that led to billions of dollars of losses for European banks.  The Chinese government has disavowed any connection to Ye since 2015.  \"One man, with an army of well-programmed bots at his control, could certainly be behind this,\" said Dr. Ely Savage, a professor of political science at Berkeley and our expert correspondent on the riots.  \"Social media is very susceptible to this sort of influence.\""
+        "text": "THE MAN BEHIND THE RIOTS.  [Photograph: Interpol identification photograph of Qiang Ye, taken at Maastricht airport.]  Our sources in the UN have informed reporters that the investigative committee in charge of the riots currently engulfing most of the world, nicknamed the \"FriendFace Riots\" for the role of social media in spreading the violence, are the work of a discredited Chinese hacker and alleged intelligence agent, Qiang Ye.  Ye is wanted by Interpol for his involvement in a cyberterror attack on Dutch banks several years ago that led to billions of dollars of losses for European banks.  The Chinese government has disavowed any connection to Ye for years.  \"One man, with an army of well-programmed bots at his control, could certainly be behind this,\" said Dr. Ely Savage, a professor of political science at Berkeley and our expert correspondent on the riots.  \"Social media is very susceptible to this sort of influence.\""
       },
       {
         "id": "months_old_news_17",
