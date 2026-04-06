@@ -797,7 +797,7 @@
             "value": "PERCEPTION",
             "add": {
               "math": [
-                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 3) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 3) ) * psionic_power_modifiers()"
               ]
             }
           },
@@ -805,7 +805,7 @@
             "value": "OVERMAP_SIGHT",
             "add": {
               "math": [
-                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 5) ) * psionic_power_modifiers()"
               ]
             }
           },
@@ -813,7 +813,7 @@
             "value": "HEARING_MULT",
             "multiply": {
               "math": [
-                "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack')) * 0.25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+                "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack')) * 0.25) ) * psionic_power_modifiers()"
               ]
             }
           }
@@ -822,7 +822,7 @@
       {
         "condition": {
           "math": [
-            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 6"
+            "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * psionic_power_modifiers() ) >= 6"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_eye_membrane", "intensity": 1 } ]
@@ -830,7 +830,7 @@
       {
         "condition": {
           "math": [
-            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 8"
+            "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * psionic_power_modifiers() )>= 8"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_see_sleep", "intensity": 1 } ]
@@ -838,7 +838,7 @@
       {
         "condition": {
           "math": [
-            "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 10"
+            "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * psionic_power_modifiers() ) >= 10"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_safecracking", "intensity": 1 } ]
@@ -854,7 +854,7 @@
                 { "u_is_in_field": "fd_smoke" },
                 {
                   "math": [
-                    "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
+                    "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * psionic_power_modifiers() ) >= 15"
                   ]
                 }
               ]
@@ -928,11 +928,7 @@
         "values": [
           {
             "value": "NIGHT_VIS",
-            "add": {
-              "math": [
-                "( ( ( u_spell_level('clair_night_vision') * 1.5) + 2 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('clair_night_vision') * 1.5) + 2 ) * psionic_power_modifiers()" ] }
           }
         ]
       },
@@ -941,11 +937,7 @@
           "and": [
             { "u_has_effect": "effect_clair_better_senses" },
             { "not": { "u_has_effect": "effect_clair_better_senses_pain" } },
-            {
-              "math": [
-                "(u_spell_level('clair_better_senses') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 8"
-              ]
-            },
+            { "math": [ "(u_spell_level('clair_better_senses') * psionic_power_modifiers() ) >= 8" ] },
             { "math": [ "u_val('fine_detail_vision_mod') <= 7" ] }
           ]
         },
@@ -967,18 +959,12 @@
         "values": [
           {
             "value": "READING_EXP",
-            "add": {
-              "math": [
-                "( ( u_spell_level('clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( u_spell_level('clair_speed_reading') * 0.15) * psionic_power_modifiers()" ] }
           },
           {
             "value": "READING_SPEED_MULTIPLIER",
             "multiply": {
-              "math": [
-                "max((( -0.15 + ( u_spell_level('clair_speed_reading') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.6)"
-              ]
+              "math": [ "max( ( ( -0.15 + ( u_spell_level('clair_speed_reading') * -0.02 ) ) * (psionic_power_modifiers() ), -0.6)" ]
             }
           }
         ]
@@ -1002,7 +988,7 @@
             "value": "MOTION_ALARM",
             "add": {
               "math": [
-                "max( ( ( 3 + ( ( u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 0.5  ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 25)"
+                "max( ( ( 3 + ( ( u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 0.5 ) ) * psionic_power_modifiers() ), 25)"
               ]
             }
           }
@@ -1024,19 +1010,11 @@
         "values": [
           {
             "value": "SOCIAL_LIE",
-            "add": {
-              "math": [
-                "min((( 5 + ( u_spell_level('clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 20)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( u_spell_level('clair_see_auras') + 5 ) * psionic_power_modifiers() ), 20)" ] }
           },
           {
             "value": "SOCIAL_PERSUADE",
-            "add": {
-              "math": [
-                "min((( 5 + ( u_spell_level('clair_see_auras') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 20)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( u_spell_level('clair_see_auras') + 5 ) * psionic_power_modifiers() ), 20)" ] }
           }
         ]
       }
@@ -1078,19 +1056,11 @@
         "values": [
           {
             "value": "RANGE",
-            "add": {
-              "math": [
-                "(1 + ( u_spell_level('clair_ranged_enhance') * 0.25 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('clair_ranged_enhance') * 0.25 ) + 1 ) * psionic_power_modifiers()" ] }
           },
           {
             "value": "WEAPON_DISPERSION",
-            "multiply": {
-              "math": [
-                "max((( ( u_spell_level('clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling),-0.6)"
-              ]
-            }
+            "multiply": { "math": [ "max( ( ( u_spell_level('clair_ranged_enhance') * -0.025) * psionic_power_modifiers() ),-0.6)" ] }
           }
         ]
       },
@@ -1105,11 +1075,7 @@
         "values": [
           {
             "value": "WEAKPOINT_ACCURACY",
-            "multiply": {
-              "math": [
-                "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') )  * u_nether_attunement_power_scaling ), 9 )"
-              ]
-            }
+            "multiply": { "math": [ "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.08) + 0.10 ) * psionic_power_modifiers() ), 9 )" ] }
           }
         ]
       }
@@ -1152,11 +1118,7 @@
                 { "and": [ "npc_is_character", "npc_hostile" ] }
               ]
             },
-            "distance": {
-              "math": [
-                "( ( u_spell_level('clair_sense_hostile_creatures') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            },
+            "distance": { "math": [ "( u_spell_level('clair_sense_hostile_creatures') * 2) * psionic_power_modifiers()" ] },
             "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
           }
         ]
@@ -1179,35 +1141,19 @@
         "values": [
           {
             "value": "RANGE_DODGE",
-            "add": {
-              "math": [
-                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.95)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( ( u_spell_level('clair_dodge_power') * 0.015) + 0.25 ) * psionic_power_modifiers() ), 0.95)" ] }
           },
           {
             "value": "DODGE_CHANCE",
-            "add": {
-              "math": [
-                "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( u_spell_level('clair_dodge_power') * 0.5) * psionic_power_modifiers() ), 10)" ] }
           },
           {
             "value": "FREE_DODGES",
-            "add": {
-              "math": [
-                "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
-              ]
-            }
+            "add": { "math": [ "1 + min( ( ( u_spell_level('clair_dodge_power') * 0.2) * psionic_power_modifiers() ), 4)" ] }
           },
           {
             "value": "BONUS_DODGE",
-            "add": {
-              "math": [
-                "1 + min( ( ( ( u_spell_level('clair_dodge_power') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
-              ]
-            }
+            "add": { "math": [ "1 + min( ( ( u_spell_level('clair_dodge_power') * 0.2) * psionic_power_modifiers() ), 4)" ] }
           }
         ]
       }
@@ -1229,11 +1175,7 @@
           { "value": "MOVE_COST", "multiply": 3 },
           {
             "value": "CRAFTING_SPEED_MULTIPLIER",
-            "multiply": {
-              "math": [
-                "( 0.04 + ( u_spell_level('clair_craft_bonus') * 0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('clair_craft_bonus') * 0.01 ) + 0.04 ) * psionic_power_modifiers()" ] }
           }
         ]
       }
@@ -1307,7 +1249,7 @@
             "value": "PHASE_DISTANCE",
             "add": {
               "math": [
-                "max( ( ( 1 + ( (u_spell_level('clair_astral_projection') + u_spell_level('clair_astral_projection_knack') ) * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1)"
+                "max( ( ( ( (u_spell_level('clair_astral_projection') + u_spell_level('clair_astral_projection_knack') ) * 0.15 ) + 1 ) * psionic_power_modifiers() ), 1)"
               ]
             }
           }

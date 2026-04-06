@@ -14,7 +14,7 @@
   {
     "type": "jmath_function",
     "id": "psionic_power_modifiers",
-    "num_args": 1,
+    "num_args": 0,
     "return": "scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
   },
   {
