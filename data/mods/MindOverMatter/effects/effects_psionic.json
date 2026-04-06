@@ -1335,7 +1335,7 @@
             "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
             "distance": {
               "math": [
-                "( ( ( u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 1.5) + 6 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+                "( ( ( u_spell_level('electrokinetic_see_electric') + u_spell_level('electrokinetic_see_electric_knack') ) * 1.5) + 6 ) * psionic_power_modifiers()"
               ]
             },
             "descriptions": [
@@ -1421,17 +1421,13 @@
           {
             "value": "PAIN",
             "multiply": {
-              "math": [
-                "max((( -0.15 + ( u_spell_level('electrokinetic_reduce_pain') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.5)"
-              ]
+              "math": [ "max( ( ( ( u_spell_level('electrokinetic_reduce_pain') * -0.02 ) + -0.15 ) * psionic_power_modifiers() ), -0.5)" ]
             }
           },
           {
             "value": "PAIN_REMOVE",
             "multiply": {
-              "math": [
-                "min((( 0.1 + ( u_spell_level('electrokinetic_reduce_pain') * 0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.5)"
-              ]
+              "math": [ "min( ( ( ( u_spell_level('electrokinetic_reduce_pain') * 0.02 ) + 0.1 ) * psionic_power_modifiers() ), 0.5)" ]
             }
           }
         ]
@@ -1470,18 +1466,12 @@
         "values": [
           {
             "value": "LEARNING_FOCUS",
-            "add": {
-              "math": [
-                "min( (( 5 + u_spell_level('electrokinetic_speed_boost') ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35 )"
-              ]
-            }
+            "add": { "math": [ "min( ( ( 5 + u_spell_level('electrokinetic_speed_boost') ) * psionic_power_modifiers() ), 35 )" ] }
           },
           {
             "value": "SPEED",
             "add": {
-              "math": [
-                "min( (( 10 + ( ( u_spell_level('electrokinetic_speed_boost') ) * 1.5) ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60 )"
-              ]
+              "math": [ "min( ( ( ( ( u_spell_level('electrokinetic_speed_boost') ) * 1.5) + 10 ) * psionic_power_modifiers() ), 60 )" ]
             }
           }
         ]
@@ -1545,7 +1535,7 @@
             "value": "LUMINATION",
             "add": {
               "math": [
-                "min( (( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
+                "min( ( ( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
               ]
             }
           }
@@ -1571,9 +1561,7 @@
           {
             "value": "EVASION",
             "add": {
-              "math": [
-                "min((( 15 + (2 * ( u_spell_level('photokinetic_light_dodge') / 100) ) + (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.85)"
-              ]
+              "math": [ "min( ( ( ( ( u_spell_level('photokinetic_light_dodge') / 100) * 2) + 15 ) +  psionic_power_modifiers() ), 0.85)" ]
             }
           }
         ]
@@ -1595,11 +1583,7 @@
         "values": [
           {
             "value": "STEALTH_MODIFIER",
-            "add": {
-              "math": [
-                "min((( 10 + ( u_spell_level('photokinetic_camouflage') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( ( u_spell_level('photokinetic_camouflage') * 3 ) + 10 ) * psionic_power_modifiers() ), 60)" ] }
           }
         ]
       }
@@ -1631,7 +1615,7 @@
             "value": "UGLINESS",
             "multiply": {
               "math": [
-                "max( ( ( ( -0.6 + ( ( u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) *  -1.5 ) ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), -1)"
+                "max( ( ( ( ( ( u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * -1.5 ) + -0.6 ) * psionic_power_modifiers() ), -1)"
               ]
             }
           }
