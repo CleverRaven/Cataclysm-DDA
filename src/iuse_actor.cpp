@@ -611,7 +611,7 @@ std::optional<int> mp3_iuse::use( Character *p, item &it, map *, const tripoint_
         if( !it.ammo_sufficient( p ) ) {
             p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it.tname() );
         } else if( p->cache_has_item_with( "active_MP3_ON", &item::is_active, []( const item & q ) {
-        return q.type->has_tick( "MP3_ON" );
+            return q.type->has_tick( "MP3_ON" );
         } ) ) {
             p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
         } else {
