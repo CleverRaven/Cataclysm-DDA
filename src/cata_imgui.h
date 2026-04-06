@@ -162,9 +162,16 @@ bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast
 
 void PushGuiFont();
 void PushMonoFont();
+void PushGuiFont1_5x();
+void PushGuiFont2x();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
+
+// wrapper around BeginTabItem() that allows to define if tab should be selected directly,
+// instead of manually passing ImGuiTabItemFlags_SetSelected
+bool BeginTabItem( const char *label, bool is_selected, bool *p_open = nullptr,
+                   ImGuiTabItemFlags flags = 0 );
 
 // Set ImGui theme colors to those chosen by the player.
 // This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors

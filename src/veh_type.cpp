@@ -262,6 +262,12 @@ void vpart_info::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "folded_volume", folded_volume, std::nullopt );
     optional( jo, was_loaded, "size", size, 0_ml );
     optional( jo, was_loaded, "bonus", bonus, 0 );
+    if( jo.has_array( "light_color" ) ) {
+        JsonArray jarr = jo.get_array( "light_color" );
+        light_color.r = jarr.get_int( 0 ) / 255.0f;
+        light_color.g = jarr.get_int( 1 ) / 255.0f;
+        light_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
     optional( jo, was_loaded, "cargo_weight_modifier", cargo_weight_modifier, 100 );
     optional( jo, was_loaded, "categories", categories, string_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );

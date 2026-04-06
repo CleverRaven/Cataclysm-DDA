@@ -145,6 +145,9 @@ static const achievement_id achievement_achievement_arcade_mode( "achievement_ar
 
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
+static const effect_on_condition_id
+effect_on_condition_EOC_DEBUG_QUICK_SETUP( "EOC_DEBUG_QUICK_SETUP" );
+
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
 
@@ -4082,6 +4085,8 @@ void do_debug_quick_setup( bool flag_dirty )
         u.set_skill_level( pair.first, 10 );
     }
     map_reveal( static_cast<int>( om_vision_level::full ) );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    effect_on_condition_EOC_DEBUG_QUICK_SETUP->activate( d );
     if( flag_dirty ) {
         g->save_is_dirty = true;
     }

@@ -6,9 +6,9 @@
   {
     "type": "mutation",
     "id": "CANNOT_GAIN_PSIONICS",
-    "name": { "str": "Can't Become An Esper", "//~": "NO_I18N" },
+    "name": "Can't Become An Esper",
     "points": -4,
-    "description": { "str": "You can't Become An Esper.  Oh well!", "//~": "NO_I18N" },
+    "description": "You can't Become An Esper.  Oh well!",
     "valid": false,
     "player_display": false,
     "starting_trait": false,

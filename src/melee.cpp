@@ -574,7 +574,8 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, false ) ) {
+    if( !is_adjacent( &t, false ) &&
+        !get_map().on_matching_stairs( pos_bub(), t.pos_bub() ) ) {
         return false;
     }
 
@@ -707,7 +708,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos_bub(), t.pos_bub(), false, false );
+        sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), false, false );
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
@@ -917,7 +918,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos_bub(), t.pos_bub(), true, t.is_monster(), material );
+            sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
@@ -1026,10 +1027,19 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 
 bool Character::can_reach_attack( const Creature &target ) const
 {
+    if( pos_bub().z() == target.pos_bub().z() ) {
+        return true;
+    }
+    if( get_map().on_matching_stairs( pos_bub(), target.pos_bub() ) ) {
+        return true;
+    }
+
     item_location maybe_weapon = get_wielded_item();
     int vert_reach = 0;
     if( maybe_weapon ) {
         vert_reach = maybe_weapon->current_reach_range( *this ).second;
+    } else {
+        vert_reach = null_item_reference().current_reach_range( *this ).second;
     }
 
     if( std::abs( pos_bub().z() - target.pos_bub().z() ) > vert_reach ) {

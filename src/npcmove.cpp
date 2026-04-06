@@ -15,8 +15,10 @@
 #include <ostream>
 #include <set>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -24,6 +26,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
+#include "behavior.h"
 #include "bionics.h"
 #include "body_part_set.h"
 #include "bodypart.h"
@@ -32,6 +35,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_id.h"
+#include "character_oracle.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -53,6 +57,8 @@
 #include "game_constants.h"
 #include "gates.h"
 #include "gun_mode.h"
+#include "harvest.h"
+#include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
@@ -76,10 +82,10 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_attack.h"
+#include "npc_decision_category.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -88,6 +94,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
@@ -113,6 +120,8 @@ enum class side : int;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
+static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -126,6 +135,7 @@ static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
@@ -170,17 +180,23 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
+static const flag_id json_flag_FIRESTARTER( "FIRESTARTER" );
+
+static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
-
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 
@@ -188,14 +204,24 @@ static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
+static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_decision" );
+static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
+
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+static const trait_id trait_NPC_STASIS( "NPC_STASIS" );
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
+static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
+// Legacy thresholds for NPC food consumption and complaints.
+// The behavior tree in npc_behavior.json uses different thresholds
+// via character_oracle predicates (see character_oracle.cpp).
 // TODO: These would be much better using common code or constants from character.cpp,
 // which handles the player formatting of thirst/hunger levels. Right now we
 // have magic numbers all over the place. ;(
@@ -228,6 +254,110 @@ enum npc_action : int {
     npc_worker_downtime,
     num_npc_actions
 };
+
+const char *category_name( decision_category cat )
+{
+    switch( cat ) {
+        case decision_category::combat:
+            return "combat";
+        case decision_category::investigate:
+            return "investigate";
+        case decision_category::needs:
+            return "needs";
+        case decision_category::follow:
+            return "follow";
+        case decision_category::order:
+            return "order";
+        case decision_category::duty:
+            return "duty";
+        case decision_category::camp_work:
+            return "camp_work";
+        case decision_category::camp_travel:
+            return "camp_travel";
+        case decision_category::free_time:
+            return "free_time";
+        case decision_category::idle:
+            return "idle";
+        case decision_category::unmodeled:
+            return "unmodeled";
+    }
+    return "unmodeled";
+}
+
+decision_category bt_goal_to_category( const std::string &goal )
+{
+    if( goal == "fight" || goal == "flee" ) {
+        return decision_category::combat;
+    }
+    if( goal == "investigate_sound" ) {
+        return decision_category::investigate;
+    }
+    if( goal == "drink_water" || goal == "eat_food" || goal == "go_to_sleep" ||
+        goal == "start_fire" || goal == "seek_warmth" ) {
+        return decision_category::needs;
+    }
+    if( goal == "follow_player" ) {
+        return decision_category::follow;
+    }
+    if( goal == "goto_ordered_position" ) {
+        return decision_category::order;
+    }
+    if( goal == "return_to_guard_pos" || goal == "hold_position" ) {
+        return decision_category::duty;
+    }
+    if( goal == "camp_work" ) {
+        return decision_category::camp_work;
+    }
+    if( goal == "return_to_camp" ) {
+        return decision_category::camp_travel;
+    }
+    if( goal == "free_time" ) {
+        return decision_category::free_time;
+    }
+    if( goal == "idle" ) {
+        return decision_category::idle;
+    }
+    return decision_category::unmodeled;
+}
+
+const char *classify_comparison( decision_category bt, decision_category cascade )
+{
+    if( bt == decision_category::unmodeled || cascade == decision_category::unmodeled ) {
+        return "unmodeled";
+    }
+    return bt == cascade ? "converged" : "DIVERGED";
+}
+
+static decision_category cascade_action_to_category( npc_action action )
+{
+    switch( action ) {
+        case npc_melee:
+        case npc_shoot:
+        case npc_do_attack:
+        case npc_reach_attack:
+        case npc_aim:
+        case npc_flee:
+        case npc_avoid_friendly_fire:
+            return decision_category::combat;
+        case npc_investigate_sound:
+            return decision_category::investigate;
+        case npc_sleep:
+            return decision_category::needs;
+        case npc_follow_player:
+        case npc_follow_embarked:
+            return decision_category::follow;
+        case npc_goto_to_this_pos:
+            return decision_category::order;
+        case npc_return_to_guard_pos:
+            return decision_category::duty;
+        case npc_undecided:
+        case npc_pause:
+            return decision_category::idle;
+        default:
+            return decision_category::unmodeled;
+    }
+}
+
 
 namespace
 {
@@ -1295,10 +1425,16 @@ void npc::regen_ai_cache()
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     creature_tracker &creatures = get_creature_tracker();
-    if( has_trait( trait_RETURN_TO_START_POS ) ) {
-        if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos_abs();
+    if( has_trait( trait_RETURN_TO_START_POS ) &&
+        mission != NPC_MISSION_CAMP_RESIDENT ) {
+        if( !guard_pos ) {
+            guard_pos = pos_abs();
         }
+    }
+    // Any NPC with persistent guard_pos gets it re-filled into cache.
+    // Covers RETURN_TO_START_POS, dialogue-assigned guards, and any future source.
+    if( !ai_cache.guard_pos && guard_pos ) {
+        ai_cache.guard_pos = guard_pos;
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here,  here.get_bub( tripoint_abs_ms( i->abs_pos ) ) ) ) {
@@ -1390,12 +1526,27 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
-    // NPCs under operation or casting spells should just stay still
+    // Surgery and spellcasting must complete without re-evaluation
+    // (they have their own internal state machines).
     if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
         execute_action( npc_player_activity );
         return;
     }
+    // Stasis NPCs are completely inert until activated via dialogue.
+    if( has_trait( trait_NPC_STASIS ) ) {
+        move_pause();
+        return;
+    }
     act_on_danger_assessment();
+    // Forage/harvest activities skip BT re-evaluation to prevent backlog
+    // flooding, but must yield to danger so the NPC can fight or flee.
+    if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
+        if( ai_cache.danger <= NPC_DANGER_VERY_LOW ) {
+            execute_action( npc_player_activity );
+            return;
+        }
+        cancel_activity();
+    }
     npc_action action = npc_undecided;
 
     const item_location weapon = get_wielded_item();
@@ -1407,6 +1558,21 @@ void npc::move()
     }
     add_msg_debug( debugmode::DF_NPC, "NPC %s: target = %s, danger = %.1f, range = %d",
                    get_name(), target_name, ai_cache.danger, *confident_range_cache );
+
+    if( debug_mode && debugmode::enabled_filters.count( debugmode::DF_NPC_NEEDS ) ) {
+        behavior::character_oracle_t oracle( this );
+        behavior::tree bt;
+        bt.add( &behavior_node_t_npc_needs.obj() );
+        const std::string bt_goal = bt.tick( &oracle );
+        const auto saved_needs = needs;
+        decide_needs();
+        const std::string legacy_top = needs.empty()
+                                       ? "need_none" : get_need_str_id( needs[0] );
+        needs = saved_needs;
+        add_msg_debug( debugmode::DF_NPC_NEEDS,
+                       "NPC %s: BT needs goal = %s, legacy = %s",
+                       get_name(), bt_goal, legacy_top );
+    }
 
     Character &player_character = get_player_character();
     //faction opinion determines if it should consider you hostile
@@ -1421,6 +1587,19 @@ void npc::move()
         } else {
             set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
+    }
+
+    // Top-level decision BT: evaluate before side-effecting cascade for convergence
+    // diagnostic. Placed after regen_ai_cache, act_on_danger_assessment, and
+    // guaranteed_hostile attitude mutation so the oracle sees final state.
+    std::string bt_decision_goal;
+    decision_category bt_decision_cat = decision_category::unmodeled;
+    if( debug_mode && debugmode::enabled_filters.count( debugmode::DF_NPC_NEEDS ) ) {
+        behavior::character_oracle_t decision_oracle( this );
+        behavior::tree decision_tree;
+        decision_tree.add( &behavior_node_t_npc_decision.obj() );
+        bt_decision_goal = decision_tree.tick( &decision_oracle );
+        bt_decision_cat = bt_goal_to_category( bt_decision_goal );
     }
 
     /* This bypasses the logic to determine the npc action, but this all needs to be rewritten
@@ -1470,56 +1649,298 @@ void npc::move()
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() &&
                !has_flag( json_flag_CANNOT_MOVE ) ) {
-        tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
-        if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos_abs();
-        }
-        if( ai_cache.sound_alerts.size() > 1 ) {
-            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
-                       compare_sound_alert );
-            if( ai_cache.sound_alerts.size() > 10 ) {
-                ai_cache.sound_alerts.resize( 10 );
-            }
-        }
-        if( has_trait( trait_IGNORE_SOUND ) ) { //Do not investigate sounds - clear sound alerts as below
+        if( has_trait( trait_IGNORE_SOUND ) ) {
+            // Discard alerts and fall through to BT/needs below.
+            // Hard-coding npc_return_to_guard_pos here would fight the
+            // BT sleep goal when ambient sounds keep refilling the queue.
             ai_cache.sound_alerts.clear();
-            action = npc_return_to_guard_pos;
         } else {
+            tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
+            if( !ai_cache.guard_pos ) {
+                ai_cache.guard_pos = pos_abs();
+            }
+            if( ai_cache.sound_alerts.size() > 1 ) {
+                std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
+                           compare_sound_alert );
+                if( ai_cache.sound_alerts.size() > 10 ) {
+                    ai_cache.sound_alerts.resize( 10 );
+                }
+            }
             action = npc_investigate_sound;
-        }
-        if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
-            ai_cache.stuck = 0;
-            ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
-        } else if( ai_cache.stuck > 10 ) {
-            ai_cache.stuck = 0;
-            if( ai_cache.sound_alerts.size() == 1 ) {
-                ai_cache.sound_alerts.clear();
-                action = npc_return_to_guard_pos;
-            } else {
-                ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+            if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
+                ai_cache.stuck = 0;
+                ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
+            } else if( ai_cache.stuck > 10 ) {
+                ai_cache.stuck = 0;
+                if( ai_cache.sound_alerts.size() == 1 ) {
+                    ai_cache.sound_alerts.clear();
+                    action = npc_return_to_guard_pos;
+                } else {
+                    ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+                }
+            }
+            if( action == npc_investigate_sound ) {
+                add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
+                               ai_cache.s_abs_pos.x(), ai_cache.s_abs_pos.y() );
             }
         }
-        if( action == npc_investigate_sound ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
-                           ai_cache.s_abs_pos.x(), ai_cache.s_abs_pos.y() );
-        }
-    } else {
+    }
+    if( action == npc_undecided ) {
         // No present danger
         cleanup_on_no_danger();
 
-        action = address_needs();
+        // BT evaluates every turn for all NPCs. Committed goals persist
+        // until completed or overridden by a higher-priority category
+        // (combat > investigation > needs > follow > duty > idle).
+        {
+            // Save for self-initiated activities that should not change
+            // the NPC's attitude/mission (see self_activity in address_needs).
+            const npc_attitude saved_att = attitude;
+            const npc_mission saved_mis = mission;
+
+            behavior::character_oracle_t oracle( this );
+            behavior::tree decision_tree;
+            decision_tree.add( &behavior_node_t_npc_decision.obj() );
+            auto [new_goal, new_score] = decision_tree.tick_full( &oracle );
+
+            // Goal commitment: prevent flip-flopping between goals.
+            std::string &committed = ai_cache.committed_goal;
+            if( !committed.empty() ) {
+                // Check if committed goal is completed.
+                bool completed_goal = false;
+                if( committed == "return_to_guard_pos" ) {
+                    std::optional<tripoint_abs_ms> gp = get_effective_guard_pos();
+                    completed_goal = gp && pos_abs() == *gp;
+                } else if( committed == "hold_position" ) {
+                    // Persists only while BT keeps returning hold_position.
+                    // Off-shift (BT returns idle) or displaced (return_to_guard_pos):
+                    // the commitment clears and the fresh goal takes over.
+                    completed_goal = ( new_goal != "hold_position" );
+                } else if( committed == "follow_player" ) {
+                    const Character &pc = get_player_character();
+                    completed_goal = ( rl_dist( pos_bub(), pc.pos_bub() ) <= follow_distance()
+                                       && posz() == pc.posz() );
+                    if( !completed_goal ) {
+                        completed_goal = ( new_goal != "follow_player" );
+                    }
+                } else if( committed == "goto_ordered_position" ) {
+                    completed_goal = !goto_to_this_pos || pos_abs() == *goto_to_this_pos;
+                    if( !completed_goal ) {
+                        completed_goal = ( new_goal != "goto_ordered_position" );
+                    }
+                } else if( auto gid = goal_id_for( committed ); gid ) {
+                    behavior::character_oracle_t oracle( this );
+                    bool satisfied = false;
+                    switch( *gid ) {
+                        case need_goal_id::eat_food:
+                            satisfied = oracle.needs_food_badly( "" ) != behavior::status_t::running;
+                            break;
+                        case need_goal_id::drink_water:
+                            satisfied = oracle.needs_water_badly( "" ) != behavior::status_t::running;
+                            break;
+                        case need_goal_id::seek_warmth:
+                            satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+                            break;
+                        case need_goal_id::go_to_sleep:
+                            // Sleep completes when actually asleep, sleepiness
+                            // drops below threshold, or a DIFFERENT category
+                            // goal takes priority (e.g., duty at shift start).
+                            // Same-category changes use executor preemption
+                            // (holding state), not completion.
+                            satisfied = has_effect( effect_sleep ) ||
+                                        oracle.needs_sleep_badly( "" ) != behavior::status_t::running;
+                            if( !satisfied && new_goal != committed ) {
+                                decision_category nc = bt_goal_to_category( new_goal );
+                                decision_category oc = bt_goal_to_category( committed );
+                                if( nc != oc ) {
+                                    satisfied = true;
+                                }
+                            }
+                            break;
+                    }
+                    bool exec_impossible = plan_for( *gid ).last_result == need_result::impossible;
+                    completed_goal = satisfied || exec_impossible;
+                    if( completed_goal ) {
+                        clear_need_state( *gid );
+                        if( *gid == need_goal_id::go_to_sleep ) {
+                            remove_effect( effect_lying_down );
+                        }
+                    }
+                } else if( committed == "start_fire" ) {
+                    // Legacy warmth fallback: no executor, completes via
+                    // BT-fallthrough (fire lit and warmth resolves, or
+                    // predicate fails and BT picks something else).
+                    behavior::character_oracle_t oracle( this );
+                    bool satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+                    completed_goal = satisfied || ( new_goal != committed );
+                } else if( committed == "camp_work" ) {
+                    completed_goal = ( new_goal != "camp_work" );
+                } else if( committed == "return_to_camp" ) {
+                    completed_goal = ( new_goal != "return_to_camp" );
+                } else if( committed == "free_time" ) {
+                    completed_goal = ( new_goal != "free_time" );
+                }
+                if( completed_goal ) {
+                    committed.clear();
+                } else {
+                    // Override only if new goal is strictly higher priority.
+                    decision_category new_cat = bt_goal_to_category( new_goal );
+                    decision_category old_cat = bt_goal_to_category( committed );
+                    if( new_cat < old_cat ) {
+                        // Clear stale plan when overridden by higher priority.
+                        if( auto old_gid = goal_id_for( committed ); old_gid ) {
+                            clear_need_state( *old_gid );
+                        }
+                        committed = new_goal;
+                    } else if( new_cat == old_cat && new_cat == decision_category::needs ) {
+                        // Same-category preemption for executor needs.
+                        auto committed_gid = goal_id_for( committed );
+                        auto new_gid = goal_id_for( new_goal );
+                        if( committed_gid && new_gid && *committed_gid != *new_gid ) {
+                            const need_result committed_state =
+                                plan_for( *committed_gid ).last_result;
+                            const float committed_urgency =
+                                current_need_urgency( *committed_gid );
+                            static constexpr float preempt_margin = 0.15f;
+                            static constexpr float critical_threshold = 0.75f;
+                            bool allow = false;
+                            if( committed_state == need_result::holding ) {
+                                allow = ( new_score > committed_urgency + preempt_margin );
+                            } else if( committed_state == need_result::blocked ||
+                                       committed_state == need_result::deferred ) {
+                                allow = ( new_score > committed_urgency + preempt_margin * 2 ) ||
+                                        ( new_score > critical_threshold &&
+                                          new_score > committed_urgency );
+                            } else if( committed_state == need_result::progressed ) {
+                                // Hardest to preempt: the plan is actively working.
+                                // Allow with a large margin, or when the new need
+                                // crosses a critical survival threshold.
+                                allow = ( new_score > committed_urgency + preempt_margin * 3 ) ||
+                                        ( new_score > critical_threshold &&
+                                          new_score > committed_urgency );
+                            }
+                            if( allow ) {
+                                clear_need_state( *committed_gid );
+                                // If preempting go_to_sleep, cancel lying_down
+                                // so process_one_effect doesn't re-trigger
+                                // can_sleep() -> fall_asleep() each turn.
+                                if( *committed_gid == need_goal_id::go_to_sleep ) {
+                                    remove_effect( effect_lying_down );
+                                }
+                                committed = new_goal;
+                            } else {
+                                new_goal = committed;
+                            }
+                        } else {
+                            new_goal = committed;
+                        }
+                    } else {
+                        new_goal = committed;
+                    }
+                }
+            } else if( new_goal != "idle" ) {
+                committed = new_goal;
+            }
+
+            // Dispatch based on the (possibly committed) goal.
+            if( new_goal == "return_to_guard_pos" ) {
+                if( !ai_cache.guard_pos ) {
+                    ai_cache.guard_pos = get_effective_guard_pos();
+                }
+                action = npc_return_to_guard_pos;
+            } else if( new_goal == "follow_player" ) {
+                action = npc_follow_player;
+            } else if( new_goal == "goto_ordered_position" ) {
+                action = npc_goto_to_this_pos;
+            } else if( new_goal == "hold_position" ) {
+                action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+            } else if( new_goal == "camp_work" ) {
+                last_job_scan = calendar::turn;
+                if( find_job_to_perform() ) {
+                    action = npc_player_activity;
+                } else {
+                    action = npc_worker_downtime;
+                }
+            } else if( new_goal == "return_to_camp" ) {
+                if( assigned_camp ) {
+                    goal = *assigned_camp;
+                    tripoint_abs_omt surface = pos_abs_omt();
+                    surface.z() = 0;
+                    omt_path = overmap_buffer.get_travel_path( surface, *assigned_camp,
+                               overmap_path_params::for_npc() ).points;
+                }
+                action = npc_goto_destination;
+            } else if( new_goal == "free_time" ) {
+                action = npc_worker_downtime;
+            } else if( new_goal == "idle" ) {
+                if( guard_pos && is_guarding() ) {
+                    // Persistent duty post: stay put, tend minor needs.
+                    // Only for NPCs actively on guard mission, not NPCs
+                    // with stale guard_pos from a previous assignment.
+                    action = address_needs( NPC_DANGER_VERY_LOW + 1 );
+                } else if( ai_cache.guard_pos && !guard_pos ) {
+                    // Temp anchor (sound investigation): return to origin.
+                    // Excluded when guard_pos is set -- that means
+                    // ai_cache was filled from a stale persistent post.
+                    action = npc_return_to_guard_pos;
+                } else {
+                    // No anchor. Run address_needs so the legacy sleep/eat/drink
+                    // paths still work (the BT may have returned idle because a
+                    // predicate like can_sleep failed, but address_needs has its
+                    // own fallback logic like lying_down on meth).
+                    action = address_needs();
+                }
+            } else if( is_executor_goal( new_goal ) ) {
+                const need_result result = execute_need_goal( new_goal );
+                if( result == need_result::progressed && activity ) {
+                    // Undo attitude/mission change from assign_activity.
+                    attitude = saved_att;
+                    mission = saved_mis;
+                    action = npc_player_activity;
+                } else if( result == need_result::progressed ||
+                           result == need_result::satisfied ) {
+                    action = npc_noop;
+                } else if( result == need_result::impossible ) {
+                    // Clear the plan but preserve failed-target history
+                    // so the same bad target is not reacquired next tick.
+                    // Failed targets clear naturally on satisfaction or
+                    // when all candidates are exhausted.
+                    if( auto gid = goal_id_for( new_goal ); gid ) {
+                        plan_for( *gid ).clear();
+                    }
+                    committed.clear();
+                    action = npc_undecided;
+                } else {
+                    // blocked/deferred: pause this turn, don't yield to follow/goto
+                    // which would pull the NPC away and cause oscillation
+                    action = npc_pause;
+                }
+            } else {
+                // Non-executor needs goal. Legacy address_needs fallback.
+                action = address_needs();
+            }
+
+            // Debug: executor state for needs goals.
+            if( auto dbg_gid = goal_id_for( new_goal ); dbg_gid ) {
+                const need_plan &np = plan_for( *dbg_gid );
+                static const std::array<const char *, 7> result_names = {{
+                        "idle", "progressed", "satisfied", "holding",
+                        "blocked", "deferred", "impossible"
+                    }
+                };
+                add_msg_debug( debugmode::DF_NPC_NEEDS,
+                               "NPC %s: %s target=%s result=%s no_progress=%d",
+                               get_name(), new_goal,
+                               np.active() ? np.target.to_string_writable().c_str() : "none",
+                               result_names[static_cast<int>( np.last_result )],
+                               np.no_progress_turns );
+            }
+        }
         print_action( "address_needs %s", action );
 
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
-        }
-        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos &&
-            !has_flag( json_flag_CANNOT_MOVE ) ) {
-            tripoint_abs_ms return_guard_pos = *ai_cache.guard_pos;
-            add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                           return_guard_pos.x(), return_guard_pos.y() );
-            action = npc_return_to_guard_pos;
         }
     }
 
@@ -1535,10 +1956,8 @@ void npc::move()
         path.clear();
     }
 
-    if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
-        rl_dist( pos_bub(), player_character.pos_bub() ) > follow_distance() &&
-        !( player_character.in_vehicle &&
-           in_vehicle ) && !has_flag( json_flag_CANNOT_MOVE ) ) {
+    if( action == npc_undecided && should_follow_close() &&
+        rl_dist( pos_bub(), player_character.pos_bub() ) > follow_distance() ) {
         action = npc_follow_player;
     }
 
@@ -1584,7 +2003,8 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( assigned_camp && attitude != NPCATT_ACTIVITY ) {
+        if( assigned_camp && mission != NPC_MISSION_CAMP_RESIDENT &&
+            !guard_pos && attitude != NPCATT_ACTIVITY ) {
             if( has_job() && calendar::once_every( 10_minutes ) && find_job_to_perform() ) {
                 action = npc_player_activity;
             } else {
@@ -1648,6 +2068,17 @@ void npc::move()
     }
 
     add_msg_debug( debugmode::DF_NPC, "%s chose action %s.", get_name(), npc_action_name( action ) );
+
+    if( !bt_decision_goal.empty() ) {
+        decision_category cascade_cat = cascade_action_to_category( action );
+        add_msg_debug( debugmode::DF_NPC_NEEDS,
+                       "NPC %s: BT=%s(%s) cascade=%s(%s) %s",
+                       get_name(),
+                       category_name( bt_decision_cat ), bt_decision_goal,
+                       category_name( cascade_cat ), npc_action_name( action ),
+                       classify_comparison( bt_decision_cat, cascade_cat ) );
+    }
+
     execute_action( action );
 }
 
@@ -1703,11 +2134,14 @@ void npc::execute_action( npc_action action )
         break;
 
         case npc_return_to_guard_pos: {
-            const tripoint_bub_ms local_guard_pos = here.get_bub( *ai_cache.guard_pos );
+            const tripoint_abs_ms effective = ai_cache.guard_pos ? *ai_cache.guard_pos
+                                              : ( guard_pos ? *guard_pos : pos_abs() );
+            const tripoint_bub_ms local_guard_pos = here.get_bub( effective );
             update_path( local_guard_pos );
             if( pos_bub() == local_guard_pos || path.empty() ) {
                 move_pause();
                 ai_cache.guard_pos = std::nullopt;
+                // Persistent guard_pos stays; regen_ai_cache re-fills cache next turn.
                 path.clear();
             } else {
                 move_to_next();
@@ -1717,56 +2151,82 @@ void npc::execute_action( npc_action action )
 
         case npc_sleep: {
             // TODO: Allow stims when not too tired
-            // Find a nice spot to sleep
-            tripoint_bub_ms best_spot = pos_bub();
-            int best_sleepy = evaluate_sleep_spot( best_spot );
-
-            // first build a list of positions to search
-            std::vector<tripoint_bub_ms> search_positions;
-
-            if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
-                const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
-                if( player_part_pos ) {
-                    vehicle *player_vehicle = &player_part_pos->vehicle();
-                    for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                        search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
-                    }
+            // If we already have a path to a good sleep spot, keep following
+            // it instead of re-searching. Re-searching every turn causes
+            // oscillation when two beds are equidistant.
+            bool keep_existing_path = false;
+            if( !path.empty() ) {
+                const tripoint_bub_ms &dest = path.back();
+                if( is_valid_sleep_candidate( dest ) && g->is_empty( dest ) &&
+                    evaluate_sleep_spot( dest ) > INT_MIN ) {
+                    keep_existing_path = true;
                 }
             }
 
-            if( search_positions.empty() ) {
-                search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
-            }
+            if( !keep_existing_path ) {
+                // Find a nice spot to sleep
+                tripoint_bub_ms best_spot = pos_bub();
+                int best_sleepy = is_valid_sleep_candidate( pos_bub() )
+                                  ? evaluate_sleep_spot( best_spot )
+                                  : INT_MIN;
 
+                // first build a list of positions to search
+                std::vector<tripoint_bub_ms> search_positions;
 
-            // then search through all positions to find the best sleep spot
-            for( const tripoint_bub_ms &p : search_positions ) {
-                if( !could_move_onto( p ) || !g->is_empty( p ) ) {
-                    continue;
-                }
-
-                // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
-                if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
-                    const int sleepy = evaluate_sleep_spot( p );
-                    if( sleepy > best_sleepy ) {
-                        best_sleepy = sleepy;
-                        best_spot = p;
+                if( is_walking_with() && player_character.in_vehicle && player_character.in_sleep_state() ) {
+                    const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
+                    if( player_part_pos ) {
+                        vehicle *player_vehicle = &player_part_pos->vehicle();
+                        for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                            search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
+                        }
                     }
                 }
+
+                if( search_positions.empty() ) {
+                    search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+                }
+
+                // then search through all positions to find the best sleep spot
+                for( const tripoint_bub_ms &p : search_positions ) {
+                    if( !could_move_onto( p ) || !g->is_empty( p ) ) {
+                        continue;
+                    }
+
+                    // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
+                    if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
+                        const int sleepy = evaluate_sleep_spot( p );
+                        if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
+                            best_sleepy = sleepy;
+                            best_spot = p;
+                        }
+                    }
+                }
+
+                update_path( best_spot, true );
             }
 
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
-            update_path( best_spot );
             // TODO: Handle empty path better
-            if( best_spot == pos_bub() || path.empty() ) {
+            if( path.empty() ) {
                 move_pause();
-                if( !has_effect( effect_lying_down ) ) {
+                if( !in_sleep_state() ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, false, 1 );
                     if( !player_character.in_sleep_state() ) {
                         add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), get_name() );
+                    }
+                    // NPCs check can_sleep() for hard blockers (meth, stim)
+                    // but fall asleep directly on success. The lying_down ->
+                    // can_sleep() rng retry cycle is for the player who gets
+                    // "you try to sleep but can't" feedback. Without direct
+                    // fall_asleep(), NPC sleepiness keeps incrementing while
+                    // they lie awake (recovery only runs while asleep).
+                    if( !is_avatar() && can_sleep() ) {
+                        fall_asleep();
+                    } else {
+                        add_effect( effect_lying_down, 30_minutes, false, 1 );
                     }
                 }
             } else {
@@ -2531,6 +2991,33 @@ healing_options npc::patient_assessment( const Character &c )
 
 npc_action npc::address_needs( float danger )
 {
+    // Activities assigned here are self-initiated (the NPC addressing its own
+    // needs), not player-assigned tasks. assign_activity() unconditionally sets
+    // NPCATT_ACTIVITY, which causes "completed the assigned task" spam and
+    // disrupts the BT. Save and restore around any activity we pick up.
+    const npc_attitude saved_attitude = attitude;
+    const npc_mission saved_mission = mission;
+    const auto self_activity = [&]() -> npc_action {
+        attitude = saved_attitude;
+        mission = saved_mission;
+        return npc_player_activity;
+    };
+
+    // Check if NPC needs warmth via the oracle predicate directly.
+    // The full BT subtree is too narrow for gating -- it only knows about
+    // inventory items and indoor tiles, not ground items. The predicate
+    // just checks bodypart temperature.
+    bool needs_warmth = false;
+    {
+        behavior::character_oracle_t oracle( this );
+        needs_warmth = oracle.needs_warmth_badly( "" ) == behavior::status_t::running;
+        if( needs_warmth ) {
+            add_msg_debug( debugmode::DF_NPC_NEEDS,
+                           "NPC %s: needs warmth (trying wear, ground wear, shelter)",
+                           get_name() );
+        }
+    }
+
     map &here = get_map();
 
     Character &player_character = get_player_character();
@@ -2600,6 +3087,25 @@ npc_action npc::address_needs( float danger )
         }
     }
 
+    // TODO: remove warmth from address_needs once hold_position and idle
+    // route through the executor path.  Currently kept as a safety net for
+    // NPCs that reach address_needs through hold_position / idle dispatch.
+    // Warmth: wearing clothes costs a turn but hypothermia is life-threatening.
+    // Before danger gate, like extreme food.
+    if( needs_warmth && wear_warmest_item() ) {
+        return npc_noop;
+    }
+    // Warmth: adjacent ground clothing, instant (no movement).
+    if( needs_warmth ) {
+        for( scored_item &c : find_nearby_warm_clothing() ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
+                if( wear_item_at( c.loc ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+    }
+
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > 80 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
@@ -2608,6 +3114,22 @@ npc_action npc::address_needs( float danger )
         }
         if( consume_food() ) {
             return npc_noop;
+        }
+        // Adjacent ground food, instant.
+        for( scored_item &c : find_nearby_food() ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
+                if( consume_food_at( c.loc ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+        // Adjacent water terrain, instant.
+        for( scored_water_source &ws : find_nearby_water_sources() ) {
+            if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
+                if( drink_from_water_source( ws.pos ) ) {
+                    return npc_noop;
+                }
+            }
         }
     }
     //Hallucinations have a chance of disappearing each turn
@@ -2619,6 +3141,59 @@ npc_action npc::address_needs( float danger )
         return npc_undecided;
     }
 
+    // Warmth: shelter requires movement, only safe at low danger.
+    if( needs_warmth && take_shelter_nearby() ) {
+        return npc_noop;
+    }
+    // Warmth: path to distant ground clothing.
+    if( needs_warmth ) {
+        for( scored_item &c : find_nearby_warm_clothing() ) {
+            if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+                return npc_noop;
+            }
+        }
+    }
+
+    // Extreme food/water pathing: the pre-gate block only consumed adjacent
+    // resources. If extreme need persists and we passed the danger gate,
+    // path to distant ground food or water deterministically.
+    if( get_thirst() > 80 ||
+        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        for( scored_item &c : find_nearby_food() ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
+                if( consume_food_at( c.loc ) ) {
+                    return npc_noop;
+                }
+            } else {
+                if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+        for( scored_water_source &ws : find_nearby_water_sources() ) {
+            if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
+                if( drink_from_water_source( ws.pos ) ) {
+                    return npc_noop;
+                }
+            } else {
+                if( move_to_and_verify( ws.pos ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+        // Last resort: harvest scavenging (forage underbrush, harvest plants).
+        for( const scored_water_source &h : find_nearby_harvestable( true ) ) {
+            if( square_dist( pos_bub(), h.pos ) <= 1 ) {
+                here.examine( *this, h.pos );
+                return activity ? self_activity() : npc_noop;
+            } else if( move_to_and_verify( h.pos ) ) {
+                return npc_noop;
+            }
+        }
+    }
+
+    // Normal food/drink: camp -> inventory -> ground food -> terrain water.
+    // All under the same random gate so ground never outranks camp/inventory.
     if( one_in( 3 ) && ( get_thirst() > NPC_THIRST_CONSUME ||
                          get_hunger() > NPC_HUNGER_CONSUME ) ) {
         if( consume_food_from_camp() ) {
@@ -2626,6 +3201,37 @@ npc_action npc::address_needs( float danger )
         }
         if( consume_food() ) {
             return npc_noop;
+        }
+        for( scored_item &c : find_nearby_food() ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
+                if( consume_food_at( c.loc ) ) {
+                    return npc_noop;
+                }
+            } else {
+                if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+        for( scored_water_source &ws : find_nearby_water_sources() ) {
+            if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
+                if( drink_from_water_source( ws.pos ) ) {
+                    return npc_noop;
+                }
+            } else {
+                if( move_to_and_verify( ws.pos ) ) {
+                    return npc_noop;
+                }
+            }
+        }
+        // Last resort: harvest scavenging (same as extreme path).
+        for( const scored_water_source &h : find_nearby_harvestable( true ) ) {
+            if( square_dist( pos_bub(), h.pos ) <= 1 ) {
+                here.examine( *this, h.pos );
+                return activity ? self_activity() : npc_noop;
+            } else if( move_to_and_verify( h.pos ) ) {
+                return npc_noop;
+            }
         }
     }
 
@@ -2637,7 +3243,7 @@ npc_action npc::address_needs( float danger )
         if( !activity ) {
             assign_activity( pulp_activity_actor( *pulp_location ) );
         }
-        return npc_player_activity;
+        return self_activity();
     } else if( find_corpse_to_pulp() ) {
         move_to_next();
         return npc_noop;
@@ -2662,9 +3268,7 @@ npc_action npc::address_needs( float danger )
     // TODO: More risky attempts at sleep when exhausted
     if( could_sleep() ) {
         if( !is_player_ally() ) {
-            // TODO: Make tired NPCs handle sleep offscreen
-            set_sleepiness( 0 );
-            return npc_undecided;
+            return npc_sleep;
         }
 
         if( rules.has_flag( ally_rule::allow_sleep ) ||
@@ -2980,7 +3584,26 @@ bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool for
 
 void npc::set_guard_pos( const tripoint_abs_ms &p )
 {
+    guard_pos = p;
     ai_cache.guard_pos = p;
+}
+
+bool npc::is_no_go_position( const tripoint_abs_ms &p ) const
+{
+    return zone_manager::get_manager().has( zone_type_NPC_NO_GO, p, fac_id );
+}
+
+bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
+{
+    const map &here = get_map();
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return false;
+    }
+    if( p == pos_bub() ) {
+        return true;
+    }
+    return !here.route( pos_bub(), pathfinding_target::point( p ),
+                        get_pathfinding_settings( true ), get_path_avoid() ).empty();
 }
 
 bool npc::can_open_door( const tripoint_bub_ms &p, const bool inside ) const
@@ -4163,7 +4786,7 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            if( is_player_ally() ) {
+            if( is_player_ally() && attitude == NPCATT_ACTIVITY ) {
                 add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
@@ -4576,15 +5199,19 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 //
 // TODO: Cache the results of this, *especially* if there's nothing we want to eat.
-static float rate_food( const item &it, int want_nutr, int want_quench )
+static float rate_food( const Character &who, const item &it, int want_nutr,
+                        int want_quench )
 {
     const auto &food = it.get_comestible();
     if( !food ) {
         return 0.0f;
     }
 
-    // Don't eat it if it's filled with parasites
-    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
+    const bool can_consume_rot = who.has_trait( trait_SAPROPHAGE ) ||
+                                 who.has_trait( trait_SAPROVORE );
+
+    // Don't eat it if it's filled with parasites (saprophages/saprovores are fine with it)
+    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) && !can_consume_rot ) {
         return 0.0;
     }
 
@@ -4597,35 +5224,38 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( !it.type->use_methods.empty() ) {
-        // TODO: Get a good method of telling apart:
-        // raw meat (parasites - don't eat unless mutant)
-        // zed meat (poison - don't eat unless mutant)
-        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
-        // caffeine (fine to consume, but expensive and prevents sleep)
-        // hallucination mushrooms (NPCs don't hallucinate, so don't eat those)
-        // honeycomb (harmless iuse)
-        // royal jelly (way too expensive to eat as food)
-        // mutagenic crap (don't eat, we want player to micromanage muties)
-        // marloss (NPCs don't turn fungal)
-        // weed brownies (small debuff)
-        // seeds (too expensive)
+    // Don't eat medicine as food (NPC self-medication is handled in use_painkiller)
+    if( food->comesttype == "MED" ) {
+        return 0.0f;
+    }
 
-        // For now skip all of those
+    // Reject marloss/mycus items -- player should control the fungal path
+    if( it.has_flag( flag_MYCUS_OK ) ||
+        it.type->use_methods.count( "MARLOSS" ) ||
+        it.type->use_methods.count( "MARLOSS_SEED" ) ||
+        it.type->use_methods.count( "MARLOSS_GEL" ) ) {
+        return 0.0f;
+    }
+
+    // Reject tainted/poisonous items (saprophages/saprovores can handle it)
+    if( it.type->use_methods.count( "POISON" ) && !can_consume_rot ) {
         return 0.0f;
     }
 
     double relative_rot = it.get_relative_rot();
+    float weight = 0.0f;
 
-    // Don't eat rotten food.
     if( relative_rot >= 1.0f ) {
-        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
-        return 0.0f;
+        if( !can_consume_rot ) {
+            return 0.0f;
+        }
+        // Saprophages/saprovores prefer rotten food
+        weight = 15.0f;
+    } else {
+        // For non-rotten food, weight in range 1-10.
+        // The closer it is to expiring, the more we should aim to eat it.
+        weight = std::max( 1.0f, static_cast<float>( 10.0 * relative_rot ) );
     }
-
-    // For non-rotten food, we have a starting weight in the range 1-10
-    // The closer it is to expiring, the more we should aim to eat it.
-    float weight = std::max( 1.0, 10.0 * relative_rot );
 
     // TODO: I feel like we should exclude *really* un-fun foods (flour, hot sauce, etc)
     //       rather than discount them. Eating cooked liver is fine, eating raw flour... :/
@@ -4666,10 +5296,17 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         weight -= it.poison;
     }
 
+    // Quench surplus and other penalties can make weight negative for
+    // calorie-positive food. Floor at a small positive value so the NPC
+    // still eats it as a last resort instead of starving.
+    if( nutr > 0 && weight < 0.01f ) {
+        weight = 0.01f;
+    }
+
     return weight;
 }
 
-bool npc::consume_food_from_camp()
+bool npc::consume_food_from_camp( consume_filter filter )
 {
     Character &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
@@ -4686,19 +5323,30 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
 
-    // Handle water
-    if( get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
-        complain_about( "camp_water_thanks", 1_hours,
-                        chat_snippets().snip_camp_water_thanks.translated(), false );
-        // TODO: Stop skipping the stomach for this, actually put the water in there.
-        set_thirst( 0 );
-        return true;
+    // Handle water -- route through stomach so thirst decreases naturally.
+    // Skipped when food_only is set (eat_food executor must not satisfy thirst).
+    if( filter != consume_filter::food_only &&
+        get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
+        const units::volume want = std::max( 0_ml,
+                                             units::from_milliliter( get_thirst() * 5 ) );
+        const units::volume room = stomach.stomach_remaining( *this );
+        const units::volume intake = std::min( want, room );
+        if( intake > 0_ml ) {
+            stomach.ingest( { intake, 0_ml, {} } );
+            complain_about( "camp_water_thanks", 1_hours,
+                            chat_snippets().snip_camp_water_thanks.translated(), false );
+            return true;
+        }
     }
 
-    // Handle food
+    // Handle food (skipped in drink_only mode).
+    if( filter == consume_filter::drink_only ) {
+        return false;
+    }
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
     int kcal_threshold = get_healthy_kcal() * 19 / 20;
-    if( get_hunger() > 0 && current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
+    if( ( get_hunger() > 0 || has_calorie_deficit() ) &&
+        current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
@@ -4720,25 +5368,48 @@ bool npc::consume_food_from_camp()
     return false;
 }
 
-bool npc::consume_food()
+bool npc::consume_food( consume_filter filter )
 {
     float best_weight = 0.0f;
     item_location best_food;
     bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
-    int want_quench = std::max( 0, get_thirst() );
+    // When calorically starving but not short-term hungry (just ate but still
+    // underweight), force a minimum hunger signal so rate_food scores food > 0.
+    if( want_hunger == 0 && has_calorie_deficit() ) {
+        want_hunger = 100;
+    }
+    // food_only: ignore thirst. drink_only: ignore hunger.
+    if( filter == consume_filter::food_only ) {
+        want_hunger = std::max( want_hunger, 100 );
+    } else if( filter == consume_filter::drink_only ) {
+        want_hunger = 0;
+    }
+    int want_quench = ( filter == consume_filter::food_only ) ? 0 : std::max( 0, get_thirst() );
 
     const std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
         if( !needs_food() ) {
-            // TODO: Remove this and let player "exploit" hungry NPCs
+            // When NO_NPC_FOOD is active and NPC has no food, silently reset hunger/thirst
             set_hunger( 0 );
             set_thirst( 0 );
         }
     } else {
         for( const item_location &food_item : inv_food ) {
-            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // food_only: skip items with no nutritional value (pure drinks).
+            // drink_only: skip items with no hydration value (pure food).
+            const auto &com = food_item->get_comestible();
+            if( filter == consume_filter::food_only ) {
+                if( !com || com->get_default_nutr() <= 0 ) {
+                    continue;
+                }
+            } else if( filter == consume_filter::drink_only ) {
+                if( !com || com->quench <= 0 ) {
+                    continue;
+                }
+            }
+            float cur_weight = rate_food( *this, *food_item, want_hunger, want_quench );
             // Note: will_eat is expensive, avoid calling it if possible
             if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
                 best_weight = cur_weight;
@@ -4984,8 +5655,9 @@ void npc::set_omt_destination()
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
 
-        // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
-        const int city_size = get_option<int>( "CITY_SIZE" );
+        // also, don't bother looking if the city_size is 0, just go somewhere at random
+        const int city_size = overmap_buffer.get_settings(
+                                  this->pos_abs_omt() ).get_settings_city().city_size;
         if( city_size == 0 ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
             return;
@@ -5093,7 +5765,13 @@ void npc::go_to_omt_destination()
         point_rel_omt omt_diff = omt_path.back().xy() - omt_pos.xy();
         if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
             // we've gone wandering somehow, reset destination.
-            if( !is_player_ally() ) {
+            if( mission == NPC_MISSION_CAMP_RESIDENT && assigned_camp ) {
+                goal = *assigned_camp;
+                tripoint_abs_omt surface = pos_abs_omt();
+                surface.z() = 0;
+                omt_path = overmap_buffer.get_travel_path( surface, *assigned_camp,
+                           overmap_path_params::for_npc() ).points;
+            } else if( !is_player_ally() ) {
                 set_omt_destination();
             } else {
                 talk_function::assign_guard( *this );
@@ -5404,20 +6082,22 @@ bool npc::complain()
         deactivate_bionic_by_id( bio_radscrubber );
     }
 
-    // Hunger every 3-6 hours
-    // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > NPC_HUNGER_COMPLAIN &&
-        complain_about( hunger_string,
-                        std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
-                        chat_snippets().snip_hungry.translated() ) ) {
-        return true;
-    }
+    // Hunger and thirst complaints only fire when NPC has food needs
+    if( needs_food() ) {
+        // Hunger every 3-6 hours
+        // Complaint frequency scales with hunger level
+        if( get_hunger() > NPC_HUNGER_COMPLAIN &&
+            complain_about( hunger_string,
+                            std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
+                            chat_snippets().snip_hungry.translated() ) ) {
+            return true;
+        }
 
-    // Thirst every 2 hours
-    // Since NPCs can't dry to death, respect the rules
-    if( get_thirst() > NPC_THIRST_COMPLAIN &&
-        complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
-        return true;
+        // Thirst every 2 hours
+        if( get_thirst() > NPC_THIRST_COMPLAIN &&
+            complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
+            return true;
+        }
     }
 
     //Bleeding every 5 minutes
@@ -5472,8 +6152,7 @@ void npc::do_reload( const item_location &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
-    int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining( ) ) );
+    int qty = reload_opt.qty();
     int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
@@ -5494,6 +6173,1522 @@ void npc::do_reload( const item_location &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
+}
+
+bool npc::wear_warmest_item()
+{
+    // Find unworn item with highest warmth that we can wear.
+    item *best = nullptr;
+    int best_warmth = 0;
+    has_item_with( [this, &best, &best_warmth]( const item & candidate ) {
+        if( !is_worn( candidate ) && candidate.get_warmth() > best_warmth &&
+            can_wear( candidate ).success() ) {
+            best = const_cast<item *>( &candidate );
+            best_warmth = candidate.get_warmth();
+        }
+        return false;
+    } );
+    if( !best ) {
+        return false;
+    }
+    item_location loc( *this, best );
+    return wear( loc, false ).has_value();
+}
+
+bool npc::take_shelter_nearby()
+{
+    const auto shelters = find_nearby_shelters();
+    for( const scored_shelter &s : shelters ) {
+        if( square_dist( pos_bub(), s.pos ) <= 1 ) {
+            move_to( s.pos );
+            if( pos_bub() == s.pos ) {
+                return true;
+            }
+        } else {
+            update_path( s.pos );
+            if( path.empty() ) {
+                continue;
+            }
+            const tripoint_bub_ms before = pos_bub();
+            move_to_next();
+            if( pos_bub() != before ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static bool is_allowed_water_source( const ter_t &t )
+{
+    static const std::set<itype_id> allowed = {
+        itype_water, itype_water_clean
+    };
+    return !t.liquid_source_item_id.is_null() &&
+           t.liquid_source_count == std::make_pair( 0, 0 ) &&
+           allowed.count( t.liquid_source_item_id ) > 0;
+}
+
+std::vector<npc::scored_water_source> npc::find_nearby_water_sources() const
+{
+    std::vector<scored_water_source> results;
+    const map &here = get_map();
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
+        if( !sees( here, p ) ) {
+            continue;
+        }
+        if( !is_allowed_water_source( here.ter( p ).obj() ) ) {
+            continue;
+        }
+        results.push_back( { p, rl_dist( pos_bub(), p ) } );
+    }
+    std::sort( results.begin(), results.end(),
+    []( const scored_water_source & a, const scored_water_source & b ) {
+        return a.dist < b.dist;
+    } );
+    return results;
+}
+
+std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
+{
+    std::vector<scored_item> results;
+    // Note: allow_pick_up is not checked here. All callers of this function
+    // consume food in place (via consume_food_at), not pick up for storage.
+    // The NO_NPC_PICKUP zone check and ownership filters below still apply.
+    int want_hunger = std::max( 0, get_hunger() );
+    if( want_hunger == 0 && has_calorie_deficit() ) {
+        want_hunger = 100;
+    }
+    // food_only: ignore thirst. drink_only: ignore hunger.
+    if( filter == consume_filter::food_only ) {
+        want_hunger = std::max( want_hunger, 100 );
+    } else if( filter == consume_filter::drink_only ) {
+        want_hunger = 0;
+    }
+    const int want_quench = ( filter == consume_filter::food_only ) ?
+                            0 : std::max( 0, get_thirst() );
+    map &here = get_map();
+
+    static const std::string locked_string( "LOCKED" );
+    static const std::string cargo_locking_string( "CARGO_LOCKING" );
+
+    // No thirst-dominant filter: rate_food() already penalizes dry food when
+    // thirsty via the quench-vs-hunger ratio, so hydrating items rank higher.
+    const auto score_item = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
+        if( !it.is_food() )
+        {
+            return false;
+        }
+        // food_only: skip items with no nutritional value (pure drinks).
+        // drink_only: skip items with no hydration value (pure food).
+        if( filter == consume_filter::food_only )
+        {
+            const auto &com = it.get_comestible();
+            if( !com || com->get_default_nutr() <= 0 ) {
+                return false;
+            }
+        } else if( filter == consume_filter::drink_only )
+        {
+            const auto &com = it.get_comestible();
+            if( !com || com->quench <= 0 ) {
+                return false;
+            }
+        }
+        if( !would_take_that( it, p ) )
+        {
+            return false;
+        }
+        float w = rate_food( *this, it, want_hunger, want_quench );
+        return w > 0.0f && will_eat( it ).success();
+    };
+
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
+        if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+            continue;
+        }
+        const bool can_see_tile = sees( here, p );
+        if( !can_see_tile ) {
+            continue;
+        }
+        // Ground items (need sees_some_items for visibility gate).
+        if( here.sees_some_items( p, *this ) ) {
+            for( item &it : here.i_at( p ) ) {
+                if( score_item( it, p ) ) {
+                    float w = rate_food( *this, it, want_hunger, want_quench );
+                    results.push_back( {
+                        item_location( map_cursor( p ), &it ), w
+                    } );
+                }
+            }
+        }
+        // Vehicle cargo (tile visible is enough, ground items not required).
+        const optional_vpart_position vp = here.veh_at( p );
+        if( !vp || vp->vehicle().is_moving() ) {
+            continue;
+        }
+        const std::optional<vpart_reference> cargo = vp.cargo();
+        if( !cargo || cargo->has_feature( locked_string ) ) {
+            continue;
+        }
+        if( vp.part_with_feature( cargo_locking_string, true ) ) {
+            continue;
+        }
+        for( item &it : cargo->items() ) {
+            if( score_item( it, p ) ) {
+                float w = rate_food( *this, it, want_hunger, want_quench );
+                results.push_back( {
+                    item_location{
+                        vehicle_cursor{
+                            cargo->vehicle(),
+                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
+                    }, w
+                } );
+            }
+        }
+    }
+
+    std::sort( results.begin(), results.end(),
+    []( const scored_item & a, const scored_item & b ) {
+        return a.score > b.score;
+    } );
+    return results;
+}
+
+std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
+{
+    std::vector<scored_item> results;
+    // Note: allow_pick_up is not checked here. All callers wear clothing
+    // in place (via wear_item_at), not pick up for storage.
+    // NO_NPC_PICKUP zone and ownership filters below still apply.
+    map &here = get_map();
+
+    static const std::string locked_string( "LOCKED" );
+    static const std::string cargo_locking_string( "CARGO_LOCKING" );
+
+    const auto score_clothing = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
+        return it.get_warmth() > 0 && can_wear( it ).success() && would_take_that( it, p );
+    };
+
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
+        if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+            continue;
+        }
+        const bool can_see_tile = sees( here, p );
+        if( !can_see_tile ) {
+            continue;
+        }
+        // Ground items.
+        if( here.sees_some_items( p, *this ) ) {
+            for( item &it : here.i_at( p ) ) {
+                if( score_clothing( it, p ) ) {
+                    results.push_back( {
+                        item_location( map_cursor( p ), &it ),
+                        static_cast<float>( it.get_warmth() )
+                    } );
+                }
+            }
+        }
+        // Vehicle cargo.
+        const optional_vpart_position vp = here.veh_at( p );
+        if( !vp || vp->vehicle().is_moving() ) {
+            continue;
+        }
+        const std::optional<vpart_reference> cargo = vp.cargo();
+        if( !cargo || cargo->has_feature( locked_string ) ) {
+            continue;
+        }
+        if( vp.part_with_feature( cargo_locking_string, true ) ) {
+            continue;
+        }
+        for( item &it : cargo->items() ) {
+            if( score_clothing( it, p ) ) {
+                results.push_back( {
+                    item_location{
+                        vehicle_cursor{
+                            cargo->vehicle(),
+                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
+                    },
+                    static_cast<float>( it.get_warmth() )
+                } );
+            }
+        }
+    }
+    std::sort( results.begin(), results.end(),
+    []( const scored_item & a, const scored_item & b ) {
+        return a.score > b.score;
+    } );
+    return results;
+}
+
+bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
+{
+    if( get_thirst() <= 0 ) {
+        return false;
+    }
+    const units::volume want = std::max( 0_ml,
+                                         units::from_milliliter( get_thirst() * 5 ) );
+    const units::volume room = stomach.stomach_remaining( *this );
+    const units::volume intake = std::min( want, room );
+    if( intake <= 0_ml ) {
+        return false;
+    }
+    stomach.ingest( { intake, 0_ml, {} } );
+    add_msg_debug( debugmode::DF_NPC_NEEDS,
+                   "NPC %s: drank from terrain at %s", get_name(),
+                   water_pos.to_string_writable() );
+    return true;
+}
+
+bool npc::consume_food_at( item_location loc )
+{
+    if( !loc.get_item() ) {
+        return false;
+    }
+    const time_duration &t = get_consume_time( *loc );
+    if( consume( loc ) != trinary::NONE ) {
+        mod_moves( -to_moves<int>( t ) );
+        return true;
+    }
+    return false;
+}
+
+bool npc::wear_item_at( item_location loc )
+{
+    if( !loc.get_item() ) {
+        return false;
+    }
+    return wear( loc, false ).has_value();
+}
+
+bool npc::move_to_and_verify( const tripoint_bub_ms &target, bool no_bashing )
+{
+    const std::optional<tripoint_bub_ms> dest = nearest_passable( target, pos_bub() );
+    if( !dest ) {
+        return false;
+    }
+    update_path( *dest, no_bashing );
+    if( path.empty() && rl_dist( pos_bub(), *dest ) > 1 ) {
+        return false;
+    }
+    const tripoint_bub_ms before = pos_bub();
+    move_to_next();
+    return pos_bub() != before;
+}
+
+std::vector<npc::scored_shelter> npc::find_nearby_shelters() const
+{
+    std::vector<scored_shelter> results;
+    const map &here = get_map();
+    const tripoint_bub_ms &cur = pos_bub();
+    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, cur ) ) {
+        return results;
+    }
+    const creature_tracker &creatures = get_creature_tracker();
+    for( const tripoint_bub_ms &p : closest_points_first( cur, 6 ) ) {
+        if( p == cur ) {
+            continue;
+        }
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
+        if( !here.has_flag( ter_furn_flag::TFLAG_INDOORS, p ) ) {
+            continue;
+        }
+        if( !here.passable( p ) ) {
+            continue;
+        }
+        if( creatures.creature_at( p ) ) {
+            continue;
+        }
+        if( !sees( here, p ) ) {
+            continue;
+        }
+        results.push_back( { p, rl_dist( cur, p ) } );
+    }
+    std::sort( results.begin(), results.end(),
+    []( const scored_shelter & a, const scored_shelter & b ) {
+        return a.dist < b.dist;
+    } );
+    return results;
+}
+
+// Check whether a harvest at a position yields items with positive quench.
+static bool harvest_yields_water( const map &here, const tripoint_bub_ms &p )
+{
+    // Wildveggies forage can yield various items; some have quench.
+    if( here.ter( p ).obj().has_examine( iexamine::shrub_wildveggies ) ) {
+        return true;
+    }
+    const harvest_id &harvest = here.get_harvest( p );
+    if( harvest.is_null() || harvest->empty() ) {
+        return false;
+    }
+    for( const harvest_entry &entry : harvest->entries() ) {
+        const itype *drop_type = item::find_type( itype_id( entry.drop ) );
+        if( drop_type && drop_type->comestible && drop_type->comestible->quench > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Check whether a harvest at a position yields food (has caloric or food-category drops).
+static bool harvest_yields_food( const map &here, const tripoint_bub_ms &p )
+{
+    if( here.ter( p ).obj().has_examine( iexamine::shrub_wildveggies ) ) {
+        return true;
+    }
+    const harvest_id &harvest = here.get_harvest( p );
+    if( harvest.is_null() || harvest->empty() ) {
+        return false;
+    }
+    for( const harvest_entry &entry : harvest->entries() ) {
+        const itype *drop_type = item::find_type( itype_id( entry.drop ) );
+        if( drop_type && ( ( drop_type->comestible && drop_type->comestible->has_calories() ) ||
+                           drop_type->category_force == item_category_food ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<npc::scored_water_source> npc::find_nearby_harvestable( bool food_only ) const
+{
+    std::vector<scored_water_source> results;
+    const map &here = get_map();
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+        if( is_no_go_position( here.get_abs( p ) ) ) {
+            continue;
+        }
+        // Detect both harvest-system terrain (fruit trees, berry bushes)
+        // and examine-action foraging (underbrush -> shrub_wildveggies).
+        const bool harvestable = here.is_harvestable( p ) ||
+                                 here.ter( p ).obj().has_examine( iexamine::shrub_wildveggies );
+        if( !harvestable ) {
+            continue;
+        }
+        if( food_only && !harvest_yields_food( here, p ) ) {
+            continue;
+        }
+        if( !sees( here, p ) ) {
+            continue;
+        }
+        results.push_back( { p, rl_dist( pos_bub(), p ) } );
+    }
+    std::sort( results.begin(), results.end(),
+    []( const scored_water_source & a, const scored_water_source & b ) {
+        return a.dist < b.dist;
+    } );
+    return results;
+}
+
+std::vector<npc::need_candidate> npc::find_food_candidates()
+{
+    std::vector<need_candidate> candidates;
+    map &here = get_map();
+
+    // Ground food items: same filter chain as the executor's consumption
+    // path (would_take_that, rate_food, will_eat). Already sorted by
+    // descending score from find_nearby_food().
+    for( const scored_item &si : find_nearby_food( consume_filter::food_only ) ) {
+        candidates.push_back( {
+            need_source::ground_item,
+            here.get_abs( si.loc.pos_bub( here ) ),
+            si.score
+        } );
+    }
+
+    // Harvestable terrain (food-yielding only). Score by negative distance
+    // so closer sources rank higher, but all rank below scored ground items.
+    for( const scored_water_source &h : find_nearby_harvestable( true ) ) {
+        candidates.push_back( {
+            need_source::harvestable,
+            here.get_abs( h.pos ),
+            -static_cast<float>( h.dist )
+        } );
+    }
+
+    // Camp food: optimistic availability check (supply > 0 + access).
+    // Real consumption in consume_food_from_camp has stricter thresholds
+    // (hunger, stomach room, calorie balance). This is intentional: the
+    // candidate exists for predicate reporting, not for sticky planning.
+    const Character &pc = get_player_character();
+    for( const tripoint_abs_omt &camp_pos : pc.camps ) {
+        if( rl_dist( camp_pos.xy(), pos_abs_omt().xy() ) < 3 ) {
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_pos.xy() );
+            if( bcp && ( *bcp )->get_owner()->food_supply().kcal() > 0 &&
+                ( *bcp )->allowed_access_by( *this ) ) {
+                candidates.push_back( { need_source::camp_food, tripoint_abs_ms{}, 0.0f } );
+                break;
+            }
+        }
+    }
+
+    return candidates;
+}
+
+std::vector<npc::need_candidate> npc::find_water_candidates()
+{
+    std::vector<need_candidate> candidates;
+    map &here = get_map();
+
+    // Ground drink items: same filter chain as find_nearby_food.
+    for( const scored_item &si : find_nearby_food( consume_filter::drink_only ) ) {
+        candidates.push_back( {
+            need_source::ground_item,
+            here.get_abs( si.loc.pos_bub( here ) ),
+            si.score
+        } );
+    }
+
+    // Water terrain sources (wells, rivers). Score by negative distance.
+    for( const scored_water_source &ws : find_nearby_water_sources() ) {
+        candidates.push_back( {
+            need_source::water_terrain,
+            here.get_abs( ws.pos ),
+            -static_cast<float>( ws.dist )
+        } );
+    }
+
+    // Harvestable terrain with quench-positive drops (fruits, berries).
+    // Last-resort fallback, scored below direct water sources.
+    for( const scored_water_source &h : find_nearby_harvestable( false ) ) {
+        if( harvest_yields_water( here, h.pos ) ) {
+            candidates.push_back( {
+                need_source::harvestable,
+                here.get_abs( h.pos ),
+                -static_cast<float>( h.dist ) - 100.0f
+            } );
+        }
+    }
+
+    // Camp water: same optimistic-availability pattern as camp food above.
+    const Character &pc = get_player_character();
+    for( const tripoint_abs_omt &camp_pos : pc.camps ) {
+        if( rl_dist( camp_pos.xy(), pos_abs_omt().xy() ) < 3 ) {
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_pos.xy() );
+            if( bcp && ( *bcp )->has_water() &&
+                ( *bcp )->allowed_access_by( *this, true ) ) {
+                candidates.push_back( { need_source::camp_water, tripoint_abs_ms{}, 0.0f } );
+                break;
+            }
+        }
+    }
+
+    return candidates;
+}
+
+std::vector<npc::need_candidate> npc::find_warmth_candidates()
+{
+    std::vector<need_candidate> candidates;
+    map &here = get_map();
+
+    // Ground clothing items: scored by warmth value.
+    for( const scored_item &si : find_nearby_warm_clothing() ) {
+        candidates.push_back( {
+            need_source::ground_clothing,
+            here.get_abs( si.loc.pos_bub( here ) ),
+            si.score
+        } );
+    }
+
+    // Shelter: scored by negative distance (always below clothing).
+    for( const scored_shelter &s : find_nearby_shelters() ) {
+        candidates.push_back( {
+            need_source::shelter,
+            here.get_abs( s.pos ),
+            -static_cast<float>( s.dist )
+        } );
+    }
+
+    // Fire: last-resort warmth strategy. Scored below all shelter
+    // (preserves current BT ordering: clothes > shelter > fire).
+    if( auto spot = find_fire_spot(); spot ) {
+        candidates.push_back( {
+            need_source::fire_spot,
+            here.get_abs( *spot ),
+            -1000.0f
+        } );
+    }
+
+    // Sort descending by score so step 3 picks the best candidate.
+    std::sort( candidates.begin(), candidates.end(),
+    []( const need_candidate & a, const need_candidate & b ) {
+        return a.score > b.score;
+    } );
+
+    return candidates;
+}
+
+bool npc::has_adjacent_fire() const
+{
+    const map &here = get_map();
+    for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( adj != pos_bub() && here.get_field( adj, fd_fire ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Shared helper: is this item a usable firestarter for the NPC right now?
+// Delegates core validation (charges, sunlight, underwater, qualities)
+// to firestarter_actor::can_use(), then checks tinder availability in
+// the same scope as npc_start_fire() (inventory + adjacent ground).
+static bool is_usable_npc_firestarter( const npc &who, const item &it )
+{
+    if( !it.has_flag( json_flag_FIRESTARTER ) ) {
+        return false;
+    }
+    const use_function *usef = it.type->get_use( "firestarter" );
+    if( !usef || !usef->get_actor_ptr() ) {
+        return false;
+    }
+    const auto *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+    if( !actor ) {
+        return false;
+    }
+    // Delegate to real validation: ammo, sunlight, underwater, qualities.
+    map &here = get_map();
+    if( !actor->can_use( who, it, &here, who.pos_bub() ).success() ) {
+        return false;
+    }
+    // Tinder: inventory + adjacent ground (same scope as npc_start_fire).
+    if( it.has_flag( flag_REQUIRES_TINDER ) ) {
+        bool has_tinder = who.has_item_with( []( const item & candidate ) {
+            return candidate.has_flag( flag_TINDER );
+        } );
+        if( !has_tinder ) {
+            for( const tripoint_bub_ms &adj : here.points_in_radius( who.pos_bub(), 1 ) ) {
+                for( const item &ground_item : here.i_at( adj ) ) {
+                    if( ground_item.has_flag( flag_TINDER ) ) {
+                        has_tinder = true;
+                        break;
+                    }
+                }
+                if( has_tinder ) {
+                    break;
+                }
+            }
+        }
+        if( !has_tinder ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::optional<tripoint_bub_ms> npc::find_fire_spot()
+{
+    // Check that the NPC has a usable firestarter tool.
+    bool found_tool = false;
+    visit_items( [this, &found_tool]( item * it, item * ) -> VisitResponse {
+        if( is_usable_npc_firestarter( *this, *it ) )
+        {
+            found_tool = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( !found_tool ) {
+        return std::nullopt;
+    }
+
+    // Scan adjacent tiles for a valid fire location.
+    map &here = get_map();
+    std::optional<tripoint_bub_ms> best_flammable;
+    std::optional<tripoint_bub_ms> fallback;
+    // Exclude the wielded weapon from fuel consideration so the NPC
+    // doesn't drop its own weapon into the fire.
+    const item *wielded_ptr = get_wielded_item().get_item();
+    bool has_firewood = false;
+    visit_items( [&has_firewood, wielded_ptr]( item * it, item * ) -> VisitResponse {
+        if( it == wielded_ptr )
+        {
+            return VisitResponse::NEXT;
+        }
+        if( it->has_flag( flag_FIREWOOD ) )
+        {
+            has_firewood = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( adj == pos_bub() ) {
+            continue;
+        }
+        if( here.move_cost( adj ) == 0 ) {
+            continue;
+        }
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, adj ) ||
+            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, adj ) ) {
+            continue;
+        }
+        if( here.get_field( adj, fd_fire ) ) {
+            continue;
+        }
+        if( get_creature_tracker().creature_at( adj ) ) {
+            continue;
+        }
+        if( is_no_go_position( here.get_abs( adj ) ) ) {
+            continue;
+        }
+        if( here.veh_at( adj ) ) {
+            continue;
+        }
+        if( here.is_flammable( adj ) ) {
+            // Tile already has fuel (flammable terrain/items). No need
+            // for inventory firewood.
+            if( !best_flammable ) {
+                best_flammable = adj;
+            }
+        } else if( has_firewood && !fallback ) {
+            // Tile not flammable but NPC can drop firewood to make it so.
+            fallback = adj;
+        }
+    }
+
+    return best_flammable ? best_flammable : fallback;
+}
+
+npc::need_result npc::execute_seek_warmth()
+{
+    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
+
+    need_plan &plan = ai_cache.warmth_plan;
+    std::set<tripoint_abs_ms> &failed = ai_cache.warmth_failed_targets;
+    map &here = get_map();
+
+    // Helper: check if warmth need is resolved after an action.
+    const auto warmth_resolved = [this]() -> bool {
+        behavior::character_oracle_t oracle( this );
+        return oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+    };
+
+    // 1. Immediate responses (no danger gate):
+    //    inventory wear, then adjacent ground clothing.
+    //    These return progressed (not satisfied) because wearing one
+    //    item may not resolve the cold. Only return satisfied when
+    //    the warmth predicate clears.
+    if( wear_warmest_item() ) {
+        // Reset plan state so stale impossible / accumulated no_progress
+        // from a prior target do not poison the commitment or timeout.
+        plan.last_result = need_result::progressed;
+        plan.no_progress_turns = 0;
+        if( warmth_resolved() ) {
+            plan.clear();
+            failed.clear();
+            ai_cache.warmth_indoor_hold_turns = 0;
+            return need_result::satisfied;
+        }
+        return need_result::progressed;
+    }
+    for( scored_item &c : find_nearby_warm_clothing() ) {
+        if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
+            if( wear_item_at( c.loc ) ) {
+                plan.last_result = need_result::progressed;
+                plan.no_progress_turns = 0;
+                if( warmth_resolved() ) {
+                    plan.clear();
+                    failed.clear();
+                    ai_cache.warmth_indoor_hold_turns = 0;
+                    return need_result::satisfied;
+                }
+                return need_result::progressed;
+            }
+        }
+    }
+
+    // 1b. Active fire-starting activity: let it continue.
+    if( activity && activity.id() == ACT_START_FIRE ) {
+        plan.last_result = need_result::progressed;
+        plan.no_progress_turns = 0;
+        return need_result::progressed;
+    }
+
+    // 1c. Adjacent fire exists: hold for warmth recovery.
+    if( has_adjacent_fire() ) {
+        if( warmth_resolved() ) {
+            plan.clear();
+            failed.clear();
+            ai_cache.warmth_indoor_hold_turns = 0;
+            return need_result::satisfied;
+        }
+        plan.last_result = need_result::holding;
+        return need_result::holding;
+    }
+
+    using need_source = npc_short_term_cache::need_source;
+
+    const auto candidates = find_warmth_candidates();
+
+    // 2. Validate existing target against the candidate scan.
+    if( plan.active() ) {
+        bool still_valid = false;
+        for( const need_candidate &c : candidates ) {
+            if( c.target == plan.target && c.source_kind == plan.source_kind ) {
+                still_valid = true;
+                break;
+            }
+        }
+        if( !still_valid ) {
+            plan.clear();
+        }
+    }
+
+    // 3. Acquire target from scored candidates, skipping failed targets.
+    if( !plan.active() && !candidates.empty() ) {
+        for( const need_candidate &c : candidates ) {
+            if( failed.count( c.target ) == 0 ) {
+                plan.goal = "seek_warmth";
+                plan.source_kind = c.source_kind;
+                plan.target = c.target;
+                plan.last_result = need_result::idle;
+                plan.no_progress_turns = 0;
+                ai_cache.warmth_indoor_hold_turns = 0;
+                break;
+            }
+        }
+        if( !plan.active() ) {
+            failed.clear();
+        }
+    }
+    if( !plan.active() ) {
+        // Indoors but still cold: hold position with timeout.
+        // After the threshold, return impossible so the BT can assign
+        // follow/duty instead of suppressing them forever.
+        if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, pos_bub() ) &&
+            !warmth_resolved() ) {
+            ai_cache.warmth_indoor_hold_turns++;
+            if( ai_cache.warmth_indoor_hold_turns >= 60 ) {
+                return need_result::impossible;
+            }
+            plan.last_result = need_result::holding;
+            return need_result::holding;
+        }
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+
+    // 4. Execute based on source kind. All movement is behind the danger gate.
+    const tripoint_bub_ms target_bub = here.get_bub( plan.target );
+
+    if( plan.source_kind == need_source::ground_clothing ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            for( scored_item &c : find_nearby_warm_clothing() ) {
+                if( here.get_abs( c.loc.pos_bub( here ) ) == plan.target &&
+                    wear_item_at( c.loc ) ) {
+                    plan.last_result = need_result::progressed;
+                    plan.no_progress_turns = 0;
+                    if( warmth_resolved() ) {
+                        plan.clear();
+                        failed.clear();
+                        ai_cache.warmth_indoor_hold_turns = 0;
+                        return need_result::satisfied;
+                    }
+                    return need_result::progressed;
+                }
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    } else if( plan.source_kind == need_source::shelter ) {
+        if( low_danger ) {
+            if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+                move_to( target_bub );
+                if( pos_bub() == target_bub ) {
+                    plan.last_result = need_result::progressed;
+                    plan.no_progress_turns = 0;
+                    if( warmth_resolved() ) {
+                        plan.clear();
+                        failed.clear();
+                        ai_cache.warmth_indoor_hold_turns = 0;
+                        return need_result::satisfied;
+                    }
+                    return need_result::progressed;
+                }
+            } else if( move_to_and_verify( target_bub, true ) ) {
+                plan.last_result = need_result::progressed;
+                plan.no_progress_turns = 0;
+                return need_result::progressed;
+            }
+        } else {
+            // Danger blocked movement. Don't blacklist; defer.
+            plan.last_result = need_result::deferred;
+            return need_result::deferred;
+        }
+    } else if( plan.source_kind == need_source::fire_spot ) {
+        // Fire spot is always adjacent. Find a usable tool via the
+        // shared helper, then call the real firestarter hook.
+        item *fire_tool = nullptr;
+        const firestarter_actor *actor = nullptr;
+        visit_items( [this, &fire_tool, &actor]( item * it, item * ) -> VisitResponse {
+            if( !is_usable_npc_firestarter( *this, *it ) )
+            {
+                return VisitResponse::NEXT;
+            }
+            const use_function *usef = it->type->get_use( "firestarter" );
+            const auto *a = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            fire_tool = it;
+            actor = a;
+            return VisitResponse::ABORT;
+        } );
+        if( !fire_tool || !actor ) {
+            plan.clear();
+            return need_result::blocked;
+        }
+        // Ensure the target tile is flammable; drop safe fuel if needed.
+        // Skip the wielded weapon so the NPC doesn't burn its own weapon.
+        if( !here.is_flammable( target_bub ) ) {
+            item *fuel = nullptr;
+            const item *wielded_ptr = get_wielded_item().get_item();
+            visit_items( [&fuel, wielded_ptr]( item * it, item * ) -> VisitResponse {
+                if( it == wielded_ptr )
+                {
+                    return VisitResponse::NEXT;
+                }
+                if( it->has_flag( flag_FIREWOOD ) )
+                {
+                    fuel = it;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            if( !fuel ) {
+                plan.clear();
+                return need_result::impossible;
+            }
+            here.add_item_or_charges( target_bub, i_rem( fuel ) );
+        }
+        if( actor->npc_start_fire( *this, *fire_tool, target_bub ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+        // npc_start_fire failed (e.g., empty lighter, bad conditions).
+        // Count toward no-progress so the plan eventually becomes impossible.
+        plan.no_progress_turns++;
+        if( plan.no_progress_turns >= 5 ) {
+            failed.insert( plan.target );
+            plan.clear();
+            plan.last_result = need_result::impossible;
+            return need_result::impossible;
+        }
+        plan.last_result = need_result::blocked;
+        return need_result::blocked;
+    }
+
+    // 5. No progress this turn.
+    if( !low_danger && square_dist( pos_bub(), target_bub ) > 1 ) {
+        plan.last_result = need_result::deferred;
+        return need_result::deferred;
+    }
+    plan.no_progress_turns++;
+    if( plan.no_progress_turns >= 5 ) {
+        failed.insert( plan.target );
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+    plan.last_result = need_result::blocked;
+    return need_result::blocked;
+}
+
+std::optional<npc::need_goal_id> npc::goal_id_for( std::string_view goal )
+{
+    if( goal == "eat_food" ) {
+        return need_goal_id::eat_food;
+    }
+    if( goal == "drink_water" ) {
+        return need_goal_id::drink_water;
+    }
+    if( goal == "seek_warmth" ) {
+        return need_goal_id::seek_warmth;
+    }
+    if( goal == "go_to_sleep" ) {
+        return need_goal_id::go_to_sleep;
+    }
+    return std::nullopt;
+}
+
+bool npc::is_executor_goal( std::string_view goal )
+{
+    return goal_id_for( goal ).has_value();
+}
+
+npc::need_plan &npc::plan_for( need_goal_id id )
+{
+    switch( id ) {
+        case need_goal_id::eat_food:
+            return ai_cache.food_plan;
+        case need_goal_id::drink_water:
+            return ai_cache.water_plan;
+        case need_goal_id::seek_warmth:
+            return ai_cache.warmth_plan;
+        case need_goal_id::go_to_sleep:
+            return ai_cache.sleep_plan;
+    }
+    // unreachable, but satisfies compiler
+    return ai_cache.food_plan;
+}
+
+std::set<tripoint_abs_ms> &npc::failed_targets_for( need_goal_id id )
+{
+    switch( id ) {
+        case need_goal_id::eat_food:
+            return ai_cache.food_failed_targets;
+        case need_goal_id::drink_water:
+            return ai_cache.water_failed_targets;
+        case need_goal_id::seek_warmth:
+            return ai_cache.warmth_failed_targets;
+        case need_goal_id::go_to_sleep:
+            return ai_cache.sleep_failed_targets;
+    }
+    return ai_cache.food_failed_targets;
+}
+
+void npc::clear_need_state( need_goal_id id )
+{
+    plan_for( id ).clear();
+    failed_targets_for( id ).clear();
+}
+
+void npc::clear_committed_goal()
+{
+    if( auto gid = goal_id_for( ai_cache.committed_goal ); gid ) {
+        clear_need_state( *gid );
+        if( *gid == need_goal_id::go_to_sleep ) {
+            remove_effect( effect_lying_down );
+        }
+    }
+    // Cancel self-care activities that bypass BT re-evaluation
+    // (forage/harvest early return in move(), fire-starting activity).
+    if( activity ) {
+        const activity_id &act = activity.id();
+        if( act == ACT_FORAGE || act == ACT_HARVEST || act == ACT_START_FIRE ) {
+            cancel_activity();
+        }
+    }
+    ai_cache.committed_goal.clear();
+}
+
+float npc::current_need_urgency( need_goal_id id ) const
+{
+    // TODO: this comparison assumes BT need scores are identity urgency
+    // values (direct pass-through with no parent-level override on
+    // npc_needs).  If BT scoring later adds weighting or normalization,
+    // the tick_full score and this recomputed urgency will diverge and
+    // the preemption margin becomes meaningless.
+    behavior::character_oracle_t oracle( this );
+    switch( id ) {
+        case need_goal_id::eat_food:
+            return oracle.hunger_urgency( "" );
+        case need_goal_id::drink_water:
+            return oracle.thirst_urgency( "" );
+        case need_goal_id::seek_warmth:
+            return oracle.warmth_urgency( "" );
+        case need_goal_id::go_to_sleep:
+            return oracle.sleepiness_urgency( "" );
+    }
+    return 0.0f;
+}
+
+npc::need_result npc::execute_need_goal( const std::string_view goal )
+{
+    const std::optional<need_goal_id> gid = goal_id_for( goal );
+    if( !gid ) {
+        return need_result::idle;
+    }
+    switch( *gid ) {
+        case need_goal_id::eat_food:
+            return execute_eat_food();
+        case need_goal_id::drink_water:
+            return execute_drink_water();
+        case need_goal_id::seek_warmth:
+            return execute_seek_warmth();
+        case need_goal_id::go_to_sleep:
+            return execute_go_to_sleep();
+    }
+    return need_result::idle;
+}
+
+std::vector<npc::need_candidate> npc::find_sleep_candidates()
+{
+    std::vector<need_candidate> candidates;
+    map &here = get_map();
+
+    // The NPC's own position is always a sleep candidate (they can
+    // sleep where they stand). g->is_empty excludes tiles occupied
+    // by creatures, so the NPC's own tile must be added explicitly.
+    if( is_valid_sleep_candidate( pos_bub() ) ) {
+        candidates.push_back( {
+            need_source::sleep_spot,
+            pos_abs(),
+            static_cast<float>( evaluate_sleep_spot( pos_bub() ) )
+        } );
+    }
+
+    const Character &player_character = get_player_character();
+
+    std::vector<tripoint_bub_ms> search_positions;
+    if( is_walking_with() && player_character.in_vehicle &&
+        player_character.in_sleep_state() ) {
+        const optional_vpart_position player_part_pos =
+            here.veh_at( player_character.pos_bub() );
+        if( player_part_pos ) {
+            vehicle *player_vehicle = &player_part_pos->vehicle();
+            for( const vpart_reference &part :
+                 player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+                search_positions.push_back(
+                    player_vehicle->bub_part_pos( here, part.part() ) );
+            }
+        }
+    }
+    if( search_positions.empty() ) {
+        search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+    }
+
+    int best_sleepy = candidates.empty() ? INT_MIN :
+                      static_cast<int>( candidates.front().score );
+    for( const tripoint_bub_ms &p : search_positions ) {
+        if( p == pos_bub() ) {
+            continue;
+        }
+        if( !could_move_onto( p ) || !g->is_empty( p ) ) {
+            continue;
+        }
+        if( best_sleepy >= comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
+            break;
+        }
+        const int sleepy = evaluate_sleep_spot( p );
+        if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
+            best_sleepy = sleepy;
+            candidates.push_back( {
+                need_source::sleep_spot,
+                here.get_abs( p ),
+                static_cast<float>( sleepy )
+            } );
+        }
+    }
+
+    std::sort( candidates.begin(), candidates.end(),
+    []( const need_candidate & a, const need_candidate & b ) {
+        return a.score > b.score;
+    } );
+
+    return candidates;
+}
+
+npc::need_result npc::execute_go_to_sleep()
+{
+    // Actually asleep: goal accomplished.
+    if( has_effect( effect_sleep ) ) {
+        return need_result::satisfied;
+    }
+
+    // Lying down but not asleep yet. Return holding so same-category
+    // preemption can interrupt if food/water becomes critical.
+    // Note: in_sleep_state() includes effect_lying_down, so we must
+    // check effect_sleep specifically above.
+    if( has_effect( effect_lying_down ) ) {
+        return need_result::holding;
+    }
+
+    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
+    need_plan &plan = ai_cache.sleep_plan;
+    std::set<tripoint_abs_ms> &failed = ai_cache.sleep_failed_targets;
+    map &here = get_map();
+
+    // Validate existing target. Own position is always valid;
+    // other tiles must still be empty and reachable.
+    if( plan.active() ) {
+        const tripoint_bub_ms t = here.get_bub( plan.target );
+        if( t != pos_bub() ) {
+            if( !is_valid_sleep_candidate( t ) || !g->is_empty( t ) ) {
+                plan.clear();
+            }
+        }
+    }
+
+    // Acquire target from candidates.
+    if( !plan.active() ) {
+        const auto candidates = find_sleep_candidates();
+        for( const need_candidate &c : candidates ) {
+            if( failed.count( c.target ) == 0 ) {
+                plan.goal = "go_to_sleep";
+                plan.source_kind = c.source_kind;
+                plan.target = c.target;
+                plan.last_result = need_result::idle;
+                plan.no_progress_turns = 0;
+                break;
+            }
+        }
+        if( !plan.active() ) {
+            failed.clear();
+        }
+    }
+    if( !plan.active() ) {
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+
+    const tripoint_bub_ms target_bub = here.get_bub( plan.target );
+    const Character &player_character = get_player_character();
+
+    // At target: perform the sleep action.
+    if( pos_bub() == target_bub ) {
+        move_pause();
+        if( is_walking_with() ) {
+            complain_about( "napping", 30_minutes,
+                            chat_snippets().snip_warn_sleep.translated() );
+        }
+        activate_bionic_by_id( bio_soporific );
+        if( !is_avatar() && can_sleep() ) {
+            if( !player_character.in_sleep_state() ) {
+                add_msg_if_player_sees( *this, _( "%s lies down to sleep." ),
+                                        get_name() );
+            }
+            fall_asleep();
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        } else {
+            if( !player_character.in_sleep_state() ) {
+                add_msg_if_player_sees( *this, _( "%s lies down to sleep." ),
+                                        get_name() );
+            }
+            add_effect( effect_lying_down, 30_minutes, false, 1 );
+            // holding, not progressed: allows preemption by urgent needs.
+            plan.last_result = need_result::holding;
+            return need_result::holding;
+        }
+    }
+
+    // Not at target: move toward it.
+    if( !low_danger && square_dist( pos_bub(), target_bub ) > 1 ) {
+        plan.last_result = need_result::deferred;
+        return need_result::deferred;
+    }
+    if( move_to_and_verify( target_bub, true ) ) {
+        plan.last_result = need_result::progressed;
+        plan.no_progress_turns = 0;
+        return need_result::progressed;
+    }
+
+    // No progress this turn.
+    plan.no_progress_turns++;
+    if( plan.no_progress_turns >= 5 ) {
+        failed.insert( plan.target );
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+    plan.last_result = need_result::blocked;
+    return need_result::blocked;
+}
+
+npc::need_result npc::execute_eat_food()
+{
+    // Mirror the legacy danger gate: non-adjacent food seeking is
+    // only safe at low danger (same threshold as address_needs).
+    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
+    const consume_filter cf = consume_filter::food_only;
+
+    need_plan &plan = ai_cache.food_plan;
+    map &here = get_map();
+
+    std::set<tripoint_abs_ms> &failed = ai_cache.food_failed_targets;
+
+    // 1. Try camp food (calories only, skip the water path),
+    //    inventory food, then adjacent ground food.
+    if( consume_food_from_camp( cf ) ) {
+        plan.clear();
+        failed.clear();
+        return need_result::satisfied;
+    }
+    if( consume_food( cf ) ) {
+        plan.clear();
+        failed.clear();
+        return need_result::satisfied;
+    }
+    {
+        map &food_map = get_map();
+        for( scored_item &c : find_nearby_food( cf ) ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( food_map ) ) <= 1 ) {
+                if( consume_food_at( c.loc ) ) {
+                    plan.clear();
+                    failed.clear();
+                    return need_result::satisfied;
+                }
+            }
+        }
+    }
+
+    using need_source = npc_short_term_cache::need_source;
+
+    const auto candidates = find_food_candidates();
+
+    // 2. Validate existing target against the candidate scan.
+    if( plan.active() ) {
+        bool still_valid = false;
+        for( const need_candidate &c : candidates ) {
+            if( c.target == plan.target && c.source_kind == plan.source_kind ) {
+                still_valid = true;
+                break;
+            }
+        }
+        if( !still_valid ) {
+            plan.clear();
+        }
+    }
+
+    // 3. Acquire target from scored candidates, skipping any that
+    //    previously hit the no-progress timeout.  Camp sources are
+    //    immediate-only (handled in step 1) and must not become sticky
+    //    plan targets -- they have no stable spatial identity.
+    if( !plan.active() && !candidates.empty() ) {
+        for( const need_candidate &c : candidates ) {
+            if( c.source_kind == need_source::camp_food ||
+                c.source_kind == need_source::camp_water ) {
+                continue;
+            }
+            if( failed.count( c.target ) == 0 ) {
+                plan.goal = "eat_food";
+                plan.source_kind = c.source_kind;
+                plan.target = c.target;
+                plan.last_result = need_result::idle;
+                plan.no_progress_turns = 0;
+                break;
+            }
+        }
+        if( !plan.active() ) {
+            // All candidates exhausted this generation. Clear the
+            // blacklist so the next attempt retries everything fresh.
+            failed.clear();
+        }
+    }
+    if( !plan.active() ) {
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+
+    // 4. Execute based on source kind.
+    const tripoint_bub_ms target_bub = here.get_bub( plan.target );
+
+    if( plan.source_kind == need_source::ground_item ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            for( scored_item &c : find_nearby_food( cf ) ) {
+                if( here.get_abs( c.loc.pos_bub( here ) ) == plan.target &&
+                    consume_food_at( c.loc ) ) {
+                    plan.clear();
+                    failed.clear();
+                    return need_result::satisfied;
+                }
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    } else if( plan.source_kind == need_source::harvestable ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            here.examine( *this, target_bub );
+            if( activity ) {
+                plan.last_result = need_result::progressed;
+                plan.no_progress_turns = 0;
+                return need_result::progressed;
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    }
+
+    // 5. No progress this turn.
+    // If the target is distant and danger blocked movement, that's a policy
+    // deferral, not an executor failure. Don't count toward no_progress_turns.
+    if( !low_danger && square_dist( pos_bub(), target_bub ) > 1 ) {
+        plan.last_result = need_result::deferred;
+        return need_result::deferred;
+    }
+    plan.no_progress_turns++;
+    if( plan.no_progress_turns >= 5 ) {
+        failed.insert( plan.target );
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+    plan.last_result = need_result::blocked;
+    return need_result::blocked;
+}
+
+npc::need_result npc::execute_drink_water()
+{
+    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
+    const consume_filter cf = consume_filter::drink_only;
+
+    need_plan &plan = ai_cache.water_plan;
+    std::set<tripoint_abs_ms> &failed = ai_cache.water_failed_targets;
+    map &here = get_map();
+
+    // 1. Try camp water, inventory drinks, adjacent ground drinks,
+    //    then adjacent water terrain sources.
+    if( consume_food_from_camp( cf ) ) {
+        plan.clear();
+        failed.clear();
+        return need_result::satisfied;
+    }
+    if( consume_food( cf ) ) {
+        plan.clear();
+        failed.clear();
+        return need_result::satisfied;
+    }
+    {
+        map &water_map = get_map();
+        for( scored_item &c : find_nearby_food( cf ) ) {
+            if( square_dist( pos_bub(), c.loc.pos_bub( water_map ) ) <= 1 ) {
+                if( consume_food_at( c.loc ) ) {
+                    plan.clear();
+                    failed.clear();
+                    return need_result::satisfied;
+                }
+            }
+        }
+    }
+    for( scored_water_source &ws : find_nearby_water_sources() ) {
+        if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
+            if( drink_from_water_source( ws.pos ) ) {
+                plan.clear();
+                failed.clear();
+                return need_result::satisfied;
+            }
+        }
+    }
+
+    using need_source = npc_short_term_cache::need_source;
+
+    const auto candidates = find_water_candidates();
+
+    // 2. Validate existing target against the candidate scan.
+    if( plan.active() ) {
+        bool still_valid = false;
+        for( const need_candidate &c : candidates ) {
+            if( c.target == plan.target && c.source_kind == plan.source_kind ) {
+                still_valid = true;
+                break;
+            }
+        }
+        if( !still_valid ) {
+            plan.clear();
+        }
+    }
+
+    // 3. Acquire target from scored candidates, skipping any that
+    //    previously hit the no-progress timeout.  Camp sources are
+    //    immediate-only (handled in step 1) and must not become sticky
+    //    plan targets.
+    if( !plan.active() && !candidates.empty() ) {
+        for( const need_candidate &c : candidates ) {
+            if( c.source_kind == need_source::camp_food ||
+                c.source_kind == need_source::camp_water ) {
+                continue;
+            }
+            if( failed.count( c.target ) == 0 ) {
+                plan.goal = "drink_water";
+                plan.source_kind = c.source_kind;
+                plan.target = c.target;
+                plan.last_result = need_result::idle;
+                plan.no_progress_turns = 0;
+                break;
+            }
+        }
+        if( !plan.active() ) {
+            // All candidates exhausted this generation. Clear the
+            // blacklist so the next attempt retries everything fresh.
+            failed.clear();
+        }
+    }
+    if( !plan.active() ) {
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+
+    // 4. Execute based on source kind.
+    const tripoint_bub_ms target_bub = here.get_bub( plan.target );
+
+    if( plan.source_kind == need_source::ground_item ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            for( scored_item &c : find_nearby_food( cf ) ) {
+                if( here.get_abs( c.loc.pos_bub( here ) ) == plan.target &&
+                    consume_food_at( c.loc ) ) {
+                    plan.clear();
+                    failed.clear();
+                    return need_result::satisfied;
+                }
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    } else if( plan.source_kind == need_source::water_terrain ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            if( drink_from_water_source( target_bub ) ) {
+                plan.clear();
+                failed.clear();
+                return need_result::satisfied;
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    } else if( plan.source_kind == need_source::harvestable ) {
+        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
+            here.examine( *this, target_bub );
+            if( activity ) {
+                plan.last_result = need_result::progressed;
+                plan.no_progress_turns = 0;
+                return need_result::progressed;
+            }
+        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+            plan.last_result = need_result::progressed;
+            plan.no_progress_turns = 0;
+            return need_result::progressed;
+        }
+    }
+
+    // 5. No progress this turn.
+    if( !low_danger && square_dist( pos_bub(), target_bub ) > 1 ) {
+        plan.last_result = need_result::deferred;
+        return need_result::deferred;
+    }
+    plan.no_progress_turns++;
+    if( plan.no_progress_turns >= 5 ) {
+        failed.insert( plan.target );
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+    plan.last_result = need_result::blocked;
+    return need_result::blocked;
 }
 
 bool npc::adjust_worn()
@@ -5548,5 +7743,6 @@ void npc::set_movement_mode( const move_mode_id &new_mode )
 {
     // Enchantments based on move modes can stack inappropriately without a recalc here
     recalculate_enchantment_cache();
+    mod_moves( -move_mode_switch_cost( move_mode, new_mode ) );
     move_mode = new_mode;
 }

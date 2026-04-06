@@ -88,10 +88,10 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them.",
+    "description": "Upon gaining this ability the Sylph's eyes begin reflecting their mood with lightning and storms when angry and clear skies when happy.  Glare no longer impacts them, and they have much better daytime vision and much faster reaction times.",
     "category": [ "SYLPH" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_sylph_eyes" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_sylph" } ] } ]
   },
   {
     "type": "mutation",

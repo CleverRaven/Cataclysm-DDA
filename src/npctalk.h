@@ -82,6 +82,7 @@ void assign_guard( npc & );
 void assign_camp( npc & );
 void abandon_camp( npc & );
 void stop_guard( npc & );
+void return_to_camp_duties( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );

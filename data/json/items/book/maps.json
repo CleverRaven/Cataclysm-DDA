@@ -8,7 +8,7 @@
     "color": "blue",
     "volume": "10 ml",
     "weight": "10 g",
-    "flags": [ "CREDIT_CARD_SHAPED" ],
+    "extend": { "flags": [ "CREDIT_CARD_SHAPED" ] },
     "use_action": {
       "type": "reveal_map",
       "radius": 90,
@@ -523,7 +523,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "paper" ],
-    "flags": [ "PAPER_SHAPED" ],
+    "flags": [ "PRESERVE_SPAWN_LOC", "LOCATION_PRECISE_CLOSEST_CITY", "PAPER_SHAPED" ],
     "weight": "3 g",
     "volume": "5 ml",
     "use_action": {
@@ -567,6 +567,7 @@
     "category": "maps",
     "symbol": ",",
     "color": "white",
+    "looks_like": "book_binder",
     "description": "A small notebook with \"X.E.D.R.A\" embossed on the cover.  It's filled with notes scribbled by pencil.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -622,5 +623,222 @@
     "flags": [ "PAPER_SHAPED" ],
     "weight": "5 g",
     "volume": "5 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note",
+    "name": "leather notebook",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An absolutely ancient-looking, leather-bound journal.  The pages are gilded at the edges.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the journal",
+      "description": "Study the journal",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_INNER_CABINS_DEPTHS_NOTE",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "if": { "u_has_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS" },
+              "then": { "u_message": "You study the notebook, but don't find anything interesting or new.", "popup": true },
+              "else": [
+                {
+                  "u_message": "This book is written in a script that you do not recognize or understand.  However, there is a very clear map drawn on the inside of the front cover, with a location circled.  You make note of it.",
+                  "popup": true
+                },
+                { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS" }
+              ]
+            },
+            { "transform_item": "inner_cabins_depths_note_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_used",
+    "name": { "str": "leather notebook (used)", "str_pl": "leather notebooks (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An absolutely ancient-looking, leather-bound journal.  The pages are gilded at the edges.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_2",
+    "name": "sketched map",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An old scrap of yellow, lined paper.  On it, a very detailed map has been sketched.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the map",
+      "description": "Study the map",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_INNER_CABINS_DEPTHS_NOTE_2",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "if": { "u_has_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_2" },
+              "then": { "u_message": "You study the map, but don't find anything interesting or new.", "popup": true },
+              "else": [
+                {
+                  "u_message": "The map shows a stylized cabin, a stairway, and then a path through what appears to be a maze.  It's remarkably well drawn, and you think you can discern where it leads.",
+                  "popup": true
+                },
+                { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_2" }
+              ]
+            },
+            { "transform_item": "inner_cabins_depths_note_2_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_2_used",
+    "name": { "str": "sketched map (used)", "str_pl": "sketched maps (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "An old scrap of yellow, lined paper.  On it, a very detailed map has been sketched.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_3",
+    "name": "strange subway map",
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A subway map covered in strange symbols and sketches.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Study the map",
+      "description": "Study the map",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_INNER_CABINS_DEPTHS_NOTE_3",
+          "condition": {
+            "and": [
+              "u_can_see",
+              {
+                "or": [ { "u_has_flag": "READ_IN_DARKNESS" }, { "math": [ "u_val('fine_detail_vision_mod') <= 4" ] } ]
+              }
+            ]
+          },
+          "effect": [
+            {
+              "u_message": "This was once clearly a subway map, but it has a labyrinthian overlay, and a hand-drawn yellow circle of some destination.  While you do not understand the symbols, you think you can discern direction and distance.  You make a note of the location.",
+              "popup": true
+            },
+            { "math": [ "inner_cabins_destination_choice = rand(4)" ] },
+            {
+              "if": { "math": [ "inner_cabins_destination_choice == 0" ] },
+              "then": { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_3a" }
+            },
+            {
+              "if": { "math": [ "inner_cabins_destination_choice == 1" ] },
+              "then": { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_3b" }
+            },
+            {
+              "if": { "math": [ "inner_cabins_destination_choice == 2" ] },
+              "then": { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_3c" }
+            },
+            {
+              "if": { "math": [ "inner_cabins_destination_choice == 3" ] },
+              "then": { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_3d" }
+            },
+            {
+              "if": { "math": [ "inner_cabins_destination_choice == 4" ] },
+              "then": { "assign_mission": "MISSION_INNER_CABINS_GO_TO_DEPTHS_3e" }
+            },
+            { "transform_item": "inner_cabins_depths_note_3_used" }
+          ],
+          "false_effect": { "u_message": "It's too dark to read." }
+        }
+      ]
+    }
+  },
+  {
+    "type": "ITEM",
+    "id": "inner_cabins_depths_note_3_used",
+    "name": { "str": "strange subway map (used)", "str_pl": "strange subway maps (used)" },
+    "category": "maps",
+    "symbol": ",",
+    "color": "white",
+    "description": "A subway map covered in strange symbols and sketches.  You've already searched it for useful information.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "PAPER_SHAPED" ],
+    "weight": "5 g",
+    "volume": "5 ml"
+  },
+  {
+    "id": "godco_flier",
+    "copy-from": "abstractmap",
+    "type": "ITEM",
+    "name": { "str": "religious salvation flier" },
+    "description": "A small flier describing the coming end of the world and a promises of an Ark that will save those within it from 'the Second Flood'. There's an address written on the flier, leading to something called the New England Community Church.",
+    "color": "light_blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 150,
+      "terrain": [ "godco_enter", "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
+      "message": "You add the location of the church to your map."
+    }
   }
 ]

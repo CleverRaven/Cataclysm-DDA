@@ -267,10 +267,16 @@
       {
         "id": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER",
         "effect": [
-          { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
           {
-            "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
-            "alpha_loc": { "context_val": "alpha_talker" }
+            "if": { "u_query": "Do you wish to test someone else?", "default": false },
+            "then": [
+              { "u_choose_adjacent_highlight": { "context_val": "alpha_talker" }, "message": "Select noetic testing target" },
+              {
+                "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO",
+                "alpha_loc": { "context_val": "alpha_talker" }
+              }
+            ],
+            "else": [ { "run_eocs": "EOC_NOETIC_RESONANCE_DETECT_PSI_POWER_PART_TWO" } ]
           }
         ]
       }

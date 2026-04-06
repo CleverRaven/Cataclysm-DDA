@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_SALVOR_FABRICATOR",
-    "name": { "str": "salvage merchant" },
+    "name": { "str": "salvor fabricator" },
     "job_description": "Salvor Fabricator",
     "common": false,
     "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],

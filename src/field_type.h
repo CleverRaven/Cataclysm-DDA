@@ -13,6 +13,8 @@
 #include <utility>
 #include <vector>
 
+#include "lightmap.h"
+
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -116,6 +118,7 @@ struct field_intensity_level {
     int monster_spawn_radius = 0;
     mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
+    light_color_rgb light_color;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
     int concentration = 0;

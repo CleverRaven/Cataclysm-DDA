@@ -214,6 +214,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "time_text";
         case widget_var::veh_azimuth_text:
             return "veh_azimuth_text";
+        case widget_var::veh_battery_text:
+            return "veh_battery_text";
         case widget_var::veh_cruise_text:
             return "veh_cruise_text";
         case widget_var::veh_fuel_text:
@@ -1173,6 +1175,7 @@ bool widget::uses_text_function() const
         case widget_var::sundial_time_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
+        case widget_var::veh_battery_text:
         case widget_var::veh_cruise_text:
         case widget_var::veh_fuel_text:
         case widget_var::weariness_text:
@@ -1318,6 +1321,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::veh_azimuth_text:
             desc.first = display::vehicle_azimuth_text( ava );
+            break;
+        case widget_var::veh_battery_text:
+            desc = display::vehicle_battery_percent_text_color( ava );
             break;
         case widget_var::veh_cruise_text:
             desc = display::vehicle_cruise_text_color( ava );

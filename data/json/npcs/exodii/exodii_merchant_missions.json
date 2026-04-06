@@ -49,7 +49,7 @@
     "id": "EXODII_MISSION_CHOP_SHOP",
     "type": "mission_definition",
     "name": { "str": "Recover the Missing Exodii" },
-    "description": "Rubik believes a missing Exodii scout is being kept hostage, and they want me to bring them back, dead or alive.  Rubik says the hostage will look a bit like him - a mostly metal robot.",
+    "description": "Rubik believes a missing Exodii scout is being kept hostage, or worse, has been killed, by members of Hub 01.  Rubik says the scout will look a bit like him: a mostly-metal cyborg, but with a recognizable red frame.  I either need to rescue the Exodii, or bring back a piece of their \"body\" as proof that they have perished.",
     "goal": "MGOAL_NULL",
     "destination": "robofac_strip_mall_x1y0",
     "difficulty": 5,
@@ -714,12 +714,16 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Do you remember that bunker you found for us?  Well, turns out they're not so friendly.  We found out one of their people is running some sort of workshop, and we think that an explorer we lost is being held inside.  They're Exodii like me - lots of metal, not easy to miss.  I think they're being tortured, at the least.  If you, a mercenary, can recover them, we'd pay handsomely.",
-      "str": "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome."
+      "str": "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, deep red shell, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome."
     },
     "responses": [
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_3_explain" },
       {
-        "text": "So one of those scientists from the bunker abducted one of your people?  You want me to find them?  I'll do it.",
+        "text": "What if the worst has happened, and they're dead?",
+        "topic": "TALK_EXODII_MERCHANT_mission_3_advice_dead"
+      },
+      {
+        "text": "So one of those scientists from the bunker abducted one of your people?  An exodii with a red frame?  You want me to find them?  I'll do it.",
         "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
         "topic": "TALK_DONE"
       },
@@ -735,7 +739,24 @@
     },
     "responses": [
       {
-        "text": "Right, so you don't want them to know that you're involved.  I'll do it.",
+        "text": "Right, so you don't want them to know that you're involved.  I'll see if I can find this exodii with a red frame.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_advice_dead",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "If that's the case, just bring back proof.  We know them well, so any part of their frame will do.  It's a deep red color.  Hard to miss.",
+      "str": "If that be the case, fetch back the proof ya' can.  Any piece'o'their frame will do, but I'd prefer all of it.  Deep red color.  Hard t'miss."
+    },
+    "responses": [
+      {
+        "text": "If they're dead, just bring back a piece of their red frame as proof.  Let's hope they're alive.  I'll see if I can find this exodii.",
         "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
         "topic": "TALK_DONE"
       },

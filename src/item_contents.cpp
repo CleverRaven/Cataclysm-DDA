@@ -1295,20 +1295,24 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
 {
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
+        if( qty <= 0 ) {
+            break;
+        }
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
-            // we are assuming only one magazine per well
             if( pocket.empty() ) {
-                return 0;
+                continue;
             }
-            // assuming only one mag
-            item &mag = pocket.front();
-            const int res = mag.ammo_consume( qty, *here, pos, nullptr );
-            if( res && mag.ammo_remaining( ) == 0 ) {
-                if( mag.has_flag( json_flag_MAG_DESTROY ) ) {
-                    pocket.remove_item( mag );
-                } else if( mag.has_flag( json_flag_MAG_EJECT ) ) {
-                    here->add_item( pos, mag );
-                    pocket.remove_item( mag );
+            item *mag = pocket.magazine_current();
+            if( mag == nullptr ) {
+                continue;
+            }
+            const int res = mag->ammo_consume( qty, *here, pos, nullptr );
+            if( res && mag->ammo_remaining() == 0 ) {
+                if( mag->has_flag( json_flag_MAG_DESTROY ) ) {
+                    pocket.remove_item( *mag );
+                } else if( mag->has_flag( json_flag_MAG_EJECT ) ) {
+                    here->add_item( pos, *mag );
+                    pocket.remove_item( *mag );
                 }
             }
             qty -= res;
@@ -1350,6 +1354,47 @@ item *item_contents::magazine_current()
     return nullptr;
 }
 
+const item *item_contents::magazine_current() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
+            const item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                return mag;
+            }
+        }
+    }
+    return nullptr;
+}
+
+std::vector<item *> item_contents::magazines_current()
+{
+    std::vector<item *> result;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
+            item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                result.push_back( mag );
+            }
+        }
+    }
+    return result;
+}
+
+std::vector<const item *> item_contents::magazines_current() const
+{
+    std::vector<const item *> result;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
+            const item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                result.push_back( mag );
+            }
+        }
+    }
+    return result;
+}
+
 int item_contents::ammo_capacity( const ammotype &ammo ) const
 {
     int ret = 0;
@@ -1374,13 +1419,23 @@ std::set<ammotype> item_contents::ammo_types() const
 
 item &item_contents::first_ammo()
 {
-    if( empty() ) {
+    if( contents.empty() ) {
         debugmsg( "Error: Contents has no pockets" );
         return null_item_reference();
     }
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
-            return pocket.front().first_ammo();
+            if( pocket.empty() ) {
+                continue;
+            }
+            item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                item &ammo = mag->first_ammo();
+                if( !ammo.is_null() ) {
+                    return ammo;
+                }
+            }
+            continue;
         }
         if( !pocket.is_type( pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
@@ -1400,13 +1455,23 @@ item &item_contents::first_ammo()
 
 const item &item_contents::first_ammo() const
 {
-    if( empty() ) {
+    if( contents.empty() ) {
         debugmsg( "Error: Contents has no pockets" );
         return null_item_reference();
     }
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
-            return pocket.front().first_ammo();
+            if( pocket.empty() ) {
+                continue;
+            }
+            const item *mag = pocket.magazine_current();
+            if( mag != nullptr ) {
+                const item &ammo = mag->first_ammo();
+                if( !ammo.is_null() ) {
+                    return ammo;
+                }
+            }
+            continue;
         }
         if( !pocket.is_type( pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
@@ -2251,7 +2316,7 @@ void item_contents::add_pocket( const item &pocket_item )
         // need to update it once it's stored in the contents list
         ( ++contents.rbegin() )->name_as_description = true;
         total_nonrigid_volume += i_pocket->volume_capacity();
-        effective_nonrigid_volume += i_pocket->volume_capacity() *
+        effective_nonrigid_volume += ( i_pocket->volume_capacity() - i_pocket->magazine_well() ) *
                                      i_pocket->get_pocket_data()->volume_encumber_modifier;
     }
     additional_pockets_volume += total_nonrigid_volume;
@@ -2279,7 +2344,7 @@ item item_contents::remove_pocket( int index )
     units::volume effective_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_container_pockets() ) {
         total_nonrigid_volume += i_pocket->volume_capacity();
-        effective_nonrigid_volume += i_pocket->volume_capacity() *
+        effective_nonrigid_volume += ( i_pocket->volume_capacity() - i_pocket->magazine_well() ) *
                                      i_pocket->get_pocket_data()->volume_encumber_modifier;
 
         // move items from the consolidated pockets to the item that will be returned
@@ -2637,8 +2702,9 @@ float item_contents::relative_encumbrance() const
         }
         // need to modify by pockets volume encumbrance modifier since some pockets may have less effect than others
         float modifier = pocket.get_pocket_data()->volume_encumber_modifier;
-        nonrigid_volume += pocket.contents_volume() * modifier;
-        nonrigid_max_volume += pocket.volume_capacity() * modifier;
+        nonrigid_volume += std::max( 0_ml,
+                                     ( pocket.contents_volume() - pocket.magazine_well() ) ) * modifier;
+        nonrigid_max_volume += ( pocket.volume_capacity() - pocket.magazine_well() ) * modifier;
     }
     if( nonrigid_volume > nonrigid_max_volume ) {
         // volume exceeds capacity and will spill until 1 or lower if picked up, so assume 1

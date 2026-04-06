@@ -85,7 +85,18 @@
           ]
         }
       },
-      { "if": "u_is_outside", "then": { "math": [ "u_closetland_perk_nearby_walls = 0" ] } },
+      { "u_location_variable": { "context_val": "check_terrain" } },
+      {
+        "if": {
+          "or": [
+            "u_is_outside",
+            { "map_furniture_id": "f_toilet", "loc": { "context_val": "check_terrain" } },
+            { "map_terrain_id": "t_stairs_up", "loc": { "context_val": "check_terrain" } },
+            { "map_terrain_id": "t_stairs_down", "loc": { "context_val": "check_terrain" } }
+          ]
+        },
+        "then": { "math": [ "u_closetland_perk_nearby_walls = 0" ] }
+      },
       {
         "if": {
           "and": [

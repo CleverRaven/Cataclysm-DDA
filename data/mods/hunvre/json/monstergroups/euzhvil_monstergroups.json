@@ -1,0 +1,12 @@
+[
+  {
+    "id": "euzhvil_group",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_euzhvil_chaser", "weight": 1 },
+      { "monster": "mon_euzhvil_bound", "weight": 1 },
+      { "monster": "mon_euzhvil_bully", "weight": 1 },
+      { "monster": "mon_euzhvil_suffocating", "weight": 1 }
+    ]
+  }
+]

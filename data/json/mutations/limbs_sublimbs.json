@@ -328,6 +328,110 @@
     "similar_bodypart": "beak_bottom"
   },
   {
+    "id": "beak_hummingbird_nares",
+    "copy-from": "beak_nares",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_nares"
+  },
+  {
+    "id": "beak_hummingbird_top",
+    "copy-from": "beak_top",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_top"
+  },
+  {
+    "id": "beak_hummingbird_tip",
+    "copy-from": "beak_tip",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_tip"
+  },
+  {
+    "id": "beak_hummingbird_bottom",
+    "copy-from": "beak_bottom",
+    "type": "sub_body_part",
+    "parent": "beak_hummingbird",
+    "similar_bodypart": "beak_bottom"
+  },
+  {
+    "id": "gastropod_tongue_lips",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips",
+    "similar_bodypart": "mouth_lips"
+  },
+  {
+    "id": "gastropod_tongue_nose",
+    "type": "sub_body_part",
+    "max_coverage": 15,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nose",
+    "similar_bodypart": "mouth_nose"
+  },
+  {
+    "id": "gastropod_tongue_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks",
+    "similar_bodypart": "mouth_cheeks"
+  },
+  {
+    "id": "gastropod_tongue_chin",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "gastropod_tongue",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin",
+    "similar_bodypart": "mouth_chin"
+  },
+  {
+    "id": "insect_proboscis_base",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "base"
+  },
+  {
+    "id": "insect_proboscis_labium",
+    "type": "sub_body_part",
+    "max_coverage": 35,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "labium"
+  },
+  {
+    "id": "insect_proboscis_cheeks",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks"
+  },
+  {
+    "id": "insect_proboscis_bottom",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "insect_proboscis",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "bottom"
+  },
+  {
     "id": "crustacean_pincer_wrist_r",
     "type": "sub_body_part",
     "name": "crustacean pincer wrist",
@@ -626,6 +730,110 @@
     "max_coverage": 35,
     "similar_bodypart": "arm_lower_r",
     "opposite": "arm_leathery_lower_l"
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_shoulder_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "left",
+    "similar_bodypart": "arm_shoulder_l",
+    "opposite": "arm_wing_bat_shoulder_r",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_upper_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left upper wing",
+    "name_multiple": "upper wings",
+    "side": "left",
+    "opposite": "arm_wing_bat_upper_r",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_elbow_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing joint",
+    "name_multiple": "wing joints",
+    "side": "left",
+    "opposite": "arm_wing_bat_elbow_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_lower_l",
+    "parent": "arm_wing_bat_l",
+    "name": "lower left wings",
+    "name_multiple": "lower wing",
+    "side": "left",
+    "opposite": "arm_wing_bat_lower_r",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_fingers_l",
+    "parent": "arm_wing_bat_l",
+    "name": "left wing talons",
+    "name_multiple": "wing talons",
+    "side": "left",
+    "similar_bodypart": "hand_fingers_l",
+    "opposite": "arm_wing_bat_fingers_r",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_shoulder_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "right",
+    "similar_bodypart": "arm_shoulder_r",
+    "opposite": "arm_wing_bat_shoulder_l",
+    "max_coverage": 15
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_upper_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right upper wing",
+    "name_multiple": "upper wings",
+    "side": "right",
+    "opposite": "arm_wing_bat_upper_l",
+    "max_coverage": 30
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_elbow_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing joint",
+    "name_multiple": "wing joints",
+    "side": "right",
+    "opposite": "arm_wing_bat_elbow_l",
+    "max_coverage": 5
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_lower_r",
+    "parent": "arm_wing_bat_r",
+    "name": "lower right wing",
+    "name_multiple": "lower wings",
+    "side": "right",
+    "opposite": "arm_wing_bat_lower_l",
+    "max_coverage": 45
+  },
+  {
+    "type": "sub_body_part",
+    "id": "arm_wing_bat_fingers_r",
+    "parent": "arm_wing_bat_r",
+    "name": "right wing talons",
+    "name_multiple": "wing talons",
+    "side": "right",
+    "similar_bodypart": "hand_fingers_r",
+    "opposite": "arm_wing_bat_fingers_l",
+    "max_coverage": 5
   },
   {
     "id": "arm_insect_upper_l",
@@ -1523,7 +1731,7 @@
     "id": "tail_rat_base",
     "type": "sub_body_part",
     "name": "rat tail base",
-    "name_multiple": "tail bases",
+    "name_multiple": "rat tail bases",
     "max_coverage": 10,
     "parent": "tail_rat",
     "side": "both",
@@ -1535,7 +1743,7 @@
     "name": "long tail center",
     "name_multiple": "rat tail centers",
     "max_coverage": 60,
-    "parent": "tail_lontail_ratg",
+    "parent": "tail_rat",
     "side": "both",
     "opposite": "tail_rat_center"
   },
@@ -1543,7 +1751,7 @@
     "id": "tail_rat_tip",
     "type": "sub_body_part",
     "name": "rat tail tip",
-    "name_multiple": "long tail tips",
+    "name_multiple": "rat tail tips",
     "max_coverage": 30,
     "parent": "tail_rat",
     "side": "both",

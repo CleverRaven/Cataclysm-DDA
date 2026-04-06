@@ -47,6 +47,27 @@
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_statue_return" ] }
   },
   {
+    "type": "furniture",
+    "id": "f_warpshardrewardstatue",
+    "name": "Warp Shard Obelisk",
+    "description": "A strange statue with an arm raised, holding some warp shards in it's palm.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "looks_like": "f_statue",
+    "move_cost_mod": -1,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_SKY_ISLAND_WARP_SHARD_STATUE_REWARD" ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_warpshardrewardstatue_empty",
+    "copy-from": "f_warpshardrewardstatue",
+    "description": "A strange statue with an arm raised, it's palm empty.",
+    "examine_action": "none"
+  },
+  {
     "type": "terrain",
     "id": "t_fake_air",
     "name": "open air",
@@ -86,7 +107,8 @@
     "name": "red glowing wall",
     "description": "A red wall emitting otherworldly glow, enough to be noticeable at night.",
     "color": "red",
-    "light_emitted": 120
+    "light_emitted": 120,
+    "light_color": [ 149, 36, 20 ]
   },
   {
     "id": "fakeitem_statue",

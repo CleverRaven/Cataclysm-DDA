@@ -46,9 +46,9 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
         return;
     }
 
-    FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+    FillRect( alt_surf, nullptr, MapRGB( alt_surf, 255, 255, 255 ) );
 
-    tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+    tex = CreateTextureFromSurface( renderer, alt_surf );
     alt_surf.reset();
 
     SetTextureBlendMode( tex, SDL_BLENDMODE_BLEND );
@@ -67,7 +67,7 @@ void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, con
 {
     if( tex ) {
         SetTextureColorMod( tex, color.r, color.g, color.b );
-        SDL_SetTextureAlphaMod( tex.get(), color.a );
+        SetTextureAlphaMod( tex, color.a );
         RenderCopy( renderer, tex, nullptr, &rect );
     } else {
         DefaultGeometryRenderer::rect( renderer, rect, color );

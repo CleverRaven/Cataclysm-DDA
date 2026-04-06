@@ -1755,6 +1755,19 @@ bool zone_manager::has_personal_zones() const
     return num_personal_zones > 0;
 }
 
+bool zone_manager::has_nonpersonal( const zone_type_id &type,
+                                    const tripoint_abs_ms &where,
+                                    const faction_id &fac ) const
+{
+    for( const zone_data &z : zones ) {
+        if( !z.get_is_personal() && z.get_enabled() && z.get_type() == type &&
+            z.get_faction() == fac && z.has_inside( where ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void zone_manager::serialize( JsonOut &json ) const
 {
     json.write( zones );
@@ -1773,7 +1786,7 @@ void zone_manager::deserialize( const JsonValue &jv )
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        } else  if( it->get_faction() != faction_your_followers ) {
+        } else if( it->get_faction() != faction_your_followers ) {
             it = zones.erase( it );
         } else {
             ++it;

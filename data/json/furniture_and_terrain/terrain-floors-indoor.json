@@ -88,6 +88,7 @@
     "symbol": ".",
     "color": "yellow",
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "looks_like": "t_thconc_y",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -116,6 +117,7 @@
     "color": "white",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
@@ -143,6 +145,7 @@
     "connects_to": "WOODFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_wood_roof",
     "looks_like": "t_floor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
@@ -183,6 +186,7 @@
     "connects_to": "DIRT",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_shingle_flat_roof",
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
@@ -209,6 +213,7 @@
     "connects_to": "METALFLOOR",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
@@ -232,6 +237,7 @@
     "color": "white",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_concrete_roof",
     "looks_like": "t_thconc_floor_olight",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -260,6 +266,7 @@
     "connects_to": "LINOLEUM",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_flat_roof",
     "looks_like": "t_linoleum_gray",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -286,6 +293,7 @@
     "connects_to": "LINOLEUM",
     "move_cost": 2,
     "light_emitted": 120,
+    "light_color": [ 255, 230, 210 ],
     "roof": "t_flat_roof",
     "looks_like": "t_linoleum_white",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
@@ -462,6 +470,22 @@
     "copy-from": "t_marble_floor",
     "looks_like": "t_floor_blue",
     "description": "A mosaic floor made from colored stones arranged into fanciful patterns."
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_bronze_floor",
+    "name": "bronze steps",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_metal_floor",
+    "description": "Large steps made of bronze, stained green with age, that lead up to nothing."
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_bronze_floor_inactive",
+    "name": "bronze steps",
+    "copy-from": "t_marble_floor",
+    "looks_like": "t_metal_floor",
+    "description": "Large steps made of bronze, stained green with age, that lead up to nothing."
   },
   {
     "type": "terrain",
@@ -692,6 +716,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "light_emitted": 240,
+    "light_color": [ 255, 245, 240 ],
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "sound": "SMASH!",
@@ -1591,5 +1616,48 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse",
+    "name": "greenhouse",
+    "description": "A greenhouse that allows planting year round.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLOWABLE" ],
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_greenhouse_tilled",
+    "name": "plantable greenhouse",
+    "description": "A greenhouse that allows planting year round.  It has been prepared for planting crops inside.",
+    "symbol": "#",
+    "color": "green",
+    "connect_groups": "GREENHOUSE",
+    "connects_to": "GREENHOUSE",
+    "move_cost": 3,
+    "flags": [ "INDOORS", "TRANSPARENT", "PLANTABLE" ],
+    "examine_action": "dirtmound",
+    "roof": "t_glass_roof",
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    }
   }
 ]

@@ -418,36 +418,6 @@
   },
   {
     "type": "trap",
-    "id": "tr_engine",
-    "trigger_weight": "200 g",
-    "name": "spinning blade engine",
-    "flags": [ "ECHOLOCATION_DETECTABLE" ],
-    "color": "light_red",
-    "symbol": "_",
-    "visibility": 0,
-    "avoidance": 0,
-    "difficulty": 2,
-    "trap_radius": 1,
-    "action": "none",
-    "drops": [ "motor_small", "blade", "blade", "string_36" ]
-  },
-  {
-    "type": "trap",
-    "id": "tr_blade",
-    "name": "spinning blade",
-    "color": "cyan",
-    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a blade trap." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a blade trap." },
-    "flags": [ "ECHOLOCATION_DETECTABLE" ],
-    "symbol": "\\",
-    "visibility": 0,
-    "avoidance": 4,
-    "difficulty": 99,
-    "action": "blade",
-    "vehicle_data": { "damage": 300, "sound_volume": 1, "sound": "Swinnng!", "sound_type": "smash_success", "sound_variant": "hit_vehicle" }
-  },
-  {
-    "type": "trap",
     "id": "tr_landmine",
     "trigger_weight": "200 g",
     "name": "land mine",
@@ -1111,5 +1081,90 @@
         ]
       }
     ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_inner_cabins_door_o",
+    "name": "strange open door",
+    "symbol": "'",
+    "color": "brown",
+    "action": "eocs",
+    "eocs": [ "EOC_PORTAL_INNER_CABINS_WARPED_CABIN" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_inner_cabins_void",
+    "name": "fluid void",
+    "color": "black",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Lost to a pool of darkness." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Lost to a pool of darkness." },
+    "symbol": "~",
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "vehicle_data": { "damage": 5000 },
+    "flags": [ "UNDODGEABLE" ],
+    "action": "eocs",
+    "eocs": [ "EOC_TR_INNER_CABINS_VOID" ],
+    "always_invisible": true
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TR_INNER_CABINS_VOID",
+    "effect": [
+      { "u_add_effect": "bleed", "intensity": 21, "duration": 600 },
+      { "u_message": "You feel your blood start to boil and seep from your pores!" }
+    ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_inner_cabins_exit_portal",
+    "name": "swirling vortex",
+    "symbol": "O",
+    "color": "magenta",
+    "action": "eocs",
+    "eocs": [ "EOC_INNER_CABINS_PORTAL_EXIT_TO_SMEAR" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_string_dimension_ka_moonpool",
+    "name": "strange moonpool",
+    "symbol": "~",
+    "color": "blue",
+    "action": "eocs",
+    "eocs": [ "EOC_STRING_DIMENSION_PORTAL_TO_KA_STRUCTURE" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_string_dimension_ka_moonpool_exit",
+    "name": "1D plane",
+    "symbol": ".",
+    "color": "blue",
+    "action": "eocs",
+    "eocs": [ "EOC_STRING_DIMENSION_PORTAL_FROM_KA_STRUCTURE" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

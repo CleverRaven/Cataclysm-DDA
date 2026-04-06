@@ -19,6 +19,7 @@ class JsonObject;
 class item;
 class item_location;
 class map;
+class npc;
 class time_point;
 class vpart_reference;
 struct itype;
@@ -195,5 +196,11 @@ struct iexamine_functions {
 };
 
 iexamine_functions iexamine_functions_from_string( const std::string &function_name );
+
+// Find the best available intercom operator for a faction.
+// Prefers on-shift, awake operators. Falls back to any awake operator.
+// Returns nullptr if no operator is found.
+npc *find_intercom_operator( const trait_id &marker_trait,
+                             const faction_id &fac_id );
 
 #endif // CATA_SRC_IEXAMINE_H

@@ -290,7 +290,7 @@ TEST_CASE( "max_item_length", "[pocket][max_item_length]" )
                 ret_val<void> result = box.put_in( rod_15, pocket_type::CONTAINER );
                 CHECK_FALSE( result.success() );
             } );
-            CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );
+            CHECK_THAT( dmsg, Catch::Matchers::EndsWith( "item is too long" ) );
             // Box should still be empty
             CHECK( box.is_container_empty() );
         }

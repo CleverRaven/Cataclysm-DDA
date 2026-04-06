@@ -828,8 +828,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= butchery_dissect_yield_mult( skill_level, you.get_dex(), tool_quality );
                 monster_weight_remaining -= roll;
-                roll = std::ceil( static_cast<double>( roll ) /
-                                  to_gram( drop->weight ) );
+                // use milligrams to avoid truncation for sub-gram items
+                roll = std::ceil( static_cast<double>( roll ) * 1000.0 /
+                                  to_milligram( drop->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( drop->weight );
             }

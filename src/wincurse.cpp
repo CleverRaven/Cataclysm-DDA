@@ -752,7 +752,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
+        // as it would conflict with the special keys defined by ncurses
         rval.add_input( lastchar );
     }
 

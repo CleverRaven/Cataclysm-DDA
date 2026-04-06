@@ -1273,7 +1273,7 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
 
     item power_armor( itype_test_power_armor );
     CHECK_THAT( item_info_str( power_armor, powerarmor ),
-                Catch::EndsWith( "* This gear is a part of power armor.\n" ) );
+                Catch::Matchers::EndsWith( "* This gear is a part of power armor.\n" ) );
 }
 
 static void expected_armor_values( const item &armor, float bash, float cut, float stab,

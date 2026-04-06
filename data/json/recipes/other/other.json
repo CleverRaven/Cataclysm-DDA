@@ -74,12 +74,7 @@
     "reversible": { "time": "10 s" },
     "autolearn": true,
     "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "paper", 1 ] ],
-      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button", 3, "LIST" ] ],
-      [ [ "button", 3, "LIST" ] ]
-    ]
+    "components": [ [ [ "paper", 1 ] ], [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ], [ [ "button_plastic", 3 ] ] ]
   },
   {
     "result": "makeshift_dominoes",
@@ -105,12 +100,7 @@
     "reversible": { "time": "10 s" },
     "autolearn": true,
     "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "paper", 1 ] ],
-      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "button", 12, "LIST" ] ],
-      [ [ "button", 12, "LIST" ] ]
-    ]
+    "components": [ [ [ "paper", 1 ] ], [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ], [ [ "button_plastic", 12 ] ] ]
   },
   {
     "type": "recipe",

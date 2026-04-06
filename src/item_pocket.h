@@ -248,6 +248,7 @@ class item_pocket
         std::vector<const item *> gunmods() const;
         cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
+        const item *magazine_current() const;
         // returns the default magazine if MAGAZINE_WELL, otherwise NULL_ID
         itype_id magazine_default() const;
         // returns amount of ammo consumed

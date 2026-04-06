@@ -246,6 +246,15 @@
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
   },
   {
+    "id": "ench_string_dimension_biosuit",
+    "name": { "str": "Passive Temperature Regulation" },
+    "description": "You are wearing equipment that moderates temperature change in your core.  It's can't protect against extreme conditions, but it helps.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ]
+  },
+  {
     "id": "ench_climate_control_all_permanent",
     "name": { "str": "Complete Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",

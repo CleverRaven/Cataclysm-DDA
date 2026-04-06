@@ -2083,8 +2083,8 @@ bool scrollbar::handle_dragging( const std::string &action, const std::optional<
         // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so if
         // there's a mouse-up event, tell the UI that we've handled it
         return action == "SELECT";
-    } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
-                scrollbar_area.contains( coord.value() ) ) {
+    } else if( action == "CLICK_AND_DRAG" && coord.has_value() &&
+               scrollbar_area.contains( coord.value() ) ) {
         // Started dragging the scrollbar
         dragging = true;
         return true;

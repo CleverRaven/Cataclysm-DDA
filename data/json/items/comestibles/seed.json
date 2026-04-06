@@ -1748,7 +1748,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
-    "category": "other",
+    "category": "FOOD",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "extend": { "flags": [ "RAW" ] }

@@ -54,6 +54,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
@@ -63,6 +64,7 @@
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
@@ -71,6 +73,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "trait_group.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -95,6 +98,9 @@ static const matype_id style_none( "style_none" );
 
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
+
+static const trait_group::Trait_group_tag
+Trait_group_NPC_starting_traits( "NPC_starting_traits" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -421,7 +427,8 @@ void Character::randomize( const bool random_scenario, bool play_now )
     randomize_height();
     randomize_blood();
     randomize_heartrate();
-    bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
+    bool cities_enabled = overmap_buffer.get_settings(
+                              this->pos_abs_omt() ).get_settings_city().city_size != 0;
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const scenario &scen : scenario::get_all() ) {
@@ -590,6 +597,11 @@ void Character::randomize( const bool random_scenario, bool play_now )
     reset_cardio_acc();
 
     if( is_npc() ) {
+        for( const trait_and_var &cur : trait_group::traits_from( Trait_group_NPC_starting_traits ) ) {
+            if( !has_conflicting_trait( cur.trait ) ) {
+                set_mutation( cur.trait, cur.trait->variant( cur.variant ) );
+            }
+        }
         as_npc()->randomize_personality();
         as_npc()->generate_personality_traits();
         initialize();
@@ -3466,7 +3478,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_scens ) {
-            options_manager::options_container &wopts = world_generator->active_world->WORLD_OPTIONS;
             std::vector<const scenario *> new_scens;
             for( const scenario &scen : scenario::get_all() ) {
                 if( scen.scen_is_blacklisted() ) {
@@ -3475,7 +3486,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 new_scens.push_back( &scen );
             }
             scenario_sorter.male = u.male;
-            scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
+            scenario_sorter.cities_enabled = overmap_buffer
+                                             .get_settings( u.pos_abs_omt() ).get_settings_city().city_size != 0;
             if( ( scens_length = filter_entries( u, cur_id, sorted_scens, new_scens, get_scenario(),
                                                  filterstring,
                                                  scenario_sorter ) ) == 0 ) {

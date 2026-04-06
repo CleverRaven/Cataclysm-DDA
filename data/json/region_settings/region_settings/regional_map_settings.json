@@ -362,6 +362,8 @@
   {
     "type": "region_settings_city",
     "id": "default",
+    "city_size": 8,
+    "city_spacing": 4,
     "shop_radius": 30,
     "shop_sigma": 50,
     "park_radius": 20,
@@ -825,6 +827,19 @@
     ]
   },
   {
+    "type": "region_settings_city",
+    "id": "no_cities",
+    "city_size": 0,
+    "city_spacing": 0,
+    "shop_radius": 0,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0,
+    "houses": [  ],
+    "parks": [  ],
+    "shops": [  ]
+  },
+  {
     "type": "map_extra_collection",
     "id": "forest",
     "chance": 40,
@@ -965,6 +980,7 @@
       [ "mx_collegekids", 30 ],
       [ "mx_drugdeal", 30 ],
       [ "mx_corpses", 30 ],
+      [ "mx_finalshowdown", 20 ],
       [ "mx_worm_sign", 20 ],
       [ "mx_toxic_waste", 10 ],
       [ "mx_portal", 10 ],
@@ -1024,7 +1040,7 @@
     "type": "map_extra_collection",
     "id": "road_nesw_manhole",
     "chance": 20,
-    "extras": [ [ "mx_city_trap", 1 ], [ "mx_laststand", 1 ] ]
+    "extras": [ [ "mx_laststand", 1 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1097,7 +1113,7 @@
     "type": "map_extra_collection",
     "id": "river",
     "chance": 1,
-    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_reed", 33 ] ]
+    "extras": [ [ "mx_null", 66 ], [ "mx_riverside_boat", 1 ], [ "mx_riverside_jetski", 1 ], [ "mx_reed", 33 ] ]
   },
   {
     "type": "map_extra_collection",

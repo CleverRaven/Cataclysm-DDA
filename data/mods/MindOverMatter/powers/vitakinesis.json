@@ -576,6 +576,40 @@
     "casting_time_increment": -8
   },
   {
+    "id": "vita_no_need_for_sleep",
+    "type": "SPELL",
+    "name": "[Ψ]Selective Autosomnia",
+    "description": "You can selectively allow portions of your brain to sleep, allowing you to receive all the benefits of sleep without the disadvantages of complete unconsciousness.  This does make it slightly harder for you to focus, however.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.\n\nThis power <color_red>cannot be used</color> together with the Telepathic power Concentration Trance.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_NO_NEED_FOR_SLEEP",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('vita_no_need_for_sleep') * 34000) + 195000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('vita_no_need_for_sleep') * 79000) + 418000) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": 9500,
+    "final_energy_cost": 5550,
+    "energy_increment": -205,
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -5
+  },
+  {
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
     "name": { "str": "[Ψ]Blood Purge Additional Purging", "//~": "NO_I18N" },

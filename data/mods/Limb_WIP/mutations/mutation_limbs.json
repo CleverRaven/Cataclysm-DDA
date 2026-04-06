@@ -204,7 +204,7 @@
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.12 ], [ "block", 0.8 ], [ "swim", 0.2 ] ],
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
-    "windage_effect": "winded_arm_l",
+    "windage_effect": "winded_arm",
     "squeamish_penalty": 10,
     "base_hp": 60,
     "stat_hp_mods": { "str_mod": 2 },
@@ -223,7 +223,7 @@
     "heading": "feathered right arm",
     "main_part": "arm_feathers_r",
     "opposite_part": "arm_feathers_l",
-    "windage_effect": "winded_arm_r",
+    "windage_effect": "winded_arm",
     "limb_type": "arm",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "balance", 0.18 ], [ "block", 0.8 ], [ "swim", 0.2 ] ],
     "sub_parts": [ "arm_feathers_shoulder_r", "arm_feathers_upper_r", "arm_feathers_elbow_r", "arm_feathers_lower_r" ]
@@ -250,7 +250,7 @@
     "hit_difficulty": 1.2,
     "is_limb": true,
     "limb_types": [ [ "arm", 0.8 ], [ "hand", 0.3 ] ],
-    "windage_effect": "winded_arm_l",
+    "windage_effect": "winded_arm",
     "health_limit": 15,
     "stat_hp_mods": { "str_mod": 2 },
     "mend_rate": 1.2,
@@ -303,7 +303,7 @@
       [ "crawl", 0.3 ]
     ],
     "side": "right",
-    "windage_effect": "winded_arm_r",
+    "windage_effect": "winded_arm",
     "sub_parts": [
       "arm_wing_bird_shoulder_r",
       "arm_wing_bird_upper_r",

@@ -211,6 +211,7 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NPC_STASIS( "NPC_STASIS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -1422,6 +1423,10 @@ bool Character::needs_food() const
 
 void Character::update_needs( int rate_multiplier )
 {
+    // Stasis NPCs don't accumulate any needs.
+    if( has_trait( trait_NPC_STASIS ) ) {
+        return;
+    }
     const int current_stim = get_stim();
     // Hunger, thirst, & sleepiness up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
@@ -2244,7 +2249,7 @@ void Character::mod_stamina( int mod )
     if( stamina < 0 ) {
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !bp->windage_effect.is_null() ) {
-                add_effect( bp->windage_effect, 10_turns );
+                add_effect( bp->windage_effect, 10_turns, bp );
             }
         }
     }
@@ -2773,7 +2778,7 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ) {
             add_msg_if_player( m_bad, _( "Bandages on your %s were damaged!" ), body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
+        } else if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "You got some filth on your disinfected %s!" ),
                                body_part_name( hurt ) );
         }
@@ -2781,7 +2786,7 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
         if( eff_id == effect_bandaged ) {
             add_msg_if_player( m_bad, _( "Bandages on your %s were destroyed!" ),
                                body_part_name( hurt ) );
-        } else  if( eff_id == effect_disinfected ) {
+        } else if( eff_id == effect_disinfected ) {
             add_msg_if_player( m_bad, _( "Your %s is no longer disinfected!" ), body_part_name( hurt ) );
         }
     }
@@ -2881,7 +2886,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
+        if( in_sleep_state() && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
         if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {

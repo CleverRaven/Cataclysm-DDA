@@ -673,7 +673,7 @@
     "type": "construction",
     "id": "constr_skylight_frame_tiled_roof",
     "group": "build_sky_light_frame",
-    "//": "Step 6: Build skylight frame  tiled roof",
+    "//": "Step 6: Build skylight frame tiled roof",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",

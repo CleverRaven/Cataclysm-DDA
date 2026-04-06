@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "nether_glass", "nether_glass_deep", "nether_glass_impassable" ],
+    "id": [ "nether_glass", "nether_glass_deep", "nether_glass_impassable", "nether_glass_imperial_road" ],
     "vision_levels": "always_full",
     "name": "abyss",
     "sym": " ",

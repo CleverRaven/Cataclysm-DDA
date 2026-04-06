@@ -2528,5 +2528,32 @@
     ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmback"
+  },
+  {
+    "id": "integrated_interstice_aura",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "Penumbral Interstitium" },
+    "description": "Your cells operate under different rules.  While you still need to breath, you are otherwise extremely resistant to the thermal and chemical insults of the so-called universe.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "hflesh" ],
+    "material_thickness": 0.01,
+    "symbol": "x",
+    "color": "light_red",
+    "warmth": 0,
+    "environmental_protection": 16,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "ALLOWS_TALONS", "RAD_PROOF", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r", "foot_l", "foot_r", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      }
+    ]
   }
 ]

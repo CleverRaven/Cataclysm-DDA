@@ -635,6 +635,13 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+
+    if( !windage_effect.is_valid() ) {
+        debugmsg( "Body part %s has invalid windage_effect %s", id.c_str(), windage_effect.c_str() );
+    }
+    if( !no_power_effect.is_valid() ) {
+        debugmsg( "Body part %s has invalid no_power_effect %s", id.c_str(), no_power_effect.c_str() );
+    }
 }
 
 float body_part_type::get_limb_score( const limb_score_id &id ) const
@@ -972,11 +979,6 @@ float bodypart::get_wetness_percentage() const
     } else {
         return static_cast<float>( wetness ) / id->drench_max;
     }
-}
-
-efftype_id bodypart::get_windage_effect() const
-{
-    return id->windage_effect;
 }
 
 bool bodypart::compare_encumbrance_data( const bodypart &bp ) const

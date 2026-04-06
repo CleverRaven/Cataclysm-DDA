@@ -141,6 +141,7 @@
     "weight": "10 g",
     "volume": "1 ml",
     "price": "500 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",

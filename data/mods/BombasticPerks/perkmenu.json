@@ -2747,7 +2747,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_SELECT_PLAYSTYLE",
-    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts 1 playstyle perk point, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
+    "dynamic_line": "<context_val:trait_name>: \"<context_val:trait_description>\"\nCosts 1 playstyle perk point and 1 perk point, <context_val:trait_requirement_description>.\n<context_val:trait_additional_details>",
     "responses": [
       {
         "text": "Select Perk.",
@@ -2755,7 +2755,8 @@
         "condition": {
           "and": [
             { "or": [ { "math": [ "u_no_prerecs > 0" ] }, { "get_condition": "perk_condition" } ] },
-            { "math": [ "u_playstyle_perks_available >= 1" ] }
+            { "math": [ "u_playstyle_perks_available >= 1" ] },
+            { "math": [ "u_num_perks > 0" ] }
           ]
         },
         "failure_explanation": "Requirements Not Met",

@@ -28,7 +28,7 @@
     "base_hp": 150,
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
-    "no_power_effect": "no_power_arm_l",
+    "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_l",
     "effects_on_hit": [
       {
@@ -89,7 +89,7 @@
     "base_hp": 150,
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
-    "no_power_effect": "no_power_arm_r",
+    "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_r",
     "effects_on_hit": [
       {
@@ -217,7 +217,7 @@
     "base_hp": 150,
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "no_power_effect": "no_power_leg_l",
+    "no_power_effect": "no_power_leg",
     "effects_on_hit": [
       {
         "id": "bouldering",
@@ -291,7 +291,7 @@
     "base_hp": 150,
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "no_power_effect": "no_power_leg_r",
+    "no_power_effect": "no_power_leg",
     "sub_parts": [
       "leg_bionic_basic_hip_r",
       "leg_bionic_basic_upper_r",

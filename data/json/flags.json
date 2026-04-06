@@ -716,7 +716,12 @@
   {
     "id": "HINT_THE_LOCATION",
     "type": "json_flag",
-    "//": "Same as PRESERVE_SPAWN_LOC, but also shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
+    "//": "Shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
+  },
+  {
+    "id": "LOCATION_PRECISE_CLOSEST_CITY",
+    "type": "json_flag",
+    "//": "Shows a snippet with the name of the closest city to the `spawn_location`"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -1280,6 +1285,11 @@
     "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
+    "id": "CANNOT_USE_COMPUTERS",
+    "type": "json_flag",
+    "//": "For some reason you're unable to use a computer terminal."
+  },
+  {
     "id": "SKIP_HEALTH",
     "type": "json_flag",
     "//": "If food gives any health bonus or penalty, having this flag would prevent you from receiving such."
@@ -1597,6 +1607,10 @@
     "type": "json_flag"
   },
   {
+    "id": "IMPERIAL_ROAD_KEY",
+    "type": "json_flag"
+  },
+  {
     "id": "INEDIBLE",
     "type": "json_flag"
   },
@@ -1857,7 +1871,27 @@
     "type": "json_flag"
   },
   {
+    "id": "PUMP_RAIL",
+    "type": "json_flag"
+  },
+  {
+    "id": "LEVER_ACTION",
+    "info": "This weapon uses a manual lever to load each round into the chamber, forcing you to cock the lever after each shot, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
+    "id": "SINGLE_ACTION",
+    "info": "This weapon requires you to cock the hammer of a firearm manually, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
     "id": "PUMP_ACTION",
+    "info": "This weapon requires you to manually pull and insert cartridge into the chamber by sliding a handguard, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
+    "type": "json_flag"
+  },
+  {
+    "id": "BOLT_ACTION",
+    "info": "This weapon requires you to manually pull and insert cartridge into the chamber using a turn-bolt, which <bad>takes additional time</bad> and <bad>messes your aim</bad>.  The penalty is decreased the more experienced with guns you are.",
     "type": "json_flag"
   },
   {
@@ -2087,6 +2121,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_MANUAL_ACTIVATION",
+    "//": "This item cannot be activated by player or NPC, only by some internal game means like by throwing",
+    "type": "json_flag"
+  },
+  {
     "id": "BACKBLAST",
     "type": "json_flag"
   },
@@ -2296,6 +2335,11 @@
     "id": "LEVITATION",
     "type": "json_flag",
     "info": "Allows movement in open air."
+  },
+  {
+    "id": "SNOWWALKING",
+    "type": "json_flag",
+    "info": "Your movement is not slowed regardless of snow depth."
   },
   {
     "id": "NO_BODY_HEAT",

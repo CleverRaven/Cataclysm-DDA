@@ -502,7 +502,7 @@ static void grant_skills_to_character( Character &you, const recipe &r, int offs
 
 static void grant_profs_to_character( Character &you, const recipe &r )
 {
-    for( const recipe_proficiency &rprof : r.proficiencies ) {
+    for( const recipe_proficiency &rprof : r.get_proficiencies() ) {
         you.add_proficiency( rprof.id, true );
     }
 }
@@ -748,7 +748,7 @@ static void test_fail_scenario( const std::string &scen, const recipe_id &rid, i
     REQUIRE_FALSE( player_character.has_trait( trait_DEBUG_CNF ) );
     // Ensure that they either have the profs we gave them, or no profs.
     if( has_profs ) {
-        for( const recipe_proficiency &prof : rec.proficiencies ) {
+        for( const recipe_proficiency &prof : rec.get_proficiencies() ) {
             REQUIRE( player_character.has_proficiency( prof.id ) );
         }
     } else {

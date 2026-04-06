@@ -1,0 +1,16 @@
+[
+  {
+    "id": "LIXA_spit_light",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "LIXA_spit_light",
+    "ranged_damage": { "damage_type": "psi_photokinetic_damage", "amount": 4 }
+  },
+  {
+    "id": "LIXA_vector_volley",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "copy-from": "LIXA_vector_volley",
+    "ranged_damage": [ { "damage_type": "pure", "amount": 8 }, { "damage_type": "psi_teleporter_teleporting_damage", "amount": 1 } ]
+  }
+]

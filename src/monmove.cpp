@@ -1034,7 +1034,8 @@ void monster::move()
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
 
-    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+    // Check z-level neighbors too so creatures on stairs aren't falsely stuck
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 1 ) ) {
         if( dest != pos_bub() ) {
             if( can_move_to( dest ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
@@ -1194,8 +1195,13 @@ void monster::move()
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
-                // This prevents non-climb/fly enemies running up walls
-                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) ) {
+                // This prevents non-climb/fly enemies running up walls.
+                // Regular stairs (GOES_UP without DIFFICULT_Z) are traversable by any creature,
+                // consistent with can_reach_to(). Ladders, ropes, and scaffolding (DIFFICULT_Z)
+                // still require climbing ability.
+                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) &&
+                    !( here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) &&
+                       !here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() ) ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {
@@ -1233,7 +1239,8 @@ void monster::move()
                     continue;
                 }
                 const Attitude att = attitude_to( *target );
-                if( att == Attitude::HOSTILE && !is_z_move ) {
+                if( att == Attitude::HOSTILE &&
+                    ( !is_z_move || here.on_matching_stairs( pos_bub(), candidate ) ) ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
@@ -1902,9 +1909,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     const map &here = get_map();
 
     // Aquatic monsters that are underwater should not be able to attack
-    // through tile above them, except they may attack other monsters
+    // through the surface above them, except they may attack other monsters
     // that are also underwater (fish fighting under the ice).
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) ) {
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
         creature_tracker &creatures = get_creature_tracker();
         monster *target_mon = creatures.creature_at<monster>( p );
         if( !( target_mon != nullptr && target_mon->is_underwater() ) ) {
@@ -1919,7 +1926,8 @@ bool monster::attack_at( const tripoint_bub_ms &p )
     Character &player_character = get_player_character();
     const bool sees_player = sees( here, player_character );
     // Targeting player location
-    if( p == player_character.pos_bub() && p.z() == pos_bub().z() ) {
+    if( p == player_character.pos_bub() &&
+        ( p.z() == pos_bub().z() || here.on_matching_stairs( pos_bub(), p ) ) ) {
         if( sees_player ) {
             return melee_attack( player_character );
         } else {
@@ -2057,7 +2065,10 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
             // If the destination terrain has SWIM_UNDER, swimmers should remain submerged there.
             ( swims() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) )
         ) && ( here.is_divable( destination ) ||
-               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) );
+               here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ||
+               // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
+               ( has_flag( mon_flag_AQUATIC ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
@@ -2397,7 +2408,7 @@ void monster::stumble_base( const bool is_voluntary )
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::below );
-            } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );

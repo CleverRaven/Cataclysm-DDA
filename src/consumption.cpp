@@ -521,9 +521,25 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
 
     // Food is less enjoyable when eaten too often.
     if( !ignore_already_ate && ( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) ) {
+        const itype_id food_canonical = comest.get_comestible()->eats_like.is_empty()
+                                        ? comest.typeId()
+                                        : comest.get_comestible()->eats_like;
         for( const consumption_event &event : consumption_history ) {
-            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
-                event.component_hash == comest.make_component_hash() ) {
+            if( event.time <= calendar::turn - 2_days ) {
+                continue;
+            }
+            // Exact same type and recipe variant
+            bool dominated = event.type_id == comest.typeId() &&
+                             event.component_hash == comest.make_component_hash();
+            // Same eats_like group (different type, skip component_hash)
+            if( !dominated ) {
+                const itype_id ev_canonical = event.type_id->comestible &&
+                                              !event.type_id->comestible->eats_like.is_empty()
+                                              ? event.type_id->comestible->eats_like
+                                              : event.type_id;
+                dominated = ev_canonical == food_canonical;
+            }
+            if( dominated ) {
                 fun -= comest.get_comestible()->monotony_penalty;
                 // This effect can't drop fun below 0, unless the food has the right flag.
                 // 0 is the lowest we'll go, no need to keep looping.
@@ -1013,8 +1029,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
-                ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) && !saprophage && !has_trait( trait_SAPROVORE ) &&
+        ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+          ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
                                         food.tname() ),
                          PARASITES );

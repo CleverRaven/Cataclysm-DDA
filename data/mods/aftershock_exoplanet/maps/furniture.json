@@ -1123,7 +1123,7 @@
   {
     "type": "furniture",
     "id": "f_exo_gantry",
-    "name": "Exosuit gantry",
+    "name": "exosuit maintenance gantry",
     "symbol": "T",
     "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.  This one is not currently functioning.",
     "color": "light_cyan",

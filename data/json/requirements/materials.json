@@ -571,6 +571,7 @@
   {
     "id": "paint",
     "type": "requirement",
+    "name": "Paint",
     "//": "Materials used for painting something of any color",
     "tools": [
       [

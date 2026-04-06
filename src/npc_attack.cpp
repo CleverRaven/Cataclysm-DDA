@@ -23,6 +23,7 @@
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -414,6 +415,14 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 {
     if( !critter ) {
         return npc_attack_rating{};
+    }
+
+    // Can't melee creatures that are underwater beneath a solid surface
+    if( critter->is_underwater() ) {
+        const map &here = get_map();
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, critter->pos_bub() ) ) {
+            return npc_attack_rating{};
+        }
     }
 
     // TODO: Give bashing weapons a better

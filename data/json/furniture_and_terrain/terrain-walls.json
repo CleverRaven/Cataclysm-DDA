@@ -1984,6 +1984,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_bronze_pillar",
+    "name": "gigantic bronze pillar",
+    "looks_like": "t_wall_metal",
+    "description": "A gigantic, monolithic pillar of bronze, stained green with age and crisscrossed with curved grooves.  The air around it feels heavy, and you get the distinct impression that this is not something you should be messing with.",
+    "symbol": "#",
+    "color": "green",
+    "light_emitted": 20,
+    "light_color": [ 255, 0, 255 ],
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 17, 37 ] }, { "item": "rock_large", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock_red",
     "name": "red stone",
     "looks_like": "t_rock",

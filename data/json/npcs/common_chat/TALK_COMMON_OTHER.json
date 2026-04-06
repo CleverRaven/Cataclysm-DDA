@@ -387,6 +387,27 @@
     ]
   },
   {
+    "id": "TALK_FRIEND_GUARD_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "I'm on watch.",
+    "responses": [
+      { "text": "Go back to your camp duties.", "topic": "TALK_FRIEND", "effect": "return_to_camp_duties" },
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FRIEND_CAMP_RESIDENT",
+    "type": "talk_topic",
+    "dynamic_line": "I'm working at the camp.",
+    "responses": [
+      { "text": "I need you to come with me.", "topic": "TALK_FRIEND", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_FRIEND_UNCOMFORTABLE",
     "type": "talk_topic",
     "dynamic_line": "I really don't feel comfortable doing so…",

@@ -136,7 +136,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
             }
         }
         if( on_stairs ) {
-            test_monster_attack( offset, false, expected_adjacent );
+            test_monster_attack( offset, true, expected_adjacent );
         } else {
             test_monster_attack( offset, expected_vertical, expected_vertical );
         }

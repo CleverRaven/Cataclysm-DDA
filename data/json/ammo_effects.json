@@ -223,7 +223,7 @@
       { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 50 },
       { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 25 }
     ],
-    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 1, "chance": 50 } ]
+    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 1, "chance": 50, "hits_amount": [ 1, 3 ] } ]
   },
   {
     "id": "GELLED_MOLOTOV",
@@ -233,7 +233,7 @@
       { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 1, "chance": 60 },
       { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "size": 1, "chance": 70 }
     ],
-    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 2, "chance": 80 } ]
+    "aoe_effects": [ { "effect": "onfire", "duration": "1 m", "intensity_min": 2, "chance": 80, "hits_amount": [ 2, 6 ] } ]
   },
   {
     "id": "ACIDBOMB",

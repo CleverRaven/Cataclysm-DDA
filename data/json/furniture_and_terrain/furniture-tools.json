@@ -858,6 +858,7 @@
     "required_str": 6,
     "mass": "46 kg",
     "light_emitted": 25,
+    "light_color": [ 100, 240, 100 ],
     "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,

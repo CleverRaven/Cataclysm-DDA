@@ -106,6 +106,42 @@
     "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "SPAWN_ACTIVE" ] }
   },
   {
+    "id": "mcandle_everburning",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": "everburning candle",
+    "description": "A high quality thick wax candle.  On command, the wick ignites and provides a small amount of light.  It will burn forever.",
+    "weight": "400 g",
+    "volume": "466 ml",
+    "longest_side": "102 mm",
+    "price": "1 kUSD",
+    "price_postapoc": "1 kUSD",
+    "material": [ "paraffin_wax" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": { "target": "mcandle_everburning_lit", "msg": "You light the candle.", "menu_text": "Light", "type": "transform" }
+  },
+  {
+    "id": "mcandle_everburning_lit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": "everburning candle",
+    "copy-from": "mcandle_everburning",
+    "revert_to": "mcandle_everburning",
+    "use_action": [
+      { "type": "firestarter", "moves": 500, "moves_slow": 6000 },
+      {
+        "target": "mcandle_everburning",
+        "msg": "The candle winks out.",
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "sub": "fire",
+    "light": 8,
+    "extend": { "flags": [ "FIRE", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "WIND_EXTINGUISH", "SPAWN_ACTIVE" ] }
+  },
+  {
     "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
     "type": "ITEM",

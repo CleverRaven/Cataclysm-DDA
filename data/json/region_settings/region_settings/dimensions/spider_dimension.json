@@ -9,7 +9,7 @@
     "forests": null,
     "forest_trails": null,
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
     "terrain_furniture": "default",

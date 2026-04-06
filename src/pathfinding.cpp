@@ -322,13 +322,21 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // If it's a door and we can open it from the tile we're on, cool.
+    // But only if opening actually makes the tile passable. Shutters over
+    // reinforced glass open to reveal impassable glass -- no point opening.
     if( allow_open_doors && ( terrain.open || furniture.open ) &&
         ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
             !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
           !is_outside( cur ) ) ) {
-        // Only try to open INSIDE doors from the inside
-        // To open and then move onto the tile
-        return 4;
+        // Check that opening leads to a passable tile (or a tile that can
+        // itself be opened, like curtains over a window).
+        const ter_t &opened_ter = terrain.open ? *terrain.open : terrain;
+        const furn_t &opened_furn = furniture.open ? *furniture.open : furniture;
+        if( opened_ter.movecost > 0 || opened_furn.open || opened_ter.open ) {
+            // Only try to open INSIDE doors from the inside
+            // To open and then move onto the tile
+            return 4;
+        }
     }
 
     // Otherwise, if we can bash, we'll consider that.
@@ -348,9 +356,13 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // If we can open doors generally but couldn't open this one, maybe we can
-    // try from another direction.
-    if( allow_open_doors && terrain.open && furniture.open ) {
-        return PF_IMPASSABLE_FROM_HERE;
+    // try from another direction. But only if opening would actually help.
+    if( allow_open_doors && ( terrain.open || furniture.open ) ) {
+        const ter_t &opened_ter = terrain.open ? *terrain.open : terrain;
+        const furn_t &opened_furn = furniture.open ? *furniture.open : furniture;
+        if( opened_ter.movecost > 0 || opened_furn.open || opened_ter.open ) {
+            return PF_IMPASSABLE_FROM_HERE;
+        }
     }
 
     return PF_IMPASSABLE;

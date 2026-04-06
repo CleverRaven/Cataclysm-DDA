@@ -38,5 +38,12 @@
     "symbol": ";",
     "color": "light_gray",
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "test_red_headlight",
+    "copy-from": "headlight",
+    "name": { "str": "test red headlight" },
+    "light_color": [ 255, 0, 0 ]
   }
 ]

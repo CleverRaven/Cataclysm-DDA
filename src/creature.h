@@ -990,7 +990,7 @@ class Creature : public viewer
          * @param vStart vertical start to print, that means the first line to print.
          * @param vLines number of lines to print at most (printing less is fine).
          * @param column horizontal start to print (column), horizontal end is
-         * one character before  the right border of the window (to keep the border).
+         * one character before the right border of the window (to keep the border).
          * @return The line just behind the last printed line, that means multiple calls
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
