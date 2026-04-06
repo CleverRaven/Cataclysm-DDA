@@ -7,3 +7,4 @@ def parse_shopkeeper_whitelist(json, origin):
         write_text(
             entry.get("message"), origin,
             comment=["Reason for a shopkeeper whitelist entry", comment])
+            
