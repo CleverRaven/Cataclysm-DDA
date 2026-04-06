@@ -3158,7 +3158,7 @@ void spellcasting_callback::display_spell_info( size_t index )
                 ImGui::NewLine();
             }
         }
-        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+       if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
                      0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
@@ -3237,6 +3237,11 @@ bool known_magic::is_favorite( const spell_id &sp )
     return favorites.count( sp ) > 0;
 }
 
+static std::string action_bound_to_key( const input_context &ctxt, char key )
+{
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
+}
+
 int known_magic::get_invlet( const spell_id &sp )
 {
     auto found = spells_to_invlets.find( sp );
@@ -3247,12 +3252,24 @@ int known_magic::get_invlet( const spell_id &sp )
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
+    static const input_context ctxt = [] {
+        input_context ctx( "SPELL_MENU", keyboard_mode::keychar );
+        // Register standard uilist actions that might be bound to keys
+        ctx.register_action( "UILIST.UP" );
+        ctx.register_action( "UILIST.DOWN" );
+        ctx.register_action( "UILIST.LEFT" );
+        ctx.register_action( "UILIST.RIGHT" );
+        return ctx;
+    }();
     for( char &ch : inv_chars.get_allowed_chars() ) {
-        int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
+        int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );       
         if( invlets_to_spells.count( invlet ) ) {
             continue;
         }
         if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+            continue;
+        }
+        if( action_bound_to_key( ctxt, ch ) != "ERROR" ) {
             continue;
         }
         if( !set_invlet( sp, invlet ) ) {
