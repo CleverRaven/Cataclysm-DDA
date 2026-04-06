@@ -218,6 +218,9 @@ Appear Neutral Flag
 NPCs Behavior Tree improvements
 Colored light rendering overlay, dawn/dusk tint
 Changing move mode can cost time and is deferred
+NPC behavior tree evaluates for all NPCs, not just guards
+Tail coverage for appropriate coats/dresses
+It is possible to make factions be radio-contactable
 
 
 ## Content:
@@ -473,6 +476,18 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
+Proboscis is now a bodypart
+6 special basement specials for cellar depths of the inner cabins dimension
+Languorous spectres can only send you to inner cabins dimension once
+Abandoned utility tunnels in the string dimension
+Mutation category for 'interstitial' creatures
+Added the Evacuation Bus Driver starting scenario
+Special places to collect Interstice mutagen in the inner cabins depths
+String Dimension: KÁ facility dungeon
+Add candle variant of everburning torch
+New features to explore in the highlands and elsewhere.
+Add newspaper snippets for Chinese fusion reactor arc and remove hardcoded dates
+Fix FEMA military card reader
 
 
 ## Interface:
@@ -632,6 +647,10 @@ Prioritize hostile targets over neutral when firing
 Show cable connections for appliances
 Split battery percentage into a separate widget from fuel
 Add viewport lock option for zone sorting
+Replace curses crafting menu with ImGui implementation
+Hub 01 loading screen
+Add pre-rasterized scaled ImGui fonts instead of bitmap scaling
+Pixel-accurate colored light tint overlay for ortho mode
 
 
 ## Mods:
@@ -1115,6 +1134,15 @@ XE Proficiency CBMs
 [Xedra Evolved] Paraclesians are born ignorant of technology
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
+[Bombastic Perks] Playstyle perks also require a normal perk point
+[MoM: Psychic Scream] Limit int bonuses
+[Sky Island] Override refugee center mission
+[MoM: Psychic Scream] Various updates
+[MoM] Add cellar depths to "in nether" conditions
+[Sky Island] Fix free vision and spawn location for expeditions
+[Sky Island] Minor fixes
+[Sky island] Re-enable whole room teleportation
+[BPerks/MM/Sorc] XP mods can level up more than once at a time
 
 
 ## Balance:
@@ -1261,6 +1289,13 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
+Fix amount of crafted flechettes to match that of nails
+Fix diamond dental grill post-apocalypse price bug
+Antacids / Heartburn doesn't increase or decrease healthiness
+Exodii pay more for Petrochemical goods
+triffid fiber bad vitamin is handled better by ruminants
+Obsolete blade traps
+ambient mutation in cellar depths is slower and more obvious
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1797,6 +1832,31 @@ Saprophages and saprovores no longer get parasite warnings for food they can saf
 NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
 Fix SIGSEV fault when harvesting/clearing overgrown crops
 Spell AOE string format specifier fix
+Aftershock: Plasma degrades armors
+Stop spamming player log when NPCs are hot
+Stop ref center guard EOCs from firing in alternate dimensions
+Fix camp NPC oscillation between guard duty and worker downtime
+Dimensional travel checks for DIMENSIONAL_ANCHOR not PORTAL_PROOF
+Fix dawn/dusk tint ignoring visibility, roofs and windows
+Show component availability counts and sort available alternatives first in crafting GUI
+Fix crafting GUI navigation: layered escape, space toggle, dual selection
+Fix map (the item) location recording, improve name display and search
+Add NO_TURRET flag to test_multimag_gun
+Fix crafting GUI byproduct flicker, translatable stats string, warning layout
+correct some texts
+Fix hit-animation overlay staying on screen after attacking
+Fix crafting GUI starting unintended craft after using Batch then Esc
+Fix starting profession maps being unreadable
+Added missing Motorbike Battery to Tandem Cabin Motorcycle
+Dexterous Speed perk no longer causes phantom overburdenment and scales differently
+Uncomfortable limbs must exist
+Change `target_part` value in `rashy_skin` to uppercase `RANDOM`
+Fix animated tileset sprites not cycling while idle
+Allow creatures to ascend regular stairs
+Fix segfault in NPC reload when ammo has no ammo_data
+Fix NPC camp workers using player's personal zones for sorting
+Fix NPCs failing to mop when mop is not in inventory
+[MoM] Fix teleporter matrix crystal drops
 
 
 ## Performance:
@@ -1839,6 +1899,7 @@ Optimize grab-aware pathfinding during zone sorting
 Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
+Skip lightmap rebuild on idle frames
 
 
 ## Infrastructure:
@@ -2067,6 +2128,11 @@ Extract recipe list pipeline for testability
 Add urgency score predicates and switch NPC behavior tree to utility strategy
 Expand NPC behavior tree diagnostic with convergence logging, sleepiness need, shelter detection, and can_make_fire bugfix
 Add sound support for ammo_type and specific melee ids
+Add /retry and /rerun comment commands for failed CI jobs
+Make map::add_spawn private to prevent hardcoded monster spawns
+Move items across dimensions with dimensional travel
+Remove single-magazine assumptions in item_contents
+Give access to an item's pre and post apocalypse price to EOCs
 
 
 ## Build:
