@@ -241,6 +241,7 @@ parsers = {
     "scent_type": dummy_parser,
     "score": dummy_parser,
     "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_whitelist": parse_shopkeeper_whitelist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,
