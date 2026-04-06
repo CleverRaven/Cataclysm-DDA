@@ -1507,7 +1507,7 @@
     "fuel_efficiency": 0.25,
     "exothermic_power_gen": true,
     "time": "1 s",
-    "processed_eocs": [ "bio_noise_burn" ],
+    "processed_eocs": [ "bio_noise_gasoline" ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
     "passive_pseudo_items": [ "internal_gasoline_tank" ]
   },
