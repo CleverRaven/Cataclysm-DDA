@@ -10,7 +10,8 @@
     "chat": "TALK_SI_HUMAN_AMMO_MERCHANT",
     "faction": "sky_island_traders",
     "personality": { "aggression": -4, "bravery": -1, "collector": 6, "altruism": -1 },
-    "gender": "male"
+    "gender": "male",
+    "snip_bye": "Far gesund, cuma!"
   },
   {
     "type": "npc_class",
@@ -148,7 +149,7 @@
     "type": "talk_topic",
     "id": "TALK_SI_HUMAN_AMMO_MERCHANT",
     "//": "Tabani can speak Old English thanks to the phrasebook he has.  His native language is not found on Cataclysm Earth, and so not important.",
-    "dynamic_line": "*looks at you as you approach the merchant stall.  As you draw near, he looks down and flips through the book he's carrying and when you get close enough, he smiles broadly.  \"Ah, Wes þu hāl, \"",
+    "dynamic_line": "*looks at you as you approach the merchant stall.  As you draw near, he looks down and flips through the book he's carrying and when you get close enough, he smiles broadly.  \"Ah, Wes þu hāl, cuma!  Cumaþ and gesēoþ mīne feorma.\"",
     "responses": [
       {
         "text": "Hello!  Nice to see another person up here.",

@@ -9,7 +9,8 @@
     "mission": 3,
     "chat": "TALK_SI_TRIFFID_DECOR_MERCHANT",
     "faction": "sky_island_traders",
-    "personality": { "aggression": -10, "bravery": 5, "collector": 10, "altruism": -6 }
+    "personality": { "aggression": -10, "bravery": 5, "collector": 10, "altruism": -6 },
+    "snip_bye": "…"
   },
   {
     "type": "npc_class",

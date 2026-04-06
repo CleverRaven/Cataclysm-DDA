@@ -9,7 +9,8 @@
     "mission": 3,
     "chat": "TALK_SI_EXODII_MERCHANT",
     "faction": "sky_island_traders",
-    "personality": { "aggression": -2, "bravery": 2, "collector": 6, "altruism": -1 }
+    "personality": { "aggression": -2, "bravery": 2, "collector": 6, "altruism": -1 },
+    "snip_bye": "╄╓══╛, ┚┠┰┤!"
   },
   {
     "type": "npc_class",
