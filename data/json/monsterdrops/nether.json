@@ -61,8 +61,6 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "inner_cabins_grue_drops",
-    "entries": [
-      { "group": "SUS_book_nonf_soft_occult", "prob": 20 }
-    ]
+    "entries": [ { "group": "SUS_book_nonf_soft_occult", "prob": 20 } ]
   }
 ]
