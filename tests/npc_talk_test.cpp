@@ -35,6 +35,7 @@
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
