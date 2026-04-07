@@ -80,7 +80,7 @@
     "category": "spare_parts",
     "name": { "str": "scrap shadowstuff", "str_pl": "scraps of shadowstuff" },
     "description": "A bulky assortment of small bits of scrap shadowstuff, possibly useful in ephemeral crafting.",
-    "weight": "1600 mg",
+    "weight": "10 mg",
     "volume": "25 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
