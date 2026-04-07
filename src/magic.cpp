@@ -3253,15 +3253,12 @@ int known_magic::get_invlet( const spell_id &sp )
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
-    static const input_context ctxt = [] {
-        input_context ctx( "SPELL_MENU", keyboard_mode::keychar );
-        // Register standard uilist actions that might be bound to keys
-        ctx.register_action( "UILIST.UP" );
-        ctx.register_action( "UILIST.DOWN" );
-        ctx.register_action( "UILIST.LEFT" );
-        ctx.register_action( "UILIST.RIGHT" );
-        return ctx;
-    }();
+    input_context ctxt( "SPELL_MENU", keyboard_mode::keychar );
+    // Register standard uilist actions that might be bound to keys
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
+    ctxt.register_action( "UILIST.LEFT" );
+    ctxt.register_action( "UILIST.RIGHT" );
     for( char &ch : inv_chars.get_allowed_chars() ) {
         int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
         if( invlets_to_spells.count( invlet ) ) {
