@@ -35,6 +35,7 @@
 #include "generic_factory.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
