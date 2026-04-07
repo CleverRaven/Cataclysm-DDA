@@ -293,7 +293,7 @@
           },
           {
             "part": "arm_r",
-            "add": { "math": [ "--1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
           },
           {
             "part": "arm_l",
@@ -301,7 +301,7 @@
           },
           {
             "part": "arm_feathers_l",
-            "add": { "math": [ "--1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
           },
           {
             "part": "arm_feathers_r",
@@ -309,7 +309,7 @@
           },
           {
             "part": "arm_wing_bird_l",
-            "add": { "math": [ "--1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
           },
           {
             "part": "arm_wing_bird_r",
@@ -317,7 +317,7 @@
           },
           {
             "part": "arm_leathery_l",
-            "add": { "math": [ "--1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
           },
           {
             "part": "arm_leathery_r",
@@ -325,7 +325,7 @@
           },
           {
             "part": "arm_wing_bat_l",
-            "add": { "math": [ "--1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
           },
           {
             "part": "arm_wing_bat_r",
@@ -634,7 +634,7 @@
         "values": [
           {
             "value": "MUT_ADDITIONAL_OPTIONS",
-            "add": { "math": [ "max( 1, ( ( 1 + ( u_spell_level('biokin_guided_evolution') * 0.25 ) ) * psionic_power_modifiers() )" ] }
+            "add": { "math": [ "max( 1, ( ( ( u_spell_level('biokin_guided_evolution') * 0.25 ) + 1 ) * psionic_power_modifiers() ) )" ] }
           }
         ]
       }
@@ -663,7 +663,7 @@
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "max( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) * psionic_power_modifiers() ), -0.96)" ]
+              "math": [ "max( ( ( ( u_spell_level('biokin_perfected_motion') * -0.015) + -0.5 ) * psionic_power_modifiers() ), -0.96)" ]
             }
           }
         ]
@@ -675,7 +675,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) ) ) * psionic_power_modifiers() ), -0.96)"
+                "max( ( ( ( ( u_spell_level('biokin_perfected_motion') * -0.015) + -0.5 ) + ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) ) * psionic_power_modifiers() ), -0.96)"
               ]
             }
           }
@@ -688,7 +688,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) ) * psionic_power_modifiers() ), -0.96)"
+                "max( ( ( ( ( u_spell_level('biokin_perfected_motion') * -0.015) + -0.5 ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * psionic_power_modifiers() ), -0.96)"
               ]
             }
           }
@@ -701,7 +701,7 @@
             "value": "MOVE_COST",
             "multiply": {
               "math": [
-                "max( ( ( ( -0.5 + ( u_spell_level('biokin_perfected_motion') * -0.015) ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) ) * psionic_power_modifiers() ), -0.96)"
+                "max( ( ( ( ( u_spell_level('biokin_perfected_motion') * -0.015) + -0.5 ) + ( u_spell_level('teleport_stride') * -0.005 ) + ( u_spell_level('telekinetic_momentum') * -0.005 ) ) * psionic_power_modifiers() ), -0.96)"
               ]
             }
           }
@@ -797,7 +797,7 @@
             "value": "PERCEPTION",
             "add": {
               "math": [
-                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 3) ) * psionic_power_modifiers()"
+                "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 3) + 1 ) * psionic_power_modifiers()"
               ]
             }
           },
@@ -805,7 +805,7 @@
             "value": "OVERMAP_SIGHT",
             "add": {
               "math": [
-                "(1 + ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 5) ) * psionic_power_modifiers()"
+                "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) / 5) + 1 ) * psionic_power_modifiers()"
               ]
             }
           },
@@ -813,7 +813,7 @@
             "value": "HEARING_MULT",
             "multiply": {
               "math": [
-                "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack')) * 0.25) ) * psionic_power_modifiers()"
+                "( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 0.25) * psionic_power_modifiers()"
               ]
             }
           }
@@ -964,7 +964,7 @@
           {
             "value": "READING_SPEED_MULTIPLIER",
             "multiply": {
-              "math": [ "max( ( ( -0.15 + ( u_spell_level('clair_speed_reading') * -0.02 ) ) * (psionic_power_modifiers() ), -0.6)" ]
+              "math": [ "max( ( ( ( u_spell_level('clair_speed_reading') * -0.02 ) + -0.15 ) * psionic_power_modifiers() ), -0.6)" ]
             }
           }
         ]
@@ -1615,7 +1615,7 @@
             "value": "UGLINESS",
             "multiply": {
               "math": [
-                "max( ( ( ( ( ( u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * -1.5 ) + -0.6 ) * psionic_power_modifiers() ), -1)"
+                "max( ( ( ( ( u_spell_level('photokinetic_hide_ugly') + u_spell_level('photokinetic_hide_ugly_knack') ) * -1.5 ) + -0.6 ) * psionic_power_modifiers() ), -1)"
               ]
             }
           }
