@@ -1455,10 +1455,12 @@ int item::remaining_ammo_capacity() const
 
     const itype *loaded_ammo = ammo_data();
     if( loaded_ammo == nullptr ) {
-        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining( );
-    } else {
-        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( );
+        loaded_ammo = item::find_type( ammo_default() );
     }
+    if( !loaded_ammo || !loaded_ammo->ammo ) {
+        return 0;
+    }
+    return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( );
 }
 
 int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
@@ -2481,7 +2483,13 @@ bool item::has_link_data() const
 
 bool item::can_link_up() const
 {
-    return has_link_data() || type->can_use( "link_up" );
+    const bool can_link = has_link_data() || type->can_use( "link_up" );
+    if( can_link && !get_use( "link_up" ) ) {
+        debugmsg( "can_link_up() found no link_up use function for %s. Most likely missing link_up in item transform",
+                  type_name() );
+        return false;
+    }
+    return can_link;
 }
 
 bool item::link_has_state( link_state state ) const

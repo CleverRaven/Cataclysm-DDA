@@ -7,8 +7,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SKY_ISLAND_MISSION_DIMENSION_SHIFT",
-    "//": "Prepares player and NPCs to dimension shift, the changes dimensions",
+    "//": "Prepares player and NPCs to dimension shift, then changes dimensions",
     "effect": [
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_LEAVE" }
+      },
       { "run_eocs": [ "EOC_raid_challenge_mode_pre_raid" ] },
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       { "u_location_variable": { "global_val": "OM_HQ_origin_npc" } },
@@ -222,6 +226,10 @@
         ]
       },
       { "clear_dimension": "dimension_sky_island_mission" },
+      {
+        "if": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS" }
+      },
       { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
   },

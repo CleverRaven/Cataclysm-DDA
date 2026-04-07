@@ -354,6 +354,12 @@
     "components": [ [ [ "qt_wire", 1 ] ] ]
   },
   {
+    "id": "mopping_standard",
+    "type": "requirement",
+    "//": "mopping",
+    "qualities": [ { "id": "MOP", "level": 1 } ]
+  },
+  {
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",

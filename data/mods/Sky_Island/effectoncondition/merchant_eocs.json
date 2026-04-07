@@ -1,0 +1,127 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS",
+    "condition": { "or": [ { "one_in_chance": 7 }, { "u_has_effect": "effect_sky_island_merchant_attraction" } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "EOC_SKY_ISLAND_RANDOM_MERCHANTS_EXODII_CBM_MERCHANT", 1 ],
+          [ "EOC_SKY_ISLAND_RANDOM_MERCHANTS_HUMAN_AMMO_MERCHANT", 1 ],
+          [ "EOC_SKY_ISLAND_RANDOM_MERCHANTS_TRIFFID_DECOR_MERCHANT", 1 ]
+        ]
+      },
+      { "u_lose_effect": "effect_sky_island_merchant_attraction" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_EXODII_CBM_MERCHANT",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_exodii_merchant_add",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_exodii_merchant_add",
+    "object": { "place_npcs": [ { "class": "si_exodii_cbm_merchant", "x": 12, "y": 10, "unique_id": "si_exodii_cbm_merchant" } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_HUMAN_AMMO_MERCHANT",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_human_ammo_merchant_add",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_human_ammo_merchant_add",
+    "object": { "place_npcs": [ { "class": "si_human_ammo_merchant", "x": 12, "y": 10, "unique_id": "si_human_ammo_merchant" } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_TRIFFID_DECOR_MERCHANT",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_triffid_decor_merchant_add",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "u_message": "As you return to the island, you notice the trade stall in the north has an occupant.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_triffid_decor_merchant_add",
+    "object": {
+      "place_npcs": [ { "class": "si_triffid_decor_merchant", "x": 12, "y": 10, "unique_id": "si_triffid_decor_merchant" } ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_RANDOM_MERCHANTS_LEAVE",
+    "effect": [
+      {
+        "mapgen_update": "nest_sky_island_exodii_merchant_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "mapgen_update": "nest_sky_island_ammo_merchant_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "mapgen_update": "nest_sky_island_triffid_decor_merchant_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      },
+      {
+        "mapgen_update": "nest_sky_island_merchants_itemt_remove",
+        "om_terrain": "sky_island_edge_north",
+        "target_var": { "global_val": "OM_island_north" }
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_exodii_merchant_remove",
+    "object": { "remove_npcs": [ { "class": "si_exodii_cbm_merchant", "x": 12, "y": 10, "unique_id": "si_exodii_cbm_merchant" } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_ammo_merchant_remove",
+    "object": { "remove_npcs": [ { "class": "si_human_ammo_merchant", "x": 12, "y": 10, "unique_id": "si_human_ammo_merchant" } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_triffid_decor_merchant_remove",
+    "object": {
+      "remove_npcs": [ { "class": "si_triffid_decor_merchant", "x": 12, "y": 10, "unique_id": "si_triffid_decor_merchant" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_sky_island_merchants_itemt_remove",
+    "object": { "set": [ { "square": "item_remove", "x": 11, "y": 9, "x2": 13, "y2": 11 } ] }
+  }
+]

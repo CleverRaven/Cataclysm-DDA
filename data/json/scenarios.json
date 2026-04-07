@@ -538,7 +538,13 @@
     "map_extra": "mx_lab_concourse_area",
     "requirement": "achievement_reach_trans_coast_lab",
     "flags": [ "CHALLENGE", "LONE_START" ],
-    "eoc": [ "EOC_LAB_MUTANT_FRIENDS", "EOC_LAB_MUTANT_NO_MUTAGENS" ]
+    "eoc": [
+      "EOC_LAB_MUTANT_FRIENDS",
+      "EOC_LAB_MUTANT_NO_MUTAGENS",
+      "EOC_MUTE_BIRD_START",
+      "EOC_MUTE_CEPHALOPOD_START",
+      "EOC_MUTE_INSECT_START"
+    ]
   },
   {
     "type": "scenario",

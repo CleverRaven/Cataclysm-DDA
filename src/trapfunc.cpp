@@ -744,6 +744,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
     return true;
 }
 
+// Remove after 0.J
 bool trapfunc::blade( const tripoint_bub_ms &, Creature *c, item * )
 {
     map &here = get_map();

@@ -223,8 +223,7 @@ bool turret_data::can_reload() const
     if( part->base.ammo_remaining( ) == 0 ) {
         return true;
     }
-    return part->base.ammo_remaining( ) <
-           part->base.ammo_capacity( part->base.ammo_data()->ammo->type );
+    return part->base.remaining_ammo_capacity() > 0;
 }
 
 bool turret_data::can_unload() const

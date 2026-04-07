@@ -162,6 +162,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_merchant_stall",
+    "effect": [ { "mapgen_update": "mx_skyisland_merchant_stall", "target_var": { "global_val": "OM_island_north" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_memorize_island",
     "//": "Tracks various map or overmap spots for the island's construction upgrades.",
     "effect": [

@@ -432,7 +432,7 @@ void talk_function::assign_guard( npc &p )
     p.chatbin.first_topic = p.assigned_camp
                             ? "TALK_FRIEND_GUARD_CAMP"
                             : p.chatbin.talk_friend_guard;
-    p.set_committed_goal( "" );
+    p.clear_committed_goal();
     p.set_omt_destination();
 }
 
@@ -468,7 +468,7 @@ void talk_function::assign_camp( npc &p )
         p.chair_pos = std::nullopt;
         p.wander_pos = std::nullopt;
         p.clear_destination();
-        p.set_committed_goal( "" );
+        p.clear_committed_goal();
     }
 }
 
@@ -478,7 +478,7 @@ void talk_function::return_to_camp_duties( npc &p )
     p.set_mission( NPC_MISSION_CAMP_RESIDENT );
     p.guard_pos = std::nullopt;
     p.clear_ai_guard_pos();
-    p.set_committed_goal( "" );
+    p.clear_committed_goal();
     p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
     if( p.assigned_camp && p.pos_abs_omt() != *p.assigned_camp ) {
         p.goal = *p.assigned_camp;
@@ -514,7 +514,7 @@ void talk_function::stop_guard( npc &p )
     p.goal = npc::no_goal_point;
     p.guard_pos = std::nullopt;
     p.clear_ai_guard_pos();
-    p.set_committed_goal( "" );
+    p.clear_committed_goal();
     // assigned_camp is preserved: the NPC remembers their camp while following.
     // Player can send them back via "Go back to your camp" in follower dialogue.
 }

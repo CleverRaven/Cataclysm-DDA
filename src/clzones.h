@@ -709,6 +709,10 @@ class zone_manager
         std::vector<ref_const_zone_data> get_zones( const faction_id &fac = your_fac ) const;
 
         bool has_personal_zones() const;
+        // Returns true if at least one enabled non-personal zone of the
+        // given type and faction contains the point.
+        bool has_nonpersonal( const zone_type_id &type, const tripoint_abs_ms &where,
+                              const faction_id &fac = your_fac ) const;
 
         bool save_zones( std::string const &suffix = {} );
         bool save_world_zones( std::string const &suffix = {} );

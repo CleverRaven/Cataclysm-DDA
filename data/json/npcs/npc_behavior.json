@@ -80,40 +80,34 @@
     "id": "npc_homeostasis",
     "strategy": "fallback",
     "conditions": [ { "predicate": "npc_needs_warmth_badly" } ],
-    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ],
+    "children": [ "npc_obtain_warmth", "npc_make_fire" ],
     "score": "npc_warmth_urgency"
   },
   {
     "type": "behavior",
-    "id": "npc_wear_warmer_clothes",
-    "conditions": [ { "predicate": "npc_can_wear_warmer_clothes" } ],
-    "goal": "wear_warmer_clothes"
-  },
-  {
-    "type": "behavior",
-    "id": "npc_get_warm",
-    "strategy": "fallback",
-    "children": [ "npc_make_fire", "npc_take_shelter" ]
+    "id": "npc_obtain_warmth",
+    "conditions": [ { "predicate": "npc_can_obtain_warmth" } ],
+    "goal": "seek_warmth"
   },
   {
     "type": "behavior",
     "id": "npc_make_fire",
     "conditions": [ { "predicate": "npc_can_make_fire" } ],
-    "goal": "start_fire"
-  },
-  {
-    "type": "behavior",
-    "id": "npc_take_shelter",
-    "conditions": [ { "predicate": "npc_can_take_shelter" } ],
-    "goal": "take_shelter"
+    "goal": "seek_warmth"
   },
   {
     "type": "behavior",
     "id": "npc_thirst",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_water_badly" } ],
-    "children": [ "npc_drink_water" ],
+    "children": [ "npc_obtain_water" ],
     "score": "npc_thirst_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_obtain_water",
+    "strategy": "fallback",
+    "children": [ "npc_drink_water", "npc_seek_water" ]
   },
   {
     "type": "behavior",
@@ -123,16 +117,34 @@
   },
   {
     "type": "behavior",
+    "id": "npc_seek_water",
+    "conditions": [ { "predicate": "npc_can_obtain_water" } ],
+    "goal": "drink_water"
+  },
+  {
+    "type": "behavior",
     "id": "npc_hunger",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_food_badly" } ],
-    "children": [ "npc_eat_food" ],
+    "children": [ "npc_obtain_food" ],
     "score": "npc_hunger_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_obtain_food",
+    "strategy": "fallback",
+    "children": [ "npc_eat_food", "npc_forage_food" ]
   },
   {
     "type": "behavior",
     "id": "npc_eat_food",
     "conditions": [ { "predicate": "npc_has_food" } ],
+    "goal": "eat_food"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_forage_food",
+    "conditions": [ { "predicate": "npc_can_obtain_food" } ],
     "goal": "eat_food"
   },
   {

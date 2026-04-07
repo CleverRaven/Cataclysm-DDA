@@ -301,6 +301,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "blade_trap",
+    "replace": "motor_small"
+  },
+  {
+    "type": "MIGRATION",
     "id": [ "integrated_hooves", "integrated_rabbit_feet" ],
     "replace": "wristwatch"
   },

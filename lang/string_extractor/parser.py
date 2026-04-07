@@ -69,6 +69,7 @@ from .parsers.practice import parse_practice
 from .parsers.requirement import parse_requirement
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
+from .parsers.shop_whitelist import parse_shopkeeper_whitelist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -241,6 +242,7 @@ parsers = {
     "scent_type": dummy_parser,
     "score": dummy_parser,
     "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_whitelist": parse_shopkeeper_whitelist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,

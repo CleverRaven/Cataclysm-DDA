@@ -5,18 +5,21 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
 
 #include "color.h"
 #include "item.h"
+#include "proficiency.h"
 #include "translation.h"
 
 class Character;
 class inventory;
 class recipe;
 class recipe_subset;
+struct crafting_cost_context;
 struct tool_comp;
 
 // Returns true if the character cannot gain any skill or proficiency from this recipe.
@@ -49,6 +52,8 @@ struct availability {
         mutable float max_proficiency_time_maluses = -1.0f;
         mutable float proficiency_skill_maluses = -1.0f;
         mutable float max_proficiency_skill_maluses = -1.0f;
+        mutable std::optional<book_proficiency_bonuses> cached_book_bonuses;
+        const book_proficiency_bonuses &get_book_bonuses() const;
     public:
         float get_proficiency_time_maluses() const;
         float get_max_proficiency_time_maluses() const;
@@ -84,7 +89,7 @@ craft_confirm_result can_start_craft(
 bool recipe_sort_compare(
     const recipe *a, const recipe *b,
     const availability &avail_a, const availability &avail_b,
-    const Character &crafter,
+    const Character &crafter, const crafting_cost_context &ctx,
     bool a_read, bool b_read,
     bool unread_first );
 

@@ -648,7 +648,8 @@
       },
       { "id": "flaming_whip" }
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.  Only embers remain." },
+    "death_drops": "balrog_drops",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 12, "cut": 12, "bullet": 25 }

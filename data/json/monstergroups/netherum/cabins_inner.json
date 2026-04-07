@@ -1,0 +1,13 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_cellar_depths",
+    "monsters": [
+      { "monster": "mon_inner_cabins_interstice_mutant_harmless", "weight": 12, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_inner_cabins_interstice_mutant_ignoring", "weight": 3, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_inner_cabins_interstice_mutant", "weight": 3 },
+      { "monster": "mon_zombie_inner_cabins_revenant", "weight": 2 },
+      { "monster": "mon_zombie_inner_cabins_grue", "weight": 1 }
+    ]
+  }
+]

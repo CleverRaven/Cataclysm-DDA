@@ -161,5 +161,13 @@
     "show_intensity": false,
     "show_in_info": true,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sky_island_merchant_attraction",
+    "name": [ "Aura of Lucre" ],
+    "desc": [
+      "You're in the money and anyone who looks at you knows it.  There'll definitely be someone waiting to relieve you of it when you next return to your island."
+    ]
   }
 ]

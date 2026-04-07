@@ -48,13 +48,19 @@ class tree
     public:
         // Entry point, evaluates the tree and returns the selected goal.
         std::string tick( const oracle_t *subject );
+        // Evaluate the tree and return both the goal string and its
+        // utility score (from the winning node's score function).
+        std::pair<std::string, float> tick_full( const oracle_t *subject );
         // Retrieves the most recently determined goal without re-evaluating the tree.
         std::string goal() const;
+        // Score from the most recent tick_full / tick evaluation.
+        float last_score() const;
         // Set the root node of the tree.
         void add( const node_t *new_node );
     private:
         const node_t *root = nullptr;
         const node_t *active_node = nullptr;
+        float active_score = 0.0f;
 };
 
 class node_t

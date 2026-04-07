@@ -104,6 +104,14 @@ struct alignas( T * ) small_literal_vector {
         len_ -= 1;
     }
 
+    void clear() {
+        len_ = 0;
+    }
+
+    bool empty() const {
+        return len_ == 0;
+    }
+
     // Some nonstandard helpers below.
     void ensure_capacity_for( size_t count ) {
         check_capacity( count );
