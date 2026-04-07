@@ -2341,6 +2341,14 @@ void npc::execute_action( npc_action action )
             break;
         }
         case npc_follow_player:
+            // Fix: Prevent NPCs from approaching player in moving vehicles 
+            if( player_character.in_vehicle() ) {
+                const vehicle *veh = player_character.in_vehicle();
+                if( veh && std::abs( veh->velocity ) > 0 ) {
+                    move_pause();
+                    break;
+                }
+            }
             update_path( player_character.pos_bub() );
             if( path.empty() ||
                 ( static_cast<int>( path.size() ) <= follow_distance() &&
