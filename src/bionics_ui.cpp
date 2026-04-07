@@ -208,12 +208,11 @@ char get_free_invlet( Character &p )
         return ' ';
     }
 
-    input_context ctxt( "BIONICS_MENU", keyboard_mode::keychar );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
     // Register standard uilist actions that might be bound to keys
-    ctxt.register_action( "UILIST.UP" );
-    ctxt.register_action( "UILIST.DOWN" );
-    ctxt.register_action( "UILIST.LEFT" );
-    ctxt.register_action( "UILIST.RIGHT" );
+    ctxt.register_updown();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     for( const char &inv_char : bionic_chars ) {
         if( action_bound_to_key( ctxt, inv_char ) != "ERROR" ) {
             continue;
