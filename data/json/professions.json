@@ -2850,6 +2850,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "swimming" }
     ],
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
   },
   {
     "type": "profession",
@@ -7825,6 +7826,7 @@
       { "level": 2, "name": "throw" },
       { "level": 2, "name": "speech" }
     ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
       "both": {
         "entries": [
