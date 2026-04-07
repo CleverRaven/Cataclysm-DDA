@@ -82,6 +82,7 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
+    clear_creatures();
     tripoint_bub_ms loc = get_player_character().pos_bub() + tripoint::east;
     monster &dummy_monster = spawn_test_monster( "mon_dragon_dummy", loc );
 
