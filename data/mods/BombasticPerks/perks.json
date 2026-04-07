@@ -1191,15 +1191,9 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "STRENGTH", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50))" ] } },
-          {
-            "value": "DEXTERITY", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
-          },
-          {
-            "value": "INTELLIGENCE", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
-          },
-          {
-            "value": "PERCEPTION","add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
-          },
+          { "value": "DEXTERITY", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
+          {  "value": "INTELLIGENCE", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
+          { "value": "PERCEPTION","add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
           { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
