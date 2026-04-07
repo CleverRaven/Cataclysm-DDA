@@ -196,14 +196,29 @@ bionic *avatar::bionic_by_invlet( const int ch )
     return nullptr;
 }
 
+static std::string action_bound_to_key( const input_context &ctxt, char key )
+{
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
+}
+
 char get_free_invlet( Character &p )
 {
     if( p.is_npc() ) {
         // npcs don't need an invlet
         return ' ';
     }
+
+    input_context ctxt( "BIONICS_MENU", keyboard_mode::keychar );
+    // Register standard uilist actions that might be bound to keys
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
+    ctxt.register_action( "UILIST.LEFT" );
+    ctxt.register_action( "UILIST.RIGHT" );
     for( const char &inv_char : bionic_chars ) {
-        if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {
+        if( action_bound_to_key( ctxt, inv_char ) != "ERROR" ) {
+            continue;
+        }
+        if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {        
             return inv_char;
         }
     }
