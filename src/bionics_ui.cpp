@@ -217,7 +217,7 @@ char get_free_invlet( Character &p )
         if( action_bound_to_key( ctxt, inv_char ) != "ERROR" ) {
             continue;
         }
-        if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {        
+        if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }
     }
