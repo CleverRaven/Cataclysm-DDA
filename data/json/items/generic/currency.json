@@ -29,7 +29,7 @@
     "color": "yellow",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "gold" ], 
+    "material": [ "gold" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
