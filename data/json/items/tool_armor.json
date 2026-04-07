@@ -595,7 +595,12 @@
       "FITNESS_CHECK",
       "WEATHER_TOOL",
       "PORTABLE_GAME",
-      { "type": "mp3", "transform": "smart_watch_adv_music", "message": "You put in the earbuds and start listening to music.", "activate": true },
+      {
+        "type": "mp3",
+        "transform": "smart_watch_adv_music",
+        "message": "You put in the earbuds and start listening to music.",
+        "activate": true
+      },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "pocket_data": [
