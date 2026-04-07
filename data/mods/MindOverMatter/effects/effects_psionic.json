@@ -1773,7 +1773,7 @@
             "value": "LUMINATION",
             "add": {
               "math": [
-                "( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 5) + 10"
+                "( ( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * 5) + 10) * psionic_power_modifiers()"
               ]
             }
           },
@@ -1781,7 +1781,7 @@
             "value": "CLIMATE_CONTROL_CHILL",
             "add": {
               "math": [
-                "( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 12) + 20"
+                "( ( (u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack')  ) * 12) + 20) * psionic_power_modifiers()"
               ]
             }
           }
@@ -1791,7 +1791,7 @@
       {
         "condition": {
           "math": [
-            "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+            "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
             "<=",
             "3"
           ]
@@ -1803,14 +1803,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "3"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "6"
               ]
@@ -1824,14 +1824,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "6"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "9"
               ]
@@ -1845,14 +1845,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "9"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "12"
               ]
@@ -1866,14 +1866,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "12"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "15"
               ]
@@ -1887,14 +1887,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "15"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "18"
               ]
@@ -1908,14 +1908,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "18"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "21"
               ]
@@ -1929,14 +1929,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "21"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "24"
               ]
@@ -1950,14 +1950,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "24"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "27"
               ]
@@ -1971,14 +1971,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "27"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "30"
               ]
@@ -1992,14 +1992,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "30"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "33"
               ]
@@ -2013,14 +2013,14 @@
           "and": [
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 ">",
                 "33"
               ]
             },
             {
               "math": [
-                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "(u_spell_level('pyrokinetic_aura') + u_spell_level('pyrokinetic_aura_knack') ) * psionic_power_modifiers()",
                 "<=",
                 "36"
               ]
@@ -2073,45 +2073,25 @@
         "incoming_damage_mod": [
           {
             "type": "bash",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers()" ] }
           },
           {
             "type": "stab",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers()" ] }
           },
           {
             "type": "cut",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers()" ] }
           },
           {
             "type": "bullet",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( u_spell_level('telekinetic_momentum') * -0.02 ) * psionic_power_modifiers()" ] }
           }
         ],
         "values": [
           {
             "value": "ATTACK_SPEED",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers()" ] }
           }
         ]
       },
@@ -2125,20 +2105,12 @@
         "values": [
           {
             "value": "MOVE_COST",
-            "multiply": {
-              "math": [
-                "max((( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.15)"
-              ]
-            }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers() ), -0.15)" ] }
           }
         ]
       },
       {
-        "condition": {
-          "math": [
-            "( u_spell_level('telekinetic_momentum') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 30"
-          ]
-        },
+        "condition": { "math": [ "( u_spell_level('telekinetic_momentum') * psionic_power_modifiers() ) >= 30" ] },
         "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ],
@@ -2168,9 +2140,7 @@
           {
             "value": "FALL_DAMAGE",
             "multiply": {
-              "math": [
-                "max( (( -0.5 + ( u_spell_level('telekinetic_slowfall') * -0.04) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.95)"
-              ]
+              "math": [ "max( ( ( ( u_spell_level('telekinetic_slowfall') * -0.04) + -0.5 ) * psionic_power_modifiers() ), -0.95)" ]
             }
           }
         ]
@@ -2203,11 +2173,7 @@
         "values": [
           {
             "value": "STRENGTH",
-            "add": {
-              "math": [
-                "( 15 + ( u_spell_level('telekinetic_strength') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('telekinetic_strength') * 3 ) + 15 ) * psionic_power_modifiers()" ] }
           }
         ]
       }
@@ -2239,44 +2205,24 @@
         "incoming_damage_mod": [
           {
             "type": "bash",
-            "add": {
-              "math": [
-                "( -2 + ( u_spell_level('telekinetic_shield') * -0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('telekinetic_shield') * -0.5) + -2) * psionic_power_modifiers()" ] }
           },
           {
             "type": "stab",
-            "add": {
-              "math": [
-                "( -5 + ( u_spell_level('telekinetic_shield') * -1.5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('telekinetic_shield') * -1.5) + -5 ) * psionic_power_modifiers()" ] }
           },
           {
             "type": "cut",
-            "add": {
-              "math": [
-                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('telekinetic_shield') * -1) + -3) * psionic_power_modifiers()" ] }
           },
           {
             "type": "bullet",
-            "add": {
-              "math": [
-                "( -12 + ( u_spell_level('telekinetic_shield') * -2.5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( u_spell_level('telekinetic_shield') * -2.5) + -12 ) * psionic_power_modifiers()" ] }
           }
         ]
       },
       {
-        "condition": {
-          "math": [
-            "( u_spell_level('telekinetic_shield') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) >= 25"
-          ]
-        },
+        "condition": { "math": [ "( u_spell_level('telekinetic_shield') * psionic_power_modifiers() ) >= 25" ] },
         "ench_effects": [ { "effect": "effect_psi_blocking_huge_attacks", "intensity": 1 } ]
       }
     ]
@@ -2336,11 +2282,7 @@
         "values": [
           {
             "value": "LEARNING_FOCUS",
-            "add": {
-              "math": [
-                "( ( u_spell_level('telepathic_concentration') * 2.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( u_spell_level('telepathic_concentration') * 2.5) * psionic_power_modifiers()" ] }
           },
           { "value": "MOVE_COST", "multiply": 3 }
         ]
@@ -2366,7 +2308,7 @@
             "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
             "distance": {
               "math": [
-                "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( ( (u_spell_level('telepathic_mind_sense') + u_spell_level('telepathic_mind_sense_knack') ) * 2) * psionic_power_modifiers()"
               ]
             },
             "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
@@ -2540,9 +2482,7 @@
           {
             "value": "PHASE_DISTANCE",
             "add": {
-              "math": [
-                "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
-              ]
+              "math": [ "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) ) * psionic_power_modifiers() ), 1)" ]
             }
           }
         ]
@@ -2600,11 +2540,7 @@
         "values": [
           {
             "value": "MOVE_COST",
-            "multiply": {
-              "math": [
-                "max( (( ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.6)"
-              ]
-            }
+            "multiply": { "math": [ "max( ( ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) * psionic_power_modifiers() ), -0.6)" ] }
           }
         ]
       }
@@ -2625,11 +2561,7 @@
         "values": [
           {
             "value": "MELEE_RANGE_MODIFIER",
-            "add": {
-              "math": [
-                "max( 1, ( ( ( u_spell_level('teleport_warped_strikes') * 0.2 ) + 1 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
-              ]
-            }
+            "add": { "math": [ "max( 1, ( ( ( u_spell_level('teleport_warped_strikes') * 0.2 ) + 1 ) * psionic_power_modifiers() ) )" ] }
           }
         ]
       }
@@ -2663,35 +2595,19 @@
         "values": [
           {
             "value": "MELEE_TO_HIT",
-            "add": {
-              "math": [
-                "min( ( ( ( u_spell_level('teleport_warper_combat') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( u_spell_level('teleport_warper_combat') * 0.2) * psionic_power_modifiers() ), 4)" ] }
           },
           {
             "value": "MELEE_DAMAGE",
-            "multiply": {
-              "math": [
-                "( ( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * psionic_power_modifiers()" ] }
           },
           {
             "value": "RANGE_DODGE",
-            "add": {
-              "math": [
-                "( ( ( u_spell_level('teleport_warper_combat') * 0.025) + 0.1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "add": { "math": [ "( ( ( u_spell_level('teleport_warper_combat') * 0.025) + 0.1) * psionic_power_modifiers()" ] }
           },
           {
             "value": "BONUS_DODGE",
-            "add": {
-              "math": [
-                "min( ( ( ( ( u_spell_level('teleport_warper_combat') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
-              ]
-            }
+            "add": { "math": [ "min( ( ( ( u_spell_level('teleport_warper_combat') * 0.25) + 1) * psionic_power_modifiers() ), 4)" ] }
           },
           { "value": "EVASION", "add": 0.15 },
           { "value": "PERCEPTION", "add": -4 }
@@ -2722,11 +2638,7 @@
         "values": [
           {
             "value": "BLEED_STOP_BONUS",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()" ] }
           }
         ]
       }
@@ -2746,11 +2658,7 @@
         "values": [
           {
             "value": "BLEED_STOP_BONUS",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()" ] }
           }
         ]
       }
@@ -2771,11 +2679,7 @@
         "values": [
           {
             "value": "BLEED_STOP_BONUS",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()g" ] }
           }
         ]
       }
@@ -2861,19 +2765,11 @@
         "values": [
           {
             "value": "REGEN_HP",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
           {
             "value": "MENDING_MODIFIER",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-              ]
-            }
+            "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * psionic_power_modifiers()" ] }
           },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 }
         ]
