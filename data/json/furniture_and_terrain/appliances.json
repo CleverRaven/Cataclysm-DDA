@@ -707,6 +707,7 @@
     "//": "4 times from 4 more panels, 1.2 times as is done above",
     "proportional": { "epower": 4.8 },
     "requirements": {
+      "install": {  },
       "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 8 ] ],
