@@ -440,7 +440,6 @@ class crafting_ui_impl : public cataimgui::window
         int manual_batch = 1;
         bool show_hidden = false;
         bool is_wide = false;
-        bool details_expanded = false;
         bool steps_expanded = true;
 
         // --- Scroll state ---
@@ -1146,8 +1145,16 @@ void crafting_ui_impl::draw_recipe_info_panel()
             cataimgui::TextColoredParagraphNewline( c_red, _( "Will use favorited ingredients" ) );
         }
         if( !avail.can_craft && !avail.has_proficiencies ) {
-            cataimgui::TextColoredParagraphNewline( c_red,
-                                                    _( "Cannot craft: crafter lacks required proficiencies." ) );
+            cataimgui::TextColoredParagraph( c_red,
+                                             _( "Missing required proficiencies: " ) );
+            auto profs = recp.required_proficiencies();
+            for( const auto &prof : profs ) {
+                cataimgui::TextColoredParagraph( c_red, prof->name() );
+                if( ( profs.size() > 1 ) && ( &prof != &profs.back() ) ) {
+                    cataimgui::TextColoredParagraph( c_red, _( ", " ) );
+                }
+            }
+            cataimgui::TextColoredParagraphNewline( c_red, "" );
         }
         if( !avail.crafter_has_primary_skill ) {
             cataimgui::TextColoredParagraphNewline( c_red,
@@ -1191,16 +1198,16 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
         // Centered "Details" button that opens the modifier table
         if( !recp.is_nested() ) {
-            // details_expanded is a member variable, reset in invalidate_info_panels()
             // Practice recipes always show details
-            bool show_details = details_expanded || recp.is_practice();
+            bool show_details = uistate.crafting_expand_details || recp.is_practice();
             if( !recp.is_practice() ) {
-                const char *details_label = details_expanded ? _( "- details -" ) : _( "+ details +" );
+                const char *details_label = uistate.crafting_expand_details ? _( "- details -" ) :
+                                            _( "+ details +" );
                 float btn_w = ImGui::CalcTextSize( details_label ).x;
                 float rgn_w = ImGui::GetContentRegionAvail().x;
                 ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( rgn_w - btn_w ) / 2.f );
                 if( nav_clickable( details_label, c_cyan ) ) {
-                    details_expanded = !details_expanded;
+                    uistate.crafting_expand_details = !uistate.crafting_expand_details;
                 }
             }
             if( show_details ) {
@@ -1306,12 +1313,14 @@ void crafting_ui_impl::draw_recipe_info_panel()
                     int tool_group_offset = 0;
                     float step_indent = ImGui::CalcTextSize( "    " ).x;
                     float sub_indent = ImGui::CalcTextSize( "  " ).x;
-                    const std::vector<float> tspeeds = compute_tool_speeds( recp, *crafter );
-                    const std::vector<float> *ts = tspeeds.empty() ? nullptr : &tspeeds;
+                    const crafting_cost_context step_ctx{
+                        crafter->book_bonuses_nearby(),
+                        compute_tool_speeds( recp, *crafter )
+                    };
                     for( size_t si = 0; si < recp.steps().size(); ++si ) {
                         const recipe_step &step = recp.steps()[si];
                         const double step_moves = recp.step_budget_moves(
-                                                      *crafter, si, batch_size, ts );
+                                                      *crafter, si, batch_size, step_ctx );
                         const std::string time_str = to_string(
                                                          time_duration::from_moves( static_cast<int64_t>( step_moves ) ) );
                         const std::string activity = display::activity_level_str( step.exertion );
@@ -1321,7 +1330,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                         std::string batch_note;
                         if( batch_size > 1 ) {
                             const double single_moves = recp.step_budget_moves(
-                                                            *crafter, si, 1, ts );
+                                                            *crafter, si, 1, step_ctx );
                             if( step_moves < single_moves * batch_size * 0.99 ) {
                                 batch_note = string_format( _( " (x%d, saves %s)" ), batch_size,
                                                             to_string( time_duration::from_moves(
@@ -1487,7 +1496,7 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
         // Base row
         {
             const int64_t base_moves = recp.time_to_craft_moves(
-                                           *crafter, recipe_time_flag::ignore_proficiencies );
+                                           *crafter, {}, recipe_time_flag::ignore_proficiencies );
             const std::string base_str = to_string(
                                              time_duration::from_moves( base_moves ) );
             ImGui::TableNextRow();
@@ -1842,9 +1851,16 @@ void crafting_ui_impl::draw_components( const requirement_data &req,
 
         if( is_expanded ) {
             ImGui::TextColored( cataimgui::imvec4_from_color( c_white ), "%s", bullet.c_str() );
-            float indent = ImGui::CalcTextSize( "      " ).x;
-            ImGui::Indent( indent );
-            for( const item_comp *ic : sorted_alts ) {
+            float indent = ImGui::CalcTextSize( "    " ).x;
+            for( size_t i = 0; i < sorted_alts.size(); ++i ) {
+                const item_comp *ic = sorted_alts[i];
+                // Draw the first item on the same line as the bullet, then indent the rest
+                if( i == 0 ) {
+                    ImGui::SameLine( 0, 0 );
+                }
+                if( i == 1 ) {
+                    ImGui::Indent( indent );
+                }
                 nc_color col = ic->get_color( any_available, crafting_inv, filter, batch_size );
                 ImGui::TextColored( cataimgui::imvec4_from_color( col ), "%s",
                                     ic->to_string( batch_size, avail_count( *ic ) ).c_str() );

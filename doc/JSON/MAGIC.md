@@ -780,6 +780,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "encumbrance_modifier": [ // a characters encumbrance will be modified by this value
       { "part": "head", "add": 10 }, // adding would increase the parts encumbrance
       { "part": "torso", "add": -8 }, // negative adding would decrease the parts encumbrance
+      { "part": "all", "add": 10 }, // "all" will apply to every body part
       { "part": "mouth", "multiply": -0.5 }, // multiplication would multiply the entire encumbrance value; -0.5 would result in 50% encumbrance
       { "part": "arm_l", "add": 1 }, // `"multiply": 1` would double the encumbrancce
       { "part": "leg_r", "add": { "math": [ "rand(3) * -1" ] } }, // supports math and stuff, works for both character/npcs and monsters. multiple `encumbrance_modifier`es of the same part do stack

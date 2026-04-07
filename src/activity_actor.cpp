@@ -5728,12 +5728,15 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() && craft.get_current_step() == 0 &&
         craft.get_step_progress() == 0.0 && craft.item_counter > 0 ) {
         // Need base_total_moves for conversion; compute it fresh here.
+        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
+                compute_tool_speeds( rec, crafter ) };
         const double migration_base = std::max( 1.0,
-                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) ) );
+                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
+                                                        migration_ctx ) ) );
         double accumulated = craft.item_counter * migration_base / 10000000.0;
         for( size_t i = 0; i < rec.steps().size(); ++i ) {
             double budget = rec.step_budget_moves( crafter, i,
-                                                   craft.get_making_batch_size() );
+                                                   craft.get_making_batch_size(), migration_ctx );
             if( accumulated < budget || i == rec.steps().size() - 1 ) {
                 craft.set_current_step( static_cast<int>( i ) );
                 craft.set_step_progress( accumulated );
@@ -5761,18 +5764,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
-        // Recompute per-step tool speed from current crafting inventory
-        cached_tool_speeds = compute_tool_speeds( rec, crafter );
-        const std::vector<float> *ts = cached_tool_speeds.empty() ? nullptr : &cached_tool_speeds;
+        // Recompute cost context: tool speeds + book proficiency bonuses
+        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
 
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0, ts ) );
+                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
+                                                    cached_cost_ctx ) );
         // Current expected total moves, includes crafting speed modifiers and assistants
         cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
                                            rec.batch_time( crafter, craft.get_making_batch_size(), crafting_speed,
-                                                   assistants, ts ) );
+                                                   assistants, cached_cost_ctx ) );
     }
     const double base_total_moves = cached_base_total_moves;
     const double cur_total_moves = cached_cur_total_moves;
@@ -5800,10 +5803,10 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( rec.has_steps() ) {
         craft.mod_step_progress( delta_progress );
         const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
-        const std::vector<float> *ts = cached_tool_speeds.empty() ? nullptr : &cached_tool_speeds;
         while( craft.get_current_step() < last_step_idx ) {
             const double budget = rec.step_budget_moves( crafter,
-                                  craft.get_current_step(), craft.get_making_batch_size(), ts );
+                                  craft.get_current_step(), craft.get_making_batch_size(),
+                                  cached_cost_ctx );
             if( craft.get_step_progress() < budget ) {
                 break;
             }
@@ -5814,7 +5817,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
-    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter, {},
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
     const int ticks_per_practice = 10000000.0 / total_practice_ticks;
@@ -6448,6 +6451,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 
     if( !got_anything ) {
         who.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+        who.add_msg_if_npc( m_bad, _( "<npcname> couldn't harvest anything." ) );
     }
 
     if( exam_furn ) {
@@ -9808,7 +9812,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
             } else if( it->has_flag( flag_FORAGE_HALLU ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_HALLU );
             }
-            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_player( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_npc( m_good, _( "<npcname> found: %s!" ), it->display_name() );
         }
     }
     // 10% to drop a item/items from this group.
@@ -9823,13 +9828,15 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
                 continue;
             }
             handled.push_back( it );
-            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_player( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_npc( m_good, _( "<npcname> found: %s!" ), it->display_name() );
             found_something = true;
         }
     }
 
     if( !found_something ) {
-        add_msg( _( "You didn't find anything." ) );
+        who.add_msg_if_player( _( "You didn't find anything." ) );
+        who.add_msg_if_npc( _( "<npcname> didn't find anything." ) );
     }
 
     iexamine::practice_survival_while_foraging( who );

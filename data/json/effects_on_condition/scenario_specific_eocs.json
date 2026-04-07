@@ -349,6 +349,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTE_BIRD_START",
+    "condition": { "and": [ { "u_has_profession": "mutant_patient_bird" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_bird" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_CEPHALOPOD_START",
+    "condition": { "and": [ { "u_has_profession": "mutant_patient_cephalopod" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_ceph" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_INSECT_START",
+    "condition": { "and": [ { "u_has_profession": "mutant_patient_insect" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_insect" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_scenario_eldritch_ire",
     "recurrence": [ "6 hours", "12 hours" ],
     "condition": { "u_has_trait": "ELDRITCH_IRE" },

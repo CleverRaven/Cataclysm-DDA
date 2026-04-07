@@ -52,10 +52,19 @@ bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &recp )
     return true;
 }
 
+const book_proficiency_bonuses &availability::get_book_bonuses() const
+{
+    if( !cached_book_bonuses ) {
+        cached_book_bonuses = crafter.book_bonuses_nearby();
+    }
+    return *cached_book_bonuses;
+}
+
 float availability::get_proficiency_time_maluses() const
 {
     if( proficiency_time_maluses < 0 ) {
-        proficiency_time_maluses = rec->proficiency_time_maluses( crafter );
+        proficiency_time_maluses = rec->proficiency_time_maluses(
+                                       crafter, get_book_bonuses() );
     }
 
     return proficiency_time_maluses;
@@ -73,7 +82,8 @@ float availability::get_max_proficiency_time_maluses() const
 float availability::get_proficiency_skill_maluses() const
 {
     if( proficiency_skill_maluses < 0 ) {
-        proficiency_skill_maluses = rec->proficiency_skill_maluses( crafter );
+        proficiency_skill_maluses = rec->proficiency_skill_maluses(
+                                        crafter, get_book_bonuses() );
     }
 
     return proficiency_skill_maluses;
@@ -202,7 +212,7 @@ craft_confirm_result can_start_craft(
 bool recipe_sort_compare(
     const recipe *a, const recipe *b,
     const availability &avail_a, const availability &avail_b,
-    const Character &crafter,
+    const Character &crafter, const crafting_cost_context &ctx,
     bool a_read, bool b_read,
     bool unread_first )
 {
@@ -222,7 +232,7 @@ bool recipe_sort_compare(
     if( a_name != b_name ) {
         return localized_compare( a_name, b_name );
     }
-    return b->time_to_craft( crafter ) < a->time_to_craft( crafter );
+    return b->time_to_craft( crafter, ctx ) < a->time_to_craft( crafter, ctx );
 }
 
 static std::string craft_success_chance_string( const recipe &recp, const Character &guy )
@@ -916,14 +926,15 @@ static void recursively_expand_recipes( std::vector<const recipe *> &current,
     }
 
     const bool want_unread = highlight_unread_recipes && unread_recipes_first;
+    const crafting_cost_context sort_ctx{ crafter.book_bonuses_nearby(), {} };
     std::stable_sort( tmp.begin(), tmp.end(), [
-                       &crafter, &availability_cache, want_unread
+                       &crafter, &availability_cache, want_unread, &sort_ctx
     ]( const recipe * const a, const recipe * const b ) {
         const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
         const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
         return recipe_sort_compare( a, b,
                                     availability_cache.at( a ), availability_cache.at( b ),
-                                    crafter, a_read, b_read, want_unread );
+                                    crafter, sort_ctx, a_read, b_read, want_unread );
     } );
 
     current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
@@ -1017,14 +1028,15 @@ recipe_list_data build_recipe_list(
 
     if( !skip_sort ) {
         const bool want_unread = highlight_unread && unread_first;
+        const crafting_cost_context sort_ctx{ crafter.book_bonuses_nearby(), {} };
         std::stable_sort( result.entries.begin(), result.entries.end(), [
-                       &crafter, &availability_cache, want_unread
+                       &crafter, &availability_cache, want_unread, &sort_ctx
         ]( const recipe * const a, const recipe * const b ) {
             const bool a_read = !want_unread || uistate.read_recipes.count( a->ident() );
             const bool b_read = !want_unread || uistate.read_recipes.count( b->ident() );
             return recipe_sort_compare( a, b,
                                         availability_cache.at( a ), availability_cache.at( b ),
-                                        crafter, a_read, b_read, want_unread );
+                                        crafter, sort_ctx, a_read, b_read, want_unread );
         } );
     }
 

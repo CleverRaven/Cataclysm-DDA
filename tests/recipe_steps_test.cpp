@@ -96,7 +96,7 @@ TEST_CASE( "step_recipe_aggregate_time", "[recipe][steps]" )
     guy.set_skill_level( skill_fabrication, 10 );
 
     const int64_t expected = to_moves<int64_t>( 20_minutes );
-    CHECK( r.time_to_craft_moves( guy, recipe_time_flag::ignore_proficiencies ) == expected );
+    CHECK( r.time_to_craft_moves( guy, {}, recipe_time_flag::ignore_proficiencies ) == expected );
 }
 
 TEST_CASE( "step_recipe_root_components_preserved", "[recipe][steps]" )
@@ -207,7 +207,7 @@ TEST_CASE( "step_recipe_proficiency_malus_clean_miss", "[recipe][steps]" )
     const int64_t raw_time = to_moves<int64_t>( 20_minutes );
 
     // Shape: 10m * 2.0, Sand: 5m * 1.0, Finish: 5m * 1.5 => 32.5m total
-    const int64_t with_malus = r.time_to_craft_moves( guy );
+    const int64_t with_malus = r.time_to_craft_moves( guy, {} );
     const double expected = 10.0 * to_moves<int64_t>( 1_minutes ) * 2.0 +
                             5.0 * to_moves<int64_t>( 1_minutes ) * 1.0 +
                             5.0 * to_moves<int64_t>( 1_minutes ) * 1.5;
@@ -224,10 +224,10 @@ TEST_CASE( "step_recipe_proficiency_grant_removes_step_penalty", "[recipe][steps
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const int64_t full_malus_time = r.time_to_craft_moves( guy );
+    const int64_t full_malus_time = r.time_to_craft_moves( guy, {} );
 
     guy.add_proficiency( proficiency_prof_test_step_a, true );
-    const int64_t no_a_malus_time = r.time_to_craft_moves( guy );
+    const int64_t no_a_malus_time = r.time_to_craft_moves( guy, {} );
 
     CHECK( full_malus_time > no_a_malus_time );
 
@@ -244,17 +244,17 @@ TEST_CASE( "step_recipe_partial_proficiency_sigmoid_mitigation", "[recipe][steps
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const int64_t full_malus = r.time_to_craft_moves( guy );
+    const int64_t full_malus = r.time_to_craft_moves( guy, {} );
 
     guy.add_proficiency( proficiency_prof_test_step_a, true );
-    const int64_t no_malus = r.time_to_craft_moves( guy );
+    const int64_t no_malus = r.time_to_craft_moves( guy, {} );
 
     // Train to ~75%, well past the sigmoid midpoint
     guy.lose_proficiency( proficiency_prof_test_step_a, true );
     const time_duration three_quarter = proficiency_prof_test_step_a->time_to_learn() * 3 / 4;
     guy.practice_proficiency( proficiency_prof_test_step_a, three_quarter );
     REQUIRE( !guy.has_proficiency( proficiency_prof_test_step_a ) );
-    const int64_t partial_malus = r.time_to_craft_moves( guy );
+    const int64_t partial_malus = r.time_to_craft_moves( guy, {} );
 
     CHECK( partial_malus < full_malus );
     CHECK( partial_malus > no_malus );
@@ -280,7 +280,7 @@ TEST_CASE( "step_recipe_same_prof_in_two_steps", "[recipe][steps]" )
     Character &guy = get_player_character();
     guy.set_skill_level( skill_fabrication, 10 );
 
-    const int64_t with_malus = r.time_to_craft_moves( guy );
+    const int64_t with_malus = r.time_to_craft_moves( guy, {} );
     const double expected = 20.0 * to_moves<int64_t>( 1_minutes ) * 2.0;
     CHECK( with_malus == static_cast<int64_t>( expected ) );
 }
@@ -309,9 +309,9 @@ TEST_CASE( "step_recipe_display_malus_is_step_derived", "[recipe][steps]" )
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const float display_malus = r.proficiency_time_maluses( guy );
+    const float display_malus = r.proficiency_time_maluses( guy, guy.book_bonuses_nearby() );
     const int64_t raw_time = to_moves<int64_t>( 20_minutes );
-    const int64_t actual_time = r.time_to_craft_moves( guy );
+    const int64_t actual_time = r.time_to_craft_moves( guy, {} );
 
     // Display ratio should match actual_time / raw_time
     CHECK( display_malus == Approx( static_cast<float>( actual_time ) /
@@ -334,8 +334,8 @@ TEST_CASE( "step_recipe_per_step_batch_savings", "[recipe][steps]" )
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
     const int batch = 4;
 
-    const int64_t batch4_time = r.batch_time( guy, batch, 1.0f, 0 );
-    const int64_t single_time = r.batch_time( guy, 1, 1.0f, 0 );
+    const int64_t batch4_time = r.batch_time( guy, batch, 1.0f, 0, {} );
+    const int64_t single_time = r.batch_time( guy, 1, 1.0f, 0, {} );
 
     CHECK( batch4_time < single_time * 4 );
     CHECK( batch4_time > single_time );
@@ -360,7 +360,7 @@ TEST_CASE( "stepless_recipe_unchanged", "[recipe][steps]" )
     Character &guy = get_player_character();
     guy.set_skill_level( skill_cooking, 10 );
 
-    CHECK( r.time_to_craft_moves( guy, recipe_time_flag::ignore_proficiencies ) ==
+    CHECK( r.time_to_craft_moves( guy, {}, recipe_time_flag::ignore_proficiencies ) ==
            to_moves<int64_t>( 15_minutes ) );
     CHECK_FALSE( r.simple_requirements().get_components().empty() );
     CHECK_FALSE( r.get_proficiencies().empty() );
@@ -605,7 +605,7 @@ TEST_CASE( "step_recipe_end_to_end_craft", "[recipe][steps][crafting]" )
     avatar &guy = get_avatar();
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0 );
+    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0, {} );
     const int expected_turns = divide_round_up( expected_moves, 100 );
     REQUIRE( expected_turns > 2 );
 
@@ -632,7 +632,7 @@ TEST_CASE( "step_recipe_interrupt_and_resume", "[recipe][steps][crafting]" )
     avatar &guy = get_avatar();
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0 );
+    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0, {} );
     const int expected_turns = divide_round_up( expected_moves, 100 );
     REQUIRE( expected_turns > 10 );
 
@@ -775,31 +775,31 @@ TEST_CASE( "step_budget_moves_direct", "[recipe][steps]" )
     REQUIRE( r.steps().size() == 3 );
 
     SECTION( "all profs known, batch 1" ) {
-        CHECK( r.step_budget_moves( guy, 0, 1 ) == Approx( 60000.0 ) );
-        CHECK( r.step_budget_moves( guy, 1, 1 ) == Approx( 30000.0 ) );
-        CHECK( r.step_budget_moves( guy, 2, 1 ) == Approx( 30000.0 ) );
+        CHECK( r.step_budget_moves( guy, 0, 1, {} ) == Approx( 60000.0 ) );
+        CHECK( r.step_budget_moves( guy, 1, 1, {} ) == Approx( 30000.0 ) );
+        CHECK( r.step_budget_moves( guy, 2, 1, {} ) == Approx( 30000.0 ) );
 
-        double sum = r.step_budget_moves( guy, 0, 1 ) +
-                     r.step_budget_moves( guy, 1, 1 ) +
-                     r.step_budget_moves( guy, 2, 1 );
-        CHECK( std::abs( sum - r.batch_time( guy, 1, 1.0f, 0 ) ) <= 1.0 );
+        double sum = r.step_budget_moves( guy, 0, 1, {} ) +
+                     r.step_budget_moves( guy, 1, 1, {} ) +
+                     r.step_budget_moves( guy, 2, 1, {} );
+        CHECK( std::abs( sum - r.batch_time( guy, 1, 1.0f, 0, {} ) ) <= 1.0 );
     }
 
     SECTION( "prof_A missing, batch 1" ) {
         guy.lose_proficiency( proficiency_prof_test_step_a, true );
         // Step 0 has prof_A with 2x malus -> doubled
-        CHECK( r.step_budget_moves( guy, 0, 1 ) == Approx( 120000.0 ) );
+        CHECK( r.step_budget_moves( guy, 0, 1, {} ) == Approx( 120000.0 ) );
         // Other steps unaffected
-        CHECK( r.step_budget_moves( guy, 1, 1 ) == Approx( 30000.0 ) );
-        CHECK( r.step_budget_moves( guy, 2, 1 ) == Approx( 30000.0 ) );
+        CHECK( r.step_budget_moves( guy, 1, 1, {} ) == Approx( 30000.0 ) );
+        CHECK( r.step_budget_moves( guy, 2, 1, {} ) == Approx( 30000.0 ) );
     }
 
     SECTION( "all profs known, batch 4" ) {
         double sum = 0.0;
         for( size_t i = 0; i < r.steps().size(); ++i ) {
-            sum += r.step_budget_moves( guy, i, 4 );
+            sum += r.step_budget_moves( guy, i, 4, {} );
         }
-        CHECK( std::abs( sum - r.batch_time( guy, 4, 1.0f, 0 ) ) <= 1.0 );
+        CHECK( std::abs( sum - r.batch_time( guy, 4, 1.0f, 0, {} ) ) <= 1.0 );
     }
 }
 
@@ -811,8 +811,8 @@ TEST_CASE( "step_transitions_exact_boundaries", "[recipe][steps][crafting]" )
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
     // With all profs and batch=1, step budgets are 600, 300, 300 turns
-    const int step_0_turns = static_cast<int>( r.step_budget_moves( guy, 0, 1 ) / 100 );
-    const int step_1_turns = static_cast<int>( r.step_budget_moves( guy, 1, 1 ) / 100 );
+    const int step_0_turns = static_cast<int>( r.step_budget_moves( guy, 0, 1, {} ) / 100 );
+    const int step_1_turns = static_cast<int>( r.step_budget_moves( guy, 1, 1, {} ) / 100 );
     REQUIRE( step_0_turns == 600 );
     REQUIRE( step_1_turns == 300 );
 
@@ -1067,7 +1067,7 @@ TEST_CASE( "step_interrupt_resume_completes", "[recipe][steps][crafting]" )
     avatar &guy = get_avatar();
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
 
-    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0 );
+    const int expected_moves = r.batch_time( guy, 1, 1.0f, 0, {} );
     const int expected_turns = divide_round_up( expected_moves, 100 );
 
     // Advance into step 1
@@ -1128,7 +1128,7 @@ TEST_CASE( "step_legacy_migration", "[recipe][steps][crafting]" )
 
     // Advance to ~60% progress
     const int total_turns = divide_round_up(
-                                static_cast<int>( r.batch_time( guy, 1, 1.0f, 0 ) ), 100 );
+                                static_cast<int>( r.batch_time( guy, 1, 1.0f, 0, {} ) ), 100 );
     advance_turns( guy, total_turns * 6 / 10 );
     REQUIRE( guy.activity.id() == ACT_CRAFT );
 
@@ -1564,13 +1564,13 @@ TEST_CASE( "step_budget_with_tool_speed", "[recipe][steps][tool_speed]" )
     REQUIRE( r.steps().size() == 3 );
 
     // Without tool speed: Finish step (idx 2) budget = 30000
-    CHECK( r.step_budget_moves( guy, 2, 1 ) == Approx( 30000.0 ) );
+    CHECK( r.step_budget_moves( guy, 2, 1, {} ) == Approx( 30000.0 ) );
 
     // With tool speed vector: [1.0, 1.0, 0.5] -- only Finish affected
     std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
-    CHECK( r.step_budget_moves( guy, 0, 1, &speeds ) == Approx( 60000.0 ) );
-    CHECK( r.step_budget_moves( guy, 1, 1, &speeds ) == Approx( 30000.0 ) );
-    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 15000.0 ) );
+    CHECK( r.step_budget_moves( guy, 0, 1, crafting_cost_context{ {}, speeds } ) == Approx( 60000.0 ) );
+    CHECK( r.step_budget_moves( guy, 1, 1, crafting_cost_context{ {}, speeds } ) == Approx( 30000.0 ) );
+    CHECK( r.step_budget_moves( guy, 2, 1, crafting_cost_context{ {}, speeds } ) == Approx( 15000.0 ) );
 }
 
 TEST_CASE( "tool_speed_composes_with_proficiency", "[recipe][steps][tool_speed]" )
@@ -1584,7 +1584,7 @@ TEST_CASE( "tool_speed_composes_with_proficiency", "[recipe][steps][tool_speed]"
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
     std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
-    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 22500.0 ) );
+    CHECK( r.step_budget_moves( guy, 2, 1, crafting_cost_context{ {}, speeds } ) == Approx( 22500.0 ) );
 }
 
 TEST_CASE( "batch_time_with_tool_speed", "[recipe][steps][tool_speed]" )
@@ -1597,9 +1597,9 @@ TEST_CASE( "batch_time_with_tool_speed", "[recipe][steps][tool_speed]" )
     guy.add_proficiency( proficiency_prof_test_step_b, true );
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
-    int64_t time_no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    int64_t time_no_speed = r.batch_time( guy, 1, 1.0f, 0, {} );
     std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
-    int64_t time_with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    int64_t time_with_speed = r.batch_time( guy, 1, 1.0f, 0, crafting_cost_context{ {}, speeds } );
 
     // Finish step is 30000 -> 15000 with tool speed, so total drops by 15000
     CHECK( time_with_speed < time_no_speed );
@@ -1624,8 +1624,8 @@ TEST_CASE( "step_without_qualities_unaffected", "[recipe][steps][tool_speed]" )
     // This test verifies that the CALLER (compute_tool_speeds) produces 1.0
     // for steps without quality requirements. For now, test the vector path.
     std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
-    CHECK( r.step_budget_moves( guy, 0, 1, &speeds ) == Approx( 60000.0 ) );
-    CHECK( r.step_budget_moves( guy, 1, 1, &speeds ) == Approx( 30000.0 ) );
+    CHECK( r.step_budget_moves( guy, 0, 1, crafting_cost_context{ {}, speeds } ) == Approx( 60000.0 ) );
+    CHECK( r.step_budget_moves( guy, 1, 1, crafting_cost_context{ {}, speeds } ) == Approx( 30000.0 ) );
 }
 
 TEST_CASE( "slow_tool_increases_step_time", "[recipe][steps][tool_speed]" )
@@ -1639,7 +1639,7 @@ TEST_CASE( "slow_tool_increases_step_time", "[recipe][steps][tool_speed]" )
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
     std::vector<float> speeds = { 1.0f, 1.0f, 1.5f };
-    CHECK( r.step_budget_moves( guy, 2, 1, &speeds ) == Approx( 45000.0 ) );
+    CHECK( r.step_budget_moves( guy, 2, 1, crafting_cost_context{ {}, speeds } ) == Approx( 45000.0 ) );
 }
 
 TEST_CASE( "mixed_speed_multi_step_invariant", "[recipe][steps][tool_speed]" )
@@ -1656,9 +1656,9 @@ TEST_CASE( "mixed_speed_multi_step_invariant", "[recipe][steps][tool_speed]" )
 
     double sum = 0.0;
     for( size_t i = 0; i < r.steps().size(); ++i ) {
-        sum += r.step_budget_moves( guy, i, 1, &speeds );
+        sum += r.step_budget_moves( guy, i, 1, crafting_cost_context{ {}, speeds } );
     }
-    int64_t bt = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    int64_t bt = r.batch_time( guy, 1, 1.0f, 0, crafting_cost_context{ {}, speeds } );
     // batch_time truncates to int64_t; sum is double. Within 1 move.
     CHECK( std::abs( sum - static_cast<double>( bt ) ) <= 1.0 );
 }
@@ -1674,9 +1674,9 @@ TEST_CASE( "single_item_floor_with_tool_speed", "[recipe][steps][tool_speed]" )
     guy.add_proficiency( proficiency_prof_test_step_b, true );
 
     const recipe &r = recipe_cudgel_test_steps_basic.obj();
-    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0, {} );
     std::vector<float> speeds = { 1.0f, 1.0f, 0.5f };
-    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, crafting_cost_context{ {}, speeds } );
 
     // batch=1 hits the single-item floor. If the floor is NOT speed-aware,
     // with_speed would equal no_speed (clamped back up). It must be less.
@@ -1764,9 +1764,9 @@ TEST_CASE( "stepless_recipe_unaffected_by_tool_speed", "[recipe][steps][tool_spe
     }
 
     // batch_time with and without tool speeds should be identical for stepless
-    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0 );
+    int64_t no_speed = r.batch_time( guy, 1, 1.0f, 0, {} );
     std::vector<float> speeds;  // empty for stepless
-    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, &speeds );
+    int64_t with_speed = r.batch_time( guy, 1, 1.0f, 0, crafting_cost_context{ {}, speeds } );
     CHECK( no_speed == with_speed );
 }
 

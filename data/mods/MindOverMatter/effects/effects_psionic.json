@@ -286,122 +286,13 @@
     "enchantments": [
       {
         "encumbrance_modifier": [
-          { "part": "head", "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] } },
           {
-            "part": "torso",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_feathers_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_feathers_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_wing_bird_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_wing_bird_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_leathery_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_leathery_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_wing_bat_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "arm_wing_bat_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "hand_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "hand_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "gastropod_foot",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "foot_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "foot_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_crab_front_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_crab_front_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_crab_rear_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "leg_crab_rear_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "animal_paw_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "animal_paw_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "avian_talon_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "avian_talon_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "hoof_l",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "hoof_r",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
-          },
-          {
-            "part": "tail",
-            "add": { "math": [ "-1 * u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers()" ] }
+            "part": "all",
+            "add": {
+              "math": [
+                "-1 * ( u_spell_level('biokin_enhance_mobility') * psionic_power_modifiers() )"
+              ]
+            }
           }
         ]
       }

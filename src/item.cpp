@@ -4982,14 +4982,15 @@ const cata::value_ptr<islot_comestible> &item::get_comestible() const
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
     int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
-                recipe_time_flag::ignore_proficiencies );
+                {}, recipe_time_flag::ignore_proficiencies );
     std::vector<item_comp> to_be_disassembled = get_uncraft_components();
     while( !to_be_disassembled.empty() ) {
         item_comp current_comp = to_be_disassembled.back();
         to_be_disassembled.pop_back();
         const recipe &r = recipe_dictionary::get_uncraft( current_comp.type->get_id() );
         if( r.ident() != recipe_id::NULL_ID() ) {
-            moves += r.time_to_craft_moves( guy ) * current_comp.count;
+            moves += r.time_to_craft_moves( guy,
+                                            crafting_cost_context::for_proficiencies( guy ) ) * current_comp.count;
             std::vector<item_comp> components = item( current_comp.type->get_id() ).get_uncraft_components();
             for( item_comp &component : components ) {
                 component.count *= current_comp.count;

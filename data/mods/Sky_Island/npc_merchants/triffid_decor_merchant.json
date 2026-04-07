@@ -1,0 +1,183 @@
+[
+  {
+    "type": "npc",
+    "id": "si_triffid_decor_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_SKY_ISLAND_TRIFFID_DECOR_MERCHANT",
+    "name_unique": "Triffid",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SI_TRIFFID_DECOR_MERCHANT",
+    "faction": "sky_island_traders",
+    "personality": { "aggression": -10, "bravery": 5, "collector": 10, "altruism": -6 },
+    "snip_bye": "…"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SKY_ISLAND_TRIFFID_DECOR_MERCHANT",
+    "name": { "str": "Triffid Decor Merchant" },
+    "job_description": "I sell people decor pieces in exchange for seeds.",
+    "traits": [
+      { "trait": "SI_TRIFFID_DECOR_MUTATION" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": [
+      { "group": "SI_TRIFFID_DECOR_Store", "rigid": true },
+      {
+        "group": "SI_TRIFFID_DECOR_Store_Tier3",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 3" ] }
+      },
+      {
+        "group": "SI_TRIFFID_DECOR_Store_Tier4",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 4" ] }
+      }
+    ],
+    "shopkeeper_price_rules": [
+      { "category": "seeds", "premium": 3 },
+      { "group": "SI_TRIFFID_DECOR_MERCHANT_CARPETS", "price": 250, "fixed_adj": 0 },
+      { "item": "teddy_bear", "price": 500 },
+      { "item": "shark_plushie", "price": 500 }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_whitelist": "si_triffid_decor_merchant_whitelist",
+    "weapon_override": "si_triffid_decor_merchant_wield",
+    "worn_override": "si_triffid_decor_merchant_worn",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_triffid_decor_merchant_wield",
+    "subtype": "collection",
+    "entries": [  ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_triffid_decor_merchant_worn",
+    "subtype": "collection",
+    "entries": [  ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "si_triffid_decor_merchant_whitelist",
+    "message": "<npcname>'s fronds wave back and forth vigorously.",
+    "entries": [
+      { "category": "seeds" },
+      { "item": "apple" },
+      { "item": "orange" },
+      { "item": "banana" },
+      { "item": "blueberries" },
+      { "item": "strawberries" },
+      { "item": "pear" },
+      { "item": "grapefruit" },
+      { "item": "cherries" },
+      { "item": "plums" },
+      { "item": "grapes" },
+      { "item": "pineapple" },
+      { "item": "peach" },
+      { "item": "cranberries" },
+      { "item": "watermelon" },
+      { "item": "melon" },
+      { "item": "raspberries" },
+      { "item": "blackberries" },
+      { "item": "mango" },
+      { "item": "pomegranate" },
+      { "item": "papaya" },
+      { "item": "kiwi" },
+      { "item": "apricot" },
+      { "item": "teddy_bear" },
+      { "item": "shark_plushie" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_TRIFFID_DECOR_MERCHANT_CARPETS",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "y_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_TRIFFID_DECOR_Store",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "y_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "g_carpet", "prob": 90, "count": [ 5, 12 ] },
+      { "item": "birdbath_token", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "display_case_token", "prob": 80, "count": [ 1, 2 ] },
+      { "item": "planter_token", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_TRIFFID_DECOR_Store_Tier3",
+    "subtype": "collection",
+    "entries": [
+      { "item": "statue_token", "prob": 90, "count": [ 1, 2 ] },
+      { "item": "glass_door_token", "prob": 70, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_TRIFFID_DECOR_Store_Tier4",
+    "subtype": "collection",
+    "entries": [ { "item": "corpse_yugg_jade", "prob": 5, "count": 1 } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_TRIFFID_DECOR_MERCHANT",
+    "dynamic_line": "*waves its fronds gently as you approach.",
+    "responses": [
+      {
+        "text": "What.",
+        "topic": "TALK_SI_TRIFFID_DECOR_MERCHANT_HELLO",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_tried_talking_to_si_triffid_decor_merchant" } ] } },
+        "effect": { "u_add_var": "u_tried_talking_to_si_triffid_decor_merchant", "value": "yes" }
+      },
+      {
+        "text": "Okay, sure, I guess we're doing this.  Let's trade.",
+        "effect": "start_trade",
+        "topic": "TALK_SI_TRIFFID_DECOR_MERCHANT"
+      },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_TRIFFID_DECOR_MERCHANT_HELLO",
+    "dynamic_line": "*waves one frond at a pad of paper on the table.  When you bend down to look at it, you see words in English on it:\n\n\"Greetings, mammal.  I come to trade.  Bring me fruits and seeds.\"",
+    "responses": [
+      { "text": "Well, I guess that sounds fine.", "effect": "start_trade", "topic": "TALK_SI_TRIFFID_DECOR_MERCHANT" },
+      { "text": "Not at the moment, thanks.", "topic": "TALK_DONE" }
+    ]
+  }
+]

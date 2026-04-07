@@ -13,10 +13,13 @@
 #include "coordinates.h"
 #include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "point.h"
 #include "ret_val.h"
+#include "stomach.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -24,7 +27,6 @@
 
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
-static const flag_id json_flag_FIRESTARTER( "FIRESTARTER" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 
@@ -56,8 +58,13 @@ status_t character_oracle_t::needs_water_badly( std::string_view ) const
 
 status_t character_oracle_t::needs_food_badly( std::string_view ) const
 {
-    // Check hunger threshold.
+    // Short-term: stomach empty and actively starving.
     if( subject->get_hunger() >= 300 && subject->get_starvation() > base_metabolic_rate ) {
+        return status_t::running;
+    }
+    // Long-term: severe caloric deficit (same threshold as address_needs extreme path).
+    if( subject->get_stored_kcal() + subject->stomach.get_calories() <
+        subject->get_healthy_kcal() * 3 / 4 ) {
         return status_t::running;
     }
     return status_t::success;
@@ -76,24 +83,15 @@ status_t character_oracle_t::can_wear_warmer_clothes( std::string_view ) const
 
 status_t character_oracle_t::can_make_fire( std::string_view ) const
 {
-    // Check inventory for firemaking tools and fuel
-    bool tool = false;
-    bool fuel = false;
-    bool found_fire_stuff = subject->has_item_with( [&tool, &fuel]( const item & candidate ) {
-        if( candidate.has_flag( json_flag_FIRESTARTER ) ) {
-            tool = true;
-            if( fuel ) {
-                return true;
-            }
-        } else if( candidate.flammable() ) {
-            fuel = true;
-            if( tool ) {
-                return true;
-            }
-        }
-        return false;
-    } );
-    return found_fire_stuff ? status_t::running : status_t::failure;
+    // Delegate to npc::find_fire_spot() so the predicate and executor
+    // share the same viability policy (tool quality, tinder scope,
+    // fuel type, tile suitability).
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n ) {
+        return status_t::failure;
+    }
+    return const_cast<npc *>( n )->find_fire_spot().has_value()
+           ? status_t::running : status_t::failure;
 }
 
 status_t character_oracle_t::can_take_shelter( std::string_view ) const
@@ -123,6 +121,62 @@ status_t character_oracle_t::has_food( std::string_view ) const
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? status_t::running : status_t::failure;
+}
+
+status_t character_oracle_t::can_obtain_food( std::string_view ) const
+{
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n ) {
+        return status_t::failure;
+    }
+    // TODO: const_cast because will_eat/rate_food are not const-qualified.
+    // Safe today (they do not mutate), but fragile if they gain side effects.
+    // Fix by making the candidate query const once those methods are.
+    // Camp food is included in the candidate list as need_source::camp_food.
+    return const_cast<npc *>( n )->find_food_candidates().empty()
+           ? status_t::failure : status_t::running;
+}
+
+status_t character_oracle_t::can_obtain_water( std::string_view ) const
+{
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n ) {
+        return status_t::failure;
+    }
+    // Camp water is included in the candidate list as need_source::camp_water.
+    return const_cast<npc *>( n )->find_water_candidates().empty()
+           ? status_t::failure : status_t::running;
+}
+
+status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
+{
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( !n ) {
+        return status_t::failure;
+    }
+    // Inventory wearable warmth: the executor handles this in step 1,
+    // but the predicate must detect it now that legacy
+    // can_wear_warmer_clothes is no longer a separate BT goal.
+    if( subject->has_item_with( [this]( const item & it ) {
+    return it.get_warmth() > 0 && subject->can_wear( it ).success() &&
+               !subject->is_worn( it );
+    } ) ) {
+        return status_t::running;
+    }
+    // TODO: same const_cast caveat as can_obtain_food above.
+    // find_nearby_warm_clothing uses can_wear which is not const-qualified.
+    if( !const_cast<npc *>( n )->find_warmth_candidates().empty() ) {
+        return status_t::running;
+    }
+    // Already indoors with no other warmth sources: the executor will
+    // hold position until warmth recovers. After the indoor hold
+    // timeout (60 turns without progress), stop returning running so
+    // the BT can assign follow/duty instead of holding forever.
+    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, n->pos_bub() ) &&
+        n->get_warmth_indoor_hold_turns() < 60 ) {
+        return status_t::running;
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::needs_sleep_badly( std::string_view ) const

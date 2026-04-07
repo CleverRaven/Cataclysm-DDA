@@ -102,6 +102,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "popup.h" // For play_game
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -7648,9 +7649,9 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
             const recipe *meal = dishes[choice];
             int mealtime;
             if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
+                mealtime = meal->time_to_craft_moves( *p, {}, recipe_time_flag::ignore_proficiencies );
             } else {
-                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
+                mealtime = meal->time_to_craft_moves( *p, {}, recipe_time_flag::ignore_proficiencies ) * 2;
             }
 
             const int all_charges = charges_to_start + mealtime * units::to_watt(

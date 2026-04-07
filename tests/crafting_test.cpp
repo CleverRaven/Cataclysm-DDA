@@ -632,7 +632,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     int turns_taken = 0;
     const int max_turns = 100000;
 
-    float time_malus = rec->proficiency_time_maluses( ch );
+    float time_malus = rec->proficiency_time_maluses( ch, ch.book_bonuses_nearby() );
 
     // Proficiency progress is checked every 5% of craft progress, so up to 5% of one craft worth can be wasted depending on timing
     // Rounding effects account for another tiny bit
@@ -1150,7 +1150,7 @@ TEST_CASE( "total_crafting_time_with_or_without_interruption", "[crafting][time]
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "razor_shaving" );
-        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0 );
+        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0, {} );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<item> tools;
@@ -1437,20 +1437,24 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
         const recipe &test_recipe = *recipe_leather_belt;
 
         grant_skills_to_character( get_player_character(), test_recipe, 0 );
-        int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+        const Character &ch = get_player_character();
+        crafting_cost_context ctx_no_book{ ch.book_bonuses_nearby(), {} };
+        int unmitigated_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_no_book );
 
         WHEN( "player has a book mitigating lack of proficiency" ) {
             std::vector<item> books;
             books.emplace_back( itype_manual_tailor );
             give_tools( books, true );
             get_player_character().invalidate_crafting_inventory();
-            int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+            crafting_cost_context ctx_with_book{ ch.book_bonuses_nearby(), {} };
+            int mitigated_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_with_book );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
                 grant_proficiencies_to_character( get_player_character(), test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
+                crafting_cost_context ctx_proficient{ ch.book_bonuses_nearby(), {} };
+                int proficient_time_taken = test_recipe.batch_time( ch, 1, 1, 0, ctx_proficient );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }
@@ -1468,19 +1472,19 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
         const recipe &test_recipe = *recipe_leather_belt;
 
         grant_skills_to_character( tester, test_recipe, 0 );
-        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+        int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
 
         WHEN( "player acquires partial proficiency" ) {
             for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
-            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+            int mitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
             THEN( "it takes less time to craft the recipe" ) {
                 CHECK( mitigated_time_taken < unmitigated_time_taken );
             }
             AND_WHEN( "player acquires missing proficiencies" ) {
                 grant_proficiencies_to_character( tester, test_recipe, true );
-                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
+                int proficient_time_taken = test_recipe.batch_time( tester, 1, 1, 0, {} );
                 THEN( "it takes even less time to craft the recipe" ) {
                     CHECK( proficient_time_taken < mitigated_time_taken );
                 }

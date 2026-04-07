@@ -2483,7 +2483,13 @@ bool item::has_link_data() const
 
 bool item::can_link_up() const
 {
-    return has_link_data() || type->can_use( "link_up" );
+    const bool can_link = has_link_data() || type->can_use( "link_up" );
+    if( can_link && !get_use( "link_up" ) ) {
+        debugmsg( "can_link_up() found no link_up use function for %s. Most likely missing link_up in item transform",
+                  type_name() );
+        return false;
+    }
+    return can_link;
 }
 
 bool item::link_has_state( link_state state ) const

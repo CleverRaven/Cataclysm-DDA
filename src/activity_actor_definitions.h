@@ -1912,7 +1912,7 @@ class craft_activity_actor : public activity_actor
         std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
         float cached_crafting_speed; // NOLINT(cata-serialize)
         int cached_assistants; // NOLINT(cata-serialize)
-        std::vector<float> cached_tool_speeds; // NOLINT(cata-serialize)
+        crafting_cost_context cached_cost_ctx; // NOLINT(cata-serialize)
         double cached_base_total_moves; // NOLINT(cata-serialize)
         double cached_cur_total_moves; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
@@ -3201,9 +3201,11 @@ class fire_start_activity_actor : public activity_actor
         fire_start_activity_actor() = default;
     public:
         fire_start_activity_actor( const tripoint_abs_ms &fire_placement, const item_location &fire_starter,
-                                   int potential_skill_gain, int initial_moves ) :
+                                   int potential_skill_gain, int initial_moves,
+                                   bool tinder_consumed = false ) :
             fire_placement( fire_placement ), fire_starter( fire_starter ),
-            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ), used_tinder( false ) {
+            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ),
+            used_tinder( tinder_consumed ) {
         };
         const activity_id &get_type() const override {
             static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );

@@ -63,6 +63,10 @@ enum class scroll : int {
     page_down
 };
 
+// smallest supported resolution, in px
+constexpr int min_screen_res_x = 640;
+constexpr int min_screen_res_y = 384;
+
 class client
 {
         std::vector<int> cata_input_trail;
@@ -102,6 +106,8 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( const nc_color &color );
 
+ImU32 ImU32_from_color( const nc_color &color );
+
 void set_scroll( scroll &s );
 
 void draw_colored_text( const std::string &original_text, const nc_color &color,
@@ -113,6 +119,11 @@ void draw_colored_text( const std::string &original_text, nc_color &color,
 void draw_colored_text( const std::string &original_text,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
+// calculates how much space the text takes horizontally, in pixels, without color tags
+size_t get_string_width( std::string_view str );
+// calculates how much space the text takes vertically, in pixels, including the wrapping
+size_t get_string_height( std::string_view str, float wrap_width );
 
 class window
 {

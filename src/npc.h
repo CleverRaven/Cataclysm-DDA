@@ -556,6 +556,73 @@ struct npc_short_term_cache {
     // BT goal commitment: persists across turns until completed or
     // overridden by a higher-priority goal. Empty = no commitment.
     std::string committed_goal;
+
+    // Result of the last execute_need_goal call.
+    enum class need_result : int {
+        idle,        // no plan active
+        progressed,  // moved toward target or started activity
+        satisfied,   // need fulfilled (ate, drank, etc.)
+        holding,     // deliberate positional wait (e.g., indoors warming up)
+        blocked,     // transient failure, worth retrying
+        deferred,    // blocked by policy (danger), don't count as no-progress
+        impossible   // target gone or unreachable, clear/retarget
+    };
+
+    // Typed identifiers for executorized need goals.
+    enum class need_goal_id : int { eat_food, drink_water, seek_warmth, go_to_sleep };
+
+    // Per-goal executor state. Tracks a concrete target so the executor
+    // does not rescan and dither every turn.
+    enum class need_source : int {
+        none, ground_item, harvestable, water_terrain,
+        ground_clothing, shelter,
+        camp_food, camp_water, // predicate-only, never sticky plan targets
+        sleep_spot, fire_spot
+    };
+
+    struct need_plan {
+        std::string goal;
+        need_source source_kind = need_source::none;
+        tripoint_abs_ms target;
+        need_result last_result = need_result::idle;
+        int no_progress_turns = 0;
+
+        bool active() const {
+            return !goal.empty();
+        }
+        void clear() {
+            *this = need_plan{};
+        }
+    };
+    need_plan food_plan;
+    need_plan water_plan;
+    // Targets that hit the no-progress timeout. Managed explicitly by
+    // the executor (populated on timeout, cleared on satisfaction or
+    // goal change). Separate from need_plan so plan.clear() does not
+    // interact with failure history.
+    std::set<tripoint_abs_ms> food_failed_targets;
+    std::set<tripoint_abs_ms> water_failed_targets;
+    need_plan warmth_plan;
+    std::set<tripoint_abs_ms> warmth_failed_targets;
+    need_plan sleep_plan;
+    std::set<tripoint_abs_ms> sleep_failed_targets;
+
+    // Counts turns spent in the planless indoor warmth hold fallback.
+    // Persists across commitment cycles so the predicate can stop
+    // returning running after the threshold is reached.
+    // Reset when a real warmth plan is acquired or warmth resolves.
+    int warmth_indoor_hold_turns = 0;
+
+    // Filter for consume_food / find_nearby_food / consume_food_from_camp.
+    enum class consume_filter : int { any, food_only, drink_only };
+
+    // Shared candidate between BT predicates and executor target acquisition.
+    struct need_candidate {
+        need_source source_kind = need_source::none;
+        tripoint_abs_ms target;
+        float score = 0.0f;
+    };
+
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint_abs_ms, int> searched_tiles;
     // returns the value of the distance between a friendly creature and the closest enemy to that
@@ -1162,14 +1229,23 @@ class npc : public Character
             int dist;
         };
         std::vector<scored_water_source> find_nearby_water_sources() const;
-        std::vector<scored_item> find_nearby_food();
+        using consume_filter = npc_short_term_cache::consume_filter;
+        using need_candidate = npc_short_term_cache::need_candidate;
+        // Shared query layer: both BT predicates and executor target
+        // acquisition use these, so policy (visibility, locks, zones,
+        // will_eat, rate_food) is defined in one place. Non-const because
+        // the underlying will_eat/rate_food calls are not const-qualified.
+        std::vector<need_candidate> find_food_candidates();
+        std::vector<need_candidate> find_water_candidates();
+        std::vector<need_candidate> find_warmth_candidates();
+        std::vector<scored_item> find_nearby_food( consume_filter filter = consume_filter::any );
         std::vector<scored_item> find_nearby_warm_clothing();
         std::vector<scored_shelter> find_nearby_shelters() const;
-        std::vector<scored_water_source> find_nearby_harvestable() const;
+        std::vector<scored_water_source> find_nearby_harvestable( bool food_only = false ) const;
         bool drink_from_water_source( const tripoint_bub_ms &water_pos );
         bool consume_food_at( item_location loc );
         bool wear_item_at( item_location loc );
-        bool move_to_and_verify( const tripoint_bub_ms &target );
+        bool move_to_and_verify( const tripoint_bub_ms &target, bool no_bashing = false );
         npc_action address_player();
         npc_action long_term_goal_action();
         int evaluate_sleep_spot( tripoint_bub_ms p );
@@ -1283,8 +1359,8 @@ class npc : public Character
         // Do we have an idea of where u are?
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
-        bool consume_food();
-        bool consume_food_from_camp();
+        bool consume_food( consume_filter filter = consume_filter::any );
+        bool consume_food_from_camp( consume_filter filter = consume_filter::any );
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1389,6 +1465,11 @@ class npc : public Character
         float get_ai_danger() const {
             return ai_cache.danger;
         }
+        // Test-only: inject danger for executor-level tests that bypass move().
+        // Not for general use -- regen_ai_cache() overwrites danger every turn.
+        void set_ai_danger( float d ) {
+            ai_cache.danger = d;
+        }
         weak_ptr_fast<Creature> get_ai_target() const {
             return ai_cache.target;
         }
@@ -1403,6 +1484,56 @@ class npc : public Character
         }
         void set_committed_goal( const std::string &goal ) {
             ai_cache.committed_goal = goal;
+        }
+        // Clear the committed goal and any associated executor state
+        // (plan + failed_targets + side effects like effect_lying_down).
+        // Also cancels self-care activities (forage/harvest/fire) that
+        // bypass BT re-evaluation in move().  Use this instead of
+        // set_committed_goal("") to avoid stale state across transitions.
+        void clear_committed_goal();
+        using need_result = npc_short_term_cache::need_result;
+        using need_plan = npc_short_term_cache::need_plan;
+        using need_source = npc_short_term_cache::need_source;
+        using need_goal_id = npc_short_term_cache::need_goal_id;
+
+        // Map goal string to typed ID.  Returns nullopt for non-executor goals.
+        static std::optional<need_goal_id> goal_id_for( std::string_view goal );
+        // Convenience: true if goal_id_for returns a value.
+        static bool is_executor_goal( std::string_view goal );
+
+        // Accessors keyed by typed ID.
+        need_plan &plan_for( need_goal_id id );
+        std::set<tripoint_abs_ms> &failed_targets_for( need_goal_id id );
+        // Clear both plan and failed_targets for the given goal.
+        void clear_need_state( need_goal_id id );
+        // Recompute the urgency score for an executor need using the
+        // same oracle functions the BT's score predicates use.
+        float current_need_urgency( need_goal_id id ) const;
+
+        // Execute the concrete action for a needs-category goal.
+        // Owns target selection and progress tracking.
+        need_result execute_need_goal( std::string_view goal );
+        need_result execute_eat_food();
+        need_result execute_drink_water();
+        need_result execute_seek_warmth();
+        need_result execute_go_to_sleep();
+        std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
+        std::optional<tripoint_bub_ms> find_fire_spot();
+        bool has_adjacent_fire() const;
+        const need_plan &get_food_plan() const {
+            return ai_cache.food_plan;
+        }
+        const need_plan &get_water_plan() const {
+            return ai_cache.water_plan;
+        }
+        const need_plan &get_warmth_plan() const {
+            return ai_cache.warmth_plan;
+        }
+        const need_plan &get_sleep_plan() const {
+            return ai_cache.sleep_plan;
+        }
+        int get_warmth_indoor_hold_turns() const {
+            return ai_cache.warmth_indoor_hold_turns;
         }
         // Persistent duty post from mission/dialogue assignment.
         // Used by BT duty predicates. Does NOT include ephemeral

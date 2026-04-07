@@ -1552,7 +1552,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6000, minus 200 per level to a minimum of 3000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.<br />
+*Effects*: Allows the psion to teleport to a locus that they are maintaining with Loci Establishment, does nothing if not maintaining a locus. Loci Technique and Loci Establishment are learned from contemplating Loci Establishment but have separate practice meditations.  The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Extended Stride 6, Farstep 6 (Learned with Loci Establishment)<br />
 </details>
 <details>

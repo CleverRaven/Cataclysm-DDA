@@ -221,16 +221,21 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
         item_location sweater = test_npc.i_add( item( itype_sweater ) );
-        CHECK( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
-        CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
+        // With warmth unified under seek_warmth, inventory clothing
+        // triggers can_obtain_warmth (not legacy can_wear_warmer_clothes).
+        CHECK( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
         item sweater_copy = *sweater;
         test_npc.wear_item( sweater_copy );
         sweater.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.i_add( item( itype_lighter ) );
+        test_npc.i_add( tool_with_ammo( itype_lighter, 20 ) );
         test_npc.i_add( item( itype_2x4 ) );
+        get_map().build_map_cache( 0 );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
-        CHECK( npc_needs.tick( &oracle ) == "start_fire" );
+        // Fire supplies make can_obtain_warmth return running (fire is
+        // a warmth strategy), so npc_obtain_warmth succeeds with seek_warmth.
+        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Hungry" ) {
         test_npc.set_hunger( 500 );
@@ -332,16 +337,16 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         const item_group::ItemList water_items = item_group::items_from(
                     Item_spawn_data_test_bottle_water );
         test_npc.i_add( water_items.front() );
-        REQUIRE( oracle.can_wear_warmer_clothes( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
 
         // warmth_urgency (near 1.0) >> thirst_urgency (0.58)
-        CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
+        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Freezing with fire supplies also wins over thirst" ) {
         // Proves the score lives on npc_homeostasis (the fallback branch),
-        // not on npc_wear_warmer_clothes. If the score were misplaced on
-        // the leaf, this path through npc_make_fire would be unscored.
+        // not on npc_obtain_warmth. If the score were misplaced on the
+        // leaf, this path through npc_make_fire would be unscored.
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
@@ -351,18 +356,22 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
 
-        // Fire supplies + water, no warm clothes
+        // Fire supplies + water, no warm clothes or shelter
         test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
-        test_npc.i_add( item( itype_lighter ) );
+        test_npc.i_add( tool_with_ammo( itype_lighter, 20 ) );
         test_npc.i_add( item( itype_2x4 ) );
         const item_group::ItemList water_items = item_group::items_from(
                     Item_spawn_data_test_bottle_water );
         test_npc.i_add( water_items.front() );
-        REQUIRE( oracle.can_wear_warmer_clothes( "" ) != behavior::status_t::running );
+        // find_fire_spot needs map cache for move_cost/is_flammable.
+        get_map().build_map_cache( 0 );
+        // Fire supplies make can_obtain_warmth return running (fire is
+        // a warmth strategy inside find_warmth_candidates).
+        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
 
-        CHECK( npc_needs.tick( &oracle ) == "start_fire" );
+        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Dead tired -- sleep is feasible" ) {
         // can_sleep threshold matches needs_sleep_badly at DEAD_TIRED.
@@ -494,7 +503,9 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         here.ter_set( adj, ter_t_floor );
         REQUIRE( oracle.can_take_shelter( "" ) == behavior::status_t::running );
 
-        CHECK( npc_needs.tick( &oracle ) == "take_shelter" );
+        // seek_warmth fires before legacy take_shelter because
+        // npc_obtain_warmth is first in the warmth fallback chain.
+        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Freezing outdoors with no shelter" ) {
         weather_manager &weather = get_weather();
@@ -502,11 +513,53 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather.clear_temp_cache();
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
-        REQUIRE( oracle.can_take_shelter( "" ) == behavior::status_t::failure );
+        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::failure );
 
-        // All warmth options fail -> idle
+        // No warmth sources, no fire supplies -> idle
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
+}
+
+TEST_CASE( "tree_tick_full_returns_score", "[behavior]" )
+{
+    // Verify tick_full exposes the BT's utility score.
+    // A cold, thirsty NPC with both water and warmth sources available
+    // should produce a goal with a nonzero urgency score.
+    clear_map_without_vision();
+    set_time_to_day();
+    get_weather().forced_temperature = -30_C;
+
+    npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( test_npc, true );
+    test_npc.set_fac( faction_your_followers );
+    test_npc.set_attitude( NPCATT_FOLLOW );
+
+    // Make the NPC cold and thirsty so npc_needs produces a scored goal.
+    test_npc.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+    test_npc.set_thirst( 700 );
+    test_npc.set_stored_kcal( 55000 );
+    test_npc.set_hunger( 0 );
+    test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
+
+    // Give warmth source (inventory sweater) and water source (inventory).
+    test_npc.i_add( item( itype_sweater ) );
+    const item_group::ItemList water_items = item_group::items_from(
+                Item_spawn_data_test_bottle_water );
+    test_npc.i_add( water_items.front() );
+
+    map &here = get_map();
+    here.build_map_cache( 0 );
+
+    behavior::character_oracle_t oracle( &test_npc );
+    behavior::tree bt;
+    bt.add( &behavior_node_t_npc_needs.obj() );
+
+    auto [goal, score] = bt.tick_full( &oracle );
+    // The BT should select a needs goal with a positive urgency score.
+    CHECK_FALSE( goal == "idle" );
+    CHECK( score > 0.0f );
+    // tick_full and tick should agree on the goal.
+    CHECK( bt.tick( &oracle ) == goal );
 }
 
 TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
@@ -1189,9 +1242,11 @@ TEST_CASE( "npc_decision_category_mapping", "[npc][behavior]" )
         CHECK( bt_goal_to_category( "drink_water" ) == decision_category::needs );
         CHECK( bt_goal_to_category( "eat_food" ) == decision_category::needs );
         CHECK( bt_goal_to_category( "go_to_sleep" ) == decision_category::needs );
-        CHECK( bt_goal_to_category( "wear_warmer_clothes" ) == decision_category::needs );
-        CHECK( bt_goal_to_category( "take_shelter" ) == decision_category::needs );
         CHECK( bt_goal_to_category( "start_fire" ) == decision_category::needs );
+        CHECK( bt_goal_to_category( "seek_warmth" ) == decision_category::needs );
+        // Legacy warmth goals removed from BT; now unmodeled.
+        CHECK( bt_goal_to_category( "wear_warmer_clothes" ) == decision_category::unmodeled );
+        CHECK( bt_goal_to_category( "take_shelter" ) == decision_category::unmodeled );
         CHECK( bt_goal_to_category( "return_to_guard_pos" ) == decision_category::duty );
         CHECK( bt_goal_to_category( "idle" ) == decision_category::idle );
         CHECK( bt_goal_to_category( "something_unknown" ) == decision_category::unmodeled );

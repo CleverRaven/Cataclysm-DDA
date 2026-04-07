@@ -65,6 +65,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -3977,7 +3978,7 @@ bool multi_disassemble_activity_actor::multi_activity_do( Character &you,
                                       recipe_dictionary::get_uncraft( elem.typeId() );
                     int const qty = std::max( 1, elem.typeId() == itype_disassembly ? elem.get_making_batch_size() :
                                               elem.charges );
-                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
+                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you, {},
                                                            recipe_time_flag::ignore_proficiencies ) * qty ) );
                     act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.get_abs( src_loc );

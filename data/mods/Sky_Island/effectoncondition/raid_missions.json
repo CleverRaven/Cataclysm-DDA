@@ -310,5 +310,27 @@
       },
       { "math": [ "total_difficulty_bonus = lengthofthisraid + 1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_WARP_SHARD_STATUE_REWARD",
+    "effect": [
+      { "math": [ "u_missionswon++" ] },
+      { "math": [ "totalbonus = rand(5) + 1" ] },
+      {
+        "if": { "math": [ "challenge_mode_active == 1" ] },
+        "then": [ { "math": [ "totalbonus = totalbonus * challenge_mode_reward_multiplier" ] } ]
+      },
+      { "u_message": "You retrieved the warp shards from the statue.", "type": "mixed" },
+      { "run_eocs": "EOC_bonuspulse" },
+      { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } },
+      { "run_eocs": "EOC_innawood_bonus_exp_warpshards" },
+      { "u_transform_radius": 3, "ter_furn_transform": "sky_island_shard_statue" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "sky_island_shard_statue",
+    "furniture": [ { "result": [ "f_warpshardrewardstatue_empty" ], "valid_furniture": [ "f_warpshardrewardstatue" ] } ]
   }
 ]

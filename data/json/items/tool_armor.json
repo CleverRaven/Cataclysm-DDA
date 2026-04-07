@@ -541,15 +541,15 @@
     "symbol": "[",
     "charges_per_use": 1,
     "use_action": [
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "PORTABLE_GAME",
       {
         "type": "mp3",
         "transform": "smart_watch_music",
         "message": "You put in the earbuds and start listening to music.",
         "activate": true
-      },
-      "CALORIES_INTAKE_TRACKER",
-      "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
@@ -559,15 +559,16 @@
     "id": "smart_watch_music",
     "copy-from": "smart_watch",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "smart watch - music", "str_pl": "smart watches - music" },
     "description": "This smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "power_draw": "200 mW",
     "revert_to": "smart_watch",
     "use_action": [
-      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false },
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      "PORTABLE_GAME",
+      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -590,16 +591,16 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "CAMERA",
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "WEATHER_TOOL",
+      "PORTABLE_GAME",
       {
         "type": "mp3",
         "transform": "smart_watch_adv_music",
         "message": "You put in the earbuds and start listening to music.",
         "activate": true
       },
-      "CALORIES_INTAKE_TRACKER",
-      "FITNESS_CHECK",
-      "WEATHER_TOOL",
-      "PORTABLE_GAME",
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "pocket_data": [
@@ -618,15 +619,20 @@
     "id": "smart_watch_adv_music",
     "copy-from": "smart_watch_adv",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "advanced smart watch - music", "str_pl": "advanced smart watches - music" },
     "description": "This advanced smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "revert_to": "smart_watch",
+    "power_draw": "200 mW",
+    "revert_to": "smart_watch_adv",
     "use_action": [
-      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      "PORTABLE_GAME",
+      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -3136,6 +3142,7 @@
     ],
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK", "SUN_GLASSES", "FLASH_PROTECTION" ],
     "pocket_data": [
       {

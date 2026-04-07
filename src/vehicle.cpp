@@ -9029,7 +9029,6 @@ bool vehicle::refresh_zones()
         }
         loot_zones = new_zones;
         zones_dirty = false;
-        zone_manager::get_manager().cache_data( false );
         return true;
     }
     return false;

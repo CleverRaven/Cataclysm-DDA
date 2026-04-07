@@ -46,5 +46,21 @@
       { "item": "etched_skull", "count": [ 0, 1 ], "prob": 4 },
       { "item": "skewer_bone", "count": [ 0, 5 ], "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "interstice_mutant_zombie_death_drops",
+    "entries": [
+      { "item": "footrags", "prob": 70, "damage": [ 0, 4 ] },
+      { "item": "tunic_rag", "prob": 70, "damage": [ 0, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "inner_cabins_grue_drops",
+    "entries": [ { "group": "SUS_book_nonf_soft_occult", "prob": 20 } ]
   }
 ]
