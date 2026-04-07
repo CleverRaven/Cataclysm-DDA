@@ -98,8 +98,7 @@
       "TRUESIGHT",
       "HARDTOSHOOT",
       "FLIES"
-    ],
-    "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
+    ]
   },
   {
     "id": "mon_inner_cabins_interstice_mutant_ignoring",
