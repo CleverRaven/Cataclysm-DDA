@@ -6,6 +6,7 @@
     "responses": [
       {
         "text": "[Install CBM Interface] Let's do it.",
+        "condition": { "not": { "or": [ { "u_has_flag": "NO_CBM_INSTALLATION" }, { "u_has_trait": "CBM_Interface" } ] } },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
@@ -183,7 +184,13 @@
     "responses": [
       {
         "text": "[Install CBM Interface] All right.  Let's do this.",
-        "condition": { "and": [ { "not": { "u_has_trait": "CBM_Interface" } }, { "not": { "u_has_trait": "Hub01_CBM_Interface" } } ] },
+        "condition": {
+          "or": [
+            { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+          ]
+        },
         "effect": [
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },

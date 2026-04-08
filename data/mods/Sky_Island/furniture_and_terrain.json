@@ -50,14 +50,22 @@
     "type": "furniture",
     "id": "f_warpshardrewardstatue",
     "name": "Warp Shard Obelisk",
-    "description": "A strange statue that is holding some warp shards.",
+    "description": "A strange statue with an arm raised, holding some warp shards in it's palm.",
     "symbol": "S",
     "color": "dark_gray",
     "looks_like": "f_statue",
     "move_cost_mod": -1,
     "coverage": 0,
     "required_str": -1,
-    "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ]
+    "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_SKY_ISLAND_WARP_SHARD_STATUE_REWARD" ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_warpshardrewardstatue_empty",
+    "copy-from": "f_warpshardrewardstatue",
+    "description": "A strange statue with an arm raised, it's palm empty.",
+    "examine_action": "none"
   },
   {
     "type": "terrain",
@@ -90,6 +98,34 @@
       "destroy_damage": [ 4000, 5000 ],
       "no_laser_destroy": true
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_traderwall_stone",
+    "name": "masonry wall",
+    "looks_like": "t_stone_masonry_wall_whitewashed",
+    "description": "A wall of carefully cut and laid stones, joined with mortar.  The exterior has been finished with plaster and whitewashed.  You notice that it seems to have no scratches on it whatsoever.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_rock_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": { "str_min": 4000, "str_max": 5000, "sound": "crash!", "sound_fail": "glzt!", "ter_set": "t_traderwall_stone" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_trader_thatch_roof",
+    "name": "thatched roof",
+    "description": "A section of roof made out of straw.  It seems extraordinarily thickly woven together.",
+    "looks_like": "t_thatch_roof",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE" ],
+    "bash": { "str_min": 4000, "str_max": 5000, "sound": "crash!", "sound_fail": "glzt!", "ter_set": "t_trader_thatch_roof" }
   },
   {
     "type": "terrain",

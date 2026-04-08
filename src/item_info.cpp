@@ -3202,7 +3202,7 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
         const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character(),
-                                        recipe_time_flag::ignore_proficiencies ) );
+                                        {}, recipe_time_flag::ignore_proficiencies ) );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
         const std::string comps_str = enumerate_as_string( comps_list,

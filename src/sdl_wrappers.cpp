@@ -126,7 +126,28 @@ void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMod
                   "SDL_SetTextureBlendMode failed" );
 }
 
+void SetTextureBlendMode( const std::shared_ptr<SDL_Texture> &texture, SDL_BlendMode blendMode )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return;
+    }
+    throwErrorIf( SDL_SetTextureBlendMode( texture.get(), blendMode ) != 0,
+                  "SDL_SetTextureBlendMode failed" );
+}
+
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return true;
+    }
+    return printErrorIf( SDL_SetTextureColorMod( texture.get(), r, g, b ) != 0,
+                         "SDL_SetTextureColorMod failed" );
+}
+
+bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
+                         Uint32 b )
 {
     if( !texture ) {
         dbg( D_ERROR ) << "Tried to use a null texture";
@@ -197,6 +218,16 @@ SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int
 }
 
 void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, const Uint8 alpha )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return;
+    }
+    printErrorIf( SDL_SetTextureAlphaMod( texture.get(), alpha ) != 0,
+                  "SDL_SetTextureAlphaMod failed" );
+}
+
+void SetTextureAlphaMod( const std::shared_ptr<SDL_Texture> &texture, const Uint8 alpha )
 {
     if( !texture ) {
         dbg( D_ERROR ) << "Tried to use a null texture";
@@ -283,6 +314,17 @@ Uint32 MapRGBA( const SDL_Surface_Ptr &surface, const Uint8 r, const Uint8 g, co
         return 0;
     }
     return SDL_MapRGBA( surface->format, r, g, b, a );
+}
+
+void GetRGBA( const Uint32 pixel, const SDL_Surface_Ptr &surface, Uint8 &r, Uint8 &g, Uint8 &b,
+              Uint8 &a )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to get RGBA from a null surface";
+        r = g = b = a = 0;
+        return;
+    }
+    SDL_GetRGBA( pixel, surface->format, &r, &g, &b, &a );
 }
 
 int SetColorKey( const SDL_Surface_Ptr &surface, const int flag, const Uint32 key )

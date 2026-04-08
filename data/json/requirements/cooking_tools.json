@@ -125,7 +125,7 @@
     "id": "canning_low_heat",
     "type": "requirement",
     "//": "This is sealing glass jars using the water bath method, using acid to neutralize botulinum instead of extreme heat.",
-    "//1": "For high-acid foods, such as many fruits, extreme heat is not necessary, since boulinum can't grow if PH is 4.6. immersing low acid foods in an acidic solution is typically also sufficient",
+    "//1": "For high-acid foods, such as many fruits, extreme heat is not necessary, since botulinum can't grow if PH is 4.6. immersing low acid foods in an acidic solution is typically also sufficient",
     "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.",
     "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
     "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",

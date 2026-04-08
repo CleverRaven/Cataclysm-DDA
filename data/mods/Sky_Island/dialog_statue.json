@@ -1070,6 +1070,12 @@
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
       {
+        "text": "Construct: Merchant Stall",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_merchant_stall" } }, { "math": [ "islandrank >= 2" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_merchant_stall" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
         "text": "Construct: South Room 1",
         "condition": {
           "and": [

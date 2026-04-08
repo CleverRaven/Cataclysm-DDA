@@ -1034,7 +1034,8 @@ void monster::move()
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
 
-    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+    // Check z-level neighbors too so creatures on stairs aren't falsely stuck
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 1 ) ) {
         if( dest != pos_bub() ) {
             if( can_move_to( dest ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
@@ -1194,8 +1195,13 @@ void monster::move()
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
-                // This prevents non-climb/fly enemies running up walls
-                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) ) {
+                // This prevents non-climb/fly enemies running up walls.
+                // Regular stairs (GOES_UP without DIFFICULT_Z) are traversable by any creature,
+                // consistent with can_reach_to(). Ladders, ropes, and scaffolding (DIFFICULT_Z)
+                // still require climbing ability.
+                if( candidate.z() > pos_abs().z() && !( via_ramp || flies() ) &&
+                    !( here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) &&
+                       !here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() ) ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                             !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) {

@@ -52,7 +52,8 @@
         { "chunks": [ "inner_cabins_depths_entrance_stairs_-7" ], "x": 10, "y": 14, "z": -7 },
         { "chunks": [ "inner_cabins_depths_entrance_stairs_-8" ], "x": 10, "y": 14, "z": -8 },
         { "chunks": [ "inner_cabins_depths_entrance_stairs_-9" ], "x": 10, "y": 14, "z": -9 }
-      ]
+      ],
+      "place_monster": [ { "monster": "mon_inner_cabins_interstice_mutant_ignoring", "x": 15, "y": 7, "chance": 100 } ]
     }
   },
   {

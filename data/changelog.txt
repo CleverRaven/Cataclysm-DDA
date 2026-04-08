@@ -218,6 +218,8 @@ Appear Neutral Flag
 NPCs Behavior Tree improvements
 Colored light rendering overlay, dawn/dusk tint
 Changing move mode can cost time and is deferred
+NPC behavior tree evaluates for all NPCs, not just guards
+It is possible to make factions be radio-contactable
 
 
 ## Content:
@@ -632,6 +634,7 @@ Prioritize hostile targets over neutral when firing
 Show cable connections for appliances
 Split battery percentage into a separate widget from fuel
 Add viewport lock option for zone sorting
+Replace curses crafting menu with ImGui implementation
 
 
 ## Mods:
@@ -1115,7 +1118,7 @@ XE Proficiency CBMs
 [Xedra Evolved] Paraclesians are born ignorant of technology
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
-
+[BPerks/MM/Sorc] XP mods can level up more than once at a time
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1797,6 +1800,10 @@ Saprophages and saprovores no longer get parasite warnings for food they can saf
 NPCs no longer refuse to eat honeycomb, brownies, and other food with harmless effects
 Fix SIGSEV fault when harvesting/clearing overgrown crops
 Spell AOE string format specifier fix
+Aftershock: Plasma degrades armors
+Stop spamming player log when NPCs are hot
+Stop ref center guard EOCs from firing in alternate dimensions
+Uncomfortable limbs must exist
 
 
 ## Performance:
@@ -1839,6 +1846,7 @@ Optimize grab-aware pathfinding during zone sorting
 Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
+Skip lightmap rebuild on idle frames
 
 
 ## Infrastructure:
@@ -2067,6 +2075,11 @@ Extract recipe list pipeline for testability
 Add urgency score predicates and switch NPC behavior tree to utility strategy
 Expand NPC behavior tree diagnostic with convergence logging, sleepiness need, shelter detection, and can_make_fire bugfix
 Add sound support for ammo_type and specific melee ids
+Add /retry and /rerun comment commands for failed CI jobs
+Make map::add_spawn private to prevent hardcoded monster spawns
+Move items across dimensions with dimensional travel
+Remove single-magazine assumptions in item_contents
+Give access to an item's pre and post apocalypse price to EOCs
 
 
 ## Build:

@@ -6887,7 +6887,7 @@
     "type": "mutation",
     "id": "INTERSTICEHEARING",
     "name": { "str": "Otherworldly Hearing" },
-    "description": "You hear so well you could the whisper of a shadow.  And you do.  Everything speaks to you.  You have extreme hearing, but -1 Intelligence.",
+    "description": "You hear so well that you could hear the whisper of a shadow.  And you do.  Everything speaks to you.  You have extremely good hearing, but -1 Intelligence.",
     "category": [ "INTERSTICE" ],
     "types": [ "HEARING" ],
     "prereqs": [ "GOODHEARING" ],

@@ -283,6 +283,7 @@ void tileset::clear()
     night_tile_values.clear();
     overexposed_tile_values.clear();
     memory_tile_values.clear();
+    silhouette_tile_values.clear();
     duplicate_ids.clear();
     tile_ids.clear();
     for( std::unordered_map<std::string, season_tile_value> &m : tile_ids_by_season ) {
@@ -456,6 +457,48 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     return surf;
 }
 
+// Compute the tightest bounding box containing non-transparent pixels within
+// a sprite rect. The surface must be 32-bit RGBA (e.g. from create_surface_32).
+// Returns coordinates relative to the sprite rect origin. A fully transparent
+// sprite returns {0, 0, 0, 0}.
+static SDL_Rect compute_opaque_rect( const SDL_Surface_Ptr &surf, const SDL_Rect &rect )
+{
+    int min_x = rect.w; // NOLINT(cata-combine-locals-into-point)
+    int min_y = rect.h;
+    int max_x = -1; // NOLINT(cata-combine-locals-into-point)
+    int max_y = -1;
+    const int pitch = surf->pitch / 4;
+    const Uint32 *pixels = static_cast<const Uint32 *>( surf->pixels );
+    for( int y = 0; y < rect.h; ++y ) {
+        for( int x = 0; x < rect.w; ++x ) {
+            const Uint32 pixel = pixels[( rect.y + y ) * pitch + ( rect.x + x )];
+            Uint8 r;
+            Uint8 g;
+            Uint8 b;
+            Uint8 a;
+            GetRGBA( pixel, surf, r, g, b, a );
+            if( a > 0 ) {
+                if( x < min_x ) {
+                    min_x = x;
+                }
+                if( y < min_y ) {
+                    min_y = y;
+                }
+                if( x > max_x ) {
+                    max_x = x;
+                }
+                if( y > max_y ) {
+                    max_y = y;
+                }
+            }
+        }
+    }
+    if( max_x < 0 ) {
+        return { 0, 0, 0, 0 };
+    }
+    return { min_x, min_y, max_x - min_x + 1, max_y - min_y + 1 };
+}
+
 static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
 {
     return smaller.x >= larger.x &&
@@ -465,7 +508,8 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
 }
 
 void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf,
-        const point &offset, std::vector<texture> &target )
+        const point &offset, std::vector<texture> &target,
+        const std::vector<SDL_Rect> &opaque_bounds )
 {
     cata_assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height,
@@ -485,7 +529,10 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
                              ( tile_atlas_width / sprite_width );
         cata_assert( index < target.size() );
         cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
-        target[index] = texture( texture_ptr, rect );
+        const SDL_Rect &opaque = index < opaque_bounds.size()
+                                 ? opaque_bounds[index]
+                                 : SDL_Rect{ 0, 0, rect.w, rect.h };
+        target[index] = texture( texture_ptr, rect, opaque );
     }
 }
 
@@ -494,14 +541,39 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 {
     cata_assert( tile_atlas );
 
+    // Compute per-sprite opaque bounds once from the unfiltered atlas.
+    // Color filter variants preserve the alpha channel, so rescanning is unnecessary.
+    // Blit into a 32-bit surface for format-safe pixel access.
+    SDL_Surface_Ptr scan_surf = create_surface_32( tile_atlas->w, tile_atlas->h );
+    throwErrorIf( BlitSurface( tile_atlas, nullptr, scan_surf, nullptr ) != 0,
+                  "SDL_BlitSurface failed" );
+
+    const rect_range<SDL_Rect> scan_range( sprite_width, sprite_height,
+                                           point( tile_atlas->w / sprite_width,
+                                                   tile_atlas->h / sprite_height ) );
+    // Pre-size to accommodate the maximum index this chunk can produce.
+    const int cols = tile_atlas_width / sprite_width;
+    const size_t max_index = this->offset +
+                             static_cast<size_t>( cols ) * ( tile_atlas->h / sprite_height );
+    std::vector<SDL_Rect> opaque_bounds( max_index + cols, SDL_Rect{ 0, 0, 0, 0 } );
+    for( const SDL_Rect rect : scan_range ) {
+        const point pos( offset + point( rect.x, rect.y ) );
+        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
+                             cols;
+        if( index < opaque_bounds.size() ) {
+            opaque_bounds[index] = compute_opaque_rect( scan_surf, rect );
+        }
+    }
+
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
-    std::array<tiles_pixel_color_entry, 5> tile_values_data = {{
+    std::array<tiles_pixel_color_entry, 6> tile_values_data = {{
             { std::make_tuple( &ts.tile_values, "color_pixel_none" ) },
             { std::make_tuple( &ts.shadow_tile_values, "color_pixel_grayscale" ) },
             { std::make_tuple( &ts.night_tile_values, "color_pixel_nightvision" ) },
             { std::make_tuple( &ts.overexposed_tile_values, "color_pixel_overexposed" ) },
-            { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) }
+            { std::make_tuple( &ts.memory_tile_values, tilecontext->memory_map_mode ) },
+            { std::make_tuple( &ts.silhouette_tile_values, "color_pixel_silhouette" ) }
         }
     };
     for( tiles_pixel_color_entry &entry : tile_values_data ) {
@@ -510,10 +582,10 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
                 ( entry ) );
         if( !color_pixel_function ) {
             // TODO: Move it inside apply_color_filter.
-            copy_surface_to_texture( tile_atlas, offset, *tile_values );
+            copy_surface_to_texture( tile_atlas, offset, *tile_values, opaque_bounds );
         } else {
             copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
-                                     *tile_values );
+                                     *tile_values, opaque_bounds );
         }
     }
 }
@@ -598,6 +670,7 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
     extend_vector_by( ts.night_tile_values, expected_tilecount );
     extend_vector_by( ts.overexposed_tile_values, expected_tilecount );
     extend_vector_by( ts.memory_tile_values, expected_tilecount );
+    extend_vector_by( ts.silhouette_tile_values, expected_tilecount );
 
     for( const SDL_Rect sub_rect : output_range ) {
         cata_assert( sub_rect.x % sprite_width == 0 );
@@ -1112,58 +1185,58 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
             case LINE_OXOX_C:
-                sprites[0] = 205 + base_offset;
+                sprites[0] = 196 + base_offset;
                 break;
             // box left/right side (vertical line)
             case LINE_XOXO_C:
-                sprites[0] = 186 + base_offset;
+                sprites[0] = 179 + base_offset;
                 break;
             // box top left
             case LINE_OXXO_C:
-                sprites[0] = 201 + base_offset;
+                sprites[0] = 218 + base_offset;
                 break;
             // box top right
             case LINE_OOXX_C:
-                sprites[0] = 187 + base_offset;
+                sprites[0] = 191 + base_offset;
                 break;
             // box bottom right
             case LINE_XOOX_C:
-                sprites[0] = 188 + base_offset;
+                sprites[0] = 217 + base_offset;
                 break;
             // box bottom left
             case LINE_XXOO_C:
-                sprites[0] = 200 + base_offset;
+                sprites[0] = 192 + base_offset;
                 break;
             // box bottom north T (left, right, up)
             case LINE_XXOX_C:
-                sprites[0] = 202 + base_offset;
+                sprites[0] = 193 + base_offset;
                 break;
             // box bottom east T (up, right, down)
             case LINE_XXXO_C:
-                sprites[0] = 208 + base_offset;
+                sprites[0] = 195 + base_offset;
                 break;
             // box bottom south T (left, right, down)
             case LINE_OXXX_C:
-                sprites[0] = 203 + base_offset;
+                sprites[0] = 194 + base_offset;
                 break;
             // box X (left down up right)
             case LINE_XXXX_C:
-                sprites[0] = 206 + base_offset;
+                sprites[0] = 197 + base_offset;
                 break;
             // box bottom east T (left, down, up)
             case LINE_XOXX_C:
-                sprites[0] = 184 + base_offset;
+                sprites[0] = 180 + base_offset;
                 break;
         }
         if( ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C ) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
-            add_ascii_subtile( curr_tile, id, 206 + base_offset, "center" );
-            add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
-            add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
-            add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
-            add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
+            add_ascii_subtile( curr_tile, id, 197 + base_offset, "center" );
+            add_ascii_subtile( curr_tile, id, 218 + base_offset, "corner" );
+            add_ascii_subtile( curr_tile, id, 179 + base_offset, "edge" );
+            add_ascii_subtile( curr_tile, id, 194 + base_offset, "t_connection" );
+            add_ascii_subtile( curr_tile, id, 179 + base_offset, "end_piece" );
+            add_ascii_subtile( curr_tile, id, 197 + base_offset, "unconnected" );
         }
         ts.create_tile_type( id, std::move( curr_tile ) );
     }
@@ -1343,6 +1416,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         return;
     }
 #endif
+
+    has_animated_tiles_ = false;
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
@@ -1782,15 +1857,83 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         const half_open_rectangle<point> &cur_any_tile_range = is_isometric()
                 ? z_any_tile_range[center.z() - cur_zlevel] : top_any_tile_range;
         // For each row
+        const bool iso = is_isometric();
+        const level_cache &zlev_cache = here.access_cache( cur_zlevel );
+        const bool zlev_has_color = zlev_cache.has_colored_lights;
         for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
-            // Set base height for each tile
+            // --- Per-tile prepass ---
+            // Initialize base height and decide which tiles need a colored light
+            // tint overlay. We do this before the layer loop so that:
+            //   (a) we can skip bounds/sprite tracking for tiles that won't be tinted,
+            //   (b) the overlay pass later can iterate only tinted tiles.
+            std::vector<tile_render_info *> row_tinted;
             for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
                 p.com.height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
+                p.com.needs_tint = false;
+                if( !zlev_has_color ) {
+                    continue;
+                }
+                // Only visible sprite tiles can receive a tint.
+                const tile_render_info::sprite *const
+                var = std::get_if<tile_render_info::sprite>( &p.var );
+                if( !var || var->ll == lit_level::DARK || var->ll == lit_level::BLANK ||
+                    var->ll == lit_level::MEMORIZED ) {
+                    continue;
+                }
+                const light_color_rgb &lc =
+                    zlev_cache.light_color_cache[p.com.pos.x()][p.com.pos.y()];
+                if( !lc.is_colored() ) {
+                    continue;
+                }
+                // Isolate the chromatic (saturated) component by subtracting
+                // the achromatic floor (min channel). Pure white light (equal
+                // RGB) produces zero saturation and no tint.
+                const float min_ch = std::min( { lc.r, lc.g, lc.b } );
+                const float sat_r = lc.r - min_ch;
+                const float sat_g = lc.g - min_ch;
+                const float sat_b = lc.b - min_ch;
+                const float sat_mag = std::max( { sat_r, sat_g, sat_b } );
+                if( sat_mag < 0.01f ) {
+                    continue;
+                }
+                // Alpha: ratio of saturated energy to total scalar light.
+                // Effect is subtle under bright ambient, vivid in darkness.
+                const float scalar = zlev_cache.lm[p.com.pos.x()][p.com.pos.y()].max();
+                const float ratio = scalar > 0.1f ? std::min( 1.0f, sat_mag / scalar ) : 0.0f;
+                const Uint8 alpha = static_cast<Uint8>( ratio * 80.0f );
+                if( alpha == 0 ) {
+                    continue;
+                }
+                // Normalize saturated color to full brightness for the SDL tint.
+                p.com.tint_color = {
+                    static_cast<Uint8>( sat_r / sat_mag * 255.0f ),
+                    static_cast<Uint8>( sat_g / sat_mag * 255.0f ),
+                    static_cast<Uint8>( sat_b / sat_mag * 255.0f ),
+                    alpha
+                };
+                p.com.needs_tint = true;
+                row_tinted.push_back( &p );
+                // Ortho tiles need bounds tracking and sprite recording for the
+                // silhouette mask path. Reset per-frame state here.
+                if( !iso ) {
+                    p.com.bounds = {};
+                    p.com.tint_sprites.clear();
+                }
             }
-            // For each layer
+            // --- Layer loop ---
+            // Draw all layers (terrain, furniture, items, creatures, etc.).
+            // For ortho tinted tiles, we wire up m_cur_bounds and m_cur_tint_sprites
+            // so that draw_sprite_at accumulates the screen extent and records
+            // each sprite for later silhouette replay. Zone marks and revival
+            // indicators are UI overlays that shouldn't affect tint bounds.
             for( auto f : drawing_layers ) {
-                // For each tile
+                const bool track_bounds = !iso &&
+                                          f != &cata_tiles::draw_zone_mark &&
+                                          f != &cata_tiles::draw_zombie_revival_indicators;
                 for( tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
+                    const bool ortho_tint = track_bounds && p.com.needs_tint;
+                    m_cur_bounds = ortho_tint ? &p.com.bounds : nullptr;
+                    m_cur_tint_sprites = ortho_tint ? &p.com.tint_sprites : nullptr;
                     if( const tile_render_info::vision_effect * const
                         var = std::get_if<tile_render_info::vision_effect>( &p.var ) ) {
                         if( f == &cata_tiles::draw_terrain ) {
@@ -1826,56 +1969,198 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                     }
                 }
             }
-            // Colored light overlay. Draws a tinted rect over tiles that have
-            // colored light energy in the cache (emergency beacons, colored fields,
-            // etc). Only the chromatic (saturated) component produces a tint --
-            // white light (equal RGB) is ignored. Alpha scales with the ratio of
-            // colored energy to total scalar light so the effect is subtle under
-            // bright ambient and vivid in darkness.
-            const level_cache &cur_cache = here.access_cache( cur_zlevel );
-            SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
-            for( const tile_render_info &p : here.draw_points_cache[cur_zlevel][row] ) {
-                const tile_render_info::sprite *const
-                var = std::get_if<tile_render_info::sprite>( &p.var );
-                if( !var || var->ll == lit_level::DARK || var->ll == lit_level::BLANK ||
-                    var->ll == lit_level::MEMORIZED ) {
-                    continue;
+            m_cur_bounds = nullptr;
+            m_cur_tint_sprites = nullptr;
+
+            // --- Colored light tint overlay ---
+            // After all content layers are drawn, overlay a color tint on tiles
+            // that have colored light (emergency beacons, colored fields,
+            // dawn/dusk light, etc). Tint eligibility and color were precomputed
+            // in the per-tile prepass above; row_tinted holds only eligible tiles.
+            if( !row_tinted.empty() ) {
+                const int zlev_base = ( cur_zlevel - center.z() ) * zlevel_height;
+                if( iso ) {
+                    // Iso: flat tint rect over the tile footprint (unchanged
+                    // from the original tint overlay code).
+                    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+                    for( const tile_render_info *tp : row_tinted ) {
+                        const point screen = player_to_screen( tp->com.pos.xy() );
+                        const SDL_Rect draw_rect = {
+                            screen.x, screen.y - zlev_base, tile_width, tile_height
+                        };
+                        const SDL_Color tc = { tp->com.tint_color.r, tp->com.tint_color.g,
+                                               tp->com.tint_color.b, tp->com.tint_color.a
+                                             };
+                        geometry->rect( renderer, draw_rect, tc );
+                    }
+                    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+                } else {
+                    // Ortho: hybrid tint overlay with two paths.
+                    //
+                    // "Simple" tiles whose sprites fit inside the tile footprint
+                    // get a cheap colored rect (same as iso). "Complex" tiles
+                    // with oversized sprites (tall 32x64 characters, multi-layer
+                    // gear, etc) would show a color seam at the tile boundary or
+                    // a rectangular halo around transparent padding. These use a
+                    // per-pixel silhouette mask instead:
+                    //
+                    //   1. Switch render target to a scratch texture (tint_mask_tex).
+                    //   2. Replay recorded sprites using their white silhouette
+                    //      variants (RGB=255, original alpha). This builds a
+                    //      combined alpha mask of the tile's visible pixels.
+                    //   3. Switch back to the display buffer and composite the
+                    //      mask with the tile's tint color/alpha.
+                    //
+                    // Complex tiles are batched: contiguous tiles with the same
+                    // tint color share a single target switch + composite. A union
+                    // area growth cap (2x sum of member areas) prevents degenerate
+                    // batches when tiles are far apart in screen space.
+
+                    std::vector<const tile_render_info *> batch_tiles;
+                    SDL_Color batch_color = { 0, 0, 0, 0 };
+                    SDL_Rect batch_union = { 0, 0, 0, 0 };
+                    int64_t batch_sum_area = 0;
+                    SDL_Rect saved_clip;
+                    bool clip_saved = false;
+
+                    // Flush the current complex-tile batch: render all accumulated
+                    // silhouettes into the mask texture, then composite to screen.
+                    auto flush_tint_batch = [&]() {
+                        if( batch_tiles.empty() ) {
+                            return;
+                        }
+                        ensure_tint_mask_texture( batch_union.w, batch_union.h );
+
+                        // Save and remove clip rect -- the mask texture has its own
+                        // coordinate space unrelated to the display viewport.
+                        if( !clip_saved ) {
+                            RenderGetClipRect( renderer, &saved_clip );
+                            clip_saved = true;
+                        }
+                        RenderSetClipRect( renderer, nullptr );
+
+                        // Phase 1: build the silhouette mask.
+                        SetRenderTarget( renderer, tint_mask_tex );
+                        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+                        SetRenderDrawColor( renderer, 0, 0, 0, 0 );
+                        const SDL_Rect clear_rect = { 0, 0, batch_union.w, batch_union.h };
+                        RenderFillRect( renderer, &clear_rect );
+
+                        for( const tile_render_info *bp : batch_tiles ) {
+                            for( const tint_sprite_record &rec : bp->com.tint_sprites ) {
+                                const texture *sil = tileset_ptr->get_silhouette_tile( rec.sprite_index );
+                                if( !sil ) {
+                                    continue;
+                                }
+                                // Translate to mask-local coordinates.
+                                SDL_Rect mask_dest = {
+                                    rec.destination.x - batch_union.x,
+                                    rec.destination.y - batch_union.y,
+                                    rec.destination.w,
+                                    rec.destination.h
+                                };
+                                sil->render_copy_ex( renderer, &mask_dest, rec.angle, nullptr,
+                                                     static_cast<SDL_RendererFlip>( rec.flip ) );
+                            }
+                        }
+
+                        // Phase 2: composite the mask to the display buffer.
+                        set_displaybuffer_rendertarget();
+                        RenderSetClipRect( renderer, &saved_clip );
+
+                        const SDL_Rect comp_src = { 0, 0, batch_union.w, batch_union.h };
+                        SetTextureColorMod( tint_mask_tex, batch_color.r,
+                                            batch_color.g, batch_color.b );
+                        SetTextureAlphaMod( tint_mask_tex, batch_color.a );
+                        RenderCopy( renderer, tint_mask_tex, &comp_src, &batch_union );
+                        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+
+                        batch_tiles.clear();
+                        batch_sum_area = 0;
+                    };
+
+                    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+                    for( const tile_render_info *tp : row_tinted ) {
+                        const point screen = player_to_screen( tp->com.pos.xy() );
+                        const SDL_Rect tile_rect = {
+                            screen.x, screen.y - zlev_base, tile_width, tile_height
+                        };
+
+                        // Simple: all recorded sprites fit inside the tile rect,
+                        // so a flat colored rect matches the sprite extent exactly.
+                        const bool simple = !tp->com.bounds.valid ||
+                                            tp->com.tint_sprites.empty() ||
+                                            ( tp->com.bounds.x >= tile_rect.x &&
+                                              tp->com.bounds.y >= tile_rect.y &&
+                                              tp->com.bounds.x + tp->com.bounds.w <= tile_rect.x + tile_rect.w &&
+                                              tp->com.bounds.y + tp->com.bounds.h <= tile_rect.y + tile_rect.h );
+                        if( simple ) {
+                            // Must flush any pending complex batch before drawing
+                            // a simple tile to preserve correct draw order.
+                            flush_tint_batch();
+                            const SDL_Color tc = { tp->com.tint_color.r, tp->com.tint_color.g,
+                                                   tp->com.tint_color.b, tp->com.tint_color.a
+                                                 };
+                            geometry->rect( renderer, tile_rect, tc );
+                            continue;
+                        }
+
+                        // Complex: sprites extend beyond the tile footprint.
+                        // Accumulate into the current batch or start a new one.
+
+                        // Color change forces a new batch.
+                        const SDL_Color tile_tc = { tp->com.tint_color.r, tp->com.tint_color.g,
+                                                    tp->com.tint_color.b, tp->com.tint_color.a
+                                                  };
+                        if( batch_tiles.empty() ||
+                            std::memcmp( &batch_color, &tile_tc, sizeof( SDL_Color ) ) != 0 ) {
+                            flush_tint_batch();
+                            batch_color = tile_tc;
+                        }
+                        // Area growth cap: if the union bounding box would exceed
+                        // 2x the summed area of its members, the batch has too
+                        // much empty space and the mask texture is wastefully large.
+                        if( !batch_tiles.empty() ) {
+                            // NOLINTNEXTLINE(cata-combine-locals-into-point)
+                            const int new_x = std::min( batch_union.x,
+                                                        tp->com.bounds.x );
+                            const int new_y = std::min( batch_union.y, tp->com.bounds.y );
+                            const int new_r = std::max( batch_union.x + batch_union.w,
+                                                        tp->com.bounds.x + tp->com.bounds.w );
+                            const int new_b = std::max( batch_union.y + batch_union.h,
+                                                        tp->com.bounds.y + tp->com.bounds.h );
+                            const int64_t union_area = static_cast<int64_t>( new_r - new_x ) *
+                                                       ( new_b - new_y );
+                            const int64_t sum_area = batch_sum_area +
+                                                     static_cast<int64_t>( tp->com.bounds.w ) * tp->com.bounds.h;
+                            if( union_area > sum_area * 2 ) {
+                                flush_tint_batch();
+                                batch_color = tile_tc;
+                            }
+                        }
+                        // Grow the batch union rect to include this tile.
+                        if( batch_tiles.empty() ) {
+                            batch_union = {
+                                tp->com.bounds.x, tp->com.bounds.y,
+                                tp->com.bounds.w, tp->com.bounds.h
+                            };
+                            batch_sum_area = static_cast<int64_t>( tp->com.bounds.w ) * tp->com.bounds.h;
+                        } else {
+                            const int nx = std::min( batch_union.x, tp->com.bounds.x );
+                            const int ny = std::min( batch_union.y, tp->com.bounds.y );
+                            const int nr = std::max( batch_union.x + batch_union.w,
+                                                     tp->com.bounds.x + tp->com.bounds.w );
+                            const int nb = std::max( batch_union.y + batch_union.h,
+                                                     tp->com.bounds.y + tp->com.bounds.h );
+                            batch_union = { nx, ny, nr - nx, nb - ny };
+                            batch_sum_area += static_cast<int64_t>( tp->com.bounds.w ) * tp->com.bounds.h;
+                        }
+                        batch_tiles.push_back( tp );
+                    }
+                    flush_tint_batch();
+                    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
                 }
-                const light_color_rgb &lc =
-                    cur_cache.light_color_cache[p.com.pos.x()][p.com.pos.y()];
-                if( !lc.is_colored() ) {
-                    continue;
-                }
-                // Subtract the achromatic (white) component to isolate saturated color.
-                const float min_ch = std::min( { lc.r, lc.g, lc.b } );
-                const float sat_r = lc.r - min_ch;
-                const float sat_g = lc.g - min_ch;
-                const float sat_b = lc.b - min_ch;
-                const float sat_mag = std::max( { sat_r, sat_g, sat_b } );
-                if( sat_mag < 0.01f ) {
-                    continue; // pure white light, no tint
-                }
-                // Alpha: saturated energy relative to total scalar light at this tile
-                const float scalar = cur_cache.lm[p.com.pos.x()][p.com.pos.y()].max();
-                const float ratio = scalar > 0.1f ? std::min( 1.0f, sat_mag / scalar ) : 0.0f;
-                const Uint8 alpha = static_cast<Uint8>( ratio * 80.0f );
-                if( alpha == 0 ) {
-                    continue;
-                }
-                // Normalize saturated color to full brightness for the SDL tint.
-                const SDL_Color tint = {
-                    static_cast<Uint8>( sat_r / sat_mag * 255.0f ),
-                    static_cast<Uint8>( sat_g / sat_mag * 255.0f ),
-                    static_cast<Uint8>( sat_b / sat_mag * 255.0f ),
-                    alpha
-                };
-                const point screen = player_to_screen( p.com.pos.xy() );
-                const SDL_Rect draw_rect = {
-                    screen.x, screen.y - p.com.height_3d, tile_width, tile_height
-                };
-                geometry->rect( renderer, draw_rect, tint );
             }
-            SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
         }
         cur_zlevel += 1;
     }
@@ -2235,6 +2520,24 @@ point cata_tiles::player_to_screen( const point_bub_ms &pos ) const
     } else {
         return op + point{ colrow.x * tile_width, colrow.y * tile_height };
     }
+}
+
+void cata_tiles::ensure_tint_mask_texture( const int w, const int h )
+{
+    // Reuse the existing texture if it's large enough; only reallocate when
+    // the requested size exceeds the current allocation.
+    if( tint_mask_tex && tint_mask_w >= w && tint_mask_h >= h ) {
+        return;
+    }
+    // Grow to at least the requested size, rounding up to avoid frequent
+    // reallocation for slightly varying sprite sizes.
+    const int alloc_w = std::max( w, tint_mask_w );
+    const int alloc_h = std::max( h, tint_mask_h );
+    tint_mask_tex = CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888,
+                                   SDL_TEXTUREACCESS_TARGET, alloc_w, alloc_h );
+    SetTextureBlendMode( tint_mask_tex, SDL_BLENDMODE_BLEND );
+    tint_mask_w = alloc_w;
+    tint_mask_h = alloc_h;
 }
 
 point_bub_ms cata_tiles::screen_to_player(
@@ -2678,6 +2981,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
         }
 
+        bool is_linear = false;
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if( category == TILE_CATEGORY::FURNITURE ) {
@@ -2765,7 +3069,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                if( !tmp->is_linear() ) {
+                is_linear = tmp->is_linear();
+                if( !is_linear ) {
                     // if rota is for a omt with connections, it can be outside the bounds of
                     // om_direction::type. We can't do anything about that now, so just stay inbounds
                     rota %= om_direction::size;
@@ -2839,8 +3144,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
             std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
 
-            // do not rotate fallback tiles!
-            if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
+            // do not rotate fallback tiles for non line drawings (roads and such)
+            if( !is_linear ) {
                 rota = 0;
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
@@ -3023,6 +3328,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
 
         // idle tile animations:
         if( display_tile.animated ) {
+            has_animated_tiles_ = true;
             // idle animations run during the user's turn, and the animation speed
             // needs to be defined by the tileset to look good, so we use system clock:
             std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -3134,6 +3440,72 @@ bool cata_tiles::draw_sprite_at(
     destination.w = width * tile_width * tile.pixelscale / tileset_ptr->get_tile_width();
     destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
 
+    const bool iso = is_isometric();
+
+    // --- Tint bounds tracking (ortho only) ---
+    // Accumulate the screen-space extent of opaque pixels for this tile so the
+    // tint overlay knows the actual sprite footprint. We use the pre-computed
+    // opaque_rect (tightest non-transparent bounding box, computed at tileset
+    // load) rather than the full destination rect to avoid tinting transparent
+    // padding around sprites. When the sprite is flipped, mirror the opaque
+    // rect to match.
+    if( m_cur_bounds ) {
+        SDL_Rect opq = sprite_tex->get_opaque_rect();
+        if( opq.w > 0 && opq.h > 0 ) {
+            if( rotate_sprite ) {
+                // rota == -1 is horizontal flip only.
+                // rota % 4 == 2 is 180 degrees, implemented as H+V flip.
+                if( rota == -1 || ( !iso && rota % 4 == 2 ) ) {
+                    opq.x = width - opq.x - opq.w;
+                }
+                if( !iso && rota % 4 == 2 ) {
+                    opq.y = height - opq.y - opq.h;
+                }
+            }
+            // Scale from source pixel coords to destination screen coords.
+            m_cur_bounds->expand(
+                destination.x + opq.x * destination.w / width,
+                destination.y + opq.y * destination.h / height,
+                opq.w * destination.w / width,
+                opq.h * destination.h / height );
+        }
+    }
+
+    // --- Pre-compute rotation for tint recording ---
+    // We need the final angle/flip values both for the actual render call below
+    // and for recording into tint_sprites (which replays the sprite as a white
+    // silhouette during the tint overlay pass). Compute them once here.
+    double render_angle = 0;
+    SDL_RendererFlip render_flip = SDL_FLIP_NONE;
+    if( rotate_sprite ) {
+        if( rota == -1 ) {
+            render_flip = SDL_FLIP_HORIZONTAL;
+        } else if( !iso ) {
+            switch( rota % 4 ) {
+                case 1:
+                    render_angle = -90;
+                    break;
+                case 2:
+                    render_flip = static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL );
+                    break;
+                case 3:
+                    render_angle = 90;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    // Record this sprite for silhouette mask replay. Must happen before the
+    // actual render because the render path may modify destination (d3d offset
+    // workaround). Only active for ortho tiles that need tinting.
+    if( m_cur_tint_sprites ) {
+        m_cur_tint_sprites->push_back( { sprite_index,
+            { destination.x, destination.y, destination.w, destination.h },
+            render_angle, static_cast<int>( render_flip ) } );
+    }
+
     if( rotate_sprite ) {
         if( rota == -1 ) {
             // flip horizontally
@@ -3157,7 +3529,7 @@ bool cata_tiles::draw_sprite_at(
                         destination.y -= 1;
                     }
 #endif
-                    if( !is_isometric() ) {
+                    if( !iso ) {
                         // never rotate isometric tiles
                         ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
                                                           SDL_FLIP_NONE );
@@ -3168,7 +3540,7 @@ bool cata_tiles::draw_sprite_at(
                     break;
                 case 2:
                     // 180 degrees, implemented with flips instead of rotation
-                    if( !is_isometric() ) {
+                    if( !iso ) {
                         // never flip isometric tiles vertically
                         ret = sprite_tex->render_copy_ex(
                                   renderer, &destination, 0, nullptr,
@@ -3187,7 +3559,7 @@ bool cata_tiles::draw_sprite_at(
                         destination.x -= 1;
                     }
 #endif
-                    if( !is_isometric() ) {
+                    if( !iso ) {
                         // never rotate isometric tiles
                         ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
                                                           SDL_FLIP_NONE );
@@ -4171,6 +4543,12 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
     }
 
     if( result && !is_player && show_creature_overlay_icons ) {
+        // Attitude/sees-player icons are UI overlays, not body sprites.
+        // Exclude from tint bounds and tint replay tracking.
+        sprite_screen_bounds *saved_bounds = m_cur_bounds;
+        auto *saved_tint = m_cur_tint_sprites;
+        m_cur_bounds = nullptr;
+        m_cur_tint_sprites = nullptr;
         std::string draw_id = "overlay_" + Creature::attitude_raw_string( attitude );
         if( sees_player && !you.has_trait( trait_INATTENTIVE ) ) {
             draw_id += "_sees_player";
@@ -4179,6 +4557,8 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
             draw_from_id_string( draw_id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
                                  lit_level::LIT, false, height_3d );
         }
+        m_cur_bounds = saved_bounds;
+        m_cur_tint_sprites = saved_tint;
     }
     return result;
 }
@@ -4207,6 +4587,13 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
         return false;
     }
     const Creature &critter = *pcritter;
+
+    // Shadow and attitude icons are UI overlays, not body sprites.
+    // Exclude from tint bounds and tint replay tracking.
+    sprite_screen_bounds *saved_bounds = m_cur_bounds;
+    auto *saved_tint = m_cur_tint_sprites;
+    m_cur_bounds = nullptr;
+    m_cur_tint_sprites = nullptr;
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
@@ -4245,8 +4632,12 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
                                      lit_level::LIT, false, height_3d );
             }
         }
+        m_cur_bounds = saved_bounds;
+        m_cur_tint_sprites = saved_tint;
         return true;
     } else {
+        m_cur_bounds = saved_bounds;
+        m_cur_tint_sprites = saved_tint;
         return false;
     }
 }

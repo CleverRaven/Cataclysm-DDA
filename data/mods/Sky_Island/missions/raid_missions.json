@@ -18,7 +18,7 @@
     "type": "mission_definition",
     "name": { "str": "Find the warp shards!" },
     "goal": "MGOAL_GO_TO",
-    "description": "A very small cluster of warp energy has left shards behind at this location.  All you need to do is find and retrieve them.  There may be threats nearby, but unlike most tasks, no special guards are on-site.  A minimal reward, but little risk.",
+    "description": "A very small cluster of warp energy has left shards behind at this location.  All you need to do is find and retrieve them from the statue.  There may be threats nearby, but unlike most tasks, no special guards are on-site.  A minimal reward, but little risk.",
     "difficulty": 0,
     "value": 0,
     "invisible_on_complete": true,
@@ -28,19 +28,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "u_missionswon++" ] },
-        { "math": [ "totalbonus = rand(5) + 1" ] },
-        {
-          "if": { "math": [ "challenge_mode_active == 1" ] },
-          "then": [ { "math": [ "totalbonus = totalbonus * challenge_mode_reward_multiplier" ] } ]
-        },
-        {
-          "u_message": "It's done.  You found the statue.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
-          "type": "mixed"
-        },
-        { "run_eocs": "EOC_bonuspulse" },
-        { "u_spawn_item": "warptoken", "count": { "global_val": "totalbonus", "default": 1 } },
-        { "run_eocs": "EOC_innawood_bonus_exp_warpshards" }
+        { "u_message": "You found the statue.  Now you need to find a way to get the warp shards from it.", "type": "mixed" }
       ]
     }
   },

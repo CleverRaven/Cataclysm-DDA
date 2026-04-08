@@ -277,6 +277,27 @@
     "components": [ [ [ "warptoken", 15 ] ], [ [ "id_science", 1 ] ], [ [ "microscope_dissecting", 1 ] ] ]
   },
   {
+    "result": "item_merchant_attractor",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": false,
+    "reversible": false,
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 10 ] ],
+      [ [ "coin_penny", 1 ], [ "coin_nickel", 1 ] ],
+      [ [ "coin_dime", 1 ], [ "coin_quarter", 1 ] ],
+      [ [ "money_one", 1 ], [ "money_five", 1 ] ],
+      [ [ "money_ten", 1 ], [ "money_twenty", 1 ] ],
+      [ [ "money_fifty", 1 ], [ "money_hundred", 1 ] ]
+    ]
+  },
+  {
     "result": "warp_folded_infinitree",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

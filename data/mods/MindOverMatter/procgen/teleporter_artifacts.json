@@ -238,12 +238,12 @@
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "passive_enchantment_mult" } ],
-    "items": [ { "weight": 100, "item": "matrix_crystal_biokinesis" } ]
+    "items": [ { "weight": 100, "item": "matrix_crystal_teleportation" } ]
   },
   {
     "type": "item_group",
     "id": "teleportation_crystal_awakening_artifact_item",
     "subtype": "distribution",
-    "items": [ [ "matrix_crystal_biokinesis", 100 ] ]
+    "items": [ [ "matrix_crystal_teleportation", 100 ] ]
   }
 ]

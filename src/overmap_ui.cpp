@@ -23,7 +23,6 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
-#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -1985,8 +1984,6 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     }
 }
 
-static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
-
 static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
                                        const tripoint_abs_omt dest, const bool driving )
 {
@@ -2069,14 +2066,6 @@ static tripoint_abs_omt display()
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
     tripoint_abs_omt &select = data.select;
     input_context ictxt( "OVERMAP" );
-
-    const int previous_zoom = g->get_zoom();
-    g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->set_zoom( previous_zoom );
-        g->mark_main_ui_adaptor_resize();
-    } );
 
     background_pane bg_pane;
 

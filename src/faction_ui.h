@@ -95,7 +95,7 @@ class faction_ui : public cataimgui::window
         const mtype_id *picked_creature = nullptr;
 
         float get_table_column_width() const {
-            return 260.f;
+            return std::min( ImGui::GetWindowSize().x / 2.5f, 256.f );
         }
 };
 
