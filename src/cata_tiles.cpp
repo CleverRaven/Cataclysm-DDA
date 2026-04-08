@@ -2981,6 +2981,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
         }
 
+        bool is_linear = false;
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if( category == TILE_CATEGORY::FURNITURE ) {
@@ -3068,7 +3069,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                if( !tmp->is_linear() ) {
+                is_linear = tmp->is_linear();
+                if( !is_linear ) {
                     // if rota is for a omt with connections, it can be outside the bounds of
                     // om_direction::type. We can't do anything about that now, so just stay inbounds
                     rota %= om_direction::size;
@@ -3142,8 +3144,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
             std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
 
-            // do not rotate fallback tiles!
-            if( sym != LINE_XOXO_C && sym != LINE_OXOX_C ) {
+            // do not rotate fallback tiles for non line drawings (roads and such)
+            if( !is_linear ) {
                 rota = 0;
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
