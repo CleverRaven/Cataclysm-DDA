@@ -655,43 +655,19 @@ For an alternative setup using [CMake](../../CMakeLists.txt), please read [COMPI
 
 ## Building with Visual Studio Code (MSBUILD)
 
-This method uses Visual Studio's MSBuild toolchain driven from VS Code tasks, without needing to open Visual Studio itself.
-
-### Prerequisites
-
-- [Visual Studio](https://visualstudio.microsoft.com/) (any edition) with the **Desktop development with C++** workload installed.
-- [Visual Studio Code](https://code.visualstudio.com/).
-- vcpkg dependencies already set up as described in [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md).
+This method uses Visual Studio's MSBuild toolchain without needing to open Visual Studio itself.
 
 ### Setup
 
-The repository includes pre-configured VS Code task and helper script files:
-
-- `.vscode/tasks.json` — defines build tasks for each configuration and platform.
-- `.vscode/msbuild.ps1` — locates `MSBuild.exe` automatically using `vswhere` and invokes it against the solution.
-
-No manual path configuration is required; `msbuild.ps1` finds your Visual Studio installation automatically.
+Follow the instructions in the [Building with Visual Studio](#building-with-visual-studio) section.
 
 ### Running a build
 
 1. Open the repository folder in VS Code.
 2. Press **Ctrl+Shift+B** (or go to **Terminal → Run Build Task**) to open the build task picker.
-3. Select the desired configuration:
+3. Select the desired configuration.
 
-| Task label | Configuration | Platform |
-|---|---|---|
-| `MSBuild: Debug\|x64` | Debug | 64-bit |
-| `MSBuild: Debug\|x86` | Debug | 32-bit |
-| `MSBuild: Quick\|x64` | Quick (faster debug build, fewer checks) | 64-bit |
-| `MSBuild: Quick\|x86` | Quick | 32-bit |
-| `MSBuild: Release\|x64` | Release | 64-bit |
-| `MSBuild: Release\|x86` | Release | 32-bit |
-| `MSBuild: Debug-NoTiles\|x64` | Debug, no SDL tiles | 64-bit |
-| `MSBuild: Debug-NoTiles\|x86` | Debug, no SDL tiles | 32-bit |
-| `MSBuild: Release-NoTiles\|x64` | Release, no SDL tiles | 64-bit |
-| `MSBuild: Release-NoTiles\|x86` | Release, no SDL tiles | 32-bit |
-
-Build output and errors will appear in the **Terminal** panel. Compiler errors are also surfaced in the **Problems** panel (`Ctrl+Shift+M`) with source locations you can click to navigate directly to the offending code.
+Build output and errors will appear in the **Terminal** panel.
 
 ## Building with MSYS2
 
