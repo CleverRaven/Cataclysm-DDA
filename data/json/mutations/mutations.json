@@ -959,7 +959,17 @@
     "threshreq": [ "THRESH_INTERSTICE" ],
     "points": 5,
     "vitamin_cost": 210,
-    "enchantments": [ { "condition": "ALWAYS", "special_vision": [ { "distance": 10, "descriptions": [ { "id": "interstice_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense something here." } ] } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "distance": 10,
+            "descriptions": [ { "id": "interstice_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -3421,7 +3431,9 @@
     "purifiable": false,
     "points": 6,
     "vitamin_cost": 400,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.10 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.75 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.75 } ] }
+    ]
   },
   {
     "type": "mutation",
