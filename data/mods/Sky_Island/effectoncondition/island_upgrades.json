@@ -163,7 +163,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_skyisland_build_merchant_stall",
-    "effect": [ { "mapgen_update": "mx_skyisland_merchant_stall", "target_var": { "global_val": "OM_island_north" } } ]
+    "effect": [ { "mapgen_update": "mx_skyisland_merchant_stall", "target_var": { "global_val": "OM_island_n" } } ]
   },
   {
     "type": "effect_on_condition",
