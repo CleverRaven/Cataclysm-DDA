@@ -21,7 +21,7 @@
   * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
   * [Building with Visual Studio](#building-with-visual-studio)
-  * [Building with Visual Studio Code (MSBUILD)](#building-with-visual-studio-code-msbuild)
+  * [Building with Visual Studio Code (MSBuild)](#building-with-visual-studio-code-msbuild)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
   * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
