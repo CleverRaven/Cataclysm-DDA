@@ -106,6 +106,11 @@
           "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company Rivtech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "many_years_old_news_21",
+        "name": "LOWELL PD CREDITS NEW SOFTWARE WITH DROP IN PROPERTY CRIME",
+        "text": "LOWELL PD CREDITS NEW SOFTWARE WITH DROP IN PROPERTY CRIME.  Four months into a pilot program with tech firm Cyonage, the Lowell Police Department is reporting a nineteen percent drop in property crime and a marked improvement in response times.  Chief Anita Cordeiro praised the AI-assisted dispatch system at a Monday press conference, calling it \"the best tool we've added in years.\"  The system analyzes patrol data to flag potential trouble spots, allowing officers to be positioned before incidents escalate.  Lowell is one of several New England departments to adopt Cyonage's software, with Brockton and Fall River expected to begin their own pilots next quarter."
       }
     ]
   },
@@ -141,6 +146,21 @@
         "text": {
           "str": "SOYPELUSA SUITS FIND NEW AMMO:  Following the infamous disaster of the DaiZoom product launch and the numerous lawsuits that sprung from its failure, research from Harvard's Cognitive Neuropsychology labs has brought new evidence in the ongoing litigation against the company.  We spoke with lead researcher Doctor Soren Eldridge who had this to say: \"The DaiZoom bar, beyond its notoriously bad taste, appears to cause in its consumers symptoms similar to those of a major depressive disorder.  There is an actual tangible impact on mood that lasts well beyond the initial consumption of even just a few bars in a short span of time - we suspect DaiZoom may actually be chemically inhibiting dopamine receptors.  This is unprecedented, and quite exciting, given that it consists entirely of otherwise biochemically bland ingredients.\"  Doctor Eldridge stated that further research would be needed to determine the full extent of the issue and whether consumption of DaiZoom had long-term health effects similar to existing dopamine blocking drugs, and if there is any role for it as a medical therapy in the future.  The full interview can be found on page 7."
         }
+      },
+      {
+        "id": "years_old_news_13",
+        "name": "R.I. BILL WOULD REQUIRE POLICE SOFTWARE FIRMS TO DISCLOSE METHODS",
+        "text": "R.I. BILL WOULD REQUIRE POLICE SOFTWARE FIRMS TO DISCLOSE METHODS.  A bill introduced in the Rhode Island state legislature would require any company providing crime prediction software to law enforcement to submit its methodology for independent review.  The bill comes amid growing questions about the notoriously secretive Cyonage, whose AI-assisted dispatch tools are now used by more than twenty departments across New England but whose underlying methods have never been publicly disclosed.  Similar legislation in Massachusetts and Connecticut failed to advance last session after significant lobbying efforts from the technology sector."
+      },
+      {
+        "id": "years_old_news_14",
+        "name": "MIT PHYSICS DEPARTMENT FACES UNPRECEDENTED FACULTY EXODUS",
+        "text": "MIT PHYSICS DEPARTMENT FACES UNPRECEDENTED FACULTY EXODUS.  The Massachusetts Institute of Technology has lost eleven tenured or tenure-track faculty members from its physics department in the past eighteen months, a rate of departure that faculty and administrators say is without precedent in the department's modern history.  The losses span nearly every subfield but have hit condensed matter and particle physics particularly hard, leaving graduate students scrambling to find new advisors.  Several described similar experiences, saying they received little notice and that departing faculty were unwilling or unable to discuss where they were going.  In at least two cases, students said their former advisors cited nondisclosure agreements and declined to say anything beyond confirming they had accepted positions outside academia."
+      },
+      {
+        "id": "years_old_news_15",
+        "name": "HARVARD PHYSICS STUDENTS FACE THINNING COURSE CATALOG AS FACULTY SHORTAGE DEEPENS",
+        "text": "HARVARD PHYSICS STUDENTS FACE THINNING COURSE CATALOG AS FACULTY SHORTAGE DEEPENS.  Harvard has lost eight senior faculty members from its physics department over the past two years, part of a broader pattern of departures that has thinned the ranks of top research universities across the country.  The result has been a quiet contraction of what was once one of the deepest course catalogs in American physics.  A review of course listings shows that Harvard's physics department is offering eighteen upper-level and graduate courses this fall, down from twenty-seven two years ago.  Several of the remaining courses are being taught by visiting faculty or postdoctoral researchers pressed into teaching roles they had not anticipated."
       }
     ]
   },
@@ -277,6 +297,16 @@
         "id": "one_year_old_news_27",
         "name": "CHINESE ISOTOPE EXPORTS SURGE, BEIJING CREDITS FUSION PROGRAM",
         "text": "CHINESE ISOTOPE EXPORTS SURGE, BEIJING CREDITS FUSION PROGRAM.  Global markets for medical and industrial isotopes have been shaken by a sudden influx of Chinese supply, driving prices to multi-year lows.  Beijing's energy ministry attributed the surplus to \"byproducts of ongoing fusion operations at the Qinghai facility,\" claiming that the reactor has been in partial operation for months longer than previously disclosed."
+      },
+      {
+        "id": "one_year_old_news_28",
+        "name": "FACULTY EXODUS SPREADS TO BIOLOGY DEPARTMENTS",
+        "text": "FACULTY EXODUS SPREADS TO BIOLOGY DEPARTMENTS.  The wave of faculty departures that has hollowed out physics departments at universities across the country appears to be spreading to the life sciences.  Since January, dozens of senior biologists have left tenured positions at major research universities, following the same pattern of nondisclosure agreements and abrupt resignations that has defined the physics exodus.  The departures span a strikingly wide range of specializations: virology, microbiology, structural biology, genetics, and even ecology, fields with little obvious connection to one another.  A Freedom of Information Act request seeking records of government recruitment in the biological sciences was denied on national security grounds.  \"Since when are mycelial networks a matter of national security?\" said one colleague of a recently departed researcher."
+      },
+      {
+        "id": "one_year_old_news_29",
+        "name": "IN WINSLOW, A BUILDING BOOM WITH NO CLEAR EXPLANATION",
+        "text": "IN WINSLOW, A BUILDING BOOM WITH NO CLEAR EXPLANATION.  The facility, which sits on approximately forty acres of land purchased by the federal government through a series of transactions that were not publicly disclosed until local reporters obtained the records through a Freedom of Information Act request, consists of at least six large buildings, several of which have no windows.  A seventh structure, partially underground, is visible only from the air.  The General Services Administration described the project in procurement documents as a \"research and logistics facility\" and listed the client agency only as \"DOD-Other.\"  Route 137, which passes the facility's main entrance, has been subject to intermittent closures that the sheriff's office has attributed to \"utility work,\" though residents say the closures often coincide with the arrival of flatbed trucks carrying equipment under tarps and unmarked white vans arriving in convoys of three or four."
       }
     ]
   },
@@ -383,6 +413,16 @@
         "id": "months_old_news_21",
         "name": "POLICE TO INVESTIGATE SHADY HILLS",
         "text": "POLICE TO INVESTIGATE SHADY HILLS.  There will be a \"thorough investigation\" into the Shady Hills nursing home, owned by Shady Hills Corporation, said police Monday.  The announcement came following several lawsuits launching against the home by family members of residents for alleged elder abuse and neglect."
+      },
+      {
+        "id": "months_old_news_22",
+        "name": "FBI EXPOSES \"ZOMBIE\" VIDEO HOAXES",
+        "text": "FBI EXPOSES \"ZOMBIE\" VIDEO HOAXES.  The FBI's Cyber Division announced the results of a months-long investigation into what it called \"one of the most sophisticated disinformation campaigns in recent memory,\" revealing that dozens of the most viral \"zombie attack\" videos were carefully staged productions using professional makeup effects and willing participants.  The bureau released behind-the-scenes footage of eleven of the clips, showing teams of makeup artists applying prosthetics and actors rehearsing their stumbling walks before filming.  The hoax videos gained traction at an unfortunate time, with reports of unusual violence climbing across the country and emergency rooms dealing with a surge in patients presenting with extreme aggressive behavior."
+      },
+      {
+        "id": "months_old_news_23",
+        "name": "FBI SAYS \"ZOMBIE VIDEOS\" ARE FAKE.  NOT EVERYONE IS LISTENING.",
+        "text": "FBI SAYS \"ZOMBIE VIDEOS\" ARE FAKE.  NOT EVERYONE IS LISTENING.  On the forum r/RealLifeConspiracies, which has gained over three hundred thousand subscribers since the FBI's announcement, users have posted detailed breakdowns of shadow angles and lighting inconsistencies between the original clips and the bureau's behind-the-scenes footage.  \"These aren't the same location,\" one post concludes.  Other posts on the forum have focused on the individuals who came forward to claim credit for the videos, with one user attempting to trace the social media histories of six people identified by the FBI as participants in the scheme.  The user claims that none of them had public accounts predating the FBI's announcement, and that two of the names don't appear in any public records databases."
       }
     ]
   },
