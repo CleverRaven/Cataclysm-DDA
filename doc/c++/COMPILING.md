@@ -663,7 +663,7 @@ Follow the instructions in the [Building with Visual Studio](#building-with-visu
 
 ### Running a build
 
-1. Open the repository folder in VS Code.
+1. Open the repository using the `Cataclysm-DDA.code-workspace` file in VS Code. Opening the bare folder is not sufficient, as the workspace file configures the build tasks and settings.
 2. Press **Ctrl+Shift+B** (or go to **Terminal → Run Build Task**) to open the build task picker.
 3. Select the desired configuration.
 
