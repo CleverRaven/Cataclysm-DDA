@@ -21,6 +21,7 @@
   * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
   * [Building with Visual Studio](#building-with-visual-studio)
+  * [Building with Visual Studio Code (MSBUILD)](#building-with-visual-studio-code-msbuild)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
   * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
@@ -263,7 +264,7 @@ Installation
 sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git 
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
@@ -651,6 +652,46 @@ See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to se
 This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 For an alternative setup using [CMake](../../CMakeLists.txt), please read [COMPILING-CMAKE-VCPKG.md](COMPILING-CMAKE-VCPKG.md).
+
+## Building with Visual Studio Code (MSBUILD)
+
+This method uses Visual Studio's MSBuild toolchain driven from VS Code tasks, without needing to open Visual Studio itself.
+
+### Prerequisites
+
+- [Visual Studio](https://visualstudio.microsoft.com/) (any edition) with the **Desktop development with C++** workload installed.
+- [Visual Studio Code](https://code.visualstudio.com/).
+- vcpkg dependencies already set up as described in [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md).
+
+### Setup
+
+The repository includes pre-configured VS Code task and helper script files:
+
+- `.vscode/tasks.json` — defines build tasks for each configuration and platform.
+- `.vscode/msbuild.ps1` — locates `MSBuild.exe` automatically using `vswhere` and invokes it against the solution.
+
+No manual path configuration is required; `msbuild.ps1` finds your Visual Studio installation automatically.
+
+### Running a build
+
+1. Open the repository folder in VS Code.
+2. Press **Ctrl+Shift+B** (or go to **Terminal → Run Build Task**) to open the build task picker.
+3. Select the desired configuration:
+
+| Task label | Configuration | Platform |
+|---|---|---|
+| `MSBuild: Debug\|x64` | Debug | 64-bit |
+| `MSBuild: Debug\|x86` | Debug | 32-bit |
+| `MSBuild: Quick\|x64` | Quick (faster debug build, fewer checks) | 64-bit |
+| `MSBuild: Quick\|x86` | Quick | 32-bit |
+| `MSBuild: Release\|x64` | Release | 64-bit |
+| `MSBuild: Release\|x86` | Release | 32-bit |
+| `MSBuild: Debug-NoTiles\|x64` | Debug, no SDL tiles | 64-bit |
+| `MSBuild: Debug-NoTiles\|x86` | Debug, no SDL tiles | 32-bit |
+| `MSBuild: Release-NoTiles\|x64` | Release, no SDL tiles | 64-bit |
+| `MSBuild: Release-NoTiles\|x86` | Release, no SDL tiles | 32-bit |
+
+Build output and errors will appear in the **Terminal** panel. Compiler errors are also surfaced in the **Problems** panel (`Ctrl+Shift+M`) with source locations you can click to navigate directly to the offending code.
 
 ## Building with MSYS2
 

@@ -81,6 +81,8 @@ Directory.Build.targets
 .vscode/**
 !.vscode/settings.json
 !.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/msbuild.ps1
 
 # Visual Studio project files
 /msvc-full-features/**/
