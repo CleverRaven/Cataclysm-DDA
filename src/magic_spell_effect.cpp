@@ -47,6 +47,7 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -77,7 +78,10 @@ class translation;
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_teleglow( "teleglow" );
 
+static const flag_id json_flag_FERTILIZER( "FERTILIZER" );
 static const flag_id json_flag_FIT( "FIT" );
+
+static const itype_id itype_fertilizer( "fertilizer" );
 
 static const json_character_flag
 json_flag_BLOCK_SUPERNATURAL_HEALING( "BLOCK_SUPERNATURAL_HEALING" );
@@ -1421,6 +1425,53 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
         veh.charge_battery( here, sp.damage( caster ), false );
     } else {
         veh.discharge_battery( here, -sp.damage( caster ), false );
+    }
+}
+
+void spell_effect::fertilize_plant( const spell &sp, Creature &caster,
+                                    const tripoint_bub_ms &target )
+{
+
+    std::set<tripoint_bub_ms> area = spell_effect_area( sp, target, caster );
+    ::map &here = get_map();
+    for( const tripoint_bub_ms &tile : area ) {
+
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
+            continue;
+        }
+        // Can't use item_stack::only_item() since there might be fertilizer
+        map_stack items = here.i_at( tile );
+        map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.has_flag( json_flag_FERTILIZER );
+        }
+                                                     );
+        if( fertilizer != items.end() ) {
+            continue;
+        }
+        // Reduce the amount of time it takes until the next stage of the plant by
+        // the spell's damage (1% per damage point) relative to season length
+        const time_duration fertilizerEpoch = calendar::season_length() * ( static_cast<float>( sp.damage(
+                caster ) ) / 100.0f );
+
+        const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            return it.is_seed();
+        } );
+
+        if( seed == items.end() ) {
+            debugmsg( "Missing seed for plant at %s", target.to_string() );
+            here.i_clear( target );
+            here.furn_set( target, furn_str_id::NULL_ID() );
+            return;
+        }
+
+        seed->set_birthday( seed->birthday() - fertilizerEpoch );
+        // The plant furniture has the NOITEM token which prevents adding items on that square,
+        // spawned items are moved to an adjacent field instead, but the fertilizer token
+        // must be on the square of the plant, therefore this hack:
+        const furn_id &old_furn = here.furn( tile );
+        here.furn_set( tile, furn_str_id::NULL_ID() );
+        here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+        here.furn_set( tile, old_furn );
     }
 }
 

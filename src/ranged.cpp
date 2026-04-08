@@ -4389,7 +4389,8 @@ void target_ui::panel_spell_info( int &text_y )
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
         const std::string aoes = casting->aoe_string( get_player_character() );
-        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
+        if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ||
+            fx == "fertilize_plant" ) {
 
             if( casting->shape() == spell_shape::cone ) {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,

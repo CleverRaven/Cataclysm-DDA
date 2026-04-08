@@ -41,7 +41,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "speedway_track_abstract",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "road_abstract",
     "vision_levels": "blends_till_outlines",
     "name": "speedway",
     "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }

@@ -456,13 +456,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
-        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x, Fonts[3] = gui 2x
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x
         load_font( io, gui_typefaces, ranges.begin() );
         load_font( io, mono_typefaces, ranges.begin() );
         load_font( io, gui_typefaces, ranges.begin(),
                    static_cast<float>( lroundf( fontheight * 1.5f ) ) );
-        load_font( io, gui_typefaces, ranges.begin(),
-                   static_cast<float>( fontheight * 2 ) );
         for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
             io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
             io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
@@ -1131,12 +1129,6 @@ void cataimgui::PushGuiFont1_5x()
 #endif
 }
 
-void cataimgui::PushGuiFont2x()
-{
-#ifdef TILES
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[3] );
-#endif
-}
 
 bool cataimgui::BeginRightAlign( const char *str_id )
 {

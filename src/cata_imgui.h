@@ -174,7 +174,6 @@ bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast
 void PushGuiFont();
 void PushMonoFont();
 void PushGuiFont1_5x();
-void PushGuiFont2x();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
