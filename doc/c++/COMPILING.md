@@ -653,7 +653,7 @@ This is probably the easiest solution for someone used to working with Visual St
 
 For an alternative setup using [CMake](../../CMakeLists.txt), please read [COMPILING-CMAKE-VCPKG.md](COMPILING-CMAKE-VCPKG.md).
 
-## Building with Visual Studio Code (MSBUILD)
+## Building with Visual Studio Code (MSBuild)
 
 This method uses Visual Studio's MSBuild toolchain without needing to open Visual Studio itself.
 
