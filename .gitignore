@@ -61,6 +61,7 @@ zzip
 
 # Visual Studio files
 *.code-workspace
+!Cataclysm-DDA.code-workspace
 *.exp
 *.ilk
 *.opensdf
