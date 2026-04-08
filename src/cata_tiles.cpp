@@ -1185,58 +1185,58 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
             case LINE_OXOX_C:
-                sprites[0] = 205 + base_offset;
+                sprites[0] = 196 + base_offset;
                 break;
             // box left/right side (vertical line)
             case LINE_XOXO_C:
-                sprites[0] = 186 + base_offset;
+                sprites[0] = 179 + base_offset;
                 break;
             // box top left
             case LINE_OXXO_C:
-                sprites[0] = 201 + base_offset;
+                sprites[0] = 218 + base_offset;
                 break;
             // box top right
             case LINE_OOXX_C:
-                sprites[0] = 187 + base_offset;
+                sprites[0] = 191 + base_offset;
                 break;
             // box bottom right
             case LINE_XOOX_C:
-                sprites[0] = 188 + base_offset;
+                sprites[0] = 217 + base_offset;
                 break;
             // box bottom left
             case LINE_XXOO_C:
-                sprites[0] = 200 + base_offset;
+                sprites[0] = 192 + base_offset;
                 break;
             // box bottom north T (left, right, up)
             case LINE_XXOX_C:
-                sprites[0] = 202 + base_offset;
+                sprites[0] = 193 + base_offset;
                 break;
             // box bottom east T (up, right, down)
             case LINE_XXXO_C:
-                sprites[0] = 208 + base_offset;
+                sprites[0] = 195 + base_offset;
                 break;
             // box bottom south T (left, right, down)
             case LINE_OXXX_C:
-                sprites[0] = 203 + base_offset;
+                sprites[0] = 194 + base_offset;
                 break;
             // box X (left down up right)
             case LINE_XXXX_C:
-                sprites[0] = 206 + base_offset;
+                sprites[0] = 197 + base_offset;
                 break;
             // box bottom east T (left, down, up)
             case LINE_XOXX_C:
-                sprites[0] = 184 + base_offset;
+                sprites[0] = 180 + base_offset;
                 break;
         }
         if( ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C ) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
-            add_ascii_subtile( curr_tile, id, 206 + base_offset, "center" );
-            add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
-            add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
-            add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
-            add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
+            add_ascii_subtile( curr_tile, id, 197 + base_offset, "center" );
+            add_ascii_subtile( curr_tile, id, 218 + base_offset, "corner" );
+            add_ascii_subtile( curr_tile, id, 179 + base_offset, "edge" );
+            add_ascii_subtile( curr_tile, id, 194 + base_offset, "t_connection" );
+            add_ascii_subtile( curr_tile, id, 179 + base_offset, "end_piece" );
+            add_ascii_subtile( curr_tile, id, 197 + base_offset, "unconnected" );
         }
         ts.create_tile_type( id, std::move( curr_tile ) );
     }
