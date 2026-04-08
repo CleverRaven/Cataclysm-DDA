@@ -34,7 +34,7 @@
         " U..|l.|5|5||5|||..T..U ",
         " U8.|l.|d|.A|.h|L.....U ",
         "|||>||5|||.ä|??||5|??|||",
-        "  ||||.|R|.¿||||ë.||||  ",
+        "  ||||.|Ë|.¿||||ë.||||  ",
         "     |5|5|5||__||5|     ",
         "     |____________|     ",
         " |0| |é___________| |0  ",
@@ -76,6 +76,7 @@
         "S": "t_ship_bay_heated",
         "é": "t_ship_bay_heated",
         "á": "t_ship_floor_heated",
+        "Ë": "t_ship_floor_heated",
         "l": "t_ship_floor_heated",
         "L": "t_ship_floor_heated",
         "ä": "t_ship_floor_heated",
@@ -110,7 +111,10 @@
         "?": "f_sleep_pod",
         "¿": "f_cryo_pod"
       },
-      "vehicles": { "é": { "vehicle": "handjack", "chance": 75, "rotation": 0 } },
+      "vehicles": {
+        "é": { "vehicle": "handjack", "chance": 75, "rotation": 0 },
+        "Ë": { "vehicle": "ship_reactor", "status": 0, "rotation": 0 }
+      },
       "items": {
         "á": { "item": "afs_your_ship_display_case" },
         "?": { "item": "bed" },
