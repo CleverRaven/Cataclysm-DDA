@@ -324,79 +324,7 @@
       {
         "encumbrance_modifier": [
           {
-            "part": "head",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "torso",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "arm_r",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "arm_l",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "hand_r",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "hand_l",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "leg_r",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "leg_l",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "foot_r",
-            "add": {
-              "math": [
-                "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
-              ]
-            }
-          },
-          {
-            "part": "foot_l",
+            "part": "all",
             "add": {
               "math": [
                 "-( u_spell_level('biokin_enhance_mobility') * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
@@ -2163,7 +2091,8 @@
         },
         "emitter": "emit_pyrokinetic_aura_12"
       }
-    ]
+    ],
+    "flags": [ "RAIN_IMMUNE", "SNOWWALKING" ]
   },
   {
     "type": "effect_type",
@@ -3068,6 +2997,21 @@
       "sleepiness_chance": [ -65 ],
       "vomit_chance": [ -150 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_no_need_for_sleep",
+    "name": [ "Selective Autosomnia" ],
+    "desc": [ "Parts of your brain are sleeping while other parts remain awake." ],
+    "apply_message": "",
+    "remove_message": "You yawn involuntarily.",
+    "base_mods": { "sleepiness_min": [ -1 ], "sleepiness_chance": [ 1 ], "sleepiness_tick": [ 60 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "SLEEPINESS", "multiply": -1 }, { "value": "LEARNING_FOCUS", "add": -15 } ],
+        "skills": [ { "value": "speech", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",

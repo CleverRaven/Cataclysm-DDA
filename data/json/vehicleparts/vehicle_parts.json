@@ -746,7 +746,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART", "FURNITURE_TIEDOWN" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 30 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]

@@ -1,5 +1,6 @@
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstdio>
 #include <functional>
 #include <memory>
@@ -1134,6 +1135,18 @@ TEST_CASE( "shadowcasting_float_quad_performance", "[.]" )
 {
     shadowcasting_float_quad( 1000000 );
     shadowcasting_float_quad( 1000000, 100 );
+}
+
+TEST_CASE( "trig_dist_lut_matches_sqrt", "[shadowcasting]" )
+{
+    for( int dx = 0; dx <= MAX_VIEW_DISTANCE; dx++ ) {
+        for( int dy = 0; dy <= MAX_VIEW_DISTANCE; dy++ ) {
+            const int expected = static_cast<int>(
+                                     std::sqrt( static_cast<double>( dx * dx + dy * dy ) ) );
+            CAPTURE( dx, dy );
+            CHECK( trig_dist_2d( point( dx, dy ) ) == expected );
+        }
+    }
 }
 
 // I'm not sure this will ever work.

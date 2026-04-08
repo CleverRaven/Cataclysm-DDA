@@ -31,6 +31,7 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "math_parser_diag_value.h"
 #include "messages.h"
 #include "output.h"
 #include "proficiency.h"
@@ -43,6 +44,7 @@
 #include "ui_manager.h"
 #include "uilist.h"
 #include "units.h"
+#include "units_utility.h"
 #include "weighted_list.h"
 #include "wound.h"
 
@@ -532,11 +534,30 @@ void medical_ui::draw_limbs_list( const std::vector<bodypart_id> &bodyparts )
 
 void medical_ui::summary_tab() const
 {
-    cataimgui::draw_colored_text( draw_speed_summary( *you ), c_unset,
-                                  ImGui::GetContentRegionAvail().x );
+    const float col_width = ImGui::GetContentRegionAvail().x;
+
+    cataimgui::draw_colored_text( draw_speed_summary( *you ), col_width );
+
     ImGui::Separator();
-    cataimgui::draw_colored_text( draw_stats_summary( *you ), c_unset,
-                                  ImGui::GetContentRegionAvail().x );
+
+    cataimgui::draw_colored_text( draw_stats_summary( *you ), col_width );
+
+    const diag_value *last_weighting_time = you->maybe_get_value( "last_weighting_time" );
+    if( last_weighting_time != nullptr ) {
+        const std::string last_weighting_weight = string_format( "%.0f %s",
+                you->get_value( "last_weighting_weight_kg" ).dbl(), weight_units() );
+        const std::string last_weighted_time = string_format( _( "last weighted %s ago" ),
+                                               to_string_approx( calendar::turn - time_point( last_weighting_time->dbl() ) ) );
+        const std::string weight_desc = string_format(
+                                            "%s: %s (%s)",
+                                            _( "Weight" ),
+                                            colorize( last_weighting_weight, c_yellow ),
+                                            colorize( last_weighted_time, c_dark_gray ) );
+        cataimgui::draw_colored_text( weight_desc, col_width );
+    } else {
+        cataimgui::draw_colored_text( _( "You do not remember when you weighted yourself the last time" ),
+                                      c_dark_gray, col_width );
+    }
 }
 
 void medical_ui::limb_tab( const std::vector<bodypart_id> &bodyparts )

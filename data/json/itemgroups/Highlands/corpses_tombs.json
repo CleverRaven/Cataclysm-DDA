@@ -1,0 +1,17 @@
+[
+  {
+    "type": "item_group",
+    "id": "highland_sarcophagus_common",
+    "subtype": "collection",
+    "items": [
+      { "item": "skull_human" },
+      { "item": "bone_human", "count": [ 20, 40 ] },
+      { "item": "coin_highlands" },
+      { "item": "highland_shroud" },
+      { "item": "highland_medallion", "prob": 75 },
+      { "item": "highland_purple_incense", "prob": 40, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_red_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" },
+      { "item": "highland_yellow_incense", "prob": 10, "count": [ 1, 2 ], "container-item": "bowl_clay" }
+    ]
+  }
+]

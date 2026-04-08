@@ -100,6 +100,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "highland_ruins" ],
+    "name": "city ruins",
+    "spawns": { "group": "GROUP_NETHER", "population": [ 1, 4 ], "chance": 33 },
+    "sym": "r",
+    "color": "light_gray",
+    "flags": [ "SIDEWALK" ],
+    "see_cost": "spaced_high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "highland_crossroads_temple", "highland_crossroads_temple_above", "highland_crossroads_temple_above2" ],
     "name": "crossroads temple",
     "sym": "T",
@@ -107,6 +117,18 @@
     "travel_cost_type": "structure",
     "vision_levels": "isolated_building",
     "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "conquerors_road", "conquerors_road_above", "conquerors_road_above_1", "conquerors_road_top" ],
+    "name": "conqueror's spire",
+    "sym": "I",
+    "color": "red",
+    "looks_like": "lake_retreat_z1",
+    "see_cost": "all_clear",
+    "vision_levels": "isolated_tower",
+    "travel_cost_type": "roof",
+    "entry_eoc": "EOC_OPEN_IMPERIAL_ROAD_PREP"
   },
   {
     "type": "overmap_terrain",

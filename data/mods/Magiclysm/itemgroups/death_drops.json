@@ -517,5 +517,11 @@
       { "item": "pebble", "prob": 85, "count": [ 40, 90 ] },
       { "item": "rock_flaking", "prob": 85, "count": [ 3, 6 ] }
     ]
+  },
+  {
+    "id": "balrog_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "fading_embers_active", "prob": 100, "count": 1 } ]
   }
 ]

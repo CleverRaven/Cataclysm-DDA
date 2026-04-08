@@ -141,7 +141,17 @@
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
     "fun": -7,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "consumption_effect_on_conditions": [
+      {
+        "id": "EOC_BUTTER_NAUSEA",
+        "condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3" ] },
+        "effect": [
+          { "u_add_effect": "nausea", "duration": "10 minutes" },
+          { "u_message": "Ugh, you've been eating too much butter\u2026", "type": "bad" }
+        ]
+      }
+    ]
   },
   {
     "type": "ITEM",
@@ -149,6 +159,7 @@
     "id": "raw_butter",
     "name": { "str_sp": "raw butter" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "14 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -166,6 +177,7 @@
     "id": "ghee",
     "name": { "str_sp": "ghee" },
     "copy-from": "butter",
+    "eats_like": "butter",
     "weight": "13500 mg",
     "spoils_in": "90 days",
     "container": "jar_glass_sealed",

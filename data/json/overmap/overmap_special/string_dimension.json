@@ -138,5 +138,26 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "string_dimension_ka_facility",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "string_dimension_ka_facility_x0y0z0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "string_dimension_ka_facility_x1y0z0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "string_dimension_ka_facility_x2y0z0_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "string_dimension_ka_facility_x3y0z0_north" },
+      { "point": [ 4, 0, 0 ], "overmap": "string_dimension_ka_facility_x4y0z0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "string_dimension_ka_facility_x0y1z0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "string_dimension_ka_facility_x1y1z0_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "string_dimension_ka_facility_x2y1z0_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "string_dimension_ka_facility_x3y1z0_north" },
+      { "point": [ 4, 1, 0 ], "overmap": "string_dimension_ka_facility_x4y1z0_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "//": "spawned by EOC",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "string_dimension_true_void" ],
+    "flags": [ "MAN_MADE", "EXTRADIMENSIONAL", "STRING_DIMENSION_KA", "GLOBALLY_UNIQUE" ]
   }
 ]

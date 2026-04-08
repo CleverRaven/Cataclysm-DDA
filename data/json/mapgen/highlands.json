@@ -15,13 +15,31 @@
     "type": "mapgen",
     "om_terrain": [ "highlands" ],
     "weight": 3,
-    "object": { "fill_ter": "t_highland_groundcover" }
+    "object": {
+      "fill_ter": "t_highland_groundcover",
+      "place_nested": [
+        { "chunks": [ "highlands_base_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "fade_ruins_east" ], "x": 0, "y": 0, "neighbors": { "east": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_west" ], "x": 0, "y": 0, "neighbors": { "west": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_north" ], "x": 0, "y": 0, "neighbors": { "north": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_south" ], "x": 0, "y": 0, "neighbors": { "south": "highland_ruins" } }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "om_terrain": "highlands",
     "weight": 1,
-    "object": { "fill_ter": "t_highland_groundcover", "place_nested": [ { "chunks": [ "highlands_base_tile" ], "x": 0, "y": 0 } ] }
+    "object": {
+      "fill_ter": "t_highland_groundcover",
+      "place_nested": [
+        { "chunks": [ "highlands_base_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ "fade_ruins_east" ], "x": 0, "y": 0, "neighbors": { "east": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_west" ], "x": 0, "y": 0, "neighbors": { "west": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_north" ], "x": 0, "y": 0, "neighbors": { "north": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_south" ], "x": 0, "y": 0, "neighbors": { "south": "highland_ruins" } }
+      ]
+    }
   },
   {
     "type": "mapgen",

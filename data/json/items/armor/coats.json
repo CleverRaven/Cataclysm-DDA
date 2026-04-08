@@ -72,7 +72,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": 11,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 13, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -579,7 +586,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -653,7 +667,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -793,7 +814,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -886,7 +914,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 8, 9 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 8, 9 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2007,7 +2042,13 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 50 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 50 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 3, 3 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
     ]
   },
   {
@@ -2062,7 +2103,13 @@
         "coverage": 100,
         "encumbrance": [ 2, 2 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 2, 2 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
     ],
     "pocket_data": [
       {
@@ -2101,7 +2148,13 @@
         "coverage": 100,
         "encumbrance": [ 1, 1 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 1, 1 ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
     ],
     "pocket_data": [
       {
@@ -2167,10 +2220,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,
         "encumbrance": 10,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 60, "encumbrance": 8 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 45, "encumbrance": 8, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -2341,7 +2395,14 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 90,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 8, 8 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 10, 10 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2421,7 +2482,14 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 95,
+        "encumbrance": [ 3, 3 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 85, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "warmth": 8,
     "material_thickness": 0.1,
@@ -2459,7 +2527,14 @@
         "encumbrance": 2
       },
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 60 },
-      { "covers": [ "eyes" ], "coverage": 5, "encumbrance": 1 }
+      { "covers": [ "eyes" ], "coverage": 5, "encumbrance": 1 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 3, 3 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 4, 4 ], "layers": [ "BELTED" ] }
     ],
     "warmth": 5,
     "material_thickness": 0.1,
@@ -2496,7 +2571,14 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": 4, "layers": [ "BELTED" ] }
     ],
     "use_action": {
       "type": "transform",
@@ -2538,7 +2620,14 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
+      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": 4, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -2575,7 +2664,14 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
         "coverage": 95,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 100,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 100, "encumbrance": [ 8, 8 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2623,7 +2719,14 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 90 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 90 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 75,
+        "encumbrance": [ 2, 2 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": 4, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -2819,7 +2922,14 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2899,7 +3009,14 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 55, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -2990,7 +3107,14 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       {
@@ -3087,7 +3211,9 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -3136,7 +3262,9 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -3196,7 +3324,9 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": [ 5, 5 ] }
     ]
   },
   {
@@ -3250,7 +3380,14 @@
     "warmth": 20,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ]
+      },
+      { "encumbrance": 7, "coverage": 85, "covers": [ "tail_thick", "tail_club" ] }
+    ]
   },
   {
     "id": "trenchcoat",
@@ -3280,7 +3417,14 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 75,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 50, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3323,7 +3467,14 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3377,7 +3528,14 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 80,
+        "encumbrance": [ 5, 5 ],
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 60, "encumbrance": [ 5, 5 ], "layers": [ "BELTED" ] }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -3662,7 +3820,9 @@
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
         "encumbrance": [ 0, 0 ]
-      }
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 50, "encumbrance": [ 5, 5 ] }
     ],
     "warmth": 30,
     "material_thickness": 1.5,
@@ -3695,7 +3855,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 12 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 12 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 90,
+        "encumbrance": 10,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 75, "encumbrance": 15, "layers": [ "BELTED" ] }
     ]
   },
   {
@@ -3724,7 +3891,14 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      {
+        "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ],
+        "coverage": 85,
+        "encumbrance": 10,
+        "layers": [ "BELTED" ]
+      },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 13, "layers": [ "BELTED" ] }
     ]
   },
   {

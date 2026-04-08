@@ -16,6 +16,7 @@
     "id": "NC_EXODII_TYPE_9_Weaponmaster",
     "name": { "str": "Cyborg, type 9" },
     "job_description": "I'm a cyborg.",
+    "work_hours": [ 6, 22 ],
     "traits": [
       { "trait": "EXODII_BODY_9" },
       { "trait": "IGNORE_SOUND" },

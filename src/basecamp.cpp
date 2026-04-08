@@ -247,7 +247,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
         skills = &bld_reqs.skills;
     } else {
         reqs = &making.simple_requirements();
-        base_time = making.batch_duration( get_player_character() );
+        base_time = making.batch_duration( get_player_character(),
+                                           crafting_cost_context::for_recipe( get_player_character(), making ) );
         skills = &making.required_skills;
     }
 

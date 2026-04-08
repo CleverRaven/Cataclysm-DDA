@@ -440,7 +440,7 @@
     "id": "rashy_skin",
     "recurrence": [ "2 hour", "24 hours" ],
     "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
-    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" } ]
   },
   {
     "type": "effect_on_condition",

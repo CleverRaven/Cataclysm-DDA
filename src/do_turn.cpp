@@ -544,6 +544,9 @@ bool do_turn()
 
     weather.update_weather();
     g->reset_light_level();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        m.set_lightmap_cache_dirty( z );
+    }
 
     g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.get_moves() > 0 && u.activity ) {

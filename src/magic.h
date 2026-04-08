@@ -865,6 +865,7 @@ void recover_energy( const spell &sp, Creature &, const tripoint_bub_ms &target 
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void recharge_vehicle( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
+void fertilize_plant( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 void translocate( const spell &sp, Creature &caster, const tripoint_bub_ms &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint_bub_ms & );
@@ -920,6 +921,7 @@ effect_map{
     { "summon", spell_effect::spawn_summoned_monster },
     { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
     { "recharge_vehicle", spell_effect::recharge_vehicle },
+    { "fertilize_plant", spell_effect::fertilize_plant },
     { "translocate", spell_effect::translocate },
     { "area_pull", spell_effect::area_pull },
     { "area_push", spell_effect::area_push },

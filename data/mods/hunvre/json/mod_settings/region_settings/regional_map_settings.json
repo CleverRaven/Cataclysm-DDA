@@ -45,6 +45,8 @@
     "copy-from": "default",
     "type": "region_settings_city",
     "name_snippet": "<city_name_hunvre>",
+    "city_size": 16,
+    "city_spacing": 0,
     "shop_radius": 0,
     "shop_sigma": 0,
     "park_radius": 0,

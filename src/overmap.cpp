@@ -271,8 +271,9 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 
 void overmap::populate()
 {
-    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
     const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
+    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
+            settings->get_settings_city().city_size );
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -1981,7 +1982,7 @@ void overmap::place_forest_trails()
 void overmap::place_forest_trailheads()
 {
     // No trailheads if there are no cities.
-    const int city_size = get_option<int>( "CITY_SIZE" );
+    const int city_size = settings->get_settings_city().city_size;
     if( city_size <= 0 ) {
         return;
     }
@@ -2148,7 +2149,7 @@ void overmap::place_swamps()
 
 void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2208,7 +2209,7 @@ void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps
 void overmap::place_railroads( const std::vector<const overmap *> &neighbor_overmaps )
 {
     // no railroads if there are no cities
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2347,7 +2348,7 @@ void overmap::calculate_forestosity()
 
 void overmap::calculate_urbanity()
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -3173,7 +3174,7 @@ void overmap::place_specials_pass(
 }
 
 // Split map into sections, iterate through sections iterate through specials,
-// check if special is valid  pick & place special.
+// check if special is valid pick & place special.
 // When a sector is populated it's removed from the list,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )

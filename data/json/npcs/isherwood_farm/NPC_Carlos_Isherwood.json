@@ -92,7 +92,7 @@
         "*is an older middle-aged man, well-muscled and darkly tanned, with worried lines around the corners of his eyes and mouth.  He looks up as you get close",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", and then puts his hand on the butt of the rifle slung across  his back.  \"I see that badge, I think you need to keep on walking, straight off this property.\"",
+          "yes": ", and then puts his hand on the butt of the rifle slung across his back.  \"I see that badge, I think you need to keep on walking, straight off this property.\"",
           "no": {
             "u_male": true,
             "yes": ", then smiles distantly.  \"Hello Sir, what brings you here?\"",

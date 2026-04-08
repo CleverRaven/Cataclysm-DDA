@@ -1224,6 +1224,12 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    if( jo.has_array( "light_color" ) ) {
+        JsonArray jarr = jo.get_array( "light_color" );
+        light_color.r = jarr.get_int( 0 ) / 255.0f;
+        light_color.g = jarr.get_int( 1 ) / 255.0f;
+        light_color.b = jarr.get_int( 2 ) / 255.0f;
+    }
 
     if( jo.has_object( "shoot" ) ) {
         shoot = cata::make_value<map_shoot_info>();

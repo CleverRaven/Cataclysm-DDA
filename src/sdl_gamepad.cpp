@@ -98,6 +98,8 @@ void init()
         return;
     }
 
+    // SDL3: SDL_NumJoysticks is replaced by SDL_GetJoysticks (returns array).
+    // SDL3: SDL_GameControllerOpen becomes SDL_OpenGamepad and takes instance ID, not device index.
     if( SDL_NumJoysticks() > 0 ) {
         controller = SDL_GameControllerOpen( 0 );
         if( controller ) {
@@ -122,9 +124,10 @@ void quit()
     }
 }
 
-SDL_GameController *get_controller()
+// SDL3: SDL_GameControllerGetAxis becomes SDL_GetGamepadAxis.
+static Sint16 get_controller_axis( SDL_GameControllerAxis axis )
 {
-    return controller;
+    return SDL_GameControllerGetAxis( controller, axis );
 }
 
 static int one_of_two( const std::array<int, 2> &arr, int val )
@@ -324,7 +327,7 @@ static void send_direction_movement()
     }
 }
 
-bool handle_axis_event( SDL_Event &event )
+static bool handle_axis_event( SDL_Event &event )
 {
     if( event.type != SDL_CONTROLLERAXISMOTION ) {
         return false;
@@ -406,10 +409,8 @@ bool handle_axis_event( SDL_Event &event )
         if( axis_idx >= 0 ) {
             // Get current values for both axes of this stick
             const point val(
-                SDL_GameControllerGetAxis( controller,
-                                           static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) ),
-                SDL_GameControllerGetAxis( controller,
-                                           static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) ) );
+                get_controller_axis( static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) ),
+                get_controller_axis( static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) ) );
 
             // Calculate magnitude (distance from center)
             double magnitude = std::sqrt( static_cast<double>( val.x ) * val.x +
@@ -515,7 +516,7 @@ bool handle_axis_event( SDL_Event &event )
 }
 
 
-void handle_button_event( SDL_Event &event )
+static void handle_button_event( SDL_Event &event )
 {
     int button = event.cbutton.button;
     Uint32 now = event.cbutton.timestamp;
@@ -649,7 +650,10 @@ void handle_button_event( SDL_Event &event )
     }
 }
 
-void handle_device_event( SDL_Event &event )
+// SDL3: SDL_CONTROLLERDEVICEADDED/REMOVED become SDL_EVENT_GAMEPAD_ADDED/REMOVED.
+// SDL3: event.cdevice.which for ADDED is an instance ID (not device index).
+// SDL3: SDL_GameControllerOpen becomes SDL_OpenGamepad.
+static void handle_device_event( SDL_Event &event )
 {
     if( event.type == SDL_CONTROLLERDEVICEADDED ) {
         if( controller == nullptr ) {
@@ -667,7 +671,7 @@ void handle_device_event( SDL_Event &event )
     }
 }
 
-void handle_scheduler_event( SDL_Event &event )
+static void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
     for( size_t i = 0; i < all_tasks.size(); ++i ) {
@@ -761,6 +765,46 @@ tripoint direction_to_offset( direction dir )
         case direction::NONE:
         default:
             return tripoint::zero;
+    }
+}
+
+// SDL3: SDL_CONTROLLERBUTTONDOWN/UP become SDL_EVENT_GAMEPAD_BUTTON_DOWN/UP.
+// SDL3: SDL_CONTROLLERAXISMOTION becomes SDL_EVENT_GAMEPAD_AXIS_MOTION.
+// SDL3: SDL_CONTROLLERDEVICEADDED/REMOVED become SDL_EVENT_GAMEPAD_ADDED/REMOVED.
+// SDL3: event.caxis/cbutton/cdevice become event.gaxis/gbutton/gdevice.
+bool is_gamepad_event( const SDL_Event &event )
+{
+    switch( event.type ) {
+        case SDL_CONTROLLERBUTTONDOWN:
+        case SDL_CONTROLLERBUTTONUP:
+        case SDL_CONTROLLERAXISMOTION:
+        case SDL_CONTROLLERDEVICEADDED:
+        case SDL_CONTROLLERDEVICEREMOVED:
+        case SDL_GAMEPAD_SCHEDULER:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool handle_event( SDL_Event &event )
+{
+    switch( event.type ) {
+        case SDL_CONTROLLERBUTTONDOWN:
+        case SDL_CONTROLLERBUTTONUP:
+            handle_button_event( event );
+            return false;
+        case SDL_CONTROLLERAXISMOTION:
+            return handle_axis_event( event );
+        case SDL_CONTROLLERDEVICEADDED:
+        case SDL_CONTROLLERDEVICEREMOVED:
+            handle_device_event( event );
+            return false;
+        case SDL_GAMEPAD_SCHEDULER:
+            handle_scheduler_event( event );
+            return false;
+        default:
+            return false;
     }
 }
 

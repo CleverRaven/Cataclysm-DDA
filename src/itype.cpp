@@ -14,7 +14,6 @@
 #include "map.h"
 #include "material.h"
 #include "recipe.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "subbodypart.h"
 #include "translations.h"
@@ -129,10 +128,10 @@ int itype::damage_level( int damage ) const
 bool itype::has_any_quality( std::string_view quality ) const
 {
     return std::any_of( qualities.begin(),
-    qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+    qualities.end(), [&quality]( const auto & e ) {
         return lcmatch( e.first->name, quality );
     } ) || std::any_of( charged_qualities.begin(),
-    charged_qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+    charged_qualities.end(), [&quality]( const auto & e ) {
         return lcmatch( e.first->name, quality );
     } );
 }

@@ -28,7 +28,7 @@
     "forests": null,
     "forest_trails": null,
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "forest_composition": "no_forests",
     "map_extras": "no_map_extras",
     "place_roads": false,
@@ -70,5 +70,68 @@
       "subway_connection": "subway_tunnel",
       "rail_connection": "local_railroad"
     }
+  },
+  {
+    "type": "weather_generator",
+    "id": "sky_island_raid_weather_hot",
+    "copy-from": "default",
+    "base_temperature": 26,
+    "spring_temp_manual_mod": 15,
+    "summer_temp_manual_mod": 0,
+    "autumn_temp_manual_mod": 15,
+    "winter_temp_manual_mod": 30
+  },
+  {
+    "type": "region_settings",
+    "id": "sky_island_raid_region_hot",
+    "copy-from": "dimension_sky_island_region",
+    "weather": "sky_island_raid_weather_hot"
+  },
+  {
+    "type": "weather_generator",
+    "id": "sky_island_raid_weather_cold",
+    "copy-from": "default",
+    "base_temperature": -4,
+    "spring_temp_manual_mod": -15,
+    "summer_temp_manual_mod": -30,
+    "autumn_temp_manual_mod": -15,
+    "winter_temp_manual_mod": 0
+  },
+  {
+    "type": "region_settings",
+    "id": "sky_island_raid_region_cold",
+    "copy-from": "dimension_sky_island_region",
+    "weather": "sky_island_raid_weather_cold"
+  },
+  {
+    "id": "MEGACITY_FLAG",
+    "type": "json_flag",
+    "name": ""
+  },
+  {
+    "type": "region_settings",
+    "id": "sky_island_raid_region_mega_city",
+    "copy-from": "dimension_sky_island_region",
+    "place_swamps": false,
+    "rivers": null,
+    "ocean": null,
+    "forests": null,
+    "lakes": null,
+    "highways": null,
+    "cities": "sky_island_raid_region_mega_city_settings",
+    "//": "Stop generation of all specials, just city buildings",
+    "feature_flag_settings": { "extend": { "whitelist": [ "MEGACITY_FLAG" ] } }
+  },
+  {
+    "type": "region_settings_city",
+    "id": "sky_island_raid_region_mega_city_settings",
+    "copy-from": "default",
+    "is_megacity": true,
+    "city_size": 16,
+    "city_spacing": 0,
+    "shop_radius": 200,
+    "shop_sigma": 0,
+    "park_radius": 0,
+    "park_sigma": 0
   }
 ]

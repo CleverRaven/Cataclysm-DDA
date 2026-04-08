@@ -156,6 +156,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "jetskis",
+    "vehicles": [ [ "jetski", 2 ], [ "jetski_electric", 1 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "trains_and_cars",
     "vehicles": [ [ "train_car_passenger", 250 ], [ "train_electrical_loco1300", 500 ] ]
   },

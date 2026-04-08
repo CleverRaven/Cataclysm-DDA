@@ -91,7 +91,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door4sudo",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock --force\n<color_light_green>Error: Insufficient  confidence.\n<color_light_green>Aborted: No forceable process.\n @User > sudo doorstatus --update=unlock\n<color_light_green>Oh, is that how it will be?  Very well.\n<color_light_green>Blood tax requested.\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock --force\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>Aborted: No forceable process.\n @User > sudo doorstatus --update=unlock\n<color_light_green>Oh, is that how it will be?  Very well.\n<color_light_green>Blood tax requested.\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
     "responses": [
       {
         "text": "[ Prick yourself on the needle ]",

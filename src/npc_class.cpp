@@ -271,6 +271,10 @@ void npc_class::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, SHOPKEEPER_WHITELIST, shop_whitelist_id,
               shopkeeper_whitelist_id::NULL_ID() );
     optional( jo, was_loaded, "restock_interval", restock_interval, 6_days );
+    if( jo.has_array( "work_hours" ) ) {
+        JsonArray arr = jo.get_array( "work_hours" );
+        work_hours_ = { arr.get_int( 0 ), arr.get_int( 1 ) };
+    }
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -424,6 +428,20 @@ faction_price_rule const *npc_class::get_price_rules( item const &it, npc const 
 const time_duration &npc_class::get_shop_restock_interval() const
 {
     return restock_interval;
+}
+
+const std::pair<int, int> &npc_class::get_work_hours() const
+{
+    return work_hours_;
+}
+
+bool is_within_work_hours( int hour, int start, int end )
+{
+    if( start <= end ) {
+        return hour >= start && hour < end;
+    }
+    // wraps midnight
+    return hour >= start || hour < end;
 }
 
 int npc_class::roll_strength() const

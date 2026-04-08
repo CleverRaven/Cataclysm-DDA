@@ -210,7 +210,8 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" }
     ],
-    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "button", 5 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ] ],
+    "components": [ [ [ "button_plastic", 5 ] ] ],
     "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 1 ] ]
   },
   {

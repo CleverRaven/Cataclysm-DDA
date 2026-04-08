@@ -284,7 +284,8 @@
     "difficulty": 5,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "tailoring_felt_patchwork", 27 ], [ "button", 2 ] ],
+    "using": [ [ "tailoring_felt_patchwork", 27 ] ],
+    "components": [ [ [ "button_plastic", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1501,7 +1502,8 @@
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 30 ], [ "tailoring_denim_patchwork", 8 ], [ "button", 5 ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_denim_patchwork", 8 ] ],
+    "components": [ [ [ "button_plastic", 5 ] ] ]
   },
   {
     "result": "lsurvivor_armor",

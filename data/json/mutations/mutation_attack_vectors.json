@@ -50,6 +50,13 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_gastropod_tongue",
+    "limbs": [ "gastropod_tongue" ],
+    "contact_area": [ "gastropod_tongue_chin", "gastropod_tongue_lips" ],
+    "encumbrance_limit": 1
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]

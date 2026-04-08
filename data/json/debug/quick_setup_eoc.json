@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_QUICK_SETUP",
+    "effect": [
+      {
+        "u_message": "EOC_DEBUG_QUICK_SETUP is automatically executed when using quick setup.  Override it for custom functionality during quick setup."
+      }
+    ]
+  }
+]

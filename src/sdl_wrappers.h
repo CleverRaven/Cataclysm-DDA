@@ -40,13 +40,6 @@ struct SDL_Window_deleter {
 };
 using SDL_Window_Ptr = std::unique_ptr<SDL_Window, SDL_Window_deleter>;
 
-struct SDL_PixelFormat_deleter {
-    void operator()( SDL_PixelFormat *const format ) {
-        SDL_FreeFormat( format );
-    }
-};
-using SDL_PixelFormat_Ptr = std::unique_ptr<SDL_PixelFormat, SDL_PixelFormat_deleter>;
-
 struct SDL_Texture_deleter {
     void operator()( SDL_Texture *const ptr ) {
         SDL_DestroyTexture( ptr );
@@ -97,9 +90,12 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
-void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
+int FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode );
+void SetTextureBlendMode( const std::shared_ptr<SDL_Texture> &texture, SDL_BlendMode blendMode );
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
+bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
+                         Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
@@ -107,6 +103,40 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
+void SetTextureAlphaMod( const SDL_Texture_Ptr &texture, Uint8 alpha );
+void SetTextureAlphaMod( const std::shared_ptr<SDL_Texture> &texture, Uint8 alpha );
+void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
+                   const SDL_Rect *srcrect, const SDL_Rect *dstrect,
+                   double angle, const SDL_Point *center, SDL_RendererFlip flip );
+void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
+bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer );
+int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *srcrect,
+                 const SDL_Surface_Ptr &dst, SDL_Rect *dstrect );
+Uint32 MapRGB( const SDL_Surface_Ptr &surface, Uint8 r, Uint8 g, Uint8 b );
+Uint32 MapRGBA( const SDL_Surface_Ptr &surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+void GetRGBA( Uint32 pixel, const SDL_Surface_Ptr &surface, Uint8 &r, Uint8 &g, Uint8 &b,
+              Uint8 &a );
+int SetColorKey( const SDL_Surface_Ptr &surface, int flag, Uint32 key );
+int SetSurfaceRLE( const SDL_Surface_Ptr &surface, int flag );
+int SetSurfaceBlendMode( const SDL_Surface_Ptr &surface, SDL_BlendMode blendMode );
+SDL_Surface_Ptr ConvertSurfaceFormat( const SDL_Surface_Ptr &surface, Uint32 pixel_format );
+int LockSurface( const SDL_Surface_Ptr &surface );
+void UnlockSurface( const SDL_Surface_Ptr &surface );
+// Returns the pixel format enum (SDL_PIXELFORMAT_*) for the surface.
+// SDL3: surface->format is the enum directly; SDL2: surface->format->format.
+Uint32 GetSurfacePixelFormat( const SDL_Surface_Ptr &surface );
+TTF_Font_Ptr OpenFontIndex( const char *file, int ptsize, int64_t index );
+const char *FontFaceStyleName( const TTF_Font_Ptr &font );
+int FontFaces( const TTF_Font_Ptr &font );
+int FontHeight( const TTF_Font_Ptr &font );
+void SetFontStyle( const TTF_Font_Ptr &font, int style );
+SDL_Surface_Ptr RenderUTF8_Solid( const TTF_Font_Ptr &font, const char *text, SDL_Color fg );
+SDL_Surface_Ptr RenderUTF8_Blended( const TTF_Font_Ptr &font, const char *text, SDL_Color fg );
+// Project-level helper: can this font produce a glyph for the given codepoint?
+// In SDL3_ttf there is no direct TTF_GlyphIsProvided equivalent; this will be
+// emulated via glyph metrics or a render attempt.
+bool CanRenderGlyph( const TTF_Font_Ptr &font, Uint32 ch );
 /**@}*/
 
 void StartTextInput();

@@ -60,7 +60,9 @@ users:
     - SittingDucken
     - ShnitzelX2
     - BalthazarArgall
-    - dumb-kevin
+    - dobbry-vechur
+    - thaelina
+    - Tektolnes
 
 keywords:
   - name: confirm-bug
@@ -79,3 +81,7 @@ keywords:
   - name: help-wanted
     # example: /help-wanted
     value: '\/(H|h)elp[\s-]*(W|w)anted.*'
+
+  - name: retry-jobs
+    # example: /retry, /rerun
+    value: '\/(([Rr])etry|([Rr])erun).*'

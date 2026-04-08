@@ -152,7 +152,7 @@
     "id": "dream_mana_gain",
     "type": "SPELL",
     "name": { "str": "Mana gain from dreams", "//~": "NO_I18N" },
-    "description": "Your dreaming experiences refill your mana.  Consumed in the mysterious activity of expansion and contraction",
+    "description": "Your dreaming experiences refill your mana.  Consumed in the mysterious activity of expansion and contraction.",
     "valid_targets": [ "self" ],
     "min_damage": { "math": [ "(u_spell_level('dream_mana_gain') * 4) * ( lucid_dreaming_proficiency_modifier() )" ] },
     "max_damage": { "math": [ "(u_spell_level('dream_mana_gain') * 7) * ( lucid_dreaming_proficiency_modifier() )" ] },

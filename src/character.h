@@ -48,6 +48,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "sleep.h"
@@ -78,7 +79,6 @@ class ma_technique;
 class map;
 class player_morale;
 class profession;
-class proficiency_set;
 class recipe;
 class recipe_subset;
 class spell;
@@ -96,14 +96,12 @@ struct pick_info;
 } // namespace Pickup
 
 enum action_id : int;
-enum class proficiency_bonus_type : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
-struct display_proficiency;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
@@ -980,6 +978,8 @@ class Character : public Creature, public visitable
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
+        units::mass bodyweight_with_bionic() const;
+
         // formats and prints encumbrance info to specified window
         void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
@@ -1051,6 +1051,7 @@ class Character : public Creature, public visitable
         void make_clatter_sound() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
+        int move_mode_switch_cost( const move_mode_id &old_mode, const move_mode_id &new_mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
@@ -3103,6 +3104,8 @@ class Character : public Creature, public visitable
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
         bool has_activity( const std::vector<activity_id> &types ) const;
+        /** Check if character has a given sub_bodypart */
+        bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
         void cancel_activity();
         void cancel_stashed_activity();
@@ -3265,6 +3268,7 @@ class Character : public Creature, public visitable
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
          *  @param gun item to fire (which does not necessary have to be in the players possession)
+         *  @param ammo item_location of ammunition for RAS (reload after shot) weapon like arrows
          *  @return number of shots actually fired
          */
         int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
@@ -3405,6 +3409,7 @@ class Character : public Creature, public visitable
         std::string visible_mutations( int visibility_cap ) const;
 
         player_activity get_destination_activity() const;
+        const player_activity &peek_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
 
@@ -3599,6 +3604,10 @@ class Character : public Creature, public visitable
                                              const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
+        // Efficiently query book proficiency bonuses from nearby items
+        // without rebuilding the full crafting inventory.
+        // Walks map tiles and vehicle cargo in range, plus character inventory.
+        book_proficiency_bonuses book_bonuses_nearby( int radius = PICKUP_RANGE ) const;
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,

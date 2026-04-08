@@ -4,7 +4,7 @@
     "id": "default",
     "copy-from": "default",
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "DEFENSE_MODE" ] }
   }
 ]

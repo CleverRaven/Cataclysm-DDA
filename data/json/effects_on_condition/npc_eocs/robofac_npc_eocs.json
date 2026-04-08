@@ -59,7 +59,10 @@
     "type": "effect_on_condition",
     "id": "EOC_ROBOFAC_LOCK_INTERCOM",
     "global": true,
-    "effect": [ { "mapgen_update": "remove_robofac_intercom", "om_terrain": "robofachq_surface_entrance" } ]
+    "effect": [
+      { "mapgen_update": "remove_robofac_intercom", "om_terrain": "robofachq_surface_entrance" },
+      { "math": [ "hub01_intercom_locked = 1" ] }
+    ]
   },
   {
     "type": "mapgen",

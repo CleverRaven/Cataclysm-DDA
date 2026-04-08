@@ -11,6 +11,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_distortion_floor",
+    "name": "distorted image",
+    "description": "The landscape looks warped and distorted here, as if had been unaturally stretched above a thin membrane.",
+    "symbol": "+",
+    "color": "magenta",
+    "looks_like": "fd_fatigue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_nether_glass_floor_clairvoyance",
     "name": "black glass",
     "description": "An endless expanse of black glass.  It perfectly reflects the darkness around it.",

@@ -1076,6 +1076,14 @@ class item : public visitable
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
+        /**
+         * Speed modifier for a quality this item provides at >= level.
+         * Mirrors get_quality() resolution: inherent, charged (if crafter provided),
+         * BOIL special case, contained items.
+         * Returns 1.0f if item doesn't qualify or has no speed modifier.
+         */
+        float get_quality_speed( const quality_id &id, int level,
+                                 const Character *crafter = nullptr ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -1103,6 +1111,12 @@ class item : public visitable
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
+
+        /**
+         * Store items current location into spawn_location, if flag PRESERVE_SPAWN_LOC is present. Works
+         * recursively.
+         */
+        void preserve_location( const tripoint_abs_ms &location );
 
         /**
          * Returns rate of rot (rot/h) at the given temperature
@@ -2626,10 +2640,6 @@ class item : public visitable
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
-        /**
-         * Return the first ammo found iterating all magazine pockets. Null if none found.
-         * Does not support multiple magazine pockets!
-         */
         item &first_ammo();
         const item &first_ammo() const;
         /**
@@ -2776,6 +2786,9 @@ class item : public visitable
          */
         item *magazine_current();
         const item *magazine_current() const;
+
+        std::vector<item *> magazines_current();
+        std::vector<const item *> magazines_current() const;
 
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();

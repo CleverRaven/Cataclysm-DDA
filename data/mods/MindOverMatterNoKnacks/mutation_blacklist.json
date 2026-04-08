@@ -95,13 +95,22 @@
     "remove": true
   },
   {
-    "type": "TRAIT_MIGRATION",
+    "//": "Migration doesn't prevent these from showing up in character gen so we need to override the starting trait field",
+    "type": "mutation",
     "id": "LIMITED_PSIONICS",
-    "remove": true
+    "copy-from": "LIMITED_PSIONICS",
+    "starting_trait": false
   },
   {
-    "type": "TRAIT_MIGRATION",
+    "type": "mutation",
     "id": "ALWAYS_GAIN_PSIONICS",
-    "remove": true
+    "copy-from": "ALWAYS_GAIN_PSIONICS",
+    "starting_trait": false
+  },
+  {
+    "type": "mutation",
+    "id": "MOM_PSYCHIC_VAMPIRE",
+    "copy-from": "MOM_PSYCHIC_VAMPIRE",
+    "starting_trait": false
   }
 ]

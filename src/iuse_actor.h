@@ -28,6 +28,7 @@ class JsonObject;
 class item;
 class item_location;
 class map;
+class npc;
 class npc_template;
 struct furn_t;
 
@@ -472,8 +473,8 @@ class reveal_map_actor : public iuse_actor
          * The radius of the overmap area that gets revealed.
          * This is in overmap terrain coordinates.
          * A radius of 1 means all terrains directly around center are revealed.
-         * The center is location of nearest city defined in `reveal_map_center` variable of
-         * activated item (or current player global omt location if variable is not set).
+         * The center is location of nearest city defined in `spawn_location` variable of
+         * activated item. Skip if location is missing.
          */
         int radius = 0;
         /**
@@ -552,6 +553,13 @@ class firestarter_actor : public iuse_actor
         ret_val<void> can_use( const Character &p, const item &it, map *,
                                const tripoint_bub_ms & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+
+        // NPC-safe fire starting. Bypasses UI (choose_adjacent, query_yn,
+        // tinder picker). Uses real can_use(), moves, and skill formulas.
+        // Warmth-specific: plain FIRE type only (not SMOKER/KILN).
+        // Returns true if fire was started (instant) or activity assigned.
+        bool npc_start_fire( npc &who, item &tool,
+                             const tripoint_bub_ms &fire_pos ) const;
 };
 
 /**

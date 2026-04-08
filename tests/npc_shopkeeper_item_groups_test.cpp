@@ -49,8 +49,8 @@ static std::pair<bool, bool> has_and_can_restock( npc const &guy, item const &it
 
 TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
 {
+    clear_map();
     clear_avatar();
-    clear_npcs();
     tripoint_bub_ms const npc_pos = get_avatar().pos_bub() + tripoint::east;
     const character_id id = get_map().place_npc( npc_pos.xy(), npc_template_test_npc_trader );
     npc &guy = *g->find_npc( id );

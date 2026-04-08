@@ -17,6 +17,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "addiction.h"
+#include "clone_ptr.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -116,6 +117,7 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
@@ -1519,6 +1521,11 @@ player_activity Character::get_destination_activity() const
     return destination_activity;
 }
 
+const player_activity &Character::peek_destination_activity() const
+{
+    return destination_activity;
+}
+
 void Character::mount_creature( monster &z )
 {
     map &here = get_map();
@@ -2159,7 +2166,7 @@ void Character::make_footstep_noise() const
         sounds::sound( pos_bub(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
                        "none", "none" );    // Sound of footsteps may awaken nearby monsters
     }
-    sfx::do_footstep();
+    sfx::do_footstep( *this );
 }
 
 void Character::make_clatter_sound() const
@@ -2190,8 +2197,60 @@ steed_type Character::get_steed_type() const
 
 bool Character::can_switch_to( const move_mode_id &mode ) const
 {
+    if( get_steed_type() == steed_type::ANIMAL &&
+        ( mode->type() == move_mode_type::PRONE || mode->type() == move_mode_type::CROUCHING ) ) {
+        return false;
+    }
     // Only running modes are restricted at the moment and only when its your legs doing the running
     return get_steed_type() != steed_type::NONE || mode->type() != move_mode_type::RUNNING || can_run();
+}
+
+int Character::move_mode_switch_cost( const move_mode_id &old_mode,
+                                      const move_mode_id &new_mode ) const
+{
+    const int standing_crouch_base_cost = 50;
+    const int crouch_prone_base_cost = 100;
+    float weight_ratio = static_cast<float>( weight_carried().value() ) /
+                         static_cast<float>( weight_capacity().value() );
+    int move_cost = 0;
+    if( ( old_mode->type() == move_mode_type::PRONE && new_mode->type() == move_mode_type::WALKING ) ||
+        ( old_mode->type() == move_mode_type::PRONE && new_mode->type() == move_mode_type::RUNNING ) ||
+        ( old_mode->type() == move_mode_type::WALKING && new_mode->type() == move_mode_type::PRONE ) ||
+        ( old_mode->type() == move_mode_type::RUNNING && new_mode->type() == move_mode_type::PRONE ) ) {
+        // Two steps of change prone to standing or standing to prone, so it costs both
+        move_cost = standing_crouch_base_cost + crouch_prone_base_cost;
+
+    } else if( ( old_mode->type() == move_mode_type::PRONE &&
+                 new_mode->type() == move_mode_type::CROUCHING ) ||
+               ( old_mode->type() == move_mode_type::CROUCHING && new_mode->type() == move_mode_type::PRONE ) ) {
+        // One step of change prone to crouch or crouch to prone
+        move_cost = crouch_prone_base_cost;
+
+    } else if( ( old_mode->type() == move_mode_type::CROUCHING &&
+                 new_mode->type() == move_mode_type::WALKING ) ||
+               ( old_mode->type() == move_mode_type::CROUCHING && new_mode->type() == move_mode_type::RUNNING ) ||
+               ( old_mode->type() == move_mode_type::WALKING && new_mode->type() == move_mode_type::CROUCHING ) ||
+               ( old_mode->type() == move_mode_type::RUNNING && new_mode->type() == move_mode_type::CROUCHING ) ) {
+        // One step of change walking to crouch or crouch to walking
+        move_cost = standing_crouch_base_cost;
+    }
+
+    // If we're carrying more than we should, make it cost more
+    if( weight_ratio > 1 ) {
+        move_cost *= weight_ratio;
+    }
+
+    // 50% less cost with deft
+    if( has_trait( trait_DEFT ) ) {
+        move_cost /= 2;
+    }
+
+    // 50% more cost with clumsy
+    if( has_trait( trait_CLUMSY ) ) {
+        move_cost *= 1.5;
+    }
+
+    return move_cost;
 }
 
 void Character::process_turn()
@@ -3107,6 +3166,15 @@ units::mass Character::get_weight() const
     ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
+    ret += bionics_weight();       // Weight of installed bionics
+    return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
+}
+
+units::mass Character::bodyweight_with_bionic() const
+{
+    units::mass ret = 0_gram;
+
+    ret += bodyweight();       // The base weight of the player's body
     ret += bionics_weight();       // Weight of installed bionics
     return enchantment_cache->modify_value( enchant_vals::mod::TOTAL_WEIGHT, ret );
 }
@@ -7110,6 +7178,25 @@ void Character::clear_destination()
 
 void Character::abort_automove()
 {
+    // Restore zone sort viewport lock state before clearing destination.
+    // The actor in destination_activity has the authoritative saved_zoom.
+    const bool had_visual_lock = is_avatar() && as_avatar()->zone_sort_viewport.active;
+    const player_activity &dest = peek_destination_activity();
+    if( !dest.is_null() && dest.id() == ACT_MOVE_LOOT ) {
+        if( const auto *a = dynamic_cast<const zone_sort_activity_actor *>(
+                                dest.actor.get() ) ) {
+            if( a->viewport_was_active || had_visual_lock ) {
+                if( !test_mode ) {
+                    g->set_zoom( a->viewport_saved_zoom );
+                    g->mark_main_ui_adaptor_resize();
+                }
+            }
+        }
+    }
+    if( had_visual_lock ) {
+        as_avatar()->zone_sort_viewport = {};
+    }
+
     clear_destination();
     if( g->overmap_data.fast_traveling && is_avatar() ) {
         ui::omap::force_quit();

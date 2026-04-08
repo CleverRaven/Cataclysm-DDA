@@ -7057,6 +7057,7 @@ std::vector<item *> map::place_items(
         }
 
         e->randomize_rot();
+        e->preserve_location( project_to<coords::ms>( get_abs_sub() ) );
         e->set_owner( faction_id( faction ) );
     }
     return res;

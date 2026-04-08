@@ -373,12 +373,11 @@ class item_contents
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
+        const item *magazine_current() const;
+        std::vector<item *> magazines_current();
+        std::vector<const item *> magazines_current() const;
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
-        /**
-         * Return the first ammo found when iterating all magazine pockets. Null if none found.
-         * Does not support multiple magazine pockets!
-         */
         item &first_ammo();
         const item &first_ammo() const;
         /**

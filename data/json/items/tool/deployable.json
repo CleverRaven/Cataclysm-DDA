@@ -242,7 +242,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "metal smoking rack" },
-    "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
+    "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.  As a deployable item, it's smaller than a stationary version.",
     "weight": "5 kg",
     "volume": "25 L",
     "longest_side": "90 cm",

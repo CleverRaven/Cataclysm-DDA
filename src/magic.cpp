@@ -871,7 +871,8 @@ std::string spell::aoe_string( const Creature &caster ) const
 {
     const_dialogue d( get_const_talker_for( caster ), nullptr );
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
-        return string_format( "%d-%d", min_leveled_aoe( caster ), type->max_aoe.evaluate( d ) );
+        return string_format( "%d-%d", min_leveled_aoe( caster ),
+                              static_cast<int>( type->max_aoe.evaluate( d ) ) );
     } else {
         return string_format( "%d", aoe( caster ) );
     }
@@ -3060,7 +3061,8 @@ void spellcasting_callback::display_spell_info( size_t index )
         if( sp.aoe( pc ) > 0 ) {
             ImGui::Text( "%s: %d", _( "Variance" ), sp.aoe( pc ) );
         }
-    } else if( sp.effect() == "summon" ) {
+    } else if( sp.effect() == "summon" || sp.effect() == "fertilize_plant" ||
+               sp.effect() == "effect_on_condition" ) {
         ImGui::Text( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
     } else if( sp.effect() == "ter_transform" ) {
         ImGui::Text( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ).c_str() );
@@ -3094,6 +3096,13 @@ void spellcasting_callback::display_spell_info( size_t index )
     } else if( sp.effect() == "short_range_teleport" ) {
         if( sp.aoe( pc ) > 0 ) {
             ImGui::Text( "%s: %d", _( "Variance" ), sp.aoe( pc ) );
+        }
+    } else if( sp.effect() == "fertilize_plant" ) {
+        if( damage > 0 ) {
+            ImGui::Text( "%s: ", _( "Fertility Increase" ) );
+            ImGui::SameLine( 0, 0 );
+            ImGui::TextColored( c_light_green,
+                                "%s percent of a season", sp.damage_string( pc ).c_str() );
         }
     } else if( sp.effect() == "spawn_item" ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
@@ -3464,6 +3473,9 @@ static void draw_spellbook_info( const spell_type &sp )
         has_damage_type = sp.min_damage.evaluate( d ) > 0 && sp.max_damage.evaluate( d ) > 0;
     } else if( fx == "spawn_item" || fx == "summon_monster" ) {
         damage_string = _( "Spawned" );
+    } else if( fx == "fertilize_plant" ) {
+        damage_string = _( "Fertility Increase" );
+        aoe_string = _( "AoE" );
     } else if( fx == "targeted_polymorph" ) {
         damage_string = _( "Threshold" );
     } else if( fx == "recover_energy" ) {
