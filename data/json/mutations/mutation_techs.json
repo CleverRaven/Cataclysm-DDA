@@ -508,8 +508,20 @@
     "name": "Punch",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "messages": [ "You claw %s", "<npcname> claws %s" ],
+    "messages": [ "You smash %s", "<npcname> smashes %s" ],
     "description": "A basic ursine punch",
+    "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] } },
+    "attack_vectors": [ "vector_broad_paw_punch" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BROAD_PAW_PUNCH_WITH_CLAWS",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You claw %s", "<npcname> claws %s" ],
+    "description": "A basic ursine punch, with claws",
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
     "attack_vectors": [ "vector_broad_paw_punch" ]
   },
   {
