@@ -507,7 +507,7 @@
     "max_coverage": 30,
     "parent": "paw_broad_r",
     "side": "right",
-    "opposite": "paw_broad_palm_r",
+    "opposite": "paw_broad_palm_l",
     "name_multiple": "palms",
     "name": "right palm"
   },
@@ -517,7 +517,7 @@
     "max_coverage": 30,
     "parent": "paw_broad_r",
     "side": "right",
-    "opposite": "paw_broad_back_r",
+    "opposite": "paw_broad_back_l",
     "name_multiple": "back of paws",
     "name": "right back of paw"
   },
@@ -527,7 +527,7 @@
     "max_coverage": 30,
     "parent": "paw_broad_r",
     "side": "right",
-    "opposite": "paw_broad_fingers_r",
+    "opposite": "paw_broad_fingers_l",
     "name_multiple": "fingers",
     "name": "right fingers"
   },
