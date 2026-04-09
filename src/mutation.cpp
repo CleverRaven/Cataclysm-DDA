@@ -2392,6 +2392,45 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     drench_mut_calc();
 }
 
+void Character::delete_mutation( const trait_id &mut, bool silent )
+{
+    add_msg_debug( debugmode::DF_MUTATION, "delete_mutation: removing trait %s", mut.c_str() );
+    const mutation_branch &mdata = mut.obj();
+
+    get_event_bus().send<event_type::loses_mutation>( getID(), mut );
+
+    unset_mutation( mut );
+
+    if( !mdata.player_display ) {
+        silent = true;
+    }
+
+    game_message_type rating;
+    if( mdata.mixed_effect ) {
+        rating = m_mixed;
+    } else if( mdata.points > 0 ) {
+        rating = m_bad;
+    } else if( mdata.points < 0 ) {
+        rating = m_good;
+    } else {
+        rating = m_neutral;
+    }
+
+    if( !silent ) {
+        add_msg_player_or_npc( rating,
+                               _( "You lose your %s mutation." ),
+                               _( "<npcname> loses their %s mutation." ),
+                               mutation_name( mut ) );
+    }
+
+    if( !silent && uistate.distraction_mutation && is_avatar() ) {
+        g->cancel_activity_or_ignore_query( distraction_type::mutation, _( "You mutate!" ) );
+    }
+
+    calc_mutation_levels();
+    drench_mut_calc();
+}
+
 bool Character::has_child_flag( const trait_id &flag ) const
 {
     for( const trait_id &elem : flag->replacements ) {

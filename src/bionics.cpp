@@ -2523,7 +2523,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
 
         for( const trait_id &tid : trait_to_rem ) {
             if( has_trait( tid ) ) {
-                remove_mutation( tid );
+                delete_mutation( tid );
             }
         }
         // now that bionic has been added, compare our new healthy kcal to our old healthy kcal and multiply stored kcal by the ratio
