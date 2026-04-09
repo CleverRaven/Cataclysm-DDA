@@ -698,12 +698,26 @@
     "name": "Restoration",
     "description": "Slowly heal your wounds by drawing on the power of nature.\n\nYou must be <color_yellow>outdoors and in a natural area</color> away from civilization to cast Restoration.",
     "valid_targets": [ "self" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_DRUID_RESTORATION",
+    "effect": "attack",
+    "effect_str": "flask_regeneration",
     "shape": "blast",
     "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "magic_type": "magiclysm_restoration_magic",
     "spell_class": "DRUID",
+    "caster_condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "caster_condition_fail_message": "You must be surrounded by nature to use its power to heal.",
     "difficulty": 8,
     "base_casting_time": 12000,
     "final_casting_time": 3000,
@@ -717,30 +731,6 @@
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3000
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_RESTORATION",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain_with_flag": "YOUNG" }
-          ]
-        },
-        { "not": { "u_near_om_location": "road", "range": 1 } }
-      ]
-    },
-    "effect": [
-      {
-        "u_add_effect": "flask_regeneration",
-        "duration": { "math": [ "( 150 + (u_spell_level('druid_healing') * 30)) * ( restoration_proficiency_modifier() )" ] }
-      }
-    ],
-    "false_effect": [ { "u_message": "You must be surrounded by nature to use its power to heal.", "type": "bad" } ]
   },
   {
     "id": "druid_healing_herb",
