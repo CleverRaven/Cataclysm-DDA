@@ -1386,6 +1386,67 @@ TEST_CASE( "npc_nonally_sleeps_when_tired", "[npc][needs]" )
     }
 }
 
+// Thugs are guaranteed_hostile() by faction but start NPCATT_NULL.
+// assess_danger() must detect faction hostility so combat beats sleep.
+
+TEST_CASE( "faction_hostile_npc_detects_player_threat", "[npc][npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    npc &bandit = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), bandit.pos_bub() ) <= 1 );
+
+    // Thug is guaranteed_hostile by faction, but attitude has not flipped yet.
+    REQUIRE( bandit.guaranteed_hostile() );
+    REQUIRE_FALSE( bandit.is_enemy() );
+
+    bandit.regen_ai_cache();
+
+    // assess_danger() must count the player as a threat even before the
+    // attitude enum flips to NPCATT_KILL.
+    CHECK( bandit.get_ai_danger() > 0 );
+    CHECK( bandit.current_target() == static_cast<Creature *>( &player_character ) );
+}
+
+TEST_CASE( "faction_hostile_tired_npc_fights_not_sleeps", "[npc][npc_ai][needs]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+    clear_map_without_vision();
+    clear_avatar();
+    // 30+ minutes past turn_zero so can_sleep() cooldown does not interfere.
+    calendar::turn = calendar::turn_zero + 1_hours;
+
+    Character &player_character = get_player_character();
+    npc &bandit = spawn_npc( player_character.pos_bub().xy() + point( 0, 3 ), "thug" );
+    clear_character( bandit, true );
+    bandit.set_hunger( 0 );
+    bandit.set_thirst( 0 );
+    bandit.set_stored_kcal( bandit.get_healthy_kcal() );
+    bandit.set_all_parts_temp_conv( BODYTEMP_NORM );
+    bandit.set_all_parts_temp_cur( BODYTEMP_NORM );
+    // Exhausted -- would sleep if no danger present.
+    bandit.set_sleepiness( 800 );
+    bandit.set_moves( 100 );
+
+    // Thug is guaranteed_hostile by faction, but attitude starts neutral.
+    // The move() pipeline must detect the player as a threat and choose
+    // combat over sleep.
+    REQUIRE( bandit.guaranteed_hostile() );
+    REQUIRE_FALSE( bandit.is_enemy() );
+
+    bandit.move();
+
+    // Must NOT have fallen asleep.
+    CHECK_FALSE( bandit.has_effect( effect_sleep ) );
+    CHECK_FALSE( bandit.has_effect( effect_lying_down ) );
+    // The attitude must have flipped to hostile.
+    CHECK( bandit.is_enemy() );
+}
+
 // ---------------------------------------------------------------------------
 // Helper-level tests for local resource acquisition
 // ---------------------------------------------------------------------------

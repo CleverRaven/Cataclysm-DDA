@@ -265,6 +265,9 @@
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
+"Mods: Sorcerer":
+  - data/mods/Sorcerer/**/*
+
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
 

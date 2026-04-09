@@ -468,7 +468,7 @@
     "count": 1,
     "stack_size": 100,
     "looks_like": "spiral_stone",
-    "flags": [ "UNBREAKABLE" ],
+    "flags": [ "UNBREAKABLE", "SINGLE_USE" ],
     "material": [ "alien_resin" ],
     "symbol": ".",
     "color": "magenta",
