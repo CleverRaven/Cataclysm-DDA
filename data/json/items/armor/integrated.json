@@ -25,6 +25,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -81,6 +83,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -135,6 +139,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -250,6 +256,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -304,6 +312,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -345,6 +355,8 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -396,7 +408,19 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 1
       },
@@ -434,7 +458,19 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 9 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 6
       },
@@ -472,7 +508,19 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 4
       },

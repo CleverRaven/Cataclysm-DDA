@@ -118,7 +118,7 @@
     "type": "mutation",
     "id": "PAWS_LARGE",
     "name": { "str": "Broad Paws" },
-    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
+    "description": "Your paws are much larger now.  Manual dexterity is difficult: you have a penalty to your grip and manipulation scores, serious problems crafting, and can't wear gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
     "category": [ "BEAST", "URSINE" ],
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
