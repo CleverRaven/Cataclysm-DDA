@@ -102,6 +102,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "popup.h" // For play_game
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -7648,9 +7649,9 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
             const recipe *meal = dishes[choice];
             int mealtime;
             if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies );
+                mealtime = meal->time_to_craft_moves( *p, {}, recipe_time_flag::ignore_proficiencies );
             } else {
-                mealtime = meal->time_to_craft_moves( *p, recipe_time_flag::ignore_proficiencies ) * 2;
+                mealtime = meal->time_to_craft_moves( *p, {}, recipe_time_flag::ignore_proficiencies ) * 2;
             }
 
             const int all_charges = charges_to_start + mealtime * units::to_watt(
@@ -8730,11 +8731,11 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
-        return 0;
+        return std::nullopt;
     } else if( p->get_str() <= rng( 5, 11 ) ) {
         p->add_msg_if_player(
             _( "You use all your strength, but the stick won't break.  Perhaps try again?" ) );
-        return 0;
+        return std::nullopt;
     }
     std::vector<item_comp> comps;
     comps.emplace_back( it->typeId(), 1 );
@@ -8744,16 +8745,13 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint_bub
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
         here.spawn_item( p->pos_bub(), itype_splinter, 2 );
-        return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
         here.spawn_item( p->pos_bub(), itype_stick, 2 );
-        return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
         here.spawn_item( p->pos_bub(), itype_stick, 1 );
         here.spawn_item( p->pos_bub(), itype_splinter, 1 );
-        return 1;
     }
     return 0;
 }

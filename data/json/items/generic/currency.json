@@ -29,7 +29,8 @@
     "color": "yellow",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "gold" ]
+    "material": [ "gold" ],
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "ITEM",
@@ -44,7 +45,8 @@
     "color": "brown",
     "symbol": "$",
     "flags": [ "COIN_SHAPED" ],
-    "material": [ "copper" ]
+    "material": [ "copper" ],
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "type": "ITEM",

@@ -105,7 +105,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAKE_PLANTS_GROW",
-    "condition": { "or": [ { "u_is_on_terrain": "t_dirt" }, { "u_is_on_terrain": "t_dirtmound" } ] },
     "effect": [
       {
         "run_eocs": [
@@ -117,25 +116,12 @@
                 { "math": [ "time_since('midnight', 'unit': 'hours') < 13" ] }
               ]
             },
-            "effect": [
-              { "u_spawn_item": "item_hedge_make_plants_grow", "suppress_message": true },
-              {
-                "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
-                "type": "good"
-              },
-              { "run_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
-            ],
+            "effect": [ { "u_cast_spell": { "id": "hedge_make_plants_grow_real", "hit_self": false } } ],
             "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
           }
         ]
       }
-    ],
-    "false_effect": [ { "u_message": "You must be standing on soil for the charm to be effective.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE",
-    "effect": [ { "u_remove_item_with": "item_hedge_make_plants_grow" } ]
+    ]
   },
   {
     "type": "effect_on_condition",

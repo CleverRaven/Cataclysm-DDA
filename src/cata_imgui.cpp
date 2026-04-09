@@ -259,6 +259,11 @@ ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
              static_cast<float>( c.a / 255. ) };
 }
 
+ImU32 cataimgui::ImU32_from_color( const nc_color &color )
+{
+    return ImGui::GetColorU32( cataimgui::imvec4_from_color( color ) );
+}
+
 cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                            const GeometryRenderer_Ptr &sdl_geometry ) :
     sdl_renderer( sdl_renderer ),
@@ -451,13 +456,11 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
-        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x, Fonts[3] = gui 2x
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x
         load_font( io, gui_typefaces, ranges.begin() );
         load_font( io, mono_typefaces, ranges.begin() );
         load_font( io, gui_typefaces, ranges.begin(),
                    static_cast<float>( lroundf( fontheight * 1.5f ) ) );
-        load_font( io, gui_typefaces, ranges.begin(),
-                   static_cast<float>( fontheight * 2 ) );
         for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
             io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
             io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
@@ -939,6 +942,27 @@ size_t cataimgui::window::str_height_to_pixels( size_t len )
 #endif
 }
 
+size_t cataimgui::get_string_width( const std::string_view str )
+{
+    return str.size() * ImGui::CalcTextSize( " " ).x;
+}
+
+size_t cataimgui::get_string_height( const std::string_view str, const float wrap_width )
+{
+    const std::string new_str = remove_color_tags( str );
+    size_t chars_per_line = size_t( wrap_width );
+    if( chars_per_line == 0 ) {
+        chars_per_line = SIZE_MAX;
+    }
+#ifndef TUI
+    size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
+    chars_per_line /= char_width;
+#endif
+    const std::vector<std::string> folded_msg = foldstring( new_str, chars_per_line );
+
+    return folded_msg.size() * ImGui::GetTextLineHeightWithSpacing();
+}
+
 void cataimgui::window::mark_resized()
 {
     if( p_impl ) {
@@ -1105,12 +1129,6 @@ void cataimgui::PushGuiFont1_5x()
 #endif
 }
 
-void cataimgui::PushGuiFont2x()
-{
-#ifdef TILES
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[3] );
-#endif
-}
 
 bool cataimgui::BeginRightAlign( const char *str_id )
 {

@@ -2346,7 +2346,7 @@ void npc::reconcile_schedule()
         if( !needs_food() ) {
             set_sleepiness( 0 );
         }
-        ai_cache.committed_goal.clear();
+        clear_committed_goal();
     } else if( !on_shift && !in_sleep_state() && !needs_food() ) {
         if( get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {
             set_sleepiness( sleepiness_levels::TIRED );
@@ -3519,7 +3519,7 @@ void npc::on_load( map *here )
             chair_pos = std::nullopt;
             wander_pos = std::nullopt;
             clear_destination();
-            set_committed_goal( "" );
+            clear_committed_goal();
             chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
         }
     }

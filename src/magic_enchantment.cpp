@@ -27,6 +27,8 @@
 #include "units.h"
 #include "vehicle.h"
 
+static const bodypart_str_id body_part_all( "all" );
+
 namespace io
 {
     // *INDENT-OFF*
@@ -1161,7 +1163,8 @@ double enchant_cache::get_skill_value_add( const skill_id &value ) const
 
 int enchant_cache::get_encumbrance_add( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_add );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_add ) + get_value<bodypart_str_id>( body_part_all, encumbrance_values_add );
 }
 
 int enchant_cache::get_damage_add( const damage_type_id &value ) const
@@ -1191,7 +1194,9 @@ double enchant_cache::get_skill_value_multiply( const skill_id &value ) const
 
 double enchant_cache::get_encumbrance_multiply( const bodypart_str_id &value ) const
 {
-    return get_value<bodypart_str_id>( value, encumbrance_values_multiply );
+    return get_value<bodypart_str_id>( value,
+                                       encumbrance_values_multiply ) + get_value<bodypart_str_id>( body_part_all,
+                                               encumbrance_values_multiply );
 }
 
 double enchant_cache::get_damage_multiply( const damage_type_id &value ) const

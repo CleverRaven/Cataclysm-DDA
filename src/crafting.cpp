@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -485,9 +486,8 @@ int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) c
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec );
-    std::vector<float> tool_speeds = compute_tool_speeds( rec, *this );
-    const std::vector<float> *ts = tool_speeds.empty() ? nullptr : &tool_speeds;
-    return rec.batch_time( *this, batch_size, modifier, assistants, ts );
+    return rec.batch_time( *this, batch_size, modifier, assistants,
+                           crafting_cost_context::for_recipe( *this, rec ) );
 }
 
 bool Character::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -718,6 +718,31 @@ void Character::invalidate_crafting_inventory()
 {
     crafting_cache.valid = false;
     crafting_cache.crafting_inventory->clear();
+}
+
+book_proficiency_bonuses Character::book_bonuses_nearby( int radius ) const
+{
+    book_proficiency_bonuses result;
+    // Deduplicate by item type to match inventory stacking behavior --
+    // multiple copies of the same book should not compound mitigation.
+    std::set<itype_id> seen;
+
+    auto collect = [&]( const item & it ) {
+        if( seen.insert( it.typeId() ).second ) {
+            result += it.get_book_proficiency_bonuses();
+        }
+    };
+
+    // Character inventory (wielded, worn, carried -- includes e-readers)
+    for( const item_location &it :
+         const_cast<Character *>( this )->all_items_loc() ) {
+        collect( *it );
+    }
+
+    // Map items in range (shared reachability/accessibility/vehicle logic)
+    get_map().for_each_reachable_item( pos_bub(), radius, this, collect );
+
+    return result;
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
@@ -1580,7 +1605,8 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
                 std::max( get_skill_level( making.skill_used ), 1.0f ) *
                 std::max( get_int(), 1 );
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-            if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
+            const crafting_cost_context ctx{ book_bonuses_nearby(), {} };
+            if( x_in_y( making.time_to_craft_moves( *this, ctx ), time_to_learn ) ) {
                 learn_recipe( &making );
                 if( is_avatar() ) {
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
@@ -2735,7 +2761,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                 num_dis = obj.charges;
             }
         }
-        const int64_t craft_moves = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+        const int64_t craft_moves = r.time_to_craft_moves( *this, {},
+                                    recipe_time_flag::ignore_proficiencies );
         const int num = obj.typeId() != itype_disassembly ? num_dis : obj.get_making_batch_size();
         player_activity new_act( disassemble_activity_actor( num * craft_moves ) );
         new_act.targets.emplace_back( std::move( target ) );
@@ -2751,7 +2778,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         activity.targets.emplace_back( std::move( target ) );
 
         if( activity.moves_left <= 0 ) {
-            activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+            activity.moves_left = r.time_to_craft_moves( *this, {}, recipe_time_flag::ignore_proficiencies );
         }
     }
 
@@ -2848,7 +2875,8 @@ void Character::complete_disassemble( item_location target )
             num_dis = obj.charges;
         }
     }
-    int64_t moves = next_recipe.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+    int64_t moves = next_recipe.time_to_craft_moves( *this, {},
+                    recipe_time_flag::ignore_proficiencies );
     player_activity new_act( disassemble_activity_actor( moves * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;

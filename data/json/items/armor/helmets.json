@@ -3622,7 +3622,7 @@
     "volume": "3500 ml",
     "price": "400 USD",
     "price_postapoc": "35 USD",
-    "material": [ "qt_steel", "nylon" ],
+    "material": [ { "type": "qt_steel", "portion": 3 }, { "type": "nylon", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "white",

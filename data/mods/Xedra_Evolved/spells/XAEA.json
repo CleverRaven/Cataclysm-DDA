@@ -128,7 +128,7 @@
     "max_damage": 6000,
     "valid_targets": [ "self" ],
     "flags": [ "RANDOM_DAMAGE", "NO_EXPLOSION_SFX", "SILENT" ],
-    "message": "The energy stream into your muscle, and you feel you can run a marathon right now.",
+    "message": "The energy streams into your muscles, and you feel you can run a marathon right now.",
     "sound_description": "",
     "shape": "blast",
     "effect": "recover_energy",

@@ -97,6 +97,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -1670,6 +1671,94 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
                         potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
+}
+
+bool firestarter_actor::npc_start_fire( npc &who, item &tool,
+                                        const tripoint_bub_ms &fire_pos ) const
+{
+    map &here = get_map();
+
+    // Real validation from can_use() -- no UI.
+    if( !can_use( who, tool, &here, fire_pos ).success() ) {
+        return false;
+    }
+
+    // Subset of prep_firestarter_use validation (no UI prompts).
+    if( fire_pos == who.pos_bub() ) {
+        return false;
+    }
+    if( here.get_field( fire_pos, fd_fire ) ) {
+        return false;
+    }
+
+    // Tinder handling -- bypass the inventory_pick_selector UI.
+    bool tinder_consumed = false;
+    if( tool.has_flag( flag_REQUIRES_TINDER ) ) {
+        // Search inventory and adjacent tiles (same scope as the
+        // tinder picker in fire_start_activity_actor::do_turn).
+        item_location tinder;
+        who.visit_items( [&tinder, &who]( item * it, item * ) -> VisitResponse {
+            if( it->has_flag( flag_TINDER ) )
+            {
+                tinder = item_location( who, it );
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( !tinder ) {
+            // Check adjacent ground tiles.
+            for( const tripoint_bub_ms &adj : here.points_in_radius( who.pos_bub(), 1 ) ) {
+                for( item &ground_item : here.i_at( adj ) ) {
+                    if( ground_item.has_flag( flag_TINDER ) ) {
+                        tinder = item_location( map_cursor( adj ), &ground_item );
+                        break;
+                    }
+                }
+                if( tinder ) {
+                    break;
+                }
+            }
+        }
+        if( !tinder ) {
+            return false;
+        }
+        if( tinder->count_by_charges() ) {
+            tinder->charges--;
+            if( tinder->charges <= 0 ) {
+                tinder.remove_item();
+            }
+        } else {
+            tinder.remove_item();
+        }
+        tinder_consumed = true;
+    }
+
+    // Same moves/skill formulas as firestarter_actor::use().
+    const float light = light_mod( &here, who.pos_bub() );
+    const double skill_level = who.get_skill_level( skill_survival );
+    const float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
+    const int moves_base = moves_cost_by_fuel( fire_pos );
+    const double moves_per_turn = to_moves<double>( 1_turns );
+    const int min_moves = std::min<int>(
+                              moves_base, std::sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
+    const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
+    const int potential_skill_gain =
+        moves_modifier * ( std::min( 10.0, static_cast<double>( moves_cost_fast ) / 100.0 ) + 2 );
+
+    // Quick resolution: fast tool on flammable terrain skips the activity.
+    if( moves < to_moves<int>( 2_turns ) && here.is_flammable( fire_pos ) ) {
+        resolve_firestarter_use( &who, &here, fire_pos, start_type::FIRE );
+        tool.activation_consume( 1, who.pos_bub(), &who );
+        who.mod_moves( -moves );
+        return true;
+    }
+
+    // Multi-turn activity.
+    item_location tool_loc( who, &tool );
+    who.assign_activity( fire_start_activity_actor(
+                             here.get_abs( fire_pos ), tool_loc,
+                             potential_skill_gain, moves, tinder_consumed ) );
+    return true;
 }
 
 void salvage_actor::load( const JsonObject &obj, const std::string & )

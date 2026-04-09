@@ -93,16 +93,28 @@ std::string node_t::goal() const
     return _goal;
 }
 
-std::string tree::tick( const oracle_t *subject )
+std::pair<std::string, float> tree::tick_full( const oracle_t *subject )
 {
     behavior_return result = root->tick( subject );
     active_node = result.result == status_t::running ? result.selection : nullptr;
-    return goal();
+    active_score = result.score;
+    return { goal(), active_score };
+}
+
+std::string tree::tick( const oracle_t *subject )
+{
+    auto [g, s] = tick_full( subject );
+    return g;
 }
 
 std::string tree::goal() const
 {
     return active_node == nullptr ? "idle" : active_node->goal();
+}
+
+float tree::last_score() const
+{
+    return active_score;
 }
 
 void tree::add( const node_t *new_node )

@@ -138,7 +138,8 @@
     "color": "black",
     "see_cost": "high",
     "vision_levels": "underground_dirt",
-    "travel_cost_type": "basement"
+    "travel_cost_type": "basement",
+    "spawns": { "group": "GROUP_cellar_depths", "population": [ 1, 2 ], "chance": 4 }
   },
   {
     "type": "overmap_terrain",

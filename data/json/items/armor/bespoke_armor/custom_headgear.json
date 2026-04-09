@@ -273,7 +273,7 @@
     "weight": "600 g",
     "volume": "2500 ml",
     "price_postapoc": "4 USD 50 cent",
-    "material": [ "denim", "leather", "plastic" ],
+    "material": [ { "type": "denim", "portion": 8 }, { "type": "leather", "portion": 3 }, { "type": "plastic", "portion": 8 } ],
     "symbol": "[",
     "looks_like": "helmet_nomad",
     "color": "white",

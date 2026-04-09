@@ -23,6 +23,7 @@
 #include "map_helpers.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -354,9 +355,9 @@ TEST_CASE( "recipe_sort_craftable_before_uncraftable", "[crafting][gui]" )
     availability avail_no( guy, &rec );
     CHECK_FALSE( avail_no.can_craft );
 
-    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy,
+    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
                                 true, true, false ) );
-    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail_no, avail_yes, guy,
+    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail_no, avail_yes, guy, {},
                                       true, true, false ) );
 }
 
@@ -375,7 +376,7 @@ TEST_CASE( "recipe_sort_by_difficulty", "[crafting][gui]" )
     availability avail_easy( guy, &rec_easy );
 
     // Higher difficulty sorts first (existing behavior: b->difficulty < a->difficulty)
-    CHECK( recipe_sort_compare( &rec_hard, &rec_easy, avail_hard, avail_easy, guy,
+    CHECK( recipe_sort_compare( &rec_hard, &rec_easy, avail_hard, avail_easy, guy, {},
                                 true, true, false ) );
 }
 
@@ -395,9 +396,9 @@ TEST_CASE( "recipe_sort_by_name", "[crafting][gui]" )
     availability avail_meat( guy, &rec_meat );
 
     // "cooked meat" < "cudgel" alphabetically
-    CHECK( recipe_sort_compare( &rec_meat, &rec_cudgel, avail_meat, avail_cudgel, guy,
+    CHECK( recipe_sort_compare( &rec_meat, &rec_cudgel, avail_meat, avail_cudgel, guy, {},
                                 true, true, false ) );
-    CHECK_FALSE( recipe_sort_compare( &rec_cudgel, &rec_meat, avail_cudgel, avail_meat, guy,
+    CHECK_FALSE( recipe_sort_compare( &rec_cudgel, &rec_meat, avail_cudgel, avail_meat, guy, {},
                                       true, true, false ) );
 }
 
@@ -415,7 +416,7 @@ TEST_CASE( "recipe_sort_by_craft_time_tiebreaker", "[crafting][gui]" )
     availability avail_slow( guy, &rec_slow );
 
     // Same name, same difficulty -> longer craft time sorts first
-    CHECK( recipe_sort_compare( &rec_slow, &rec_fast, avail_slow, avail_fast, guy,
+    CHECK( recipe_sort_compare( &rec_slow, &rec_fast, avail_slow, avail_fast, guy, {},
                                 true, true, false ) );
 }
 
@@ -431,10 +432,10 @@ TEST_CASE( "recipe_sort_unread_first", "[crafting][gui]" )
     availability avail( guy, &rec );
 
     // a_read=false (unread), b_read=true (read), unread_first=true -> a sorts before b
-    CHECK( recipe_sort_compare( &rec, &rec, avail, avail, guy,
+    CHECK( recipe_sort_compare( &rec, &rec, avail, avail, guy, {},
                                 false, true, true ) );
     // a_read=true (read), b_read=false (unread) -> b should sort first, so a < b is false
-    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail, avail, guy,
+    CHECK_FALSE( recipe_sort_compare( &rec, &rec, avail, avail, guy, {},
                                       true, false, true ) );
 }
 
@@ -456,7 +457,7 @@ TEST_CASE( "recipe_sort_unread_disabled", "[crafting][gui]" )
     availability avail_no( guy, &rec );
 
     // unread_first=false: read state ignored, craftability dominates
-    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy,
+    CHECK( recipe_sort_compare( &rec, &rec, avail_yes, avail_no, guy, {},
                                 true, false, false ) );
 }
 

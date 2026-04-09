@@ -274,6 +274,7 @@ class uistatedata
         std::set<recipe_id> expanded_recipes;
         cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
+        bool crafting_expand_details = false;
 
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 

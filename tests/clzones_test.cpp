@@ -3082,3 +3082,77 @@ TEST_CASE( "npc_zone_sorting_ignores_personal_unsorted_source",
     CHECK( count_items_or_charges( avatar_pos, itype_test_apple, std::nullopt ) == 1 );
     CHECK( count_items_or_charges( dest_pos, itype_test_apple, std::nullopt ) == 0 );
 }
+
+// Vehicle zone refresh during sorting must not shift personal zone positions.
+TEST_CASE( "vehicle_zone_refresh_preserves_personal_zone_positions",
+           "[zones][items][activities][sorting][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager &zm = zone_manager::get_manager();
+    zm.clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    here.ter_set( start_pos, ter_t_floor );
+
+    const tripoint_abs_ms start_abs = here.get_abs( start_pos );
+
+    // Personal UNSORTED zone: 5x5 area centered on player
+    zm.add( "Unsorted", zone_type_LOOT_UNSORTED, faction_your_followers,
+            false, true,
+            tripoint_rel_ms( -2, -2, 0 ), tripoint_rel_ms( 2, 2, 0 ) );
+
+    // Personal LOOT_FOOD zone at offset (+2, 0)
+    zm.add( "Food", zone_type_LOOT_FOOD, faction_your_followers,
+            false, true,
+            tripoint_rel_ms( 2, 0, 0 ), tripoint_rel_ms( 2, 0, 0 ) );
+
+    // Vehicle with a loot zone so it enters zone_vehicles and
+    // refresh_zones() fires during update_vehicle_zone_cache()
+    const tripoint_bub_ms veh_pos = start_pos + tripoint( 0, -3, 0 );
+    here.ter_set( veh_pos, ter_t_floor );
+    vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart,
+                                      veh_pos, 0_degrees, 0, 0 );
+    REQUIRE( cart != nullptr );
+    cart->set_owner( dummy );
+    const tripoint_abs_ms veh_abs = here.get_abs( veh_pos );
+    create_tile_zone( "VehUnsorted", zone_type_LOOT_UNSORTED, veh_abs, true );
+    REQUIRE( zm.has_vehicle( zone_type_LOOT_UNSORTED, veh_abs, faction_your_followers ) );
+
+    zm.cache_data();
+    zm.cache_vzones();
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    const tripoint_abs_ms food_abs = start_abs + tripoint( 2, 0, 0 );
+    REQUIRE( zm.has( zone_type_LOOT_FOOD, food_abs, faction_your_followers ) );
+
+    // Player walks south, cache_avatar_location updates cached_shift,
+    // then vehicle zone refresh triggers (same sequence as during sorting).
+    const tripoint_bub_ms moved_pos = start_pos + tripoint( 0, 5, 0 );
+    here.ter_set( moved_pos, ter_t_floor );
+    dummy.setpos( here, moved_pos );
+    zm.cache_avatar_location();
+
+    cart->zones_dirty = true;
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+    if( here.check_vehicle_zones( 0 ) ) {
+        zm.cache_vzones();
+    }
+
+    // Personal LOOT_FOOD must still be at the original position
+    CHECK( zm.has( zone_type_LOOT_FOOD, food_abs, faction_your_followers ) );
+
+    // Shifted position must not have it
+    const tripoint_abs_ms shifted_food = here.get_abs( moved_pos ) + tripoint( 2, 0, 0 );
+    if( shifted_food != food_abs ) {
+        CHECK_FALSE( zm.has( zone_type_LOOT_FOOD, shifted_food, faction_your_followers ) );
+    }
+}

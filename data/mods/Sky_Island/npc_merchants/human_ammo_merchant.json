@@ -1,0 +1,189 @@
+[
+  {
+    "type": "npc",
+    "id": "si_human_ammo_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_SKY_ISLAND_HUMAN_AMMO_MERCHANT",
+    "name_unique": "Tabani",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_SI_HUMAN_AMMO_MERCHANT",
+    "faction": "sky_island_traders",
+    "personality": { "aggression": -4, "bravery": -1, "collector": 6, "altruism": -1 },
+    "gender": "male",
+    "snip_bye": "Far gesund, cuma!"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SKY_ISLAND_HUMAN_AMMO_MERCHANT",
+    "name": { "str": "Human Ammo Merchant" },
+    "job_description": "I sell people ammo in exchange for ammo.",
+    "traits": [
+      { "trait": "hair_messy", "variant": "red" },
+      { "trait": "eye_color", "variant": "blue" },
+      { "trait": "SKIN_DARK" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "sells_belongings": false,
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": [
+      { "group": "SI_HUMAN_AMMO_Store", "rigid": true },
+      {
+        "group": "SI_HUMAN_AMMO_Store_Tier3",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 3" ] }
+      },
+      {
+        "group": "SI_HUMAN_AMMO_Store_Tier4",
+        "rigid": true,
+        "strict": true,
+        "condition": { "math": [ "islandrank >= 4" ] }
+      }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "shopkeeper_whitelist": "si_human_ammo_merchant_whitelist",
+    "weapon_override": "si_human_ammo_merchant_wield",
+    "worn_override": "si_human_ammo_merchant_worn",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 10 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_human_ammo_merchant_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "si_human_ammo_merchant_phrasebook" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "si_human_ammo_merchant_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "gloves_fingerless" },
+      { "item": "leather_belt" },
+      { "item": "cowboy_hat" },
+      { "item": "trenchcoat_faux_fur" },
+      { "item": "dress_shirt" },
+      { "item": "pants_leather" },
+      { "item": "boots" },
+      { "item": "holy_symbol_wood" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_HUMAN_AMMO_Store",
+    "subtype": "collection",
+    "entries": [
+      { "group": "9mm_loose", "prob": 100, "count": [ 10, 20 ] },
+      { "group": "223_loose", "prob": 100, "count": [ 10, 20 ] },
+      { "group": "45_loose", "prob": 100, "count": [ 6, 12 ] },
+      { "group": "40_loose", "prob": 90, "count": [ 6, 12 ] },
+      { "group": "12_loose", "prob": 90, "count": [ 6, 12 ] },
+      { "group": "762_loose", "prob": 70, "count": [ 5, 10 ] },
+      { "group": "357_loose", "prob": 70, "count": [ 5, 10 ] },
+      { "group": "38_loose", "prob": 70, "count": [ 5, 10 ] },
+      { "group": "44_loose", "prob": 70, "count": [ 5, 10 ] },
+      { "group": "3006_loose", "prob": 50, "count": [ 4, 8 ] },
+      { "group": "45colt_loose", "prob": 50, "count": [ 4, 8 ] },
+      { "group": "410_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "10mm_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "303_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "30carbine_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "38super_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "4570_loose", "prob": 40, "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_HUMAN_AMMO_Store_Tier3",
+    "subtype": "collection",
+    "entries": [
+      { "group": "50beowulf_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "group": "50AE_loose", "prob": 40, "count": [ 4, 8 ] },
+      { "item": "77mm_arisaka_jsp", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "458wm", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "500_Magnum", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "545", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "57mm_lf", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "762_25", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "300blk", "prob": 40, "charges": [ 10, 25 ] },
+      { "item": "9x18mm", "prob": 40, "charges": [ 10, 25 ] },
+      { "group": "ammo_swat", "prob": 40, "count": [ 8, 16 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SI_HUMAN_AMMO_Store_Tier4",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m235tpa", "prob": 5, "count": [ 1, 2 ] },
+      { "group": "ammo_launcher_grenade", "prob": 5, "count": [ 4, 8 ] },
+      { "item": "LAW", "prob": 2 }
+    ]
+  },
+  {
+    "type": "shopkeeper_whitelist",
+    "id": "si_human_ammo_merchant_whitelist",
+    "message": "<npcname> consults his book and says, \"We in ploom dælath, freond.\".",
+    "//": "This is 'We deal in lead, friend'--ploom is from plwm, the Welsh word for lead, and dælath and freond are both from Old English.",
+    "entries": [ { "category": "ammo" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_HUMAN_AMMO_MERCHANT",
+    "//": "Tabani can speak Old English thanks to the phrasebook he has.  His native language is not found on Cataclysm Earth, and so not important.",
+    "dynamic_line": "*looks at you as you approach the merchant stall.  As you draw near, he looks down and flips through the book he's carrying and when you get close enough, he smiles broadly.  \"Ah, Wes þu hāl, cuma!  Cumaþ and gesēoþ mīne feorma.\"",
+    "responses": [
+      {
+        "text": "Hello!  Nice to see another person up here.",
+        "topic": "TALK_SI_HUMAN_AMMO_MERCHANT_HELLO",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_tried_talking_to_si_human_ammo_merchant" } ] } },
+        "effect": { "u_add_var": "u_tried_talking_to_si_human_ammo_merchant", "value": "yes" }
+      },
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_SI_HUMAN_AMMO_MERCHANT" },
+      { "text": "Later.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_HUMAN_AMMO_MERCHANT_HELLO",
+    "dynamic_line": "*smiles and nods in a way you recognize as meaning he has no idea what you're saying.",
+    "responses": [
+      {
+        "text": "Well, fine.  What do you have there?  *you point at the counter*",
+        "topic": "TALK_SI_HUMAN_AMMO_MERCHANT_TRADE_EXPLANATION"
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_SI_HUMAN_AMMO_MERCHANT_TRADE_EXPLANATION",
+    "dynamic_line": "*consults his book and says, \"We in ploom dælath, freond.\"",
+    "responses": [
+      {
+        "text": "Alright, well, give me some of that \"ploom\".",
+        "effect": "start_trade",
+        "topic": "TALK_SI_HUMAN_AMMO_MERCHANT"
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  }
+]
