@@ -75,7 +75,6 @@
 #include "pimpl.h"
 #include "popup.h"
 #include "safemode_ui.h"
-#include "sdltiles.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "translations.h"
