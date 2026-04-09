@@ -620,7 +620,8 @@
     "bionic_slots": 6,
     "sub_parts": [ "paw_broad_wrist_l", "paw_broad_palm_l", "paw_broad_back_l", "paw_broad_fingers_l" ],
     "bmi_encumbrance_threshold": 18,
-    "bmi_encumbrance_scalar": 0.2
+    "bmi_encumbrance_scalar": 0.2,
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
     "id": "paw_broad_r",
