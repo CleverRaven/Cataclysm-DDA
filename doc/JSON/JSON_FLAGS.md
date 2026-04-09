@@ -1414,7 +1414,7 @@ See [Character](#character)
 - ```NO_MANIP``` Manipulation score do not affect crafting this recipe
 - ```NO_BENCH``` Workbench bonus or penalty do not apply to this recipe
 - ```NO_ENCHANTMENT``` Enchantment (used in mutations, CBM, effects etc) bonus or penalty do not apply to this recipe
-
+- ```ALWAYS_START_ON_GROUND``` This recipe bypasses asking if you want to start crafting in your arms or on the ground, if you have an item in your hands, and starts crafting on the ground (also ignores picking the crafting table)
 
 ### Crafting recipes
 

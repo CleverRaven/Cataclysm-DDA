@@ -353,7 +353,6 @@ enum class distraction_type : int {
     mutation,
     oxygen,
     withdrawal,
-    gun_weariness,
     last,
 };
 

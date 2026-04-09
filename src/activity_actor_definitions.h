@@ -1630,17 +1630,24 @@ class target_practice_activity_actor : public activity_actor
 {
     public:
         target_practice_activity_actor() = default;
-        target_practice_activity_actor(
-            const item_location &gun,
-            const tripoint_abs_ms &target_pos,
-            int rounds = -1 ) :
-            gun_loc( gun ), target_position( target_pos ),
-            rounds_planned( rounds ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
             return ACT_TARGET_PRACTICE;
         }
+
+        // return false if fails
+        bool check_character( Character &who );
+        // return false if fails
+        bool get_gun( Character &who );
+        // return false if fails
+        bool check_character_and_gun( Character &who );
+        // return false if fails
+        bool get_round_qty();
+        // return false if fails
+        bool get_trajectory( Character &who );
+
+        bool check_target_valid( Character &who );
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
@@ -1665,7 +1672,7 @@ class target_practice_activity_actor : public activity_actor
         bool is_spinner_target = false;
 
         bool check_weapon_valid( Character &who );
-        bool check_target_valid( Character &who );
+        // todo: when activity within activity will be possible, switch to reload_activity_actor
         bool attempt_reload( Character &who );
         void fire_shot( Character &who, player_activity &act );
         void show_flavor_message( Character &who, float effective_skill ) const;
@@ -1673,7 +1680,6 @@ class target_practice_activity_actor : public activity_actor
         void apply_coaching( Character &who, const skill_id &weapon_skill );
         void apply_skill_modifiers( Character &who, const skill_id &weapon_skill,
                                     float effective_skill ) const;
-        bool cancel_activity_due_to_gun_weariness( player_activity &act, Character &who );
 };
 
 class migration_cancel_activity_actor : public activity_actor

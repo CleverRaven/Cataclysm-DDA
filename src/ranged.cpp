@@ -1,4 +1,3 @@
-#include "player_activity.h"
 #include "ranged.h"
 
 #include <algorithm>
@@ -143,8 +142,6 @@ static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_de
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
-
-static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -1314,18 +1311,13 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
     // Preventing using a trapped creature as an infinite training dummy.
     if( times_shot_target < 100 ) {
-    int gun_weariness_xp_penalty = activity.id() == ACT_TARGET_PRACTICE ?
-                                       get_gun_weariness_factor() : 0;
-        add_msg_debug( debugmode::DF_RANGED, "Gun weariness XP penalty: %d", gun_weariness_xp_penalty );
-        add_msg_debug( debugmode::DF_RANGED, "Gun weariness factor: %f", get_gun_weariness_factor() );
-                                       
         // Practice the base gun skill proportionally to number of hits, but always by one.
         if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
-            practice( skill_gun, ( hits + 1 ) * 5 - gun_weariness_xp_penalty );
+            practice( skill_gun, ( hits + 1 ) * 5 );
         }
         // launchers train weapon skill for both hits and misses.
         int practice_units = gun_skill == skill_launcher ? curshot : hits;
-        practice( gun_skill, ( practice_units + 1 ) * 5 - gun_weariness_xp_penalty );
+        practice( gun_skill, ( practice_units + 1 ) * 5 );
     }
 
     if( !gun.is_gun() ) {

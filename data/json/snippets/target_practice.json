@@ -17,7 +17,7 @@
     "text": [
       "You hesitate as you pull the trigger, moving your aim off-target.",
       "The sound startles you, and you almost drop your gun.",
-      "You hear a click. You forgot the safety."
+      "You hear a click.  You forgot the safety."
     ]
   },
   {
@@ -25,7 +25,7 @@
     "category": "target_practice_spinner",
     "text": [
       "You track the spinning target, gauging the best moment to shoot.",
-      "The target spins chaotically, making it harder to strike. This is harder than it seems.",
+      "The target spins chaotically, making it harder to strike.  This is harder than it seems.",
       "You attempt to land several hits on the same side of the spinner targets in one go."
     ]
   },
