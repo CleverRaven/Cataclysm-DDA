@@ -989,7 +989,7 @@
     "vision_night": 40,
     "death_function": { "corpse_type": "BROKEN" },
     "anger_triggers": [ "SOUND", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES", "FAE_CREATURE", "PATH_AVOID_DANGER" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "ACIDPROOF", "BIOLOGICALPROOF",  "COLDPROOF", "LOUDMOVES", "FAE_CREATURE", "PATH_AVOID_DANGER" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small", "wps_xe_homullus_aleph" ],
     "armor": { "bash": 15, "cut": 10, "bullet": 10 }
   },
