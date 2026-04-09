@@ -637,7 +637,7 @@
     "min_aoe": 1,
     "max_aoe": 8,
     "aoe_increment": 0.3333,
-    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_LEGS" ]
+    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ]
   },
   {
     "id": "cause_rot",
