@@ -183,26 +183,41 @@
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_AURA" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
-    "changes_to": [ "INTERSTICE_RESONANCE_2" ],
+    "leads_to": [ "INTERSTICE_RESONANCE_2" ],
     "strict_threshreq": true,
     "points": -3,
     "purifiable": false,
     "vitamin_cost": 120,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 2000 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 750 } ] } ]
   },
   {
     "type": "mutation",
     "id": "INTERSTICE_RESONANCE_2",
     "name": { "str": "Outsider" },
-    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "description": "Your physiology plays by different rules.  The universe will notice you in your former homeworld.",
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_RESONANCE" ],
+    "changes_to": [ "INTERSTICE_RESONANCE_3" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
-    "points": -6,
+    "points": -4,
     "purifiable": true,
+    "vitamin_cost": 240,
+    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_3",
+    "name": { "str": "Deeply Incongruent" },
+    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESONANCE_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": -5,
+    "purifiable": false,
     "vitamin_cost": 300,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 4500 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",
@@ -931,9 +946,30 @@
     "prereqs": [ "INTERSTICEEYES" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "points": 1,
-    "starting_trait": true,
     "vitamin_cost": 60,
     "enchantments": [ { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_VISION2",
+    "name": { "str": "Ontological Sight" },
+    "description": "You've become attuned to the folds and gaps in the world and you now detect nearby creatures through them.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_VISION" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "points": 5,
+    "vitamin_cost": 210,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "distance": 10,
+            "descriptions": [ { "id": "interstice_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2127,6 +2163,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED2" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_RAT", "THRESH_CHIMERA" ],
+    "purifiable": false,
     "points": -4,
     "vitamin_cost": 160,
     "visibility": 10,
@@ -2546,7 +2583,7 @@
     "id": "UNSTABLE",
     "name": { "str": "Genetically Unstable" },
     "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-    "category": [ "SLIME", "MEDICAL", "CHIMERA" ],
+    "category": [ "MEDICAL", "CHIMERA" ],
     "changes_to": [ "CHAOTIC" ],
     "points": -2,
     "mixed_effect": true,
@@ -3343,6 +3380,7 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
+    "leads_to": [ "DEX_INTERSTICE" ],
     "threshreq": [
       "THRESH_BIRD",
       "THRESH_ELFA",
@@ -3382,6 +3420,21 @@
     "points": 6,
     "vitamin_cost": 400,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "alpha_stat_bonus(u_val('dexterity_base'))" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_INTERSTICE",
+    "name": { "str": "Liminal Stride" },
+    "description": "You are just passing through these places.  They present no distractions or resistance.  You move much easier, particularly over obstacles and through tight spaces.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "DEX_UP_3" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "purifiable": false,
+    "points": 6,
+    "vitamin_cost": 400,
+    "enchantments": [
+      { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.75 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -3540,7 +3593,7 @@
     "type": "mutation",
     "id": "PER_INTERSTICE",
     "name": { "str": "Perceptual Overreach" },
-    "description": "You see all the colors of space.  It is maddening and confusing.  +9 Perception, -3 intelligence.",
+    "description": "You see all the colors of space.  It is maddening and confusing.  +12 Perception, -3 intelligence.",
     "category": [ "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_4" ],
@@ -3549,7 +3602,7 @@
     "mixed_effect": true,
     "points": 4,
     "vitamin_cost": 300,
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 9 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 12 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
   },
   {
     "type": "mutation",
@@ -5703,7 +5756,9 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "social_modifiers": { "lie": -5, "persuade": -5 },
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 }, { "value": "LEARNING_FOCUS", "multiply": -0.05 } ] }
+    ],
     "flags": [ "NUMB" ]
   },
   {

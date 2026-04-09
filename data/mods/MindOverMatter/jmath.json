@@ -13,6 +13,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "psionic_power_modifiers",
+    "num_args": 0,
+    "return": "scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+  },
+  {
+    "type": "jmath_function",
     "id": "psionic_power_experience_formula_channeling",
     "num_args": 0,
     "return": "(u_val('focus_effective') / 100 ) * 80 * ( ( u_val('intelligence') + 10) / 20 ) * min( ( 0.5 + ( u_skill('metaphysics') / 20) ), 1) * u_nether_attunement_power_scaling"
