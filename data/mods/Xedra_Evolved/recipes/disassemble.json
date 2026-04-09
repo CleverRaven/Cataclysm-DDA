@@ -85,5 +85,15 @@
       [ [ "nuts_bolts", 13 ] ],
       [ [ "inventor_heavy_cell", 1 ] ]
     ]
+  },
+  {
+    "result": "broken_xe_golem",
+    "type": "uncraft",
+    "activity_level": "ACTIVE_EXERCISE",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "clay_lump", 600 ] ], [ [ "clay_kaolin", 60 ] ], [ [ "homullus_sample", 10 ] ] ]
   }
 ]
