@@ -63,6 +63,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_broad_paw_punch",
+    "limbs": [ "paw_broad_l", "paw_broad_r" ],
+    "contact_area": [ "paw_broad_fingers_l", "paw_broad_fingers_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_wing_slap",
     "limbs": [ "arm_wing_bird_l", "arm_wing_bird_r" ],
     "contact_area": [ "arm_wing_bird_lower_r", "arm_wing_bird_lower_l" ]
