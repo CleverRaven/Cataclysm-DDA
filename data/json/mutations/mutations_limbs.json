@@ -130,6 +130,17 @@
     "ugliness": 3,
     "flags": [ "QUADRUPED_CROUCH" ],
     "restricts_gear": [ "hand_l", "hand_r" ],
+    "craft_skill_bonus": [
+      [ "electronics", -4 ],
+      [ "tailor", -4 ],
+      [ "mechanics", -4 ],
+      [ "firstaid", -2 ],
+      [ "computer", -2 ],
+      [ "traps", -2 ],
+      [ "fabrication", -2 ],
+      [ "cooking", -2 ],
+      [ "survival", -2 ]
+    ],
     "enchantments": [
       "ench_quadruped_movement_half",
       {
