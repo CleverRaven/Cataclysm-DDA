@@ -479,12 +479,12 @@ bool game::load( const save_t &name )
 
                     set_zoom( uistate.tileset_zoom );
                     set_overmap_zoom( uistate.overmap_tileset_zoom );
-/*#if defined(TILES)
+#if defined(TILES)
                         // Ensure tileset display is synced with loaded zoom level
                         rescale_tileset( uistate.tileset_zoom );
                         overmap_tilecontext->set_draw_scale( uistate.overmap_tileset_zoom );
 #endif
-*/
+
                 }
             },
         }
