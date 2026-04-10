@@ -604,7 +604,7 @@
     "main_part": "arm_l",
     "opposite_part": "paw_broad_r",
     "hit_size": 1.8,
-    "hit_difficulty": 1.25,
+    "hit_difficulty": 1.26,
     "limb_type": "hand",
     "limb_scores": [ [ "grip", 0.27 ], [ "manip", 0.27, 0.54 ], [ "swim", 0.25 ] ],
     "side": "left",
