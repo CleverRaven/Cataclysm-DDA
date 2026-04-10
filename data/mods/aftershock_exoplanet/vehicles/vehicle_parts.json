@@ -279,5 +279,29 @@
     "item": "veh_tools_kitchen",
     "looks_like": "kitchen_unit",
     "extend": { "allowed_tools": [ "afs_atompot" ] }
+  },
+  {
+    "id": "ship_reactor_pdu",
+    "type": "vehicle_part",
+    "categories": [ "movement" ],
+    "color": "light_blue",
+    "durability": 800,
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "NO_REPAIR", "OBSTACLE", "PERPETUAL", "REACTOR" ],
+    "looks_like": "minireactor",
+    "location": "center",
+    "epower": "200 kW",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "item": "ship_reactor_pdu",
+    "description": "A distribution cabinet linking to the ship's main reactor, can be used to build an external electric grid powered by the ship's surplus power.",
+    "variants": [ { "symbols": "X", "symbols_broken": "O" } ],
+    "breaks_into": [
+      { "item": "mc_steel_lump", "count": [ 3, 6 ] },
+      { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] }
+    ]
   }
 ]

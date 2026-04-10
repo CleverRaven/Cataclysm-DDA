@@ -12926,12 +12926,23 @@ void zone_sort_activity_actor::update_other_activity_items()
 void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 {
     update_other_activity_items();
+    // Save viewport state before base call. For NPCs, revert_after_activity()
+    // replaces the activity and destroys this actor before returning.
+    const bool had_viewport = viewport_was_active;
+    const int saved_zoom = viewport_saved_zoom;
     zone_activity_actor::do_turn( act, you );
 
     // True completion: activity nulled AND no auto-move destination pending.
     // route_to_destination sets destination before nulling; true end does not.
-    if( act.is_null() && !you.has_destination() && viewport_was_active ) {
-        restore_viewport( you );
+    // Use saved locals since this may be destroyed.
+    if( act.is_null() && !you.has_destination() && had_viewport ) {
+        if( !test_mode ) {
+            g->set_zoom( saved_zoom );
+            g->mark_main_ui_adaptor_resize();
+        }
+        if( you.is_avatar() ) {
+            you.as_avatar()->zone_sort_viewport = {};
+        }
     }
 }
 

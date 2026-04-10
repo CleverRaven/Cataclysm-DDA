@@ -480,7 +480,16 @@ void talk_function::return_to_camp_duties( npc &p )
     p.clear_ai_guard_pos();
     p.clear_committed_goal();
     p.chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
-    if( p.assigned_camp && p.pos_abs_omt() != *p.assigned_camp ) {
+    // Check whether the NPC is already within the camp footprint
+    // (including expansion tiles), not just the base OMT.
+    bool at_camp = false;
+    if( p.assigned_camp ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.assigned_camp->xy() );
+        at_camp = ( bcp && *bcp )
+                  ? ( *bcp )->point_within_camp( p.pos_abs_omt() )
+                  : p.pos_abs_omt() == *p.assigned_camp;
+    }
+    if( p.assigned_camp && !at_camp ) {
         p.goal = *p.assigned_camp;
         tripoint_abs_omt surface = p.pos_abs_omt();
         surface.z() = 0;

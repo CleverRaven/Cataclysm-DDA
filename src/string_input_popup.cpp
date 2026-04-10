@@ -22,6 +22,7 @@
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
+#include "sdltiles.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -488,7 +489,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                StopTextInput();
+                StopTextInput( get_sdl_window() );
             }
 #endif
             _text.clear();
@@ -561,11 +562,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 if( action == "TEXT.PASTE" ) {
 #if defined(TILES)
                     if( edit.empty() ) {
-                        char *const clip = SDL_GetClipboardText();
-                        if( clip ) {
-                            entered = clip;
-                            SDL_free( clip );
-                        }
+                        entered = GetClipboardText();
                     }
 #endif
                 } else if( action == "TEXT.INPUT_FROM_FILE" ) {

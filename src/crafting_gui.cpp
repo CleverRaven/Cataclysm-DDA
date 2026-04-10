@@ -993,7 +993,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
 
-            ImGui::PopFont();
+            cataimgui::PopGuiFont1_5x();
         }
 
         // Batch size for all subsequent calculations

@@ -68,7 +68,7 @@ float get_animation_phase( int phase_length_ms )
         return 0.0f;
     }
 
-    return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
+    return std::fmod<float>( GetTicks(), phase_length_ms ) / phase_length_ms;
 }
 
 //creates the texture that individual minimap updates are drawn to
@@ -393,9 +393,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         main_tex_clip_rect = SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y };
         screen_clip_rect = fit_rect_inside( main_tex_clip_rect, screen_rect );
 
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
         main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
+        // This texture is scaled to fit the screen; use linear filtering for smooth presentation.
+        SetTextureScaleQuality( main_tex, "linear" );
 
     } else {
         const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );

@@ -64,6 +64,9 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 const SDL_Renderer_Ptr &get_sdl_renderer();
+// Returns the main game window. Needed by text input wrappers and other
+// SDL3 APIs that require an explicit window parameter.
+SDL_Window *get_sdl_window();
 
 #endif // TILES
 
