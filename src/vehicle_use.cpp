@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <list>
+#include <initializer_list>
 #include <memory>
 #include <string>
 #include <tuple>
