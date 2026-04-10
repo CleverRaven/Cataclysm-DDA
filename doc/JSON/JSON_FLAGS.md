@@ -391,7 +391,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```GLIDING``` You are in the process of gliding.
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
-- ```HEAT_IMMUNE``` Immune to very hot temperatures.
+- ```HEAT_IMMUNE``` Immune to very hot temperatures and fire damage.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
