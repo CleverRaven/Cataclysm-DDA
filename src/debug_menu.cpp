@@ -3513,9 +3513,9 @@ static void game_report()
             _( "Copy game report to clipboard?" ) +
             std::string( "\n\n" ) +
             _( "If not copied to clipboard it will be displayed on screen as a message.  You will have to copy it down or record it manually." ) ) ) {
-        int clipboard_result = SDL_SetClipboardText( report.c_str() );
-        printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-        if( clipboard_result == 0 ) {
+        const bool clipboard_ok = SetClipboardText( report );
+        printErrorIf( !clipboard_ok, "Error while copying the game report to the clipboard." );
+        if( clipboard_ok ) {
             popup_msg += _( " and to the clipboard." );
         }
     } else {

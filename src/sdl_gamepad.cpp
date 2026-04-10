@@ -19,17 +19,72 @@
 namespace gamepad
 {
 
+// SDL3 compat: normalized event and API constants
+#if SDL_MAJOR_VERSION >= 3
+static constexpr Uint32 CATA_CONTROLLERBUTTONDOWN    = SDL_EVENT_GAMEPAD_BUTTON_DOWN;
+static constexpr Uint32 CATA_CONTROLLERBUTTONUP      = SDL_EVENT_GAMEPAD_BUTTON_UP;
+static constexpr Uint32 CATA_CONTROLLERAXISMOTION    = SDL_EVENT_GAMEPAD_AXIS_MOTION;
+static constexpr Uint32 CATA_CONTROLLERDEVICEADDED   = SDL_EVENT_GAMEPAD_ADDED;
+static constexpr Uint32 CATA_CONTROLLERDEVICEREMOVED = SDL_EVENT_GAMEPAD_REMOVED;
+static constexpr int CATA_AXIS_TRIGGERLEFT  = SDL_GAMEPAD_AXIS_LEFT_TRIGGER;
+static constexpr int CATA_AXIS_TRIGGERRIGHT = SDL_GAMEPAD_AXIS_RIGHT_TRIGGER;
+static constexpr int CATA_AXIS_LEFTX       = SDL_GAMEPAD_AXIS_LEFTX;
+static constexpr int CATA_AXIS_LEFTY       = SDL_GAMEPAD_AXIS_LEFTY;
+static constexpr int CATA_AXIS_RIGHTX      = SDL_GAMEPAD_AXIS_RIGHTX;
+static constexpr int CATA_AXIS_RIGHTY      = SDL_GAMEPAD_AXIS_RIGHTY;
+static constexpr int CATA_BUTTON_A              = SDL_GAMEPAD_BUTTON_SOUTH;
+static constexpr int CATA_BUTTON_B              = SDL_GAMEPAD_BUTTON_EAST;
+static constexpr int CATA_BUTTON_X              = SDL_GAMEPAD_BUTTON_WEST;
+static constexpr int CATA_BUTTON_Y              = SDL_GAMEPAD_BUTTON_NORTH;
+static constexpr int CATA_BUTTON_LEFTSHOULDER   = SDL_GAMEPAD_BUTTON_LEFT_SHOULDER;
+static constexpr int CATA_BUTTON_RIGHTSHOULDER  = SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER;
+static constexpr int CATA_BUTTON_LEFTSTICK      = SDL_GAMEPAD_BUTTON_LEFT_STICK;
+static constexpr int CATA_BUTTON_RIGHTSTICK     = SDL_GAMEPAD_BUTTON_RIGHT_STICK;
+static constexpr int CATA_BUTTON_START          = SDL_GAMEPAD_BUTTON_START;
+static constexpr int CATA_BUTTON_BACK           = SDL_GAMEPAD_BUTTON_BACK;
+static constexpr int CATA_BUTTON_DPAD_UP        = SDL_GAMEPAD_BUTTON_DPAD_UP;
+static constexpr int CATA_BUTTON_DPAD_DOWN      = SDL_GAMEPAD_BUTTON_DPAD_DOWN;
+static constexpr int CATA_BUTTON_DPAD_LEFT      = SDL_GAMEPAD_BUTTON_DPAD_LEFT;
+static constexpr int CATA_BUTTON_DPAD_RIGHT     = SDL_GAMEPAD_BUTTON_DPAD_RIGHT;
+#else
+static constexpr Uint32 CATA_CONTROLLERBUTTONDOWN    = SDL_CONTROLLERBUTTONDOWN;
+static constexpr Uint32 CATA_CONTROLLERBUTTONUP      = SDL_CONTROLLERBUTTONUP;
+static constexpr Uint32 CATA_CONTROLLERAXISMOTION    = SDL_CONTROLLERAXISMOTION;
+static constexpr Uint32 CATA_CONTROLLERDEVICEADDED   = SDL_CONTROLLERDEVICEADDED;
+static constexpr Uint32 CATA_CONTROLLERDEVICEREMOVED = SDL_CONTROLLERDEVICEREMOVED;
+static constexpr int CATA_AXIS_TRIGGERLEFT  = SDL_CONTROLLER_AXIS_TRIGGERLEFT;
+static constexpr int CATA_AXIS_TRIGGERRIGHT = SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+static constexpr int CATA_AXIS_LEFTX       = SDL_CONTROLLER_AXIS_LEFTX;
+static constexpr int CATA_AXIS_LEFTY       = SDL_CONTROLLER_AXIS_LEFTY;
+static constexpr int CATA_AXIS_RIGHTX      = SDL_CONTROLLER_AXIS_RIGHTX;
+static constexpr int CATA_AXIS_RIGHTY      = SDL_CONTROLLER_AXIS_RIGHTY;
+static constexpr int CATA_BUTTON_A              = SDL_CONTROLLER_BUTTON_A;
+static constexpr int CATA_BUTTON_B              = SDL_CONTROLLER_BUTTON_B;
+static constexpr int CATA_BUTTON_X              = SDL_CONTROLLER_BUTTON_X;
+static constexpr int CATA_BUTTON_Y              = SDL_CONTROLLER_BUTTON_Y;
+static constexpr int CATA_BUTTON_LEFTSHOULDER   = SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+static constexpr int CATA_BUTTON_RIGHTSHOULDER  = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+static constexpr int CATA_BUTTON_LEFTSTICK      = SDL_CONTROLLER_BUTTON_LEFTSTICK;
+static constexpr int CATA_BUTTON_RIGHTSTICK     = SDL_CONTROLLER_BUTTON_RIGHTSTICK;
+static constexpr int CATA_BUTTON_START          = SDL_CONTROLLER_BUTTON_START;
+static constexpr int CATA_BUTTON_BACK           = SDL_CONTROLLER_BUTTON_BACK;
+static constexpr int CATA_BUTTON_DPAD_UP        = SDL_CONTROLLER_BUTTON_DPAD_UP;
+static constexpr int CATA_BUTTON_DPAD_DOWN      = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+static constexpr int CATA_BUTTON_DPAD_LEFT      = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+static constexpr int CATA_BUTTON_DPAD_RIGHT     = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+#endif
+
 static constexpr int max_triggers = 2;
 static constexpr int max_sticks = 2;
 static constexpr int max_buttons = 30;
 
 static std::array<int, max_triggers> triggers_axis = {
-    SDL_CONTROLLER_AXIS_TRIGGERLEFT,
-    SDL_CONTROLLER_AXIS_TRIGGERRIGHT
+    CATA_AXIS_TRIGGERLEFT,
+    CATA_AXIS_TRIGGERRIGHT
 };
 static std::array<std::array<int, 2>, max_sticks> sticks_axis = { {
-        { {SDL_CONTROLLER_AXIS_LEFTX,  SDL_CONTROLLER_AXIS_LEFTY}  },
-        { {SDL_CONTROLLER_AXIS_RIGHTX, SDL_CONTROLLER_AXIS_RIGHTY} }
+        { {CATA_AXIS_LEFTX,  CATA_AXIS_LEFTY}  },
+        { {CATA_AXIS_RIGHTX, CATA_AXIS_RIGHTY} }
     }
 };
 
@@ -40,7 +95,10 @@ static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
 struct task_t {
-    Uint32 when;
+    // Millisecond timestamp from GetTicks(), not raw event timestamps.
+    // SDL3 event timestamps are nanoseconds (Uint64); using GetTicks() keeps
+    // everything in a consistent millisecond timebase across both versions.
+    uint32_t when;
     int button;
     int counter;
     int state;
@@ -58,8 +116,13 @@ static int repeat_interval = 50;
 
 // SDL related stuff
 static SDL_TimerID timer_id;
+#if SDL_MAJOR_VERSION >= 3
+static SDL_Gamepad *controller = nullptr;
+static SDL_JoystickID controller_id = 0; // SDL3 uses 0 as invalid
+#else
 static SDL_GameController *controller = nullptr;
 static SDL_JoystickID controller_id = -1;
+#endif
 
 static direction left_stick_dir = direction::NONE;
 static direction right_stick_dir = direction::NONE;
@@ -69,7 +132,12 @@ static bool radial_left_open = false;
 static bool radial_right_open = false;
 static bool alt_modifier_held = false;
 
+// SDL3: callback signature changes to (void *userdata, SDL_TimerID timerID, Uint32 interval)
+#if SDL_MAJOR_VERSION >= 3
+static Uint32 timer_func( void *, SDL_TimerID, Uint32 interval )
+#else
 static Uint32 timer_func( Uint32 interval, void * )
+#endif
 {
     SDL_Event event;
     SDL_UserEvent userevent;
@@ -92,14 +160,30 @@ void init()
         task.counter = 0;
     }
 
+#if SDL_MAJOR_VERSION >= 3
+    // SDL3: SDL_INIT_GAMECONTROLLER removed; use SDL_INIT_GAMEPAD.
+    int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMEPAD );
+    if( !ret ) {
+        printErrorIf( true, "Init gamepad+timer failed" );
+        return;
+    }
+
+    int num_joysticks = 0;
+    SDL_JoystickID *joysticks = SDL_GetJoysticks( &num_joysticks );
+    if( joysticks && num_joysticks > 0 ) {
+        controller = SDL_OpenGamepad( joysticks[0] );
+        if( controller ) {
+            controller_id = SDL_GetGamepadID( controller );
+        }
+    }
+    SDL_free( joysticks );
+#else
     int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER );
     if( ret < 0 ) {
         printErrorIf( ret != 0, "Init gamecontroller+timer failed" );
         return;
     }
 
-    // SDL3: SDL_NumJoysticks is replaced by SDL_GetJoysticks (returns array).
-    // SDL3: SDL_GameControllerOpen becomes SDL_OpenGamepad and takes instance ID, not device index.
     if( SDL_NumJoysticks() > 0 ) {
         controller = SDL_GameControllerOpen( 0 );
         if( controller ) {
@@ -107,6 +191,7 @@ void init()
             SDL_GameControllerEventState( SDL_ENABLE );
         }
     }
+#endif
 
     timer_id = SDL_AddTimer( 50, timer_func, nullptr );
     printErrorIf( timer_id == 0, "SDL_AddTimer failed" );
@@ -119,15 +204,22 @@ void quit()
         timer_id = 0;
     }
     if( controller ) {
+#if SDL_MAJOR_VERSION >= 3
+        SDL_CloseGamepad( controller );
+#else
         SDL_GameControllerClose( controller );
+#endif
         controller = nullptr;
     }
 }
 
-// SDL3: SDL_GameControllerGetAxis becomes SDL_GetGamepadAxis.
-static Sint16 get_controller_axis( SDL_GameControllerAxis axis )
+static Sint16 get_controller_axis( int axis )
 {
-    return SDL_GameControllerGetAxis( controller, axis );
+#if SDL_MAJOR_VERSION >= 3
+    return SDL_GetGamepadAxis( controller, static_cast<SDL_GamepadAxis>( axis ) );
+#else
+    return SDL_GameControllerGetAxis( controller, static_cast<SDL_GameControllerAxis>( axis ) );
+#endif
 }
 
 static int one_of_two( const std::array<int, 2> &arr, int val )
@@ -141,7 +233,7 @@ static int one_of_two( const std::array<int, 2> &arr, int val )
     return -1;
 }
 
-static void schedule_task( task_t &task, Uint32 when, int button, int state,
+static void schedule_task( task_t &task, uint32_t when, int button, int state,
                            input_event_t type = input_event_t::gamepad )
 {
     task.when = when;
@@ -329,13 +421,21 @@ static void send_direction_movement()
 
 static bool handle_axis_event( SDL_Event &event )
 {
-    if( event.type != SDL_CONTROLLERAXISMOTION ) {
+    if( event.type != CATA_CONTROLLERAXISMOTION ) {
         return false;
     }
 
+    // SDL3: event.caxis becomes event.gaxis
+#if SDL_MAJOR_VERSION >= 3
+    int axis = event.gaxis.axis;
+    int value = event.gaxis.value;
+#else
     int axis = event.caxis.axis;
     int value = event.caxis.value;
-    Uint32 now = event.caxis.timestamp;
+#endif
+    // Use GetTicks() instead of event timestamps for consistent millisecond
+    // timebase. SDL3 event timestamps are nanoseconds, not milliseconds.
+    uint32_t now = GetTicks();
     bool direction_changed = false;
 
     // check triggers
@@ -409,8 +509,8 @@ static bool handle_axis_event( SDL_Event &event )
         if( axis_idx >= 0 ) {
             // Get current values for both axes of this stick
             const point val(
-                get_controller_axis( static_cast<SDL_GameControllerAxis>( sticks_axis[i][0] ) ),
-                get_controller_axis( static_cast<SDL_GameControllerAxis>( sticks_axis[i][1] ) ) );
+                get_controller_axis( sticks_axis[i][0] ),
+                get_controller_axis( sticks_axis[i][1] ) );
 
             // Calculate magnitude (distance from center)
             double magnitude = std::sqrt( static_cast<double>( val.x ) * val.x +
@@ -518,10 +618,15 @@ static bool handle_axis_event( SDL_Event &event )
 
 static void handle_button_event( SDL_Event &event )
 {
+    // SDL3: event.cbutton becomes event.gbutton
+#if SDL_MAJOR_VERSION >= 3
+    int button = event.gbutton.button;
+#else
     int button = event.cbutton.button;
-    Uint32 now = event.cbutton.timestamp;
+#endif
+    uint32_t now = GetTicks();
 
-    if( event.type == SDL_CONTROLLERBUTTONUP ) {
+    if( event.type == CATA_CONTROLLERBUTTONUP ) {
         // Button released - only handle cleanup/task cancellation
         if( button < max_buttons ) {
             cancel_task( all_tasks[button] );
@@ -529,13 +634,12 @@ static void handle_button_event( SDL_Event &event )
         return;
     }
 
-    // SDL_CONTROLLERBUTTONDOWN:
     // Button pressed - determine which input to send
     int joy_code = -1;
     input_event_t input_type = input_event_t::gamepad;
 
     switch( button ) {
-        case SDL_CONTROLLER_BUTTON_A:
+        case CATA_BUTTON_A:
             if( is_in_menu() ) {
                 joy_code = '\n';
                 input_type = input_event_t::keyboard_char;
@@ -543,7 +647,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_A;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_B:
+        case CATA_BUTTON_B:
             if( is_in_menu() ) {
                 joy_code = KEY_ESCAPE;
                 input_type = input_event_t::keyboard_code;
@@ -551,13 +655,13 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_B;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_X:
+        case CATA_BUTTON_X:
             joy_code = JOY_X;
             break;
-        case SDL_CONTROLLER_BUTTON_Y:
+        case CATA_BUTTON_Y:
             joy_code = JOY_Y;
             break;
-        case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+        case CATA_BUTTON_RIGHTSHOULDER:
             if( is_in_menu() ) {
                 joy_code = '\t';
                 input_type = input_event_t::keyboard_char;
@@ -565,7 +669,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_RB;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
+        case CATA_BUTTON_LEFTSHOULDER:
             if( is_in_menu() ) {
                 joy_code = KEY_BTAB;
                 input_type = input_event_t::keyboard_char;
@@ -573,13 +677,13 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_LB;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_LEFTSTICK:
+        case CATA_BUTTON_LEFTSTICK:
             joy_code = JOY_LS;
             break;
-        case SDL_CONTROLLER_BUTTON_RIGHTSTICK:
+        case CATA_BUTTON_RIGHTSTICK:
             joy_code = JOY_RS;
             break;
-        case SDL_CONTROLLER_BUTTON_START:
+        case CATA_BUTTON_START:
             if( is_in_menu() ) {
                 joy_code = KEY_ESCAPE;
                 input_type = input_event_t::keyboard_code;
@@ -587,7 +691,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_START;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_BACK:
+        case CATA_BUTTON_BACK:
             if( is_in_menu() ) {
                 joy_code = KEY_ESCAPE;
                 input_type = input_event_t::keyboard_code;
@@ -599,7 +703,7 @@ static void handle_button_event( SDL_Event &event )
         // D-pad handling
         // If in a menu, send keyboard arrow keys for navigation
         // If in gameplay, send JOY_* codes for mapped actions
-        case SDL_CONTROLLER_BUTTON_DPAD_UP:
+        case CATA_BUTTON_DPAD_UP:
             if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_UP;
                 input_type = input_event_t::keyboard_char;
@@ -607,7 +711,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_UP;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+        case CATA_BUTTON_DPAD_DOWN:
             if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_DOWN;
                 input_type = input_event_t::keyboard_char;
@@ -615,7 +719,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_DOWN;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+        case CATA_BUTTON_DPAD_LEFT:
             if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_LEFT;
                 input_type = input_event_t::keyboard_char;
@@ -623,7 +727,7 @@ static void handle_button_event( SDL_Event &event )
                 joy_code = JOY_LEFT;
             }
             break;
-        case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+        case CATA_BUTTON_DPAD_RIGHT:
             if( is_in_menu() && !alt_modifier_held ) {
                 joy_code = KEY_RIGHT;
                 input_type = input_event_t::keyboard_char;
@@ -644,36 +748,49 @@ static void handle_button_event( SDL_Event &event )
     if( joy_code != -1 ) {
         send_input( joy_code, input_type );
         // Only D-pad buttons repeat
-        if( button >= SDL_CONTROLLER_BUTTON_DPAD_UP && button <= SDL_CONTROLLER_BUTTON_DPAD_RIGHT ) {
+        if( button >= CATA_BUTTON_DPAD_UP && button <= CATA_BUTTON_DPAD_RIGHT ) {
             schedule_task( all_tasks[button], now + repeat_delay, joy_code, 1, input_type );
         }
     }
 }
 
-// SDL3: SDL_CONTROLLERDEVICEADDED/REMOVED become SDL_EVENT_GAMEPAD_ADDED/REMOVED.
-// SDL3: event.cdevice.which for ADDED is an instance ID (not device index).
-// SDL3: SDL_GameControllerOpen becomes SDL_OpenGamepad.
 static void handle_device_event( SDL_Event &event )
 {
-    if( event.type == SDL_CONTROLLERDEVICEADDED ) {
+    if( event.type == CATA_CONTROLLERDEVICEADDED ) {
         if( controller == nullptr ) {
+#if SDL_MAJOR_VERSION >= 3
+            // SDL3: event provides instance ID directly; SDL_OpenGamepad takes it.
+            controller = SDL_OpenGamepad( event.gdevice.which );
+            if( controller ) {
+                controller_id = SDL_GetGamepadID( controller );
+            }
+#else
             controller = SDL_GameControllerOpen( event.cdevice.which );
             if( controller ) {
                 controller_id = SDL_JoystickInstanceID( SDL_GameControllerGetJoystick( controller ) );
             }
+#endif
         }
-    } else if( event.type == SDL_CONTROLLERDEVICEREMOVED ) {
+    } else if( event.type == CATA_CONTROLLERDEVICEREMOVED ) {
+#if SDL_MAJOR_VERSION >= 3
+        if( controller != nullptr && event.gdevice.which == controller_id ) {
+            SDL_CloseGamepad( controller );
+            controller = nullptr;
+            controller_id = 0;
+        }
+#else
         if( controller != nullptr && event.cdevice.which == controller_id ) {
             SDL_GameControllerClose( controller );
             controller = nullptr;
             controller_id = -1;
         }
+#endif
     }
 }
 
-static void handle_scheduler_event( SDL_Event &event )
+static void handle_scheduler_event( SDL_Event &/*event*/ )
 {
-    Uint32 now = event.user.timestamp;
+    uint32_t now = GetTicks();
     for( size_t i = 0; i < all_tasks.size(); ++i ) {
         gamepad::task_t &task = all_tasks[i];
         if( task.counter && task.when <= now ) {
@@ -768,18 +885,17 @@ tripoint direction_to_offset( direction dir )
     }
 }
 
-// SDL3: SDL_CONTROLLERBUTTONDOWN/UP become SDL_EVENT_GAMEPAD_BUTTON_DOWN/UP.
-// SDL3: SDL_CONTROLLERAXISMOTION becomes SDL_EVENT_GAMEPAD_AXIS_MOTION.
-// SDL3: SDL_CONTROLLERDEVICEADDED/REMOVED become SDL_EVENT_GAMEPAD_ADDED/REMOVED.
+// SDL3: event constants and struct members are remapped via the CATA_CONTROLLER*
+// constants and #if blocks defined at the top of this file.
 // SDL3: event.caxis/cbutton/cdevice become event.gaxis/gbutton/gdevice.
 bool is_gamepad_event( const SDL_Event &event )
 {
     switch( event.type ) {
-        case SDL_CONTROLLERBUTTONDOWN:
-        case SDL_CONTROLLERBUTTONUP:
-        case SDL_CONTROLLERAXISMOTION:
-        case SDL_CONTROLLERDEVICEADDED:
-        case SDL_CONTROLLERDEVICEREMOVED:
+        case CATA_CONTROLLERBUTTONDOWN:
+        case CATA_CONTROLLERBUTTONUP:
+        case CATA_CONTROLLERAXISMOTION:
+        case CATA_CONTROLLERDEVICEADDED:
+        case CATA_CONTROLLERDEVICEREMOVED:
         case SDL_GAMEPAD_SCHEDULER:
             return true;
         default:
@@ -790,14 +906,14 @@ bool is_gamepad_event( const SDL_Event &event )
 bool handle_event( SDL_Event &event )
 {
     switch( event.type ) {
-        case SDL_CONTROLLERBUTTONDOWN:
-        case SDL_CONTROLLERBUTTONUP:
+        case CATA_CONTROLLERBUTTONDOWN:
+        case CATA_CONTROLLERBUTTONUP:
             handle_button_event( event );
             return false;
-        case SDL_CONTROLLERAXISMOTION:
+        case CATA_CONTROLLERAXISMOTION:
             return handle_axis_event( event );
-        case SDL_CONTROLLERDEVICEADDED:
-        case SDL_CONTROLLERDEVICEREMOVED:
+        case CATA_CONTROLLERDEVICEADDED:
+        case CATA_CONTROLLERDEVICEREMOVED:
             handle_device_event( event );
             return false;
         case SDL_GAMEPAD_SCHEDULER:

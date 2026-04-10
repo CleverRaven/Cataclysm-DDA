@@ -4901,11 +4901,11 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         here.ter_set( close, ter_t_tree_apple );
 
         // Far tree in the open (reachable).
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 0, -5, 0 );
-        here.ter_set( far, ter_t_tree_apple );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 0, -5, 0 );
+        here.ter_set( distant, ter_t_tree_apple );
         here.build_map_cache( 0 );
         REQUIRE( here.is_harvestable( close ) );
-        REQUIRE( here.is_harvestable( far ) );
+        REQUIRE( here.is_harvestable( distant ) );
 
         // The close tree must be the first candidate (closer = higher score).
         auto cands = guy.find_food_candidates();
@@ -4924,7 +4924,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "eat_food" );
         CHECK( guy.get_food_plan().active() );
-        CHECK( guy.get_food_plan().target == here.get_abs( far ) );
+        CHECK( guy.get_food_plan().target == here.get_abs( distant ) );
         CHECK( guy.get_food_plan().source_kind == need_source::harvestable );
         CHECK( result == npc::need_result::progressed );
     }
@@ -5557,8 +5557,8 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
     SECTION( "nearby clothing outranks distant shelter" ) {
         // Clothing at distance 1 (warmth ~30), shelter at distance 3 (score -3).
         here.add_item_or_charges( adj, item( itype_sweater ) );
-        tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
         auto cands = guy.find_warmth_candidates();
         REQUIRE( cands.size() >= 2 );
@@ -5643,8 +5643,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "distant ground clothing: move toward, progressed" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 4, 0, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 4, 0, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
@@ -5655,8 +5655,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "distant shelter: move toward at low danger, progressed" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 4, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 4, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
 
         guy.set_ai_danger( 0 );
@@ -5668,8 +5668,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "shelter movement blocked by danger, deferred" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
 
         guy.set_ai_danger( NPC_DANGER_VERY_LOW + 1 );
@@ -5763,8 +5763,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         }
         here.add_item_or_charges( close, item( itype_sweater ) );
         // Second sweater in the open.
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 0, -4, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 0, -4, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         auto cands = guy.find_warmth_candidates();
@@ -5781,7 +5781,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "seek_warmth" );
         CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().target == here.get_abs( far ) );
+        CHECK( guy.get_warmth_plan().target == here.get_abs( distant ) );
         CHECK( result == npc::need_result::progressed );
     }
 
@@ -5823,8 +5823,8 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
 
     SECTION( "commitment clears when warmth resolves" ) {
         // Place distant clothing so seek_warmth activates.
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         guy.set_committed_goal( "seek_warmth" );

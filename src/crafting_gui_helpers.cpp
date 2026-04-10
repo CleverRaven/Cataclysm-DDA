@@ -793,7 +793,7 @@ item get_recipe_result_item( const recipe &rec, Character &crafter )
 }
 
 // Build an iteminfo_query that hides sections irrelevant for crafting decisions,
-// based on the result item type.  Always hidden: price, disassembly, empty pockets,
+// based on the result item type.  Always hidden: price, disassembly,
 // "you know nothing you could craft with it".  Conditionally hidden: melee stats
 // (unless it's a weapon), gun stats (unless it's a gun), armor stats (unless armor).
 static const iteminfo_query &crafting_query_for_item( const item &it )
@@ -804,7 +804,6 @@ static const iteminfo_query &crafting_query_for_item( const item &it )
         iteminfo_parts::BASE_BARTER,
         iteminfo_parts::DESCRIPTION,
         iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE,
-        iteminfo_parts::DESCRIPTION_POCKETS,
         iteminfo_parts::DESCRIPTION_CONTENTS,
         iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
         iteminfo_parts::DESCRIPTION_REPAIREDWITH,

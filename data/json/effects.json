@@ -3393,14 +3393,8 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "immune_flags": [ "NO_DISEASE" ],
-    "base_mods": {
-      "thirst_tick": [ 3600 ],
-      "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 600 ],
-      "sleepiness_min": [ 1 ],
-      "str_mod": [ -1, 0 ],
-      "cough_chance": [ 600, 0 ]
-    }
+    "base_mods": { "thirst_tick": [ 3600 ], "thirst_min": [ 1 ], "str_mod": [ -1, 0 ], "cough_chance": [ 600, 0 ] },
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 0.025 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.025 } ] } ]
   },
   {
     "//": "For player, indistinguishable from pre_cold, but separate here to allow for separate resistances from flu shot/antibodies.",
@@ -3415,14 +3409,8 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "immune_flags": [ "NO_DISEASE" ],
-    "base_mods": {
-      "thirst_tick": [ 3600 ],
-      "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 600 ],
-      "sleepiness_min": [ 1 ],
-      "str_mod": [ -1, 0 ],
-      "cough_chance": [ 600, 0 ]
-    }
+    "base_mods": { "thirst_tick": [ 3600 ], "thirst_min": [ 1 ], "str_mod": [ -1, 0 ], "cough_chance": [ 600, 0 ] },
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 0.05 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.05 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3439,14 +3427,21 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 300 ],
-      "sleepiness_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
       "int_mod": [ -2, -1 ],
       "cough_chance": [ 300, 0 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPINESS", "multiply": 0.05 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.05 },
+          { "value": "SLEEPY", "add": -5 }
+        ]
+      }
+    ],
     "blood_analysis_description": "Viral Infection"
   },
   {
@@ -3466,8 +3461,6 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "sleepiness_tick": [ 300 ],
-      "sleepiness_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
       "per_mod": [ -1, 0 ],
@@ -3477,6 +3470,15 @@
       "cough_chance": [ 300, 0 ],
       "vomit_chance": [ 3600, 7200 ]
     },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPINESS", "multiply": 0.15 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.15 },
+          { "value": "SLEEPY", "add": -10 }
+        ]
+      }
+    ],
     "blood_analysis_description": "Viral Infection"
   },
   {

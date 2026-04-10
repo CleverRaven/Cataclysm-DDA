@@ -456,11 +456,14 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
-        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x
+        const bool cjk = get_option<bool>( "IMGUI_LOAD_CHINESE" );
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
         load_font( io, gui_typefaces, ranges.begin() );
         load_font( io, mono_typefaces, ranges.begin() );
-        load_font( io, gui_typefaces, ranges.begin(),
-                   static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+        if( !cjk ) {
+            load_font( io, gui_typefaces, ranges.begin(),
+                       static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+        }
         for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
             io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
             io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
@@ -1125,7 +1128,26 @@ void cataimgui::PushMonoFont()
 void cataimgui::PushGuiFont1_5x()
 {
 #ifdef TILES
-    ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[2] );
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[2] );
+    } else {
+        // CJK mode: no pre-rasterized 1.5x font, fall back to bitmap scaling.
+        // TODO: find a better solution - SetWindowFontScale is obsolete in ImGui
+        // and produces blurry text. Possible ideas: split the atlas into multiple
+        // textures, or use a smaller glyph subset for the scaled font.
+        ImGui::SetWindowFontScale( 1.5f );
+    }
+#endif
+}
+
+void cataimgui::PopGuiFont1_5x()
+{
+#ifdef TILES
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImGui::PopFont();
+    } else {
+        ImGui::SetWindowFontScale( 1.0f );
+    }
 #endif
 }
 

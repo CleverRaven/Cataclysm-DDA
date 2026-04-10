@@ -1,0 +1,12 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_random_artifact_mutate",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
+    "effect": [
+      { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
+      { "message": "Mutation category is <context_val:dart_mutation_category>.", "type": "debug" },
+      { "u_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false, "true_random": true }
+    ]
+  }
+]

@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "basecamp.h"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
@@ -40,6 +41,7 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "options_helpers.h"
+#include "overmapbuffer.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
@@ -1701,7 +1703,12 @@ TEST_CASE( "bt_priority_matrix", "[npc][behavior]" )
     }
     SECTION( "camp resident idle: free_time" ) {
         guy.set_mission( NPC_MISSION_CAMP_RESIDENT );
-        guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
+        const tripoint_abs_omt comt = project_to<coords::omt>( guy.pos_abs() );
+        here.add_camp( comt, "faction_camp" );
+        std::optional<basecamp *> cbcp = overmap_buffer.find_camp( comt.xy() );
+        REQUIRE( cbcp );
+        ( *cbcp )->define_camp( comt, "faction_base_bare_bones_NPC_camp_0", false );
+        guy.assigned_camp = comt;
         guy.guard_pos = std::nullopt;
         guy.clear_ai_guard_pos();
         CHECK( bt_goal( guy ) == "free_time" );
@@ -1751,7 +1758,15 @@ TEST_CASE( "bt_camp_resident_goals", "[npc][behavior]" )
     clear_character( guy, true );
     guy.set_fac( faction_your_followers );
     guy.set_mission( NPC_MISSION_CAMP_RESIDENT );
-    guy.assigned_camp = project_to<coords::omt>( guy.pos_abs() );
+
+    // Create a real camp so the BT predicates can resolve it.
+    const tripoint_abs_omt camp_omt = project_to<coords::omt>( guy.pos_abs() );
+    here.add_camp( camp_omt, "faction_camp" );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_omt.xy() );
+    REQUIRE( bcp );
+    ( *bcp )->define_camp( camp_omt, "faction_base_bare_bones_NPC_camp_0", false );
+
+    guy.assigned_camp = camp_omt;
     guy.guard_pos = std::nullopt;
     guy.clear_ai_guard_pos();
 
@@ -1773,6 +1788,63 @@ TEST_CASE( "bt_camp_resident_goals", "[npc][behavior]" )
         behavior::character_oracle_t oracle( &guy );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         CHECK( bt_goal( guy ) == "drink_water" );
+    }
+}
+
+TEST_CASE( "bt_camp_resident_expansion_tile", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+
+    // Place camp at mid-map so we control OMT alignment.
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    const tripoint_abs_omt camp_omt = project_to<coords::omt>( here.get_abs( mid ) );
+
+    here.add_camp( camp_omt, "faction_camp" );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_omt.xy() );
+    REQUIRE( bcp );
+    basecamp *test_camp = *bcp;
+    test_camp->define_camp( camp_omt, "faction_base_bare_bones_NPC_camp_0", false );
+
+    // Add an expansion one OMT to the east.
+    const tripoint_abs_omt expansion_omt = camp_omt + tripoint::east;
+    test_camp->add_expansion( "faction_base_farm_0", expansion_omt,
+                              point_rel_omt{ 1, 0 } );
+    REQUIRE( test_camp->point_within_camp( expansion_omt ) );
+
+    // Spawn NPC anywhere, then teleport to the expansion tile.
+    npc &guy = spawn_npc( mid.xy(), "test_talker" );
+    clear_character( guy, true );
+    const tripoint_abs_ms expansion_center =
+        project_to<coords::ms>( expansion_omt ) + tripoint{ SEEX, SEEY, 0 };
+    const tripoint_bub_ms expansion_local = here.get_bub( expansion_center );
+    REQUIRE( here.inbounds( expansion_local ) );
+    guy.setpos( here, expansion_local );
+    guy.set_fac( faction_your_followers );
+    guy.set_mission( NPC_MISSION_CAMP_RESIDENT );
+    guy.assigned_camp = camp_omt;
+    guy.guard_pos = std::nullopt;
+    guy.clear_ai_guard_pos();
+
+    REQUIRE( guy.pos_abs_omt() == expansion_omt );
+    REQUIRE( guy.pos_abs_omt() != camp_omt );
+
+    SECTION( "on expansion tile: free_time, not return_to_camp" ) {
+        CHECK( bt_goal( guy ) == "free_time" );
+    }
+    SECTION( "on expansion tile: camp predicates treat as at-camp" ) {
+        behavior::character_oracle_t oracle( &guy );
+        CHECK( oracle.is_camp_idle( "" ) == behavior::status_t::running );
+        CHECK( oracle.is_away_from_camp( "" ) == behavior::status_t::failure );
+    }
+    SECTION( "on expansion tile with job: camp_work fires" ) {
+        guy.job.set_all_priorities( 1 );
+        REQUIRE( guy.has_job() );
+        guy.last_job_scan = calendar::turn - 11_minutes;
+        behavior::character_oracle_t oracle( &guy );
+        CHECK( oracle.has_camp_job( "" ) == behavior::status_t::running );
+        CHECK( oracle.camp_work_urgency( "" ) > 0.0f );
     }
 }
 
