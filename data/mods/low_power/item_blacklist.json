@@ -1,0 +1,10 @@
+{
+  "type": "ITEM_BLACKLIST",
+  "whitelist": false,
+  "items": [
+    "diesel",
+    "gasoline",
+    "avgas",
+    "jp8"
+  ]
+}

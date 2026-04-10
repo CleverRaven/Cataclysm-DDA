@@ -1,0 +1,86 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "ap_ground_solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "ap_solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_ground_solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "ap_ground_solar_panel_v2",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "ap_solar_panel_v2",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "solar_panel_v2",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_folding_solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "ap_folding_solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reinforced_solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "reinforced_solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_reinforced_solar_panel",
+    "categories": [ "energy" ],
+    "copy-from": "ap_reinforced_solar_panel",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reinforced_solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "reinforced_solar_panel_v2",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_reinforced_solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "ap_reinforced_solar_panel_v2",
+    "epower": "0 W"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_folding_solar_panel_v2",
+    "categories": [ "energy" ],
+    "copy-from": "ap_folding_solar_panel_v2",
+    "epower": "0 W"
+  }
+]

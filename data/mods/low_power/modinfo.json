@@ -1,0 +1,26 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "low_power",
+    "name": "No Pre-Cataclysm Power Sources",
+    "authors": [ "Blueflowers" ],
+    "maintainers": [ "Blueflowers" ],
+    "description": "Makes solar panels useless, gets rid of gasoline/diesel/other fuels. Forcing the survivor to rely on post-cataclysm solutions.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERRIDE_VEHICLE_INIT_STATE",
+    "//": "If true, initial status and amount of fuel for all spawned vehicles will be overridden by values of VEHICLE_STATUS_AT_SPAWN and VEHICLE_FUEL_AT_SPAWN options.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "VEHICLE_FUEL_AT_SPAWN",
+    "//": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
+    "stype": "int",
+    "value": 0
+  }
+]
