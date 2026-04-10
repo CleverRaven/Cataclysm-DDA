@@ -2440,7 +2440,9 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         int vp_tank_idx = -1;
         item *water_item = nullptr;
         // Prefer clean water over standard
-        for( const itype_id &preferred : { itype_water_clean, itype_water } ) {
+        for( const itype_id &preferred : {
+                 itype_water_clean, itype_water
+             } ) {
             for( const int i : fuel_containers ) {
                 vehicle_part &part = parts[i];
                 if( part.ammo_current() == preferred &&
