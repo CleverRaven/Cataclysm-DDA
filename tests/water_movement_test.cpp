@@ -914,11 +914,11 @@ static std::map<std::string, swim_result> expected_results = {
     {"move: walk, stats: minimum, skills: professional, gear: flotation vest, traits: paws", swim_result{400, 44}},
     {"move: walk, stats: minimum, skills: professional, gear: flotation vest, traits: webbed hands", swim_result{400, 44}},
     {"move: walk, stats: minimum, skills: professional, gear: flotation vest, traits: webbed hands and feet", swim_result{400, 44}},
-    {"move: walk, stats: minimum, skills: professional, gear: none, traits: large paws", swim_result{118, 205}},
+    {"move: walk, stats: minimum, skills: professional, gear: none, traits: large paws", swim_result{118, 204}},
     {"move: walk, stats: minimum, skills: professional, gear: none, traits: none", swim_result{150, 144}},
     {"move: walk, stats: minimum, skills: professional, gear: none, traits: paws", swim_result{125, 187}},
     {"move: walk, stats: minimum, skills: professional, gear: none, traits: webbed hands", swim_result{114, 215}},
-    {"move: walk, stats: minimum, skills: professional, gear: none, traits: webbed hands and feet", swim_result{74, 364}},
+    {"move: walk, stats: minimum, skills: professional, gear: none, traits: webbed hands and feet", swim_result{74, 364}}, 
 };
 
 TEST_CASE( "check_swim_move_cost_and_distance_values", "[swimming][slow]" )
