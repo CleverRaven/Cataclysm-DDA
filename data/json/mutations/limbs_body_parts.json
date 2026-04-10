@@ -609,7 +609,7 @@
     "limb_scores": [ [ "grip", 0.27 ], [ "manip", 0.27, 0.54 ], [ "swim", 0.25 ] ],
     "side": "left",
     "techniques": [ "TECH_BROAD_PAW_PUNCH", "TECH_BROAD_PAW_PUNCH_WITH_CLAWS", "TECH_BROAD_PAW_CLAW", "TECH_BROAD_PAW_SMASH_KNOCKBACK" ],
-    "flags": [  ],
+    "flags": [ "HANDS_CANNOT_USE_FIREARMS" ],
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "fire_warmth_bonus": 1500,
