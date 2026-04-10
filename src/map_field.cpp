@@ -91,8 +91,8 @@ static const itype_id itype_ash( "ash" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
-static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
+static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
