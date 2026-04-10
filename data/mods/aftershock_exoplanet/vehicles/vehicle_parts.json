@@ -285,6 +285,7 @@
     "type": "vehicle_part",
     "categories": [ "movement" ],
     "color": "light_blue",
+    "durability": 800,
     "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "NO_REPAIR", "OBSTACLE", "PERPETUAL", "REACTOR" ],
     "looks_like": "minireactor",
     "location": "center",
