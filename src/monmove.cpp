@@ -174,6 +174,13 @@ bool monster::will_move_to( map *here, const tripoint_bub_ms &p ) const
         }
     }
 
+    // Aquatic monsters can't climb onto walkways over water
+    if( has_flag( mon_flag_AQUATIC ) && !flies() &&
+        here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, p ) &&
+        !here->has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
+        return false;
+    }
+
     // digging monster can ONLY move underground?
     if( digs() && !here->has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
         !here->has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
@@ -2069,6 +2076,11 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force, bool step_on_critte
                // AQUATIC creatures stay submerged in any swimmable terrain (including shallow water)
                ( has_flag( mon_flag_AQUATIC ) &&
                  here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) );
+
+    // Prevents monsters from surfacing when under a SWIM_UNDER terrain tile.
+    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, destination ) ) {
+        will_be_water = true;
+    }
 
     if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         //Birds and other flying creatures flying over the deep water terrain
