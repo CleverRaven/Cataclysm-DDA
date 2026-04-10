@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.3.11312.210 d18.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04F55049-F0DE-4AE6-9D10-3DB97DFF2E2F}"
 	ProjectSection(SolutionItems) = preProject
@@ -113,7 +113,6 @@ Global
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|ARM64EC.ActiveCfg = Release|ARM64EC
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|ARM64EC.Build.0 = Release|ARM64EC
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.ActiveCfg = Release|x64
-		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x64.Build.0 = Release|x64
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.ActiveCfg = Release|Win32
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release|x86.Build.0 = Release|Win32
 		{2C1ECEE1-9686-4C3C-8DE1-88996EE43378}.Release-NoTiles|ARM64EC.ActiveCfg = Release-NoTiles|ARM64EC
