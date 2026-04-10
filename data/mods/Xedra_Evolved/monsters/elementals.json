@@ -914,6 +914,7 @@
     "dodge": 1,
     "harvest": "demihuman",
     "dissect": "dissect_homullus_single",
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "id": "slam" } ],
@@ -956,7 +957,7 @@
       { "id": "scratch", "max_mul": 1.5 }
     ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
@@ -976,7 +977,7 @@
     "material": [ "clay" ],
     "symbol": "X",
     "color": "brown",
-    "aggression": 0,
+    "aggression": 10,
     "morale": 100,
     "aggro_character": false,
     "melee_skill": 6,
