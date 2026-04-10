@@ -281,13 +281,6 @@
     "name": { "str_sp": "Titanium Skeletal Bracing CBM installation data" }
   },
   {
-    "id": "AID_AF_bio_trickle",
-    "type": "ITEM",
-    "copy-from": "AID_AF_abstract",
-    "name": { "str_sp": "Trickle Charger CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of a Trickle Charger CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
-  },
-  {
     "id": "AID_AF_bio_pitch_perfect",
     "type": "ITEM",
     "copy-from": "AID_AF_abstract",
