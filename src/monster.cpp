@@ -2149,11 +2149,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
-    // Prevent monsters from attacking THROUGH terrain if they are submerged under it.
-    if( is_underwater() && here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ) {
-        if( !target.is_underwater() ) {
-            return false;
-        }
+    // Prevent monsters from attacking THROUGH terrain if they are submerged under it & target isn't.
+    if( is_underwater() && !target.is_underwater() &&
+        ( here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, pos_bub() ) ||
+          here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, target.pos_bub() ) ) ) {
+        return false;
     }
 
     const int monster_hit_roll = melee::melee_hit_range( accuracy );
