@@ -5096,10 +5096,6 @@
       { "covers": [ "head" ], "encumbrance": 20, "coverage": 80, "specifically_covers": [ "head_forehead" ] },
       { "covers": [ "head" ], "encumbrance": 5, "coverage": 40, "specifically_covers": [ "head_crown" ] }
     ],
-    "passive_effects": [
-      { "id": "nvg_great" },
-      { "id": "THERMAL_VISION_GOOD" },
-      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
-    ]
+    "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "id": "AR_targeting_system" } ]
   }
 ]
