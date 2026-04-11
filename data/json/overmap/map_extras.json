@@ -512,7 +512,6 @@
     "sym": "^",
     "color": "dark_gray",
     "autonote": true,
-	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
