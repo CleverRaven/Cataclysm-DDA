@@ -116,6 +116,7 @@
     "sym": "X",
     "color": "red",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -141,6 +142,7 @@
     "sym": "C",
     "color": "yellow",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -261,6 +263,7 @@
     "sym": "S",
     "color": "yellow",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "SPIDER" ]
   },
   {
@@ -273,6 +276,7 @@
     "sym": "W",
     "color": "yellow",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "WASP" ]
   },
   {
@@ -351,6 +355,7 @@
     "sym": ".",
     "color": "brown",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "CLASSIC" ]
   },
   {
@@ -508,6 +513,7 @@
     "sym": "^",
     "color": "dark_gray",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -645,6 +651,7 @@
     "sym": "W",
     "color": "yellow",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "WASP" ]
   },
   {
@@ -657,6 +664,7 @@
     "sym": "D",
     "color": "brown",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "WASP" ]
   },
   {
@@ -678,6 +686,7 @@
     "sym": "X",
     "color": "yellow",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
