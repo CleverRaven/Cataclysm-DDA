@@ -32,7 +32,7 @@
     "//COMMENT": "There is intentionally no death function here, GUILT_HUMAN is special-cased to apply the same penalties as murdering a NPC.",
     "death_function": {  },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "upgrades": { "half_life": 4, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
+    "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
