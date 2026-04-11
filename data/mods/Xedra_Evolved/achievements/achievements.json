@@ -6,6 +6,48 @@
     "requirements": [ { "event_statistic": "num_avatar_casts_banish", "is": ">=", "target": 1 } ]
   },
   {
+    "id": "achievement_banish",
+    "type": "achievement",
+    "name": "āšipu",
+    "requirements": [ { "event_statistic": "num_avatar_casts_banish", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_banish",
+    "type": "achievement",
+    "name": "Solomon",
+    "requirements": [ { "event_statistic": "num_avatar_casts_banish", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_banish",
+    "type": "achievement",
+    "name": "Shiro Fujimoto",
+    "requirements": [ { "event_statistic": "num_avatar_casts_banish", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_summon",
+    "type": "achievement",
+    "name": "John 'Faust' Cataclysm",
+    "requirements": [ { "event_statistic": "num_avatar_casts_summon", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_summon",
+    "type": "achievement",
+    "name": "Circe",
+    "requirements": [ { "event_statistic": "num_avatar_casts_summon", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_summon",
+    "type": "achievement",
+    "name": "Abe no Seimei",
+    "requirements": [ { "event_statistic": "num_avatar_casts_summon", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_summon",
+    "type": "achievement",
+    "name": "Baba Yaga",
+    "requirements": [ { "event_statistic": "num_avatar_casts_summon", "is": ">=", "target": 1000 } ]
+  },
+  {
     "id": "achievement_kill_changeling",
     "type": "achievement",
     "name": "Smashed a pixie.",
