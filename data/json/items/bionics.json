@@ -605,7 +605,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Hydraulic Muscles CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A hydraulic muscle support system that when active, increases the user's strength by 20.",
+    "description": "A hydraulic muscle support system that, when active, sets the user's strength to 20.",
     "price": "4 kUSD",
     "price_postapoc": "60 USD",
     "difficulty": 6
