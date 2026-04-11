@@ -400,7 +400,7 @@
     "id": "AR_targeting_system",
     "type": "enchantment",
     "name": { "str": "Adaptive targeting system" },
-    "description": "Your AR HUD includes an adaptive targeting system, making firearm target acquistion easier.",
+    "description": "Your AR HUD includes an adaptive targeting system, making firearm target acquisition easier.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ]
