@@ -3404,7 +3404,7 @@ void npc::on_unload()
 
 void npc::update_bodytemp_and_wetness()
 {
-    if(  needs_food() ) {
+    if( needs_food() ) {
         update_bodytemp();
         update_body_wetness( *get_weather().weather_precise );
     }
