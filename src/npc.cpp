@@ -3404,8 +3404,10 @@ void npc::on_unload()
 
 void npc::update_bodytemp_and_wetness()
 {
-    update_bodytemp();
-    update_body_wetness( *get_weather().weather_precise );
+    if(  needs_food() ) {
+        update_bodytemp();
+        update_body_wetness( *get_weather().weather_precise );
+    }
 }
 
 // A throtled version of player::update_body since npc's don't need to-the-turn updates.
