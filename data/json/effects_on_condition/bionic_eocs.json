@@ -154,7 +154,6 @@
     "type": "effect_on_condition",
     "id": "bio_noise_gasoline",
     "condition": { "and": [ { "u_has_bionics": "bio_fuel_cell_gasoline" }, { "one_in_chance": 900 } ] },
-    "condition": { "u_has_bionics": "bio_fuel_cell_gasoline" },
     "effect": [ { "u_make_sound": "*ENGINE IDLES*", "volume": 15, "type": "movement" } ]
   },
   {
