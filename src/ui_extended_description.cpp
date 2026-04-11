@@ -79,7 +79,7 @@ void draw_extended_description( const std::vector<std::string> &description, cat
         if( s == "--" ) {
             ImGui::Separator();
         } else {
-            cataimgui::TextColoredParagraph( c_light_gray, s );
+            cataimgui::draw_colored_text( s, c_light_gray );
             ImGui::NewLine();
         }
     }
