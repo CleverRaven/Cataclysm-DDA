@@ -79,7 +79,6 @@ void draw_extended_description( const std::vector<std::string> &description, cat
             ImGui::Separator();
         } else {
             cataimgui::draw_colored_text( s, c_light_gray );
-            ImGui::NewLine();
         }
     }
 }
