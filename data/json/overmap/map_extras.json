@@ -104,6 +104,7 @@
     "sym": "X",
     "color": "blue",
     "autonote": true,
+	"see_from_afar": true,
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -263,7 +264,6 @@
     "sym": "S",
     "color": "yellow",
     "autonote": true,
-	"see_from_afar": true,
     "flags": [ "SPIDER" ]
   },
   {
@@ -276,7 +276,6 @@
     "sym": "W",
     "color": "yellow",
     "autonote": true,
-	"see_from_afar": true,
     "flags": [ "WASP" ]
   },
   {
