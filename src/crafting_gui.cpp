@@ -1105,7 +1105,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 const std::string chance_str = string_format( "~%.0f%%", success );
                 const std::string time_str = approx_craft_time( expected_turns );
                 const std::string activity_str = string_format( _( "%s activity" ), activity_lc );
-                const int total_yield = recp.makes_amount() * batch_size;
+                const std::string total_yield = string_format( "%d", recp.makes_amount() * batch_size );
 
                 // Single format string so translators can reorder parts.
                 // Plain version for width measurement, colored for rendering.
@@ -1116,7 +1116,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
                     const std::string fmt = _( "%1$s chance to yield %2$d in %3$s of %4$s" );
                     plain = string_format( fmt, chance_str, total_yield, time_str, activity_str );
                     colored = string_format( fmt,
-                                             colorize( chance_str, success_col ), total_yield,
+                                             colorize( chance_str, success_col ),
+                                             colorize( total_yield, c_cyan ),
                                              colorize( time_str, c_cyan ),
                                              colorize( activity_str, activity_col ) );
                 } else {
