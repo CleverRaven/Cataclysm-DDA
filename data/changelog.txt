@@ -7,7 +7,6 @@
 
 ## Features:
 Toggle to highlight OMTs revealed by maps
-Allows dormant zombie types to be defined easily, with a simple new monster flag
 [Mods] Non NE region mods have different day/night times dependant on their setting
 add a profession condition for EOCs
 Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now
@@ -17,7 +16,6 @@ Allow whitelisting and blacklisting hobbies in scenarios, professions, and globa
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled)
 Allow the Chimera thershold trait as a wildcard for most post-threshold traits
 You can shatter zombies' torso armour by hitting them real hard
-Unhardcode KI strike / Drunken master
 Make power grids easier to disconnect, reconnect, and merge parts to
 Adds a new trait, Tiny Stomach
 Make butchering a resumable activity
@@ -36,7 +34,8 @@ Make salvaged combat exoskeletons repairable
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
 Allow some small parts to be installed on helicopters
-Smartphones, can reveal some of the map around where it was picked-up
+Smartphones can reveal some of the map around where it was picked-up
+Show preview of selected construction in the construction menu and when placing construction
 EoC function to allow checking/setting trait purifiability during gametime
 Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
@@ -96,7 +95,7 @@ NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
 Static NPC factions have their own camps and food stores
 Neutral NPCs may now be shoved
-Framework to support Mortar
+Framework to support mortar-like long range attacks
 Add activity to continually bash something until it's destroyed
 Items in transparent pockets on the map illuminate surroundings
 
@@ -198,7 +197,7 @@ Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 Adds a new fungus infested mapgen
 Adds new end screen for thresh types, and a unique one.
-Fungal brute and hulk
+Fungal brute and hulk, more fungalized stages for other zombies
 Massive expansion of dialogues and messages for various categories
 Add a random NPC class that knows how to fly
 Adds in new .357, .44, and .22 LR lever-action rifles
@@ -235,7 +234,6 @@ Adds new rails vehicles
 Add in pride/pronoun pins
 Add in the guns S&W 617, Ruger PCC, and Marlin Model 60
 Adds large wicker baskets
-Dormant zombies map extra
 Missile silos are decommissioned
 26 and 153 round magazines for the PA md. 68
 Added more flooded basements
@@ -247,11 +245,10 @@ FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
-Adds a new nether monster
+Adds a new nether monster: Eldritch Huntsman
 Snippetize Tshirt variants
 Exodii Ceramics
-Opiate Vitamin
-Add arab and islamic clothes for women
+Add Arab and Islamic clothes for women
 Adds a few other scavengeable options for anvils
 Add buildable sturdy wooden shutters for your windows
 Add a sunken helicopter location
