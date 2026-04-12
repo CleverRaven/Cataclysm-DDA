@@ -1019,24 +1019,24 @@ Fix special attacks overwriting cooldown values to zero
 
 ## Performance:
 Slightly fewer allocations in npc::process_turn
-Optimized creature iteration during monster planning and parrot_at_danger.
+Optimized creature iteration during monster planning and parrot_at_danger
 Optimize monster flag checking.
 Increase pathfinder performance
-Optimize stationary vehicle performance when they contain a lot of items.
+Optimize stationary vehicle performance when they contain a lot of items
 Optimizing mostly item to reduce load-time allocation by over 20%
-Optimize creature vision checks.
+Optimize creature vision checks
 Optimize hot item function to save ~6.7% of game load time
-Skip MGOAL_Find_Item if the player is busy.
+Skip MGOAL_Find_Item if the player is busy
 Avoid wasteful loop in map special road connections
-Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
+Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
-cache available recipe list in craft menu
+Cache available recipe list in craft menu
 Optimize typed coordinate conversion functions for widespread savings
-NPCs take less time to check for enemies.
+NPCs take less time to check for enemies
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
-Backport Don't unnecessarily copy items in a tight loop in get_uncraft_components
+Don't unnecessarily copy items in a tight loop in get_uncraft_components
 Reduce unnecessary/duplicate checks for dangerous tiles
 Cache the absolute map square position of the first submap
 Cache mutation trait flags
@@ -1046,8 +1046,8 @@ vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
 Speed up mapgen especially noticeable in Sky Islands
-don’t call std::pow for squaring numbers
-don’t compute the size of far away hordes when drawing the world map
+Don’t call std::pow for squaring numbers
+Don’t compute the size of far away hordes when drawing the world map
 
 
 ## Infrastructure:
