@@ -1117,7 +1117,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                     plain = string_format( fmt, chance_str, std::to_string( total_yield ), time_str, activity_str );
                     colored = string_format( fmt,
                                              colorize( chance_str, success_col ),
-                                             colorize( std::to_string( total_yield ), c_cyan ),
+                                             colorize( std::to_string( total_yield ), c_light_blue ),
                                              colorize( time_str, c_cyan ),
                                              colorize( activity_str, activity_col ) );
                 } else {
