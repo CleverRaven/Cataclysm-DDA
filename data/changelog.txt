@@ -1054,21 +1054,19 @@ Don’t compute the size of far away hordes when drawing the world map
 Items warn on exceeding max volume, unify max volume as a game constant
 Migrate names to snippets & add weighted snippets
 Effect enchantments can now apply to monsters
-Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
-Added SMALL_HIDER flag to various monsters.
+Added SMALL_HIDER flag to various monsters
 Test case: NPCs prefer to use guns
 Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
 EOC proficiency adjustments use normal training route by default
 Improve spell checker tokenization and reporting
 Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
-Use test enumerating item spawns to make assertions about the rate of appearance of different items.
+Use test enumerating item spawns to make assertions about the rate of appearance of different items
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
-refactored ImTuis drawing code to fix a black screen issue, and to improve performance
-refactor cataimgui::draw_colored_text
+Refactored ImTuis drawing code to fix a black screen issue, and to improve performance
+Refactor cataimgui::draw_colored_text
 Create header for forward declarations of point types
 Check DPS of all items with sufficient DPS
-Add IRRITANT_IMMUNE flag for describing immunity to skin irritants
 LIXA connect_group
 Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
@@ -1077,47 +1075,34 @@ Quick setup at start for debug worlds/characters
 Random NPC classes can define weighted chance of spawning, relative to other random NPC classes
 Specify see_cost for overmap terrain with an enum instead of an integer
 Add Flathub download button and Flatpak manifest
-[EOC] Support user-input text in EOC (similar to num_input in `math`)
+Support user-input text in EOC (similar to num_input in `math`)
 Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
-Migrate ACT_PULP to the new activity actor system.
+Migrate ACT_PULP to the new activity actor system
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
-[DEBUG] Modify hordes through overmap editor
 Added palettes to use parameters more generally
-debug dialogue + talk_topic menus
 Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
-Refactoring armor order from Cody
 Allow construction pre_terrain to be a list of alternatives
-Refactoring Hub01 dialogues
 Remove furniture/terrain legacy alias code and JSON
 Adds bash_scaling fields to use with spells
 Replace some player responses with snippets
 Make mutation able to use mana as resourse without EoC
 Mod Compatibility 2: Prevent Error from duplicate ids within mod_interactions folder
-Remove duplicated code to generate origin string
 Add controlling_vehicle EOC condition
-debug dialogue + talk_topic menus
 Tutorial content moved to a mod, keybind snippets work outside of tutorial
 Spell activated EoCs are passed the target as a context val location variable spell_location
-terrain/furniture: code deduplication and improved copy-from support
-Add a new event for when worn armor is detroyed by damage.
-allow furniture/terrain copy-from for symbol, color
-Add a new Energy Shield type of armor for use in mods.
+Terrain/furniture: code deduplication and improved copy-from support
+Add a new event for when worn armor is detroyed by damage
+Allow furniture/terrain copy-from for symbol, color
+Add a new Energy Shield type of armor for use in mods
 Roof palette has more built-in nests
-obsolete unused generic NPC classes
-abstractify basic walls
 u_/npc_forget_recipe can use categories and subcategories in place of individual ids
-Add std::string wrappers for ImGui::InputText* methods
-Adds a guide to the development process
 Allow variable objects and math expressions to be used as widget variables
-fill_ter accepts parameters
-Merge commits from 0-H-Branch into master and update appstream file
 Traps can directly trigger EoCs as their action
 Replace point constants with static class members
 Upgrade ImGui to version to 1.91.5
-less verbose reading of layering.json
 Imgui input popups
 Retired mingw cross compile build
 Script for updating Translate Complex Dialogue mod
@@ -1126,15 +1111,11 @@ Allow more customizable XP costs for spell leveling
 Improve test coverage of mod combinations with mod_interactions
 Tests now run in a guaranteed order (lexicographic) by default (can be overriden with cli argument)
 Streamline Vertical Movement While Levitating and Flying
-Make enchantment mutations work again
-Added Imgui demo screen (and style editor) to the debug menu
-clang-tidy output is a bit more readable on windows
-migrate map-size related constants to new file, unmagic related constants
-Debug recipes for tests: first
+Clang-tidy output is a bit more readable on windows
+Migrate map-size related constants to new file, unmagic related constants
 Make clang-tidy feedback on GitHub much more responsive
 Item price and price_postapoc must be denominated (cents/USD/kUSD). Integer values no longer used
 NPC snippets overhaul
-Refactor `ammo_effect_BOUNCE`
 Add magic_type to deduplicate shared spell fields and reduce hardcoding
 Add ability to debug spawn item groups and specify amount of repeats when testing
 Bump minimum supported macOS version to 10.15 (macOS Catalina)
@@ -1144,8 +1125,6 @@ Remove ghc/filesystem polyfill
 Create user mods dir automatically
 monstergroup name field changed to id
 Shotgun shell dispersion refactor
-electronic storage overhaul
-remove legacy electronic storage code + small e-storage fixes
 Send debug messages to Windows debugger
 Add starting_cash field to professions JSON
 Vending Machines can optionally use your Bank Balance
@@ -1157,31 +1136,18 @@ Allow extending/deleting connect_groups/connects_to/rotates_to
 Make spell difficulty accessible in math
 Add max_worn field, migrate ONLY_ONE flag
 Upgrade clang-tidy to LLVM 18
-generic factory std::map support + islot_comestible -> generic factory
-Added bank palette
-Removed outdated house_w_foundation_palette & house_nest_palette
 Unified basement palettes
 Improve error reporting
-Add `--limit-debug-level` to test main
-generic factory supports damage_instance and islot_gun
-Reworked the trash itemgroups
 Refactor wield
 EOCs for vehicles
 Introduces 'light_multiplier' weather_type.json property
-generic factory bound_reader
-Uncanny Dodge Logic Update
 Make AIM actions testable
-generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
-generic_factory: islot_mod, islot_gunmod, islot_tool
 Allow setting 0 spoil time to enable copy-from for 0 spoiling
-add some AIM tests
 Warn on load if files have been modified
-standardize query_int()
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
 Zstandard compressed save data for disk space savings.
-bulk overmap testing debug tools
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
