@@ -627,12 +627,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Hey, that's against the Geneva Convention!  When completely unarmed, you take -25% reduced damage.",
-    "enchantments": [
-      {
-        "condition": { "and": [ { "not": "u_has_weapon" } ] },
-        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
-      }
-    ]
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
