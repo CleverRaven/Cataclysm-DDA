@@ -296,7 +296,7 @@
     "id": "broken_medibot",
     "symbol": ",",
     "color": "white",
-    "looks_like": "broken_tribot",
+    "looks_like": "broken_tripod",
     "name": "broken surgical droid",
     "category": "other",
     "description": "A broken surgical robot, now crumpled and inert.  Could be stripped down for parts.",
