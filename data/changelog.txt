@@ -98,6 +98,7 @@ Static NPC factions have their own camps and food stores
 Neutral NPCs may now be shoved
 Framework to support Mortar
 Add activity to continually bash something until it's destroyed
+Items in transparent pockets on the map illuminate surroundings
 
 
 ## Content:
@@ -474,6 +475,7 @@ Describe stat level in new character window
 [Xedra Evolved] Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
 [Xedra Evolved] Add playable dhampirs
 [Xedra Evolved] Add feral vampires, put them in house nests + caves
+[Xedra Evolved] Wolves Can't Talk
 [Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
 [Xedra Evolved/Sky Island] Elemental fae are at home on the island
 [Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
@@ -554,6 +556,7 @@ Describe stat level in new character window
 [MoM] Add psychic knacks
 [MoM] Add possible `Mathematican A57` boss fight to Research Facility
 [MoM] Add Achievements
+[MoM] NPCs can awaken in portal storms
 [MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
 [MoM/XE] Ierde and powerful vampires are immune to telepathy
 [MoM/CrazyCata ] Rename Metaphysics to "woo woo"
@@ -652,6 +655,7 @@ Describe stat level in new character window
 [Bombastic Perks] Sword and sorcery-esque perks
 [Bombastic Perks] Add a bunch of new perks to Bombastic Perks
 [Bombastic Perks] Below the Belt perk
+[Bombastic Perks] Make perks unpurifiable
 [Bombastic Perks/MoM] Add MoM-specific perks
 [Bombastic Perks/Magiclysm] Limit metamagic perks to Magiclysm
 [Isolation Protocol] Autodoc safe room variant
@@ -664,8 +668,9 @@ Describe stat level in new character window
 [Martial Mastery] Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
 [Martial Mastery] Add three new defensive perks.
 [Martial Mastery] Many New Perks.
-[Innawood] Removes man-made trash from stream loot spawns.
-[Innawood] Add Makeshift hand-crank charger and magnetite ore.
+[Innawood] Removes man-made trash from stream loot spawns
+[Innawood] Add Makeshift hand-crank charger and magnetite ore
+[Innawood] Lowers electronic skill requirement of clay car batteries from 3 to 2
 [The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
 [Crazy Cataclysm] Add the immortal snail as second nemesis
 [Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
@@ -771,67 +776,58 @@ Some recipes have 'hard' proficiency requirements
 Expanded spawns for some proper melee weapons
 Adjust Precise Strike melee tech so it also cant stun what other stun-causing techs cant stun.
 Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
+You can use all kinds of ropes in all constructions now
+NPCs can develop vitamin diseases
+NPCs can overeat, starve, and dehydrate to death
+Make pupating zombie explosion quieter
+Cotton patch can be used to stop bleeding
 
 
 ## Bugfixes:
-Food continues to rot at temp above 63C
-clarify repeater mod installation and add a vanilla quest for them
+Food continues to rot at temp above 63°C
+Clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Autodrive over bridges
 Stable vehicle speeds with autotravel
 Count charges in all nearby smoking racks to crafting inventory
-Fix crash from reachability zones checking dead NPCs.
+Fix crash from reachability zones checking dead NPCs
 Fixes issue where some CBMs could be taken off via forcing a pet to wear them
-You can use all kinds of ropes in all constructions now.
-Did you know we didn't have any hallucinations for a while? now they're back, baby!
-fix #71673, gives Chris’s body clothes.
-Sheet metal is Low Carbon Steel
-[Magiclysm] Fix Restoration duration
 Hint that you need to return to the Representative for the Exodii Recon Mission
-'A shadow?' is no longer a pinball.
+'A shadow?' is no longer a pinball
 Fixes excessive shadow lieutenant warnings
-[Magiclysm] Add "spell_class": "KELVINIST" to Extinguish
 Fix 32 bit integer overflow in bionic power level calculations
-[Xedra Evolved] Fix Homullus fae ban
 Say which specials could not be placed.
-Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
-[Magiclysm] Fix Peaceful Rest hobby
-NPCs can overeat, starve, and dehydrate to death
 Implemented drawing of non-English characters in ImGui screens
 Fixed monsters which regenerate in the dark regenerating in daylight
-Fix migrating from item variants when the variant has been deleted
-NPCs can develop vitamin diseases
-fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
+Fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
 Fixes issue where loading a forge with coal does not work
-fixed issue where ImGui processes input that happens with no ImGui screens visible
+Fixed issue where ImGui processes input that happens with no ImGui screens visible
 Rest quality is not always positive, negative rest quality will slow your bandaged healing 
 Fixes ImGui keybindings UI not allowing the user to scroll
-fixing issues where ImGui popup changes size sporadically. Fix issue where keybindings filter box deactivates unexpectedly
-fixes issue where all ImGui windows display wrong when the window scaling is not 1
+Fixing issues where ImGui popup changes size sporadically. Fix issue where keybindings filter box deactivates unexpectedly
+Fixes issue where all ImGui windows display wrong when the window scaling is not 1
 Fixed issue where new ImGui popup does not obey the default option requested by user
 Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
 Fixed frame lag in imgui text inputs
 Fridges do not drop 999 kilo of copper when disassembled
 Cureall Effect (Panacea) now cures early stages of cold and flu
 Fixed arrows disappearing when unwielded
-Make pupating zombie explosion quieter
 Fixed issue where new ImGui popup does not obey the default option requested by user
 Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
 Fix segfault-causing error in _characters_nearby
 Fix shotgun speedloader and speedloader chute
-Do not try to unload your bow when it is not loaded.
-Favorite ammo must be on the avatar.
+Do not try to unload your bow when it is not loaded
+Favorite ammo must be on the avatar
 Fix split vehicles always using the incorrect pivot point
 Transformed active mutations (extended claws etc) properly cause instability
 Only count CONTAINER type pockets in the pickup inventory
 Allow select-all when highlighted item is non-selectable
-Eddie can talk about his father.
+Eddie can talk about his father
 Fixes issue where ImGui popup doesn't wrap buttons to a new line when the overall length is too long
 Wet Towels No Longer Prompt to be Turned Off
-Maybe prevent rare crater generation error
-AIM: Now moving all items will not move favourite items, if other items are present.
-Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
+AIM: Now moving all items will not move favourite items, if other items are present
+Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
 Fixed arrows disappearing when unwielded
 Fix for massive slowdown when NPC crafting speed drops below 0.0
@@ -840,104 +836,73 @@ Fixes issue where loading a forge with coal does not work
 Characters' spellbooks will not load invalid spells
 Prevent segfault when butcher target disappears
 Make Skunks Less Bloodthirsty
-Oops - remove cramped space when no longer cramped
+Remove cramped space when no longer cramped
 Correctly display the cost to learn the proficiency
 Hordes won't wander without a reason
 Allow using hotkeys to select spells in other categories
 Monster difficulty (and exp for killing them) cannot be lower than 1
 Fix connections like roads sometimes failing to gen on cityless overmaps
-Correctly display pain penalties.
+Correctly display pain penalties
 Removes Railgun Fouling
 Save achievement files with valid and unique names
 Monsters with PATH_AVOID_DANGER flag will more reliably avoid fire and other dangerous fields
 Fix extension cords falling off when items are turned on
 Properly warn if food will cause you to overeat
-Not to shatter already shattered armor.
+Not to shatter already shattered armor
 Make farm plots re-tillable in farming extension version 2
 Break fake vehicle parts when the real part breaks
 Fixes OM Terrains triggering their exit_eoc on entry instead of correctly triggering their entry_eoc
-Raw copper wire (weighing 4.747 g) can no longer be disassembled into copper (5 g). New recipe to turn raw copper wire into copper.
 Stop birdshot from firing 20 projectiles, each of which has the power of 100 projectiles
 Travel to no longer cancels on moving up/down on a ramp
 Offspring inherit friendly value from parents to prevent conflict with tamed parents
 LIXA teleport death bugfix
-[Magiclysm] Dust Reborn clears rads
 Fix rat aggression
 Fix android build
 Clean water in tanks now stays clean
 Webs, sludge, and sap no longer give you superhuman dodge and melee accuracy
 Sealed recipes won't seal #71878
-Readd condom flavours
 New England Community Church also dislikes rabbit and bat mutants
-fixes appliances turning off randomly
+Fixes appliances turning off randomly
 Fixing drawing of fallback tiles for weather on overmap
 Limit shot targets to the reality bubble
-Remove acid bombs
-gate close displacement bugfix
-Actually removes acid bomb
-Prevent the unique Isherwood Migo Tower from Spawning in Innawoods.
-[Bombastic Perks] Make perks unpurifiable
-bugfixes related to burning buildings
-Civilianize Semi Auto MP40
+Prevent the unique Isherwood Migo Tower from Spawning in Innawoods
 Stop wasting dodge attempts on things you can't even see
-[MoM] Fix possibility of studying new powers concurrently.
 Wrong header restoring saved AIM layout
 Provide insertion failure reasons from only eligible pockets
 Prevent segfault when unloading from spillable container
-safer NPC ranged weapon use
-XE Undine and Salamanders no longer sweat
+Safer NPC ranged weapon use
 Prevent segfault when target of firstaid_activity_actor disappears
 Prevent segfault if repair item disappears
 Prevent negative array index for floor_cache
 Set owner of disassembly result
 Avoid crash when the character has no proficiencies and we press enter on them inside Character menu "@
 Prevent phantom cramped space on empty tiles
-increase Flame Immunity heat resist so you're actually immune to fire for real this time
-Removes superglue recipe
+Increase Flame Immunity heat resist so you're actually immune to fire for real this time
 Reading maps will reveal previously partially revealed tiles
 Prevent div by zero crash in mana widget
 Mutinous NPCs no longer follower your rules
 NPCs can use C4
 Booby trap releases a live grenade that will actually explode
-[MoM] Powers should not be directly teachable
-Allow operand number formats on g++14
 Prevent segfault when refitting item in spillable container
 Treat hostile NPCs as unsafe even if your safe mode rules don't match.
 Genetic chaos no longer mutates Perks
-Prevent crash from -1 array idx when searching zones
-[Xedra Evolved] Wolves Can't Talk
-ImGui doesn't respect font settings #73019
 Superglue isn't super dense anymore
-Adds jack-o'-lantern recipe byproducts
-Reach attack around corners
 Reach attack around corners
 Fix NPC butchering requirements
 Fixed segfault when monster tries to grab-drag another monster out of reality bubble
 Prevent being teleported beyond OVERMAP_DEPTH
 NPC flee from being run over by vehicles
-fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
-[XE/Magiclysm] No wizard cats
 Fixed hair growth and balding issue in appearance_eocs.json
 HUB01 templates' spawn is more predictable
-[MoM] Fix Missing mind shield (0.H Backport)
-Fixes AIM layout #76606
-[Isolation Protocol] Fix trailing spaces
 Cameras can now be charged and they all consume one battery charge per usage
-Change X95 to 556
 Avoid JSON errors on Windows with no sound devices
-Move Zombio Bio Operators to No Hope
-Adjust spawns of .22
-Allow tiny continuous power draw in electronic devices.
+Allow tiny continuous power draw in electronic devices
 Don't take integrated and no-takeoff items when mugging
-Remove Military Professions mod
 GUI Loading screen shows progress again
 Prevent sidebar crash when trying to divide by zero
-[Xedra Evolved] No werealfs
 Fixed crash on trying to unwield heavy items when trying to drive
-Fixes species of feral wizards and feral butchering
 Cabin in Safe Place scenario is now actually safe
-[MoM] NPCs can awaken in portal storms
 Start of cataclysm day and start of game day now respect season length
 Fixes #76414, Can't activate item - character instead tries to eat it.
 No longer able to wear already worn items
@@ -946,69 +911,43 @@ Don't apply additional move cost for moving barefoot in deep water
 Fixed a crash when using the 'set of clothes' item
 Fix non-battery charge consumption of active items
 Heating elements no longer drop from smashing the fume hood
-Cotton patch can be used to stop bleeding
 No salvage for ballistic plates
 Forbid drinking liquids underwater for characters with `Aqueous Repose` and `Embrace of the Waters` mutations, as it stated in mutations' descriptions
 New appliances have correct owner
-Minor gun fixes
-Fix flatlander not using special attack
 Battery charger appliances now work when outside the reality bubble
 Dropped lit cigarette won't start fires if there's no flammable terrain, furniture, or items on that tile
 Use correct symbols for vehicle front corners
 Invalid recharge type and instant book reading
 Fix scenario spawns
-Stop 20x melatonin spawns
-Debug log no longer one entry behind
 'Burst-fire wielded weapon' now actually sets wielded weapon to burst or auto firing modes
-[Xedra Evolved] Fix homullus trait regressions
 Fix shelter and burning building starts
 Camp food can be distributed from vehicle cargo zones
 Bleeding can be stopped with bandages without waiting an extra turn
 Don't apply parkour bonus when moving prone
-[MoM] Purifiable updates
 Calculate correct height when a uilist has desired_bounds not including a height
 Fix: weariness makes hauling faster instead of slower
 Make floors under furniture correct
 Unload zone properly clears auto whitelists
 Stop spawning too many monsters in a cave
-Removes a few handguns, rifles, and a shotgun that didn't meet inclusion criteria
-Fix raw butter calories, add salt to raw butter recipes, Add raw butter as option to recipes that use butter
 Flamethrowers count as firestarters for lighting up bombs
 Forbid starting fires (using firestarters) on water tiles
-[Xedra Evolved] Fix Eater's sixth sense trait
 Fragile and Sturdy flags cannot be inherited
-[Xedra Evolved] Lo Ra'ab
 Faction camp storage zone effective after editing
-Fix: weariness makes hauling faster instead of slower
 Construction blueprints don't require deconstruction tools or decoration materials
-Removes the pockets flag from the cropped hoodies
-[MoM] Fix """""missing""""" EoC id
 Deployed furniture won't be floating anymore if deployed on open air
-Fix minor typos in keybinding descriptions
 NPCs stealing player default name
 Fix zoo scenario spawn
 Fix regression of calculation of the height of a uilist that has a desired_bounds not including a height
-Lowers electronic skill requirement of clay car batteries from 3 to 2
-Cotton patch can be used to stop bleeding
 Reduce `min_cycle_recoil` of IWI Tavor (.223)
 Several tweaks to Respirator bionic
 Allow Portuguese language to be selected in game
-[MoM] Fix mesmerism EoC
-[Magiclysm] Fix high druid typo
 Corrects issue where Feral Soldiers' gear was more damaged than the Zombies
 Show consistent healing quality
 Removes airtight from things that don't meet in game definition of airtight
-crash start rework
-Increased volume of pillows, body-pillow, and capacity of pillowcase
-Monsters spawned via 'place_critter_within' now gain ammo on spawn
 Safe mode only default warns about aggressive creatures that are actually targeting you
 Trail guides and similar things won't change their home town anymore
-popup messages should show up at the correct size (such as when sleeping, waiting, etc)
-Fix duplicate an in exterminatron description
-[Xedra Evolved] Add dinomod check for lilit kcal drain
-remove debug message in add_profession_items()
+Popup messages should show up at the correct size (such as when sleeping, waiting, etc)
 Fix nunez bullet trailer appearing out of nowhere
-[Xedra Evolved] Gracken can't learn dream magick either
 Enable Other Anvils for Isherwood Quest
 Fix mining using a pickaxe always causes an error
 Rural church no longer spawns water heaters in walls
@@ -1016,27 +955,16 @@ Resolve Milling Issues/Errors
 NECC mapgen wrong symbol fix
 Evac shelter no longer has dirt walls
 Fix camp expansion recipes not being available
-drying_rate test displays weather, clears map
-Decreased volume of pillows but made them a little bit heavier
-fix archery_damage_test CI occasional failure
 Fix `bio_blindfold` not working correctly after a save & load cycle
 Make wood axe usable for great axe proficiency practice instead of hand axe proficiency practice
-Don't run item::on_pickup when the item is wielded
 Autodrive doesn't stop due to driving over sludge etc
-better margin of error for test shot_custom_damage_type
-Fix format mismatches in tripoint item vars
 Fix crashing in CURSES without ASCII title art
 Fix penetrating strike
 ALLOWS_TALONS is about talons for feet, not for hands
 Fix headlamp to accept medium batteries akin to a flashlight
 Toggle bionics/deactivate mutations causes bonus stats ignored until next turn
-Several tweaks for using musical instruments
-clear basecamps for tests in clear_map()
-Fix mana-using mutations
 Fixed crash that occurs after loading save and tying to move.
 Make Quenching/Tempered Steel recipes more consistent
-fix limb drying rate and related test data
-crash on keybind reset in UILIST
 Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
 Allow attacking with CANNOT_MOVE flag
@@ -1045,98 +973,48 @@ Fixes displaying of stats for ablative armor
 Fixes SegFault w/ flashlights & attached power
 Peeking out of elevated windows no longer causes you to fall
 Heat radiance now can spread through gas-permeable tiles like chain link fence
-Fix title menu tileset layering error
-color tags texts drawn in item info
-make ammo_effect_WIDE actually work
 Fixes item prefixes (XL/XS) sometimes not being shown in crafting menu
 Fix vehicle not moving when being remotely controlled
 Fix crash when zone-harvesting crops with bad data
-kickboxing and boxing technique conditions
-Innawoods - Fixes trails spawning manmade stuff
 Correct recipe for water purifying to use correct quantity of water
-Items in transparent pockets on the map illuminate surroundings
-Mark some specific furnitures/terrains examine as always allowed in faction territory
 NPC should not wield integrated armor
 Allow commercial fertilizer to be used by zone manager
-[innawood] Crafted batteries are fully charged
 Fix infinite bounce
 Prevent segfault when search gives no hits
-Fix mutation spells learned don't lose when mutation lost
-set default_value bodypart_str_id::NULL_ID() correctly
 Loci Establishment not ending properly
-Fix ierde sleep of stone trait / ban interaction
 Sorting loot: stop player running to items that's not going to be moved
-Fixes scaling of some Paraclesian spells
-Fix spell cost from magic type
 Prevent sorting activity from moving items that somebody works on
 Can always repair simple parts on helicopters, inside or outside
 Allow nested recipes to delete the item, if they dont yield any results.
-Update Overmap Documentation to include field missing from the city specials section.
-fix `map::shoot` bashing items
-electronic storage overhaul migration fix
-Require "Dirt Floor" to be built on dirt with a shovel
 Pathfinding: Avoid NPCs falling down to open air
-fix map cache item/EOC
-clear items in npc_test
 Trading: NPC no longer accept items that would be deleted.
 Fix vehicle parts being unrepairable after removing from vehicle
-fix query popup selector not wrapping
-implement (R)eading e-book requirements, fix etransfer_rate segfault
-chapters are character-mapped for unique books
 Prevent item::charges_per_weight to return overflowed values
-fix E_FILE_STORAGE item location serialization
-fix map cache segfault, remove omt tripoints from map items' operations
-prevent storing multiple copies of the same book
-fix segfault when trying to insert items into container not carried
+Prevent storing multiple copies of the same book
+Fix segfault when trying to insert items into container not carried
 Fix Riot Damage not applying properly to structures multiple z-levels tall
-Audit Overmap Terrains for correct application of Riot Damage
-Make more masks compatible with NVG's
-#79551 Crash calling destructor twice
-fix MISSION_GET_SOFTWARE not finding software
-Fix Chainsmoker having wrong effect on accuracy.
-Fixes a few bugs
+Fix MISSION_GET_SOFTWARE not finding software
 Flawless memory perk is no longer a debuff
 Remove radiation from the nuclear power plant
 Removes electric fields from irradiation plant
-[Xedra Evolved] Fix Changeling multi-court prompting
 Smoking Rack & Kiln: consume time on firing
-Climbing down from a roof does not anger locals
 Item groups don't spawn blacklisted items
 Fixes charcoal kilns producing 0 volume charcoal
 Don't spawn blacklisted items from `container-item` entries in item groups
-improve dialogue condition cache
-[Xedra Evolved] Fix instant chronomancy leveling to max
-Fix missed check < 0 with an unsigned int
-add some missing e-storage fields
-Change large biogas tank crafting recipe to use large propane tank.
+Add some missing e-storage fields
 Auto Pickup menu: fix crash on removing last, add hint, remove artefact after switch from False
-Hook Up MUT_ADDITIONAL_OPTIONS to mutate_category()
-islot_gun: remove bad default ranged damage value
-[MoM] Fix LV429 looks_like
-the prototype menu should not be shown when ask hub01 intercom about HWP for the first time
-Fix garter belt description duplication
-Fixes #79841
-Remove riot damage from gunstores
+The prototype menu should not be shown when ask hub01 intercom about HWP for the first time
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
-'None'-skill crafting counts as max level, not level 0
-[Sky Island] Fix possible painkiller death loop
 Can't craft batches so big that they vanish when the game has nowhere to put them
-[Xedra Evolved] Fix werewolf biting
 Continue with destination activity if route is empty
 Allow moving out of impassable, aquatic treated as swimming, non-swimmers can walk in shallow water
 Book recipes are now available through camp crafting
-Fix ranged_damage automatically extending
 Remove consumed faction camp calorie stores instead of leaving zombie entries
-Special vision save failure
-[Bugfixes] Star vampires no longer drain blood when doing no damage
-Players learning from NPCs while blind and teaching NPCs while blind is now fixed.
-Attempt to increase average autotravel speed when driving on straight roads
-remove landmines from weird places
+Star vampires no longer drain blood when doing no damage
+Players learning from NPCs while blind and teaching NPCs while blind is now fixed
+Remove landmines from weird places
 Fix special attacks overwriting cooldown values to zero
-Scenario still had adult hobbies applied
-Fix drawing items under fields without tiles
-Limit the range of water channels
 
 
 ## Performance:
