@@ -38,7 +38,7 @@
     "copy-from": "abstract_software",
     "type": "ITEM",
     "name": { "str_sp": "encrypted data archive" },
-    "description": "An encrypted archive copied from pre-discontinuty ruins, its effectively impossible to access and thus worthless. Eccentrics might claim an ability to gain useful knowledge from these files, but such methods are more related to augury than to computer science.",
+    "description": "An encrypted archive copied from pre-Discontinuity ruins, its effectively impossible to access and thus worthless.  Eccentrics might claim an ability to gain useful knowledge from these files, but such methods are more related to augury than to computer science.",
     "price": "2 USD",
     "price_postapoc": "2 USD"
   },
@@ -65,7 +65,7 @@
     "copy-from": "afs_software_materialized",
     "type": "ITEM",
     "name": { "str_sp": "astrocartographic data" },
-    "description": "Detailed measurments of gravitational distortion around the Salus system.  Although the data is outdated by several centuries, it remains an useful base for the extrapolation of current conditions.",
+    "description": "Detailed measurements of gravitational distortion around the Salus system.  Although the data is outdated by several centuries, it remains an useful base for the extrapolation of current conditions.",
     "price": "400 USD",
     "price_postapoc": "400 USD"
   },

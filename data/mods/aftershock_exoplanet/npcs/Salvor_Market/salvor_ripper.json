@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SALVOR_RIPPER_INTRO_UNSKILLED",
-    "dynamic_line": "Huh? You barely look like you know your way around a computer, let alone know what I do here.  Why don't you go bother someone else?",
+    "dynamic_line": "Huh?  You barely look like you know your way around a computer, let alone know what I do here.  Why don't you go bother someone else?",
     "responses": [
       {
         "text": "Yeah, I was hoping to start learning here.",
@@ -115,7 +115,7 @@
         "failure": { "topic": "TALK_SALVOR_RIPPER_FAIL" }
       },
       {
-        "text": "Maybe I should...",
+        "text": "Maybe I should…",
         "effect": { "npc_first_topic": "TALK_SALVOR_RIPPER_IGNORE" },
         "topic": "TALK_DONE"
       }
@@ -124,7 +124,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SALVOR_RIPPER_PERSUADE_SUCCESS",
-    "dynamic_line": "&The ripper looks you up and down again.  They nod slowly, as if coming to a decision.  \"Cute, and stupid.  Alright maybe you aren't a complete write-off.  Name's Raxell,  I run this salvage op.  Digital stuff, data, software, archives, that kind of thing.  I don't have time to teach you how to do it, but if you want to buy or sell some stuff, I'm open.\"",
+    "dynamic_line": "&The ripper looks you up and down again.  They nod slowly, as if coming to a decision.  \"Cute, and stupid.  Alright maybe you aren't a complete write-off.  Name's Raxell, I run this salvage op.  Digital stuff, data, software, archives, that kind of thing.  I don't have time to teach you how to do it, but if you want to buy or sell some stuff, I'm open.\"",
     "responses": [ { "text": "Wont be a problem.", "topic": "TALK_SALVOR_RIPPER_MAIN" } ]
   },
   {
@@ -205,7 +205,7 @@
         "condition": { "u_has_item": "ruin_data_mercurial_id" }
       },
       { "text": "What is it that you do here?", "topic": "TALK_SALVOR_RIPPER_EXPLAIN" },
-      { "text": "Thats all for now.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.", "topic": "TALK_DONE" }
     ]
   },
   {
