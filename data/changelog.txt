@@ -97,6 +97,7 @@ Bashed furniture and terrain produce dust fields
 Static NPC factions have their own camps and food stores
 Neutral NPCs may now be shoved
 Framework to support Mortar
+Add activity to continually bash something until it's destroyed
 
 
 ## Content:
@@ -266,73 +267,52 @@ When opening spellcasting menu, go to favorite spells tab if player has favorite
 AIM: when cannot wear, try to wield
 Separate keybinding to select default ammo for RELOAD_AND_SHOOT/RELOAD_ONE weapon
 Show NEW! in List Items menu
-Adding spell name to the casting... widget
-Adding Classless as a supernatural category
+Adding spell name to the in-progress casting widget
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
 Display RAS weapon reload time in aim ui
 Warn on setting an auto feature when auto features are off
-support selecting all npcs
-Change: Container for X -> Pour X into
 Show actual real-world distance to mission objective
 Add selection menu for cosmetic traits in character creation
 Adds message for NPCs completing crafting so it doesn't reference the player incorrectly.
 Add the 12-bit rainbow as color palette option
 NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
 Prevent automatically assigning keys to passive bionics
+Prevent automatically assigning keys to passive mutations
 Zone Manager: "Show All / Hide Distant" highlights selection
 Add sorting by amount and value/volume in advanced inventory search
 Addiction withdrawals are a toggleable distraction
-The filter is reset when you open the construction menu
 Select CC-Sounds as default soundpack if it's present on first run
-Removes XS/XXXL traits from the player display
-Fix message 'There is nothing to pickup'
-migrate uilist implementation to use ImGui
+Migrate uilist implementation to use ImGui
 Allow ebooks in read command
-format `uilist` menu entries with a table
-Prevent automatically assigning keys to passive mutations
-Fix ImGui Demo in curses
-make ImTui render text as text, so that the players can read our spiffy new menus
-toggle to only draw overmap during autotravel
-mouse input in uilists does not block keyboard navigation
-Print church/school bells ringing sound in the message log once again
+Make ImTui render text as text, so that the players can read our spiffy new menus
+Toggle to only draw overmap during autotravel
+Mouse input in uilists does not block keyboard navigation
 Add imgui version of the iteminfo window
 Updated default keybindings for changing start dates in character creation menu
-rewrite the loading screen to use ImGui
+Rewrite the loading screen to use ImGui
 Custom loading screen the game deserves
-wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
+Wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
-Toggle between the map and look around
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
 Repeat survey missions without leaving the interface
-Unify name suffix and profession
 Add daily health widget
 Add labels to structured sidebar tiny bodygraphs
-use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
-Debug reveal map moved to overmap editor, can reveal any overmap
+Use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
 Wrap the text in the menu for choosing your new faction camp type
 Missions track when they were completed/failed
-Add activity to continually bash something until it's destroyed
 Option to set all of a companion's job priorities at once
-Replace popups with informative message when choosing point(s) on the map
 The mission UI can scroll to read longer description
 Added information to crafting menu about crafting speed modifier gained by mutations
 Improved text wrapping in spellbook and spellcasting menus
-Typo, grammar and punctuation pass for ammo descriptions
 Camp crafting uses the normal crafting GUI
 Display the power draw of battery chargers
-Crafting GUI Search: cancel the search with ESC
-use the monospaced font for the ascii art on the end screen
 Increased available space for skills chapter in description tab of character creation menu
 ImGui inherits theme colors
 Sidebar widget to show faction territory
-Revert horizontal separator color back to dark gray
-shorten `memorize` hint in crafting GUI search
-some little improvements to the AIM drop menu
 Allow fine user customization of ImGui colors
 Migrate scores window to imgui
-Audit `satiety`
 Add filter for body part coverage to the crafting GUI
 Add filter for clothing layer to the crafting GUI, AIM, inventory etc.
 Crafting GUI: Filter recipes by what can fit into the result (longest_side, volume, mass)
@@ -341,7 +321,6 @@ Migrate martial arts details window to imgui
 Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 Migrate compare item menu to imgui
-Various misc improvements to camp crafting flow and feedback
 Better skill requirement UI for martial arts
 Scale spell window to spell list and terminal size
 Add recast last spell (Repeat last supernatural ability)
@@ -351,27 +330,19 @@ Set minimum sizes for missions menu UI
 Fix compact aim window
 Fix NPC rules window scaling for small terminal sizes
 Add history to Construction Search
-load all of the user’s chosen font files as fallbacks for ImGui to use
+Load all of the user’s chosen font files as fallbacks for ImGui to use
 Extended description window (x->e) shows potential deconstruction and bash yields
 Focus the default selection in query popups
-Don't hardcode help text: Zones Manager
-Match ImGui `inherit_base_colors`
-Don't hardcode help text: Overmap filter popup
-Don't hardcode help text: List Items filter popup
 Zone manager will expand to match a wider sidebar.
 Add numpad keybinds for panning uilists
-Optionally allows a specific overmap tile to be specified for the debug 'Teleport - to specific overmap' function.
 Add options to sort item list by item name
 Dont show liquids from held or worn container
-Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
-Debug option to view used palette symbols
 Add option to disable mouse
 Add "in use" info to item's name and info if item has "activity_var" var.
 Create a terminal-like default theme for Imgui
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
-Severe hypovolemic shock message now mentions saline infusion instead of transfusion
 
 
 ## Mods:
