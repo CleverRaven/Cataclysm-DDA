@@ -7,59 +7,37 @@
 
 ## Features:
 Toggle to highlight OMTs revealed by maps
-Adds extreme height chargen traits, adds tools for disabled drivers
-Allows dormant zombie types to be defined easily, with a simple new monster flag.
-Provide a way to create a EOC with given alpha and beta talker.
+Allows dormant zombie types to be defined easily, with a simple new monster flag
 [Mods] Non NE region mods have different day/night times dependant on their setting
 add a profession condition for EOCs
-Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now.
-Hub now offers armor set printing after HWP is unlocked
-Implement basic saline infusion to help with blood loss
+Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now
 Adds treetops and makes trees climbable
 Allow bird wings to glide
 Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
-EoCs support mutate_towards directly
-make `u_spawn_item` to support the item group whose subtype is `collection`
-Add u_wants_to_talk/npc_wants_to_talk EOC effects
-Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
-Implement IME pre-edit text for CJK text
-Allow effects disabling (conditional) limb flags
-Threshold substitutions
-Small scale anaerobic digestion system
-Shatter a zombie's torso armour with a good hard hit.
-Limbify Feathered Arms, rework gaining Bird Wings
+Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled)
+Allow the Chimera thershold trait as a wildcard for most post-threshold traits
+You can shatter zombies' torso armour by hitting them real hard
 Unhardcode KI strike / Drunken master
 Make power grids easier to disconnect, reconnect, and merge parts to
-Beast mutants can mutate quills
 Adds a new trait, Tiny Stomach
-Add new hairstyles from Mawranth's Hair Salon
-Unhardcode and limbify attack vectors
-Add new function follower_present for use in JSON
-Graphical construction preview
-Resume butchering
+Make butchering a resumable activity
 The player can swap between defined outfits with the 'set of clothes' item
 Corpses can decay into bones etc (defined as a harvest group)
-Support WASM build via emscripten
 Allow ammo effects to cast spells
 Automatic turrets will not fire guns if they are going to overheat
-Deconstructing now prompts with potential items, can be toggled off in settings
+Deconstructing now prompts you with the list of potential resulting items
 NPC @ menu: Show morale, medical; Change name, gender, armor sprite
-(Currently player only) Factions can take over and loot camps they don't own
+Factions can take over and loot camps they don't own (Currently player only)
 Food can inherit the allergens of materials it was cooked from
-Add conjunctivitis from boomer bile
-Event Bus for Radiation
-Species Based Snare traps
 Add TEMPORARY_SHAPESHIFT flag, use it to recalculate size before standard size flags
-sunset/sunrise appreciation
+Mood effect from sunset/sunrise appreciation
 Add ITEM_WATERPROOFING flag, add to Magiclysm/XE content
 Make salvaged combat exoskeletons repairable
-Add persistent boomer bile effect that causes a stench and skin irritation
-Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
-Allow some small parts on helicopters
-Google Maps
-Dynamic trait purifiability
+Allow some small parts to be installed on helicopters
+Smartphones, can reveal some of the map around where it was picked-up
+EoC function to allow checking/setting trait purifiability during gametime
 Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
 Butchering now require proficiency to do it fast and effectively
@@ -69,87 +47,65 @@ Allow multiple possible loading screens, including from mods
 Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
-Morphic Sizing flag for summoned/magickal items
-Pet feeding tweaks
-Adds a baseball bat recipe
-Flagify animal empathy/discord traits
-Dialogue debug: toggle display of conditionals/effects
 Character randomization sometimes produces 'crossdressing' characters
 Dialogue: JSON fields for displaying hidden responses
 Added check for stealing prior to inserting items into container
-Make garlic smokable
-Grazing animals actually eat grass, and it regrows every season
 Added check for stealing prior to wearing
-Plastic tub audit
-Adds throwing practice tools
-Debug spawn NPC by class id
-EOCs modifying calories track spent calories
-Mutations can have a custom activation message
-modify random NPC starting equipment based on time passed
-Throwing items while piloting mechs (with the mech's assist)
-Faction relationships can be modified through dialogue
-Adds whispering fungi to fungi zombie mongroup.
 Added check for stealing prior to obtaining book to read
 Added check for stealing prior to reloading items
 Added check for stealing prior to activating items
+Adds throwing practice tools
+EOCs modifying calories track spent calories
+Mutations can have a custom activation message
+Modify random NPC starting equipment based on time passed
+Throwing items while piloting mechs (with the mech's assist)
+Faction relationships can be modified through dialogue
 Deconstruct simple furniture in the dark
 Mission deadlines supports dialogue variables
-Add a new appliance, the glassblower's crucible
 Add a new widget to display weight as "##.#/##.#[unit]"
 NPC factions get mad if you mess with their property by smashing or deconstructing it etc
-obsolete generic NPC common classes; use the avatar character generator instead
+Query the player on whether they really want to cut up other people's stuff
 Allow PCs/NPCs to move diagonally during overmap pathfinding
-Rework lumbermill trading
 No lit cigs in inventory anymore, only in hands or in mouth
-Assign bodysuit_lycra a fallback sprite
 Safe crackers guess combinations more accurately
 Fleeing NPCs will now attack player that got too close
 Increase helicopter autotravel speed
-items with POST_UP use_action can be put up on walls 
-Items salvaged from cutting will now be placed in vehicle, if you're cutting them in vehicle
-tile layering supports item variants
-Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
-Query the player on whether they really want to cut up other people's stuff
-Relaxing with Alonso is now fun
-Prompt before oxytorch activity if you don't have enough gas
+Some items can be put up on walls 
 Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
 Add keybind to throw your wielded item
-audio now works on curses mode, not just tiles mode
-Render WORN overlays for ablative pockets
+Audio now works on curses mode, not just tiles mode
 Add unloading hotkey to AIM menu
-Skip Default Backgrounds
-Add part bonus to rotor diameter in thrust calculations
-Revivification by mon_group
-Ask to wield container if parent container is too small to insert items
 Improve blood placement on Riot Damage
-Minor Riot Damage Tweaks
-Refactor the pulping
+Make pulping a resumable activity
 Makes sound effects play in slow motion while the player has slowed down time
-Add ``character_takeoff_item`` event
-Rebalance the chance for armor to be damaged by attacks.
-Allow event character_ranged_attacks_* catch throw attack, add context val is_throw to determine whether the event was triggered by a thrown attack.
 Underground Temperature now depends on Region Settings
-Modinfo Blacklist
-Add a dentist office map
-Item faults
+Mods can blacklist mods they are incompatible with
+Items can now have faults
 Make aggro_character respect anger_relations
-river generation overhaul
-faction camp food supply can expire over time
+River generation overhaul
+Faction camp food supply can expire over time
 Roads cross streams at culverts
 Add Weight Modifying Enchantment
 Query to quick-reveal all nearby wires when revealing wall wires
 Generic tie-down/haul system for furniture on vehicles
-Descriptive recipe names
+Allow pushing/pulling furniture directly onto and off of vehicles that can load them
 Add vehicle enchantments and effects
 Toolmods are removable again, and any tool with screw driving quality can remove them
-Allow pushing/pulling furniture directly onto and off of vehicles that can load them
 NPCs can handle liquids from crafting
 Bashed furniture and terrain produce dust fields
-Highways, JSON portion
+
 
 
 ## Content:
+Add conjunctivitis from boomer bile
+Add a dentist office map
+Add a new appliance, the glassblower's crucible
+Adds whispering fungi to fungi zombie mongroup.
+Add persistent boomer bile effect that causes a stench and skin irritation
+Add new hairstyles from Mawranth's Hair Salon
+Implement basic saline infusion to help with blood loss
+Hub now offers armor set printing after HWP is unlocked
 Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
@@ -850,6 +806,10 @@ Aftershock: Create cryosuit UI elements and power warnings
 
 
 ## Balance:
+Rebalance the chance for armor to be damaged by attacks.
+Relaxing with Alonso is now fun
+Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
+Beast mutants can mutate quills
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
