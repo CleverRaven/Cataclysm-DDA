@@ -346,404 +346,336 @@ Describe stat level in new character window
 
 
 ## Mods:
-Add three new locations to Aftershock
-[ Sky Island ] Warp Pulse UI
-Paraclesian Map extras
-[MoM] Power learning revamp: Biokinesis
-[Sky Island] Lots of updates
-[MoM] Change success formula for psionic powers
-[DinoMod] plesiosaurus
-[MoM] Power learning revamp: Teleportation, Electrokinesis, Clairsentience and Telekineseis
-[Xedra Evolved] Add Great Tree elemental eruption map special
-Aftershock: Add the Port Augustmoon Station
-Add WIP Limb Stuff Mod
-Replace global_val with context_val in Bombastic Perks documentation.
-[Magiclysm] Rebalance enchanted combat loot
-[Magiclysm] Reduce mana cost of some of the spells I've written
-[Magiclysm] Ogre revamp
-[Magiclysm] Greatly increase the number of (weak) spellbooks in people's homes
-Update Galvanic Aura to Concentration power and fix other errors
-[Magiclysm] Add wizard version of LMOE
-[Magiclysm] Add fantasy skin colors
-[Magiclysm] Even more spells
-[XEDRA] Adjust Magnetic Holster Values
-[Magiclysm] Add "of elvenkind" items
-[Magiclysm] Goblin encampment / orc village revamp + additions
-Fix Brackenwight special attack message
-[Sky Island] Take NPCs on/back from raids
-[MoM] Final 0.H Fixes 
-[Magiclysm] Add spells that allow you to gain the various +mana traits
-[Magiclysm] Last Mage on Earth start
-Tamable Wildlife: add Cougars to list of tameables
-[Magiclysm] Add spellcasting proficiencies.
-XE: Trait to avoid learning dream magick
-Too much pain shuts down your powers
-Edit spell UI word choice when using psionics
-[MoM] High levels of weariness turn off your powers
-More specific messages for being unable to use supernatural powers
-[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
-XE: Trait to avoid learning dream magick
-[MoM] Oubliette works on NPCs now
-[MoM] Utilise test_eoc functionality to reduce duplicate conditions
-[MoM] Power maintenance message change
-[DinoMod] Iguanodon
-[Bombastic Perks] Add more perks
-[MoM] Add `city_sizes` parameter to city buildings
-[Sky Island] Add east bunker room upgrades to possible missions 
-[MoM] Rework Far Hand into the "Move items" power and Force Shove into the "move creatures" power
-Tune conveyance spells with scaling modifier
-[MoM] Add the Megakinesis telekinetic power
-[Sky Island] Add buildable north chamber missions and mapgen
-[MoM] Add actual fear effect to Primal Terror telepathic power
-Aftershock: Add two crashed shuttle maps
-[Bombastic Perks] Add Stormwrought line of playstyle perks
-[MoM] Add pseudo tool to nether crystal outcroppings, add that tool as a possibility to contemplation recipes
-[Bombastic Perks] Yet more perks
-[MoM] Add zombie breaker, change MoM zombies to copy-from mon_zombie_base
-[MoM] Fix Force Shove to account for target weight
-[MoM] Add Astral Projection Clairsentient power
-[DinoMod] falcarius
-[Sky Island] Add west bunker room upgrades to possible mission
-[DinoMod] skeletal looks_like fix
-Technomancer pain ignoring spell
-[MoM] Add `city_sizes` parameter to city buildings
-Aftershock: New combat bionics
-[Xedra Evolved] Even more paraclesian powers
-[Sky Island] Upgrade central skylight missions and mapgen
-Aftershock: Add a space station clothes store
-[MoM] Using psionics in or near the Nether is more powerful, but also more risky
-[No Hope] Adds a difficulty setting prompt to determine item spawn rates
-[MoM] Add triffid psions
-Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
-Give Liam opinions in XE
-Add new homullus mutations that increase equipment durability
-Being mute prevents casting VERBAL spells
-[Magiclysm] Being grabbed makes SOMATIC spells harder to cast
-[Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
-Aftershock: Basic Hacking EOCs
-[Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
-Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
+[Aftershock] Merge aftershock and aftershock exoplanet.
+[Aftershock] Heat Crashed Ship
+[Aftershock] Add three new locations
+[Aftershock] Add the Port Augustmoon Station
+[Aftershock] Add two crashed shuttle maps
+[Aftershock] New combat bionics
+[Aftershock] Add a space station clothes store
+[Aftershock] Add poison based bullets, grenades and 'toxic flamethrower'
+[Aftershock] Basic Hacking EOCs
+[Aftershock] Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
 [Aftershock] Add the Esper scenario
-Aftershock: Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
-Psionic powers say "Power level" instead of "Spell level" in the UI
-[MoM] Torrential channeling research no longer has required proficiencies
-Aftershock: Add urban farms as town buildings
-Summon Mojocycle gets better at lvl 10
+[Aftershock] Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
+[Aftershock] Add urban farms as town buildings
 [Aftershock] Add the Esper scenario
 [Aftershock] Esper additions
 [Aftershock] Adds one the Solar Array Overmap special to Aftershock.
-Give some map extras CLASSIC tag
 [Aftershock] Add Spark to Esper scenario
 [Aftershock] Add two versions of the Exosuit Garage,  travel to Port Augustmoon, 6 variants of Enclosed Parks to the Exoplanet, and Enforcer station for Aftershock
-[Xedra Evolved] Vampires can just drink blood.  They can just drink it
-[TropiCata] Audit and balance pass on termites and termite accessories
-[Magiclysm] Add Hy-Brasilean ambassadorial honor guard profession
-[Bombastic Perks] Add blood-themed perks
-Aftershock: New craftable plasma gun.
-(XE) Allow vampires to reach the fourth tier and add vampiric mentors
+[Aftershock] New craftable plasma gun.
 [Aftershock] Add Habitat Block 3 Mapgen to Aftershock Exoplanet
-(XE) Tier 4 Vampire implementation
-Aftershock Lore documents
+[Aftershock] Add a tool and gadget trader to Port Augustmoon.
+[Aftershock] Add suit batteries for the winter suits.
+[Aftershock] Add personal shield generators
+[Aftershock] Replace exosuit forcefield with backpack generator
+[Aftershock] Shield bionics deploy Riemman shields
+[Aftershock] Add Zenit security drones, a miniboss for industrial ruins.
+[Aftershock] Create an alternate EMP mechanic that disables items only temporarily.
+[Aftershock] Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
+[Aftershock] Add the Geist (telekinetic) esper profession and powers
+[Aftershock] Add a new mutation system for aftershock based on gene templates controllably granting traits.
+[Aftershock] Add human++ genemods
+[Aftershock] Add UICA Shuttlebases to the Exo-Planet
+[Aftershock] Add Gene Clinics Mapgen
+[Aftershock] Allow direct trade of cash cards
+[Aftershock] Add military infolink and high voltage battery charger bionics
+[Aftershock] Add an Encampment around the Port Augustmoon landing pad
+[Aftershock] Add a Vehicle Merchant to the Salvor Camp Garage.
+[Aftershock] You need a combat License to buy a combat suit from the outfitter
+[Aftershock] Add ETC firmware gunmods to Caseless military weapons
+[Aftershock] Make UICA chit ATM-compatible
+[Aftershock] Add manhole terrain to exoplanet
+[Aftershock] Add the Salvor Fabricator to the Shuttlepad Camp
+[Aftershock] Update and Expand Hacking System
+[Aftershock] Add some more Cyberpunk style gear
+[Aftershock]  Add the Wraitheon Vahagn 10XR, a smart Rifle
+[Aftershock] Re-balance Laser Weapons
+[Aftershock] Rebalance Ballistic Weapons
+[Aftershock] Re-balance Plasma and voltaic Weapons
+[Aftershock] Expand Frontier Outposts
+[Aftershock] Autotravel works on Salus IV now
+[Aftershock] More mundane tools are available on Salus IV
+[Aftershock] Create a loading screen for Aftershock
+[Aftershock] Create cryosuit UI elements and power warnings
+[Xedra Evolved] Paraclesian Map extras
+[Xedra Evolved] Add Great Tree elemental eruption map special
+[Xedra Evolved] Adjust Magnetic Holster Values
+[Xedra Evolved] Trait to avoid learning dream magick
+[Xedra Evolved] Trait to avoid learning dream magick
+[Xedra Evolved] Even more paraclesian powers
+[Xedra Evolved] Give Liam XE specifics opinions
+[Xedra Evolved] Add new homullus mutations that increase equipment durability
+[Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
+[Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
+[Xedra Evolved] Vampires can just drink blood.  They can just drink it
+[Xedra Evolved] Allow vampires to reach the fourth tier and add vampiric mentors
+[Xedra Evolved] Tier 4 Vampire implementation
 [Xedra Evolved] Paraclesian fae cannot wear/wield steel or iron without problems (except Homullus)
 [Xedra Evolved] Lots of Vampire stuff, new powers and power research
-Aftershock: Add a tool and gadget trader to Port Augustmoon.
-[MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
-[MoM] Randomize monster power cooldowns
 [Xedra Evolved] Add check for Salamander being near fire, not just in it
-[MoM] You can't contemplate powers if you're too weary
-[Magiclysm] Add Shifter druid profession + wildshifts
-[Magiclysm] Add Iron Intolerance starting trait
-[MoM] Add Sensor Jamming Photokinetic power
 [Xedra Evolved] Add Iron Intolerance starting trait
-[XE/Magiclysm] Update Giant Growth with new `TEMPORARY_SHAPESHIFT` flag
-[Magiclysm] Diviner can send you to druid tower
-[Isolation Protocol] Autodoc safe room variant
-[Magiclysm] Add mana trait NPC trait groups
 [Xedra Evolved] Add Skinchanger profession + hedge magic spell
-Add more quests to Boann and the possibility to leave the world
-[Magiclysm] Artificer attunement passively recharges batteries in inventory
-Isolation protocol: Increase danger timer and remove sealed hallways from the mapgen pool.
-[Magiclysm] Add Slow Magus spell
-[Magiclysm] Vulcanists are immune to smoke and blistering
-[MoM] Add MUSCLE_VEH_BOOST flag to appropriate powers
-Document how spellcasting proficiencies work.
-[Magiclysm] Make the Artificer and Storm Elemental attunement innately immune to EMPs
-[Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
-[Bombastic Perks] Sword and sorcery-esque perks
-[XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
-XE Stalking Warper and Cryptid Video snippets
-Add a bunch of new perks to Bombastic Perks
-[Sky Island] Add bunker climate control upgrade
-[MoM] Make Oxygen Absorption effect visible
-[MoM] Update morphic reinforcement serum with MUT_INSTABILITY_MOD, switch it and noetic resilience treatment over to `consume_drug` use action
-[XE] Add Tier 5 vampire powers
-[MoM] Nether Attunement affects psionic calorie usage
-[Sky Island] Add statue dialogue to let you repeat construction stages
-Add `CLIMB_FLYING` flag, implement it in Magiclysm, MoM and Xedra Evolved
-Add a new psychic animal, the Direhound.
+[Xedra Evolved] Add more quests to Boann and the possibility to leave the world
+[Xedra Evolved] Tier 5 of vampirism + more vampire-related tweaks
+[Xedra Evolved] Stalking Warper and Cryptid Video snippet
 [Xedra Evolved] Add Purifying the Air sylph spell
-[MoM] Nether-void edits
-[Sky Island] Add Warped Pond craft
-XE Dreamwounds: Locations for spell item drops
-Isolation Protocol: New lab shapes.
-[Sky Island] Update Warped Pond recipe with man-made terrain
-Add Teleportation Ephemeral Walk Power
-MOM: Add Reality Tear Teleporter Power
+[Xedra Evolved] Dreamwounds: Locations for spell item drops
 [Xedra Evolved] Add werewolf start scenario
-[MoM] Add QD944-P 'Mindsight' glasses
 [Xedra Evolved] Add Homullus must wake up near humans fae ban + eating restrictions
-[Sky Island] Make Beta security containers and better ones obtainable.
 [Xedra Evolved] More Paraclesian restrictions
-Isolation Protocol: Add roguelike style health regen and pain reduction
 [Xedra Evolved] Add the "XEDRA Operative, Department of Extra-Normal Capabilities, SATOR Division" profession
-[Xedra] Inventor: (Re)Add Dimensional Research
-[MoM] Add Illuminate Photokinetic power
-[MoM] Add Headblind trait and Latent Psion trait
+[Xedra Evolved] Inventor: (Re)Add Dimensional Research
 [Xedra Evolved] Extend hedge magic research system
-[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON 
-XE Playable Gracken 
-[Magiclysm] Add spell school deficiency traits
-Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
+[Xedra Evolved] Playable Gracken 
 [Xedra Evolved] Add playable changelings
-[Magiclysm] Add feral magus/high magus
-[MoM] The liquid from the black Nether pools is now collectible and drinkable
-[DinoMod] Astrodon 
-[MoM] Add Alien Meadow mutable map special
-[Magiclysm] Fantasy species zombies
-[DinoMod] longer tail attacks
-[DinoMod] sauropods out of the water
-[Magiclysm] Condense Attunement UI and simplify json code
-[MoM] Add the unstoppable force (final rank feral telekinetic)
-[MoM] Give the human whirlwind (and feral security captain, Ψ Division) the Hurricane Blows power
-[Magiclysm] Add feral stormshapers
-[MoM] Allow Intuitive Artisan to craft in complete darkness (because you close your eyes and let the visions take over)
-[DinoMod] DinoZoo update
-[Magiclysm] Add `UNRESTRICTED` flag to several Magiclysm summoned items
-[Magiclysm] Rapid Regeneration's effect only triggers if you need healing
 [Xedra Evolved] Werewolves only regenerate when they need to
-[MoM] Add remaining matrix elixirs, add more drops
-[MoM] Blazing Aura is an actual aura effect and harms anyone nearby
-Tailor-made Inventor equipment
-[Magiclysm] Goblins and dwarves can craft in the dark
-Magiclysm] Add Bracers of Archery
-[DinoMod] tougher day 3 predators
-[Isolation Protocol] Add Bionic Vampire class
-[MOM] Add Mental Engineering Telepath 'Ritual' recipe
+[Xedra Evolved] Inventor equipment can fit a PC of any size
 [Xedra Evolved] Add more Selkie powers
-Create and use READ_IN_DARKNESS and distribute CRAFT_IN_DARKNESS to magic night vision sources
-XE Gracken Big Game Hunter profession
-Prevent Paraclesians from being born with a drivers license
-[MoM/XE Interaction] Ierde and powerful vampires are immune to telepathy
-[MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
-[Bombastic Perks/MoM] Add MoM-specific perks
+[Xedra Evolved] Gracken Big Game Hunter profession
+[Xedra Evolved] Prevent Paraclesians from being born with a drivers license
 [Xedra Evolved] Dreamsmithing procgen expansion (enchants)
-[MoM/Magiclysm interaction] Synchronize anti-Stare powers, Thought Shield spell protects from telepathy
-[Xedra Evolve] Add Ruach counter to sidebars
-[Sky Island/MoM/XE interactions] Allow starting with XE/MoM scenario-limited professions in Sky Island
-Apply copy-from to mod scenarios
-[MoM] Move Mirror-mask bonus to effect, obsolete mutations
+[Xedra Evolved] Add Ruach counter to sidebars
 [Xedra Evolved] Require Traverse the Wilds to target a tree as the endpoint
 [Xedra Evolved] More Lilin powers
-[DinoMod] mountable and harnessable audit
-Magus spell Slow description change
-[DinoMod] Eggs process directly into hatchlings
-[MoM] Update mutated animals to match vanilla changes
-[XE] Add cryptid hunting and a few cryptids
-[Magiclysm] Zombie versions of lizardfolk and ravenfolk drop tainted flesh like all other zombies
-[MoM] Update everglow matrix lighting recipes
-[Magiclysm] Feral dabblers: add a small chance for ferals to know a single spell
-[MoM] Remove monster inherent speed boosts, replace with actual powers that have to be used
-[XE] Fix two bugs about learning new blood gifts
-[Magiclysm] Add a trait that prevents magical spellcasting
-Martial Mastery: Fix duration of several technique effects
-Create an external option for disabling zombify_into. Apply it to both Aftershock:Exoplanet and DDtD
+[Xedra Evolved] Add cryptid hunting and a few cryptids
 [Xedra Evolved] Moon's tears weapons
 [Xedra Evolved] Add playable Lilin with appropriate scenario
-[MoM] Torrential Channeling power maintenance also raises Nether Attunement
-Aftershock: Remove swims flag from terrestrial creatures.
-[MoM] Feral psion updates with copy-from
-Aftershock: Add suit batteries for the winter suits.
-[DinoMod] eolambia
-[Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
 [Xedra Evolved] Only humans can learn dream magick
 [Xedra Evolved] Add (very small) chance of being attacked by a lilit in your sleep
-Aftershock: Fix examination of the map being illegal on the Space Station.
-[Xedra Evolved/Dinomod] You can drain dinosaur's ruach
-Change Magiclysm Mana Crystals to be a rigid pocket.
-[Xedra Evolved] Fish are immune to the evil eye
-[Xedra Evolved] Simplify Take the Line JSON
-Adjust electron overflow to allow charging values above 5
-[Sky Island] Add possibility of autodocs or CBMs to Exodii crash pods
-[DinoMod] lokiceratops
-Aftershock: Add personal shield generators
-[Xedra Evolved] Add yet more lilin traits
-Make the cryptid mission assigning less likely to hang
-[MOM] Add power to cancel specific concentration effects
-Aftershock: Disable portal storms in Exoplanet
-Martial Mastery: Add three new defensive perks.
-[Magiclysm] Fix demonic possession causing starvation penalties
 [Xedra Evolved] More Ierde powers
-Add more Lilin traits and features
-Reviewed Magiclysm Monsters and added proficiency families and weakpoints when missing.
-Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
-[MoM] Add the PATIENT MOSAIC research room to skyscraper lab
-[MoM] Parameterize PHAVIAN skyscraper lab
-[MoM] Add the Gamma Sterilization photokinetic power
-[Magiclysm] Fix soul afterburner granting infinite moves
-[MoM] Update creature mindsight to be variable, apply to Eater
+[Xedra Evolved] Add more Lilin traits and features
+[Xedra Evolved] Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
 [Xedra Evolved] Add Lilit ruach gauge using custom variable functionality
-[Magiclysm] Add the mana-shackled challenge trait
-[Xedra Evolved] Arvore Cleanup
-[Innawoods] Removes man-made trash from stream loot spawns.
-[DinoMod] smell audit
-Mods can add categories to the help menu
-[MoM] Danger Sense senses danger
-Martial Mastery: Insight is cleared when using other martial arts
-[MoM] Change id of Sense Minds sensing effect to use new tileset sprite
-[MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
 [Xedra Evolved] Add new time related powers for each default dream class
-Aftershock: Replace exosuit forcefield with backpack generator
-[MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
-Aftershock: Shield bionics deploy Riemman shields
 [Xedra Evolved] Add more wilderness spooky messages
 [Xedra Evolved] Add Exhalation of Ashes spell to salamanders
-[MoM] Psi passives turn off if you can't use psionics
-[Magiclysm/Xedra Evolved] Animals can't do that
-[XE] Gracken Stomach Traits
-[Magiclysm/Innawood] Revamp goblin/orc drops to separate itemgroups, make them fit Innawood
-[Magiclysm] The Forge of Wonders puts no value on food or drink, minimal value on guns and ammo (except the pirates)
-[Magiclysm/Innawood] Allow troll caves to spawn innawood
-[Magiclysm] Rock trolls actually turn to stone
+[Xedra Evolved] Gracken Stomach Traits
 [Xedra Evolved] Add Time Related Monsters
-[Magiclysm] Progressive Difficulty reduction the more spells of that school you know
-[Magiclysm/Innawood] Blacklist iron and plastic golems Innawood
-[Magiclysm] Add feral technomancers
-[Sky Island] Progressive autodoc improvement
 [Xedra Evolved] Add time magic class / scenario
+[Xedra Evolved] Salamander Eruption
+[Xedra Evolved] Paraclesians passively gain traits (if they spend time in their native environment)
+[Xedra Evolved] If you ritually murder the Fair Folk they all hate you
+[Xedra Evolved] Arvore with enough power have neutrality from the triffids
+[Xedra Evolved] Boann island updates
+[Xedra Evolved] Add more goblin fruits to XE
+[Xedra Evolved] Boann will use her magic against those who attack her
+[Xedra Evolved] Dreamsmith will learn casings if they are a shooter
+[Xedra Evolved] Add seasonal magic for changelings
+[Xedra Evolved] More seasonal magic
+[Xedra Evolved] Chronomancer Spell XP redesign
+[Xedra Evolved] Chronomancy Unique XP style
+[Xedra Evolved] Add Offworld Acquisitions Materials Processing
+[Xedra Evolved] Add monochrome boomer
+[Xedra Evolved] Add alchemical hobby basements
+[Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
+[Xedra Evolved] Adds a special boss encounter for tier 5 vampires.
+[Xedra Evolved] Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
+[Xedra Evolved] Add playable dhampirs
+[Xedra Evolved] Add feral vampires, put them in house nests + caves
+[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
+[Xedra Evolved/Sky Island] Elemental fae are at home on the island
+[Xedra Evolved/Innawood] Remove modern items from XE spawns Innawood, allow starting with XE-specific scenarios
+[Xedra Evolved/Dinomod] You can drain dinosaur's ruach
+[MoM] Power learning revamp: Biokinesis
+[MoM] Change success formula for psionic powers
+[MoM] Power learning revamp: Teleportation, Electrokinesis, Clairsentience and Telekineseis
+[MoM] Update Galvanic Aura to Concentration power and fix other errors
+[MoM] Too much pain shuts down your powers
+[MoM] Edit spell UI word choice when using psionics
+[MoM] High levels of weariness turn off your powers
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
+[MoM] Oubliette works on NPCs now
+[MoM] Utilise test_eoc functionality to reduce duplicate conditions
+[MoM] Power maintenance message change
+[MoM] Rework Far Hand into the "Move items" power and Force Shove into the "move creatures" power
+[MoM] Add the Megakinesis telekinetic power
+[MoM] Add actual fear effect to Primal Terror telepathic power
+[MoM] Add pseudo tool to nether crystal outcroppings, add that tool as a possibility to contemplation recipes
+[MoM] Add zombie breaker, change MoM zombies to copy-from mon_zombie_base
+[MoM] Fix Force Shove to account for target weight
+[MoM] Add Astral Projection Clairsentient power
+[MoM] Add `city_sizes` parameter to city buildings
+[MoM] Using psionics in or near the Nether is more powerful, but also more risky
+[MoM] Add triffid psions
+[MoM] Psionic powers say "Power level" instead of "Spell level" in the UI
+[MoM] Torrential channeling research no longer has required proficiencies
+[MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
+[MoM] Randomize monster power cooldowns
+[MoM] You can't contemplate powers if you're too weary
+[MoM] Add Sensor Jamming Photokinetic power
+[MoM] Add MUSCLE_VEH_BOOST flag to appropriate powers
+[MoM] Make Oxygen Absorption effect visible
+[MoM] Update morphic reinforcement serum with MUT_INSTABILITY_MOD, switch it and noetic resilience treatment over to `consume_drug` use action
+[MoM] Nether Attunement affects psionic calorie usage
+[MoM] Add a new psychic animal, the Direhound.
+[MoM] Add Teleportation Ephemeral Walk Power
+[MoM] Add Reality Tear Teleporter Power
+[MoM] Add QD944-P 'Mindsight' glasses
+[MoM] Add Illuminate Photokinetic power
+[MoM] Add Headblind trait and Latent Psion trait
+[MoM] The liquid from the black Nether pools is now collectible and drinkable
+[MoM] Add Alien Meadow mutable map special
+[MoM] Add the unstoppable force (final rank feral telekinetic)
+[MoM] Give the human whirlwind (and feral security captain, Ψ Division) the Hurricane Blows power
+[MoM] Allow Intuitive Artisan to craft in complete darkness (because you close your eyes and let the visions take over)
+[MoM] Add remaining matrix elixirs, add more drops
+[MoM] Blazing Aura is an actual aura effect and harms anyone nearby
+[MoM] Add Mental Engineering Telepath 'Ritual' recipe
+[MoM] Remove monster inherent speed boosts, replace with actual powers that have to be used
+[MoM] Torrential Channeling power maintenance also raises Nether Attunement
+[MoM] Add power to cancel specific concentration effects
+[MoM] Add the PATIENT MOSAIC research room to skyscraper lab
+[MoM] Add the Gamma Sterilization photokinetic power
+[MoM] Update creature mindsight to be variable, apply to Eater
+[MoM] Danger Sense senses danger
+[MoM] Psi passives turn off if you can't use psionics
+[MoM] Ephemeral riftwalkers can use Breach
+[MoM] Add a couple Teleporter Powers
+[MoM] Melded Teleporter Force
+[MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
+[MoM] Add Water-Walking Telekinetic power
+[MoM] Add null grenades
+[MoM] Add some more nether attunement consequences
+[MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
+[MoM] Add Apportation teleportation power
+[MoM] Item Gateway Power
+[MoM] Add two psionic amalgamations
+[MoM] Sensory Disintegration absolutely tanks your concentration ability
+[MoM] Add Heightened Senses Clairsentient starter ability, move Night Eyes later in the tree
+[MoM] Add some biokinesis utility powers
+[MoM] Add warped strikes teleporter power
+[MoM] Give feral teleporters Warped Strikes
+[MoM] Project TURQUOISE KEYSTONE
+[MoM] Add volume limits to Blink and Farstep
+[MoM] Add Noetic resonance detector
+[MoM] Hostile NPC dialogue updates
+[MoM] Add psychic knacks
+[MoM] Add possible `Mathematican A57` boss fight to Research Facility
+[MoM] Add Achievements
+[MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
+[MoM/XE] Ierde and powerful vampires are immune to telepathy
+[MoM/CrazyCata ] Rename Metaphysics to "woo woo"
+[MoM/Magiclysm ] Synchronize anti-Stare powers, Thought Shield spell protects from telepathy
+[Magiclysm] Rebalance enchanted combat loot
+[Magiclysm] Reduce mana cost of some of the spells
+[Magiclysm] Ogre revamp
+[Magiclysm] Greatly increase the number of (weak) spellbooks in people's homes
+[Magiclysm] Add wizard version of LMOE
+[Magiclysm] Add fantasy skin colors
+[Magiclysm] Even more spells
+[Magiclysm] Add "of elvenkind" items
+[Magiclysm] Goblin encampment / orc village revamp + additions
+[Magiclysm] Add spells that allow you to gain the various +mana traits
+[Magiclysm] Last Mage on Earth start
+[Magiclysm] Add spellcasting proficiencies
+[Magiclysm] Tune conveyance spells with scaling modifier
+[Magiclysm] Technomancer pain ignoring spell
+[Magiclysm] Being grabbed makes SOMATIC spells harder to cast
+[Magiclysm] Add Hy-Brasilean ambassadorial honor guard profession
+[Magiclysm] Add Shifter druid profession + wildshifts
+[Magiclysm] Add Iron Intolerance starting trait
+[Magiclysm] Diviner can send you to druid tower
+[Magiclysm] Add mana trait NPC trait groups
+[Magiclysm] Artificer attunement passively recharges batteries in inventory
+[Magiclysm] Add Slow Magus spell
+[Magiclysm] Vulcanists are immune to smoke and blistering
+[Magiclysm] Make the Artificer and Storm Elemental attunement innately immune to EMPs
+[Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
+[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON 
+[Magiclysm] Add spell school deficiency traits
+[Magiclysm] Add feral magus/high magus
+[Magiclysm] Fantasy species zombies
+[Magiclysm] Add feral stormshapers
+[Magiclysm] Rapid Regeneration's effect only triggers if you need healing
+[Magiclysm] Goblins and dwarves can craft in the dark
+[Magiclysm] Feral dabblers: add a small chance for ferals to know a single spell
+[Magiclysm] Add a trait that prevents magical spellcasting
+[Magiclysm] Fix soul afterburner granting infinite moves
+[Magiclysm] Add the mana-shackled challenge trait
+[Magiclysm] The Forge of Wonders puts no value on food or drink, minimal value on guns and ammo (except the pirates)
+[Magiclysm] Rock trolls actually turn to stone
+[Magiclysm] Progressive Difficulty reduction the more spells of that school you know
+[Magiclysm] Add feral technomancers
 [Magiclysm] Spells cost 1/5 of their normal cost on spell failure
 [Magiclysm] The Great Damage Randomization and Normalization
 [Magiclysm] Add technomantic augmentation clinic
 [Magiclysm] Add the aenor, a giant heron riding mount
-[Magiclysm] Stop workshop elves and their workshop from spawning
 [Magiclysm] Add zombie dwarves to mines
-Removes superceded sees_player_retro mod
 [Magiclysm] Obsolete shambling mound, give shaman the Keeper of the Glades summon
-[Magicylysm] Forge of Wonders Redesigned
+[Magiclysm] Forge of Wonders Redesigned
 [Magiclysm] Add Witchsight Animist spell and Witchfinder Eye CBM
-[MoM] Ephemeral riftwalkers can use Breach
-[Magiclysm] Forge values denarii but no one else does
-[DinoMod] shonisaurus
-Aftershock: Add Zenit security drones, a miniboss for industrial ruins.
 [Magiclysm] Add a couple more CBMs
-[MOM] Add a couple Teleporter Powers
-[innawood] Add Makeshift hand-crank charger and magnetite ore.
 [Magiclysm] Demon spider rework
-[MoM] Melded Teleporter Force
-[MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
 [Magiclysm] Goblins and wargs are best friends
-Aftershock: Create an alternate EMP mechanic that disables items only temporarily.
-[MoM] Add Water-Walking Telekinetic power
 [Magiclysm] Use EoCs to allow Magiclysm fantasy species to gain mutation paths/purify themselves
-Changes a straight damage on archery bracers to weakpoint accuracy.
-Xedra Evolved: Salamander Eruption
-Adds craftable appliances for setting up improvised shelters and bases on the Exo-Planet
-[Aftershock] Add the Geist (telekinetic) esper profession and powers
-[MoM] Autolearn matrix elixir recipes
-[Xedra Evolved] Add `fey_magick` magic type
+[Magiclysm] Forge values denarii but no one else does
 [Magiclysm] Biomancy is disturbing
-[MoM] Add null grenades
-Add a new mutation system for aftershock based on gene templates controllably granting traits.
-[Aftershock] Add human++ genemods
-[Aftershock] Add UICA Shuttlebases to the Exo-Planet
-[Aftershock] Add Gene Clinics Mapgen
-[MoM] Psionics `magic_type` edits
-[Xedra Evolved] Paraclesians passively gain traits (if they spend time in their native environment)
-Aftershock: Allow direct trade of cash cards
-Aftershock: Add military infolink and high voltage battery charger bionics
-[DinoMod] moabosaurus
-[Aftershock] Add an Encampment around the Port Augustmoon landing pad
-[Xedra Evolved] If you ritually murder the Fair Folk they all hate you
-Add missing missions to sky island clear missions EOC
-[Xedra Evolved] Arvore with enough power have neutrality from the triffids
-[Xedra Evolved] Boann island updates
-[Aftershock] Add a Vehicle Merchant to the Salvor Camp Garage.
-[MoM] Add some more nether attunement consequences
-[Aftershock] You need a combat License to buy a combat suit from the outfitter
-[MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
-Aftershock: Add ETC firmware gunmods to Caseless military weapons.
-Add more goblin fruits to XE
-[XE] Boann will use her magic against those who attack her.
-XE: Dreamsmith will learn casings if they are a shooter
-[Aftershock] Make UICA chit ATM-compatible
-Aftershock: Add manhole terrain to exoplanet
-[Xedra Evolved/Sky Island] Elemental fae are at home on the island
-[Aftershock] Add the Salvor Fabricator to the Shuttlepad Camp
-[MoM] Add Apportation teleportation power
-[MoM] Item Gateway Power
-Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
-Moves the rail lines used by the railroad mapgen closer and adds junctions
-Add lucky/unlucky traits to Crazy Cata
-Sky Island vampire compatibility
-[Aftershock] Update and Expand Hacking System
-[Xedra Evolved] Add seasonal magic for changelings
-Martial Mastery : Many New Perks.
-Aftershock: Add some more Cyberpunk style gear
-[MoM] Swap the Itzcuauhtli Corps Liaison's wristwatch for a māchīuhpōhualhuaztli ("wrist computer")
-[Xedra Evolved] More seasonal magic
-Aftershock:  Add the Wraitheon Vahagn 10XR, a smart Rifle
-[MoM] Add two psionic amalgamations
-XE Chronomancer Spell XP redesign
 [Magiclysm] Add mana zombies of various kinds
-[Xedra Evolved] Add Offworld Acquisitions Materials Processing
-Below the Belt perk
-Aftershock: Re-balance Laser Weapons
-Aftershock:Rebalance Ballistic Weapons
-[Aftershock] Expand Frontier Outposts (Part 1)
-[XEDRA] Add monochrome boomer
-[Xedra Evolved] Add alchemical hobby basements
-[MoM] Sensory Disintegration absolutely tanks your concentration ability
-[Aftershock] Frontier Outpost Expansions (Part 2)
-Aftershock: Re-balance Plasma and voltaic Weapons
-XE Chronomancy Unique XP style
-[MoM] Add Heightened Senses Clairsentient starter ability, move Night Eyes later in the tree
-[Xedra Evolvd] Yet even more seasonal magic
-Isolation Protocol: Office Levels
-[MoM] Finish Heightened Senses docs
-[MOM] Add some biokinesis utility powers
-[MOM] Add warped strikes teleporter power
 [Magiclysm] Add `Morphogenic Mastery` Biomancer spell
-[MoM] Give feral teleporters Warped Strikes
-[Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
-[MoM] Project TURQUOISE KEYSTONE
-[ Aftershock:Exoplanet ] Autotravel works on Salus IV now
-[Isolation Protocol] Add the Last Scion class
-[MoM] Add volume limits to Blink and Farstep
-[XE] Adds a special boss encounter for tier 5 vampires.
-Modify Gracken and Paraclesian butcher / dissection empathy by jsonizing species empathy
-[Xedra Evolved] Add playable dhampirs
-[Xedra Evolved] Vampires can drink blood
-Aftershock: Merge aftershock and aftershock exoplanet.
-Aftershock: Heat Crashed Ship.
-Mod Conflicts
-[Xedra Evolved] Add design docs for easier collaboration
-[Xedra Evolved] Add feral vampires, put them in house nests + caves
-[The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
-[MoM] Nether Attunement Spoilers document
-[MoM] Add Noetic resonance detector
-[Xedra Evolved] Remove vampires' free bite, vampires take more mutagen
-[MoM] Hostile NPC dialogue updates
-[MoM] Add psychic knacks
-[MoM/XE] Add profession: Mobile Task Force: Psi 7 "Sleepwalkers" 
-[Bombastic Perks] Limit metamagic perks to Magiclysm
-Aftershock: More mundane tools are available in exoplanet
-[MoM] Add possible `Mathematican A57` boss fight to Research Facility
 [Magiclysm] Spellcasting always grants proficiency XP
-[MoM] Add Achievements
+[Magiclysm] Implement Enchanted Druid Items
+[Magiclysm/Innawood] Revamp goblin/orc drops to separate itemgroups, make them fit Innawood
+[Magiclysm/Innawood] Allow troll caves to spawn innawood
+[Magiclysm/Innawood] Blacklist iron and plastic golems Innawood
+[Sky Island] Warp Pulse UI
+[Sky Island] Take NPCs on/back from raids
+[Sky Island] Add east bunker room upgrades to possible missions 
+[Sky Island] Add buildable north chamber missions and mapgen
+[Sky Island] Add west bunker room upgrades to possible mission
+[Sky Island] Upgrade central skylight missions and mapgen
+[Sky Island] Add bunker climate control upgrade
+[Sky Island] Add statue dialogue to let you repeat construction stages
+[Sky Island] Add Warped Pond craft
+[Sky Island] Make Beta security containers and better ones obtainable.
+[Sky Island] Add possibility of autodocs or CBMs to Exodii crash pods
+[Sky Island] Progressive autodoc improvement
+[Sky Island/MoM/XE interactions] Allow starting with XE/MoM scenario-limited professions in Sky Island
+[DinoMod] Plesiosaurus
+[DinoMod] Iguanodon
+[DinoMod] Falcarius
+[DinoMod] Astrodon 
+[DinoMod] Longer tail attacks
+[DinoMod] Sauropods out of the water
+[DinoMod] DinoZoo update
+[DinoMod] Tougher day 3 predators
+[DinoMod] Eggs process directly into hatchlings
+[DinoMod] Eolambia
+[DinoMod] Lokiceratops
+[DinoMod] Shonisaurus
+[DinoMod] Moabosaurus
+[Bombastic Perks] Add more perks
+[Bombastic Perks] Yet more perks
+[Bombastic Perks] Add Stormwrought line of playstyle perks
+[Bombastic Perks] Add blood-themed perks
+[Bombastic Perks] Sword and sorcery-esque perks
+[Bombastic Perks] Add a bunch of new perks to Bombastic Perks
+[Bombastic Perks] Below the Belt perk
+[Bombastic Perks/MoM] Add MoM-specific perks
+[Bombastic Perks/Magiclysm] Limit metamagic perks to Magiclysm
+[Isolation Protocol] Autodoc safe room variant
+[Isolation protocol] Increase danger timer and remove sealed hallways from the mapgen pool.
+[Isolation protocol] New lab shapes.
+[Isolation protocol] Add roguelike style health regen and pain reduction
+[Isolation Protocol] Add Bionic Vampire class
+[Isolation protocol] Office Levels
+[Isolation Protocol] Add the Last Scion class
+[Martial Mastery] Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
+[Martial Mastery] Add three new defensive perks.
+[Martial Mastery] Many New Perks.
+[Innawood] Removes man-made trash from stream loot spawns.
+[Innawood] Add Makeshift hand-crank charger and magnetite ore.
+[The Backrooms] Expand the Backrooms to multiple Z-levels, add stairs
 [Crazy Cataclysm] Add the immortal snail as second nemesis
-Create a loading screen for Aftershock
 [Extra Mutation Scenarios] Add start only mutation glands that gradually permanently mutate you towards a selected category
-Magiclysm - Implement Enchanted Druid Items
-Aftershock: Create cryosuit UI elements and power warnings
+[Tamable Wildlife] add Cougars to list of tameables
+[TropiCata] Audit and balance pass on termites and termite accessories
+[No Hope] Adds a difficulty setting prompt to determine item spawn rates
+More specific messages for being unable to use supernatural powers
+Being mute prevents casting VERBAL spells
+Create an external option for disabling zombify_into. Apply it to both [Aftershock] and DDotD
+Mods can add categories to the help menu
 
 
 ## Balance:
@@ -2392,7 +2324,7 @@ Add Megafauna Mod
 [DinoMod] tyrannosaurus bio-operator
 [DinoMod] Nanuqsaurus and burned rebuild
 Aftershock: Add functional jet packs
-Xedra Evolved: New NPCs to meet and rescue
+[Xedra Evolved] New NPCs to meet and rescue
 [DinoMod] player mutations change monster faction behavior
 [DinoMod] stegoceras
 Magiclysm Adding new magic plants
