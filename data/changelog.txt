@@ -682,10 +682,9 @@ Mods can add categories to the help menu
 Gunstore Overhaul
 Houses sometimes have alarms
 Allow Motorbike Battery Appliances
-Allow using a heavy training dummy where a light one will suffice
+Allow using a heavy training dummy where a light one would suffice
 Make field stone a bit more common, which can now also be turned into rocks. Plus general small forest trash updates.
 Military locations can spawn EOD suits
-Microlabs will now spawn foes from a series of mutually exclusive lists.
 Remove the 'Shockstorm' attack from monsters that have it
 Clean water in open containers reverts to water after a while
 Add Vitamin Cost to mutations
@@ -704,10 +703,8 @@ Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
 Remove rapid strike from knives
 Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
-Pain is painful
-Pain was a bit too painful
-shoggoths cannot eat artifacts
-Removed palm metal plating on brigandine gloves
+Rebalance pain to be more penalising
+Shoggoths cannot eat artifacts
 City buildings are restricted to spawn in (more) appropriately sized cities
 Unattended crops that are ready to harvest will die if not harvested before their next growth period
 Make Quadcopter Drones Produce Sound
@@ -715,57 +712,42 @@ Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
 Random NPCs have the same starting skills and proficiencies as the average new character
-Food continues to rot at temp above 63C
 Adjust Alpha to make breach harder while supporting future mutations
-Lower the warmth values of some undergarments and thin clothes.
+Lower the warmth values of some undergarments and thin clothes
 Switched Reload Speeds for Plasma Rifle and PPA
 Bring volume calculations for player body more in line with realistic examples
 Give pebble ammo type recovery chance
 Display ordered NPC path on map, NPCs refuse to go to dangerous locations
 Reduce Anthill Spawns
 Science item group no longer littered with personal prescriptions
-more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
 Remove guaranteed residential solar, add random residential solar
 Mortar is now a recipe on cement bags
-let hospitalized humans revive as zed crawlers
+Let hospitalized humans revive as zed crawlers
 Cramped space doesn't prevent sleep
-rebalance beverage quench based on oral hydration index
-Greatly reduce weak point proficiency learning times.
+Rebalance beverage quench based on oral hydration index
+Greatly reduce weak point proficiency learning times
 Adjust martial arts to have crit techs that do not require stun
-Exclude PARROT special attack from monster difficulty calculations
 Remove CLAWS from Judo, Aikido, Eskrima and Biojutsu
-Change Frame, Heavy duty frame, steel plating, sheet metal, and related vehicle parts material to mild steel
 Wielded items behave the same as ranged weapons when driving
-Small changes to Quenching and tempering proficiency
-Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
 Remove itch from conjunctivitis and make it even shorter when irrigated
 Electronic devices spawn rate rework
 Crashed planes have no ferals
 Replace land mines with bear traps in the bandit cabin
-Human lard less dense
 Ballista is no longer pure magic
 Make lab access shafts normally visible once spotted
-Factions don't mind the player smashing zombie corpses
 Remove calcium from Rare Drugs itemgroup
 Ranged weapon selection for random NPCs
-Some factions claim only one OMT
-Added some reaction to furniture when falling down
-Auditing portable charcoal kiln cleanup
 NPCs can funk out to music, too.
 Buff heavy-duty flashlight and adjust heavy-duty headlamp to match heavy-duty flashlight
 Nerf atlatls, a lot.
 Martial arts manuals spawn in libraries and houses
 Lower Stream Item Spawns
-Audit Lead Acid Batteries breaks_into
-Add missing longest_side
 Mining solid rock now results in a lot more rock and very rarely, you can find a bit of limestone while digging in soil
-No Hope: Reduce spawn chance of broken cyborgs in bionic basements
 Food price scales with freshness
-Aftershock: Reduce spawn chance of broken cyborgs in bionic basements
 Dry stone walls now need to be climbed over
 Change spear techniques from impaling strike to penetrating strike
 Changed Survivor Hood Materials and Added Filtration to Cowls
@@ -778,7 +760,6 @@ Zombified humans are still humans for butchery purposes
 Zombie Humanity Audit
 Combine crit hit and wp hit and tweak damage calculation for ranged attack
 Thermal electric gear power draw reduction + medium battery for TE suit
-make charcoal kiln place-able
 Set disassembly range to crafting range: 6
 Mutating with an installed bionic that conflicts results in damage
 Removed morale penalties and rare drops from dismemberment
@@ -793,6 +774,7 @@ Adds cuvettes to analysis kit crafting recipe, increase analysis kit weight.
 
 
 ## Bugfixes:
+Food continues to rot at temp above 63C
 clarify repeater mod installation and add a vanilla quest for them
 Randomizing character description will produce a matching outfit
 Autodrive over bridges
