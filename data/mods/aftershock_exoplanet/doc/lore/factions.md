@@ -97,3 +97,36 @@ Small outposts aimed towards farming and resource extraction
 
 -Space cowboys and bandits
 -
+
+
+## The Noetic Houses
+During the Hyperspace Era, one of humanity's most incredible advances was discovering the hidden power of the human mind. After the Discontinuity, the ability to easily enkindle new espers was lost but existing esper powers were discovered to be hereditary, and many of those who had developed them organized to preserve the source of their power and influence. Tied together in a tangled web of alliance and intermarriage, these families came to be known as the Noetic Houses and anyone who needs psionics has to go to them.
+
+However, even the marriage of two powerful espers doesn't guarantee esper children, and even routine (on Earth, at least) genetech treatments like in vitro recessive correction have a chance to disrupt the esper gene fixing, so the Noetic Houses are constantly looking for some Hyperspace Era secret that will allow them to have the best of both worlds. To date, they haven't had much luck.
+
+
+### Faction Relationships
+
+- Supporters of the UICA as a source of stability.
+
+### Goals
+
+The Noetic Houses are interested in Salus IV as a pre-Discontinuity colony that might contain remnant espertech they can utilize. They might:
+
+- Offer a massive reward for finding enkindling tinctures
+- Show up at a salvor's campsite offering to buy their espertech salvage off them (remember, they have precogs on staff) 
+- Harass unaffiliated espers (from the esper starting scenario) into joining
+- Ask the character to investigate rumors of something in the tunnels
+
+They can offer:
+
+- Psionics (A Spark to decrypt Hyperspace Era datavaults, a Geist for personal security, a Sibyl to determine the best course of action, or a Whisper to make sure all deals are on the up-and-up)
+
+### Bases
+
+The only real Noetic House presence is the Palver-Shikishima Noetics personnel in Port Augustmoon. 
+
+### Lore Ideas
+
+
+
