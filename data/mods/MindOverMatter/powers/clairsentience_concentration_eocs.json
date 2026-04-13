@@ -77,8 +77,8 @@
       {
         "run_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
-          { "math": [ "( ( (u_spell_level('clair_night_vision') * 150 ) + 290) * psionic_power_modifiers()" ] },
-          { "math": [ "( ( (u_spell_level('clair_night_vision') * 270 ) + 980) * psionic_power_modifiers()" ] }
+          { "math": [ "( (u_spell_level('clair_night_vision') * 150 ) + 290) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('clair_night_vision') * 270 ) + 980) * psionic_power_modifiers()" ] }
         ]
       }
     ],
