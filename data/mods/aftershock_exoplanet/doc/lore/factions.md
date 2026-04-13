@@ -104,6 +104,7 @@ During the Hyperspace Era, one of humanity's most incredible advances was discov
 
 However, even the marriage of two powerful espers doesn't guarantee esper children, and even routine (on Earth, at least) genetech treatments like in vitro recessive correction have a chance to disrupt the esper gene fixing, so the Noetic Houses are constantly looking for some Hyperspace Era secret that will allow them to have the best of both worlds. To date, they haven't had much luck.
 
+Members of the Noetic Houses can be recognized by their distinctive tattoos, given in adolescent when esper powers manifest--or do not, for the unfortunates among their number. Those with the appropriate knowledge can read the tattoo patterns to determine exactly what powers the esper possesses as well as what family they belong to. This was originally done as a way of mollifying others, who are understandly leery of espers among them, but in modern times the Noetic Houses wear their tattoos proundly as a part of their distinctiveness from "nulls," as they privately call those without psionics. 
 
 ### Faction Relationships
 
