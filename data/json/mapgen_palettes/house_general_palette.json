@@ -76,7 +76,7 @@
     "id": "domestic_alarm_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Makes all doors & windows have alarms",
     "terrain": {
-      "*": [ [ "t_door_locked", 2 ], [ "t_door_elockedm", 2 ] ],
+      "*": [ [ "t_door_locked", 2 ], [ "t_door_elocked", 2 ] ],
       ":": "t_wall_glass",
       "o": [
         [ "t_window_domestic", 10 ],
