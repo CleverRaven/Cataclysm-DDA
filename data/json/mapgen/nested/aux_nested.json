@@ -175,8 +175,8 @@
           "t_rdoor_b",
           "t_door_locked",
           "t_door_elocked",
-          "t_door_locked",
-          "t_door_elocked",
+          "t_door_locked_alarm",
+          "t_door_elocked_alarm",
           "t_door_boarded_damaged"
         ]
       },
@@ -209,8 +209,8 @@
           "t_rdoor_b",
           "t_door_locked",
           "t_door_elocked",
-          "t_door_locked",
-          "t_door_elocked",
+          "t_door_locked_alarm",
+          "t_door_elocked_alarm",
           "t_door_boarded_damaged",
           "t_door_b",
           "t_rdoor_c",

@@ -32,7 +32,7 @@
     "terrain": {
       "/": "t_null",
       ".": "t_open_air",
-      "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_c" ],
+      "*": [ [ "t_door_locked_peep", 2 ], [ "t_door_locked_interior", 10 ], "t_door_c" ],
       "=": { "param": "railing_type", "fallback": "t_concrete_railing" },
       "~": { "param": "floor_type", "fallback": "t_linoleum_white" },
       "'": "t_linoleum_gray",
