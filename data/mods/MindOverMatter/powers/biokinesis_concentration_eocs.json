@@ -63,16 +63,8 @@
       {
         "run_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('spell: biokin_overcome_pain') * 75 ) + 2100) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_overcome_pain') * 20 ) + 600) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('spell: biokin_overcome_pain') * 75 ) + 2100) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -263,16 +255,8 @@
       {
         "run_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -305,16 +289,8 @@
       {
         "run_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 45 ) + 300) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('biokin_enhance_mobility') * 120 ) + 900) * psionic_power_modifiers()" ] }
         ]
       }
     ],
