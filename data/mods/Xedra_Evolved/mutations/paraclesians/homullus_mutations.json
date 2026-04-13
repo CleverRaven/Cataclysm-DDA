@@ -519,8 +519,8 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_homullus_is_near_faction = 1" ] },
-            { "math": [ "u_homullus_is_in_civilization = 1" ] },
+            { "math": [ "u_homullus_is_near_faction == 1" ] },
+            { "math": [ "u_homullus_is_in_civilization == 1" ] },
             { "u_is_on_terrain": "t_pavement" },
             { "u_is_on_terrain": "t_pavement_y" }
           ]
