@@ -452,10 +452,10 @@
       { "u_add_effect": "effect_photokin_light_army", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       {
-        "math": [ "_real_count_low = ( ( ( u_spell_level('photokinetic_light_army') * 0.75) + 2) * psionic_power_modifiers()" ]
+        "math": [ "_real_count_low = ( ( u_spell_level('photokinetic_light_army') * 0.75) + 2) * psionic_power_modifiers()" ]
       },
       {
-        "math": [ "_real_count_high = ( ( ( u_spell_level('photokinetic_light_army') * 1.5) + 5) * psionic_power_modifiers()" ]
+        "math": [ "_real_count_high = ( ( u_spell_level('photokinetic_light_army') * 1.5) + 5) * psionic_power_modifiers()" ]
       },
       {
         "u_spawn_monster": "mon_photokin_army_image",
