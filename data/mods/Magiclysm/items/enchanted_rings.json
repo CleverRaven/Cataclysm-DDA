@@ -580,14 +580,6 @@
     ]
   },
   {
-    "type": "jmath_function",
-    "id": "get_target_bmi_kcal_From_height",
-    "num_args": 2,
-    "//arg1": "Target BMI category. <1=skeletal,1-2=emaciated,2-3=underweight,3-5=normal,5-10=overweight,10-15=obese,15-20=v. obese,20+=m. obese",
-    "//arg2": "Character current height",
-    "return": "floor(7716.17 * _0 * ((_1/100) ^ 2))"
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP",
     "effect": {
@@ -599,11 +591,11 @@
           "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance') >= 25" ] },
           "effect": [
             {
-              "if": { "math": [ "u_calories() <= (get_target_bmi_kcal_From_height(3, u_val('height')) - 2)" ] },
+              "if": { "math": [ "u_calories('format':'percent') <= 60" ] },
               "then": { "math": [ "u_calories() += 5" ] }
             },
             {
-              "if": { "math": [ "u_calories() <= (get_target_bmi_kcal_From_height(4.72, u_val('height')) - 1)" ] },
+              "if": { "math": [ "u_calories('format':'percent') <= 94.4" ] },
               "then": { "math": [ "u_calories() += 7" ] }
             },
             { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
