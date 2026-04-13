@@ -403,7 +403,7 @@
         "values": [
           {
             "value": "MELEE_STAMINA_CONSUMPTION",
-            "multiply": { "math": [ "max( ( ( -0.05 + ( u_spell_level('biokin_combat_dance') * -0.015) * psionic_power_modifiers()), -0.7)" ] }
+            "multiply": { "math": [ "max( ( -0.05 + ( u_spell_level('biokin_combat_dance') * -0.015) * psionic_power_modifiers() ), -0.7)" ] }
           }
         ]
       },
