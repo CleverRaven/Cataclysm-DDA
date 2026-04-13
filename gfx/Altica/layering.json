@@ -1,6 +1,56 @@
 {
   "variants": [
     {
+      "context": [ "WALL" ],
+      "append_variants": "_postup",
+      "item_variants": [
+        { "item": "american_flag", "layer": 90, "offset_x": 0, "offset_y": 0 },
+        { "item": "national_flag", "layer": 90 },
+        { "item": "pride_flag", "layer": 90 },
+        { "item": "lab_postit_bio", "sprite": [ { "id": "postit_01", "weight": 1 }, { "id": "postit_02", "weight": 1 }, { "id": "postit_03", "weight": 1 } ], "layer": 90 },
+        {
+          "item": "lab_postit_blob",
+          "sprite": [ { "id": "postit_04", "weight": 1 }, { "id": "postit_05", "weight": 1 }, { "id": "postit_06", "weight": 1 } ],
+          "layer": 90
+        },
+        {
+          "item": "lab_postit_migo",
+          "sprite": [ { "id": "postit_07", "weight": 1 }, { "id": "postit_08", "weight": 1 }, { "id": "postit_09", "weight": 1 } ],
+          "layer": 90
+        },
+        {
+          "item": "lab_postit_portal",
+          "sprite": [ { "id": "postit_10", "weight": 1 }, { "id": "postit_11", "weight": 1 }, { "id": "postit_12", "weight": 1 } ],
+          "layer": 90
+        },
+        {
+          "item": "lab_postit_tech",
+          "sprite": [ { "id": "postit_13", "weight": 1 }, { "id": "postit_14", "weight": 1 }, { "id": "postit_15", "weight": 1 } ],
+          "layer": 90
+        }
+      ]
+    },
+    {
+      "context": "f_flagpole",
+      "append_variants": "_hoisted",
+      "item_variants": [
+        { "item": "american_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "pride_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "state_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "national_flag", "layer": 90, "offset_x": 16, "offset_y": -37 }
+      ]
+    },
+    {
+      "context": "f_wooden_flagpole",
+      "append_variants": "_hoisted",
+      "item_variants": [
+        { "item": "american_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "pride_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "state_flag", "layer": 90, "offset_x": 16, "offset_y": -37 },
+        { "item": "national_flag", "layer": 90, "offset_x": 16, "offset_y": -37 }
+      ]
+    },
+    {
       "context": "f_desk",
       "item_variants": [
         { "item": "laptop", "sprite": [ { "id": "desk_laptop", "weight": 1 } ], "layer": 90 },
@@ -67,6 +117,22 @@
       "field_variants": [
         { "field": "fd_fire", "sprite": [ { "id": "f_55gal_firebarrel_fd_fire", "weight": 2 } ] },
         { "field": "fd_smoke", "sprite": [ { "id": "fd_smoke_overlay", "weight": 2 } ] }
+      ]
+    },
+    {
+      "context": "t_puddle",
+      "item_variants": [
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_murky", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
+      ]
+    },
+    {
+      "context": "t_puddle_underground",
+      "item_variants": [
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 },
+        { "item": "water_murky", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
       ]
     }
   ]

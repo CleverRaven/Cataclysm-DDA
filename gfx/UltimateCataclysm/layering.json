@@ -7,11 +7,7 @@
         { "item": "american_flag", "layer": 90, "offset_x": 0, "offset_y": 0 },
         { "item": "national_flag", "layer": 90 },
         { "item": "pride_flag", "layer": 90 },
-        {
-          "item": "lab_postit_bio",
-          "sprite": [ { "id": "postit_01", "weight": 1 }, { "id": "postit_02", "weight": 1 }, { "id": "postit_03", "weight": 1 } ],
-          "layer": 90
-        },
+        { "item": "lab_postit_bio", "sprite": [ { "id": "postit_01", "weight": 1 }, { "id": "postit_02", "weight": 1 }, { "id": "postit_03", "weight": 1 } ], "layer": 90 },
         {
           "item": "lab_postit_blob",
           "sprite": [ { "id": "postit_04", "weight": 1 }, { "id": "postit_05", "weight": 1 }, { "id": "postit_06", "weight": 1 } ],
