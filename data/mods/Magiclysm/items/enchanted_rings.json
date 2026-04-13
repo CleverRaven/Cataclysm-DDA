@@ -590,10 +590,7 @@
           "id": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP_TRUE",
           "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance') >= 25" ] },
           "effect": [
-            {
-              "if": { "math": [ "u_calories('format':'percent') <= 60" ] },
-              "then": { "math": [ "u_calories() += 5" ] }
-            },
+            { "if": { "math": [ "u_calories('format':'percent') <= 60" ] }, "then": { "math": [ "u_calories() += 5" ] } },
             {
               "if": { "math": [ "u_calories('format':'percent') <= 94.4" ] },
               "then": { "math": [ "u_calories() += 7" ] }
