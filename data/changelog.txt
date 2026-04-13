@@ -220,6 +220,11 @@ Colored light rendering overlay, dawn/dusk tint
 Changing move mode can cost time and is deferred
 NPC behavior tree evaluates for all NPCs, not just guards
 It is possible to make factions be radio-contactable
+NPC needs: executor system with BT integration
+Add `fertilize_plant` spell effect
+Autonotes for berry bush patches
+Add `HANDS_CANNOT_USE_FIREARMS`, prevent it and `TEMPORARY_SHAPESHIFT_NO_HANDS` from using firearms
+Added target practice by Manushenkov
 
 
 ## Content:
@@ -475,6 +480,10 @@ Add inner cabins dimension
 Greenhouses!
 Added the jetski map extra, a jetski abandoned on the side of the river
 Added the Final Showdown map extra, an injured survivor's last stand against a few zombies
+An elaborate and inconvenient way to craft everburning candles
+Enemies in the inner cabins cellar depths
+Turn broad paws into a limb
+Add 8 newspaper snippets covering predictive policing AI, academic brain drain, FBI zombie video debunking, and secret government facility construction
 
 
 ## Interface:
@@ -635,6 +644,13 @@ Show cable connections for appliances
 Split battery percentage into a separate widget from fuel
 Add viewport lock option for zone sorting
 Replace curses crafting menu with ImGui implementation
+The new ImGui crafting UI will remember if recipe details are expanded/collapsed across play sessions
+Improve appearance of listed components when they are expanded in new Crafting Menu
+Show missing required proficiencies for crafting a project
+Don't assign hotkey letters that are already bound to menu navigation in the Spellcasting UI
+Don't assign hotkey letters that are already bound to menu navigation in the Bionics UI
+Show pocket info for the items produced in the Crafting UI
+Standardize menu navigation by adding VI keys to menus they are missing from
 
 
 ## Mods:
@@ -1119,6 +1135,18 @@ XE Proficiency CBMs
 [Sky Island] Challenge Mode
 [Sky Island] NPCs may join raids
 [BPerks/MM/Sorc] XP mods can level up more than once at a time
+[Sky Island] Require the player to examine the statue to receive warp shards
+[MoM] Set Loci Technique volume limit
+[Sky Island] Add merchant stall upgrade
+Add "all" as an allowed bodypart for encumbrance_modifier enchant and apply to Enhanced Mobility effect
+[MoM] Mention Psychic Scream in MoM help files
+[MoM] Replace Intelligence/Nether Attunement calculations with `psionic_power_modifiers()` jmath (effects only)
+[Magiclysm] Convert Seed of Growth to `fertilize_plant` effect
+[Magiclysm] Add Druid spell caster_conditions
+Aftershock: Add a reactor outlet to the spaceship
+[Sky Island] Force door placements in main room upgrades
+[Sky Island] Add lapin to no spawn list for expeditions
+[Sky Island] Remove warp obelisk from bunker entrance upgrade
 
 ## Balance:
 Visitors Passes and Freight Badges no longer reveal roads
@@ -1264,6 +1292,13 @@ Being poisoned penalizes your health
 Easier lying to Rubik about selling the warehouse to Hub 01
 Fixes Cloud Formation and Pressure
 Respect magazine_well when calculating encumbrance
+Interstitial minds have a harder time learning
+Tweak interstitial mutations further
+Scaling cold/flu sleepiness to character using enchants
+Fix Artifact Mutation ability
+Mirror monster fire nerfs on the player side
+coughing fits are less lethal
+Exodii drop pods and ponds are visible from afar
 
 ## Bugfixes:
 clarify repeater mod installation and add a vanilla quest for them
@@ -1804,6 +1839,32 @@ Aftershock: Plasma degrades armors
 Stop spamming player log when NPCs are hot
 Stop ref center guard EOCs from firing in alternate dimensions
 Uncomfortable limbs must exist
+Lowered PAPR Welding Masks are given the Glare Protection quality.
+Fix personal zones drifting to wrong positions during item sorting
+TCL mutants are now able to unmute themselves over time
+Stop Rubik from borging up the anti-borg PCs
+Smart/Advanced smart watch CTD fix + safeguard
+Fix NPC infinite loop and fainting with Disable NPC Needs mod
+Minor Description Change in XE artifact spell XAEA_stamina to correct grammar
+Overmap zoom level persistence
+Remove unused 2x scaled ImGui font to reduce CJK atlas overflow
+Fix speedway copy-from
+Fix taking down Advanced Solar Array spawning free nuts/bolts
+Tile fallback fixes
+[Sky Island] Fix Merchant Stall variable
+Faction-hostile NPCs (bandits, raiders) no longer fall asleep on the turn they spot you
+Ascetic Empowerment
+Fix use-after-free in NPC zone sort viewport restore
+Fix ImGui mosaic rendering when CJK glyph ranges are enabled
+Fix camp NPC oscillation on expansion tiles
+Fix restock time display for Hub 01 intercom
+Fix zoom level not persisting on the first load of a save
+Fix NPC activity assignment picking wrong NPC from sorted menu
+Fix drinking water from vehicle faucet
+Remove ESP knowledge of map extras
+Fix bug in gun mag/ammo inventory color
+Npcs dont freeze to death with NPC needs disabled
+Coagulation cost and time now scales from coagulation and not Healthy Glow
 
 
 ## Performance:
@@ -1847,6 +1908,7 @@ Batch zone sorting pickups from nearby sources
 Shrink level_cache by 48kb to save almost 1MB of ram (or more with allocator overhead)
 Save map size by not serializing unnecessary item components.
 Skip lightmap rebuild on idle frames
+Fix per-turn inventory rebuild for step recipe proficiency checks
 
 
 ## Infrastructure:
@@ -2080,6 +2142,7 @@ Make map::add_spawn private to prevent hardcoded monster spawns
 Move items across dimensions with dimensional travel
 Remove single-magazine assumptions in item_contents
 Give access to an item's pre and post apocalypse price to EOCs
+Wrap remaining SDL2 calls behind abstraction layer for SDL3 dual support
 
 
 ## Build:
@@ -2114,6 +2177,7 @@ Upgrade vcpkg baseline
 Remove MXE from release, fix clang on macOS
 Fix maybe-uninitialized warning in unseal_and_spill_test
 Cache vcpkg installed packages in MSVC CI
+Build instruction and files for Visual Studio Code
 
 
 ## I18N and A11Y:
