@@ -43,6 +43,7 @@
         "w": "t_sunkenhelicopter_quarterpanel_n_middle",
         "e": "t_sunkenhelicopter_quarterpanel_n_right",
         ".": "t_sunkenhelicopter_floor",
+        "h": "t_sunkenhelicopter_floor",
         ",": "t_sunkenhelicopter_floor_rotator",
         "x": "t_sunkenhelicopter_frame"
       },
