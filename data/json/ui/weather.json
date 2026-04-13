@@ -11,5 +11,12 @@
     "type": "widget",
     "copy-from": "weather_desc",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "snow_depth_desc",
+    "type": "widget",
+    "label": "Snow",
+    "style": "text",
+    "var": "snow_depth_text"
   }
 ]

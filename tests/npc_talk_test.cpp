@@ -213,10 +213,14 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     prep_test( d );
 
     Character &player_character = get_avatar();
-    player_character.str_cur = 8;
-    player_character.dex_cur = 8;
-    player_character.int_cur = 8;
-    player_character.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 8 );
+    player_character.set_dex_base( 8 );
+    player_character.set_int_base( 8 );
+    player_character.set_per_base( 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_STATS" );
     gen_response_lines( d, 5 );
@@ -225,10 +229,10 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a dexterity test response." );
     CHECK( d.responses[3].text == "This is an intelligence test response." );
     CHECK( d.responses[4].text == "This is a perception test response." );
-    player_character.str_cur = 6;
-    player_character.dex_cur = 6;
-    player_character.int_cur = 6;
-    player_character.per_cur = 6;
+    player_character.set_str_base( 6 );
+    player_character.set_dex_base( 6 );
+    player_character.set_int_base( 6 );
+    player_character.set_per_base( 6 );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -605,7 +609,8 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     player_character.cash = 800;
-    player_character.int_cur = 11;
+    player_character.set_int_base( 11 );
+    player_character.set_int_bonus( 0 );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
@@ -670,7 +675,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
         return has_item( p, itype_bottle_glass, 1 ) && has_item( p, itype_beer, count );
     };
     player_character.cash = 1000;
-    player_character.int_cur = 8;
+    player_character.set_int_base( 8 );
     player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
@@ -1072,14 +1077,22 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     Character &player_character = get_avatar();
     clear_avatar();
 
-    player_character.str_cur = 4;
-    player_character.dex_cur = 4;
-    player_character.int_cur = 4;
-    player_character.per_cur = 4;
-    beta.str_cur = 8;
-    beta.dex_cur = 8;
-    beta.int_cur = 8;
-    beta.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 4 );
+    player_character.set_dex_base( 4 );
+    player_character.set_int_base( 4 );
+    player_character.set_per_base( 4 );
+    beta.set_str_bonus( 0 );
+    beta.set_dex_bonus( 0 );
+    beta.set_int_bonus( 0 );
+    beta.set_per_bonus( 0 );
+    beta.set_str_base( 8 );
+    beta.set_dex_base( 8 );
+    beta.set_int_base( 8 );
+    beta.set_per_base( 8 );
     player_character.kill_xp = 50;
     for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );
@@ -1119,10 +1132,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[expected_answers - 1].text ==
            "Test Proficiency total learning time is 24 hours." );
 
-    beta.str_cur = 9;
-    beta.dex_cur = 10;
-    beta.int_cur = 11;
-    beta.per_cur = 12;
+    beta.set_str_base( 9 );
+    beta.set_dex_base( 10 );
+    beta.set_int_base( 11 );
+    beta.set_per_base( 12 );
     time_point then = calendar::turn;
     calendar::turn = calendar::turn + time_duration( 4_days );
     REQUIRE( then < calendar::turn );
@@ -1173,10 +1186,14 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     // gains weakpoint proficiency practice which lowers focus
     // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
     player_character.set_focus( 24 );
-    player_character.str_cur = 5;
-    player_character.dex_cur = 6;
-    player_character.int_cur = 7;
-    player_character.per_cur = 8;
+    player_character.set_str_bonus( 0 );
+    player_character.set_dex_bonus( 0 );
+    player_character.set_int_bonus( 0 );
+    player_character.set_per_bonus( 0 );
+    player_character.set_str_base( 5 );
+    player_character.set_dex_base( 6 );
+    player_character.set_int_base( 7 );
+    player_character.set_per_base( 8 );
     player_character.magic->set_mana( 25 );
 
     // Each response is separated out into a single line for easier browsing.
@@ -1309,29 +1326,29 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( get_weather().weather_precise->pressure == 5 );
 
-    player_character.str_max = 10;
+    player_character.set_str_base( 10 );
     // "Sets base strength to 6."
     effects = d.responses[ 5 ].success;
     effects.apply( d );
-    CHECK( player_character.str_max == 6 );
+    CHECK( player_character.get_str_base() == 6 );
 
-    player_character.dex_max = 10;
+    player_character.set_dex_base( 10 );
     // "Sets base dexterity to 7."
     effects = d.responses[ 6 ].success;
     effects.apply( d );
-    CHECK( player_character.dex_max == 7 );
+    CHECK( player_character.get_dex_base() == 7 );
 
-    player_character.int_max = 10;
+    player_character.set_int_base( 10 );
     // "Sets base intelligence to 8."
     effects = d.responses[ 7 ].success;
     effects.apply( d );
-    CHECK( player_character.int_max == 8 );
+    CHECK( player_character.get_int_base() == 8 );
 
-    player_character.per_max = 10;
+    player_character.set_per_base( 10 );
     // "Sets base perception to 9."
     effects = d.responses[ 8 ].success;
     effects.apply( d );
-    CHECK( player_character.per_max == 9 );
+    CHECK( player_character.get_per_base() == 9 );
 
     std::string var_name = "test_var_time_test_test";
     player_character.set_value( var_name, 1 );

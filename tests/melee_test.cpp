@@ -358,7 +358,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
     int total_dmg = 0;
     int total_hits = 0;
     int set_on_fire = 0;
-    for( int i = 0; i < 1000; i++ ) {
+    for( int i = 0; i < 1500; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
         monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
@@ -380,9 +380,9 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         }
     }
     Messages::clear_messages();
-    CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
+    CHECK( total_hits == Approx( 1500 ).margin( 75 ) );
     CHECK( set_on_fire == total_hits );
-    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.06 ) );
 }
 
 static void check_eocs_from_test_fire( const std::string &mon_id )

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
+#include <cstdlib>
 #include <functional>
 #include <map>
 #include <optional>
@@ -199,6 +200,7 @@ struct mutation_branch {
         bool startingtrait = false;
         // If false, NPCs cannot receive this trait during chargen
         bool chargen_allow_npc = true;
+        bool random_start_allowed = true;
         bool activated     = false;
         translation activation_msg;
         // Should it activate as soon as it is gained?
@@ -577,6 +579,14 @@ enum class mutagen_technique : int {
     injected_purifier,
     injected_smart_purifier,
     num_mutagen_techniques // last
+};
+
+struct traits_sorter {
+    bool sort_by_points = false;
+    /** @related player */
+    bool operator()( const trait_id *a, const trait_id *b ) {
+        return std::abs( ( *a )->points ) > std::abs( ( *b )->points );
+    }
 };
 
 template<>

@@ -162,7 +162,6 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
 static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
@@ -170,8 +169,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_VINES2( "VINES2" );
-static const trait_id trait_VINES3( "VINES3" );
 
 static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
 
@@ -245,7 +242,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     /** @ARM_STR increases chance of damaging your melee weapon (NEGATIVE) */
 
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
-    const float stat_factor = dex_cur / 2.0f
+    const float stat_factor = get_dex() / 2.0f
                               + get_skill_level( skill_melee )
                               + ( 64.0f / std::max( get_arm_str(), 4 ) );
 
@@ -577,7 +574,8 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
     }
-    if( !is_adjacent( &t, true ) ) {
+    if( !is_adjacent( &t, false ) &&
+        !get_map().on_matching_stairs( pos_bub(), t.pos_bub() ) ) {
         return false;
     }
 
@@ -710,7 +708,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos_bub(), t.pos_bub(), false, false );
+        sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), false, false );
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
@@ -815,7 +813,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // lacks the room to build up momentum on a slash.
         // In the case of a pike, the mass of the pole behind the wielder
         // should they choose to employ it up close will unbalance them.
-        if( cur_weap.reach_range( *this ) > 1 && !reach_attacking &&
+        if( cur_weap.reach_range( *this ).first > 1 && !reach_attacking &&
             cur_weap.has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
@@ -920,7 +918,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos_bub(), t.pos_bub(), true, t.is_monster(), material );
+            sfx::generate_melee_sound( cur_weap, pos_bub(), t.pos_bub(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
@@ -1025,6 +1023,29 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     }
 
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
+}
+
+bool Character::can_reach_attack( const Creature &target ) const
+{
+    if( pos_bub().z() == target.pos_bub().z() ) {
+        return true;
+    }
+    if( get_map().on_matching_stairs( pos_bub(), target.pos_bub() ) ) {
+        return true;
+    }
+
+    item_location maybe_weapon = get_wielded_item();
+    int vert_reach = 0;
+    if( maybe_weapon ) {
+        vert_reach = maybe_weapon->current_reach_range( *this ).second;
+    } else {
+        vert_reach = null_item_reference().current_reach_range( *this ).second;
+    }
+
+    if( std::abs( pos_bub().z() - target.pos_bub().z() ) > vert_reach ) {
+        return false;
+    }
+    return true;
 }
 
 void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
@@ -1168,7 +1189,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     /** @EFFECT_DEX increases chance for critical hits */
 
     /** @EFFECT_PER increases chance for critical hits */
-    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * get_dex() + ( 0.02 * get_per() ) );
 
     /** @EFFECT_BASHING increases critical chance with bashing weapons */
     /** @EFFECT_CUTTING increases critical chance with cutting weapons */
@@ -1557,8 +1578,8 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
 
     // don't apply disarming techniques to someone without a weapon
     // TODO: these are the stat requirements for tec_disarm
-    // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
-    // dice(p->dex_cur + p->get_skill_level("melee"),   10))
+    // dice(   get_dex() +    get_skill_level("unarmed"),  8) >
+    // dice(p->get_dex() + p->get_skill_level("melee"),   10))
     if( tec_id->disarms && !t.has_weapon() ) {
         add_msg_debug( debugmode::DF_MELEE,
                        "Disarming technique against unarmed opponent, attack discarded" );
@@ -2382,19 +2403,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
 static damage_instance hardcoded_mutation_attack( const Character &u, const trait_id &id )
 {
-    if( id == trait_BEAK_PECK ) {
-        // method open to improvement, please feel free to suggest
-        // a better way to simulate target's anti-peck efforts
-        /** @EFFECT_DEX increases number of hits with BEAK_PECK */
-
-        /** @EFFECT_UNARMED increases number of hits with BEAK_PECK */
-        int num_hits = std::max( 1, std::min<int>( 6,
-                                 u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
-        damage_instance di = damage_instance();
-        di.add_damage( damage_stab, num_hits * 10 );
-        return di;
-    }
-
     if( id == trait_ARM_TENTACLES || id == trait_ARM_TENTACLES_4 || id == trait_ARM_TENTACLES_8 ) {
         int num_attacks = 1;
         if( id == trait_ARM_TENTACLES_4 ) {
@@ -2422,14 +2430,6 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             ret.add_damage( damage_bash, u.get_str() / 3.0f + 1.0f, 0, 1.0f, num_attacks );
         }
 
-        return ret;
-    }
-
-    if( id == trait_VINES2 || id == trait_VINES3 ) {
-        const int num_attacks = id == trait_VINES2 ? 2 : 3;
-        /** @EFFECT_STR increases damage with VINES* */
-        damage_instance ret;
-        ret.add_damage( damage_bash, u.get_str() / 2.0f, 0, 1.0f, num_attacks );
         return ret;
     }
 
@@ -2730,7 +2730,7 @@ int Character::attack_speed( const item &weap ) const
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
-    const int dexbonus = dex_cur / 2;
+    const int dexbonus = get_dex() / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
@@ -2841,7 +2841,7 @@ double Character::melee_value( const item &weap ) const
     // start with average effective dps against a range of enemies
     double my_value = weap.average_dps( *this );
 
-    float reach = weap.reach_range( *this );
+    float reach = weap.reach_range( *this ).first;
     // value reach weapons more
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );

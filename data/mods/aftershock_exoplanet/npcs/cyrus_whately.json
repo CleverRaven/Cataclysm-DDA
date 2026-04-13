@@ -79,7 +79,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CYRUS_cataclysm",
-    "dynamic_line": "Muttering 'They whispered of a prison.  Ragnarok engine humming.  Wrapped they in darkness dreaming'.  He shakes himself, 'Anyway it looks like something woke up, for at least a little bit.'",
+    "dynamic_line": "*muttering.  \"They whispered of a prison.  Ragnarok engine humming.  Wrapped they in darkness dreaming.\"  He shakes himself.  \"Anyway it looks like something woke up, for at least a little bit.\"",
     "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_CYRUS_1" } ]
   },
   {

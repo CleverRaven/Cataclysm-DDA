@@ -44,7 +44,7 @@
         "coverage_mult": { "melee": 0 },
         "armor_mult": { "all": 2 },
         "effects": [
-          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles", "damage_required": [ 1, 2 ] },
+          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles.", "damage_required": [ 1, 2 ] },
           {
             "effect": "effect_robot_immobilized",
             "permanent": true,
@@ -310,7 +310,7 @@
             "permanent": true,
             "chance": 100,
             "duration": 86400,
-            "message": "The oculus shatters",
+            "message": "The Zenit's oculus shatters!",
             "damage_required": [ 1, 100 ]
           }
         ]

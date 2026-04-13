@@ -17,7 +17,7 @@
     "color": "brown",
     "min_strength": 18,
     "skill": "rifle",
-    "modes": [ [ "DEFAULT", "DOUBLE", 4 ] ],
+    "modes": [ [ "DEFAULT", "4 rd.", 4 ] ],
     "dispersion": 90,
     "durability": 6,
     "ammo": [ "afs_25mm" ],

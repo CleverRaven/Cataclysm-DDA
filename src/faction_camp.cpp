@@ -2671,7 +2671,9 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             travel_time += companion_travel_time_calc( path, 2 );
             dist += path.dist * 2;
         }
-        build_time += making.batch_duration( get_player_character() ); // TODO calculate for NPC, not player
+        build_time += making.batch_duration( get_player_character(),
+                                             crafting_cost_context::for_recipe( get_player_character(),
+                                                     making ) ); // TODO calculate for NPC, not player
     }
     // trench requires just one triangular trip
     if( miss_id.parameters != faction_wall_level_n_1_string ) {
@@ -3381,7 +3383,7 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
 
     time_duration work_days = base_camps::to_workdays( making->batch_duration( *guy_to_send,
-                              num_to_make ) );
+                              crafting_cost_context::for_recipe( *guy_to_send, *making ), num_to_make ) );
 
     int kcal_consumed = time_to_food( work_days, making->exertion_level() );
     int kcal_have = fac()->food_supply().kcal();
@@ -3897,7 +3899,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
-    float skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
+    float skill = 2 * comp->get_skill_level( skill_survival ) + comp->get_per();
     int checks_per_cycle = 6;
     if( miss_id.id == Camp_Foraging ) {
         task_description = _( "foraging for edible plants" );
@@ -3908,14 +3910,14 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
         favor = 1;
         danger = 15;
         skill_group = "trapping";
-        skill = 2 * comp->get_skill_level( skill_traps ) + comp->per_cur;
+        skill = 2 * comp->get_skill_level( skill_traps ) + comp->get_per();
         checks_per_cycle = 4;
     } else if( miss_id.id == Camp_Hunting ) {
         task_description = _( "hunting for meat" );
         danger = 10;
         favor = 0;
         skill_group = "hunting";
-        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
+        skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->get_per() / 2.0;
         threat = 12;
         checks_per_cycle = 2;
     }
@@ -4237,10 +4239,10 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
     while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->get_name(), 20 ) );
-        description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
-        description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
-        description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
-        description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
+        description += string_format( _( "Strength:        %10d\n" ), recruit->get_str_base() );
+        description += string_format( _( "Dexterity:       %10d\n" ), recruit->get_dex_base() );
+        description += string_format( _( "Intelligence:    %10d\n" ), recruit->get_int_base() );
+        description += string_format( _( "Perception:      %10d\n\n" ), recruit->get_per_base() );
         description += _( "Top 3 Skills:\n" );
 
         const auto skillslist = Skill::get_skills_sorted_by(
@@ -4629,7 +4631,9 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
             const time_duration &work_days = base_camps::to_workdays( making.batch_duration(
-                                                 get_player_character(), max_batch + batch_size ) );
+                                                 get_player_character(),
+                                                 crafting_cost_context::for_recipe( get_player_character(), making ),
+                                                 max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
@@ -5283,10 +5287,14 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
+    const crafting_cost_context camp_ctx = crafting_cost_context::for_recipe(
+            get_player_character(), making );
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
-                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
+                          to_string( base_camps::to_workdays( making.batch_duration(
+                                         get_player_character(), camp_ctx ) ) ),
+                          time_to_food( base_camps::to_workdays( making.batch_duration(
+                                            get_player_character(), camp_ctx ) ),
                                         itm.obj().exertion_level() ) );
     return comp;
 }

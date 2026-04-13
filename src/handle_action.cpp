@@ -1,5 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <initializer_list>
@@ -113,6 +114,9 @@ enum class direction : unsigned int;
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const character_modifier_id
+character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
+
 static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -133,6 +137,7 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_SLEEP_FRIENDLY( "BIONIC_SLEEP_FRIENDLY" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_HANDS_CANNOT_USE_FIREARMS( "HANDS_CANNOT_USE_FIREARMS" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -140,9 +145,6 @@ static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_glass( "glass" );
-
-static const move_mode_id move_mode_run( "run" );
-static const move_mode_id move_mode_walk( "walk" );
 
 static const quality_id qual_CUT( "CUT" );
 
@@ -246,7 +248,6 @@ input_context game::get_player_input( std::string &action )
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
         for( const action_id id : {
-            ACTION_TOGGLE_MAP_MEMORY,
             ACTION_CENTER,
             ACTION_SHIFT_N,
             ACTION_SHIFT_NE,
@@ -397,9 +398,8 @@ input_context game::get_player_input( std::string &action )
                 }
             }
 
-            if( pixel_minimap_option ) {
-                // TODO: more granular control to only redraw pixel minimap
-                invalidate_main_ui_adaptor();
+            if( pixel_minimap_option && g->w_pixel_minimap ) {
+                wnoutrefresh( g->w_pixel_minimap );
             }
 
             std::unique_ptr<static_popup> deathcam_msg_popup;
@@ -412,14 +412,26 @@ input_context game::get_player_input( std::string &action )
 
             // Remove asynchronous animations after animation delay if no input
             if( current_turn.async_anim_timeout() ) {
-                g->void_async_anim_curses();
+                bool cleared = g->void_async_anim_curses();
 #if defined(TILES)
-                tilecontext->void_async_anim();
-#else
-                // Curses does not redraw itself so do it here
-                g->invalidate_main_ui_adaptor();
+                cleared |= tilecontext->void_async_anim();
 #endif
+                if( cleared ) {
+                    invalidate_main_ui_adaptor();
+                }
             }
+
+#if defined(TILES)
+            // Expire stale hit-animation overlays between draws
+            if( tilecontext->expire_hit_animations() ) {
+                invalidate_main_ui_adaptor();
+            }
+
+            // Animated tiles need periodic redraws to cycle frames
+            if( tilecontext->has_animated_tiles() ) {
+                invalidate_main_ui_adaptor();
+            }
+#endif
 
             if( g->has_blink_curses() && current_turn.blink_timeout() ) {
                 // Toggle blink phase and redraw
@@ -1784,7 +1796,7 @@ static void fire()
 
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
-    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ).first > 1 ) {
         reach_attack( you );
         return;
     }
@@ -1800,6 +1812,14 @@ static void fire()
     }
     if( you.has_trait( trait_GUNSHY ) && weapon && weapon->is_firearm() ) {
         add_msg( m_bad, _( "You refuse to use firearms." ) );
+        return;
+    }
+    if( you.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        add_msg( m_bad, _( "You have no hands and cannot use ranged weapons!" ) );
+        return;
+    }
+    if( you.has_flag( json_flag_HANDS_CANNOT_USE_FIREARMS ) && weapon && weapon->is_firearm() ) {
+        add_msg( m_bad, _( "Your hands aren't suited for using firearms!" ) );
         return;
     }
     // try firing gun
@@ -1835,13 +1855,7 @@ static void fire()
 static void open_movement_mode_menu()
 {
     avatar &player_character = get_avatar();
-    std::vector<move_mode_id> modes;
-    const bool riding_animal = player_character.get_steed_type() == steed_type::ANIMAL;
-    if( riding_animal ) {
-        modes = { move_mode_walk, move_mode_run };
-    } else {
-        modes = move_modes_by_speed();
-    }
+    std::vector<move_mode_id> modes = move_modes_by_speed();
     const int cycle = 1027;
     uilist as_m;
 
@@ -1849,12 +1863,21 @@ static void open_movement_mode_menu()
 
     for( size_t i = 0; i < modes.size(); ++i ) {
         const move_mode_id &curr = modes[i];
+        std::string label = curr->name();
+        const float required_moves = player_character.move_mode_switch_cost(
+                                         player_character.current_movement_mode(), curr );
+        const float required_seconds = required_moves / player_character.get_speed();
+
+        if( required_seconds > 0 ) {
+            label += string_format( _( " (%.2f s)" ), required_seconds );
+        }
+
         as_m.entries.emplace_back( static_cast<int>( i ), player_character.can_switch_to( curr ),
                                    curr->letter(),
-                                   curr->name() );
+                                   label );
     }
     as_m.entries.emplace_back( cycle,
-                               player_character.can_switch_to( player_character.current_movement_mode()->cycle() ),
+                               true, // cycling movement is controlled in relevant functions, always allow
                                hotkey_for_action( ACTION_OPEN_MOVEMENT, /*maximum_modifier_count=*/1 ),
                                _( "Cycle move mode" ) );
     // This should select the middle move mode
@@ -1863,17 +1886,9 @@ static void open_movement_mode_menu()
 
     if( as_m.ret != UILIST_CANCEL ) {
         if( as_m.ret == cycle ) {
-            if( riding_animal ) {
-                if( player_character.current_movement_mode() == move_mode_walk ) {
-                    player_character.set_movement_mode( move_mode_run );
-                } else {
-                    player_character.set_movement_mode( move_mode_walk );
-                }
-            } else {
-                player_character.cycle_move_mode();
-            }
+            player_character.cycle_desired_move_mode();
         } else {
-            player_character.set_movement_mode( modes[as_m.ret] );
+            player_character.set_desired_movement_mode( modes[as_m.ret] );
         }
     }
 }
@@ -2141,10 +2156,6 @@ static bool has_vehicle_control( avatar &player_character )
 static void do_deathcam_action( const action_id &act, avatar &player_character )
 {
     switch( act ) {
-        case ACTION_TOGGLE_MAP_MEMORY:
-            player_character.toggle_map_memory();
-            break;
-
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x();
             player_character.view_offset.y() = g->driving_view_offset.y();
@@ -2276,6 +2287,19 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
     };
 }
 
+static std::vector<action_id> get_actions_move_mode()
+{
+    return std::vector<action_id> {
+        ACTION_CYCLE_MOVE,
+        ACTION_CYCLE_MOVE_REVERSE,
+        ACTION_RESET_MOVE,
+        ACTION_TOGGLE_RUN,
+        ACTION_TOGGLE_CROUCH,
+        ACTION_TOGGLE_PRONE,
+        ACTION_OPEN_MOVEMENT,
+    };
+}
+
 bool game::do_regular_action( action_id &act, avatar &player_character,
                               const std::optional<tripoint_bub_ms> &mouse_target )
 {
@@ -2311,6 +2335,24 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         return true;
     }
 
+    const std::vector<action_id> actions_move_mode = get_actions_move_mode();
+    const bool is_actions_move_mode = std::find( actions_move_mode.begin(),
+                                      actions_move_mode.end(), act ) != actions_move_mode.end();
+    // Are we performing an action that is not a move mode action?
+    int desired_move_mode_cost = 0;
+    if( player_character.is_waiting_to_change_mode_mode() && !is_actions_move_mode ) {
+        move_mode_id desired_move = player_character.get_desired_move_mode();
+        desired_move_mode_cost = player_character.move_mode_switch_cost( player_character.move_mode,
+                                 desired_move );
+        player_character.set_movement_mode( desired_move );
+        if( player_character.move_mode == desired_move ) {
+            player_character.mod_moves( -desired_move_mode_cost );
+        } else {
+            debugmsg( "Player unable to change from move_mode(%s) to desired_move_mode(%s)",
+                      player_character.move_mode.c_str(), desired_move.c_str() );
+        }
+    }
+
     switch( act ) {
         case ACTION_NULL: // dummy entry
         case NUM_ACTIONS: // dummy entry
@@ -2332,27 +2374,27 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CYCLE_MOVE:
-            player_character.cycle_move_mode();
+            player_character.cycle_desired_move_mode();
             break;
 
         case ACTION_CYCLE_MOVE_REVERSE:
-            player_character.cycle_move_mode_reverse();
+            player_character.cycle_desired_move_mode_reverse();
             break;
 
         case ACTION_RESET_MOVE:
-            player_character.reset_move_mode();
+            player_character.set_walk_mode_desired();
             break;
 
         case ACTION_TOGGLE_RUN:
-            player_character.toggle_run_mode();
+            player_character.toggle_run_mode_desired();
             break;
 
         case ACTION_TOGGLE_CROUCH:
-            player_character.toggle_crouch_mode();
+            player_character.toggle_crouch_mode_desired();
             break;
 
         case ACTION_TOGGLE_PRONE:
-            player_character.toggle_prone_mode();
+            player_character.toggle_prone_mode_desired();
             break;
 
         case ACTION_OPEN_MOVEMENT:
@@ -2376,13 +2418,22 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 // so no rotation needed
                 pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
             } else {
+                const int pre_walk_moves = player_character.get_moves();
                 point_rel_ms dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
+                    const bool use_grab_routing =
+                        has_grabbed_single_tile_vehicle( player_character, here );
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
                             player_character.pos_bub() + dest_delta * ( SEEX - i );
-                        destination_preview =
-                            here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        if( use_grab_routing ) {
+                            destination_preview = route_with_grab( here, player_character,
+                                                                   pathfinding_target::point( auto_travel_destination ),
+                                                                   player_character.get_path_avoid() );
+                        } else {
+                            destination_preview =
+                                here.route( player_character, pathfinding_target::point( auto_travel_destination ) );
+                        }
                         if( !destination_preview.empty() ) {
                             destination_preview.erase(
                                 destination_preview.begin() + 1, destination_preview.end() );
@@ -2445,6 +2496,21 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                                        dest_delta.x(), dest_delta.y(),
                                        pos_before.x(), pos_before.y() );
                         player_character.abort_automove();
+                    }
+                }
+
+                // if we changed move modes this action, refund half the cost of changing move mode
+                // if their move action was an easy movement to represent combining the two actions
+                if( desired_move_mode_cost > 0 ) {
+                    const int moves_delta = pre_walk_moves - player_character.get_moves();
+                    // add 10% to the easy movement threshold to allow for some minor encumbrance
+                    // add 20% if going prone because it has an extra 20% crawling mod
+                    const int easy_moves = 110 /
+                                           player_character.get_modifier( character_modifier_move_mode_move_cost_mod ) *
+                                           ( player_character.is_prone() ? 1.2 : 1 );
+
+                    if( moves_delta > 0 && moves_delta <= easy_moves ) {
+                        player_character.mod_moves( desired_move_mode_cost / 2 );
                     }
                 }
 

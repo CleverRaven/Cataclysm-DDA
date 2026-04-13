@@ -29,6 +29,7 @@
 #include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_fwd.h"
 #include "vehicle.h"
@@ -179,6 +180,9 @@ class multi_mop_activity_actor : public multi_zone_activity_actor
         std::unordered_set<tripoint_abs_ms> multi_activity_locations( Character &you ) override;
         activity_reason_info multi_activity_can_do( Character &you,
                 const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
         bool multi_activity_do( Character &you, const activity_reason_info &act_info,
                                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
         std::unique_ptr<activity_actor> clone() const override {
@@ -1622,6 +1626,62 @@ class fish_activity_actor : public activity_actor
         time_duration fishing_duration;
 };
 
+class target_practice_activity_actor : public activity_actor
+{
+    public:
+        target_practice_activity_actor() = default;
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
+            return ACT_TARGET_PRACTICE;
+        }
+
+        // return false if fails
+        bool check_character( Character &who );
+        // return false if fails
+        bool get_gun( Character &who );
+        // return false if fails
+        bool check_character_and_gun( Character &who );
+        // return false if fails
+        bool get_round_qty();
+        // return false if fails
+        bool get_trajectory( Character &who );
+
+        bool check_target_valid( Character &who );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<target_practice_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location gun_loc;
+        tripoint_abs_ms target_position;
+        int rounds_planned = -1;
+        int rounds_fired = 0;
+        int delay_between_shots = 0;
+        character_id coach_id;
+        bool is_spinner_target = false;
+
+        bool check_weapon_valid( Character &who );
+        // todo: when activity within activity will be possible, switch to reload_activity_actor
+        bool attempt_reload( Character &who );
+        void fire_shot( Character &who, player_activity &act );
+        void show_flavor_message( Character &who, float effective_skill ) const;
+        npc *find_coach( Character &who, const skill_id &weapon_skill );
+        void apply_coaching( Character &who, const skill_id &weapon_skill );
+        void apply_skill_modifiers( Character &who, const skill_id &weapon_skill,
+                                    float effective_skill ) const;
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:
@@ -1799,7 +1859,7 @@ class try_sleep_activity_actor : public activity_actor
     public:
         /*
          * @param dur Total duration, from when the character starts
-         * trying to fall asleep toexplicit explicit  when they're supposed to wake up
+         * trying to fall asleep toexplicit explicit when they're supposed to wake up
          */
         explicit try_sleep_activity_actor( const time_duration &dur ) : duration( dur ) {}
 
@@ -1908,6 +1968,7 @@ class craft_activity_actor : public activity_actor
         std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
         float cached_crafting_speed; // NOLINT(cata-serialize)
         int cached_assistants; // NOLINT(cata-serialize)
+        crafting_cost_context cached_cost_ctx; // NOLINT(cata-serialize)
         double cached_base_total_moves; // NOLINT(cata-serialize)
         double cached_cur_total_moves; // NOLINT(cata-serialize)
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
@@ -2365,7 +2426,7 @@ class insert_item_activity_actor : public activity_actor
         contents_change_handler handler;
         bool all_pockets_rigid;
         bool reopen_menu;
-        // allow put charge items into holster's nested  pocket
+        // allow put charge items into holster's nested pocket
         bool allow_fill_count_by_charge_item_nested;
 
     public:
@@ -3196,9 +3257,11 @@ class fire_start_activity_actor : public activity_actor
         fire_start_activity_actor() = default;
     public:
         fire_start_activity_actor( const tripoint_abs_ms &fire_placement, const item_location &fire_starter,
-                                   int potential_skill_gain, int initial_moves ) :
+                                   int potential_skill_gain, int initial_moves,
+                                   bool tinder_consumed = false ) :
             fire_placement( fire_placement ), fire_starter( fire_starter ),
-            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ), used_tinder( false ) {
+            potential_skill_gain( potential_skill_gain ), initial_moves( initial_moves ),
+            used_tinder( tinder_consumed ) {
         };
         const activity_id &get_type() const override {
             static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -4082,6 +4145,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         }
 
         void do_turn( player_activity &act, Character &you ) override;
+        void canceled( player_activity &act, Character &you ) override;
 
         void stage_init( player_activity &, Character &you ) override;
         bool stage_think( player_activity &act, Character &you ) override;
@@ -4092,6 +4156,20 @@ class zone_sort_activity_actor : public zone_activity_actor
 
         void update_other_activity_items();
 
+        // Viewport lock: restore zoom and clear Character viewport state.
+        void restore_viewport( Character &you );
+
+        const std::unordered_set<tripoint_abs_ms> &get_coord_set() const {
+            return coord_set;
+        }
+        const std::vector<tripoint_abs_ms> &get_dropoff_coords() const {
+            return dropoff_coords;
+        }
+
+        // Viewport lock state -- serialized for save/load zoom restoration
+        bool viewport_was_active = false;
+        int viewport_saved_zoom = DEFAULT_TILESET_ZOOM;
+
     private:
         std::vector<item_location> other_activity_items;
         // Items we've picked up and are queued to drop at their sorted destination
@@ -4099,6 +4177,7 @@ class zone_sort_activity_actor : public zone_activity_actor
         // Place(s) that the current stuff can be dropped off at.
         std::vector<tripoint_abs_ms> dropoff_coords;
         bool pickup_failure_reported = false;
+        bool spillable_skip_reported = false; // NOLINT(cata-serialize)
         // Tracks whether current batch used virtual pickup (items left on cart).
         // Batch-scoped: captured and cleared in pre-loop section of stage_do.
         bool virtual_pickup_active = false;

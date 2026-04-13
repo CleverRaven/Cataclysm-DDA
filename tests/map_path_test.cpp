@@ -492,6 +492,8 @@ TEST_CASE( "map_route_player_up_down_stairs", "[map][pathfinding]" )
          */
         m.ter_set( tripoint_bub_ms{ 67, 65, 0 }, t_stairs_up );
         m.ter_set( tripoint_bub_ms{ 67, 65, 1 }, t_stairs_down );
+        m.ter_set( tripoint_bub_ms{ 68, 65, 1 }, t_floor );
+        m.ter_set( tripoint_bub_ms{ 69, 65, 1 }, t_floor );
         clear_map_caches( m );
         WHEN( "map::route does pathfinding" ) {
             const pathfinding_target t = pathfinding_target::point(

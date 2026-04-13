@@ -375,7 +375,7 @@
     "description": "Dried and powdered gelatin, used as a gelling agent when mixed with water.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
-    "material": "powder",
+    "material": [ "powder" ],
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10,

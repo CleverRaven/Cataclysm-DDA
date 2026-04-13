@@ -41,6 +41,7 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_item_handling.h"
 #include "activity_type.h"
 #include "ascii_art.h"
 #include "auto_note.h"
@@ -174,10 +175,12 @@
 #include "pickup.h"
 #include "player_activity.h"
 #include "popup.h"
+#include "power_network.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "safemode_ui.h"
@@ -231,6 +234,7 @@
 #define UNUSED
 #endif
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
@@ -257,12 +261,14 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_gliding( "gliding" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
+static const efftype_id effect_revived_marker( "revived_marker" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
@@ -299,6 +305,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
+static const json_character_flag json_flag_CANNOT_USE_COMPUTERS( "CANNOT_USE_COMPUTERS" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
@@ -308,6 +315,8 @@ static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" 
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PHASE_MOVEMENT( "PHASE_MOVEMENT" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 static const json_character_flag json_flag_VINE_RAPPEL( "VINE_RAPPEL" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
@@ -453,6 +462,7 @@ game::game() :
     u_shared_ptr( &u, null_deleter{} ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
+    next_item_uid( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     last_mouse_edge_scroll( std::chrono::steady_clock::now() )
 {
@@ -669,6 +679,7 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
+    next_item_uid = 1;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -687,6 +698,7 @@ void game::setup()
     clear_zombies();
     critter_tracker->clear_npcs();
     faction_manager_ptr->clear();
+    power_networks_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
     timed_events = timed_event_manager();
@@ -699,7 +711,6 @@ void game::setup()
     achievements_tracker_ptr->clear();
     eoc_events_ptr->clear();
     // reset follower list
-    follower_ids.clear();
     scent.reset();
     effect_on_conditions::clear( u );
     u.character_mood_face( true );
@@ -826,6 +837,12 @@ bool game::start_game()
     load_map( lev, /*pump_events=*/true );
 
     start_loc.place_player( u, omtstart );
+    // Set spawn location for starting items (maps need it to be readable)
+    const tripoint_abs_ms player_pos = u.pos_abs();
+    u.visit_items( [&player_pos]( item * it, item * ) {
+        it->preserve_location( player_pos );
+        return VisitResponse::NEXT;
+    } );
     map &here = reality_bubble();
     int level = here.get_abs_sub().z();
     // Rebuild map cache because we want visibility cache to avoid spawning monsters in sight
@@ -835,7 +852,7 @@ bool game::start_game()
     overmap_buffer.reveal( u.pos_abs_omt().xy(),
                            get_scenario()->get_distance_initial_visibility(), 0 );
 
-    const int city_size = get_option<int>( "CITY_SIZE" );
+    const int city_size = overmap_buffer.get_settings( u.pos_abs_omt() ).get_settings_city().city_size;
     if( get_scenario()->get_reveal_locale() && city_size > 0 ) {
         city_reference nearest_city = overmap_buffer.closest_city( here.get_abs_sub() );
         const tripoint_abs_omt city_center_omt = project_to<coords::omt>( nearest_city.abs_sm_pos );
@@ -1710,13 +1727,11 @@ npc *game::find_npc_by_unique_id( const std::string &unique_id )
 
 void game::add_npc_follower( const character_id &id )
 {
-    follower_ids.insert( id );
     u.follower_ids.insert( id );
 }
 
 void game::remove_npc_follower( const character_id &id )
 {
-    follower_ids.erase( id );
     u.follower_ids.erase( id );
 }
 
@@ -1806,7 +1821,7 @@ void game::validate_camps()
 
 std::set<character_id> game::get_follower_list()
 {
-    return follower_ids;
+    return get_avatar().get_followers();
 }
 
 static hint_rating rate_action_change_side( const avatar &you, const item &it )
@@ -2507,161 +2522,163 @@ tripoint_rel_omt game::mouse_edge_scrolling_overmap( input_context &ctxt )
 
 input_context get_default_mode_input_context()
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
-    // Because those keys move the character, they don't pan, as their original name says
-    ctxt.set_iso( true );
-    ctxt.register_action( "UP", to_translation( "Move north" ) );
-    ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
-    ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move south" ) );
-    ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move west" ) );
-    ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
-    ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
-    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
-    ctxt.register_action( "toggle_map_memory" );
-    ctxt.register_action( "center" );
-    ctxt.register_action( "shift_n" );
-    ctxt.register_action( "shift_ne" );
-    ctxt.register_action( "shift_e" );
-    ctxt.register_action( "shift_se" );
-    ctxt.register_action( "shift_s" );
-    ctxt.register_action( "shift_sw" );
-    ctxt.register_action( "shift_w" );
-    ctxt.register_action( "shift_nw" );
-    ctxt.register_action( "cycle_move" );
-    ctxt.register_action( "cycle_move_reverse" );
-    ctxt.register_action( "reset_move" );
-    ctxt.register_action( "toggle_run" );
-    ctxt.register_action( "toggle_crouch" );
-    ctxt.register_action( "toggle_prone" );
-    ctxt.register_action( "open_movement" );
-    ctxt.register_action( "open" );
-    ctxt.register_action( "close" );
-    ctxt.register_action( "smash" );
-    ctxt.register_action( "loot" );
-    ctxt.register_action( "examine" );
-    ctxt.register_action( "examine_and_pickup" );
-    ctxt.register_action( "interact", to_translation( "Interact with tile" ) );
-    ctxt.register_action( "advinv" );
-    ctxt.register_action( "pickup" );
-    ctxt.register_action( "pickup_all" );
-    ctxt.register_action( "grab" );
-    ctxt.register_action( "haul" );
-    ctxt.register_action( "haul_toggle" );
-    ctxt.register_action( "butcher" );
-    ctxt.register_action( "chat" );
-    ctxt.register_action( "look" );
-    ctxt.register_action( "peek" );
-    ctxt.register_action( "listitems" );
-    ctxt.register_action( "zones" );
-    ctxt.register_action( "inventory" );
-    ctxt.register_action( "compare" );
-    ctxt.register_action( "organize" );
-    ctxt.register_action( "apply" );
-    ctxt.register_action( "apply_wielded" );
-    ctxt.register_action( "wear" );
-    ctxt.register_action( "take_off" );
-    ctxt.register_action( "eat" );
-    ctxt.register_action( "open_consume" );
-    ctxt.register_action( "read" );
-    ctxt.register_action( "wield" );
-    ctxt.register_action( "pick_style" );
-    ctxt.register_action( "reload_item" );
-    ctxt.register_action( "reload_weapon" );
-    ctxt.register_action( "reload_wielded" );
-    ctxt.register_action( "insert" );
-    ctxt.register_action( "unload" );
-    ctxt.register_action( "throw" );
-    ctxt.register_action( "throw_wielded" );
-    ctxt.register_action( "fire" );
-    ctxt.register_action( "cast_spell" );
-    ctxt.register_action( "recast_spell" );
-    ctxt.register_action( "fire_burst" );
-    ctxt.register_action( "select_fire_mode" );
-    ctxt.register_action( "select_default_ammo" );
-    ctxt.register_action( "drop" );
-    ctxt.register_action( "unload_container" );
-    ctxt.register_action( "drop_adj" );
-    ctxt.register_action( "bionics" );
-    ctxt.register_action( "mutations" );
-    ctxt.register_action( "medical" );
-    ctxt.register_action( "bodystatus" );
-    ctxt.register_action( "sort_armor" );
-    ctxt.register_action( "wait" );
-    ctxt.register_action( "craft" );
-    ctxt.register_action( "recraft" );
-    ctxt.register_action( "long_craft" );
-    ctxt.register_action( "construct" );
-    ctxt.register_action( "disassemble" );
-    ctxt.register_action( "sleep" );
-    ctxt.register_action( "control_vehicle" );
-    ctxt.register_action( "auto_travel_mode" );
-    ctxt.register_action( "safemode" );
-    ctxt.register_action( "autosafe" );
-    ctxt.register_action( "autoattack" );
-    ctxt.register_action( "ignore_enemy" );
-    ctxt.register_action( "whitelist_enemy" );
-    ctxt.register_action( "workout" );
-    ctxt.register_action( "save" );
-    ctxt.register_action( "quicksave" );
+    static input_context default_ctxt = [] {
+        input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
+        // Because those keys move the character, they don't pan, as their original name says
+        ctxt.set_iso( true );
+        ctxt.register_action( "UP", to_translation( "Move north" ) );
+        ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
+        ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
+        ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
+        ctxt.register_action( "DOWN", to_translation( "Move south" ) );
+        ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
+        ctxt.register_action( "LEFT", to_translation( "Move west" ) );
+        ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
+        ctxt.register_action( "pause" );
+        ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
+        ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
+        ctxt.register_action( "center" );
+        ctxt.register_action( "shift_n" );
+        ctxt.register_action( "shift_ne" );
+        ctxt.register_action( "shift_e" );
+        ctxt.register_action( "shift_se" );
+        ctxt.register_action( "shift_s" );
+        ctxt.register_action( "shift_sw" );
+        ctxt.register_action( "shift_w" );
+        ctxt.register_action( "shift_nw" );
+        ctxt.register_action( "cycle_move" );
+        ctxt.register_action( "cycle_move_reverse" );
+        ctxt.register_action( "reset_move" );
+        ctxt.register_action( "toggle_run" );
+        ctxt.register_action( "toggle_crouch" );
+        ctxt.register_action( "toggle_prone" );
+        ctxt.register_action( "open_movement" );
+        ctxt.register_action( "open" );
+        ctxt.register_action( "close" );
+        ctxt.register_action( "smash" );
+        ctxt.register_action( "loot" );
+        ctxt.register_action( "examine" );
+        ctxt.register_action( "examine_and_pickup" );
+        ctxt.register_action( "interact", to_translation( "Interact with tile" ) );
+        ctxt.register_action( "advinv" );
+        ctxt.register_action( "pickup" );
+        ctxt.register_action( "pickup_all" );
+        ctxt.register_action( "grab" );
+        ctxt.register_action( "haul" );
+        ctxt.register_action( "haul_toggle" );
+        ctxt.register_action( "butcher" );
+        ctxt.register_action( "chat" );
+        ctxt.register_action( "look" );
+        ctxt.register_action( "peek" );
+        ctxt.register_action( "listitems" );
+        ctxt.register_action( "zones" );
+        ctxt.register_action( "inventory" );
+        ctxt.register_action( "compare" );
+        ctxt.register_action( "organize" );
+        ctxt.register_action( "apply" );
+        ctxt.register_action( "apply_wielded" );
+        ctxt.register_action( "wear" );
+        ctxt.register_action( "take_off" );
+        ctxt.register_action( "eat" );
+        ctxt.register_action( "open_consume" );
+        ctxt.register_action( "read" );
+        ctxt.register_action( "wield" );
+        ctxt.register_action( "pick_style" );
+        ctxt.register_action( "reload_item" );
+        ctxt.register_action( "reload_weapon" );
+        ctxt.register_action( "reload_wielded" );
+        ctxt.register_action( "insert" );
+        ctxt.register_action( "unload" );
+        ctxt.register_action( "throw" );
+        ctxt.register_action( "throw_wielded" );
+        ctxt.register_action( "fire" );
+        ctxt.register_action( "cast_spell" );
+        ctxt.register_action( "recast_spell" );
+        ctxt.register_action( "fire_burst" );
+        ctxt.register_action( "select_fire_mode" );
+        ctxt.register_action( "select_default_ammo" );
+        ctxt.register_action( "drop" );
+        ctxt.register_action( "unload_container" );
+        ctxt.register_action( "drop_adj" );
+        ctxt.register_action( "bionics" );
+        ctxt.register_action( "mutations" );
+        ctxt.register_action( "medical" );
+        ctxt.register_action( "bodystatus" );
+        ctxt.register_action( "sort_armor" );
+        ctxt.register_action( "wait" );
+        ctxt.register_action( "craft" );
+        ctxt.register_action( "recraft" );
+        ctxt.register_action( "long_craft" );
+        ctxt.register_action( "construct" );
+        ctxt.register_action( "disassemble" );
+        ctxt.register_action( "sleep" );
+        ctxt.register_action( "control_vehicle" );
+        ctxt.register_action( "auto_travel_mode" );
+        ctxt.register_action( "safemode" );
+        ctxt.register_action( "autosafe" );
+        ctxt.register_action( "autoattack" );
+        ctxt.register_action( "ignore_enemy" );
+        ctxt.register_action( "whitelist_enemy" );
+        ctxt.register_action( "workout" );
+        ctxt.register_action( "save" );
+        ctxt.register_action( "quicksave" );
 #if !defined(RELEASE)
-    ctxt.register_action( "quickload" );
+        ctxt.register_action( "quickload" );
 #endif
-    ctxt.register_action( "SUICIDE" );
-    ctxt.register_action( "player_data" );
-    ctxt.register_action( "map" );
-    ctxt.register_action( "sky" );
-    ctxt.register_action( "missions" );
-    ctxt.register_action( "factions" );
-    ctxt.register_action( "morale" );
-    ctxt.register_action( "messages" );
-    ctxt.register_action( "help" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "open_options" );
-    ctxt.register_action( "open_autopickup" );
-    ctxt.register_action( "open_autonotes" );
-    ctxt.register_action( "open_safemode" );
-    ctxt.register_action( "open_distraction_manager" );
-    ctxt.register_action( "open_color" );
-    ctxt.register_action( "open_world_mods" );
-    ctxt.register_action( "debug" );
-    ctxt.register_action( "debug_scent" );
-    ctxt.register_action( "debug_scent_type" );
-    ctxt.register_action( "debug_temp" );
-    ctxt.register_action( "debug_visibility" );
-    ctxt.register_action( "debug_lighting" );
-    ctxt.register_action( "debug_radiation" );
-    ctxt.register_action( "debug_hour_timer" );
-    ctxt.register_action( "debug_mode" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "SUICIDE" );
+        ctxt.register_action( "player_data" );
+        ctxt.register_action( "map" );
+        ctxt.register_action( "sky" );
+        ctxt.register_action( "missions" );
+        ctxt.register_action( "factions" );
+        ctxt.register_action( "morale" );
+        ctxt.register_action( "messages" );
+        ctxt.register_action( "help" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action( "open_options" );
+        ctxt.register_action( "open_autopickup" );
+        ctxt.register_action( "open_autonotes" );
+        ctxt.register_action( "open_safemode" );
+        ctxt.register_action( "open_distraction_manager" );
+        ctxt.register_action( "open_color" );
+        ctxt.register_action( "open_world_mods" );
+        ctxt.register_action( "debug" );
+        ctxt.register_action( "debug_scent" );
+        ctxt.register_action( "debug_scent_type" );
+        ctxt.register_action( "debug_temp" );
+        ctxt.register_action( "debug_visibility" );
+        ctxt.register_action( "debug_lighting" );
+        ctxt.register_action( "debug_radiation" );
+        ctxt.register_action( "debug_hour_timer" );
+        ctxt.register_action( "debug_mode" );
+        ctxt.register_action( "zoom_out" );
+        ctxt.register_action( "zoom_in" );
 #if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
-    ctxt.register_action( "toggle_fullscreen" );
+        ctxt.register_action( "toggle_fullscreen" );
 #endif
-    ctxt.register_action( "toggle_pixel_minimap" );
-    ctxt.register_action( "toggle_panel_adm" );
-    ctxt.register_action( "reload_tileset" );
-    ctxt.register_action( "toggle_auto_features" );
-    ctxt.register_action( "toggle_auto_pulp_butcher" );
-    ctxt.register_action( "toggle_auto_mining" );
-    ctxt.register_action( "toggle_auto_foraging" );
-    ctxt.register_action( "toggle_auto_pickup" );
-    ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action( "toggle_prevent_occlusion" );
-    ctxt.register_action( "diary" );
-    ctxt.register_action( "action_menu" );
-    ctxt.register_action( "main_menu" );
-    ctxt.register_action( "item_action_menu" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "COORDINATE" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "CLICK_AND_DRAG" );
-    ctxt.register_action( "SEC_SELECT" );
-    return ctxt;
+        ctxt.register_action( "toggle_pixel_minimap" );
+        ctxt.register_action( "toggle_panel_adm" );
+        ctxt.register_action( "reload_tileset" );
+        ctxt.register_action( "toggle_auto_features" );
+        ctxt.register_action( "toggle_auto_pulp_butcher" );
+        ctxt.register_action( "toggle_auto_mining" );
+        ctxt.register_action( "toggle_auto_foraging" );
+        ctxt.register_action( "toggle_auto_pickup" );
+        ctxt.register_action( "toggle_thief_mode" );
+        ctxt.register_action( "toggle_prevent_occlusion" );
+        ctxt.register_action( "diary" );
+        ctxt.register_action( "action_menu" );
+        ctxt.register_action( "main_menu" );
+        ctxt.register_action( "item_action_menu" );
+        ctxt.register_action( "ANY_INPUT" );
+        ctxt.register_action( "COORDINATE" );
+        ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "SELECT" );
+        ctxt.register_action( "CLICK_AND_DRAG" );
+        ctxt.register_action( "SEC_SELECT" );
+        return ctxt;
+    }();
+    return default_ctxt;
 }
 
 vehicle *game::remoteveh()
@@ -2878,7 +2895,6 @@ void game::death_screen()
     u.get_avatar_diary()->death_entry();
     show_scores_ui();
     disp_NPC_epilogues();
-    follower_ids.clear();
     display_faction_epilogues();
 }
 
@@ -2896,7 +2912,7 @@ std::string game::timestamp_now()
 
 void game::reset_npc_dispositions()
 {
-    for( character_id elem : follower_ids ) {
+    for( character_id elem : get_follower_list() ) {
         shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
         if( !npc_to_get )  {
             continue;
@@ -2965,10 +2981,15 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+power_network_manager &game::power_networks()
+{
+    return *power_networks_ptr;
+}
+
 void game::disp_NPC_epilogues()
 {
     // TODO: This search needs to be expanded to all NPCs
-    for( character_id elem : follower_ids ) {
+    for( character_id elem : get_follower_list() ) {
         shared_ptr_fast<npc> guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;
@@ -3244,9 +3265,13 @@ void game::draw_async_anim_curses()
     }
 }
 
-void game::void_async_anim_curses()
+bool game::void_async_anim_curses()
 {
+    if( async_anim_layer_curses.empty() ) {
+        return false;
+    }
     async_anim_layer_curses.clear();
+    return true;
 }
 
 void game::init_draw_blink_curses( const tripoint_bub_ms &p, const std::string &ncstr,
@@ -3292,6 +3317,15 @@ void game::draw( ui_adaptor &ui )
         return;
     }
 
+    try_activate_zone_sort_viewport();
+
+    // Transient view_offset override for zone sort viewport lock.
+    // Restored after rendering so save never sees the locked value.
+    const tripoint_rel_ms real_offset = u.view_offset;
+    if( u.zone_sort_viewport.active ) {
+        u.view_offset = here.get_bub( u.zone_sort_viewport.center ) - u.pos_bub( here );
+    }
+
     ter_view_p.z() = ( u.pos_bub() + u.view_offset ).z();
     here.build_map_cache( ter_view_p.z() );
     here.update_visibility_cache( ter_view_p.z() );
@@ -3322,6 +3356,8 @@ void game::draw( ui_adaptor &ui )
     // much easier to play with them
     // (e.g. for blind players)
     ui.set_cursor( w_terrain, -u.view_offset.xy().raw() + point( POSX, POSY ) );
+
+    u.view_offset = real_offset;
 }
 
 void game::draw_panels( bool force_draw )
@@ -3602,6 +3638,11 @@ character_id game::assign_npc_id()
     character_id ret = next_npc_id;
     ++next_npc_id;
     return ret;
+}
+
+int64_t game::assign_item_uid()
+{
+    return next_item_uid++;
 }
 
 Creature *game::is_hostile_nearby()
@@ -4257,6 +4298,18 @@ void game::use_computer( const tripoint_bub_ms &p )
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
+    if( u.has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+        add_msg( m_info, _( "Without hands, you can't use a computer." ) );
+        return;
+    }
+    if( u.has_effect( effect_incorporeal ) ) {
+        add_msg( m_info, _( "You lack the substance to use the computer." ) );
+        return;
+    }
+    if( u.has_flag( json_flag_CANNOT_USE_COMPUTERS ) ) {
+        add_msg( m_info, _( "You don't have any idea how to use this thing." ) );
+        return;
+    }
 
     computer *used = here.computer_at( p );
 
@@ -4872,8 +4925,12 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
     }
 
     if( it.get_var( "times_combatted", 0.0 ) > 0.0 ) {
-        critter.times_combatted_player = it.get_var( "times_combatted", 0.0 );
+        critter.times_combatted_player = std::numeric_limits<short>::max();
     }
+
+    // Add a permanent effect marking this as a revived creature. Everytime they revive they will have this effect forever.
+    critter.add_effect( effect_source(), effect_revived_marker, calendar::INDEFINITELY_LONG_DURATION,
+                        true );
 
     return place_critter_around( newmon_ptr, tripoint_bub_ms( p ), radius );
 }
@@ -5268,7 +5325,7 @@ bool game::npc_menu( npc &who )
         float prof_bonus = u.get_skill_level( skill_firstaid );
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
+        const bool precise = prof_bonus * 4 + u.get_per() >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == examine_status ) {
@@ -5733,8 +5790,9 @@ void game::peek( const tripoint_bub_ms &p )
 ////////////////////////////////////////////////////////////////////////////////////////////
 std::optional<tripoint_bub_ms> game::look_debug()
 {
-    editmap edit;
-    return edit.edit();
+    editmap_ui editmap;
+    editmap.handle_action();
+    return std::nullopt;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -5840,15 +5898,25 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
             return dist_a < dist_b ? a : b;
         }
     };
+    const bool use_grab_routing = has_grabbed_single_tile_vehicle( who, here );
+
     route_t shortest_route;
     for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
         if( is_dangerous_tile( p ) ) {
             continue;
         }
-        const route_t route = here.route( who.pos_bub(), pathfinding_target::point( p ),
-        who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
-            return is_dangerous_tile( p );
-        } );
+        route_t route;
+        if( use_grab_routing ) {
+            route = route_with_grab( here, who, pathfinding_target::point( p ),
+            [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        } else {
+            route = here.route( who.pos_bub(), pathfinding_target::point( p ),
+            who.get_pathfinding_settings(), [this]( const tripoint_bub_ms & p ) {
+                return is_dangerous_tile( p );
+            } );
+        }
         if( route.empty() ) {
             continue; // no route
         }
@@ -6364,6 +6432,56 @@ int game::get_zoom() const
 #endif
 }
 
+void game::try_activate_zone_sort_viewport()
+{
+    if( u.zone_sort_viewport.active ) {
+        return;  // already active
+    }
+    if( !u.is_avatar() ) {
+        return;
+    }
+
+    const zone_sort_activity_actor *actor = nullptr;
+
+    if( u.activity && u.activity.id() == ACT_MOVE_LOOT ) {
+        actor = dynamic_cast<const zone_sort_activity_actor *>( u.activity.actor.get() );
+    }
+    if( !actor ) {
+        const player_activity &dest = u.peek_destination_activity();
+        if( !dest.is_null() && dest.id() == ACT_MOVE_LOOT ) {
+            actor = dynamic_cast<const zone_sort_activity_actor *>( dest.actor.get() );
+        }
+    }
+
+    if( !actor || !actor->viewport_was_active ) {
+        return;
+    }
+
+    std::unordered_set<tripoint_abs_ms> all_tiles = actor->get_coord_set();
+    for( const tripoint_abs_ms &d : actor->get_dropoff_coords() ) {
+        all_tiles.insert( d );
+    }
+    if( all_tiles.empty() ) {
+        return;
+    }
+
+    zone_sorting::viewport_bbox bbox = zone_sorting::calc_zone_bbox( all_tiles );
+    int target = zone_sorting::calc_target_zoom(
+                     bbox.width(), bbox.height(),
+                     TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                     get_zoom(), actor->viewport_saved_zoom );
+
+    u.zone_sort_viewport.active = true;
+    u.zone_sort_viewport.center = bbox.centroid;
+    u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.bbox_min = bbox.min_corner;
+    u.zone_sort_viewport.bbox_max = bbox.max_corner;
+    if( !test_mode ) {
+        set_zoom( target );
+        mark_main_ui_adaptor_resize();
+    }
+}
+
 int game::get_moves_since_last_save() const
 {
     return moves_since_last_save;
@@ -6580,7 +6698,7 @@ static void add_disassemblables( uilist &menu,
             }
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( uncraft_recipe.time_to_craft( get_player_character(),
-                                                  recipe_time_flag::ignore_proficiencies ) ) );
+                                                  {}, recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = std::nullopt;
         }
     }
@@ -6749,7 +6867,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
                 }
 
                 const int time = uncraft_recipe.time_to_craft_moves(
-                                     get_player_character(), recipe_time_flag::ignore_proficiencies );
+                                     get_player_character(), {}, recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
                 if( stack.first->typeId() == itype_disassembly ) {
                     item test( uncraft_recipe.result(), calendar::turn, 1 );
@@ -7405,7 +7523,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     // For future reference... It turns out that 78 is exactly the dex required to avoid all damage at the function call used elsewhere.
     // That function call is:
-    // x_in_y(1+u.dex_cur/2, 40)
+    // x_in_y(1+u.get_dex()/2, 40)
     const int magic_number_78 = 78;
 
     if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
@@ -7419,7 +7537,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
                !here.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || here.veh_at( dest_loc ) ) &&
-               u.dex_cur < magic_number_78 &&
+               u.get_dex() < magic_number_78 &&
                !( u.is_mounted() &&
                   u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
@@ -7704,7 +7822,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
-            one_in( 80 + u.dex_cur + u.int_cur ) ) {
+            one_in( 80 + u.get_dex() + u.get_int() ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_sleepiness( 1 );
         }
@@ -7997,7 +8115,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( here.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
         !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
-        !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
+        !x_in_y( 1 + u.get_dex() / 2.0, 40 ) &&
         ( !u.in_vehicle && !here.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         const int sharp_damage = rng( 1, 10 );
@@ -8053,42 +8171,48 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     }
 
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest_loc ) ) {
-        // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
-        // Immobile monsters can't be displaced.
         monster &critter = *mon_ptr;
-        // TODO: handling for ridden creatures other than players mount.
-        if( !critter.has_effect( effect_ridden ) ) {
-            if( u.is_mounted() ) {
-                std::vector<tripoint_bub_ms> maybe_valid;
-                for( const tripoint_bub_ms &jk : here.points_in_radius( critter.pos_bub(), 1 ) ) {
-                    if( is_empty( jk ) ) {
-                        maybe_valid.push_back( jk );
+        // Creatures under a solid surface coexist with the player on the tile
+        if( critter.is_underwater() &&
+            here.has_flag( ter_furn_flag::TFLAG_SWIM_UNDER, dest_loc ) ) {
+            // Fish stays under the walkway/ice, no displacement needed
+        } else {
+            // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
+            // Immobile monsters can't be displaced.
+            // TODO: handling for ridden creatures other than players mount.
+            if( !critter.has_effect( effect_ridden ) ) {
+                if( u.is_mounted() ) {
+                    std::vector<tripoint_bub_ms> maybe_valid;
+                    for( const tripoint_bub_ms &jk : here.points_in_radius( critter.pos_bub(), 1 ) ) {
+                        if( is_empty( jk ) ) {
+                            maybe_valid.push_back( jk );
+                        }
                     }
-                }
-                bool moved = false;
-                while( !maybe_valid.empty() ) {
-                    if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
-                        add_msg( _( "You push the %s out of the way." ), critter.name() );
-                        moved = true;
+                    bool moved = false;
+                    while( !maybe_valid.empty() ) {
+                        if( critter.move_to( random_entry_removed( maybe_valid ) ) ) {
+                            add_msg( _( "You push the %s out of the way." ), critter.name() );
+                            moved = true;
+                        }
                     }
-                }
-                if( !moved ) {
-                    add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
-                    return point_rel_sm::zero;
-                }
-            } else {
-                // Force the movement even though the player is there right now.
-                const bool moved = critter.move_to( u.pos_bub(), /*force=*/false, /*step_on_critter=*/true );
-                if( moved ) {
-                    add_msg( _( "You displace the %s." ), critter.name() );
+                    if( !moved ) {
+                        add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
+                        return point_rel_sm::zero;
+                    }
                 } else {
-                    add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
-                    return point_rel_sm::zero;
+                    // Force the movement even though the player is there right now.
+                    const bool moved = critter.move_to( u.pos_bub(), /*force=*/false, /*step_on_critter=*/true );
+                    if( moved ) {
+                        add_msg( _( "You displace the %s." ), critter.name() );
+                    } else {
+                        add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+                        return point_rel_sm::zero;
+                    }
                 }
+            } else if( !u.has_effect( effect_riding ) ) {
+                add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+                return point_rel_sm::zero;
             }
-        } else if( !u.has_effect( effect_riding ) ) {
-            add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
-            return point_rel_sm::zero;
         }
     }
 
@@ -8399,6 +8523,7 @@ bool game::phasing_move( const tripoint_bub_ms &dest_loc, const bool via_ramp )
         u.grab( object_type::NONE );
         on_move_effects();
         here.creature_on_trap( u );
+        get_event_bus().send<event_type::phase_move>( tunneldist, true );
         return true;
     }
 
@@ -8415,7 +8540,8 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
     }
 
     // phasing only applies to impassible tiles such as walls
-
+    // enforce a height cost for z level changes
+    const int z_level_height = 4;
     int tunneldist = 0;
     tripoint_bub_ms dest = dest_loc;
     const tripoint_rel_ms d( sgn( dest.x() - pos.x() ), sgn( dest.y() - pos.y() ),
@@ -8424,8 +8550,7 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
 
     while( here.impassable( dest ) ||
            ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
-        // add 1 to tunnel distance for each impassable tile in the line
-        tunneldist += 1;
+        tunneldist += d.z() != 0 ? z_level_height : 1;
         if( tunneldist > phase_distance ) {
             return false;
         }
@@ -8437,10 +8562,10 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
 
     // vertical handling for adjacent tiles
     if( d.z() != 0 && !here.impassable( dest_loc ) && tunneldist == 0 ) {
-        tunneldist += 1;
+        tunneldist += z_level_height;
     }
 
-    if( tunneldist != 0 ) {
+    if( tunneldist != 0 && tunneldist <= phase_distance ) {
         if( u.in_vehicle ) {
             here.unboard_vehicle( pos );
         }
@@ -8450,6 +8575,10 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
             vertical_shift( dest.z() );
         }
 
+        const bool is_diagonal = d.x() != 0 && d.y() != 0;
+        const int phase_move_cost = u.run_cost( 100, is_diagonal );
+        u.mod_moves( -phase_move_cost );
+        u.burn_move_stamina( phase_move_cost );
         u.setpos( here, dest );
 
         if( here.veh_at( pos ).part_with_feature( "BOARDABLE", true ) ) {
@@ -8459,6 +8588,8 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
         u.grab( object_type::NONE );
         on_move_effects();
         here.creature_on_trap( u );
+
+        get_event_bus().send<event_type::phase_move>( tunneldist, false );
         return true;
     }
 
@@ -8827,7 +8958,7 @@ void game::on_move_effects()
     if( u.is_running() ) {
         // If mounted, don't break trot
         if( !u.is_mounted() && !u.can_run() ) {
-            u.toggle_run_mode();
+            u.reset_move_mode();
         }
         if( u.get_stamina() <= 0 ) {
             u.add_effect( effect_winded, 10_turns );
@@ -9561,12 +9692,17 @@ void game::vertical_move( int movez, bool force, bool peeking )
 bool game::travel_to_dimension( const std::string &new_prefix,
                                 const std::string &region_type,
                                 const std::vector<npc *> &npc_travellers,
+                                const std::vector<item_location> &item_travellers,
+                                const std::optional<tripoint_bub_ms> item_travellers_location,
                                 vehicle *veh )
 {
     map &here = get_map();
     avatar &player = get_avatar();
+    std::vector<npc_ptr> moving_npcs;
+    moving_npcs.reserve( npc_travellers.size() );
     if( !npc_travellers.empty() ) {
         int traveller_count = npc_travellers.size();
+        overmap &old_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             // skip unloading a traveller
             bool skip = false;
@@ -9583,12 +9719,25 @@ bool game::travel_to_dimension( const std::string &new_prefix,
                 ( *it )->on_unload();
                 it = critter_tracker->active_npc.erase( it );
             } else {
-                it++;
+                if( const npc_ptr ptr = old_om.erase_npc( ( *it++ )->getID() ) ) {
+                    moving_npcs.push_back( ptr );
+                }
             }
         }
     } else {
         unload_npcs();
     }
+
+    std::vector<item> place_items;
+    place_items.reserve( item_travellers.size() );
+    for( item_location il : item_travellers ) {
+        item *it = il.get_item();
+        if( it ) {
+            place_items.push_back( *it );
+            il.remove_item();
+        }
+    }
+
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
     }
@@ -9632,7 +9781,11 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     // Clear the overmap
     overmap_buffer.clear();
     // load/create new overmap
-    overmap_buffer.get( point_abs_om{} );
+    overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
+    // insert travelled NPCs
+    for( const npc_ptr &guy : moving_npcs ) {
+        new_om.insert_npc( guy );
+    }
     // clear map memory from the previous dimension
     player.clear_map_memory();
     // Load map memory in new dimension, if there is any
@@ -9651,6 +9804,12 @@ bool game::travel_to_dimension( const std::string &new_prefix,
         here.board_vehicle( player.pos_bub(), &player );
         player.controlling_vehicle = controlling_vehicle;
     }
+    if( !place_items.empty() && !undo_shift ) {
+        tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
+        for( const item &it : place_items ) {
+            here.add_item_or_charges( item_center, it );
+        }
+    }
     load_npcs();
     // Handle static monsters
     here.spawn_monsters( true, true );
@@ -9659,7 +9818,13 @@ bool game::travel_to_dimension( const std::string &new_prefix,
     weather.set_nextweather( calendar::turn );
     update_overmap_seen();
     if( undo_shift ) {
-        travel_to_dimension( old_prefix, region_type, npc_travellers, veh );
+        travel_to_dimension( old_prefix, region_type, npc_travellers, {}, std::nullopt, veh );
+        if( !place_items.empty() ) {
+            tripoint_bub_ms item_center = item_travellers_location.value_or( player.pos_bub( here ) );
+            for( const item &it : place_items ) {
+                here.add_item_or_charges( item_center, it );
+            }
+        }
     }
     game::mon_info_update();
     get_event_bus().send<event_type::dimension_travel>( player.getID(), old_prefix, dimension_prefix );
@@ -10655,7 +10820,7 @@ float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
-    slip /= std::max( 1, u.dex_cur + u.str_cur );
+    slip /= std::max( 1, u.get_dex() + u.get_str() );
 
     add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %.0f%%", slip );
 
@@ -11270,6 +11435,22 @@ bool game::can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype
     return true;
 }
 
+static void do_delayed_autonote( const tripoint_abs_omt &target )
+{
+    auto iter = g->unvisited_map_extras.find( target );
+    if( iter == g->unvisited_map_extras.end() ) {
+        return; // No unvisited map extras here!
+    }
+
+    overmap *om_target = overmap_buffer.get_existing( project_to<coords::om>( target.xy() ) );
+
+    if( om_target ) {
+        om_target->add_deferred_extra_note( target );
+    }
+
+    g->unvisited_map_extras.erase( iter );
+}
+
 namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m )
@@ -11291,6 +11472,7 @@ void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const ma
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
         const oter_id &past_ter = overmap_buffer.ter( old_abs_omt );
         get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
+        do_delayed_autonote( new_abs_omt );
         // if the player has moved omt then might trigger an EOC for that OMT
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );

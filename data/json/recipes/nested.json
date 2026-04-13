@@ -382,24 +382,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_survivor_duster",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor dusters",
-    "description": "Recipes related to tailoring durable long coats from Kevlar and other materials, known as dusters.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "duster_survivor",
-      "xs_duster_survivor",
-      "xl_duster_survivor",
-      "sleeveless_duster_survivor",
-      "sleeveless_duster_survivor_from_duster_survivor"
-    ],
-    "difficulty": 6
-  },
-  {
     "id": "nested_all_duster",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -408,13 +390,7 @@
     "name": "dusters",
     "description": "Recipes related to tailoring long coats, known as dusters.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_cotton_duster",
-      "nested_fur_duster",
-      "nested_leather_duster",
-      "nested_faux_fur_duster",
-      "nested_survivor_duster"
-    ],
+    "nested_category_data": [ "nested_cotton_duster", "nested_fur_duster", "nested_leather_duster", "nested_faux_fur_duster" ],
     "difficulty": 3
   },
   {
@@ -466,18 +442,6 @@
     "difficulty": 3
   },
   {
-    "id": "nested_survivor_trenchcoat",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor trenchcoats",
-    "description": "Recipes related to tailoring long coats from Kevlar, known as trenchcoats.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "trenchcoat_survivor", "sleeveless_trenchcoat_survivor", "sleeveless_trenchcoat_survivor_from_trenchcoat_survivor" ],
-    "difficulty": 3
-  },
-  {
     "id": "nested_trenchcoats",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -486,13 +450,7 @@
     "name": "trenchcoats",
     "description": "Recipes related to tailoring long coats, known as trenchcoats.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_cotton_trenchcoat",
-      "nested_fur_trenchcoat",
-      "nested_leather_trenchcoat",
-      "nested_faux_fur_trenchcoat",
-      "nested_survivor_trenchcoat"
-    ],
+    "nested_category_data": [ "nested_cotton_trenchcoat", "nested_fur_trenchcoat", "nested_leather_trenchcoat", "nested_faux_fur_trenchcoat" ],
     "difficulty": 3
   },
   {
@@ -2395,7 +2353,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "medium reinforced jumpsuits",
+    "name": "handmade combat suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
     "skill_used": "tailor",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
@@ -2407,7 +2365,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "light reinforced jumpsuits",
+    "name": "handmade summer suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
     "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
@@ -2419,23 +2377,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "heavy reinforced jumpsuits",
-    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
+    "name": "handmade hazard suits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant for both harm and chemical hazards.",
     "skill_used": "tailor",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
     "difficulty": 7
-  },
-  {
-    "id": "nested_fire_survivor_jumpsuits",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "fire resistant jumpsuits",
-    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
-    "difficulty": 8
   },
   {
     "id": "nested_winter_survivor_jumpsuits",
@@ -2443,7 +2389,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "winter reinforced jumpsuits",
+    "name": "handmade winter suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2462,14 +2408,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "reinforced jumpsuits",
+    "name": "handmade reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from various types of harm.",
     "skill_used": "tailor",
     "nested_category_data": [
       "nested_survivor_jumpsuits",
       "nested_light_survivor_jumpsuits",
       "nested_heavy_survivor_jumpsuits",
-      "nested_fire_survivor_jumpsuits",
       "nested_winter_survivor_jumpsuits",
       "nested_nomadjumpsuits"
     ],
@@ -2686,58 +2631,12 @@
     ]
   },
   {
-    "id": "nested_hood_fsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor firehoods",
-    "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from flames.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "hood_fsurvivor", "xs_hood_fsurvivor", "xl_hood_fsurvivor" ],
-    "difficulty": 8
-  },
-  {
-    "id": "nested_hood_h20survivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor wetsuit hoods",
-    "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from water.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "hood_h20survivor",
-      "xs_hood_h20survivor",
-      "xl_hood_h20survivor",
-      "hood_h20survivor_light",
-      "xs_hood_h20survivor_light",
-      "xl_hood_h20survivor_light",
-      "hood_h20survivor_thick",
-      "xs_hood_h20survivor_thick",
-      "xl_hood_h20survivor_thick"
-    ],
-    "difficulty": 7
-  },
-  {
-    "id": "nested_hood_lsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "light survivor hoods",
-    "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer while not being too encumbering.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "hood_lsurvivor", "xs_hood_lsurvivor", "xl_hood_lsurvivor" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_hood_wsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "winter survivor hoods",
+    "name": "handmade winter hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer and keep them warm in freezing temperatures.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2756,7 +2655,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor hoods",
+    "name": "handmade traveler hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer.",
     "skill_used": "tailor",
     "nested_category_data": [ "hood_survivor", "hood_xssurvivor", "hood_xlsurvivor" ],
@@ -2768,16 +2667,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "survivor hoods",
+    "name": "handmade reinforced hoods",
     "description": "Recipes related to constructing various types and sizes of specialized hoods designed to protect the wearer.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_hood_survivor",
-      "nested_hood_wsurvivor",
-      "nested_hood_lsurvivor",
-      "nested_hood_h20survivor",
-      "nested_hood_fsurvivor"
-    ],
+    "nested_category_data": [ "nested_hood_survivor", "nested_hood_wsurvivor" ],
     "difficulty": 5
   },
   {
@@ -2888,8 +2781,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor masks",
-    "description": "Recipes related to constructing various sizes of standard survivor masks.",
+    "name": "handmade basic gas masks",
+    "description": "Recipes related to constructing various sizes of standard handmade gas masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_survivor", "mask_survivorxs", "mask_survivorxl" ],
     "difficulty": 6
@@ -2900,8 +2793,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor firemasks",
-    "description": "Recipes related to constructing various sizes of survivor masks designed to withstand heavy smoke and fires.",
+    "name": "handmade firemasks",
+    "description": "Recipes related to constructing various sizes of handmade gas masks designed to withstand heavy smoke and fires.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_fsurvivor", "mask_fsurvivorxs", "mask_fsurvivorxl" ],
     "difficulty": 7
@@ -2912,8 +2805,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor divemasks",
-    "description": "Recipes related to constructing various sizes of survivor masks designed to protect the wearer and allow them to breath underwater.",
+    "name": "handmade divemasks",
+    "description": "Recipes related to constructing various sizes of handmade divemasks designed to protect the wearer and allow them to breath underwater.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_h20survivor", "mask_h20survivorxs", "mask_h20survivorxl" ],
     "difficulty": 7
@@ -2924,8 +2817,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "heavy survivor masks",
-    "description": "Recipes related to constructing various sizes of heavy survivor masks.",
+    "name": "handmade reinforced gas masks",
+    "description": "Recipes related to constructing various sizes of heavy handmade gas masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_hsurvivor", "mask_hsurvivorxl", "mask_hsurvivorxs" ],
     "difficulty": 7
@@ -2936,8 +2829,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "half survivor masks",
-    "description": "Recipes related to constructing various sizes of half survivor masks.",
+    "name": "handmade half gas masks",
+    "description": "Recipes related to constructing various sizes of handmade half gas masks that do not cover the eyes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl", "mask_lsurvivorxs" ],
     "difficulty": 6
@@ -2948,11 +2841,12 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "survivor masks",
-    "description": "Recipes related to constructing specialized survivor masks.",
+    "name": "handmade gas masks",
+    "description": "Recipes related to constructing various kinds of handmade gas masks.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "nested_mask_survivor",
+      "nested_mask_fsurvivor",
       "nested_mask_fsurvivor",
       "nested_mask_hsurvivor",
       "nested_mask_lsurvivor",
@@ -3099,25 +2993,13 @@
     "difficulty": 1
   },
   {
-    "id": "nested_gloves_fsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor firegloves",
-    "description": "Recipes related to constructing various sizes of survivor firegloves.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "gloves_fsurvivor", "xs_gloves_fsurvivor", "xl_gloves_fsurvivor" ],
-    "difficulty": 7
-  },
-  {
     "id": "nested_gloves_wsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor winter gloves",
-    "description": "Recipes related to constructing various sizes of winter survivor gloves.",
+    "name": "handmade winter gauntlets",
+    "description": "Recipes related to constructing various sizes of handmade winter gauntlets.",
     "skill_used": "tailor",
     "nested_category_data": [
       "gloves_wsurvivor_nofur",
@@ -3130,81 +3012,16 @@
     "difficulty": 7
   },
   {
-    "id": "nested_gloves_h20survivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor wetsuit gloves",
-    "description": "Recipes related to constructing various sizes of survivor wetsuit gloves.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "gloves_h20survivor",
-      "xs_gloves_h20survivor",
-      "xl_gloves_h20survivor",
-      "gloves_h20survivor_light",
-      "xs_gloves_h20survivor_light",
-      "xl_gloves_h20survivor_light",
-      "gloves_h20survivor_thick",
-      "xs_gloves_h20survivor_thick",
-      "xl_gloves_h20survivor_thick"
-    ],
-    "difficulty": 7
-  },
-  {
-    "id": "nested_gloves_hsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "heavy survivor gloves",
-    "description": "Recipes related to constructing various sizes of heavy survivor gloves.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "gloves_hsurvivor", "xs_gloves_hsurvivor", "xl_gloves_hsurvivor" ],
-    "difficulty": 7
-  },
-  {
-    "id": "nested_gloves_lsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "light survivor gloves",
-    "description": "Recipes related to constructing various sizes of light survivor gloves.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "gloves_lsurvivor", "xs_gloves_lsurvivor", "xl_gloves_lsurvivor" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_gloves_survivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor gloves",
-    "description": "Recipes related to constructing various sizes of survivor gloves.",
+    "name": "handmade hazard gloves",
+    "description": "Recipes related to constructing various sizes of handmade hazard gloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_survivor", "xs_gloves_survivor", "xl_gloves_survivor" ],
     "difficulty": 5
-  },
-  {
-    "id": "nested_gloves_survivor_fingerless",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "fingerless survivor gloves",
-    "description": "Recipes related to modifying survivor gloves to be fingerless.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "gloves_survivor_fingerless",
-      "xs_gloves_survivor_fingerless",
-      "xl_gloves_survivor_fingerless",
-      "gloves_lsurvivor_fingerless",
-      "xs_gloves_lsurvivor_fingerless",
-      "xl_gloves_lsurvivor_fingerless"
-    ],
-    "difficulty": 1
   },
   {
     "id": "nested_all_gloves_survivor",
@@ -3212,19 +3029,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "survivor gloves",
-    "description": "Recipes related to constructing various sizes and types of survivor gloves.",
+    "name": "handmade protective gloves",
+    "description": "Recipes related to various sizes and types of durable gloves specialized for tasks like acid resistance or cold weather.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_gloves_survivor_fingerless",
-      "nested_gloves_survivor",
-      "nested_gloves_lsurvivor",
-      "nested_gloves_hsurvivor",
-      "nested_gloves_h20survivor",
-      "nested_gloves_wsurvivor",
-      "nested_gloves_fsurvivor"
-    ],
-    "difficulty": 1
+    "nested_category_data": [ "nested_gloves_survivor", "nested_gloves_wsurvivor" ],
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_hands",
@@ -3539,25 +3348,13 @@
     "difficulty": 7
   },
   {
-    "id": "nested_boots_fsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor fireboots",
-    "description": "Recipes related to constructing various sizes of survivor fireboots.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "boots_fsurvivor", "xs_boots_fsurvivor", "xl_boots_fsurvivor" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_boots_wsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor winter boots",
-    "description": "Recipes related to constructing various sizes of survivor winter boots.",
+    "name": "handmade winter hazard boots",
+    "description": "Recipes related to constructing various sizes of handmade winterized hazard boots.",
     "skill_used": "tailor",
     "nested_category_data": [
       "boots_wsurvivor_nofur",
@@ -3570,61 +3367,15 @@
     "difficulty": 5
   },
   {
-    "id": "nested_boots_h20survivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "survivor wetsuit boots",
-    "description": "Recipes related to constructing various sizes of survivor wetsuit boots.",
-    "skill_used": "tailor",
-    "nested_category_data": [
-      "boots_h20survivor",
-      "xs_boots_h20survivor",
-      "xl_boots_h20survivor",
-      "boots_h20survivor_light",
-      "xs_boots_h20survivor_light",
-      "xl_boots_h20survivor_light",
-      "boots_h20survivor_thick",
-      "xs_boots_h20survivor_thick",
-      "xl_boots_h20survivor_thick"
-    ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_boots_hsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "heavy survivor boots",
-    "description": "Recipes related to constructing various sizes of heavy survivor boots.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "boots_hsurvivor", "xs_boots_hsurvivor", "xl_boots_hsurvivor" ],
-    "difficulty": 5
-  },
-  {
-    "id": "nested_boots_lsurvivor",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "light survivor boots",
-    "description": "Recipes related to constructing various sizes of light survivor boots.",
-    "skill_used": "tailor",
-    "nested_category_data": [ "boots_lsurvivor", "xs_boots_lsurvivor", "xl_boots_lsurvivor" ],
-    "difficulty": 5
-  },
-  {
     "id": "nested_boots_survivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "survivor boots",
-    "description": "Recipes related to constructing various sizes of standard survivor boots.",
+    "name": "handmade standard hazard boots",
+    "description": "Recipes related to constructing various sizes of non-winterized handmade hazard boots.",
     "skill_used": "tailor",
-    "nested_category_data": [ "boots_survivor", "boots_xssurvivor", "boots_xlsurvivor" ],
+    "nested_category_data": [ "boots_survivor", "boots_xssurvivor", "boots_xlsurvivor", "boots_survivor_hoof" ],
     "difficulty": 5
   },
   {
@@ -3633,17 +3384,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
-    "name": "survivor boots",
-    "description": "Recipes related to constructing various sizes and variations of survivor boots.",
+    "name": "handmade hazard boots",
+    "description": "Recipes related to constructing various sizes and variations of handmade hazard boots made with acid protection in mind.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "nested_boots_survivor",
-      "nested_boots_lsurvivor",
-      "nested_boots_hsurvivor",
-      "nested_boots_h20survivor",
-      "nested_boots_wsurvivor",
-      "nested_boots_fsurvivor"
-    ],
+    "nested_category_data": [ "nested_boots_survivor", "nested_boots_wsurvivor" ],
     "difficulty": 5
   },
   {
@@ -7434,27 +7178,6 @@
       "xl_wetsuit_thick",
       "wetsuit_spring",
       "nested_wetsuits_reinforced"
-    ]
-  },
-  {
-    "id": "nested_wetsuits_reinforced",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "reinforced wetsuits",
-    "description": "Recipes related to the production of reinforced wetsuits.",
-    "skill_used": "fabrication",
-    "nested_category_data": [
-      "h20survivor_jumpsuit",
-      "xs_h20survivor_jumpsuit",
-      "xl_h20survivor_jumpsuit",
-      "h20survivor_jumpsuit_light",
-      "xs_h20survivor_jumpsuit_light",
-      "xl_h20survivor_jumpsuit_light",
-      "thick_h20survivor_jumpsuit",
-      "xs_thick_h20survivor_jumpsuit",
-      "xl_thick_h20survivor_jumpsuit"
     ]
   },
   {

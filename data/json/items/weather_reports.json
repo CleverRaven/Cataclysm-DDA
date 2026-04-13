@@ -323,5 +323,44 @@
     "volume": "4 ml",
     "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_inner_cabins_open_field",
+    "name": { "str": "HEW printout CITW-BFα", "str_pl": "HEW printout CITW-BFαs" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"CITW-BF\".  Most of the document is coded in a series of complex equations and data that you cannot understand, and there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  However, there are also several relatively mundane weather recordings.  The bottom has a bar graph with several bars, the tallest of which is labeled \"α\".",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "weight": "1 g",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_inner_cabins_warped_cabin",
+    "name": { "str": "HEW printout CITW-BFβ", "str_pl": "HEW printout CITW-BFβs" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"CITW-BF\".  The entire document is a series of obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  The bottom has a bar graph with several bars, the tallest of which is labeled \"β\".",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "weight": "1 g",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_inner_cabins_home_cabin",
+    "name": { "str": "HEW printout CITW-BFγ", "str_pl": "HEW printout CITW-BFγs" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"CITW-BF\".  Most of the document is coded in a series of complex equations and data that you cannot understand, but there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  The bottom has a bar graph with several bars, the tallest of which is labeled \"γ\".  Beside it is a topographical map you recognize, centered on the lonely cabin in the field.",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "weight": "1 g",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

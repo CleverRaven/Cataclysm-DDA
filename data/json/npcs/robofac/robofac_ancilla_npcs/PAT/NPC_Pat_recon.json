@@ -183,43 +183,43 @@
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_2",
     "type": "talk_topic",
-    "dynamic_line": "Shared a smoke with a merc that took these photos of a Department of Energy facility.  Nothin' more ominous than the DOE, yeah?  Worth a scan.",
+    "dynamic_line": "Shared a smoke with a merc that took these photos of a Depahtment of Energy facility.  Nothin' more ominous than the DOE, yeah?  Worth a scan.",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_3",
     "type": "talk_topic",
-    "dynamic_line": "Fucker sold me this - for a full coin I might add - said it's a fuckin' treasure map.  I was hard up for fresh data, so I bought it.  Says there's a grate out in the contry, and treasure underneath.  Figured it's worth checkin' out, anyway.",
+    "dynamic_line": "Fahka' sold me this - for a full coin I might add - said it's a fahkin' treasure map.  I was hard up for fresh data, so I bought it.  Says there's a grate out in the contry, and treasure underneath.  Figured it's worth checkin' out, anyway.",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_4",
     "type": "talk_topic",
-    "dynamic_line": "Check out these photos - looks like some kind of minin' operation.  But the strange thing is that, apparently, the ground was a rumblin', and the tradah that passed by swore they heard screams.  Not the zombie kind neithah.  Worth a scan - from the parking lot, maybe.",
+    "dynamic_line": "Check out these photos - looks like some kind of minin' operation.  But the strange thing is that, apparently, the ground was a rumblin', and the tradah that passed by swore they heard screams.  Not the zombie kind neithah.  Worth a scan - from the pahking lot, maybe.",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_5",
     "type": "talk_topic",
-    "dynamic_line": "This is a doozy.  This guy, all out of his mind, came by and swore he saw this scrap-metal castle just fuckin' BLIP into existence.  So crazy a story I doubt he made it up.  Lock'n'load and check it out, yeah?",
+    "dynamic_line": "This is a doozy.  This guy, all out of his mind, came by and swore he saw this scrap-metal castle just fahkin' BLIP into existence.  So crazy a story I doubt he made it up.  Lock'n'load and check it out, yeah?",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_6",
     "type": "talk_topic",
-    "dynamic_line": "I picked these up off a trader in exchange for some cigs - didn't tell me where they got'em.  Most of it's redacted, which probably means strange shit, no?  But I'm seein' here all these order forms for materials to build ventilation shafts, and a few geological reports say somethin' about forests.  It isn't much to go on, but keep an eye out for strange shit in the woods, yeah?",
+    "dynamic_line": "I picked these up off a tradah in exchange for some cigs - didn't tell me where they got'em.  Most of it's redacted, which probably means strange shit, no?  But I'm seein' here all these order forms for materials to build ventilation shafts, and a few geological reports say somethin' about forests.  It isn't much to go on, but keep an eye out for strange shit in the woods, yeah?",
     "responses": [ { "text": "I'll keep an eye out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_7",
     "type": "talk_topic",
-    "dynamic_line": "Came fresh off another merc claims they got it on a job from our employers, but wouldn't say too much more.  I coaxed a location out'of'em.  Given how secretive they were, I think it's worth a look and a scan, yeah?",
+    "dynamic_line": "Came fresh off another merc claims they got it on a job from our employah, but wouldn't say too much more.  I coaxed a location out'of'em.  Given how secretive they were, I think it's worth a look and a scan, yeah?",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_8",
     "type": "talk_topic",
-    "dynamic_line": "All I've got is that photo and a location.  It's some kind of building, glowing all purple.  I'd take a hazmat suit, if you got one.  Maybe it's nukes or some shit, yeah?",
+    "dynamic_line": "All I've got is that photo and a location.  It's some kind of building, glowing all purple.  I'd take a hazmat suit, if you got one.  Maybe it's freakin' nukes or some shit, yeah?",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
@@ -235,7 +235,7 @@
   {
     "id": "MISSION_ROBOFAC_PAT_RECON_10",
     "type": "talk_topic",
-    "dynamic_line": "This one might be nothin', but the mercs have been talking about this loner lives out in a cabin - this cabin, here.  They say he's SEEN things, but everyone's got a different idea about what he's seen.  Maybe you go see for yourself?",
+    "dynamic_line": "This one might be nothin', but the mercs have been talking about this lonah lives out in a cabin - this cabin, heah.  They say he's SEEN things, but everyone's got a different idea about what he's seen.  Maybe you go see for yourself?",
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
   {
@@ -243,8 +243,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
-      "yes": "Check this out.\"  Pat double clicks an audio file and an old version of Winamp opens up.  The sound starts immediately, but nothing but static fills your earpiece.  Pat stops it after a moment.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
-      "no": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Didn't record anythin'.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?"
+      "yes": "Check this out.\"  Pat double clicks an audio file and an old version of Winamp opens up.  The sound starts immediately, but nothing but static fills your earpiece.  Pat stops it after a moment.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Just not theah.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?",
+      "no": "Check this out.\"  Pat hits play on the recorder, and nothing but static plays for a moment before they stop it.  \"Nothin', right?  Wrong.  I recorded somethin' - someone talkin' - but it's just gone.  Just not theah.  Somethin's afoot.  I'm pretty sure the source is this radio tower, heah.  Check it out, maybe?"
     },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   },
@@ -253,8 +253,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
-      "yes": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat uploads a scan of a sketched map to your headset HUD.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
-      "no": "Right, look at this heah.  Merc I talked to said they wandered deep into this fuckin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fuckah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out."
+      "yes": "Right, look at this heah.  Merc I talked to said they wandered deep into this fahkin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat uploads a scan of a sketched map to your headset HUD.  \"Fahkah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out.",
+      "no": "Right, look at this heah.  Merc I talked to said they wandered deep into this fahkin' mine and found all these strange ass spirals.  Even drew a map.\"  Pat flips over the paper to show you a sketched map.  \"Fahkah wasn't right in the head, I'll tell ya' that.  Anyway.  Sounds like the kinda strange shit that's right up your alley, though.  Check it out."
     },
     "responses": [ { "text": "Maybe I'll check it out.  Thanks.", "topic": "TALK_DONE" } ]
   }

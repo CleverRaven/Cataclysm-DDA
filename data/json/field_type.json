@@ -338,11 +338,24 @@
         "color": "yellow",
         "dangerous": true,
         "light_emitted": 20,
+        "light_color": [ 255, 120, 40 ],
         "translucency": 0.7,
         "convection_temperature_mod": 300
       },
-      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
-      { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
+      {
+        "name": { "ctxt": "noun", "str": "fire" },
+        "color": "light_red",
+        "light_emitted": 60,
+        "light_color": [ 255, 180, 80 ],
+        "translucency": 0.4
+      },
+      {
+        "name": "raging fire",
+        "color": "red",
+        "light_emitted": 160,
+        "light_color": [ 255, 255, 210 ],
+        "translucency": 0.1
+      }
     ],
     "description_affix": "on",
     "decay_amount_factor": 3,
@@ -979,6 +992,28 @@
     "looks_like": "fd_smoke"
   },
   {
+    "id": "fd_twisting_mass_dust",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "magenta sparkles",
+        "color": "magenta",
+        "sym": "*",
+        "light_emitted": 160,
+        "light_color": [ 255, 0, 255 ],
+        "concentration": 1
+      }
+    ],
+    "priority": 9,
+    "half_life": "10 seconds",
+    "accelerated_decay": true,
+    "dirty_transparency_cache": true,
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true,
+    "looks_like": "fd_tindalos_rift"
+  },
+  {
     "id": "fd_fire_vent",
     "type": "field_type",
     "legacy_enum_id": 17,
@@ -1019,16 +1054,16 @@
     "type": "field_type",
     "legacy_enum_id": 19,
     "intensity_levels": [
-      { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
-      { "//": "repeat last entry", "light_emitted": 1 },
-      { "//": "repeat last entry", "light_emitted": 2.5 },
-      { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
-      { "//": "repeat last entry", "light_emitted": 7.5 },
-      { "//": "repeat last entry", "light_emitted": 11 },
-      { "name": "electric cloud", "color": "blue", "light_emitted": 14.5 },
-      { "//": "repeat last entry", "light_emitted": 18 },
-      { "//": "repeat last entry", "light_emitted": 21.5 },
-      { "//": "repeat last entry", "light_emitted": 25 }
+      { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01, "light_color": [ 95, 204, 247 ] },
+      { "//": "repeat last entry", "light_emitted": 1, "light_color": [ 95, 204, 247 ] },
+      { "//": "repeat last entry", "light_emitted": 2.5, "light_color": [ 95, 204, 247 ] },
+      { "name": "electric crackle", "color": "cyan", "light_emitted": 4, "light_color": [ 146, 217, 245 ] },
+      { "//": "repeat last entry", "light_emitted": 7.5, "light_color": [ 146, 217, 245 ] },
+      { "//": "repeat last entry", "light_emitted": 11, "light_color": [ 146, 217, 245 ] },
+      { "name": "electric cloud", "color": "blue", "light_emitted": 14.5, "light_color": [ 146, 217, 245 ] },
+      { "//": "repeat last entry", "light_emitted": 18, "light_color": [ 182, 231, 250 ] },
+      { "//": "repeat last entry", "light_emitted": 21.5, "light_color": [ 182, 231, 250 ] },
+      { "//": "repeat last entry", "light_emitted": 25, "light_color": [ 182, 231, 250 ] }
     ],
     "description_affix": "illuminated_by",
     "has_elec": true,
@@ -1318,6 +1353,81 @@
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_purple_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of purple incense",
+        "translucency": 5,
+        "color": "magenta",
+        "effects": [
+          {
+            "effect_id": "purple_incense_effect",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_tindalos_gas"
+  },
+  {
+    "id": "fd_red_incense",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "swirl of red incense",
+        "translucency": 5,
+        "color": "red",
+        "effects": [
+          {
+            "effect_id": "red_incense_effect",
+            "intensity": 1,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
+  },
+  {
+    "id": "fd_yellow_incense",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "swirl of yellow incense", "translucency": 5, "color": "yellow" } ],
+    "decay_amount_factor": 5,
+    "percent_spread": 250,
+    "outdoor_age_speedup": "6 minutes",
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "35 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
   },
   {
     "id": "fd_weedsmoke",

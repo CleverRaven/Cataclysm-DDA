@@ -41,5 +41,18 @@
     "type": "mapgen",
     "om_terrain": [ "nether_glass_impassable" ],
     "object": { "fill_ter": "t_nether_glass_wall" }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "nether_glass_imperial_road" ],
+    "object": {
+      "fill_ter": "t_nether_glass_floor",
+      "place_nested": [
+        { "chunks": [ "fade_ruins_east" ], "x": 0, "y": 0, "neighbors": { "east": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_west" ], "x": 0, "y": 0, "neighbors": { "west": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_north" ], "x": 0, "y": 0, "neighbors": { "north": "highland_ruins" } },
+        { "chunks": [ "fade_ruins_south" ], "x": 0, "y": 0, "neighbors": { "south": "highland_ruins" } }
+      ]
+    }
   }
 ]

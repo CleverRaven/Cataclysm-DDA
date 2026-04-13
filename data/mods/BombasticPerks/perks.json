@@ -1190,10 +1190,19 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] } },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "INTELLIGENCE",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
+          {
+            "value": "PERCEPTION",
+            "add": { "math": [ "clamp(((u_val('thirst')/120) + (u_val('sleepiness')/150)), 0, 50)" ] }
+          },
           { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
@@ -1406,7 +1415,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8 and lose 4 kg of carry weight.",
+    "description": "You've found that you can move just a little bit quicker the more dexterous you are.  Unfortunately, this applies comes at a loss to your max carry weight.  Gain 2 speed for every point of DEX away from 8.  You lose 4% of your max carry weight for each point between 8 and 20 DEX, and 2% for each point beyond 20.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -1414,7 +1423,11 @@
       },
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 4000" ] } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 8 - u_val('dexterity') ) * 0.04" ] } } ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 20 - u_val('dexterity') ) * -0.02" ] } } ]
       }
     ]
   },
@@ -1503,6 +1516,27 @@
       {
         "condition": { "u_has_wielded_with_ammotype": "22" },
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_yeoman",
+    "name": { "str": "Yeoman" },
+    "description": "In a world of guns, you were born to string a bow.  With such weapons you draw back further, increasing damage and range, and your arrows strike true with unerring accuracy.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+        "values": [
+          { "value": "RANGED_ARMOR_PENETRATION", "add": 4 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+          { "value": "RANGE", "add": 6 }
+        ]
       }
     ]
   },

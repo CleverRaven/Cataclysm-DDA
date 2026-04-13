@@ -183,6 +183,9 @@ struct islot_comestible {
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
 
+        /** Reference to another comestible for monotony and consumption counting grouping */
+        itype_id eats_like;
+
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
 
@@ -1379,10 +1382,22 @@ struct itype {
 
         std::set<weapon_category_id> weapon_category;
 
+        // Per-quality data on an item type: level and optional speed modifier.
+        struct item_quality {
+            int level = 0;
+            float speed = 1.0f; // <1.0 = faster, 1.0 = default, >1.0 = slower
+
+            // Supports "relative" in copy-from: adds to level, leaves speed unchanged.
+            item_quality &operator+=( const item_quality &rhs ) {
+                level += rhs.level;
+                return *this;
+            }
+        };
+
         // Tool qualities and levels for those that work even when tool is not charged
-        std::map<quality_id, int> qualities;
+        std::map<quality_id, item_quality> qualities;
         // Tool qualities that work only when the tool has charges_to_use charges remaining
-        std::map<quality_id, int> charged_qualities;
+        std::map<quality_id, item_quality> charged_qualities;
 
         // True if this has given quality or charged_quality (regardless of current charge).
         bool has_any_quality( std::string_view quality ) const;

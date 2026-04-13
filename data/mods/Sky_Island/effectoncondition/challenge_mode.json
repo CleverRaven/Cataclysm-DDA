@@ -1,0 +1,176 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_pre_raid",
+    "//": "This EOC is triggered at the top of the dimension shift before the player even moves since it may alter the dimension being traveled to",
+    "effect": [
+      { "set_string_var": "dimension_sky_island_region", "target_var": { "global_val": "sky_island_target_region_settings" } },
+      { "math": [ "challenge_mode_reward_multiplier = 1.5" ] },
+      {
+        "if": { "math": [ "challenge_mode_active == 1" ] },
+        "then": [
+          {
+            "weighted_list_eocs": [
+              [ "EOC_raid_challenge_mode_horde_chase", 100 ],
+              [ "EOC_raid_challenge_mode_megacity_dimension", 100 ],
+              [ "EOC_raid_challenge_mode_hot_dimension", 100 ],
+              [ "EOC_raid_challenge_mode_cold_dimension", 100 ],
+              [ "EOC_raid_challenge_mode_reduced_pulselength", 100 ],
+              [ "EOC_raid_challenge_mode_slow_effect", 100 ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_post_raid",
+    "//": "Clear modifier effects and reset weights for selecting forest/houses as mission/extract targets post raid",
+    "effect": [
+      { "u_lose_effect": [ "challenge_mode_speed_reduction" ] },
+      { "u_lose_trait": "CHALLENGE_MODE_HORDES" },
+      { "math": [ "target_fields_weight = 15" ] },
+      { "math": [ "target_forests_weight = hardmissions" ] },
+      { "math": [ "target_houses_weight = hardermissions" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_megacity_dimension",
+    "//": "Disable targeting forests for missions/extract since there is none in this dimension",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_megacity_dimension_warning",
+          "effect": [ { "u_message": "Something is different about this dimension.  The city appears to never end.", "popup": true } ]
+        },
+        "time_in_future": 1
+      },
+      {
+        "set_string_var": "sky_island_raid_region_mega_city",
+        "target_var": { "global_val": "sky_island_target_region_settings" }
+      },
+      { "math": [ "target_forests_weight = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_hot_dimension",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_hot_dimension_warning",
+          "effect": [
+            {
+              "u_message": "Something is different about this dimension.  Everything feels hotter than it should be.",
+              "popup": true
+            }
+          ]
+        },
+        "time_in_future": 1
+      },
+      {
+        "set_string_var": "sky_island_raid_region_hot",
+        "target_var": { "global_val": "sky_island_target_region_settings" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_cold_dimension",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_cold_dimension_warning",
+          "effect": [
+            {
+              "u_message": "Something is different about this dimension.  Everything feels colder than it should be.",
+              "popup": true
+            }
+          ]
+        },
+        "time_in_future": 1
+      },
+      {
+        "set_string_var": "sky_island_raid_region_cold",
+        "target_var": { "global_val": "sky_island_target_region_settings" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_reduced_pulselength",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_reduced_pulselength_warning",
+          "effect": [
+            {
+              "u_message": "Something is different about this dimension.  You feel that you have less time than normal.",
+              "popup": true
+            }
+          ]
+        },
+        "time_in_future": 1
+      },
+      { "math": [ "currentpulselength = currentpulselength / 3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_slow_effect",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_raid_challenge_mode_slow_effect_warning",
+          "effect": [ { "u_message": "Something is different about this dimension.  You're moving slower than normal.", "popup": true } ]
+        },
+        "time_in_future": 1
+      },
+      { "u_add_effect": "challenge_mode_speed_reduction", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_raid_challenge_mode_horde_chase_warning",
+            "effect": [
+              {
+                "u_message": "Something is different about this dimension.  It feels like everything is following you.",
+                "popup": true
+              }
+            ]
+          },
+          "EOC_raid_challenge_mode_horde_chase_action"
+        ],
+        "time_in_future": 1
+      },
+      { "u_add_trait": "CHALLENGE_MODE_HORDES" },
+      { "math": [ "target_fields_weight = 0" ] },
+      { "math": [ "target_forests_weight = 0" ] },
+      { "math": [ "target_houses_weight = 100" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase_recurrence",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_trait": "CHALLENGE_MODE_HORDES" },
+    "deactivate_condition": { "not": { "u_has_trait": "CHALLENGE_MODE_HORDES" } },
+    "effect": [ { "run_eocs": [ "EOC_raid_challenge_mode_horde_chase_action" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raid_challenge_mode_horde_chase_action",
+    "effect": [
+      { "u_location_variable": { "context_val": "your_pos" } },
+      { "signal_hordes": { "context_val": "your_pos" }, "signal_power": { "math": [ "5000" ] } },
+      { "u_message": "Your skin itches, you can feel them closing in.", "type": "bad" }
+    ]
+  }
+]

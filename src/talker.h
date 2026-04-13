@@ -738,6 +738,12 @@ class const_talker
         virtual bool is_in_vehicle() const {
             return false;
         }
+        virtual int get_price() const {
+            return 0;
+        }
+        virtual int get_price_postapoc() const {
+            return 0;
+        }
 };
 
 class talker: virtual public const_talker

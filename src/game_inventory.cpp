@@ -57,6 +57,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -643,7 +644,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
-                                          recipe_time_flag::ignore_proficiencies ) );
+                                          {}, recipe_time_flag::ignore_proficiencies ) );
             }, _( "TIME" ) );
         }
 
@@ -2149,6 +2150,20 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const saw_stock_actor &actor;
 };
 
+class target_practice_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        explicit target_practice_inventory_preset( const Character &you ) :
+            weapon_inventory_preset( you ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+    private:
+};
+
 class attach_molle_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -2361,6 +2376,15 @@ item_location game_menus::inv::saw_stock( Character &you, item &tool )
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )
                                       )
+                       );
+}
+
+item_location game_menus::inv::pick_target_practice_gun( Character &you )
+{
+    return inv_internal( you, target_practice_inventory_preset( you ),
+                         _( "Pick a gun to practice with" ), 1,
+                         _( "You don't have any gun to practice with." ),
+                         _( "Choose a weapon to practice with" )
                        );
 }
 

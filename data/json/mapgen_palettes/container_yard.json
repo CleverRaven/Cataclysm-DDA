@@ -59,6 +59,16 @@
             [ "shipping_container_open_gunsafe_1x1", 20 ],
             [ "shipping_container_filing_cabinet_1x1", 20 ],
             [ "shipping_container_emer_blanket_1x1", 20 ],
+            [ "shipping_container_diesel_generator_1x1", 20 ],
+            [ "shipping_container_portable_generator_1x1", 20 ],
+            [ "shipping_container_12000_gasoline_generator_1x1", 20 ],
+            [ "shipping_container_extinguisher_1x1", 20 ],
+            [ "shipping_container_sm_extinguisher_1x1", 20 ],
+            [ "shipping_container_light_bulb_1x1", 20 ],
+            [ "shipping_container_long_extension_cable_1x1", 20 ],
+            [ "shipping_container_extension_cable_1x1", 20 ],
+            [ "shipping_container_clothes_hanger_1x1", 20 ],
+            [ "shipping_container_bike_rack_1x1", 20 ],
             [ "shipping_container_food_1x1", 10 ],
             [ "shipping_container_books_1x1", 10 ],
             [ "shipping_container_gift_shop_1x1", 10 ],
@@ -473,7 +483,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
-      "items": { " ": { "item": "nail_box_part", "chance": 95, "repeat": [ 10, 20 ] } }
+      "items": { " ": { "item": "nail_box_10lb_full", "chance": 95, "repeat": [ 10, 20 ] } }
     }
   },
   {
@@ -1113,5 +1123,91 @@
     "type": "mapgen",
     "nested_mapgen_id": "shipping_container_filing_cabinet_1x1",
     "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_filing_cabinet", 90 ], [ "f_null", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_diesel_generator_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "furniture": { " ": [ [ "f_diesel_generator", 90 ], [ "f_null", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_portable_generator_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "portable_generator", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_12000_gasoline_generator_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "12000_gasoline_generator", "chance": 95 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_extinguisher_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "extinguisher", "chance": 95, "repeat": [ 8, 12 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_sm_extinguisher_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "sm_extinguisher", "chance": 95, "repeat": [ 16, 24 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_light_bulb_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "item": { " ": { "item": "light_bulb", "chance": 95, "repeat": [ 45, 55 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_long_extension_cable_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "item": { " ": { "item": "long_extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_extension_cable_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "item": { " ": { "item": "extension_cable", "chance": 95, "repeat": [ 10, 20 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_clothes_hanger_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": [ [ "f_crate_c", 90 ], [ "f_cardboard_box", 10 ] ] },
+      "item": { " ": { "item": "clothes_hanger", "chance": 95, "repeat": [ 40, 50 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "shipping_container_bike_rack_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_pallet_belted" },
+      "item": { " ": { "item": "bike_rack", "chance": 95, "repeat": [ 2, 4 ] } }
+    }
   }
 ]

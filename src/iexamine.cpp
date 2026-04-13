@@ -67,6 +67,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -134,6 +135,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+static const faction_id faction_robofac( "robofac" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
@@ -210,7 +213,7 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag
 json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
-static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
+static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
@@ -300,6 +303,7 @@ static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -1447,16 +1451,48 @@ void iexamine::intercom_balthazar( Character &you, const tripoint_bub_ms &examp 
     }
 }
 
+npc *find_intercom_operator( const trait_id &marker_trait,
+                             const faction_id &fac_id )
+{
+    npc *fallback = nullptr;
+    for( npc *guy : g->get_npcs_if( [&marker_trait, &fac_id]( const npc & n ) {
+    return n.has_trait( marker_trait ) &&
+               n.get_faction() && n.get_faction()->id == fac_id &&
+               !n.in_sleep_state();
+    } ) ) {
+        if( !guy->myclass.is_null() ) {
+            const auto &[start, end] = guy->myclass.obj().get_work_hours();
+            const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
+            if( is_within_work_hours( hour, start, end ) ) {
+                return guy;
+            }
+        }
+        if( !fallback ) {
+            fallback = guy;
+        }
+    }
+    return fallback;
+}
+
 void iexamine::intercom( Character &you, const tripoint_bub_ms &examp )
 {
-    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
-        return guy.myclass == NC_ROBOFAC_INTERCOM && rl_dist( guy.pos_bub(), examp ) < 10;
-    } );
-    if( intercom_npcs.empty() ) {
+    // Prefer trait-based operators (new worlds with shift rotation)
+    npc *op = find_intercom_operator( trait_INTERCOM_OPERATOR, faction_robofac );
+    if( !op ) {
+        // Legacy fallback: old class-based NPC (existing saves).
+        // Preserves original 10-tile distance check.
+        const std::vector<npc *> legacy = g->get_npcs_if( [examp]( const npc & n ) {
+            return n.myclass == NC_ROBOFAC_INTERCOM && rl_dist( n.pos_bub(), examp ) < 10;
+        } );
+        if( !legacy.empty() ) {
+            op = legacy.front();
+        }
+    }
+    if( !op ) {
         you.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
-        // TODO: This needs to be converted a talker_console or something
-        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false );
+        get_avatar().talk_to( get_talker_for( *op ), false, false, false, "",
+                              _( "the intercom" ) );
     }
 }
 
@@ -2251,13 +2287,41 @@ void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bo
     if( harvest.has_temperature() ) {
         harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
-    if( !force_drop && you.can_pickVolume( harvest, true ) &&
-        you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    // Only auto-eat when the NPC is actively seeking food or water
+    // (self-care need execution). Generic harvest jobs (farming zones,
+    // player-assigned tasks) should collect, not consume.
+    bool npc_self_care = false;
+    if( you.is_npc() ) {
+        const npc &n = dynamic_cast<const npc &>( you );
+        const std::string &goal = n.get_committed_goal();
+        npc_self_care = ( goal == "eat_food" || goal == "drink_water" );
+    }
+    if( npc_self_care && harvest.is_food() &&
+        ( you.get_hunger() > 0 || you.has_calorie_deficit() ) &&
+        you.will_eat( harvest ).success() ) {
+        const time_duration consume_time = you.get_consume_time( harvest );
+        trinary result = you.consume( harvest );
+        if( result != trinary::NONE ) {
+            you.mod_moves( -to_moves<int>( consume_time ) );
+        }
+        if( result == trinary::SOME ) {
+            // Partial consumption: stash or drop the remainder.
+            if( !force_drop && you.can_pickVolume( harvest, true ) &&
+                you.can_pickWeight( harvest, true ) ) {
+                you.i_add( harvest );
+            } else {
+                get_map().add_item_or_charges( you.pos_bub(), harvest );
+            }
+        }
+    } else if( !force_drop && you.can_pickVolume( harvest, true ) &&
+               you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
+        you.add_msg_if_npc( _( "<npcname> harvests: %s." ), harvest.tname() );
     } else {
         get_map().add_item_or_charges( you.pos_bub(), harvest );
         you.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
+        you.add_msg_if_npc( _( "<npcname> harvests and drops: %s." ), harvest.tname() );
     }
 }
 
@@ -2393,7 +2457,8 @@ void iexamine::flower_dahlia( Character &you, const tripoint_bub_ms &examp )
 static bool query_pick( Character &who, const tripoint_bub_ms &target )
 {
     if( !who.is_avatar() ) {
-        return false;
+        // NPCs already decided to harvest via address_needs.
+        return true;
     }
 
     map &here = get_map();
@@ -4590,8 +4655,10 @@ void iexamine::tree_marloss( Character &you, const tripoint_bub_ms &examp )
 void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
-    // Ask if there's something possibly more interesting than this shrub here
-    if( ( !here.i_at( examp ).empty() ||
+    // Ask if there's something possibly more interesting than this shrub here.
+    // NPCs skip the prompt - they already decided to forage via address_needs.
+    if( !you.is_npc() &&
+        ( !here.i_at( examp ).empty() ||
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
           get_creature_tracker().creature_at( examp ) != nullptr ) &&
@@ -4600,11 +4667,12 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    add_msg( _( "You forage through the %s." ), here.tername( examp ) );
+    you.add_msg_if_player( _( "You forage through the %s." ), here.tername( examp ) );
+    you.add_msg_if_npc( _( "<npcname> forages through the %s." ), here.tername( examp ) );
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
-    move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
+    move_cost /= rng( std::max( 4, you.get_per() ), 4 + you.get_per() * 2 );
     you.assign_activity( forage_activity_actor( move_cost ) );
     you.activity.placement = here.get_abs( examp );
     you.activity.auto_resume = true;
@@ -4645,9 +4713,9 @@ void trap::examine( const tripoint_bub_ms &examp ) const
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         const float traps_skill_level = player_character.get_skill_level( skill_traps );
         const float traps_knowledge_level = player_character.get_knowledge_level( skill_traps );
-        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
-                                              player_character.dex_cur +
-                                              player_character.int_cur ) / 6.0f;
+        const float weighted_stat_average = ( 2.0f * player_character.get_per() + 3.0f *
+                                              player_character.get_dex() +
+                                              player_character.get_int() ) / 6.0f;
         int proficiency_effect = -2;
         // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
@@ -5496,7 +5564,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
     if( you.has_flag( json_flag_GLIDE ) || you.has_flag( json_flag_WING_GLIDE ) ||
-        you.has_bodypart_with_flag( json_flag_WING_ARM ) ) {
+        you.has_bodypart_with_flag( json_flag_WING_ARMS ) ) {
         cmenu.addentry( ledge_glide, you.can_fly(), 'g',
                         ( you.can_fly() ? _( "Glide away." ) : _( "You can't glide in your current state" ) ) );
     }
@@ -6452,9 +6520,8 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
     return true;
 }
 
-void iexamine::mill_finalize( Character &, const tripoint_bub_ms &examp )
+void iexamine::mill_finalize( Character &, map &here, const tripoint_bub_ms &examp )
 {
-    map &here = get_map();
     const furn_id &cur_mill_type = here.furn( examp );
     furn_id next_mill_type = furn_str_id::NULL_ID();
     if( cur_mill_type == furn_f_wind_mill_active ) {
@@ -6568,10 +6635,9 @@ void iexamine::mill_finalize( Character &, const tripoint_bub_ms &examp )
     here.furn_set( examp, next_mill_type );
 }
 
-static void smoker_finalize( Character &, const tripoint_bub_ms &examp,
+static void smoker_finalize( map &here, Character &, const tripoint_bub_ms &examp,
                              const time_point &start_time )
 {
-    map &here = get_map();
     const furn_id &cur_smoker_type = here.furn( examp );
     furn_id next_smoker_type = furn_str_id::NULL_ID();
     if( cur_smoker_type == furn_f_smoking_rack_active ) {
@@ -6805,12 +6871,12 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
     you.invalidate_crafting_inventory();
 }
 
-void iexamine::on_smoke_out( const tripoint_bub_ms &examp, const time_point &start_time )
+void iexamine::on_smoke_out( map &here, const tripoint_bub_ms &examp, const time_point &start_time )
 {
-    const furn_id &f = get_map().furn( examp );
+    const furn_id &f = here.furn( examp );
     if( f == furn_f_smoking_rack_active ||
         f == furn_f_metal_smoking_rack_active ) {
-        smoker_finalize( get_avatar(), examp, start_time );
+        smoker_finalize( here, get_avatar(), examp, start_time );
     }
 }
 
@@ -7531,7 +7597,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 void iexamine::practice_survival_while_foraging( Character &who )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = who.int_cur / 3 + 1;
+    const int max_forage_skill = who.get_int() / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
                                   skill_survival ) ) );

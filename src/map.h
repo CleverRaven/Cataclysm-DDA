@@ -23,6 +23,7 @@
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_small_literal_vector.h"
 #include "cata_type_traits.h"
 #include "cata_utility.h"
 #include "colony.h"
@@ -306,11 +307,63 @@ struct drawsq_params {
         //@}
 };
 
+// Accumulated screen-pixel bounding box of all sprites drawn for a single tile
+// during the current frame. Used by the ortho tint overlay to cover the full
+// sprite extent instead of a fixed tile_width x tile_height rect.
+// NOLINTNEXTLINE(cata-xy)
+struct sprite_screen_bounds {
+    int x = 0, y = 0, w = 0, h = 0;
+    bool valid = false;
+    // NOLINTNEXTLINE(cata-large-inline-function,cata-xy)
+    void expand( int rx, int ry, int rw, int rh ) {
+        if( !valid ) {
+            x = rx;
+            y = ry;
+            w = rw;
+            h = rh;
+            valid = true;
+        } else {
+            const int nx = x < rx ? x : rx; // NOLINT(cata-combine-locals-into-point)
+            const int ny = y < ry ? y : ry;
+            const int x2 = ( x + w > rx + rw ) ? x + w : rx + rw;
+            const int y2 = ( y + h > ry + rh ) ? y + h : ry + rh;
+            x = nx;
+            y = ny;
+            w = x2 - nx;
+            h = y2 - ny;
+        }
+    }
+};
+
+// Snapshot of a single sprite draw call, recorded during the layer loop so the
+// ortho tint overlay can replay the sprite as a white silhouette into a mask
+// texture. Captures everything needed to reproduce the draw at the same screen
+// position with the silhouette color filter variant.
+struct tint_sprite_record {
+    int sprite_index;      // index into tileset tile_values / silhouette_tile_values
+    struct { // NOLINT(cata-xy)
+        int x, y, w, h;
+    } destination;         // screen-space destination rect at time of draw
+    double angle;          // rotation angle (0, -90, 90)
+    int flip;              // SDL_RendererFlip cast to int (avoids SDL include)
+};
+
 struct tile_render_info {
     struct common {
         const tripoint_bub_ms pos;
         // accumulator for 3d tallness of sprites rendered here so far;
         int height_3d = 0;
+        // Ortho tint overlay state, populated during the draw prepass and layer
+        // loop. For tiles where needs_tint is true:
+        //   bounds       - union of all content sprite screen rects (opaque only)
+        //   tint_sprites - draw records for silhouette mask replay
+        //   tint_color   - precomputed RGBA tint from the colored light cache
+        sprite_screen_bounds bounds;
+        small_literal_vector<tint_sprite_record, 4> tint_sprites;
+        bool needs_tint = false;
+        struct {
+            uint8_t r, g, b, a;
+        } tint_color = { 0, 0, 0, 0 };
 
         common( const tripoint_bub_ms &pos, const int height_3d )
             : pos( pos ), height_3d( height_3d ) {}
@@ -371,7 +424,7 @@ struct tile_render_info {
 class map
 {
         friend class teleport;
-        friend class editmap;
+        friend class editmap_ui;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
 
@@ -386,6 +439,13 @@ class map
                 field_proc_data & );
         friend void field_processor_fd_incendiary( const tripoint_bub_ms &, field_entry &,
                 field_proc_data & );
+        friend void field_processor_monster_spawn( const tripoint_bub_ms &, field_entry &,
+                field_proc_data & );
+
+        // add_spawn is private; these classes need it for data-driven spawning
+        // (JSON mapgen and monster reproduction). Mapgen code should use place_spawns() instead.
+        friend class jmapgen_monster;
+        friend class monster;
 
         // for testing
         friend class map_meddler;
@@ -435,6 +495,8 @@ class map
         void set_seen_cache_dirty( int zlevel );
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty( int zlev );
+        void set_lightmap_cache_dirty_below( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( const tripoint_bub_ms &p );
         /*@}*/
@@ -720,6 +782,17 @@ class map
          * may prevent that (e.g. a locked safe).
          */
         bool accessible_items( const tripoint_bub_ms &t ) const;
+
+        /**
+         * Visit every non-liquid item reachable from @p center within @p radius.
+         * Handles tile accessibility, item ownership (if @p ch is non-null),
+         * and vehicle cargo.  The visitor receives each item by const reference
+         * and is never called for liquids.
+         */
+        void for_each_reachable_item( const tripoint_bub_ms &center, int radius,
+                                      const Character *ch,
+                                      const std::function<void( const item & )> &fn );
+
         /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
@@ -770,6 +843,12 @@ class map
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings,
                         PathfindingFlags p_special ) const;
+        // Catches up renewable generation (solar/wind/water) for off-map vehicles
+        // that are connected to in-bubble grids via cables.
+        void resolve_off_map_grid_generation();
+        // Re-enables appliance parts that were disabled by power_parts() deficit
+        // when the connected grid actually has battery charge available.
+        void resolve_appliance_grid_power();
     public:
 
         // Vehicles: Common to 2D and 3D
@@ -1053,6 +1132,10 @@ class map
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
 
+        // Returns true if a and b are on matching stairs connecting them
+        // across exactly one z-level (one has GOES_UP, the other GOES_DOWN).
+        bool on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const;
+
         // Bashable
         /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
         bool is_bashable( const tripoint_bub_ms &p, bool allow_floor = false ) const;
@@ -1084,6 +1167,12 @@ class map
         }
 
         bool is_outside( const tripoint_bub_ms &p ) const;
+        // Returns true if precipitation cannot reach this tile. Walks upward
+        // through z-levels looking for any blocking surface: solid floor,
+        // TRANSPARENT_FLOOR (glass/ramps/grates), NO_FLOOR_WATER, SUN_ROOF_ABOVE
+        // furniture, or vehicle with ROOF/OPAQUE. Uses floor_cache when valid,
+        // falls back to direct terrain/furniture/vehicle checks otherwise.
+        bool is_roofed( const tripoint_bub_ms &p ) const;
         /**
          * Returns whether or not the terrain at the given location can be dived into
          * (by monsters that can swim or are aquatic or non-breathing).
@@ -1718,13 +1807,6 @@ class map
         character_id place_npc( const point_bub_ms &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
                                       const faction_id &id );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt );
-        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
-                        int faction_id, int mission_id, const std::optional<std::string> &name,
-                        const spawn_data &data );
-        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -1860,6 +1942,14 @@ class map
         */
         void rotten_item_spawn( const item &item, const tripoint_bub_ms &p );
     private:
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
+                        const std::optional<std::string> &name = std::nullopt );
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
+                        int faction_id, int mission_id, const std::optional<std::string> &name,
+                        const spawn_data &data );
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
+
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
                                     bool spawn_nonlocal = false );
@@ -2085,11 +2175,15 @@ class map
         void apply_light_source( const tripoint_bub_ms &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
         // light rays from causing massive slowdowns, if there's a huge amount of light.
-        void add_light_source( const tripoint_bub_ms &p, float luminance );
+        // Color rides the same buffer; omit for white (uncolored) light.
+        void add_light_source( const tripoint_bub_ms &p, float luminance,
+                               const light_color_rgb &color = {} );
         // Handle just cardinal directions and 45 deg angles.
-        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance );
+        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance,
+                                      const light_color_rgb &color = {} );
         void apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, float luminance,
-                              const units::angle &wideangle = 30_degrees );
+                              const units::angle &wideangle = 30_degrees,
+                              const light_color_rgb &color = {} );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint_bub_ms &s, const tripoint_bub_ms &e, float luminance );
         void add_light_from_items( const tripoint_bub_ms &p, const item_stack &items );
@@ -2322,7 +2416,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 */
 class tinymap : private map
 {
-        friend class editmap;
+        friend class editmap_ui;
     protected:
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
@@ -2360,12 +2454,6 @@ class tinymap : private map
                                friendly,
                                name, mission_id );
         }
-        void add_spawn( const mtype_id &type, int count, const tripoint_omt_ms &p,
-                        bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::optional<std::string> &name = std::nullopt ) {
-            map::add_spawn( type, count, rebase_bub( p ), friendly, faction_id, mission_id, name );
-        }
-
         using map::translate;
         ter_id ter( const tripoint_omt_ms &p ) const {
             return map::ter( rebase_bub( p ) );
@@ -2532,6 +2620,9 @@ class tinymap : private map
         };
         bool is_outside( const tripoint_omt_ms &p ) const {
             return map::is_outside( rebase_bub( p ) );
+        }
+        bool is_roofed( const tripoint_omt_ms &p ) const {
+            return map::is_roofed( rebase_bub( p ) );
         }
         int get_radiation( const tripoint_omt_ms &p ) const {
             return map::get_radiation( rebase_bub( p ) );

@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LS_Teleport_to_labyrinth",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "player_location_home_before_labyrinth" } },
       { "u_add_var": "traveled_home_to_labyrinth", "value": "yes" },
@@ -31,7 +31,7 @@
     "id": "EOC_LS_SD_Teleport_to_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "string_dimension" }
       ]
@@ -55,6 +55,7 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "alter_timed_events": "string_dimension_lights_on" },
       { "u_message": "Zwoink.", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -64,7 +65,7 @@
     "id": "EOC_LS_Exit_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "netherum_labyrinth" }
       ]
@@ -78,7 +79,8 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "u_teleport": { "u_val": "player_location_home_before_labyrinth" }, "force": true },
-      { "u_message": "Zworunk", "popup": true }
+      { "u_message": "Zworunk", "popup": true },
+      { "clear_dimension": "netherum_labyrinth" }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
@@ -87,7 +89,7 @@
     "id": "EOC_LS_SD_Exit_labyrinth",
     "condition": {
       "and": [
-        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
         { "not": "u_driving" },
         { "current_dimension": "netherum_labyrinth" }
       ]
@@ -102,7 +104,9 @@
         "success_message": "Your surroundings warp and fold into the recesses of another world."
       },
       { "u_teleport": { "u_val": "player_location_string_dimension_before_labyrinth" }, "force": true },
-      { "u_message": "Zworunk", "popup": true }
+      { "u_message": "Zworunk", "popup": true },
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "clear_dimension": "netherum_labyrinth" }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
@@ -120,7 +124,8 @@
       {
         "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in reality: disoriented but unharmed.",
         "popup": true
-      }
+      },
+      { "clear_dimension": "netherum_labyrinth" }
     ]
   },
   {

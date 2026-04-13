@@ -10,7 +10,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "valid_targets": [ "self" ],
-    "flags": [ "CONJURATION_SPELL", "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "CONCENTRATE", "VERBAL", "PERMANENT_ALL_LEVELS" ],
     "max_level": 35,
     "min_damage": 1,
     "max_damage": 8,

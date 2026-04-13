@@ -103,5 +103,25 @@
     "id": "test_fd_migration_new_id",
     "type": "field_type",
     "intensity_levels": [ { "name": "migrated" } ]
+  },
+  {
+    "id": "fd_test_green_glow",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "green glow",
+        "sym": "*",
+        "color": "green",
+        "light_emitted": 8,
+        "light_color": [ 0, 255, 0 ],
+        "translucency": 10
+      }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "30 minutes",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
   }
 ]

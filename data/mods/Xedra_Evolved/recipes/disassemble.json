@@ -74,16 +74,26 @@
     "time": "18 h",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "scrap_aluminum", 150 ] ],
+      [ [ "scrap_aluminum", 600 ] ],
       [ [ "cable", 50 ] ],
       [ [ "lens", 1 ] ],
       [ [ "motor_micro", 3 ] ],
       [ [ "power_supply", 5 ] ],
       [ [ "processor", 11 ] ],
       [ [ "RAM", 4 ] ],
-      [ [ "scrap", 11 ] ],
-      [ [ "nuts_bolts", 13 ] ],
+      [ [ "scrap", 44 ] ],
+      [ [ "nuts_bolts", 130 ] ],
       [ [ "inventor_heavy_cell", 1 ] ]
     ]
+  },
+  {
+    "result": "broken_xe_golem",
+    "type": "uncraft",
+    "activity_level": "ACTIVE_EXERCISE",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "clay_lump", 600 ] ], [ [ "clay_kaolin", 60 ] ], [ [ "homullus_sample", 10 ] ] ]
   }
 ]

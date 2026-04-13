@@ -1114,24 +1114,24 @@ std::string ma_buff::get_description( bool passive ) const
     }
 
     if( dodges_bonus > 0 ) {
-        dump += string_format( _( "* Can dodge <good>+%d</good> extra times per turn" ),
+        dump += string_format( _( "* Can dodge <good>%d</good> extra times per turn" ),
                                dodges_bonus ) + "\n";
     } else if( dodges_bonus < 0 ) {
-        dump += string_format( _( "* Can dodge <bad>+%d</bad> fewer times per turn" ),
-                               dodges_bonus ) + "\n";
+        dump += string_format( _( "* Can dodge <bad>%d</bad> fewer times per turn" ),
+                               std::abs( dodges_bonus ) ) + "\n";
     }
 
     if( free_dodges > 0 ) {
-        dump += string_format( _( "* <good>+%d</good> dodges each turn will not consume stamina" ),
+        dump += string_format( _( "* <good>%d</good> dodges each turn will not consume stamina" ),
                                free_dodges ) + "\n";
     }
 
     if( blocks_bonus > 0 ) {
-        dump += string_format( _( "* Can block <good>+%d</good> extra times per turn" ),
+        dump += string_format( _( "* Can block <good>%d</good> extra times per turn" ),
                                blocks_bonus ) + "\n";
     } else if( blocks_bonus < 0 ) {
-        dump += string_format( _( "* Can block <bad>+%d</bad> fewer times per turn" ),
-                               blocks_bonus ) + "\n";
+        dump += string_format( _( "* Can block <bad>%d</bad> fewer times per turn" ),
+                               std::abs( blocks_bonus ) ) + "\n";
     }
 
     if( quiet ) {

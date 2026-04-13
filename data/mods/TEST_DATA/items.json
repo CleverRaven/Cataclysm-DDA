@@ -3882,7 +3882,7 @@
     "volume": "140 L",
     "power_armor": true,
     "symbol": "T",
-    "looks_like": "power_armor_basic",
+    "looks_like": "combat_exoskeleton_medium",
     "color": "light_gray",
     "pocket_data": [
       {
@@ -5645,5 +5645,67 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_fast_cutter",
+    "name": { "str": "fast cutter" },
+    "description": "A test tool with fast CUT speed.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_cyan",
+    "qualities": [ { "id": "CUT", "level": 1, "speed": 0.5 } ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_slow_cutter",
+    "name": { "str": "slow cutter" },
+    "description": "A test tool with slow CUT speed.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_red",
+    "qualities": [ { "id": "CUT", "level": 1, "speed": 1.5 } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "test_charged_fast_cutter",
+    "copy-from": "cordless_drill",
+    "name": { "str": "charged fast cutter" },
+    "description": "A test powered tool with fast CUT speed when charged.",
+    "qualities": [ [ "SCREW", 1 ] ],
+    "charged_qualities": [ { "id": "CUT", "level": 2, "speed": 0.3 } ]
+  },
+  {
+    "id": "test_multimag_gun",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "test multimag gun" },
+    "description": "Test gun with two magazine wells for multimag tests.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "longest_side": "400 mm",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "9mm", "223" ],
+    "skill": "pistol",
+    "range": 10,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "dispersion": 480,
+    "durability": 10,
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [
+      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glockmag" ] },
+      { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] }
+    ]
   }
 ]

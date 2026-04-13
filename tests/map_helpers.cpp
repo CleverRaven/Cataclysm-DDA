@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
 #include "avatar.h"
@@ -27,6 +28,7 @@
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+#include "weather.h"
 
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
@@ -177,6 +179,7 @@ void clear_map_with_vision( int zmin, int zmax, bool with_vision )
     }
     here.process_items();
     clear_basecamps();
+    get_weather().snow_depth_map.clear();
     // Set a chunk of overmap passability cache to all passable.
     const tripoint_abs_sm &abs_sub = here.get_abs_sub();
     const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_sub );

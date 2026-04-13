@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
@@ -39,8 +40,10 @@
 struct bionic_data;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+static const json_character_flag json_flag_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 static const trait_group::Trait_group_tag
 Trait_group_BG_survival_story_UNIVERSAL( "BG_survival_story_UNIVERSAL" );
+static const trait_id trait_NO_CBM_INSTALLATION( "NO_CBM_INSTALLATION" );
 
 namespace
 {
@@ -463,6 +466,30 @@ void profession::check_definition() const
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
         }
     }
+    if( !_starting_CBMs.empty() && !is_hobby() ) {
+        bool has_interface = false;
+        for( const trait_and_var &t : _starting_traits ) {
+            if( t.trait.is_valid() ) {
+                // Accept traits that cancel NO_CBM_INSTALLATION (e.g. CBM_Interface)
+                const std::vector<trait_id> &t_cancels = t.trait->cancels;
+                if( std::find( t_cancels.begin(), t_cancels.end(),
+                               trait_NO_CBM_INSTALLATION ) != t_cancels.end() ) {
+                    has_interface = true;
+                    break;
+                }
+                // Accept traits that have the NO_CBM_INSTALLATION flag themselves:
+                // the profession pre-installs CBMs but blocks future installation.
+                if( t.trait->flags.count( json_flag_NO_CBM_INSTALLATION ) ) {
+                    has_interface = true;
+                    break;
+                }
+            }
+        }
+        if( !has_interface ) {
+            debugmsg( "profession %s has starting CBMs but no trait that cancels "
+                      "NO_CBM_INSTALLATION (e.g. CBM_Interface)", id.c_str() );
+        }
+    }
 
     for( const proficiency_id &pid : _starting_proficiencies ) {
         if( !pid.is_valid() ) {
@@ -801,6 +828,33 @@ void profession::learn_spells( avatar &you ) const
 std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
+}
+
+bool profession_sorter::operator()( const string_id<profession> &a,
+                                    const string_id<profession> &b ) const
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if( &b.obj() == gen ) {
+        return false;
+    } else if( &a.obj() == gen ) {
+        return true;
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 // item_substitution stuff:

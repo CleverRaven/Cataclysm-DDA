@@ -23,6 +23,7 @@
 
 #include "achievement.h"
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -82,6 +83,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
@@ -157,6 +159,7 @@ class recipe_subset;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
@@ -1087,7 +1090,7 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
 
     const std::vector<npc *> available_for_activities = get_npcs_if( [&]( const npc & guy ) {
         return guy.is_player_ally() && guy.can_hear( player_character.pos_bub(), volume ) &&
-               guy.companion_mission_role_id != "FACTION CAMP";
+               guy.companion_mission_role_id != "FACTION_CAMP";
     } );
     const int available_for_activities_count = available_for_activities.size();
 
@@ -1418,18 +1421,24 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                 return;
             }
 
+            std::vector<npc *> sorted_npcs( available_for_activities.begin(),
+                                            available_for_activities.end() );
+            std::sort( sorted_npcs.begin(), sorted_npcs.end(), []( const npc * a, const npc * b ) {
+                return localized_compare( a->get_name(), b->get_name() );
+            } );
+
             std::vector<int> npcs_selected;
 
             if( available_for_activities_count == 1 ) {
                 npcs_selected.push_back( 0 );
             } else {
-                std::vector<Character *> clist( available_for_activities.begin(), available_for_activities.end() );
+                std::vector<Character *> clist( sorted_npcs.begin(), sorted_npcs.end() );
                 npcs_selected = npcs_select_menu( clist, _( "Who should we assign?" ), nullptr );
             }
 
             for( int i : npcs_selected ) {
 
-                npc *selected_npc = available_for_activities[i];
+                npc *selected_npc = sorted_npcs[i];
 
                 switch( activity ) {
                     case NPC_CHAT_ACTIVITIES_MOVE_LOOT: {
@@ -1643,7 +1652,8 @@ static std::string bye_message( const npc *npc_actor )
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
-                      bool is_computer, bool is_not_conversation, const std::string &debug_topic )
+                      bool is_computer, bool is_not_conversation, const std::string &debug_topic,
+                      const std::string &remote_name )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
     const bool force_topic = !debug_topic.empty();
@@ -1653,6 +1663,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     dialogue d( get_talker_for( *this ), std::move( talk_with ), {} );
     d.by_radio = radio_contact;
     dialogue_by_radio = radio_contact;
+    dialogue_remote_name = remote_name;
     d.actor( true )->check_missions();
     for( mission *&mission : d.actor( true )->assigned_missions() ) {
         if( mission->get_assigned_player_id() == getID() ) {
@@ -1672,6 +1683,10 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     dialogue_window d_win;
     d_win.is_computer = is_computer;
     d_win.is_not_conversation = is_not_conversation;
+    if( !remote_name.empty() ) {
+        d_win.is_remote = true;
+        d_win.remote_name = remote_name;
+    }
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
@@ -1689,6 +1704,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             d.add_topic( next );
         }
     } while( !d.done );
+    dialogue_remote_name.clear();
 
     if( activity.id() == ACT_AIM && !has_weapon() ) {
         cancel_activity();
@@ -1704,6 +1720,17 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );
     }
+}
+
+std::string dialogue::speaker_name( const dialogue_window &d_win ) const
+{
+    if( d_win.is_not_conversation ) {
+        return "";
+    }
+    if( !d_win.remote_name.empty() ) {
+        return d_win.remote_name;
+    }
+    return actor( true )->disp_name();
 }
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic )
@@ -2482,24 +2509,26 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
             phrase.replace( fa, l, format_money( price ) );
         } else if( tag == "<interval>" ) {
             const npc *guy = dynamic_cast<const npc *>( me_chr );
-            std::string restock_interval = guy ? guy->get_restock_interval() : _( "a few days" );
+            const npc *trader = guy ? &guy->get_trade_delegate() : nullptr;
+            std::string restock_interval = trader ? trader->get_restock_interval() : _( "a few days" );
             phrase.replace( fa, l, restock_interval );
         } else if( tag == "<restock_time_point>" ) {
             const npc *guy = dynamic_cast<const npc *>( me_chr );
-            if( guy == nullptr ) {
+            const npc *trader = guy ? &guy->get_trade_delegate() : nullptr;
+            if( trader == nullptr ) {
                 phrase.replace( fa, l, _( "the future" ) );
             } else if( get_option<bool>( "SHOW_MONTHS" ) && calendar::year_length() ==  364_days ) {
-                std::pair<month, int> month_day = month_and_day( guy->restock_time() );
+                std::pair<month, int> month_day = month_and_day( trader->restock_time() );
                 //~ 1 is month, 2 is day
                 phrase.replace( fa, l, string_format( pgettext( "month, day and time", "%1$s %2$d, %3$s" ),
                                                       to_string( month_day.first ), month_day.second,
-                                                      to_string_time_of_day( guy->restock_time() ) ) );
+                                                      to_string_time_of_day( trader->restock_time() ) ) );
             } else {
                 //~ 1 is season, 2 is day
                 phrase.replace( fa, l, string_format( pgettext( "season, day, and time", "%1$s %2$d, %3$s" ),
-                                                      calendar::name_season( season_of_year( guy->restock_time() ) ),
-                                                      day_of_season<int>( guy->restock_time() ) + 1,
-                                                      to_string_time_of_day( guy->restock_time() ) ) );
+                                                      calendar::name_season( season_of_year( trader->restock_time() ) ),
+                                                      day_of_season<int>( trader->restock_time() ) + 1,
+                                                      to_string_time_of_day( trader->restock_time() ) ) );
             }
         } else if( tag.find( "<u_val:" ) == 0 ) {
             //adding a user variable to the string
@@ -2959,12 +2988,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         d_win.add_to_history( challenge );
     } else if( challenge[0] == '*' ) {
         // Prepend name
-        challenge = string_format( pgettext( "npc does something", "%s %s" ), actor( true )->disp_name(),
+        challenge = string_format( pgettext( "npc does something", "%s %s" ),
+                                   speaker_name( d_win ),
                                    challenge.substr( 1 ) );
         d_win.add_to_history( challenge );
     } else {
         npc *npc_actor = actor( true )->get_npc();
-        d_win.add_to_history( challenge, d_win.is_not_conversation ? "" : actor( true )->disp_name(),
+        d_win.add_to_history( challenge, speaker_name( d_win ),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
     if( debug_mode ) {
@@ -3015,7 +3045,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name() );
+        d_win.draw( speaker_name( d_win ) );
     } );
 
     size_t response_ind = response_hotkeys.size();
@@ -5126,6 +5156,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
             // Now let's actually transfer the items!
             for( item *transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
+                transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
 
                 auto remove_items_filter = [&]( const item & it ) {
@@ -5141,6 +5172,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
             int number_transferred = 0;
             for( item *transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
+                transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
 
                 // Count now, while the item still exists
@@ -5448,12 +5480,17 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
 talk_effect_fun_t::func f_assign_activity( const JsonObject &jo, std::string_view member,
         std::string_view, bool is_npc )
 {
-    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    duration_or_var dov = get_duration_or_var( jo, "duration", false );
     str_or_var act = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, dov, act]( dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
-            target->assign_activity( activity_id( act.evaluate( d ) ), to_moves<int>( dov.evaluate( d ) ) );
+            const activity_id a = activity_id( act.evaluate( d ) );
+            if( a == ACT_TARGET_PRACTICE ) {
+                target->assign_activity( target_practice_activity_actor() );
+            } else {
+                target->assign_activity( a, to_moves<int>( dov.evaluate( d ) ) );
+            }
         }
     };
 }
@@ -5522,6 +5559,20 @@ talk_effect_fun_t::func f_take_control_menu()
 {
     return []( dialogue const &/* d */ ) {
         get_avatar().control_npc_menu();
+    };
+}
+
+talk_effect_fun_t::func f_make_radio_representative( const bool is_beta )
+{
+    return [is_beta]( dialogue const & d ) {
+        npc *guy = d.actor( is_beta )->get_npc();
+        if( guy != nullptr ) {
+            guy->faction_representative = true;
+            get_avatar().faction_representatives.insert( guy->as_character()->getID() );
+        } else {
+            debugmsg( "Trying to make radio representative, but %s talker is nullptr.  %s",
+                      is_beta ? "beta" : "alpha", d.get_callstack() );
+        }
     };
 }
 
@@ -7888,14 +7939,21 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
     dbl_or_var npc_travel_radius;
     optional( jo, false, "npc_travel_radius", npc_travel_radius, 0 );
 
+    dbl_or_var item_travel_radius;
+    optional( jo, false, "item_travel_radius", item_travel_radius, -1 );
+
     str_or_var region_type_var;
     optional( jo, false, "region_type", region_type_var, "default" );
 
-    bool take_vehicle = false;;
+    bool take_vehicle = false;
     optional( jo, false, "take_vehicle", take_vehicle );
 
-    return [fail_message, success_message, dimension_prefix, npc_travel_filter,
-                  npc_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
+    std::optional<var_info> target_location;
+    optional( jo, false, "target_location", target_location );
+
+
+    return [fail_message, success_message, dimension_prefix, npc_travel_filter, target_location,
+                  npc_travel_radius, item_travel_radius, region_type_var, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
             std::string region_type = region_type_var.evaluate( d );
@@ -7923,6 +7981,23 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                         }
                     } );
                 }
+
+                int item_radius = item_travel_radius.evaluate( d );
+                std::vector<item_location> items;
+                std::optional<tripoint_bub_ms> center;
+                if( item_radius >= 0 ) {
+                    map &here = get_map();
+                    if( target_location ) {
+                        center = here.get_bub( read_var_value( *target_location, d ).tripoint() );
+                    } else {
+                        center = here.get_bub( teleporter->pos_abs() );
+                    }
+                    for( const tripoint_bub_ms &pos : here.points_in_radius( *center, item_radius ) ) {
+                        for( item &it : here.i_at( pos ) ) {
+                            items.emplace_back( map_cursor( pos ), &it );
+                        }
+                    }
+                }
                 vehicle *veh = nullptr;
                 if( take_vehicle ) {
                     const optional_vpart_position vp_here = get_map().veh_at( teleporter->pos_bub() );
@@ -7933,7 +8008,7 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                     veh = &vp_here->vehicle();
                 }
                 // returns False if fail
-                if( g->travel_to_dimension( prefix, region_type, travellers, veh ) ) {
+                if( g->travel_to_dimension( prefix, region_type, travellers, items, center, veh ) ) {
                     teleporter->add_msg_if_player( success_message.evaluate( d ) );
                 } else {
                     teleporter->add_msg_if_player( fail_message.evaluate( d ) );
@@ -8271,6 +8346,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( assign_camp ),
             WRAP( abandon_camp ),
             WRAP( stop_guard ),
+            WRAP( return_to_camp_duties ),
             WRAP( start_camp ),
             WRAP( buy_cow ),
             WRAP( buy_chicken ),
@@ -8412,6 +8488,14 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "take_control_menu" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_take_control_menu() ) );
+        return;
+    }
+    if( effect_id == "u_make_radio_representative" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_make_radio_representative( false ) ) );
+        return;
+    }
+    if( effect_id == "npc_make_radio_representative" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_make_radio_representative( true ) ) );
         return;
     }
     if( effect_id == "u_wants_to_talk" ) {

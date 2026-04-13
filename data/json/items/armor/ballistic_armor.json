@@ -662,6 +662,7 @@
     "weight": "4976 g",
     "volume": "6 L",
     "variant_type": "generic",
+    "looks_like": "ballistic_vest_esapi",
     "variants": [
       {
         "id": "ballistic_vest_heavy_military",

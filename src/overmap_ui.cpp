@@ -23,7 +23,6 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"
-#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -1985,8 +1984,6 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     }
 }
 
-static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
-
 static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
                                        const tripoint_abs_omt dest, const bool driving )
 {
@@ -2069,14 +2066,6 @@ static tripoint_abs_omt display()
     std::vector<tripoint_abs_omt> &display_path = data.display_path;
     tripoint_abs_omt &select = data.select;
     input_context ictxt( "OVERMAP" );
-
-    const int previous_zoom = g->get_zoom();
-    g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->set_zoom( previous_zoom );
-        g->mark_main_ui_adaptor_resize();
-    } );
 
     background_pane bg_pane;
 
@@ -2239,7 +2228,7 @@ static tripoint_abs_omt display()
         } else if( action == "zoom_out" ) {
             g->zoom_out_overmap();
             ui->mark_resize();
-        } else  if( action == "zoom_in" ) {
+        } else if( action == "zoom_in" ) {
             g->zoom_in_overmap();
             ui->mark_resize();
         } else if( action == "CONFIRM" ) {
@@ -2540,7 +2529,7 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
                                opts.sight_points ) || debug_horde ;
     const bool show_hordes = blink && opts.showhordes && can_see_horde;
     const int horde_size = show_hordes ? overmap_buffer.get_horde_size( omp,
-                           horde_map_flavors::active ) : 0;
+                           horde_map_flavors::active | horde_map_flavors::idle ) : 0;
 
     if( blink && opts.show_pc && !opts.hilite_pc && omp == get_avatar().pos_abs_omt() ) {
         // Display player pos, should always be visible
@@ -2610,8 +2599,37 @@ std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &
         ret.first = "&";
     } else if( horde_size >= HORDE_VISIBILITY_SIZE ) {
         // Display Hordes only when within player line-of-sight
-        ret.second = c_green;
-        ret.first = horde_size > 16 ? "Z" : "z";
+        if( horde_size < 5 ) {
+            ret.second = c_light_green;
+            ret.first = "z";
+        } else if( horde_size < 13 ) {
+            ret.second = c_light_green;
+            ret.first = "Z";
+        } else if( horde_size < 27 ) {
+            ret.second = c_green;
+            ret.first = "z";
+        } else if( horde_size < 47 ) {
+            ret.second = c_green;
+            ret.first = "Z";
+        } else if( horde_size < 73 ) {
+            ret.second = c_yellow;
+            ret.first = "z";
+        } else if( horde_size < 106 ) {
+            ret.second = c_yellow;
+            ret.first = "Z";
+        } else if( horde_size < 147 ) {
+            ret.second = c_light_red;
+            ret.first = "z";
+        } else if( horde_size < 195 ) {
+            ret.second = c_light_red;
+            ret.first = "Z";
+        } else if( horde_size < 251 ) {
+            ret.second = c_red;
+            ret.first = "z";
+        } else {
+            ret.second = c_red;
+            ret.first = "Z";
+        }
     } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
         ret.second = c_cyan;
         ret.first = overmap_buffer.get_vehicle_ter_sym( omp );
@@ -2781,7 +2799,7 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
                                     _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),
                                     c.pos_om.to_string(), c.pos.to_string() ),
                                 //~ "pop" refers to population count
-                                string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
+                                string_format( _( "(pop <color_white>%d</color>)" ), c.population ) );
             cities_menu.entries.emplace_back( entry );
         }
     }

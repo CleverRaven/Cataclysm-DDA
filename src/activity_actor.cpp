@@ -66,6 +66,7 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -121,6 +122,7 @@
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uilist.h"
 #include "uistate.h"
@@ -233,6 +235,7 @@ static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
@@ -316,16 +319,22 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
+static const itype_id itype_attached_ear_plugs_off( "attached_ear_plugs_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_junk( "efile_junk" );
 static const itype_id itype_efile_photos( "efile_photos" );
+static const itype_id itype_flight_helmet( "flight_helmet" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_makeshift_ear_plugs_off( "makeshift_ear_plugs_off" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_powered_earmuffs( "powered_earmuffs" );
+static const itype_id itype_powered_earplugs( "powered_earplugs" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id
 itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
@@ -337,6 +346,7 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
+static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
@@ -391,6 +401,8 @@ static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_greenhouse( "t_greenhouse" );
+static const ter_str_id ter_t_greenhouse_tilled( "t_greenhouse_tilled" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
@@ -400,6 +412,8 @@ static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
@@ -486,7 +500,8 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
                                    it.tname() );
             it.remove_fault( fault_fail_to_feed );
             it.set_var( "u_know_round_in_chamber", true );
-        } else if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+        } else if( one_in( std::max( 7.0f,
+                                     ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
@@ -978,7 +993,7 @@ static int hack_level( const Character &who, item_location &tool )
     // tool_quality_modifier may increase or reduce the success chance of hacking
     return round( who.get_greater_skill_or_knowledge_level( skill_computer ) + tool_quality_modifier +
                   static_cast<float>
-                  ( who.int_cur ) / 2.0f - 8 );
+                  ( who.get_int() ) / 2.0f - 8 );
 }
 
 static hack_result hack_attempt( Character &who, item_location &tool )
@@ -1444,14 +1459,14 @@ int hacksaw_activity_actor::get_tool_quality() const
     int qual = 0;
     if( type.has_value() ) {
         item veh_tool = item( type.value(), calendar::turn );
-        for( const std::pair<const quality_id, int> &quality : type.value()->qualities ) {
+        for( const auto &quality : type.value()->qualities ) {
             if( quality.first == qual_SAW_M ) {
-                qual = quality.second;
+                qual = quality.second.level;
             }
         }
-        for( const std::pair<const quality_id, int> &quality : type.value()->charged_qualities ) {
+        for( const auto &quality : type.value()->charged_qualities ) {
             if( quality.first == qual_SAW_M ) {
-                qual = std::max( qual, quality.second );
+                qual = std::max( qual, quality.second.level );
             }
         }
     } else {
@@ -3326,7 +3341,7 @@ int lockpick_activity_actor::lockpicking_moves(
         /** @EFFECT_DEX speeds up door lock picking */
         return to_moves<int>(
                    std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.dex_cur ) / 4.0f +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( who.get_dex() ) / 4.0f +
                                      weighted_skill_average ) ) * duration_proficiency_factor ) );
     }
 }
@@ -3408,8 +3423,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
-    const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
-                                          who.int_cur ) / 9.0f;
+    const float weighted_stat_average = ( 6.0f * who.get_dex() + 2.0f * who.get_per() +
+                                          who.get_int() ) / 9.0f;
 
     // Get a bonus from your lockpick quality if the quality is higher than 3, or a penalty if it is lower. For a bobby pin this puts you at -2, for a locksmith kit, +2.
     const float tool_effect = ( it->get_quality( qual_LOCKPICK ) - 3 ) - ( it->damage() / 2000.0 );
@@ -4700,6 +4715,522 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+bool target_practice_activity_actor::check_character( Character &who )
+{
+    if( who.is_blind() ) {
+        who.add_msg_if_player( m_bad,
+                               _( "You need to be able to see for target practice." ) );
+        return false;
+    }
+
+    if( who.cant_do_underwater() ) {
+        who.add_msg_if_player( m_bad,
+                               _( "And how exactly are you planning on doing that underwater?" ) );
+        return false;
+    }
+
+    if( who.is_limb_broken( body_part_arm_l ) && who.is_limb_broken( body_part_arm_r ) ) {
+        who.add_msg_if_player( m_bad,
+                               _( "Both your arms are broken!  You can't do target practice." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_gun( Character &who )
+{
+    const item_location g = game_menus::inv::pick_target_practice_gun( who );
+
+    // check if location is valid
+    if( !g ) {
+        return false;
+    }
+
+    gun_loc = g;
+    return true;
+}
+
+bool target_practice_activity_actor::check_character_and_gun( Character &who )
+{
+
+    if( !who.can_use( *gun_loc ) ) {
+        return false;
+    }
+
+    // todo: move this to pick_target_practice_gun() maybe?
+    // todo2: limb scores boogalo
+    if( who.is_limb_broken( body_part_arm_l ) || who.is_limb_broken( body_part_arm_r ) ) {
+        const bool is_pistol = gun_loc->gun_type() == gun_type_type( "pistol" );
+
+        if( is_pistol ) {
+            who.add_msg_if_player( m_good,
+                                   _( "Even though your arm is broken, you can still get some useful practice with this pistol." ) );
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "Both your arms need to be intact to do target practice with this weapon." ) );
+            return false;
+        }
+    }
+
+    static const std::set<itype_id> transforms_into_hearing_protection = {
+        itype_attachable_ear_muffs,
+        itype_powered_earmuffs,
+        itype_powered_earplugs,
+        itype_flight_helmet,
+        itype_attached_ear_plugs_off,
+        itype_makeshift_ear_plugs_off
+    };
+
+    const bool has_hearing_protection =
+        who.cache_has_item_with( flag_DEAF ) || who.cache_has_item_with( flag_PARTIAL_DEAF ) ||
+    who.has_item_with( [&]( const item & held_item ) {
+        return transforms_into_hearing_protection.count( held_item.typeId() ) > 0;
+    } );
+
+    const bool immune = who.has_flag( json_flag_IMMUNE_HEARING_DAMAGE );
+    const bool gun_is_quiet = gun_loc->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ||
+                              gun_loc->gun_type() == gun_type_type( "bow" ) ||
+                              gun_loc->gun_type() == gun_type_type( "crossbow" );
+
+    if( !has_hearing_protection && !immune && !gun_is_quiet ) {
+        who.add_msg_if_player( m_bad,
+                               _( "You need hearing protection, basic earplugs would do." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_round_qty()
+{
+    number_input_popup<int> popup( 45, 0, _( "How many rounds to fire?" ) );
+    popup.set_description( _( "Enter the number of rounds (500 max):" ) );
+
+    rounds_planned = std::min( popup.query(), 500 );
+
+    if( popup.cancelled() ) {
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_trajectory( Character &who )
+{
+    const int range = gun_loc->gun_range();
+    target_handler::trajectory traj = target_handler::mode_select_only( *who.as_avatar(), range );
+
+    if( traj.empty() ) {
+        return false;
+    }
+
+    const tripoint_bub_ms target_local = traj.back();
+
+    target_position = get_map().get_abs( target_local );
+
+    map &here = get_map();
+
+    if( !who.sees( here, target_local ) ) {
+        who.add_msg_if_player( m_bad, _( "You cannot see the target!" ) );
+        return false;
+    }
+
+    if( rl_dist( who.pos_bub(), target_local ) < 5 ) {
+        who.add_msg_if_player( m_bad, _( "You cannot practice shooting if target is this close." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::check_target_valid( Character &who )
+{
+    const int range = gun_loc->gun_range();
+    const int distance = rl_dist( who.pos_abs(), target_position );
+
+    if( distance > range ) {
+        who.add_msg_if_player( m_bad, _( "The target is out of range!" ) );
+        return false;
+    }
+
+    map &here = get_map();
+    const tripoint_bub_ms target_local = here.get_bub( target_position );
+
+    if( !who.sees( here, target_local ) ) {
+        who.add_msg_if_player( m_bad, _( "You cannot see the target!" ) );
+        return false;
+    }
+
+    return true;
+}
+
+void target_practice_activity_actor::start( player_activity &act, Character &who )
+{
+    // if( gun_loc->ammo_remaining() == 0 ) {
+    //     who.add_msg_if_player( m_bad,
+    //                            _( "You need a loaded gun to start target practice." ) );
+    //     return act.set_to_null();
+    //     return;
+    // }
+
+    if( !check_character( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_gun( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !check_character_and_gun( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_round_qty() ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_trajectory( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !who.is_wielding( *gun_loc ) ) {
+        who.wield( gun_loc );
+        // who.wield() invalidates location, so locate it back
+        gun_loc = who.get_wielded_item();
+    }
+
+    map &here = get_map();
+    tripoint_bub_ms target_local = here.get_bub( target_position );
+    is_spinner_target = ( here.tr_at( target_local ).id == tr_target_spinner );
+
+    if( is_spinner_target ) {
+        who.add_msg_if_player( m_info,
+                               _( "You begin target practice with a spinner target." ) );
+    } else {
+        who.add_msg_if_player( m_info, _( "You begin practicing your marksmanship." ) );
+    }
+
+
+    // Try to employ a follower as a coach
+    const skill_id weapon_skill = gun_loc.get_item()->gun_skill();
+    npc *found_coach = find_coach( who, weapon_skill );
+    if( found_coach ) {
+        coach_id = found_coach->getID();
+        who.add_msg_if_player( m_good, _( "%s offers to coach you during your practice." ),
+                               found_coach->get_name() );
+    }
+
+}
+
+bool target_practice_activity_actor::check_weapon_valid( Character &who )
+{
+    item *gun = gun_loc.get_item();
+    if( !gun ) {
+        who.add_msg_if_player( m_bad, _( "Your weapon is no longer available." ) );
+        return false;
+    }
+
+    if( !who.is_wielding( *gun ) ) {
+        who.add_msg_if_player( m_bad, _( "You aren't holding your weapon anymore." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::attempt_reload( Character &who )
+{
+    item *gun = gun_loc.get_item();
+
+    std::vector<item_location> ammo_locs;
+    item_location reload_target = gun_loc;
+
+    // Try to find compatible loaded magazines, or ammo for guns without detachable magazines
+    ammo_locs = who.find_ammo( *gun, false, 3 );
+
+    // Didn't find loaded magazines, try to find loose ammo for the magazine inside the gun
+    if( ammo_locs.empty() && gun->magazine_current() ) {
+        const item *mag = gun->magazine_current();
+        ammo_locs = who.find_ammo( *mag, false, 3 );
+        reload_target = item_location( gun_loc, const_cast<item *>( mag ) );
+    }
+
+    if( ammo_locs.empty() ) {
+        who.add_msg_if_player( m_bad, _( "You ran out of ammunition." ) );
+        return false;
+    }
+
+    item_location ammo_loc = ammo_locs.front();
+    item *ammo = ammo_loc.get_item();
+
+    int quantity_to_reload = reload_target->ammo_capacity( ammo->ammo_type() );
+
+    if( !reload_target->reload( who, ammo_loc, quantity_to_reload ) ) {
+        who.add_msg_if_player( m_bad, _( "Failed to reload." ) );
+        return false;
+    }
+
+    return true;
+}
+
+void target_practice_activity_actor::fire_shot( Character &who, player_activity &act )
+{
+    item *gun = gun_loc.get_item();
+    map &here = get_map();
+    tripoint_bub_ms target_local = here.get_bub( target_position );
+
+    // Simulate max aim
+    who.recoil = 0;
+
+    int shots_fired = who.fire_gun( here, target_local, 1, *gun );
+
+    if( shots_fired > 0 ) {
+        rounds_fired++;
+    } else {
+        // Firing failed, check if it requires player attention to fix
+        // otherwise it's a simple misfire that can be fixed by firing again
+        if( gun->has_fault_of_type( gun_mechanical_simple ) ) {
+            finish( act, who );
+        }
+    }
+}
+
+void target_practice_activity_actor::show_flavor_message( Character &who,
+        float effective_skill ) const
+{
+    if( one_in( 2 ) ) {
+        return;
+    }
+
+    if( effective_skill < 3.0f && one_in( 2 ) ) {
+        who.add_msg_if_player( m_warning,
+                               SNIPPET.random_from_category( "target_practice_novice" ).value_or( translation() ).translated() );
+    } else {
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( "target_practice_common" ).value_or( translation() ).translated() );
+    }
+
+    if( is_spinner_target && one_in( 5 ) ) {
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( "target_practice_spinner" ).value_or( translation() ).translated() );
+    }
+}
+
+npc *target_practice_activity_actor::find_coach( Character &who, const skill_id &weapon_skill )
+{
+    map &here = get_map();
+    const float trainee_marksmanship_skill = who.get_skill_level( skill_gun );
+    const float trainee_weapon_skill = who.get_skill_level( weapon_skill );
+
+    std::vector<npc *> potential_coaches = g->get_npcs_if( [&]( const npc & npc ) {
+        if( !npc.is_player_ally() || !npc.is_following() ) {
+            return false;
+        }
+
+        if( !who.sees( here, npc ) || !npc.sees( here, who ) ) {
+            return false;
+        }
+
+        const float npc_marksmanship_skill = npc.get_skill_level( skill_gun );
+        const float npc_weapon_skill = npc.get_skill_level( weapon_skill );
+
+        return npc_marksmanship_skill > trainee_marksmanship_skill ||
+               npc_weapon_skill > trainee_weapon_skill;
+    } );
+
+    npc *best_coach = nullptr;
+    float best_coach_skill = 0.0f;
+
+    // Find the best coach
+    for( npc *coach : potential_coaches ) {
+        const float coach_skill = coach->get_skill_level( skill_gun ) +
+                                  coach->get_skill_level( weapon_skill );
+        if( coach_skill > best_coach_skill ) {
+            best_coach = coach;
+            best_coach_skill = coach_skill;
+        }
+    }
+
+    return best_coach;
+}
+
+void target_practice_activity_actor::apply_coaching( Character &who,
+        const skill_id &weapon_skill )
+{
+    if( coach_id.is_valid() ) {
+        npc *coach_ptr = g->critter_by_id<npc>( coach_id );
+
+        if( !coach_ptr ) {
+            return;
+        }
+
+        const float coach_marksmanship_skill = coach_ptr->get_knowledge_level( skill_gun );
+        const float coach_weapon_skill = coach_ptr->get_knowledge_level( weapon_skill );
+        const float trainee_marksmanship_skill = who.get_skill_level( skill_gun );
+        const float trainee_weapon_skill = who.get_skill_level( weapon_skill );
+
+        // Scale the XP bonus based on the skill delta between the coach and trainee
+        // 1XP (+20%) for each point of skill difference
+        // For reference, the normal XP gain for 1 shot is 5XP, with a bonus 5XP for hitting a living target
+        const int marksmanship_bonus = std::max( 0,
+                                       static_cast<int>( coach_marksmanship_skill - trainee_marksmanship_skill ) );
+        const int weapon_bonus = std::max( 0,
+                                           static_cast<int>( coach_weapon_skill - trainee_weapon_skill ) );
+
+        if( marksmanship_bonus > 0 ) {
+            who.practice( skill_gun, marksmanship_bonus );
+        }
+        if( weapon_bonus > 0 ) {
+            who.practice( weapon_skill, weapon_bonus );
+        }
+
+        // Show coaching flavour messages every ~10th shot
+        if( !one_in( 10 ) ) {
+            return;
+        }
+
+        const std::string message_category = ( trainee_marksmanship_skill < 2.0f ||
+                                               trainee_weapon_skill < 2.0f )
+                                             ? "target_practice_coaching_beginner" : "target_practice_coaching_advanced";
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( message_category ).value_or( translation() ).translated(),
+                               coach_ptr->get_name() );
+    }
+}
+
+void target_practice_activity_actor::apply_skill_modifiers( Character &who,
+        const skill_id &weapon_skill, float effective_skill ) const
+{
+    // Boost XP gain from using spinner target by 2XP (+40%) when you're skilled, and by 0.5XP (+10%) when you're noob
+    // For reference, the normal XP gain for 1 shot is 5XP, with a bonus 5XP for hitting a living target
+    if( is_spinner_target ) {
+        if( effective_skill > 4 ) {
+            who.practice( weapon_skill, 2 );
+            who.practice( skill_gun, 2 );
+        } else if( one_in( 2 ) ) {
+            who.practice( weapon_skill, 1 );
+            who.practice( skill_gun, 1 );
+        }
+    }
+
+    // Give a hint every ~50 shots
+    if( !is_spinner_target && ( effective_skill > 4 ) && one_in( 50 ) ) {
+        who.add_msg_if_player( m_neutral,
+                               _( "At your level, you could benefit from a spinner target to better refine your skills." ) );
+    }
+}
+
+void target_practice_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !check_weapon_valid( who ) ) {
+        finish( act, who );
+        who.add_msg_if_player( m_bad, _( "Your weapon is gone!" ) );
+        return;
+    }
+
+    // Process artificial/flavor delay between shots
+    if( delay_between_shots > 0 ) {
+        const int moves_this_turn = std::min( delay_between_shots, who.get_moves() );
+        delay_between_shots -= moves_this_turn;
+        who.mod_moves( -moves_this_turn );
+        return;
+    }
+
+    // Fired the planned amount of rounds? C'est fini
+    if( rounds_fired >= rounds_planned ) {
+        finish( act, who );
+        return;
+    }
+
+    // Need a reload?
+    item *gun = gun_loc.get_item();
+    if( gun->ammo_remaining() == 0 ) {
+        if( !attempt_reload( who ) ) {
+            who.add_msg_if_player( m_info,
+                                   _( "You finish your target practice session because you've run out of ammo." ) );
+            finish( act, who );
+            return;
+        }
+    }
+
+    if( !check_target_valid( who ) ) {
+        finish( act, who );
+        return;
+    }
+
+    const skill_id &weapon_skill = gun->gun_skill();
+    const float effective_skill = who.get_skill_level( weapon_skill ) +
+                                  ( who.get_skill_level( skill_gun ) * 0.5f );
+    apply_coaching( who, weapon_skill );
+    apply_skill_modifiers( who, weapon_skill, effective_skill );
+    show_flavor_message( who, effective_skill );
+    fire_shot( who, act );
+
+    // Artificial delay between shots; 100 = 1 second
+    constexpr int base_delay = 2000;
+
+    delay_between_shots = base_delay;
+}
+
+void target_practice_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You finish your target practice session." ) );
+    who.add_msg_if_player( m_info, _( "Rounds fired: %d/%d" ), rounds_fired, rounds_planned );
+
+    act.set_to_null();
+}
+
+void target_practice_activity_actor::canceled( player_activity &act, Character &who )
+{
+    finish( act, who );
+}
+
+std::string target_practice_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( rounds_planned >= 0 ) {
+        return string_format( _( "%d / %d rounds" ), rounds_fired, rounds_planned );
+    }
+    return string_format( _( "%d rounds" ), rounds_fired );
+}
+
+void target_practice_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "gun_loc", gun_loc );
+    jsout.member( "target_position", target_position );
+    jsout.member( "rounds_planned", rounds_planned );
+    jsout.member( "rounds_fired", rounds_fired );
+    jsout.member( "delay_between_shots", delay_between_shots );
+    jsout.member( "coach_id", coach_id );
+    jsout.member( "is_spinner_target", is_spinner_target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> target_practice_activity_actor::deserialize( JsonValue &jsin )
+{
+    target_practice_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "gun_loc", actor.gun_loc );
+    data.read( "target_position", actor.target_position );
+    data.read( "rounds_planned", actor.rounds_planned );
+    data.read( "rounds_fired", actor.rounds_fired );
+    data.read( "delay_between_shots", actor.delay_between_shots );
+    data.read( "coach_id", actor.coach_id );
+    data.read( "is_spinner_target", actor.is_spinner_target );
+
+    return actor.clone();
+}
+
 std::unique_ptr<activity_actor> multi_fish_activity_actor::deserialize( JsonValue & )
 {
     multi_fish_activity_actor actor;
@@ -4740,7 +5271,50 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     player_activity current_act_copy = act;
     activity_id current_activity = current_act_copy.id();
 
-    std::unordered_set<tripoint_abs_ms> src_set = multi_activity_locations( you );
+    // Prevent zero-move spinning from auto_resume backlog restore.
+    if( !check_only ) {
+        you.mod_moves( -1 );
+    }
+
+    // Cache checked-and-failed sources so the move budget makes
+    // progress across turns. Stored as a static because multi_zone
+    // actors get cloned through the backlog (member state won't
+    // persist). Fetch activities bypass it (dynamic requirement state).
+    struct source_cache {
+        std::unordered_set<tripoint_abs_ms> sources;
+        size_t initial_count = 0;
+        activity_id act_type = activity_id::NULL_ID();
+        tripoint_abs_ms origin;
+        character_id who;
+        unsigned int zone_count = 0;
+    };
+    static source_cache cache;
+
+    const bool use_cache = !check_only && current_activity != ACT_FETCH_REQUIRED;
+    const unsigned int cur_zone_count = zone_manager::get_manager().size();
+
+    bool cache_hit = use_cache &&
+                     cache.act_type == current_activity &&
+                     cache.origin == abspos &&
+                     cache.who == you.getID() &&
+                     cache.zone_count == cur_zone_count &&
+                     ( !cache.sources.empty() || cache.initial_count == 0 );
+
+    std::unordered_set<tripoint_abs_ms> src_set;
+    if( cache_hit ) {
+        src_set = cache.sources;
+    } else {
+        src_set = multi_activity_locations( you );
+        if( use_cache ) {
+            cache.initial_count = src_set.size();
+            cache.sources = src_set;
+            cache.act_type = current_activity;
+            cache.origin = abspos;
+            cache.who = you.getID();
+            cache.zone_count = cur_zone_count;
+        }
+    }
+
     std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
@@ -4789,11 +5363,25 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
                 check_only );
         if( req_res == requirement_check_result::RETURN_EARLY ) {
-            // activity cancelled
+            // Fetch dispatched -- prune so we don't re-trigger it.
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
             return false;
         }
         req_fail_reason.convert_requirement_check_result( req_res );
         if( req_fail_reason.check_skip_location() ) {
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
+            // Charge 1 move for expensive skips (zone/inventory scan).
+            if( !check_only &&
+                multi_activity_actor::activity_reason_continue( act_info.reason ) ) {
+                you.mod_moves( -1 );
+                if( you.get_moves() <= 0 ) {
+                    break;
+                }
+            }
             continue;
         }
 
@@ -4803,6 +5391,9 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
         if( !route_result ) {
+            if( use_cache ) {
+                cache.sources.erase( src );
+            }
             continue;
         }
         if( *route_result ) {
@@ -5659,6 +6250,31 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const std::optional<tripoint_bub_ms> location = craft_item.where() == item_location::type::character
             ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
+
+    // Legacy migration: older saves have step recipes with item_counter but no
+    // current_step/step_progress. Derive step state once, before any work or
+    // exertion computation. Guard ensures this runs at most once.
+    if( rec.has_steps() && craft.get_current_step() == 0 &&
+        craft.get_step_progress() == 0.0 && craft.item_counter > 0 ) {
+        // Need base_total_moves for conversion; compute it fresh here.
+        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
+                compute_tool_speeds( rec, crafter ) };
+        const double migration_base = std::max( 1.0,
+                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
+                                                        migration_ctx ) ) );
+        double accumulated = craft.item_counter * migration_base / 10000000.0;
+        for( size_t i = 0; i < rec.steps().size(); ++i ) {
+            double budget = rec.step_budget_moves( crafter, i,
+                                                   craft.get_making_batch_size(), migration_ctx );
+            if( accumulated < budget || i == rec.steps().size() - 1 ) {
+                craft.set_current_step( static_cast<int>( i ) );
+                craft.set_step_progress( accumulated );
+                break;
+            }
+            accumulated -= budget;
+        }
+    }
+
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -5677,15 +6293,18 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     if( cached_crafting_speed != crafting_speed || cached_assistants != assistants ) {
         cached_crafting_speed = crafting_speed;
         cached_assistants = assistants;
+        // Recompute cost context: tool speeds + book proficiency bonuses
+        cached_cost_ctx = { crafter.book_bonuses_nearby(), compute_tool_speeds( rec, crafter ) };
 
         // Base moves for batch size with no speed modifier or assistants
         // Must ensure >= 1 so we don't divide by 0;
         cached_base_total_moves = std::max( static_cast<int64_t>( 1 ),
-                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0 ) );
+                                            rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
+                                                    cached_cost_ctx ) );
         // Current expected total moves, includes crafting speed modifiers and assistants
         cached_cur_total_moves = std::max( static_cast<int64_t>( 1 ),
                                            rec.batch_time( crafter, craft.get_making_batch_size(), crafting_speed,
-                                                   assistants ) );
+                                                   assistants, cached_cost_ctx ) );
     }
     const double base_total_moves = cached_base_total_moves;
     const double cur_total_moves = cached_cur_total_moves;
@@ -5709,9 +6328,25 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // This is to ensure we don't over count skill steps
     craft.item_counter = std::min( craft.item_counter, 10000000 );
 
+    // Step transitions: accumulate work and advance through step boundaries.
+    if( rec.has_steps() ) {
+        craft.mod_step_progress( delta_progress );
+        const int last_step_idx = static_cast<int>( rec.steps().size() ) - 1;
+        while( craft.get_current_step() < last_step_idx ) {
+            const double budget = rec.step_budget_moves( crafter,
+                                  craft.get_current_step(), craft.get_making_batch_size(),
+                                  cached_cost_ctx );
+            if( craft.get_step_progress() < budget ) {
+                break;
+            }
+            craft.set_step_progress( craft.get_step_progress() - budget );
+            craft.set_current_step( craft.get_current_step() + 1 );
+        }
+    }
+
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
-    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter, {},
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
     const int ticks_per_practice = 10000000.0 / total_practice_ticks;
@@ -5819,11 +6454,32 @@ std::string craft_activity_actor::get_progress_message( const player_activity & 
         //We have somehow lost the craft item.  This will be handled in do_turn in the check_if_craft_is_ok call.
         return "";
     }
-    return craft_item.get_item()->tname();
+    const item *it = craft_item.get_item();
+    const recipe &making = it->get_making();
+    if( making.has_steps() ) {
+        int step_idx = it->get_current_step();
+        step_idx = std::clamp( step_idx, 0,
+                               static_cast<int>( making.steps().size() ) - 1 );
+        const recipe_step &step = making.steps()[step_idx];
+        return string_format( "%s - %s", it->tname(), step.name.translated() );
+    }
+    return it->tname();
 }
 
 float craft_activity_actor::exertion_level() const
 {
+    if( craft_item ) {
+        const item *it = craft_item.get_item();
+        if( it ) {
+            const recipe &rec = it->get_making();
+            if( rec.has_steps() ) {
+                int step = it->get_current_step();
+                step = std::clamp( step, 0,
+                                   static_cast<int>( rec.steps().size() ) - 1 );
+                return rec.steps()[step].exertion;
+            }
+        }
+    }
     return activity_override;
 }
 
@@ -6324,6 +6980,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 
     if( !got_anything ) {
         who.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+        who.add_msg_if_npc( m_bad, _( "<npcname> couldn't harvest anything." ) );
     }
 
     if( exam_furn ) {
@@ -6383,7 +7040,11 @@ void plant_seed_activity_actor::finish( player_activity &act, Character &who )
             here.furn( examp )->plant != nullptr ) {
             here.furn_set( examp, here.furn( examp )->plant->transform );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            if( here.ter( examp ).id() == ter_t_greenhouse_tilled ) {
+                here.set( examp, ter_t_greenhouse, furn_f_plant_seed );
+            } else {
+                here.set( examp, ter_t_dirt, furn_f_plant_seed );
+            }
         } else {
             here.furn_set( examp, furn_f_plant_seed );
         }
@@ -6640,7 +7301,7 @@ void robot_control_activity_actor::finish( player_activity &act, Character &who 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const float computer_skill = who.get_skill_level( skill_computer );
-    const float randomized_skill = rng( 2, who.int_cur ) + computer_skill;
+    const float randomized_skill = rng( 2, who.get_int() ) + computer_skill;
     float success = computer_skill - 3 * z->type->get_total_difficulty() / randomized_skill;
     if( z->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         success = randomized_skill - rng( 1, 11 );
@@ -7332,7 +7993,9 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
     data.read( "ammo_loc", actor.ammo_loc );
     data.read( "seconds_per_round", actor.seconds_per_round );
     data.read( "already_loaded", actor.already_loaded );
-    actor.ammo_id = actor.ammo_loc->type->id;
+    if( actor.ammo_loc ) {
+        actor.ammo_id = actor.ammo_loc->type->id;
+    }
 
     return actor.clone();
 }
@@ -9260,8 +9923,15 @@ void churn_activity_actor::start( player_activity &act, Character & )
 void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.get_bub( act.placement ), ter_t_dirtmound );
+    tripoint_bub_ms examp = here.get_bub( act.placement );
+
+    if( here.ter( examp ).id() == ter_t_greenhouse ) {
+        here.ter_set( examp, ter_t_greenhouse_tilled );
+        who.add_msg_if_player( _( "You finish preparing the greenhouse here." ) );
+    } else {
+        here.ter_set( examp, ter_t_dirtmound );
+        who.add_msg_if_player( _( "You finish churning up the earth here." ) );
+    }
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
@@ -9651,7 +10321,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
 
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) ) {
+    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.get_per() - 2 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos_bub(), calendar::turn );
         // map::put_items_from_loc can create multiple items and merge them into one stack.
@@ -9671,7 +10341,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
             } else if( it->has_flag( flag_FORAGE_HALLU ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_HALLU );
             }
-            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_player( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_npc( m_good, _( "<npcname> found: %s!" ), it->display_name() );
         }
     }
     // 10% to drop a item/items from this group.
@@ -9686,13 +10357,15 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
                 continue;
             }
             handled.push_back( it );
-            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_player( m_good, _( "You found: %s!" ), it->display_name() );
+            who.add_msg_if_npc( m_good, _( "<npcname> found: %s!" ), it->display_name() );
             found_something = true;
         }
     }
 
     if( !found_something ) {
-        add_msg( _( "You didn't find anything." ) );
+        who.add_msg_if_player( _( "You didn't find anything." ) );
+        who.add_msg_if_npc( _( "<npcname> didn't find anything." ) );
     }
 
     iexamine::practice_survival_while_foraging( who );
@@ -12083,7 +12756,8 @@ bool pulp_activity_actor::can_pulp( item &corpse, Character &you )
 
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
-        if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
+        if( you.query_yn(
+                _( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) ) {
             too_long_to_pulp = true;
         } else {
             too_long_to_pulp_interrupted = true;
@@ -12781,7 +13455,42 @@ void zone_sort_activity_actor::update_other_activity_items()
 void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 {
     update_other_activity_items();
+    // Save viewport state before base call. For NPCs, revert_after_activity()
+    // replaces the activity and destroys this actor before returning.
+    const bool had_viewport = viewport_was_active;
+    const int saved_zoom = viewport_saved_zoom;
     zone_activity_actor::do_turn( act, you );
+
+    // True completion: activity nulled AND no auto-move destination pending.
+    // route_to_destination sets destination before nulling; true end does not.
+    // Use saved locals since this may be destroyed.
+    if( act.is_null() && !you.has_destination() && had_viewport ) {
+        if( !test_mode ) {
+            g->set_zoom( saved_zoom );
+            g->mark_main_ui_adaptor_resize();
+        }
+        if( you.is_avatar() ) {
+            you.as_avatar()->zone_sort_viewport = {};
+        }
+    }
+}
+
+void zone_sort_activity_actor::canceled( player_activity &, Character &you )
+{
+    restore_viewport( you );
+}
+
+void zone_sort_activity_actor::restore_viewport( Character &you )
+{
+    if( !viewport_was_active || !you.is_avatar() ) {
+        return;
+    }
+    if( !test_mode ) {
+        g->set_zoom( viewport_saved_zoom );
+        g->mark_main_ui_adaptor_resize();
+    }
+    you.as_avatar()->zone_sort_viewport = {};
+    viewport_was_active = false;
 }
 
 void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
@@ -12790,11 +13499,38 @@ void zone_sort_activity_actor::stage_init( player_activity &, Character &you )
     mgr.cache_avatar_location();
     coord_set.clear();
     unreachable_sources.clear();
+    const faction_id fac = you.get_faction_id();
+    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     for( const tripoint_abs_ms &p :
-         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr,
-                       you.get_faction_id() ) ) {
+         mgr.get_near( zone_type_LOOT_UNSORTED, you.pos_abs(), MAX_VIEW_DISTANCE, nullptr, fac ) ) {
+        if( skip_personal && !mgr.has_nonpersonal( zone_type_LOOT_UNSORTED, p, fac ) ) {
+            continue;
+        }
         coord_set.insert( p );
     }
+
+    if( you.is_avatar() && !coord_set.empty() ) {
+        viewport_was_active = true;
+        viewport_saved_zoom = g->get_zoom();
+
+        zone_sorting::viewport_bbox bbox = zone_sorting::calc_zone_bbox( coord_set );
+        int target = zone_sorting::calc_target_zoom(
+                         bbox.width(), bbox.height(),
+                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                         viewport_saved_zoom, viewport_saved_zoom );
+
+        avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+        vp.active = true;
+        vp.center = bbox.centroid;
+        vp.target_zoom = target;
+        vp.bbox_min = bbox.min_corner;
+        vp.bbox_max = bbox.max_corner;
+        if( !test_mode ) {
+            g->set_zoom( target );
+            g->mark_main_ui_adaptor_resize();
+        }
+    }
+
     stage = THINK;
 }
 
@@ -12872,6 +13608,19 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
             best_route = 0;
         } else {
             const int dist = zone_sorting::route_length( you, p_bub );
+            // Budget: each route probe costs 1 move to prevent unbounded
+            // A* work in a single frame. Charged before the INT_MAX check
+            // because unreachable probes explore the full search space.
+            you.mod_moves( -1 );
+            if( you.get_moves() <= 0 ) {
+                if( dist != INT_MAX ) {
+                    computed.emplace_back( dist, candidates[i].second );
+                } else {
+                    unreachable_sources.emplace( candidates[i].second );
+                }
+                cutoff = i + 1;
+                break;
+            }
             if( dist == INT_MAX ) {
                 unreachable_sources.emplace( candidates[i].second );
                 continue;
@@ -12921,6 +13670,7 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
         bool ignore_contents = zone_sorting::ignore_contents( you, src );
 
         if( zone_sorting::ignore_zone_position( you, src, ignore_contents ) ) {
+            coord_set.erase( src );
             continue;
         }
 
@@ -12931,8 +13681,9 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
 
         // check if there is valid destination for any item of the tile
         bool pickup_failure;
+        bool spillable_skipped = false;
         bool has_items_to_work_on = zone_sorting::has_items_to_sort( you, src, zone_unload_options,
-                                    other_activity_items, items, &pickup_failure );
+                                    other_activity_items, items, &pickup_failure, &spillable_skipped );
 
         if( pickup_failure && !pickup_failure_reported ) {
             pickup_failure_reported = true;
@@ -12942,13 +13693,18 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                                     you.disp_name() );
         }
 
+        if( spillable_skipped && !spillable_skip_reported ) {
+            spillable_skip_reported = true;
+            you.add_msg_if_player( m_info,
+                                   _( "Some open containers were not sorted to avoid spilling." ) );
+        }
+
         if( !has_items_to_work_on ) {
+            coord_set.erase( src );
             continue;
         }
 
         bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_bub ) <= 1;
-        // before we move any item, check if player is at or
-        // adjacent to the loot source tile
         if( !is_adjacent_or_closer ) {
             add_msg_debug( debugmode::DF_ACTIVITY,
                            "zone_sort THINK: routing to source (%d,%d,%d) from (%d,%d)",
@@ -12967,6 +13723,12 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
                        src.x(), src.y(), src.z() );
         stage = DO;
         break;
+    }
+    if( stage != DO && !coord_set.empty() ) {
+        // Remaining entries are filtered by unreachable_sources, have
+        // full destinations, or were past the route probe cutoff.
+        // Clear so the activity ends cleanly instead of re-scanning.
+        coord_set.clear();
     }
     return true;
 }
@@ -13035,6 +13797,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     const zone_manager &mgr = zone_manager::get_manager();
 
     const faction_id fac_id = you.get_faction_id();
+    const bool skip_personal = !you.is_avatar() && mgr.has_personal_zones();
     const tripoint_abs_ms src( placement );
     const tripoint_bub_ms src_bub = here.get_bub( src );
     const tripoint_abs_ms abspos = you.pos_abs();
@@ -13150,6 +13913,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 return_items_to_source( you, src_bub );
                 unreachable_sources.emplace( src );
                 stage = THINK;
+                you.mod_moves( -1 );
             }
             return;
         }
@@ -13170,6 +13934,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                        "zone_sort DO: NOT adjacent to src (dist=%d), back to THINK",
                        square_dist( you.pos_bub(), src_bub ) );
         stage = THINK;
+        you.mod_moves( -1 );
         return;
     }
 
@@ -13221,8 +13986,17 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         const zone_type_id zt_id = mgr.get_near_zone_type_for_item( thisitem, abspos,
                                    MAX_VIEW_DISTANCE, fac_id );
 
-        const std::unordered_set<tripoint_abs_ms> dest_set =
+        std::unordered_set<tripoint_abs_ms> dest_set =
             mgr.get_near( zt_id, abspos, MAX_VIEW_DISTANCE, &thisitem, fac_id );
+        if( skip_personal ) {
+            for( auto dit = dest_set.begin(); dit != dest_set.end(); ) {
+                if( !mgr.has_nonpersonal( zt_id, *dit, fac_id ) ) {
+                    dit = dest_set.erase( dit );
+                } else {
+                    ++dit;
+                }
+            }
+        }
 
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
                                              zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set, num_processed );
@@ -13348,6 +14122,28 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
             if( !drag_worst_tile ) {
                 drag_worst_tile = zone_sorting::worst_drag_tile_on_route( you, dropoff_coords );
+            }
+            // Expand viewport bbox to include newly discovered destinations.
+            if( you.is_avatar() && you.as_avatar()->zone_sort_viewport.active ) {
+                avatar::zone_sort_viewport_t &vp = you.as_avatar()->zone_sort_viewport;
+                bool grew = false;
+                for( const tripoint_abs_ms &d : dropoff_coords ) {
+                    grew |= zone_sorting::expand_bbox_raw( vp.bbox_min, vp.bbox_max, d );
+                }
+                if( grew ) {
+                    const int bbox_w = vp.bbox_max.x() - vp.bbox_min.x();
+                    const int bbox_h = vp.bbox_max.y() - vp.bbox_min.y();
+                    vp.center.x() = ( vp.bbox_min.x() + vp.bbox_max.x() ) / 2;
+                    vp.center.y() = ( vp.bbox_min.y() + vp.bbox_max.y() ) / 2;
+                    vp.target_zoom = zone_sorting::calc_target_zoom(
+                                         bbox_w, bbox_h,
+                                         TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT,
+                                         g->get_zoom(), viewport_saved_zoom );
+                    if( !test_mode ) {
+                        g->set_zoom( vp.target_zoom );
+                        g->mark_main_ui_adaptor_resize();
+                    }
+                }
             }
         }
 
@@ -13502,6 +14298,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             coord_set.erase( src );
         }
         stage = THINK;
+        you.mod_moves( -1 );
         dropoff_coords.clear();
     } else if( !dropoff_coords.empty() && !you.has_destination() )  {
         // Purge item_locations invalidated by inventory restacking.
@@ -13521,6 +14318,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: all picked items lost (merged?), back to THINK" );
             coord_set.erase( src );
             stage = THINK;
+            you.mod_moves( -1 );
             dropoff_coords.clear();
             return;
         }
@@ -13537,12 +14335,29 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
             }
         }
+        int dest_dist = INT_MAX;
         if( picked_up_this_pass ) {
-            int dest_dist = INT_MAX;
             for( const tripoint_abs_ms &dest : dropoff_coords ) {
-                dest_dist = std::min( dest_dist, square_dist( abspos, dest ) );
+                if( square_dist( abspos, dest ) <= 1 ) {
+                    dest_dist = 0;
+                    break;
+                }
+                const tripoint_bub_ms dest_bub = here.get_bub( dest );
+                if( !here.inbounds( dest_bub ) ) {
+                    continue;
+                }
+                const int rd = zone_sorting::route_length( you, dest_bub );
+                dest_dist = std::min( dest_dist, rd );
             }
 
+            // Skip entire batch candidate scan when all destinations are
+            // unreachable -- the Chebyshev filter (cheb >= dest_dist) would
+            // pass everything through, causing O(N) unfiltered A* probes.
+            if( dest_dist == INT_MAX ) {
+                picked_up_this_pass = false;
+            }
+        }
+        if( picked_up_this_pass ) {
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -13550,8 +14365,10 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 batch_cart_vp = here.veh_at( cart_pos ).cargo();
             }
 
-            // Build distance-sorted candidates, mirroring THINK's filters
-            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            // Build distance-sorted candidates using A* route distances.
+            // Pre-sort by Chebyshev (lower bound on route distance) and use it
+            // as a cheap filter before expensive A* calls.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_presorted;
             for( const tripoint_abs_ms &candidate : coord_set ) {
                 if( candidate == src ) {
                     continue;
@@ -13567,11 +14384,39 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                                                         zone_sorting::ignore_contents( you, candidate ) ) ) {
                     continue;
                 }
-                const int cand_dist = square_dist( abspos, candidate );
-                if( cand_dist >= dest_dist ) {
+                const int cheb = square_dist( abspos, candidate );
+                if( cheb >= dest_dist ) {
+                    // Chebyshev is a lower bound on route distance, so this
+                    // candidate can't possibly be closer than the destination.
                     continue;
                 }
-                batch_candidates.emplace_back( cand_dist, candidate );
+                batch_presorted.emplace_back( cheb, candidate );
+            }
+            std::sort( batch_presorted.begin(), batch_presorted.end(),
+                       []( const std::pair<int, tripoint_abs_ms> &a,
+            const std::pair<int, tripoint_abs_ms> &b ) {
+                return a.first < b.first;
+            } );
+
+            // Compute actual A* route distances for survivors.
+            std::vector<std::pair<int, tripoint_abs_ms>> batch_candidates;
+            for( const auto &[cheb, candidate] : batch_presorted ) {
+                if( cheb <= 1 ) {
+                    // Adjacent -- no pathfinding needed.
+                    batch_candidates.emplace_back( 0, candidate );
+                    continue;
+                }
+                const tripoint_bub_ms cand_bub = here.get_bub( candidate );
+                const int rdist = zone_sorting::route_length( you, cand_bub );
+                if( rdist == INT_MAX ) {
+                    unreachable_sources.emplace( candidate );
+                    continue;
+                }
+                if( rdist >= dest_dist ) {
+                    // Closer by Chebyshev but not by actual route distance.
+                    continue;
+                }
+                batch_candidates.emplace_back( rdist, candidate );
             }
             std::sort( batch_candidates.begin(), batch_candidates.end(),
                        []( const std::pair<int, tripoint_abs_ms> &a,
@@ -13730,6 +14575,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             return_items_to_source( you, src_bub );
             unreachable_sources.emplace( src );
             stage = THINK;
+            you.mod_moves( -1 );
             return;
         }
 
@@ -13749,6 +14595,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                            "zone_sort DO: route to dest FAILED, returning items, back to THINK" );
             return_items_to_source( you, src_bub );
             stage = THINK;
+            you.mod_moves( -1 );
         }
 
     } else if( !you.has_destination() ) {
@@ -13757,6 +14604,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         return_items_to_source( you, src_bub );
         unreachable_sources.emplace( src );
         stage = THINK;
+        you.mod_moves( -1 );
     }
 }
 
@@ -13793,6 +14641,8 @@ void zone_sort_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "dropoff_coords", dropoff_coords );
     jsout.member( "pickup_failure_reported", pickup_failure_reported );
     jsout.member( "virtual_pickup_active", virtual_pickup_active );
+    jsout.member( "viewport_was_active", viewport_was_active );
+    jsout.member( "viewport_saved_zoom", viewport_saved_zoom );
 
     jsout.end_object();
 }
@@ -13817,6 +14667,12 @@ std::unique_ptr<activity_actor> zone_sort_activity_actor::deserialize( JsonValue
     }
     if( data.has_member( "virtual_pickup_active" ) ) {
         data.read( "virtual_pickup_active", actor.virtual_pickup_active );
+    }
+    if( data.has_member( "viewport_was_active" ) ) {
+        data.read( "viewport_was_active", actor.viewport_was_active );
+    }
+    if( data.has_member( "viewport_saved_zoom" ) ) {
+        data.read( "viewport_saved_zoom", actor.viewport_saved_zoom );
     }
     return actor.clone();
 }
@@ -13922,6 +14778,7 @@ deserialize_functions = {
     { ACT_START_FIRE, &fire_start_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
+    { ACT_TARGET_PRACTICE, &target_practice_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TOOLMOD_ADD, &toolmod_add_activity_actor::deserialize },

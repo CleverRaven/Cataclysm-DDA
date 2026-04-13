@@ -613,6 +613,23 @@
     ]
   },
   {
+    "id": "exodii_pay_extra_for_petrochemical",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "prob": 1 },
+      { "item": "diesel", "prob": 1 },
+      { "item": "biodiesel", "prob": 1 },
+      { "item": "jp8", "prob": 1 },
+      { "item": "avgas", "prob": 1 },
+      { "item": "propane", "prob": 1 },
+      { "item": "lamp_oil", "prob": 1 },
+      { "item": "crude_lamp_oil", "prob": 1 },
+      { "item": "crude_oil", "prob": 1 }
+    ]
+  },
+  {
     "id": "exodii_do_not_buy_ammo_blacklist",
     "type": "item_group",
     "subtype": "collection",

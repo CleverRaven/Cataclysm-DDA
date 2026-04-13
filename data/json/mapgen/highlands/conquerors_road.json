@@ -1,0 +1,241 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "conquerors_road_open",
+    "object": { "place_nested": [ { "chunks": [ "conquerors_road_open" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "conquerors_road_close",
+    "object": { "place_nested": [ { "chunks": [ "conquerors_road_close" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "conquerors_road",
+    "object": {
+      "rows": [
+        "       ----------       ",
+        "       -wwwwwwww-       ",
+        " ----|||wwwwwwww|||---- ",
+        " -GG||S----------S||GG- ",
+        " -GG|XXXXX====XXXXX|GG- ",
+        " -|||XXXXXSTTSXXXXX|||- ",
+        "  |www-iiiiTTiiii-www|  ",
+        "  -www-/iiiiiiii/-www-  ",
+        "  -----//iiiiii//-----  ",
+        "       ///iiii///       ",
+        "    S  ////iii///  S    ",
+        "    |t /////iii// t|    ",
+        "    S  //////ii//  S    ",
+        "   |||F//////ii//F|||   ",
+        "   -w-F//////ii//F-w-   ",
+        "   -S-F/////ii///F-S-   ",
+        "   -w-F/////ii///F-w-   ",
+        "   -w-F/////ii///F-w-   ",
+        "   |||F/////ii///F|||   ",
+        "   -|- ////ii//// -|-   ",
+        "   -S- ////ii//// -S-   ",
+        "   -w- ////ii//// -w-   ",
+        "   --- ////ii//// ---   ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_structure" ],
+      "terrain": {
+        "i": [ [ "t_stone_road", 10 ], [ "t_highland_groundcover", 1 ] ],
+        "/": [ [ "t_stone_road", 4 ], [ "t_highland_groundcover", 1 ] ],
+        "X": "t_highland_bronze_pillar",
+        "t": "t_stone_road",
+        "T": "t_highland_bronze_floor",
+        "=": "t_highland_bronze_floor_inactive",
+        "G": "t_highland_flower_bed",
+        "S": "t_stone_masonry_floor"
+      },
+      "item": { "i": { "item": "highland_censer", "chance": 20 }, "/": { "item": "highland_censer", "chance": 2 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "conquerors_road_above",
+    "object": {
+      "rows": [
+        "       ..........       ",
+        "       ..........       ",
+        "     ..............     ",
+        "    ................    ",
+        "    .XX          XX.    ",
+        "  ...XX          XX...  ",
+        "  ....................  ",
+        "   ..................   ",
+        "   ....          ....   ",
+        "   ...            ...   ",
+        "   ...            ...   ",
+        "   ...            ...   ",
+        "   ....          ....   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ..................   ",
+        "   ....          ....   ",
+        "   ...            ...   ",
+        "    .              .    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_open_air", ".": "t_stone_masonry_floor_balcony", "X": "t_highland_bronze_pillar" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "conquerors_road_above_1",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     XX          XX     ",
+        "     XX          XX     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_open_air", "X": "t_highland_bronze_pillar" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "conquerors_road_top",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ..          ..     ",
+        "     ..          ..     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_open_air", ".": "t_stone_masonry_floor_balcony" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "conquerors_road_open",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        " ###################### ",
+        "  ###XXXXXTTTTXXXXX###  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_nether_glass_wall", "X": "t_highland_bronze_pillar", "T": "t_distortion_floor" },
+      "traps": { "T": "tr_imperial_road_go" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "conquerors_road_close",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ",,,,,,,----------,,,,,,,",
+        ",,,,,,,-wwwwwwww-,,,,,,,",
+        ",----|||wwwwwwww|||----,",
+        ",-GG||S----------S||GG-,",
+        ",-GG|XXXXX====XXXXX|GG-,",
+        ",-|||XXXXXS  SXXXXX|||-,",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        ",": "t_highland_groundcover",
+        "X": "t_highland_bronze_pillar",
+        "T": "t_highland_bronze_floor",
+        "=": "t_highland_bronze_floor_inactive",
+        "G": "t_highland_flower_bed",
+        "S": "t_stone_masonry_floor",
+        "w": "t_water_sh",
+        "|": "t_rock_wall",
+        "-": "t_stone_fence"
+      },
+      "furniture": { "S": "f_highlands_holy_statue" }
+    }
+  }
+]

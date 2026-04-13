@@ -16,7 +16,6 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "mod_tracker.h"
-#include "options.h"
 #include "string_formatter.h"
 #include "talker.h"
 
@@ -117,13 +116,14 @@ const std::vector<overmap_special> &overmap_specials::get_all()
     return specials.get_all();
 }
 
-overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &origin )
+overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &origin,
+        int city_size )
 {
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
     for( const overmap_special &elem : specials.get_all() ) {
-        if( elem.can_spawn() ) {
+        if( elem.can_spawn( city_size ) ) {
             res.push_back( &elem );
         }
     }
@@ -181,13 +181,12 @@ overmap_special::overmap_special( const overmap_special_id &i, const overmap_spe
     , data_{ make_shared_fast<fixed_overmap_special_data>( ter ) }
 {}
 
-bool overmap_special::can_spawn() const
+bool overmap_special::can_spawn( int city_size ) const
 {
     if( get_constraints().occurrences.empty() ) {
         return false;
     }
 
-    const int city_size = get_option<int>( "CITY_SIZE" );
     return city_size != 0 || get_constraints().city_size.min <= city_size;
 }
 
@@ -248,6 +247,11 @@ std::vector<overmap_special_terrain> overmap_special::get_terrains() const
 std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
 {
     return data_->preview_terrains();
+}
+
+std::vector<oter_type_id> overmap_special::get_terrain_type_ids() const
+{
+    return data_->get_terrain_type_ids();
 }
 
 std::vector<overmap_special_locations> overmap_special::required_locations() const

@@ -239,7 +239,7 @@ void Character::check_and_recover_morale()
         add_msg_debug( debugmode::DF_CHARACTER, "Actual %s morale:\n%s\n", disp_name( true ),
                        morale->to_string_writable() );
 
-        *morale = player_morale( test_morale ); // Recover consistency
+        morale->sync_permanent( test_morale ); // Recover only permanent morale
         add_msg_debug( debugmode::DF_CHARACTER, "%s morale was recovered.", disp_name( true ) );
     }
 }

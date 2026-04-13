@@ -262,6 +262,13 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
                                             it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
     }
 
+    if( it.has_flag( flag_ROBOFAC_LENS_ACCESSORY ) &&
+        ( !worn_with_flag( flag_ROBOFAC_LENS_HELMET ) ) ) {
+        return ret_val<void>::make_failure( ( is_avatar() ?
+                                              _( "You can't wear that without a LENS helmet." )
+                                              : string_format( _( "%s can't wear that without a LENS helmet." ), get_name() ) ) );
+    }
+
     return ret_val<void>::make_success();
 }
 
@@ -1968,7 +1975,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 
                 // need to go through each locations under location to check if it's covered, since secondary locations can cover multiple underlying locations
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
-                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                    if( covered_sbps.count( under_sbp ) != 1 && guy.has_sub_bodypart( sbp ) ) {
                         guy.add_msg_if_player(
                             string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );

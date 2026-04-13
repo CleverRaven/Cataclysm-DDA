@@ -61,6 +61,7 @@ zzip
 
 # Visual Studio files
 *.code-workspace
+!Cataclysm-DDA.code-workspace
 *.exp
 *.ilk
 *.opensdf
@@ -81,6 +82,7 @@ Directory.Build.targets
 .vscode/**
 !.vscode/settings.json
 !.vscode/extensions.json
+!.vscode/msbuild.ps1
 
 # Visual Studio project files
 /msvc-full-features/**/

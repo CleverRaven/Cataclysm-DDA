@@ -512,7 +512,8 @@ class overmap
         bool has_extra( const tripoint_om_omt &p ) const;
         const map_extra_id &extra( const tripoint_om_omt &p ) const;
         void add_extra( const tripoint_om_omt &p, const map_extra_id &id );
-        void add_extra_note( const tripoint_om_omt &p );
+        void add_deferred_extra_note( const tripoint_abs_omt &p );
+        void add_extra_note( const tripoint_om_omt &p, bool force_add = false );
         void delete_extra( const tripoint_om_omt &p );
 
         /**
@@ -648,6 +649,7 @@ class overmap
         point_om_omt get_fallback_road_connection_point() const;
     private:
         friend class overmapbuffer;
+        friend class overmap_test_helper;
 
         std::vector<shared_ptr_fast<npc>> npcs;
 
@@ -659,7 +661,10 @@ class overmap
         std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
         // Whether this overmap has a highway connection point at this direction (N/E/S/W)
-        std::array<tripoint_om_omt, 4> highway_connections;
+        std::array<tripoint_om_omt, 4> highway_connections = {
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid,
+            tripoint_om_omt::invalid, tripoint_om_omt::invalid
+        };
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;

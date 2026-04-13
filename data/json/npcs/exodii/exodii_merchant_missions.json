@@ -49,7 +49,7 @@
     "id": "EXODII_MISSION_CHOP_SHOP",
     "type": "mission_definition",
     "name": { "str": "Recover the Missing Exodii" },
-    "description": "Rubik believes a missing Exodii scout is being kept hostage, and they want me to bring them back, dead or alive.  Rubik says the hostage will look a bit like him - a mostly metal robot.",
+    "description": "Rubik believes a missing Exodii scout is being kept hostage, or worse, has been killed, by members of Hub 01.  Rubik says the scout will look a bit like him: a mostly-metal cyborg, but with a recognizable red frame.  I either need to rescue the Exodii, or bring back a piece of their \"body\" as proof that they have perished.",
     "goal": "MGOAL_NULL",
     "destination": "robofac_strip_mall_x1y0",
     "difficulty": 5,
@@ -122,7 +122,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill.",
-      "str": "Them as offer as can, an it be so.  Aye, there's summat the old Scythy been larkin' up Rubik's tailpipe.  B'ain't tass right for a clanker like this'n, but a pop-an-work like you'n, maybe well and suited."
+      "str": "Them as offer as can, an it be so.  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?  Aye, there's summat the old Scythy been larkin' up Rubik's tailpipe.  B'ain't tass right for a clanker like this'n, but a pop-an-work like you'n, maybe well and suited."
     },
     "responses": [
       { "text": "What's \"the ol' Scythy\"?", "topic": "TALK_EXODII_MERCHANT_Scythean" },
@@ -310,6 +310,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },
@@ -339,23 +340,23 @@
       "math": [ "time_since('cataclysm', 'unit':'days') >= 28" ],
       "yes": {
         "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
-        "str": "Well an surely, fruit gum!  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
+        "str": "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
       },
       "no": {
         "math": [ "talked_to_hub == 1" ],
         "yes": {
           "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
-          "str": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
+          "str": "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
         },
         "no": {
           "math": [ "exodii_knows_hub01 == 1" ],
           "yes": {
             "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
-            "str": "Well an surely, fruit gum!  For an' such as ye've done us a good.  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
+            "str": "Well an surely, fruit gum!  For an' such as ye've done us a good.  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
           },
           "no": {
             "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
-            "str": "Well an surely, fruit gum!  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
+            "str": "Well an surely, fruit gum!  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
           }
         }
       }
@@ -511,14 +512,14 @@
       {
         "text": "Yes, but you should know that it was empty when I got there.  Someone must have beat us to it.",
         "condition": { "math": [ "hub01_stole_warehouse == 1" ] },
-        "trial": { "type": "LIE", "difficulty": 10 },
+        "trial": { "type": "LIE", "difficulty": 30 },
         "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_empty_lie_success" },
         "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
       },
       {
         "text": "Yes, but you should know that the people from that bunker may be poking around.  I think they caught on that I was looking for it while I asking around for information.  Sorry, Rubik.",
         "condition": { "math": [ "hub01_bought_exodii_warehouse == 1" ] },
-        "trial": { "type": "LIE", "difficulty": 30 },
+        "trial": { "type": "LIE", "difficulty": 60 },
         "success": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_hub_poking_lie_success" },
         "failure": { "topic": "TALK_EXODII_MERCHANT_mission_2_complete_double_crossed_lie_failure" }
       },
@@ -686,6 +687,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },
@@ -712,12 +714,16 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Do you remember that bunker you found for us?  Well, turns out they're not so friendly.  We found out one of their people is running some sort of workshop, and we think that an explorer we lost is being held inside.  They're Exodii like me - lots of metal, not easy to miss.  I think they're being tortured, at the least.  If you, a mercenary, can recover them, we'd pay handsomely.",
-      "str": "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome."
+      "str": "Ye mind that bunker ye ferreted fer us'n?  Turns they be no kindly folk.  Us'n learned one o'their scavs keep'n a second hall, an' we reckon an escolt we lost be held fast inside.  One kin t'me - Exodii - much metal, deep red shell, hard t'miss.  Torture'n the like - bad if tassed this'n.  If ye can fetch 'em back pop-n-work-like, us'll pay ye right handsome."
     },
     "responses": [
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_3_explain" },
       {
-        "text": "So one of those scientists from the bunker abducted one of your people?  You want me to find them?  I'll do it.",
+        "text": "What if the worst has happened, and they're dead?",
+        "topic": "TALK_EXODII_MERCHANT_mission_3_advice_dead"
+      },
+      {
+        "text": "So one of those scientists from the bunker abducted one of your people?  An exodii with a red frame?  You want me to find them?  I'll do it.",
         "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
         "topic": "TALK_DONE"
       },
@@ -733,7 +739,24 @@
     },
     "responses": [
       {
-        "text": "Right, so you don't want them to know that you're involved.  I'll do it.",
+        "text": "Right, so you don't want them to know that you're involved.  I'll see if I can find this exodii with a red frame.",
+        "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_3_advice_dead",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "If that's the case, just bring back proof.  We know them well, so any part of their frame will do.  It's a deep red color.  Hard to miss.",
+      "str": "If that be the case, fetch back the proof ya' can.  Any piece'o'their frame will do, but I'd prefer all of it.  Deep red color.  Hard t'miss."
+    },
+    "responses": [
+      {
+        "text": "If they're dead, just bring back a piece of their red frame as proof.  Let's hope they're alive.  I'll see if I can find this exodii.",
         "effect": { "assign_mission": "EXODII_MISSION_CHOP_SHOP" },
         "topic": "TALK_DONE"
       },
@@ -890,6 +913,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } },
             { "not": { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } }
           ]
         },

@@ -15,13 +15,32 @@
     "id": "NC_ANCILLA_DOCTOR",
     "name": { "str": "Ancilla Doctor" },
     "job_description": "I try to keep this gang in one piece.  It's a full time job.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "RETURN_TO_START_POS" } ],
     "common": false,
     "bonus_int": { "rng": [ 3, 5 ] },
     "worn_override": "NC_ANCILLA_DOCTOR_worn",
     "carry_override": "NC_ANCILLA_BARKEEP_carry",
     "weapon_override": "NC_ANCILLA_BARKEEP_wield",
-    "shopkeeper_item_group": [ { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true } ],
+    "shopkeeper_item_group": [
+      { "group": "NC_ANCILLA_DOCTOR_stock", "rigid": true },
+      {
+        "group": "NC_ANCILLA_DOCTOR_bionics",
+        "rigid": true,
+        "strict": true,
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] }
+      },
+      {
+        "group": "NC_ANCILLA_DOCTOR_bionics_LENS",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_ivas" } ] }
+          ]
+        }
+      }
+    ],
     "shopkeeper_price_rules": [
       { "group": "NC_ANCILLA_DOCTOR_stock", "premium": 2.0 },
       { "group": "NC_ANCILLA_DOCTOR_EXPENSIVE_ITEMS", "premium": 6.0 },
@@ -59,6 +78,22 @@
       { "group": "drugs_emergency", "prob": 100, "count": [ 4, 6 ] },
       { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_DOCTOR_bionics",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bio_robofac_xmleg", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_robofac_xmarm", "prob": 100, "count": [ 1, 2 ] },
+      { "item": "bio_robofac_xmback", "prob": 100, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_DOCTOR_bionics_LENS",
+    "subtype": "collection",
+    "entries": [ { "item": "bio_robofac_xmlens", "prob": 100, "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -102,7 +137,8 @@
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
-            { "not": { "u_has_trait": "Hub01_CBM_Interface" } }
+            { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
           ]
         }
       },
@@ -149,7 +185,11 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_SERVICES",
     "type": "talk_topic",
-    "dynamic_line": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  We are also accepting applications for the cutting-edge Hub 01 Cybernetic Enhancements Program, if you're interested.",
+    "dynamic_line": {
+      "u_has_trait": "Hub01_CBM_Interface",
+      "yes": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  As you know, I'm also the field coordinator for the Cybernetic Enhancements Program.  Cool, huh?  Anyway, since you already have an interface, I can install, remove, and repair cybernetics.  The Hub has promised to sometimes provide supplies, so keep an eye on my stock.",
+      "no": "Primarily I run the new Hub 01 automated medical suite.  DON'T touch the machine.  You might lose a finger.  Or worse.  In any case, I can offer medical services in exchange for HGC, and can trade you medical supplies.  We are also accepting applications for the cutting-edge Hub 01 Cybernetic Enhancements Program, if you're interested."
+    },
     "responses": [
       {
         "text": "What?!  Seriously?  Cybernetics?  Tell me more!",
@@ -165,7 +205,8 @@
           "and": [
             { "math": [ "hub01_promised_cbm_reward == 1" ] },
             { "not": { "u_has_trait": "Hub01_CBM_Interface" } },
-            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } }
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
           ]
         }
       },
@@ -187,13 +228,17 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_CYBERNETICS_INFO",
     "type": "talk_topic",
-    "dynamic_line": "&The doc cracks a wry grin.  \"Yup, believe it or not, motherfucker, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  So, for a DISCOUNTED fee of 20 HGCs, I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment to keep it charged, and an integrated two-way radio.  Crazy shit, huh?\"",
+    "dynamic_line": "&The Doc cracks a wry grin.  \"Yup, believe it or not, motherfucker, we can soup you up with some metal and plastic and turn you into a Terminator.  Well, theoretically.  Need the implants, which we're short on.  In any case, Hub 01 graciously provides us all the tech and some supplies.  So, for a DISCOUNTED fee of 20 HGCs, I can install a bionic interface in your brain - totally safe, mind you - and fit you with a power supply, a battery compartment to keep it charged, and an integrated two-way radio.  Crazy shit, huh?\"",
     "responses": [
       {
         "text": "Actually, I'm <u_name>.  I was told to see you about field-testing the new cybernetics.",
         "topic": "TALK_ANCILLA_DOCTOR_INSTALL_INTERFACE_REWARD_A",
         "condition": {
-          "and": [ { "math": [ "hub01_promised_cbm_reward == 1" ] }, { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } } ]
+          "and": [
+            { "math": [ "hub01_promised_cbm_reward == 1" ] },
+            { "not": { "u_has_trait": "CBM_Interface_brain_lesion" } },
+            { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } }
+          ]
         }
       },
       {
@@ -209,14 +254,17 @@
       },
       {
         "text": "[20 HGC - Install Hub 01 CBM interface]  Twenty HGC to turn me into a cyborg?  Let's do it.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 20 } },
+        "condition": {
+          "and": [ { "u_has_items": { "item": "RobofacCoin", "count": 20 } }, { "not": { "u_has_flag": "NO_CBM_INSTALLATION" } } ]
+        },
         "effect": [
           {
             "if": { "u_has_trait": "CBM_Interface" },
             "then": [
               { "u_lose_trait": "CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
-              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+              { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
             ]
           },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
@@ -247,7 +295,8 @@
             "then": [
               { "u_lose_trait": "CBM_Interface" },
               { "u_add_trait": "CBM_Interface_brain_lesion" },
-              { "math": [ "hub01_found_u_exodii_interface = 1" ] }
+              { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+              { "math": [ "robofac_exodii_cbm_knowledge += 1" ] }
             ]
           },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
@@ -273,6 +322,7 @@
         "text": "[Exchange your Exodii CBM interface for the Hub 01 CBM interface and 10 HGC]  Let's do it.",
         "effect": [
           { "math": [ "hub01_found_u_exodii_interface = 1" ] },
+          { "math": [ "robofac_exodii_cbm_knowledge += 1" ] },
           { "u_add_effect": "narcosis", "duration": "2 hours" },
           { "u_add_effect": "sleep", "duration": "2 hours" },
           { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
@@ -295,8 +345,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "math": [ "hub01_found_u_exodii_interface == 1" ],
-      "yes": "&The doc lays you down on the bed and tells you not to move - you're all too familiar with this process, having done it with the Exodii already.  You close your eyes and relax.  In an instant you wake up, now resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  Quite the cyborg already, weren't we?  No worries.  Doc Stevens Junior over here got that old, obsolete tech out without a problem.  The new stuff is ready to go, with the fresh upgrades to boot.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\"",
-      "no": "&The doc lays you down on the bed and tells you not to move.  The last thing you see is the robotic arm of the device slowly descend toward your neck.  A syringe full of some liquid is then plunged into your skin, and you wake up, resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\""
+      "yes": "&The Doc lays you down on the bed and tells you not to move - you're all too familiar with this process, having done it with the Exodii already.  You close your eyes and relax.  In an instant you wake up, now resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  Quite the cyborg already, weren't we?  No worries.  Doc Stevens Junior over here got that old, obsolete tech out without a problem.  The new stuff is ready to go, with the fresh upgrades to boot.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\"",
+      "no": "&The Doc lays you down on the bed and tells you not to move.  The last thing you see is the robotic arm of the device slowly descend toward your neck.  A syringe full of some liquid is then plunged into your skin, and you wake up, resting in a silent room.\n\nYou reach behind your ear and feel a bandage - underneath is a small metal port, and your fingers can make out several bumps that feel like USB connections.  The doctor sees you and grins.\n\n\"Ah, great, you're up.  All done.  If we get any new implants from the Hub, you'll be free to come by and buy them.  Otherwise, happy to install any you can scavenge from those killer robots.  Just make sure they're packaged and sterile.\""
     },
     "responses": [
       {
@@ -379,8 +429,54 @@
   {
     "id": "TALK_ANCILLA_DOCTOR_BIONICS",
     "type": "talk_topic",
-    "dynamic_line": "Sure, what are you looking for?",
+    "dynamic_line": {
+      "math": [ "robofac_exodii_cbm_knowledge >= 20" ],
+      "yes": {
+        "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ],
+        "yes": "Sure, what can I do ya' for?",
+        "no": "&The Doc looks you over carefully.  \"Well, you still got all your fingers and toes, so I guess you're not here for the new prosthetics.  What can I do for you?\""
+      },
+      "no": "Sure, what can I do ya' for?"
+    },
     "responses": [
+      {
+        "text": "New prosthetics?  What do you mean?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_INTRO",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] }
+            }
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs", "value": "yes" }
+      },
+      {
+        "text": "So about those cybernetic arms and legs… think you could replace one of my normal limbs with one?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] }
+            }
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs", "value": "yes" }
+      },
+      {
+        "text": "I was wondering if you could install a cybernetic limb…",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1",
+        "condition": {
+          "and": [
+            { "math": [ "robofac_exodii_cbm_knowledge >= 20" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_learned_about_bionic_limbs" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs" } ] }
+          ]
+        }
+      },
       {
         "text": "I was wondering if you could install a cybernetic implant…",
         "topic": "TALK_DONE",
@@ -405,7 +501,217 @@
         "effect": "bionic_remove_allies",
         "condition": { "not": { "npc_has_effect": "currently_busy" } }
       },
-      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
+      {
+        "text": "I need one of my cybernetics repaired…",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
+        "condition": { "not": { "npc_has_effect": "currently_busy" } }
+      },
+      { "text": "<end_talking_nevermind>", "topic": "TALK_ANCILLA_DOCTOR" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_REPAIR",
+    "dynamic_line": "What do you need?  Repairing cybernetics isn't cheap, but I guess it's cheaper than replacing them.  Make sure you unload anything or remove any mods you want to keep.\"  The Doc then gently pats the automated surgical suite.  \"Doc Junior here will tear up anything you leave in during the repair.",
+    "speaker_effect": {
+      "effect": [
+        {
+          "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
+          "then": {
+            "math": [
+              "u_robofac_ancilla_doc_repair_left_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_l') / u_hp_max('arm_bionic_basic_l') ) ) * 10 )"
+            ]
+          },
+          "else": { "math": [ "u_robofac_ancilla_doc_repair_left_arm_cost = 0" ] }
+        },
+        {
+          "if": { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
+          "then": {
+            "math": [
+              "u_robofac_ancilla_doc_repair_right_arm_cost = 1 + round( ( 1 - ( u_hp('arm_bionic_basic_r') / u_hp_max('arm_bionic_basic_r') ) ) * 10 )"
+            ]
+          },
+          "else": { "math": [ "u_robofac_ancilla_doc_repair_right_arm_cost = 0" ] }
+        },
+        {
+          "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
+          "then": {
+            "math": [
+              "u_robofac_ancilla_doc_repair_left_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_l') / u_hp_max('leg_bionic_basic_l') ) ) * 10 )"
+            ]
+          },
+          "else": { "math": [ "u_robofac_ancilla_doc_repair_left_leg_cost = 0" ] }
+        },
+        {
+          "if": { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
+          "then": {
+            "math": [
+              "u_robofac_ancilla_doc_repair_right_leg_cost = 1 + round( ( 1 - ( u_hp('leg_bionic_basic_r') / u_hp_max('leg_bionic_basic_r') ) ) * 10 )"
+            ]
+          },
+          "else": { "math": [ "u_robofac_ancilla_doc_repair_right_leg_cost = 0" ] }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "[<u_val:robofac_ancilla_doc_repair_left_arm_cost> HGC, 1 hour] Can you repair my bionic left arm?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
+            {
+              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" } }
+            },
+            { "math": [ "u_hp('arm_bionic_basic_l') < u_hp_max('arm_bionic_basic_l')" ] }
+          ]
+        },
+        "effect": [
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
+          {
+            "u_consume_item": "RobofacCoin",
+            "count": { "u_val": "robofac_ancilla_doc_repair_left_arm_cost" },
+            "popup": true
+          },
+          { "math": [ "u_hp('arm_bionic_basic_l') = u_hp_max('arm_bionic_basic_l')" ] }
+        ]
+      },
+      {
+        "text": "[<u_val:robofac_ancilla_doc_repair_right_arm_cost> HGC, 1 hour] Can you repair my bionic right arm?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } ] },
+            {
+              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" } }
+            },
+            { "math": [ "u_hp('arm_bionic_basic_r') < u_hp_max('arm_bionic_basic_r')" ] }
+          ]
+        },
+        "effect": [
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
+          {
+            "u_consume_item": "RobofacCoin",
+            "count": { "u_val": "robofac_ancilla_doc_repair_right_arm_cost" },
+            "popup": true
+          },
+          { "math": [ "u_hp('arm_bionic_basic_r') = u_hp_max('arm_bionic_basic_r')" ] }
+        ]
+      },
+      {
+        "text": "[<u_val:robofac_ancilla_doc_repair_left_leg_cost> HGC, 1 hour] Can you repair my bionic left leg?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
+            {
+              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" } }
+            },
+            { "math": [ "u_hp('leg_bionic_basic_l') < u_hp_max('leg_bionic_basic_l')" ] }
+          ]
+        },
+        "effect": [
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
+          {
+            "u_consume_item": "RobofacCoin",
+            "count": { "u_val": "robofac_ancilla_doc_repair_left_leg_cost" },
+            "popup": true
+          },
+          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
+        ]
+      },
+      {
+        "text": "[<u_val:robofac_ancilla_doc_repair_right_leg_cost> HGC, 1 hour] Can you repair my bionic right leg?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" }, { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } ] },
+            {
+              "u_has_items": { "item": "RobofacCoin", "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" } }
+            },
+            { "math": [ "u_hp('leg_bionic_basic_r') < u_hp_max('leg_bionic_basic_r')" ] }
+          ]
+        },
+        "effect": [
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "60 minutes" },
+          {
+            "u_consume_item": "RobofacCoin",
+            "count": { "u_val": "robofac_ancilla_doc_repair_right_leg_cost" },
+            "popup": true
+          },
+          { "math": [ "u_hp('leg_bionic_basic_l') = u_hp_max('leg_bionic_basic_l')" ] }
+        ]
+      },
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-ARM cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmarm" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmarm" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-LEG cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmleg" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmleg" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      {
+        "text": "[10 HGC, 2 hours] Can you repair my XM-BACK cybernetic?",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "currently_busy" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "u_has_bionics": "bio_robofac_xmback" }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "2 hours" },
+          { "u_add_effect": "sleep", "duration": "2 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "2 hours" },
+          { "u_lose_bionic": "bio_robofac_xmback" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmback_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmback_on", "count": 1, "popup": false }
+          },
+          { "u_add_bionic": "bio_robofac_xmback" },
+          { "u_consume_item": "RobofacCoin", "count": 10, "popup": true }
+        ]
+      },
+      { "text": "Actually, can you help me with something else?", "topic": "TALK_ANCILLA_DOCTOR_BIONICS" }
     ]
   },
   {
@@ -435,5 +741,190 @@
     "id": "TALK_ANCILLA_DOCTOR_WORK",
     "dynamic_line": "It takes resources to keep this show running: disinfectant, antibiotics, anesthetics, so on.  I'll give you a great price if you bring any of those.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_ANCILLA_DOCTOR" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_INTRO",
+    "dynamic_line": "That's right.\"  The doctor pulls out a vacuum-sealed package containing what is clearly a high-tech prosthetic arm, not too unlike those you saw before the Cataclysm.\n\n\"That annoying prick across the street has made some progress on those killer robots, I guess, and we figured out a way to improve standard prosthetics.  Missing limbs seems to be increasingly common.  Anyway, it's not superhuman stuff like some of these bionics, but it'll function like a normal limb, as long as you can keep it powered.  The benefit over the old-school stuff is the power, and that you control them with your neurobionic interface, and thus your brain, yeah?  So you may not be stronger or faster, but hey, at least your muscles won't get tired as easy.  Because you don't have'em!  Hah!",
+    "responses": [
+      { "text": "I'll keep that in mind in case I lose a limb.  See you around.", "topic": "TALK_DONE" },
+      {
+        "text": "Actually… could you just cut off one of my limbs and install one of those instead?",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
+        "effect": { "u_add_var": "dialogue_ancilla_doctor_u_asked_about_swapping_limbs", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_PROPOSE_SWAP",
+    "dynamic_line": "&The Doc stares at you confusedly.  \"Give me a second.\"\n\nThe Doc pulls out a two-way radio and steps out of the room and down the hall.  They're gone for several minutes before they return, setting the radio down on the table.\n\n\"Well, I talked to the bosses, and yup, we're a go.  In fact, I've been authorized to give you a discount.  You'll be the first of the new Cybernetic Limb Enhancement Program, yeah?",
+    "responses": [
+      {
+        "text": "Alright, let's talk about limb replacement.",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1"
+      },
+      { "text": "I'll keep that in mind.  See you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_1",
+    "dynamic_line": "Let's get you checked out.  Climb up onto the automated surgical suite here, yeah?",
+    "responses": [
+      {
+        "text": "[Climb onto the bed by the surgical robot]",
+        "topic": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2"
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_DOCTOR_BIONICS_BIONIC_LIMB_REPLACEMENT_2",
+    "dynamic_line": "&The Doc spends a long moment clacking away on the keyboard, until the machine beeps several times.  \"Yup, all looks good.  Healthy as a horse.  Well, good enough for the machine, at least.  Maybe too healthy, seeing as you still have all your limbs, but that's none of my business.\n\n\"So you're sure about this?  What can I do ya' for?  Not sure yet if you have any cybernetics installed that won't swap over, but if you do, I'll remove them first.\n\n\"Oh, and the important parts.  Firstly, it'll take 6 hours, and I don't have the spare supplies to keep you hydrated, so come fed and healthy.  Second, it's 20 HGC per limb - a nice discounted price.  Third, you'll need to come back here if you damage them - trust me, you don't want to go fucking with the electronics yourself.  Let the robot do it.  Got all that?\"",
+    "responses": [
+      {
+        "text": "[20 HGC] Give me a right bionic arm.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_arms" },
+          { "u_add_trait": "BIONIC_ARM_BASIC_RIGHT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Give me a left bionic arm.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmarm" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmarm_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmarm_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_arms" },
+          { "u_add_trait": "BIONIC_ARM_BASIC_LEFT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] I've already got one bionic arm.  Install the other.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" }, { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } ] },
+            { "not": { "u_has_trait": "BIONIC_ARM_BASIC_BOTH" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_trait": "BIONIC_ARM_BASIC_LEFT" },
+          { "u_lose_trait": "BIONIC_ARM_BASIC_RIGHT" },
+          { "u_add_trait": "BIONIC_ARM_BASIC_BOTH" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Give me a right bionic leg.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } },
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_legs" },
+          { "u_add_trait": "BIONIC_LEG_BASIC_RIGHT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] Give me a left bionic leg.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" } },
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } },
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_bionic": "bio_robofac_xmleg" },
+          {
+            "if": { "u_has_items": { "item": "integrated_bio_robofac_xmleg_on", "count": 1 } },
+            "then": { "u_consume_item": "integrated_bio_robofac_xmleg_on", "count": 1, "popup": false }
+          },
+          { "u_lose_bionic": "bio_armor_legs" },
+          { "u_add_trait": "BIONIC_LEG_BASIC_LEFT" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      {
+        "text": "[20 HGC] I've already got one bionic leg.  Install the other.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "or": [ { "u_has_trait": "BIONIC_LEG_BASIC_LEFT" }, { "u_has_trait": "BIONIC_LEG_BASIC_RIGHT" } ] },
+            { "not": { "u_has_trait": "BIONIC_LEG_BASIC_BOTH" } },
+            { "u_has_items": { "item": "RobofacCoin", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "6 hours" },
+          { "u_add_effect": "sleep", "duration": "6 hours" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "6 hours" },
+          { "u_lose_trait": "BIONIC_LEG_BASIC_LEFT" },
+          { "u_lose_trait": "BIONIC_LEG_BASIC_RIGHT" },
+          { "u_add_trait": "BIONIC_LEG_BASIC_BOTH" },
+          { "u_consume_item": "RobofacCoin", "count": 20, "popup": true }
+        ]
+      },
+      { "text": "Actually, maybe another time.", "topic": "TALK_DONE" }
+    ]
   }
 ]

@@ -1097,22 +1097,22 @@ std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const trip
 {
     std::unordered_set<tripoint_bub_ms> res;
     map &here = get_map();
-    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : area_cache ) {
+    for( const auto &cache : area_cache ) {
         zone_type_id type = zone_data::unhash_type( cache.first );
         faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
-            for( tripoint_abs_ms point : cache.second ) {
+            for( const tripoint_abs_ms &point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
                     res.emplace( here.get_bub( point ) );
                 }
             }
         }
     }
-    for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+    for( const auto &cache : vzone_cache ) {
         zone_type_id type = zone_data::unhash_type( cache.first );
         faction_id z_fac = zone_data::unhash_fac( cache.first );
         if( fac == z_fac && type.str().substr( 0, 4 ) == "LOOT" ) {
-            for( tripoint_abs_ms point : cache.second ) {
+            for( const tripoint_abs_ms &point : cache.second ) {
                 if( square_dist( where, point ) <= radius ) {
                     res.emplace( here.get_bub( point ) );
                 }
@@ -1121,10 +1121,10 @@ std::unordered_set<tripoint_bub_ms> zone_manager::get_point_set_loot( const trip
     }
 
     if( npc_search ) {
-        for( const std::pair<std::string, std::unordered_set<tripoint_abs_ms>> cache : vzone_cache ) {
+        for( const auto &cache : vzone_cache ) {
             zone_type_id type = zone_data::unhash_type( cache.first );
             if( type == zone_type_NO_NPC_PICKUP ) {
-                for( tripoint_abs_ms point : cache.second ) {
+                for( const tripoint_abs_ms &point : cache.second ) {
                     res.erase( here.get_bub( point ) );
                 }
             }
@@ -1755,6 +1755,19 @@ bool zone_manager::has_personal_zones() const
     return num_personal_zones > 0;
 }
 
+bool zone_manager::has_nonpersonal( const zone_type_id &type,
+                                    const tripoint_abs_ms &where,
+                                    const faction_id &fac ) const
+{
+    for( const zone_data &z : zones ) {
+        if( !z.get_is_personal() && z.get_enabled() && z.get_type() == type &&
+            z.get_faction() == fac && z.has_inside( where ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void zone_manager::serialize( JsonOut &json ) const
 {
     json.write( zones );
@@ -1773,7 +1786,7 @@ void zone_manager::deserialize( const JsonValue &jv )
         if( !has_type( zone_type ) ) {
             it = zones.erase( it );
             debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-        } else  if( it->get_faction() != faction_your_followers ) {
+        } else if( it->get_faction() != faction_your_followers ) {
             it = zones.erase( it );
         } else {
             ++it;

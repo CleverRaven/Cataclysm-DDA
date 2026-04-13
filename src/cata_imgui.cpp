@@ -1,5 +1,7 @@
 #include "cata_imgui.h"
 
+#include <cmath>
+
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -257,6 +259,11 @@ ImVec4 cataimgui::imvec4_from_color( const nc_color &color )
              static_cast<float>( c.a / 255. ) };
 }
 
+ImU32 cataimgui::ImU32_from_color( const nc_color &color )
+{
+    return ImGui::GetColorU32( cataimgui::imvec4_from_color( color ) );
+}
+
 cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                            const GeometryRenderer_Ptr &sdl_geometry ) :
     sdl_renderer( sdl_renderer ),
@@ -380,10 +387,14 @@ static void AddGlyphRangesMisc( UNUSED ImFontGlyphRangesBuilder *b )
 // Load all fonts that exist in typefaces list
 // - typefaces is a list of paths.
 static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
-                       const ImWchar *ranges )
+                       const ImWchar *ranges, float font_size = 0.0f )
 {
     std::vector<font_config> io_typefaces{ typefaces };
     ensure_unifont_loaded( io_typefaces );
+
+    if( font_size <= 0.0f ) {
+        font_size = fontheight;
+    }
 
     ImFontConfig config = ImFontConfig();
 
@@ -395,7 +406,7 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
         } else {
             config.MergeMode = !first;
             config.FontBuilderFlags = it->imgui_config();
-            io.Fonts->AddFontFromFileTTF( it->path.c_str(), fontheight, &config, ranges );
+            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config, ranges );
             first = false;
         }
     }
@@ -445,17 +456,23 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
+        const bool cjk = get_option<bool>( "IMGUI_LOAD_CHINESE" );
+        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
         load_font( io, gui_typefaces, ranges.begin() );
         load_font( io, mono_typefaces, ranges.begin() );
-        io.Fonts->Fonts[0]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[0]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[0]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
-        io.Fonts->Fonts[1]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
-        io.Fonts->Fonts[1]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
-        io.Fonts->Fonts[1]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        if( !cjk ) {
+            load_font( io, gui_typefaces, ranges.begin(),
+                       static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+        }
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            io.Fonts->Fonts[i]->SetFallbackStrSizeCallback( GetFallbackStrWidth );
+            io.Fonts->Fonts[i]->SetFallbackCharSizeCallback( GetFallbackCharWidth );
+            io.Fonts->Fonts[i]->SetRenderFallbackCharCallback( CanRenderFallbackChar );
+        }
         io.Fonts->Build();
-        check_font( io.Fonts->Fonts[0] );
-        check_font( io.Fonts->Fonts[1] );
+        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+            check_font( io.Fonts->Fonts[i] );
+        }
         ImGui::SetCurrentFont( ImGui::GetDefaultFont() );
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
@@ -928,6 +945,27 @@ size_t cataimgui::window::str_height_to_pixels( size_t len )
 #endif
 }
 
+size_t cataimgui::get_string_width( const std::string_view str )
+{
+    return str.size() * ImGui::CalcTextSize( " " ).x;
+}
+
+size_t cataimgui::get_string_height( const std::string_view str, const float wrap_width )
+{
+    const std::string new_str = remove_color_tags( str );
+    size_t chars_per_line = size_t( wrap_width );
+    if( chars_per_line == 0 ) {
+        chars_per_line = SIZE_MAX;
+    }
+#ifndef TUI
+    size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
+    chars_per_line /= char_width;
+#endif
+    const std::vector<std::string> folded_msg = foldstring( new_str, chars_per_line );
+
+    return folded_msg.size() * ImGui::GetTextLineHeightWithSpacing();
+}
+
 void cataimgui::window::mark_resized()
 {
     if( p_impl ) {
@@ -1087,6 +1125,33 @@ void cataimgui::PushMonoFont()
 #endif
 }
 
+void cataimgui::PushGuiFont1_5x()
+{
+#ifdef TILES
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[2] );
+    } else {
+        // CJK mode: no pre-rasterized 1.5x font, fall back to bitmap scaling.
+        // TODO: find a better solution - SetWindowFontScale is obsolete in ImGui
+        // and produces blurry text. Possible ideas: split the atlas into multiple
+        // textures, or use a smaller glyph subset for the scaled font.
+        ImGui::SetWindowFontScale( 1.5f );
+    }
+#endif
+}
+
+void cataimgui::PopGuiFont1_5x()
+{
+#ifdef TILES
+    if( ImGui::GetIO().Fonts->Fonts.Size > 2 ) {
+        ImGui::PopFont();
+    } else {
+        ImGui::SetWindowFontScale( 1.0f );
+    }
+#endif
+}
+
+
 bool cataimgui::BeginRightAlign( const char *str_id )
 {
     if( ImGui::BeginTable( str_id, 2, ImGuiTableFlags_SizingFixedFit, ImVec2( -1, 0 ) ) ) {
@@ -1102,6 +1167,16 @@ bool cataimgui::BeginRightAlign( const char *str_id )
 void cataimgui::EndRightAlign()
 {
     ImGui::EndTable();
+}
+
+bool cataimgui::BeginTabItem( const char *label, bool is_selected, bool *p_open,
+                              ImGuiTabItemFlags flags )
+{
+    if( is_selected ) {
+        return ImGui::BeginTabItem( label, p_open, flags | ImGuiTabItemFlags_SetSelected );
+    } else {
+        return ImGui::BeginTabItem( label, p_open, flags );
+    }
 }
 
 // Use the base terminal palette to reasonably color ImGui elements.

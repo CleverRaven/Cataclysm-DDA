@@ -531,6 +531,12 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     fake_mon.zombify_into = mon.id;
     // looks like "corpse" + original mon
     fake_mon.looks_like = "corpse_" + mon.id.str();
+    // disable upgrades - pseudo-dormant monsters exist briefly and must not
+    // change type before they fire their dormant trap setup attack
+    fake_mon.upgrades = false;
+    // just in case, clear the upgrade targets too
+    fake_mon.upgrade_into = mtype_id::NULL_ID();
+    fake_mon.upgrade_group = mongroup_id::NULL_ID();
     // set the hp to 5
     fake_mon.hp = 5;
     // set the speed to 1
@@ -895,6 +901,7 @@ void mtype::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "tracking_distance", tracking_distance, numeric_bound_reader<int> {3},
               8 );
 
+    //In its 1920 Manual of Horse Management, The U.S. Cavalry suggested a horse should not be asked to carry more than 20% of its body weight. This assumed a combined weight of rider, saddle, bridle, and other equipment.
     optional( jo, was_loaded, "mountable_weight_ratio", mountable_weight_ratio, 0.2f );
 
     optional( jo, was_loaded, "attack_cost", attack_cost, numeric_bound_reader<int> {0}, 100 );

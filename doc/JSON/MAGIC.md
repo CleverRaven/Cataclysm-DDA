@@ -193,6 +193,7 @@ Effect                 | Description
 `effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
+`fertilize_plant`      | Works the same as fertilizer, making plants grow faster. The growth time reduction is equal to damage() (50 is a 50% of a season length in growth time reduction).
 `flashbang`            | Causes a flashbang effect, centered on the target.  AoE affects the flashbang radius.
 `fungalize`            | Fungalizes the target.
 `guilt`                | Target gets the guilt morale as if it killed the caster.
@@ -564,7 +565,7 @@ Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in a
     "effect_str": "downed",                                  // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
-    "max_damage": 14,                                        // maximum  damage the spell can achieve
+    "max_damage": 14,                                        // maximum damage the spell can achieve
     "damage_increment": 0.7,                                 // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
@@ -780,6 +781,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "encumbrance_modifier": [ // a characters encumbrance will be modified by this value
       { "part": "head", "add": 10 }, // adding would increase the parts encumbrance
       { "part": "torso", "add": -8 }, // negative adding would decrease the parts encumbrance
+      { "part": "all", "add": 10 }, // "all" will apply to every body part
       { "part": "mouth", "multiply": -0.5 }, // multiplication would multiply the entire encumbrance value; -0.5 would result in 50% encumbrance
       { "part": "arm_l", "add": 1 }, // `"multiply": 1` would double the encumbrancce
       { "part": "leg_r", "add": { "math": [ "rand(3) * -1" ] } }, // supports math and stuff, works for both character/npcs and monsters. multiple `encumbrance_modifier`es of the same part do stack

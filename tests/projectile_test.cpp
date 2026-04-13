@@ -30,6 +30,7 @@ static const itype_id itype_308( "308" );
 static const itype_id itype_boomer_head( "boomer_head" );
 static const itype_id itype_hazmat_suit( "hazmat_suit" );
 static const itype_id itype_m1a( "m1a" );
+static const itype_id itype_mask_gas( "mask_gas" );
 
 
 static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> &range,
@@ -124,9 +125,10 @@ TEST_CASE( "liquid_projectiles_applies_effect", "[projectile_effect]" )
 
     dummy.clear_effects();
 
-    //Fire on NPC with hazmat suit and check that it didn't get the effect
+    //Fire on NPC with hazmat suit + gas mask and check that it didn't get the effect
     SECTION( "Hazmat NPC doesn't get the effect" ) {
         dummy.wear_item( hazmat );
+        dummy.wear_item( item( itype_mask_gas ) );
         player.fire_gun( here, dummy.pos_bub(), 100, *player.get_wielded_item() );
         CHECK( !dummy.has_effect( effect_bile_stink ) );
     }

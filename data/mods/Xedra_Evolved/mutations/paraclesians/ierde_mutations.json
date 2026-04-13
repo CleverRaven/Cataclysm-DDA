@@ -78,11 +78,10 @@
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde's eyes begin reflecting their mood: a pale white streaked with rose when happy; pale green or grey when calm, and pure obsidian black when angry.  Glare no longer impacts them and they are not bothered by light levels when sleeping.",
+    "description": "Upon gaining this ability the Ierde's eyes begin reflecting their mood: a pale white streaked with rose when happy; pale green or grey when calm, and pure obsidian black when angry.  Glare no longer impacts them and they are not bothered by light levels when sleeping.  In addition, they have much better night vision.",
     "category": [ "IERDE" ],
     "purifiable": false,
-    "integrated_armor": [ "integrated_ierde_eyes" ],
-    "flags": [ "SEESLEEP" ]
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "fae_eyes_ierde" } ] } ]
   },
   {
     "type": "mutation",

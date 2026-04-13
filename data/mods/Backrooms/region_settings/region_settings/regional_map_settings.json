@@ -131,7 +131,7 @@
     "forest_trails": null,
     "forest_composition": "default_backrooms",
     "highways": null,
-    "cities": null,
+    "cities": "no_cities",
     "map_extras": "default_backrooms",
     "terrain_furniture": "default_backrooms",
     "weather": "default_backrooms",

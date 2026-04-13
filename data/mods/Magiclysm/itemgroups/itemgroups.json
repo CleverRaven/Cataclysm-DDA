@@ -697,6 +697,7 @@
       { "item": "heat_cube", "prob": 100 },
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
+      { "item": "mcandle_everburning", "prob": 100 },
       { "item": "mflask_hip_whiskey", "prob": 100 },
       { "item": "mtailors_kit", "prob": 100, "charges": [ 3, 24 ] },
       { "item": "mteapot", "prob": 40 },

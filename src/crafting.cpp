@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -485,7 +486,8 @@ int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size ) c
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec );
-    return rec.batch_time( *this, batch_size, modifier, assistants );
+    return rec.batch_time( *this, batch_size, modifier, assistants,
+                           crafting_cost_context::for_recipe( *this, rec ) );
 }
 
 bool Character::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -718,6 +720,31 @@ void Character::invalidate_crafting_inventory()
     crafting_cache.crafting_inventory->clear();
 }
 
+book_proficiency_bonuses Character::book_bonuses_nearby( int radius ) const
+{
+    book_proficiency_bonuses result;
+    // Deduplicate by item type to match inventory stacking behavior --
+    // multiple copies of the same book should not compound mitigation.
+    std::set<itype_id> seen;
+
+    auto collect = [&]( const item & it ) {
+        if( seen.insert( it.typeId() ).second ) {
+            result += it.get_book_proficiency_bonuses();
+        }
+    };
+
+    // Character inventory (wielded, worn, carried -- includes e-readers)
+    for( const item_location &it :
+         const_cast<Character *>( this )->all_items_loc() ) {
+        collect( *it );
+    }
+
+    // Map items in range (shared reachability/accessibility/vehicle logic)
+    get_map().for_each_reachable_item( pos_bub(), radius, this, collect );
+
+    return result;
+}
+
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
                             const std::optional<tripoint_bub_ms> &loc )
 {
@@ -844,9 +871,15 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
 }
 
 static item_location place_craft_or_disassembly(
-    Character &ch, item &craft, std::optional<tripoint_bub_ms> target )
+    Character &ch, item &craft, std::optional<tripoint_bub_ms> target,
+    bool always_start_on_ground = false )
 {
     item_location craft_in_world;
+
+    if( always_start_on_ground ) {
+        craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
+        return craft_in_world;
+    }
 
     // Check if we are standing next to a workbench. If so, just use that.
     float best_bench_multi = 0.0f;
@@ -963,7 +996,8 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         calc_encumbrance();
     }
 
-    item_location craft_in_world = place_craft_or_disassembly( *this, craft, loc );
+    item_location craft_in_world = place_craft_or_disassembly( *this, craft, loc,
+                                   command.always_start_on_ground() );
 
     if( !craft_in_world ) {
         return;
@@ -1061,9 +1095,21 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
     bool this_character_gained = false;
 
+    // For step recipes, use the current step's proficiency list so learning
+    // is targeted to the step being worked on. For stepless recipes, use the
+    // recipe-wide aggregate.
+    const std::vector<recipe_proficiency> &active_profs =
+        making.has_steps()
+        ? making.steps()[craft.get_current_step()].proficiencies
+        : making.get_proficiencies();
+
     for( Character *p : all_crafters ) {
         std::vector<learn_subject> subjects;
-        for( const recipe_proficiency &prof : making.proficiencies ) {
+        for( const recipe_proficiency &prof : active_profs ) {
+            // Required profs (time_multiplier == 0) gate access, not learning
+            if( prof.time_multiplier == 0.0f ) {
+                continue;
+            }
             if( !p->_proficiencies->has_learned( prof.id ) &&
                 prof.id->can_learn() &&
                 p->_proficiencies->has_prereqs( prof.id ) ) {
@@ -1161,12 +1207,12 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
-    total_skill_modifiers += int_cur / 4.0f;
+    total_skill_modifiers += get_int() / 4.0f;
     add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
-                   total_skill_modifiers, int_cur / 4.f );
+                   total_skill_modifiers, get_int() / 4.f );
 
     // Missing proficiencies penalize skill level
-    for( const recipe_proficiency &recip : making.proficiencies ) {
+    for( const recipe_proficiency &recip : making.get_proficiencies() ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
             total_skill_modifiers -= recip.skill_penalty;
         }
@@ -1566,7 +1612,8 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
                 std::max( get_skill_level( making.skill_used ), 1.0f ) *
                 std::max( get_int(), 1 );
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-            if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
+            const crafting_cost_context ctx{ book_bonuses_nearby(), {} };
+            if( x_in_y( making.time_to_craft_moves( *this, ctx ), time_to_learn ) ) {
                 learn_recipe( &making );
                 if( is_avatar() ) {
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
@@ -2533,7 +2580,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's too rotten to salvage anything." ) );
     }
 
     // refuse to disassemble items containing monsters/pets
@@ -2721,7 +2768,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                 num_dis = obj.charges;
             }
         }
-        const int64_t craft_moves = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+        const int64_t craft_moves = r.time_to_craft_moves( *this, {},
+                                    recipe_time_flag::ignore_proficiencies );
         const int num = obj.typeId() != itype_disassembly ? num_dis : obj.get_making_batch_size();
         player_activity new_act( disassemble_activity_actor( num * craft_moves ) );
         new_act.targets.emplace_back( std::move( target ) );
@@ -2737,7 +2785,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
         activity.targets.emplace_back( std::move( target ) );
 
         if( activity.moves_left <= 0 ) {
-            activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+            activity.moves_left = r.time_to_craft_moves( *this, {}, recipe_time_flag::ignore_proficiencies );
         }
     }
 
@@ -2834,7 +2882,8 @@ void Character::complete_disassemble( item_location target )
             num_dis = obj.charges;
         }
     }
-    int64_t moves = next_recipe.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+    int64_t moves = next_recipe.time_to_craft_moves( *this, {},
+                    recipe_time_flag::ignore_proficiencies );
     player_activity new_act( disassemble_activity_actor( moves * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
@@ -2904,7 +2953,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
-    int skill_sides = 16 + int_cur;
+    int skill_sides = 16 + get_int();
 
     int diff_dice = dis.difficulty;
     int diff_sides = 24; // 16 + 8 (default intelligence)

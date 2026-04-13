@@ -685,11 +685,13 @@ bool overmap::highway_select_end_points( const std::vector<const overmap *> &nei
                 //neighboring overmap highway edge connects to this overmap
                 const tripoint_om_omt opposite_edge = neighbor_overmaps[i]->highway_connections[( i + 2 ) %
                                                       HIGHWAY_MAX_CONNECTIONS];
-                if( opposite_edge == tripoint_om_omt::zero ) {
-                    debugmsg( "highway connections not initialized; inter-overmap highway pathing failed" );
-                    return false;
+                if( opposite_edge == tripoint_om_omt::zero ||
+                    opposite_edge == tripoint_om_omt::invalid ) {
+                    // Neighbor has no highway data -- drop this connection.
+                    neighbor_connections[i] = false;
+                } else {
+                    end_points[i] = wrap_point( opposite_edge );
                 }
-                end_points[i] = wrap_point( opposite_edge );
             } else {
                 new_end_point[i] = true;
             }

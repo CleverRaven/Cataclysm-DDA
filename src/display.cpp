@@ -62,6 +62,7 @@ static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
+static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 // Cache for the overmap widget string
@@ -81,6 +82,11 @@ disp_overmap_cache::disp_overmap_cache()
     _center = tripoint_abs_omt::invalid;
     _mission = tripoint_abs_omt::invalid;
     _width = 0;
+}
+
+void display::invalidate_overmap_cache()
+{
+    disp_om_cache.invalidate();
 }
 
 disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
@@ -1059,6 +1065,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
             const vehicle_part &vp = veh->part( p );
             if( veh->is_engine_on( vp )
                 && !veh->is_perpetual_type( vp )
+                && !veh->is_engine_type( vp, fuel_type_battery )
                 && !veh->is_engine_type( vp, fuel_type_muscle ) ) {
                 // Get the fuel type of the first engine that is turned on
                 fuel_type = vp.fuel_current();
@@ -1075,6 +1082,29 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     }
 
     return std::make_pair( fuel_text, fuel_color );
+}
+
+std::pair<std::string, nc_color> display::vehicle_battery_percent_text_color( const Character &u )
+{
+    map &here = get_map();
+
+    // Defaults in case no vehicle is found
+    std::string battery_text;
+    nc_color battery_color = c_light_gray;
+
+    const vehicle *veh = vehicle_driven( u );
+    if( veh ) {
+        const int max_battery = veh->fuel_capacity( here, fuel_type_battery );
+        const int cur_battery = veh->fuel_left( here, fuel_type_battery );
+        if( max_battery != 0 ) {
+            int percent = cur_battery * 100 / max_battery;
+            // Simple percent indicator, yellow under 25%, red under 10%
+            battery_text = string_format( "%d %%", percent );
+            battery_color = percent < 10 ? c_red : ( percent < 25 ? c_yellow : c_green );
+        }
+    }
+
+    return std::make_pair( battery_text, battery_color );
 }
 
 // Single-letter move mode (W, R, C, P)
@@ -1569,6 +1599,37 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     disp_bg_cache[var_idx].rebuild( u, graph_id, ret );
 
     return ret;
+}
+
+std::pair<std::string, nc_color> display::snow_depth_text_color( const Character &u )
+{
+    if( u.posz() < 0 ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    const map &here = get_map();
+    if( !here.is_outside( u.pos_bub() ) || here.is_roofed( u.pos_bub() ) ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    const double depth = get_weather().get_snow_depth_mm( u.pos_abs_omt() );
+    if( depth < 1.0 ) {
+        return std::make_pair( std::string(), c_light_gray );
+    }
+    std::string text;
+    nc_color color;
+    if( depth >= 500 ) {
+        text = _( "Deep snow" );
+        color = c_white;
+    } else if( depth >= 250 ) {
+        text = _( "Snow" );
+        color = c_light_blue;
+    } else if( depth >= 100 ) {
+        text = _( "Light snow" );
+        color = c_light_cyan;
+    } else {
+        text = _( "Dusting" );
+        color = c_cyan;
+    }
+    return std::make_pair( text, color );
 }
 
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )

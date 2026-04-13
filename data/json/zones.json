@@ -105,6 +105,14 @@
     "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
   },
   {
+    "id": "NPC_NO_GO",
+    "type": "LOOT_ZONE",
+    "name": "NPC No-Go Area",
+    "hidden": true,
+    "display_field": "fd_npc_no_go_zone",
+    "description": "NPCs of this faction will not seek needs-driven targets inside this zone."
+  },
+  {
     "id": "NPC_RETREAT",
     "type": "LOOT_ZONE",
     "name": "NPC Retreat",

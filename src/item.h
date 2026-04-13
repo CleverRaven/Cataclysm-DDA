@@ -30,6 +30,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
+#include "item_uid.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
 #include "point.h"
@@ -230,6 +231,12 @@ class item : public visitable
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
         safe_reference<item> get_safe_reference();
+
+        /** Persistent unique identifier for this item instance.
+         * Returns const ref to avoid triggering item_uid's copy-generates-new semantics. */
+        const item_uid &uid() const {
+            return uid_;
+        }
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -798,17 +805,19 @@ class item : public visitable
 
         /*
          * Max range of melee attack this weapon can be used for.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int reach_range( const Character &guy ) const;
+        std::pair<int, int> reach_range( const Character &guy ) const;
 
         /*
          * Max range of melee attack this weapon can be used for in its current state.
+         * First value is horizontal range, latter is vertical range
          * Accounts for character's abilities and installed gun mods.
          * Guaranteed to be at least 1
          */
-        int current_reach_range( const Character &guy ) const;
+        std::pair<int, int> current_reach_range( const Character &guy ) const;
 
         /**
          * Sets time until activation for an item that will self-activate in the future.
@@ -1067,6 +1076,14 @@ class item : public visitable
          * @param strict_boiling True if containers must be empty to have BOIL quality
          */
         int get_quality( const quality_id &id, bool strict_boiling = true ) const;
+        /**
+         * Speed modifier for a quality this item provides at >= level.
+         * Mirrors get_quality() resolution: inherent, charged (if crafter provided),
+         * BOIL special case, contained items.
+         * Returns 1.0f if item doesn't qualify or has no speed modifier.
+         */
+        float get_quality_speed( const quality_id &id, int level,
+                                 const Character *crafter = nullptr ) const;
 
         /**
          * Return true if this item's type is counted by charges
@@ -1094,6 +1111,12 @@ class item : public visitable
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
+
+        /**
+         * Store items current location into spawn_location, if flag PRESERVE_SPAWN_LOC is present. Works
+         * recursively.
+         */
+        void preserve_location( const tripoint_abs_ms &location );
 
         /**
          * Returns rate of rot (rot/h) at the given temperature
@@ -2349,6 +2372,9 @@ class item : public visitable
          * Returns the average coverage of each piece of data this item
          */
         int get_avg_coverage( const cover_type &type = cover_type::COVER_DEFAULT ) const;
+        // Filtered overload: only counts body parts present in relevant_parts
+        int get_avg_coverage( const body_part_set &relevant_parts,
+                              const cover_type &type = cover_type::COVER_DEFAULT ) const;
         /**
          * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).
@@ -2614,10 +2640,6 @@ class item : public visitable
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
-        /**
-         * Return the first ammo found iterating all magazine pockets. Null if none found.
-         * Does not support multiple magazine pockets!
-         */
         item &first_ammo();
         const item &first_ammo() const;
         /**
@@ -2764,6 +2786,9 @@ class item : public visitable
          */
         item *magazine_current();
         const item *magazine_current() const;
+
+        std::vector<item *> magazines_current();
+        std::vector<const item *> magazines_current() const;
 
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
@@ -3082,6 +3107,14 @@ class item : public visitable
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
+        // Step iteration state for step recipes.
+        // get_current_step clamps to valid range as a defensive measure.
+        int get_current_step() const;
+        void set_current_step( int step );
+        double get_step_progress() const;
+        void set_step_progress( double progress );
+        void mod_step_progress( double delta );
+
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
         // calculates the enchantment value as if this item were wielded.
@@ -3343,6 +3376,11 @@ class item : public visitable
                 std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
                 std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
+                // Step iteration state for step recipes.
+                // Authoritative: advanced by tracking consumed work against step budgets.
+                int current_step = 0;
+                double step_progress = 0.0; // base-speed moves consumed within current step
+
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;
@@ -3406,6 +3444,7 @@ class item : public visitable
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
+        item_uid uid_; // persistent unique identifier, survives save/load
         /**
          * Current phase state, inherits a default at room temperature from
          * itype and can be changed through item processing.  This is a static

@@ -1581,7 +1581,7 @@ void Character::disp_info( bool customize_character )
                                            _( "The sunlight irritates you terribly.\n"
                                               "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
                                          );
-    } else  if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
+    } else if( has_trait( trait_TROGLO2 ) && g->is_in_sunlight( pos_bub() ) ) {
         if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
             effect_name_and_text.emplace_back( _( "In Sunlight" ),
                                                _( "The sunlight irritates you badly.\n"
@@ -1641,7 +1641,7 @@ void Character::disp_info( bool customize_character )
     }
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
 
-    const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
+    const std::vector<const Skill *> player_skill = Skill::get_skills_for_chr_display( *this,
     [&]( const Skill & a, const Skill & b ) {
         return a.get_sort_rank() < b.get_sort_rank();
     } );

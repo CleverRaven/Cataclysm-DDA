@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <initializer_list>
 #include <list>
 #include <memory>
 #include <string>
@@ -288,6 +289,12 @@ static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, cons
                 add_msg( state ? _( "Turned on %s." ) : _( "Turned off %s." ), e.name() );
                 e.enabled = state;
             }
+        }
+        map &here = get_map();
+        for( const vpart_reference &vp : found )
+        {
+            here.set_lightmap_cache_dirty( vp.pos_bub( here ).z() );
+            break;
         }
     } );
 }
@@ -2433,12 +2440,20 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
     if( vp.part_with_tool( *here, itype_water_faucet ) ) {
         int vp_tank_idx = -1;
         item *water_item = nullptr;
-        for( const int i : fuel_containers ) {
-            vehicle_part &part = parts[i];
-            if( part.ammo_current() == itype_water_clean &&
-                part.base.only_item().made_of( phase_id::LIQUID ) ) {
-                vp_tank_idx = i;
-                water_item = &part.base.only_item();
+        // Prefer clean water over standard
+        for( const itype_id &preferred : {
+                 itype_water_clean, itype_water
+             } ) {
+            for( const int i : fuel_containers ) {
+                vehicle_part &part = parts[i];
+                if( part.ammo_current() == preferred &&
+                    part.base.only_item().made_of( phase_id::LIQUID ) ) {
+                    vp_tank_idx = i;
+                    water_item = &part.base.only_item();
+                    break;
+                }
+            }
+            if( vp_tank_idx != -1 ) {
                 break;
             }
         }

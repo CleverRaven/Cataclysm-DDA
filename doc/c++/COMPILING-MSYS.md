@@ -89,7 +89,7 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 
 **Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
-**Note:** If you want to contribute to CDDA, see [example git workflow](../CONTRIBUTING.md#example-workflow).
+**Note:** If you want to contribute to CDDA, see [example git workflow](../../CONTRIBUTING.md#example-workflow).
 
 2. Compile with following command line:
 

@@ -687,13 +687,9 @@ void Character::load( const JsonObject &data )
     Creature::load( data );
 
     // stats
-    data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
-    data.read( "dex_cur", dex_cur );
     data.read( "dex_max", dex_max );
-    data.read( "int_cur", int_cur );
     data.read( "int_max", int_max );
-    data.read( "per_cur", per_cur );
     data.read( "per_max", per_max );
 
     data.read( "str_bonus", str_bonus );
@@ -1079,6 +1075,13 @@ void Character::load( const JsonObject &data )
 
     morale->load( data );
 
+    // morale->load() only restores morale points, not mutation active flags.
+    // Activate mutations so update_masochist_bonus / update_constrained_penalty
+    // compute correct values when stat changes or item equips fire below.
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        morale->on_mutation_gain( mut );
+    }
+
     _skills->clear();
     JsonObject skill_data = data.get_object( "skills" );
     skill_data.allow_omitted_members();
@@ -1369,13 +1372,9 @@ void Character::store( JsonOut &json ) const
     }
 
     // stat
-    json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
     json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
     json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
     json.member( "per_max", per_max );
 
     json.member( "str_bonus", str_bonus );
@@ -1632,6 +1631,7 @@ void avatar::store( JsonOut &json ) const
     if( shadow_npc ) {
         json.member( "shadow_npc", *shadow_npc );
     }
+    json.member( "faction_representatives", faction_representatives );
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1670,8 +1670,6 @@ void avatar::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "show_map_memory", show_map_memory );
-
     json.member( "assigned_invlet" );
     json.start_array();
     for( const auto &iter : inv->assigned_invlet ) {
@@ -1692,6 +1690,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "power_prev_turn", power_prev_turn );
     json.member( "may_activity_occupancy_after_end_items_loc",
                  may_activity_occupancy_after_end_items_loc );
+
+    json.member_as_string( "desired_move_mode",  desired_move_mode );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1723,6 +1723,7 @@ void avatar::load( const JsonObject &data )
         shadow_npc = std::make_unique<npc>();
         data.read( "shadow_npc", *shadow_npc );
     }
+    data.read( "faction_representatives", faction_representatives );
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -1815,8 +1816,6 @@ void avatar::load( const JsonObject &data )
         update_active_mission();
     }
 
-    data.read( "show_map_memory", show_map_memory );
-
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
         inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
@@ -1837,6 +1836,8 @@ void avatar::load( const JsonObject &data )
     data.read( "snippets_read", snippets_read );
     data.read( "may_activity_occupancy_after_end_items_loc",
                may_activity_occupancy_after_end_items_loc );
+
+    data.read( "desired_move_mode", desired_move_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2303,6 +2304,7 @@ void npc::load( const JsonObject &data )
     }
 
     data.read( "op_of_u", op_of_u );
+    data.read( "faction_representative", faction_representative );
     data.read( "chatbin", chatbin );
     if( !data.read( "rules", rules ) ) {
         data.read( "misc_rules", rules );
@@ -2372,6 +2374,7 @@ void npc::store( JsonOut &json ) const
     json.member( "attitude", static_cast<int>( attitude ) );
     json.member( "previous_attitude", static_cast<int>( previous_attitude ) );
     json.member( "op_of_u", op_of_u );
+    json.member( "faction_representative", faction_representative );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
@@ -2807,6 +2810,8 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     jsout.member( "tools_to_continue", tools_to_continue );
     jsout.member( "batch_size", batch_size );
     jsout.member( "cached_tool_selections", cached_tool_selections );
+    jsout.member( "current_step", current_step );
+    jsout.member( "step_progress", step_progress );
     jsout.end_object();
 }
 
@@ -2831,6 +2836,16 @@ void item::craft_data::deserialize( const JsonObject &obj )
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
     batch_size = obj.get_int( "batch_size", -1 );
     obj.read( "cached_tool_selections", cached_tool_selections );
+    current_step = obj.get_int( "current_step", 0 );
+    step_progress = obj.get_float( "step_progress", 0.0 );
+    // Validate step index against the recipe's actual step count.
+    if( making && making->has_steps() ) {
+        int max_step = static_cast<int>( making->steps().size() ) - 1;
+        current_step = std::clamp( current_step, 0, max_step );
+    } else {
+        current_step = 0;
+        step_progress = 0.0;
+    }
 }
 
 void item::link_data::serialize( JsonOut &jsout ) const
@@ -2923,6 +2938,14 @@ void item::io( Archive &archive )
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id().str();
     }, io::required_tag() );
+
+    // Persistent unique identifier for item instances
+    archive.io( "uid", uid_, item_uid() );
+    if constexpr( Archive::is_input::value ) {
+        if( !uid_.is_valid() ) {
+            uid_ = item_uid( generate_next_item_uid() );
+        }
+    }
 
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0 );

@@ -18,6 +18,8 @@ class Character;
 class JsonObject;
 class item;
 class item_location;
+class map;
+class npc;
 class time_point;
 class vpart_reference;
 struct itype;
@@ -138,9 +140,9 @@ void ledge( Character &you, const tripoint_bub_ms &examp );
 void autodoc( Character &you, const tripoint_bub_ms &examp );
 void attunement_altar( Character &you, const tripoint_bub_ms &examp );
 void translocator( Character &you, const tripoint_bub_ms &examp );
-void on_smoke_out( const tripoint_bub_ms &examp,
+void on_smoke_out( map &here, const tripoint_bub_ms &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( Character &, const tripoint_bub_ms &examp );
+void mill_finalize( Character &, map &here, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
 bool smoker_prep( Character &you, const tripoint_bub_ms &examp );
@@ -194,5 +196,11 @@ struct iexamine_functions {
 };
 
 iexamine_functions iexamine_functions_from_string( const std::string &function_name );
+
+// Find the best available intercom operator for a faction.
+// Prefers on-shift, awake operators. Falls back to any awake operator.
+// Returns nullptr if no operator is found.
+npc *find_intercom_operator( const trait_id &marker_trait,
+                             const faction_id &fac_id );
 
 #endif // CATA_SRC_IEXAMINE_H

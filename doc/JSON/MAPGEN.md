@@ -1656,6 +1656,7 @@ Map extras can be used to place environmental objects and structures that can he
   "sym": "M",
   "color": "red",
   "autonote": true,
+  "see_from_afar": true,
   "flags": [ "MAN_MADE" ]
 }
 ```
@@ -1667,6 +1668,7 @@ Map extras can be used to place environmental objects and structures that can he
 | sym            | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
 | color          | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
 | autonote       | (_optional_) Whether to automatically mark this extra on the overmap. Defaults to false.
+| see_from_afar  | (_optional_) Whether autonotes will be placed when the map extra is generated. Without this boolean autonotes will only be placed when the OMT is specifically visited. Defaults to false.
 | flags          | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
 
 The `generator` can use one of 3 methods:

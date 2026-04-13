@@ -17,6 +17,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_no_nether_attunement_from_channel",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_wakeful_resting",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

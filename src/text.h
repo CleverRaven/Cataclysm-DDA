@@ -67,6 +67,9 @@ void TextUnstyled( std::shared_ptr<Paragraph> para, float wrap_width = 0.0f );
 void TextParagraph( nc_color color, std::string_view para, float wrap_width = 0.0f );
 void TextColoredParagraph( nc_color color, std::string_view str,
                            std::optional<Segment> value = std::nullopt, float wrap_width = 0.0f );
+// forwards to `cataimgui::TextColoredParagraph`, auto-appends newline
+void TextColoredParagraphNewline( nc_color color, std::string_view str,
+                                  std::optional<Segment> value = std::nullopt, float wrap_width = 0.0f );
 void TextColoredTrimmed( std::string_view text, nc_color default_color, float width = 0.0f,
                          bool *is_selected = nullptr, bool *is_focused = nullptr, bool *is_hovered = nullptr );
 

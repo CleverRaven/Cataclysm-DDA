@@ -195,6 +195,11 @@ float incident_sun_irradiance( const weather_type_id &wtype,
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 
+struct omt_snow_state {
+    double depth_mm = 0;
+    time_point last_update = calendar::turn;
+};
+
 class weather_manager
 {
     public:
@@ -202,6 +207,10 @@ class weather_manager
         const weather_generator &get_cur_weather_gen() const;
         // Updates the temperature and weather patten
         void update_weather();
+        // Incrementally update snow depth at the player's current OMT
+        void update_snow_depth();
+        // Snow depth in mm at a given OMT (0 if no data)
+        double get_snow_depth_mm( const tripoint_abs_omt &omt_pos ) const;
         // The air temperature
         units::temperature temperature = 0_K;
         bool lightning_active = false;
@@ -225,6 +234,8 @@ class weather_manager
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint_bub_ms, units::temperature > temperature_cache;
+        // Per-OMT snow depth state, updated incrementally
+        std::unordered_map< tripoint_abs_omt, omt_snow_state > snow_depth_map;
         /*
         * Returns current temperature of given tile. Includes temperature modifications from
         * radiative and convective sources, such as fires or hot air from heaters.

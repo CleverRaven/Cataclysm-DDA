@@ -144,7 +144,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     for( const std::pair<const skill_id, int> &req : recipe.required_skills ) {
         character.set_skill_level( req.first, req.second + 1 );
     }
-    for( const recipe_proficiency &prof : recipe.proficiencies ) {
+    for( const recipe_proficiency &prof : recipe.get_proficiencies() ) {
         character.add_proficiency( prof.id );
     }
     character.learn_recipe( &recipe );

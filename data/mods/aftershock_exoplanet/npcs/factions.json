@@ -125,7 +125,7 @@
       "tskbem_vostok": { "kill on sight": true },
       "Prepnet_Phyle": { "kill on sight": true }
     },
-    "description": "A massive, multi-system corporation specializing in genetic engineering, terraforming, and biotechnology.  Before the discontinuity, it heavily invested in extrasolar colonization and the study of alien life.  Theoretically it holds the planetary colonization charter for Salus IV, per UICA's constitional treaty, but the corporation's interests currently lie elsewhere."
+    "description": "A massive, multi-system corporation specializing in genetic engineering, terraforming, and biotechnology.  Before the Discontinuity, it heavily invested in extrasolar colonization and the study of alien life.  Theoretically, it holds the planetary colonization charter for Salus IV, per UICA's constitutional treaty, but the corporation's interests currently lie elsewhere."
   },
   {
     "type": "faction",

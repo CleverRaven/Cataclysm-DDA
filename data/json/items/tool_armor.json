@@ -369,7 +369,12 @@
     "longest_side": "34 cm",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You push your welding mask up your head.",
+      "target": "welding_mask_raised",
+      "menu_text": "Raise"
+    },
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -402,7 +407,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": {
       "type": "transform",
-      "msg": "You push your %s up your head.",
+      "msg": "You push your welding mask up your head.",
       "target": "welding_mask_crude_raised",
       "menu_text": "Raise"
     },
@@ -439,7 +444,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": {
       "type": "transform",
-      "msg": "You lower your crude welding mask over your face.",
+      "msg": "You lower your welding mask over your face.",
       "target": "welding_mask_crude",
       "menu_text": "Lower"
     },
@@ -536,15 +541,15 @@
     "symbol": "[",
     "charges_per_use": 1,
     "use_action": [
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "PORTABLE_GAME",
       {
         "type": "mp3",
         "transform": "smart_watch_music",
         "message": "You put in the earbuds and start listening to music.",
         "activate": true
-      },
-      "CALORIES_INTAKE_TRACKER",
-      "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
@@ -554,15 +559,16 @@
     "id": "smart_watch_music",
     "copy-from": "smart_watch",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "smart watch - music", "str_pl": "smart watches - music" },
     "description": "This smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "power_draw": "200 mW",
     "revert_to": "smart_watch",
     "use_action": [
-      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false },
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      "PORTABLE_GAME",
+      { "type": "mp3", "transform": "smart_watch", "message": "The smart watch turns off.", "activate": false }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -585,16 +591,16 @@
       "E_FILE_DEVICE",
       "EBOOKSAVE",
       "CAMERA",
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "WEATHER_TOOL",
+      "PORTABLE_GAME",
       {
         "type": "mp3",
         "transform": "smart_watch_adv_music",
         "message": "You put in the earbuds and start listening to music.",
         "activate": true
       },
-      "CALORIES_INTAKE_TRACKER",
-      "FITNESS_CHECK",
-      "WEATHER_TOOL",
-      "PORTABLE_GAME",
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "pocket_data": [
@@ -613,15 +619,20 @@
     "id": "smart_watch_adv_music",
     "copy-from": "smart_watch_adv",
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
+    "subtypes": [ "TOOL", "ARMOR" ],
     "name": { "str": "advanced smart watch - music", "str_pl": "advanced smart watches - music" },
     "description": "This advanced smart watch is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "revert_to": "smart_watch",
+    "power_draw": "200 mW",
+    "revert_to": "smart_watch_adv",
     "use_action": [
-      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
-      "PORTABLE_GAME"
+      "PORTABLE_GAME",
+      { "type": "mp3", "transform": "smart_watch_adv", "message": "The smart watch turns off.", "activate": false },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -1268,7 +1279,7 @@
       },
       {
         "type": "effect_on_conditions",
-        "description": "Hail Pat on the radio",
+        "menu_text": "Hail Pat on the radio",
         "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
@@ -1357,7 +1368,7 @@
       },
       {
         "type": "effect_on_conditions",
-        "description": "Hail Pat on the radio",
+        "menu_text": "Hail Pat on the radio",
         "effect_on_conditions": [ "EOC_ROBOFAC_PAT_CHATTING_ON_RADIO" ]
       }
     ],
@@ -1874,6 +1885,142 @@
     ]
   },
   {
+    "id": "string_dimension_phase_immersion_suit",
+    "type": "ITEM",
+    "//": "string dimension 'gate suit', their version of a phase immersion suit, but without an integrated helmet, thus lacking most of its environmental and dimensional protection.",
+    "subtypes": [ "ARMOR" ],
+    "category": "clothing",
+    "symbol": "[",
+    "color": "yellow",
+    "name": { "str": "KÁ expedition harness", "str_pl": "KÁ expedition harnesses" },
+    "description": "A protective body-suit built from layered textiles and segmented plates, all coated in a layer of gold.  The collar bares a prominent set of clasps and tube fittings.  An integrated harness is equipped with spring-loaded clips and a small electronic control apparatus stamped with \"KÁ\".",
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "carbide", "qt_steel", "superalloy", "gold" ],
+    "weight": "8400 g",
+    "volume": "4100 ml",
+    "pocket_data": [
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped to the harness.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      }
+    ],
+    "warmth": 30,
+    "environmental_protection": 16,
+    "flags": [
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "STURDY",
+      "WATERPROOF",
+      "GAS_PROOF",
+      "RAINPROOF",
+      "PADDED",
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
+    ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_string_dimension_phase_immersion_suit_false_start",
+          "effect": { "u_message": "The device emits a whispered word: \"ḫuliam\"" }
+        }
+      ]
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 3.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 75, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 0.1 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "rebreather",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -2128,7 +2275,7 @@
           { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They're represented by the plastic content.",
-        "covers": [ "mouth", "muzzle", "beak" ],
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
         "specifically_covers": [
           "mouth_lips",
           "mouth_nose",
@@ -2138,7 +2285,10 @@
           "muzzle_chin",
           "beak_tip",
           "beak_bottom",
-          "beak_top"
+          "beak_top",
+          "insect_proboscis_base",
+          "insect_proboscis_labium",
+          "insect_proboscis_bottom"
         ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
@@ -2150,8 +2300,8 @@
           { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
-        "covers": [ "mouth", "muzzle", "beak" ],
-        "specifically_covers": [ "mouth_cheeks", "muzzle_cheeks", "beak_nares" ],
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
+        "specifically_covers": [ "mouth_cheeks", "muzzle_cheeks", "beak_nares", "insect_proboscis_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
@@ -2253,7 +2403,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "description": "A custom-made leather gasmask faced with Nomex.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1250 ml",
@@ -2278,7 +2428,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
         ],
-        "covers": [ "mouth", "muzzle", "beak" ],
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
         "coverage": 100,
         "encumbrance": 37
       },
@@ -2301,7 +2451,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_fsurvivor",
     "looks_like": "mask_fsurvivor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2311,7 +2461,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_fsurvivor",
     "looks_like": "mask_fsurvivor",
-    "name": { "str": "survivor firemask" },
+    "name": { "str": "handmade firemask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2367,7 +2517,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "description": "A gas mask handcrafted from treated leather with a steel faceplate overtop.  It must be prepared before use.",
     "weight": "686 g",
     "volume": "1350 ml",
@@ -2392,7 +2542,7 @@
           { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1 }
         ],
-        "covers": [ "mouth", "muzzle", "beak" ],
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
         "coverage": 100,
         "encumbrance": 38
       },
@@ -2420,7 +2570,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_hsurvivor",
     "looks_like": "mask_hsurvivor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2430,7 +2580,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_hsurvivor",
     "looks_like": "mask_hsurvivor",
-    "name": { "str": "heavy survivor mask" },
+    "name": { "str": "handmade plated gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2439,7 +2589,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "description": "A half-face gasmask handcrafted from treated leather.  It provides no protection for the eyes, and must be activated before use.",
     "weight": "341 g",
     "volume": "625 ml",
@@ -2461,7 +2611,7 @@
     "armor": [
       {
         "material": [ { "type": "leather_treated", "covered_by_mat": 100, "thickness": 4 } ],
-        "covers": [ "mouth", "muzzle", "beak" ],
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
         "coverage": 100,
         "encumbrance": 35
       }
@@ -2478,7 +2628,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_lsurvivor",
     "looks_like": "mask_lsurvivor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
@@ -2488,7 +2638,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_lsurvivor",
     "looks_like": "mask_lsurvivor",
-    "name": { "str": "survivor half mask" },
+    "name": { "str": "handmade half gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
   },
@@ -2497,7 +2647,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
     "category": "armor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "description": "A gas mask handcrafted from treated leather.  It must be prepared before use.",
     "weight": "682 g",
     "volume": "1250 ml",
@@ -2544,7 +2694,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_survivor",
     "looks_like": "mask_survivor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "PADDED", "UNRESTRICTED" ]
   },
@@ -2554,7 +2704,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_survivor",
     "looks_like": "mask_survivor",
-    "name": { "str": "survivor mask" },
+    "name": { "str": "handmade gas mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "PADDED", "UNRESTRICTED" ]
   },
@@ -2610,7 +2760,7 @@
     "volume": "2250 ml",
     "price": "700 USD",
     "price_postapoc": "10 USD",
-    "material": [ "plastic" ],
+    "material": [ { "type": "plastic", "portion": 4 }, { "type": "hard_plastic_transp", "portion": 1 } ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 20,
@@ -2815,7 +2965,12 @@
     "volume": "2250 ml",
     "price": "700 USD",
     "price_postapoc": "10 USD",
-    "material": [ "cotton", "plastic", "aluminum" ],
+    "material": [
+      { "type": "cotton", "portion": 1 },
+      { "type": "plastic", "portion": 4 },
+      { "type": "hard_plastic_transp", "portion": 1 },
+      { "type": "aluminum", "portion": 0.01 }
+    ],
     "symbol": "[",
     "color": "white",
     "warmth": 30,
@@ -2914,6 +3069,195 @@
     "tool_ammo": "gasfilter_m"
   },
   {
+    "id": "papr_half_mask",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "//": "Based on Optrel Swiss Air",
+    "name": { "str": "half-face PAPR mask" },
+    "category": "clothing",
+    "description": "A lightweight, form-fitting mask that straps over your mouth and nose.  The mask has pre-installed tubing which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it will only function when paired with an active PAPR blower unit.  Safety goggles are advised!  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE", "PAPR_MASK" ],
+    "weight": "400 g",
+    "volume": "500 ml",
+    "price": "300 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mask_dust",
+    "color": "light_gray",
+    "warmth": 12,
+    "material_thickness": 2,
+    "environmental_protection": 3,
+    "environmental_protection_with_filter": 16,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med"
+      }
+    ],
+    "use_action": [ "GASMASK_ACTIVATE" ],
+    "tick_action": [ "GASMASK" ],
+    "armor": [ { "encumbrance": 10, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "welding_papr_helmet",
+    "//": "Based on 3M Adflo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "PAPR welding helmet" },
+    "looks_like": "welding_mask",
+    "description": "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely with compromising its ability to filter air.  Activate it to prepare it, or to push the welding mask up onto your head.",
+    "weight": "857 g",
+    "volume": "2250 ml",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "material": [ { "type": "plastic", "portion": 4 }, { "type": "hard_plastic_transp", "portion": 1 } ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 40,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "environmental_protection": 4,
+    "environmental_protection_with_filter": 16,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK", "SUN_GLASSES", "FLASH_PROTECTION" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "GASFILTER_MED" ],
+        "default_magazine": "gasfilter_med",
+        "rigid": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
+    ],
+    "use_action": [
+      "GASMASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You raise the welding shield.",
+        "target": "welding_papr_helmet_raised",
+        "menu_text": "Raise welding shield"
+      }
+    ],
+    "tick_action": [ "GASMASK" ],
+    "tool_ammo": "gasfilter_m"
+  },
+  {
+    "id": "welding_papr_helmet_raised",
+    "//": "Based on 3M Adflo",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "category": "armor",
+    "copy-from": "welding_papr_helmet",
+    "name": { "str": "PAPR welding helmet (raised)", "str_pl": "PAPR welding helmets (raised)" },
+    "looks_like": "welding_mask_raised",
+    "description": "A helmet fit with a welding mask over a transparent full-face mask.  On the back of the helmet is a long tube which attaches to a powered air purifying respirator system.  Once activated it will comfortably protect against chemical, biological, radiological, and nuclear threats.  Like a standard gas mask it must be loaded with a filter and prepared before use; unlike a standard gas mask, it is relatively cool and comfortable, but will only function when paired with an active PAPR blower unit.  The welding shield is separate from the PAPR mask itself, so can be raised safely with compromising its ability to filter air.  The welding mask it raised.  Activate it to prepare it, or to push the welding mask back down over your face.",
+    "flags": [ "WATERPROOF", "PADDED", "OVERSIZE", "SLEEP_IGNORE", "PAPR_MASK" ],
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 7 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "use_action": [
+      "GASMASK_ACTIVATE",
+      {
+        "type": "transform",
+        "msg": "You lower the welding shield.",
+        "target": "welding_papr_helmet",
+        "menu_text": "Lower welding shield"
+      }
+    ]
+  },
+  {
     "id": "basic_papr_belt_off",
     "//": "Based on 3M TR-300",
     "type": "ITEM",
@@ -2924,7 +3268,7 @@
     "volume": "1000 ml",
     "price": "300 USD",
     "price_postapoc": "5 USD",
-    "material": [ "rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "black",
@@ -2967,7 +3311,7 @@
     "description": "A blower unit for a powered air purifying respirator system.  It has been attached to a basic rubber and plastic belt.  If paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
     "weight": "918 g",
     "volume": "1000 ml",
-    "material": [ "rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "black",
@@ -3020,7 +3364,7 @@
     "volume": "3589 ml",
     "price": "1400 USD",
     "price_postapoc": "15 USD",
-    "material": [ "rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "black",
@@ -3063,7 +3407,7 @@
     "description": "A sturdy blower unit for a powered air purifying respirator system.  Its large triangular body is designed to be worn on the back.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is audibly blowing.",
     "weight": "653 g",
     "volume": "3589 ml",
-    "material": [ "rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "black",
@@ -3116,7 +3460,7 @@
     "volume": "3000 ml",
     "price": "1600 USD",
     "price_postapoc": "20 USD",
-    "material": [ "butyl_rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "butyl_rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "dark_gray",
@@ -3159,7 +3503,7 @@
     "description": "A blower unit for a powered air purifying respirator system, built from a flexible silicon and butyl rubber blend.  Its components are arranged linearly in a narrow strip close to the body and is outfitted with straps to wear it about the waist.  If paired with the appropriate straps, it can also attached to any compatible MOLLE system.  When active and paired with a prepared PAPR mask, this will provide excellent protection against chemical, biological, radiological, and nuclear threats.  The fan is quietly blowing.",
     "weight": "920 g",
     "volume": "3000 ml",
-    "material": [ "butyl_rubber", "plastic" ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "butyl_rubber", "portion": 1 } ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "dark_gray",
@@ -3320,7 +3664,7 @@
     "category": "armor",
     "symbol": "[",
     "color": "dark_gray",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES" ],
     "price": "400 USD",
@@ -3377,7 +3721,7 @@
     "copy-from": "mask_h20survivor",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "SPAWN_ACTIVE" ],
     "turns_per_charge": 60,
@@ -3397,7 +3741,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SWIM_GOGGLES", "OVERSIZE", "PREFIX_XL" ],
@@ -3415,7 +3759,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask" },
+    "name": { "str": "handmade divemask" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "use_action": {
@@ -3432,7 +3776,7 @@
     "copy-from": "mask_h20survivorxl",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [
       "VARSIZE",
@@ -3462,7 +3806,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "mask_h20survivor",
     "looks_like": "mask_h20survivor",
-    "name": { "str": "survivor divemask (on)", "str_pl": "survivor divemasks (on)" },
+    "name": { "str": "handmade divemask (on)", "str_pl": "handmade divemasks (on)" },
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  Provides excellent protection from harm as well providing breathing gas while underwater.  Use it to turn it on.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [
@@ -4125,114 +4469,6 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "id": "helmet_sallet",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "sallet helm" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
-    "weight": "1800 g",
-    "volume": "2050 ml",
-    "price": "350 USD",
-    "price_postapoc": "45 USD",
-    "use_action": { "type": "transform", "msg": "You raise the sallet visor.", "target": "helmet_sallet_raised", "menu_text": "Raise" },
-    "material": [ "steel", "leather" ],
-    "symbol": "s",
-    "looks_like": "helmet_barbute",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 60, "encumbrance": 20 }
-    ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "id": "helmet_sallet_raised",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "sallet helm (raised)", "str_pl": "sallet helms (raised)" },
-    "description": "A popular German helmet of the late medieval era, the sallet covers the head and eyes.  Activate it to toggle the visor.",
-    "weight": "1800 g",
-    "volume": "2050 ml",
-    "price": "350 USD",
-    "price_postapoc": "45 USD",
-    "use_action": {
-      "type": "transform",
-      "msg": "You lower the sallet visor over your eyes.",
-      "target": "helmet_sallet",
-      "menu_text": "Lower"
-    },
-    "material": [ "steel", "leather" ],
-    "symbol": "s",
-    "looks_like": "helmet_barbute",
-    "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 } ],
-    "warmth": 15,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "id": "helmet_armet",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "armet helm" },
-    "description": "An iconic knightly helm of the late Middle Ages.  When you think of a knight's helmet, it looks something like this.  Activate it to toggle the visor.",
-    "weight": "2300 g",
-    "volume": "2050 ml",
-    "price": "550 USD",
-    "price_postapoc": "55 USD",
-    "use_action": { "type": "transform", "msg": "You raise the armet visor.", "target": "helmet_armet_raised", "menu_text": "Raise" },
-    "material": [ "steel", "leather" ],
-    "symbol": "s",
-    "looks_like": "helmet_barbute",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
-      { "covers": [ "eyes" ], "coverage": 70, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 30 }
-    ],
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
-    "id": "helmet_armet_raised",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "armet helm (raised)", "str_pl": "armet helms (raised)" },
-    "description": "An iconic knightly helm of the late Middle Ages.  When you think of a knight's helmet, it looks something like this.  Activate it to toggle the visor.",
-    "weight": "2300 g",
-    "volume": "2050 ml",
-    "price": "550 USD",
-    "price_postapoc": "55 USD",
-    "use_action": { "type": "transform", "msg": "You lower the armet visor.", "target": "helmet_armet", "menu_text": "Lower" },
-    "material": [ "steel", "leather" ],
-    "symbol": "s",
-    "looks_like": "helmet_barbute",
-    "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 45 } ],
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "scuba_tank",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR" ],
@@ -4860,10 +5096,6 @@
       { "covers": [ "head" ], "encumbrance": 20, "coverage": 80, "specifically_covers": [ "head_forehead" ] },
       { "covers": [ "head" ], "encumbrance": 5, "coverage": 40, "specifically_covers": [ "head_crown" ] }
     ],
-    "passive_effects": [
-      { "id": "nvg_great" },
-      { "id": "THERMAL_VISION_GOOD" },
-      { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] }
-    ]
+    "passive_effects": [ { "id": "nvg_great" }, { "id": "THERMAL_VISION_GOOD" }, { "id": "AR_targeting_system" } ]
   }
 ]

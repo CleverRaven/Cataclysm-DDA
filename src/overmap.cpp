@@ -271,8 +271,9 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 
 void overmap::populate()
 {
-    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
     const region_settings_feature_flag &overmap_feature_flag = settings->overmap_feature_flag;
+    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc,
+            settings->get_settings_city().city_size );
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -685,12 +686,26 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
     }
 }
 
-void overmap::add_extra_note( const tripoint_om_omt &p )
+static void defer_auto_note( const tripoint_abs_omt &target )
+{
+    g->unvisited_map_extras.insert( target );
+}
+
+void overmap::add_deferred_extra_note( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    add_extra_note( omt_coord, true );
+}
+
+void overmap::add_extra_note( const tripoint_om_omt &p, bool force_add )
 {
     if( seen( p ) < om_vision_level::details ) {
         return;
     }
 
+    // WTF is this doing? We just figured out the map extra's ID in overmap::add_extra(), what's with this bizarre lookup?
     const std::vector<om_map_extra> &layer_extras = layer[p.z() + OVERMAP_DEPTH].extras;
     auto extrait = std::find_if( layer_extras.begin(),
     layer_extras.end(), [&p]( const om_map_extra & extra ) {
@@ -700,6 +715,13 @@ void overmap::add_extra_note( const tripoint_om_omt &p )
         return;
     }
     const map_extra_id &extra = extrait->id;
+
+    if( !force_add && !extra->see_from_afar ) {
+        tripoint_abs_omt target = project_combine( this->pos(), p );
+        defer_auto_note( target );
+        return;
+    }
+
 
     auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 
@@ -1420,7 +1442,9 @@ void overmap::place_special_forced( const overmap_special_id &special_id,
                                     const tripoint_om_omt &p,
                                     om_direction::type dir )
 {
-    static city invalid_city;
+    // Dummy city for place_special's road-connection fallback.
+    // "" avoids city() default ctor that eats RNG via SNIPPET.
+    static const city invalid_city( "" );
     place_special( *special_id, p, dir, invalid_city, false, true );
 }
 /**
@@ -1979,7 +2003,7 @@ void overmap::place_forest_trails()
 void overmap::place_forest_trailheads()
 {
     // No trailheads if there are no cities.
-    const int city_size = get_option<int>( "CITY_SIZE" );
+    const int city_size = settings->get_settings_city().city_size;
     if( city_size <= 0 ) {
         return;
     }
@@ -2146,7 +2170,7 @@ void overmap::place_swamps()
 
 void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps )
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2206,7 +2230,7 @@ void overmap::place_roads( const std::vector<const overmap *> &neighbor_overmaps
 void overmap::place_railroads( const std::vector<const overmap *> &neighbor_overmaps )
 {
     // no railroads if there are no cities
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -2345,7 +2369,7 @@ void overmap::calculate_forestosity()
 
 void overmap::calculate_urbanity()
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings->get_settings_city().city_size;
     if( op_city_size <= 0 ) {
         return;
     }
@@ -3127,6 +3151,11 @@ bool overmap::place_special_attempt(
 
             place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
+            // Only this call site participates in deck accounting.
+            if( special.has_flag( "OVERMAP_UNIQUE" ) || special.has_flag( "GLOBALLY_UNIQUE" ) ) {
+                overmap_buffer.consume_deck_placement( special.id );
+            }
+
             if( ++iter->instances_placed >= constraints.occurrences.max ) {
                 enabled_specials.erase( iter );
             }
@@ -3166,7 +3195,7 @@ void overmap::place_specials_pass(
 }
 
 // Split map into sections, iterate through sections iterate through specials,
-// check if special is valid  pick & place special.
+// check if special is valid pick & place special.
 // When a sector is populated it's removed from the list,
 // and when a special reaches max instances it is also removed.
 void overmap::place_specials( overmap_special_batch &enabled_specials )
@@ -3209,16 +3238,46 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const bool globally_unique = iter->special_details->has_flag( "GLOBALLY_UNIQUE" );
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter->special_details->id;
-            const overmap_special_placement_constraints &constraints = iter->special_details->get_constraints();
-            const float special_count = overmap_buffer.get_unique_special_count( id );
-            const float overmap_count = overmap_buffer.get_overmap_count();
-            const float min = special_count > 0 ? constraints.occurrences.min / special_count :
-                              constraints.occurrences.min;
-            const float max = std::max( overmap_count > 0 ? constraints.occurrences.max / overmap_count :
-                                        constraints.occurrences.max, min );
-            if( x_in_y( min, max ) && ( !overmap_buffer.contains_unique_special( id ) ) ) {
-                // Min and max are overloaded to be the chance of occurrence,
-                // so reset instances placed to one short of max so we don't place several.
+            const overmap_special_placement_constraints &constraints =
+                iter->special_details->get_constraints();
+            const int occ_min = constraints.occurrences.min;
+            const int occ_max = constraints.occurrences.max;
+
+            // Specials with no success cards or empty deck never spawn via this path.
+            if( occ_min <= 0 || occ_max <= 0 ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+
+            // GLOBALLY_UNIQUE already placed -- done forever.
+            if( globally_unique && overmap_buffer.contains_unique_special( id ) ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+
+            unique_special_deck_state &deck =
+                overmap_buffer.get_deck_state( id, occ_min, occ_max );
+
+            // Draw only when nothing is pending -- prevents unbounded backlog.
+            if( deck.to_place <= 0 ) {
+                // successes_remain > 0 guard: x_in_y(0, N) can return true when rng_float is 0.0.
+                if( deck.successes_remain > 0 && x_in_y( deck.successes_remain, deck.cards_remain ) ) {
+                    deck.successes_remain--;
+                    deck.cards_remain--;
+                    deck.to_place++;
+                } else {
+                    deck.cards_remain--;
+                }
+
+                // Deck exhausted -- reshuffle (start a new cycle).
+                if( deck.cards_remain <= 0 ) {
+                    deck.successes_remain = occ_min;
+                    deck.cards_remain = occ_max;
+                }
+            }
+
+            if( deck.to_place > 0 ) {
+                // Allow exactly one placement attempt on this overmap.
                 iter->instances_placed = constraints.occurrences.max - 1;
             } else {
                 iter = enabled_specials.erase( iter );

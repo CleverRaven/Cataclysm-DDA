@@ -59,6 +59,12 @@
         "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
         "topic": "TALK_ALLY_DEBUG"
       },
+      {
+        "text": "Go back to your camp.",
+        "topic": "TALK_FRIEND",
+        "condition": "npc_has_assigned_camp",
+        "effect": "return_to_camp_duties"
+      },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]

@@ -188,7 +188,7 @@
         { "item": "plastic_chunk", "count": [ 10, 12 ] },
         { "item": "scrap", "count": [ 12, 18 ] },
         { "item": "matrix_crystal_teleport_dust", "count": [ 5, 15 ] },
-        { "item": "matrix_crystal_teleportation", "count": [ 0, 1 ] }
+        { "group": "teleportation_matrix_crystals_group", "count": [ 0, 1 ] }
       ]
     },
     "bash": {

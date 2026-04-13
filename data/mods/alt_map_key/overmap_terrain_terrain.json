@@ -152,6 +152,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "inner_cabins_void_exit" ],
+    "copy-from": "inner_cabins_void_exit",
+    "name": "retracting pond",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "hot_springs",
     "copy-from": "hot_springs",
     "name": "hot spring",

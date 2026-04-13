@@ -5,7 +5,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_PSI",
-    "name": "[Ψ]practice: telekinesis",
+    "name": "contemplation: telekinesis",
     "description": "Recipes related to practicing telekinesis.",
     "skill_used": "metaphysics",
     "nested_category_data": [
@@ -20,7 +20,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]far hand",
+    "name": "contemplation: far hand",
     "id": "practice_afs_telekinetic_move_items",
     "description": "Contemplate your powers and improve your ability to pick up and move items.",
     "category": "CC_*",
@@ -45,7 +45,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]force shove",
+    "name": "contemplation: force shove",
     "id": "practice_afs_telekinetic_move_creatures",
     "description": "Contemplate your powers and improve your ability to pick up and move beings.",
     "category": "CC_*",
@@ -70,7 +70,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]momentum alteration",
+    "name": "contemplation: momentum alteration",
     "id": "practice_afs_telekinetic_momentum",
     "description": "Contemplate your powers and improve your control of momentum.",
     "category": "CC_*",
@@ -95,7 +95,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]wave of force",
+    "name": "contemplation: wave of force",
     "id": "practice_afs_telekinetic_wave",
     "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
     "category": "CC_*",
@@ -120,7 +120,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "[Ψ]mindhammer",
+    "name": "contemplation: mindhammer",
     "id": "practice_afs_telekinetic_hammer",
     "description": "Contemplate your powers and improve your ability to smash a small area with telekinetic force.",
     "category": "CC_*",

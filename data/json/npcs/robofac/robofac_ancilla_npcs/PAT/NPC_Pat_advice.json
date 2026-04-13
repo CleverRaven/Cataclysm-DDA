@@ -454,43 +454,43 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_1",
     "type": "talk_topic",
-    "dynamic_line": "That theah station's a BEAUT.  Real easy to set up.  We used to load 'em in trucks, so I suggest ya' throw it in the back of somethin', drive into one of those storms theah, set it up, start the recordin' routine, and get the fuck outta' there.  Go back in a day or two and pick it up.",
+    "dynamic_line": "That theah station's a BEAUT.  Real easy to set up.  We used to load 'em in trucks, so I suggest ya' throw it in the back of somethin', drive into one of those storms theah, set it up, start the recordin' routine, and get the fahk outta' there.  Go back in a day or two and pick it up.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_2",
     "type": "talk_topic",
-    "dynamic_line": "We used to contract a few'a those for weather data.  Lemme see those coordinates.\"  Pat takes out his personal device and skims his offline map data.  After a minute, he looks puzzled and turns back to you.  \"The fuck they sending you?  It isn't nowhere I ever heard of.  But look, these places are deathtraps anyhow - little metal coffins in the lake.  I don't envy you.",
+    "dynamic_line": "We used to contract a few'a those for weather data.  Lemme see those coordinates.\"  Pat takes out his personal device and skims his offline map data.  After a minute, he looks puzzled and turns back to you.  \"The fahk they sending you?  It isn't nowhere I evah heard of.  But look, these places are deathtraps anyhow - little metal coffins in the lake.  I don't envy you.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_3",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, I was watchin' when you hauled that device in heah to the intercom.  Looks a lot like the standard station, but all those strange devices I don't have any idea about.  Same advice I'd give for even a normal recording: drop that thing off, set it up, and get the fuck outta dodge.  Go back the next day when the storm is ovah.",
+    "dynamic_line": "Yeah, I was watchin' when you hauled that device in heah to the intercom.  Looks a lot like the standahd station, but all those strange devices?  I don't have any idea about them theah.  Same advice I'd give for even a nahrmal recordin': drop that thing off, set it up, and get the fahk outta dodge.  Go back the next day when the storm is ovah.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_MONSTER_CORPSE",
     "type": "talk_topic",
-    "dynamic_line": "More important, I know the crew they sent as the advanced team.  Be careful with them.  They sold be some bunk electronics recently, and overcharged me for it, too.",
+    "dynamic_line": "More important, I know the crew they sent as the advanced team.  Be careful with them.  Real careful, hear me?  They sold be some bunk electronics, and overcharged me for it.  Don't trust'em.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_2",
     "type": "talk_topic",
-    "dynamic_line": "That's no highway, so whatever is going on there is no doubt cramped.  If it's zombies we're talking about, I suggest you take somethin' that makes a lot of noise.  Or a machine gun.",
+    "dynamic_line": "That's no highway, so whatever is going on there is no doubt cramped.  If it's zombies we're talking about, I suggest you take somethin' that makes a lot of noise.  Or a freakin' machine gun.",
     "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
     "type": "talk_topic",
-    "dynamic_line": "Lemme check my maps.\" Pat looks at their personal device for a while before shaking their head.  \"Whatever that is isn't on the public maps I have downloaded.  Take your glasses rig and proceed with caution, yeah?  I'll chime in when you get there.",
+    "dynamic_line": "Lemme check my maps.\" Pat looks at their personal device for a while before shaking their head.  \"Whatevah that is, isn't on the public maps I have downloaded.  Take your transpondah and proceed with caution, yeah?  I'll chime in when you get theah.",
     "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_3",
     "type": "talk_topic",
-    "dynamic_line": "Look, you didn't heah this from me, but I don't think you're the first person they've sent theah.  Whatever it is, I'd bet a pack of smokes it's dangerous as all hell.  Take your glasses rig and stay in touch.",
+    "dynamic_line": "Look, you didn't heah this from me, but I don't think you're the first person they've sent theah.  Whatevah it is, I'd bet a pack of smokes it's dangerous as all hell.  Take your transpondah and stay in touch.",
     "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -499,7 +499,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
       "yes": "Swing by heah and ask me about this again.  Got somethin' for ya'.",
-      "no": "I saw that gun they gave ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on working with electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted."
+      "no": "I saw that gun they gave ya' theah.  Cool shit.  I'd take their advice to heaht, though.  If you aren't up to snuff on workin' on electronics, I'd do a bit of reading.  That book they gave ya' is pretty advanced, so here, in case you need something to get stahted."
     },
     "responses": [
       {
@@ -522,7 +522,7 @@
   {
     "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_IVAS",
     "type": "talk_topic",
-    "dynamic_line": "Anduril?  Holy shit, real assholes those guys.  Defense contractah thinks they could get away with naming their weapons manufacturin' after the fuckin' sword of the West - Tolkien - Aragon, yeah?  Read a lot about'em online before it all.  If it's the headset I'm thinkin' of, you mind bringin' it by heah to me before giving it to our employers?  They may'a been assholes but maybe after the end'a the world we can do somethin' fuckin' cool with their tech.",
+    "dynamic_line": "Anduril?  Holy shit, real assholes those guys.  Defense contractah thinks they could get away with naming their weapons manufacturin' after the fahkin' sword of the West - Tolkien - Aragon, yeah?  Read a lot about'em online before it all.  If it's the headset I'm thinkin' of, you mind bringin' it by heah to me before giving it to our employers?  They may'a been assholes but maybe after the end'a the world we can do somethin' fahkin' cool with their tech.",
     "responses": [
       {
         "text": "Thanks a lot.  If I find the headset, I'll think about bringing it by to you.",
@@ -539,13 +539,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_1",
-    "dynamic_line": "Take a gun.  After the shit you've done for our employers here, this should be cake, eh?",
+    "dynamic_line": "Take a gun.  After the shit you've done for our employahs here, this should be cake, eh?",
     "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_2",
-    "dynamic_line": "Now we're talkin'.  Seems to me the sorta' thing you should do from a distance, yeah?  Need yous a sniper rifle.  I dunno where to get one'a those, but I do know the military had set up some bullshit camps out near my cousin's place before it all happened.  Maybe check it out, get yaself some fiah-powah, yeah?",
+    "dynamic_line": "Now we're talkin'.  Seems to me the sorta' thing you should do from a distance, yeah?  Need you a sniper rifle!  I dunno where to get one'a those, but I do know the military had set up some bullshit camps out near my cousin's place before it all happened.  Maybe check it out, get yaself some fiah-powah, yeah?",
     "responses": [
       {
         "text": "Thanks a lot.  Maybe I'll check it out.",
@@ -572,7 +572,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_FREE_MERCHANTS_EVAC_5",
-    "dynamic_line": "So first they got yous killin' bandits, and now you're collectin' jahrs?  This really worth the squeeze?  Anyway, just go to the fuckin' supahmahket and start emptyin' shit out for'em.  Here, I'll upload my favorite to your maps.",
+    "dynamic_line": "So first they got you killin' bandits, and now you're collectin' jahrs?  This really worth the squeeze?  Anyway, just go to the fahkin' supahmahket and start emptyin' shit out for'em.  Here, I'll upload my favorite to your maps.",
     "responses": [
       {
         "text": "Thanks a lot.  Maybe I'll check it out.",
@@ -587,7 +587,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BROKER_1",
-    "dynamic_line": "More jahrs.  You got me stumped on this one.  I'll leave this one up to you.  Fuckin' jahrs.",
+    "dynamic_line": "More jahrs.  You got me stumped on this one.  I'll leave this one up to you.  Fahkin' jahrs.",
     "responses": [ { "text": "Yeah, fair enough.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -620,7 +620,7 @@
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_directions_exodii",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
-      "yes": "You've been there, remember?  It's got those fuckin' robots!",
+      "yes": "You've been there, remember?  It's got those fahkin' robots!",
       "no": "I say this a lot, but go strapped, yeah?  Don't like the sound of that."
     },
     "responses": [ { "text": "Thanks a lot.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
@@ -656,7 +656,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
-    "dynamic_line": "Easy, head out to one of those supply stores outta town.  I used'ta pass one when out doing field measurements.  Heah, I'll upload the location.",
+    "dynamic_line": "Easy, head out to one of those supply stores outta town.  I used'ta pass one when out doing field recahrdings.  Heah, I'll upload the location.",
     "responses": [
       {
         "text": "Thanks, maybe I'll check it out.",
@@ -711,25 +711,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-NotMet",
-    "dynamic_line": "Robots.  The fuck is the world comin' to.  Tread carefully.",
+    "dynamic_line": "Robots.  The fahk is the world comin' to.  Tread carefully.",
     "responses": [ { "text": "Thanks, will do.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_3-HasMet",
-    "dynamic_line": "Isn't this just that robot you met in that fuckin' castle?",
+    "dynamic_line": "Isn't this just that robot you met in that fahkin' castle?",
     "responses": [ { "text": "Oh, right, I remember that.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_4",
-    "dynamic_line": "Monster's the least surprising thing to be fuckin' with a road, isn't it?  I don't have any intel on the area, so you're going in blind.  Lock'n'load.",
+    "dynamic_line": "Monster's the least surprising thing to be fahkin' with a road, isn't it?  I don't have any intel on the area, so you're going in blind.  Lock'n'load.",
     "responses": [ { "text": "Thanks, will do.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_OLD_GUARD_REP_MARSHALL",
-    "dynamic_line": "Way I see it, you're the Fed, not me.  This is your side gig.  Handle this how you see fit.  And word of advice: don't tell our mutual employer about this.",
+    "dynamic_line": "Way I see it, you're the Fed, not me.  This is your side gig.  Handle this how you see fit.  And word of advice: don't tell our mutual employah about this.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -741,7 +741,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_RUBIK_ANUS_FETICK",
-    "dynamic_line": "Easy: the fuckin' hospital, ya' fuckin' stunad, hah!  Heah, I'll upload a map to one neahby.",
+    "dynamic_line": "Easy: the fahkin' hospital, ya' fahkin' stunad, hah!  Heah, I'll upload a map to one neahby.",
     "responses": [
       {
         "text": "Thanks, mabye I'll check it out.",
@@ -756,7 +756,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_EXODII_MISSION_CONTACT_HUB",
-    "dynamic_line": "Yeah, don't cross our employers.  Just tell them the basics, get paid, move on.",
+    "dynamic_line": "Yeah, don't cross our employahs.  Just tell them the basics, get paid, move on.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -818,7 +818,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_BUILD_CAMP",
-    "dynamic_line": "Best bet for all that shit they'll need is a lumbermill.  In fact, I heard some mercs talkin' about one that's occupied by friendly-ish tradahs.  Heah, check it out.",
+    "dynamic_line": "Best bet for all that shit they'll need is a lumbahmill.  In fact, I heard some mercs talkin' about one that's occupied by friendly-ish tradahs.  Heah, check it out.",
     "responses": [
       {
         "text": "Thanks.  Maybe I'll check it out.",
@@ -839,7 +839,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_ISHERWOOD",
-    "dynamic_line": "I'm not fuckin' heahtless, but I don't think you should be involved.  Doesn't strike me as a lucrative deal, yeah?  That's all I got to say on that.",
+    "dynamic_line": "I'm not fahkin' heahtless, but I don't think you should be involved.  Doesn't strike me as a lucrative deal, yeah?  That's all I got to say on that.",
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -851,7 +851,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_BEM_jabberwock_mission",
-    "dynamic_line": "Sure fuckin' have - heard whispers all over that bahr about shit like that.  We know bettah than most monsters'r real, yeah?  Lock'n'load pal.",
+    "dynamic_line": "Sure fahkin' have - heard whispers all over that bahr about shit like that.  We know bettah than most monsters'r real, yeah?  Lock'n'load pal.",
     "responses": [ { "text": "You're not wrong.  Thanks.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -869,7 +869,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_EXODII_CHOP_SHOP",
-    "dynamic_line": "Those robots give me the heebies, and I think it's in our bests interests if ya' don't go fuckin' around with something run by our employah, yeah?  Don' bite the hand that feeds.",
+    "dynamic_line": "Those robots give me the heebies, and I think it's in our bests interests if ya' don't go fahkin' around with something run by our employah, yeah?  Don' bite the hand that feeds.",
     "responses": [ { "text": "Yeah, you're probably right.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
   {
@@ -901,8 +901,8 @@
     "id": "TALK_ROBOFAC_MERC_PAT_ADVICE_MISSION_CHOP_SHOP_INTEL",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_chatting_on_radio" } ],
-      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  They start to scan old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fuckin' hoppah - the head - the fuckin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\"",
-      "no": "&Pat flips open their laptop and wiggles the cable attached to a makeshift battery.  It boots up after a moment and they clack away, looking at old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fuckin' hoppah - the head - the fuckin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\""
+      "yes": "&Your HUD flicks on and low-resolution version of Pat's computer desktop becomes visible.  They start to scan old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fahkin' hoppah - the head - the fahkin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\"",
+      "no": "&Pat flips open their laptop and wiggles the cable attached to a makeshift battery.  It boots up after a moment and they clack away, looking at old, grainy satellite images downloaded from Google maps.  \"Old strip mall, yeah?  But looky-theah.  Looks like theah's some window-vents ovah the fahkin' hoppah - the head - the fahkin' toilet.  If I were you, I'd climb up in theah, find ya' way in, make sure ya' set up an escape, and do what needs doin'.\""
     },
     "responses": [ { "text": "Thanks, Pat.", "topic": "TALK_ROBOFAC_MERC_PAT_ADVICE" } ]
   },
@@ -912,7 +912,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "robofac_pat_gave_circuit_safari_intel" } ],
       "yes": "Like I said befoah, you're doin' the whole damn world a favor.  Good luck.  Flip on ya' AR headset, and I'll keep an eye on ya' from heah.  Try not to end up beepin' when you back up, yeah?",
-      "no": "I been hearin' a lotta chatter 'bout those freakin' robots 'round heah.  Some kid swears the othah day some OTHAH guy saw one'a those busted-ass… pods, or containahs, or whatevah, and one of those tin-can-robot-fucks looked exactly like his buddy - a buddy who disappeared last week.  You ask me, that's shady as hell - I think those metal bastards are snatchin' people and turnin'em into more robots.  Like that Star Trek crap, yah?  The Blorgs, or whatevah.\n\nAnyway, if you're goin' out huntin' one, you're doin' everybody a favah.  And you'd be doing that poor bastard they turned into a friggin' robot a mercy, ya know?  Put'em outta his misery.\n\nActually, kid told me where that one's at.  You want the coordinates?"
+      "no": "I been hearin' a lotta chatter 'bout those freakin' robots 'round heah.  Some kid swears the othah day some OTHAH guy saw one'a those busted-ass… pods, or containahs, or whatevah, and one of those tin-can-robot-fahks looked exactly like his buddy - a buddy who disappeared last week.  You ask me, that's shady as hell - I think those metal bastards are snatchin' people and turnin'em into more robots.  Like that Star Trek crap, yah?  The Blorgs, or whatevah.\n\nAnyway, if you're goin' out huntin' one, you're doin' everybody a favah.  And you'd be doing that poor bastard they turned into a friggin' robot a mercy, ya know?  Put'em outta his misery.\n\nActually, kid told me where that one's at.  You want the coordinates?"
     },
     "responses": [
       {

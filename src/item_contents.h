@@ -373,12 +373,11 @@ class item_contents
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
+        const item *magazine_current() const;
+        std::vector<item *> magazines_current();
+        std::vector<const item *> magazines_current() const;
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
-        /**
-         * Return the first ammo found when iterating all magazine pockets. Null if none found.
-         * Does not support multiple magazine pockets!
-         */
         item &first_ammo();
         const item &first_ammo() const;
         /**
@@ -462,6 +461,8 @@ class item_contents
         std::vector<item> additional_pockets;
         // TODO make this work with non torso items
         units::volume additional_pockets_volume = 0_ml; // NOLINT(cata-serialize)
+        // Similar to additional_pockets_volume but respect volume_encumber_modifier of the pocket
+        units::volume additional_pockets_effective_volume = 0_ml; // NOLINT(cata-serialize)
 
         /** An abstraction for how many 'spaces' of this item have been used attaching additional pockets. */
         int additional_pockets_space_used = 0; // NOLINT(cata-serialize)

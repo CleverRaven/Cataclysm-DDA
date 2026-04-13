@@ -163,7 +163,7 @@ void Character::try_remove_heavysnare()
             }
         }
     } else {
-        if( can_escape_trap( 32 - dex_cur, true ) ) {
+        if( can_escape_trap( 32 - get_dex(), true ) ) {
             remove_effect( effect_heavysnare );
             add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
                                    _( "<npcname> frees themselves from the heavy snare!" ) );
@@ -419,7 +419,7 @@ bool Character::move_effects( bool attacking )
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if( has_effect( effect_in_pit ) ) {
         /** @EFFECT_DEX increases chance to escape pit, slightly */
-        if( !can_escape_trap( 40 - dex_cur / 2 ) ) {
+        if( !can_escape_trap( 40 - get_dex() / 2 ) ) {
             add_msg_if_player( m_bad, _( "You try to escape the pit, but slip back in." ) );
             return false;
         } else {

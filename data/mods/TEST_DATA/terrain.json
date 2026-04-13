@@ -276,5 +276,37 @@
     "coverage": 60,
     "roof": "t_flat_roof",
     "flags": [ "BARRICADABLE_WINDOW" ]
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_utility_light",
+    "name": "utility light",
+    "description": "Test terrain: utility light that emits light sans light_color",
+    "symbol": ".",
+    "color": "white",
+    "connect_groups": [ "INDOORFLOOR", "WOODFLOOR" ],
+    "connects_to": "WOODFLOOR",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "light_emitted": 240,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_test_red_light",
+    "copy-from": "test_t_utility_light",
+    "name": "test red light",
+    "description": "Test terrain: utility light that emits red-colored light.",
+    "light_emitted": 10,
+    "light_color": [ 255, 0, 0 ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_test_blue_light",
+    "copy-from": "test_t_utility_light",
+    "name": "test blue light",
+    "description": "Test terrain: utility light that emits blue-colored light.",
+    "light_emitted": 10,
+    "light_color": [ 0, 0, 255 ]
   }
 ]

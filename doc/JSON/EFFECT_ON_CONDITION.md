@@ -1013,6 +1013,24 @@ check do you memorize `meat_hunk` recipe
 { "u_know_recipe": "meat_hunk" }
 ```
 
+### `u_has_item_with_flag`, `npc_has_item_with_flag`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker has any item with specific flag
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+check do you have anything with `RAD_DETECT` flag
+```jsonc
+{ "u_has_item_with_flag": "RAD_DETECT" }
+```
+
+
 ### `u_has_worn_with_flag`, `npc_has_worn_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker wear some item with specific flag
@@ -1837,6 +1855,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | opens_portal | Triggers when TOGGLE PORTAL option is activated via ("old lab" finale's?) computer | NONE | avatar / NONE |
 | opens_spellbook | Triggers when player opens the spell menu OR when NPC evaluates spell as best weapon(in preparation to use it) | { "character", `character_id` } | character / NONE |
 | opens_temple | Triggers when `pedestal_temple` examine action is used to consume a petrified eye | NONE | avatar / NONE |
+| phase_move | Triggers after a phasing enchant movement is completed | { "distance_traveled", `int` },<br/> { "is_bionic", `bool` }, | avatar / NONE |
 | player_fails_conduct | | { "conduct", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_gets_achievement | | { "achievement", `achievement_id` },<br/> { "achievements_enabled", `bool` }, | avatar / NONE |
 | player_levels_spell | triggers when player changes it's spell level, either by casting a spell, reading spell book, or using EoC. Spawning a new character with spells defined by using `spells` in chargen option will also run an event | { "character", `character_id` },<br/>{ "spell", `spell_id` },<br/>{ "new_level", `int` },{ "spell_class", `trait_id` } | character / NONE |
@@ -1967,6 +1986,21 @@ Opens the menu to swap the avatar
 "effect": [ "take_control_menu" ]
 ```
 
+#### `u_make_radio_representative` `npc_make_radio_representative`
+Sets alpha or beta talker as faction representative, allowing avatar to contact them, if both NPC and avatar has a charged radio
+It will open `talk_radio` dialogue, so remember to change the topic of NPC you want to make a representative, otherwise the default `TALK_RADIO` will be set, used for your followers
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Sets NPC to be faction representative
+```jsonc
+"effect": [ "npc_make_radio_representative" ]
+```
 
 #### `give_achievement`
 Marks the given achievement as complete
@@ -3831,7 +3865,7 @@ Search overmap terrain `afs_crashed_escape_pod` on z-level 0, range 500 overmap 
 }
 ```
 
-Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates  into `OM_missionspot` variable:
+Search the map, that contain `house` in it's id on a range 200-1200 overmap tiles, picks random from them, and save its coordinates into `OM_missionspot` variable:
 ```jsonc
 {
   "u_location_variable": { "global_val": "OM_missionspot" },
@@ -4528,6 +4562,8 @@ Unloads the current dimension and loads the dimension with the specific ID, opti
 | "u_travel_to_dimension" | **mandatory** | string | Will teleport the player to a dimension with the ID. |
 | "npc_travel_radius" | optional | int or [variable object](#variable-object) | default 0; if a value above 0 is specified, the NPCs within that radius around the player will be transported with them when dimension hopping. |
 | "npc_travel_filter" | optional | string or [variable object](#variable-object) | default `all`; Acceps the following values: `all`, `follower`, `enemy`. Does nothing if `npc_travel_radius` is 0. |
+| "item_travel_radius" | optional | int or [variable object](#variable-object) | default -1; if a value 0 or above is specified, the items within that radius around the player will be transported with them when dimension hopping. |
+| "target_location" | optional | [variable object](#variable-object) | default is the player's location; if present this variable will be used as the center point for items in conjunction with `item_travel_radius` |
 | "region_type" | optional | string or [variable object](#variable-object) | default `default`; The dimension is generated with the region settings of a `region_settings_new` object. |
 
 ##### Valid talkers:
@@ -4539,7 +4575,7 @@ Unloads the current dimension and loads the dimension with the specific ID, opti
 
 ##### Examples
 
-You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you  within 5 tiles of you along.
+You teleport to a dimension with the ID of `test`, at the same position you're in currently, bringing any NPC following you within 5 tiles of you along.
 ```jsonc
   {
   "u_travel_to_dimension": "test",
@@ -5157,7 +5193,7 @@ Spawn a plastic bottle on ground
 
 ## Map Updates
 
-Map updates are related to  any change in the map, weather, or coordinates, and any talker can use them
+Map updates are related to any change in the map, weather, or coordinates, and any talker can use them
 
 #### `mapgen_update`
 Update the map with changes, described in `mapgen_update`

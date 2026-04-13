@@ -1,47 +1,113 @@
 [
   {
     "type": "behavior",
+    "id": "npc_decision",
+    "strategy": "fallback",
+    "children": [ "npc_combat", "npc_investigate", "npc_priorities" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_combat",
+    "strategy": "fallback",
+    "conditions": [ { "predicate": "npc_in_danger" } ],
+    "children": [ "npc_flee", "npc_fight" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_flee",
+    "conditions": [ { "predicate": "npc_should_flee" } ],
+    "goal": "flee"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_fight",
+    "conditions": [ { "predicate": "npc_has_target" } ],
+    "goal": "fight"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_investigate",
+    "conditions": [ { "predicate": "npc_has_sound_alerts" } ],
+    "goal": "investigate_sound"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_priorities",
+    "strategy": "utility",
+    "children": [ "npc_needs", "npc_duty", "npc_follow", "npc_player_order", "npc_camp_work", "npc_return_to_camp", "npc_free_time" ]
+  },
+  {
+    "type": "behavior",
+    "id": "npc_duty",
+    "strategy": "fallback",
+    "children": [ "npc_return_to_post", "npc_hold_post" ],
+    "score": "npc_duty_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_return_to_post",
+    "conditions": [ { "predicate": "npc_on_shift" }, { "predicate": "npc_displaced_from_post" } ],
+    "goal": "return_to_guard_pos"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_hold_post",
+    "conditions": [ { "predicate": "npc_on_shift" } ],
+    "goal": "hold_position"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_follow",
+    "conditions": [ { "predicate": "npc_is_following" } ],
+    "goal": "follow_player",
+    "score": "npc_following_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_player_order",
+    "conditions": [ { "predicate": "npc_has_goto_order" } ],
+    "goal": "goto_ordered_position",
+    "score": "npc_goto_order_urgency"
+  },
+  {
+    "type": "behavior",
     "id": "npc_needs",
-    "strategy": "sequential_until_done",
-    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger" ]
+    "strategy": "utility",
+    "children": [ "npc_homeostasis", "npc_thirst", "npc_hunger", "npc_sleepiness" ]
   },
   {
     "type": "behavior",
     "id": "npc_homeostasis",
     "strategy": "fallback",
     "conditions": [ { "predicate": "npc_needs_warmth_badly" } ],
-    "children": [ "npc_wear_warmer_clothes", "npc_get_warm" ]
+    "children": [ "npc_obtain_warmth", "npc_make_fire" ],
+    "score": "npc_warmth_urgency"
   },
   {
     "type": "behavior",
-    "id": "npc_wear_warmer_clothes",
-    "conditions": [ { "predicate": "npc_can_wear_warmer_clothes" } ],
-    "goal": "wear_warmer_clothes"
-  },
-  {
-    "type": "behavior",
-    "id": "npc_get_warm",
-    "strategy": "fallback",
-    "children": [ "npc_make_fire", "npc_take_shelter" ]
+    "id": "npc_obtain_warmth",
+    "conditions": [ { "predicate": "npc_can_obtain_warmth" } ],
+    "goal": "seek_warmth"
   },
   {
     "type": "behavior",
     "id": "npc_make_fire",
     "conditions": [ { "predicate": "npc_can_make_fire" } ],
-    "goal": "start_fire"
-  },
-  {
-    "type": "behavior",
-    "id": "npc_take_shelter",
-    "conditions": [ { "predicate": "npc_can_take_shelter" } ],
-    "goal": "take_shelter"
+    "goal": "seek_warmth"
   },
   {
     "type": "behavior",
     "id": "npc_thirst",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_water_badly" } ],
-    "children": [ "npc_drink_water" ]
+    "children": [ "npc_obtain_water" ],
+    "score": "npc_thirst_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_obtain_water",
+    "strategy": "fallback",
+    "children": [ "npc_drink_water", "npc_seek_water" ]
   },
   {
     "type": "behavior",
@@ -51,15 +117,69 @@
   },
   {
     "type": "behavior",
+    "id": "npc_seek_water",
+    "conditions": [ { "predicate": "npc_can_obtain_water" } ],
+    "goal": "drink_water"
+  },
+  {
+    "type": "behavior",
     "id": "npc_hunger",
     "strategy": "sequential",
     "conditions": [ { "predicate": "npc_needs_food_badly" } ],
-    "children": [ "npc_eat_food" ]
+    "children": [ "npc_obtain_food" ],
+    "score": "npc_hunger_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_obtain_food",
+    "strategy": "fallback",
+    "children": [ "npc_eat_food", "npc_forage_food" ]
   },
   {
     "type": "behavior",
     "id": "npc_eat_food",
     "conditions": [ { "predicate": "npc_has_food" } ],
     "goal": "eat_food"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_forage_food",
+    "conditions": [ { "predicate": "npc_can_obtain_food" } ],
+    "goal": "eat_food"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_sleepiness",
+    "strategy": "sequential",
+    "conditions": [ { "predicate": "npc_needs_sleep_badly" } ],
+    "children": [ "npc_go_to_sleep" ],
+    "score": "npc_sleepiness_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_go_to_sleep",
+    "conditions": [ { "predicate": "npc_can_sleep" } ],
+    "goal": "go_to_sleep"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_camp_work",
+    "conditions": [ { "predicate": "npc_has_camp_job" } ],
+    "goal": "camp_work",
+    "score": "npc_camp_work_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_return_to_camp",
+    "conditions": [ { "predicate": "npc_is_away_from_camp" } ],
+    "goal": "return_to_camp",
+    "score": "npc_return_to_camp_urgency"
+  },
+  {
+    "type": "behavior",
+    "id": "npc_free_time",
+    "conditions": [ { "predicate": "npc_is_camp_idle" } ],
+    "goal": "free_time",
+    "score": "npc_free_time_urgency"
   }
 ]

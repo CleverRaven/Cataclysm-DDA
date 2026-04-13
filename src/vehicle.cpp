@@ -658,7 +658,7 @@ void vehicle::autopilot_patrol( map *here )
      * choose a point at the far edge of the zone
      * the edge chosen is the edge that is smaller, therefore the longer side
      * of the rectangle is the one the vehicle drives mostly parallel too.
-     * if its  perfect square then choose a point that is on any edge that the
+     * if its perfect square then choose a point that is on any edge that the
      * vehicle is not currently at
      * drive to that point.
      * then once arrived, choose a random opposite point of the zone.
@@ -1147,7 +1147,7 @@ units::power vehicle::part_vpower_w( map &here, const vehicle_part &vp,
                     muscle_veh_boost_bonus = 8;
                 }
                 ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-                const float muscle_multiplier = muscle_user->str_cur - 8 + athlete_form_bonus +
+                const float muscle_multiplier = muscle_user->get_str() - 8 + athlete_form_bonus +
                                                 muscle_veh_boost_bonus;
                 const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
                 const float engine_multiplier = vpi.engine_info->muscle_power_factor;
@@ -5597,6 +5597,42 @@ units::power vehicle::total_water_wheel_epower( map &here ) const
     return epower;
 }
 
+units::power vehicle::rated_solar_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : solar_panels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_wind_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : wind_turbines ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
+units::power vehicle::rated_water_epower() const
+{
+    units::power epower = 0_W;
+    for( const int p : water_wheels ) {
+        const vehicle_part &vp = parts[p];
+        if( !vp.is_unavailable() ) {
+            epower += part_epower( vp );
+        }
+    }
+    return epower;
+}
+
 units::power vehicle::net_battery_charge_rate( map &here, bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower( here ) + total_accessory_epower() +
@@ -5757,16 +5793,19 @@ void vehicle::power_parts( map &here )
         // Scoops need a special case since they consume power during actual use
         for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
         // Rechargers need special case since they consume power on demand
         for( const vpart_reference &vp : get_enabled_parts( "RECHARGE" ) ) {
             vp.part().enabled = false;
+            vp.part().power_disabled = true;
         }
 
         for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part &pt = vp.part();
             if( pt.info().epower < 0_W ) {
                 pt.enabled = false;
+                pt.power_disabled = true;
             }
         }
 
@@ -6386,6 +6425,9 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( map &here, vehicle_par
             if( !item_ptr->merge_charges( itm ) ) {
                 return std::nullopt;
             } else {
+                if( itm.is_emissive() ) {
+                    here.set_lightmap_cache_dirty( bub_part_pos( here, vp ).z() );
+                }
                 return std::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( item_ptr ) );
             }
         }
@@ -6399,8 +6441,13 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( map &here, vehicle_par
         itm_copy.spill_contents( bub_part_pos( here, vp ) );
     }
 
+    itm_copy.preserve_location( pos_abs() );
+
     const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
     active_items.add( *new_pos, vp.mount );
+    if( itm_copy.is_emissive() ) {
+        here.set_lightmap_cache_dirty( bub_part_pos( here, vp ).z() );
+    }
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
@@ -6420,6 +6467,10 @@ bool vehicle::remove_item( vehicle_part &vp, item *it )
 vehicle_stack::iterator vehicle::remove_item( vehicle_part &vp,
         const vehicle_stack::const_iterator &it )
 {
+    if( it->is_emissive() ) {
+        map &here = get_map();
+        here.set_lightmap_cache_dirty( bub_part_pos( here, vp ).z() );
+    }
     invalidate_mass();
     return vp.items.erase( it );
 }
@@ -8565,6 +8616,98 @@ void vehicle::update_time( map &here, const time_point &update_to )
     }
 }
 
+int vehicle::catchup_off_map_renewables( const time_point &now )
+{
+    const time_point update_from = last_update;
+    if( now <= update_from || update_from == time_point( 0 ) ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( sm_pos.z() < 0 ) {
+        last_update = now;
+        return 0;
+    }
+
+    if( now - update_from < 1_minutes ) {
+        return 0;
+    }
+
+    if( solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() ) {
+        return 0;
+    }
+
+    const time_duration elapsed = now - update_from;
+    last_update = now;
+
+    int total_energy = 0;
+    const weather_sum accum_weather = sum_conditions( update_from, now, pos_abs() );
+
+    if( !solar_panels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : solar_panels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        double intensity = accum_weather.radiant_exposure / max_sun_irradiance() /
+                           to_seconds<float>( elapsed );
+        int energy_bat = power_to_energy_bat( epower * intensity, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from solar panels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !wind_turbines.empty() ) {
+        // Same TODO as update_time: uses current wind, not weather backfill
+        const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
+        weather_manager &weather = get_weather();
+        units::power epower = 0_W;
+        for( const int p : wind_turbines ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_outside( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            int windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                                 abs_part_pos( vp ),
+                                                 weather.winddirection, false );
+            if( windpower <= ( weather.windspeed / 10.0 ) ) {
+                continue;
+            }
+            epower += part_epower( vp ) * windpower;
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from wind turbines", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    if( !water_wheels.empty() ) {
+        units::power epower = 0_W;
+        for( const int p : water_wheels ) {
+            const vehicle_part &vp = parts[p];
+            if( vp.is_unavailable() || !is_sm_tile_over_water( abs_part_pos( vp ) ) ) {
+                continue;
+            }
+            epower += part_epower( vp );
+        }
+        int energy_bat = power_to_energy_bat( epower, elapsed );
+        if( energy_bat > 0 ) {
+            add_msg_debug( debugmode::DF_VEHICLE,
+                           "%s off-map got %d kJ from water wheels", name, energy_bat );
+            total_energy += energy_bat;
+        }
+    }
+
+    return total_energy;
+}
+
 void vehicle::invalidate_mass()
 {
     mass_dirty = true;
@@ -8886,7 +9029,6 @@ bool vehicle::refresh_zones()
         }
         loot_zones = new_zones;
         zones_dirty = false;
-        zone_manager::get_manager().cache_data( false );
         return true;
     }
     return false;

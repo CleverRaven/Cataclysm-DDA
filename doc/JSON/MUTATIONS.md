@@ -127,6 +127,7 @@ Specific mutations are extremely versatile. A mutation only needs to have a few 
   "description": "Nothing gets you down!",    // In-game description. Supports snippets and u/global variables
   "starting_trait": true,                     // Can be selected at character creation (default: false).
   "chargen_allow_npc": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that when false (default: true).
+  "random_start_allowed": false,              // (Optional) Is this trait allowed in player random starts (default: true)?
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
@@ -323,6 +324,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `changes_to`      | Nothing | Used for defining mutation lines with defined steps. This trait can further mutate into any other trait defined in this list.                               |
 | `leads_to`        | Nothing | Mutations that add onto this one without removing it. Effectively a reverse of the `prereqs` tag.  Also prevents type conflicts with this trait!            |
 | `starting_trait`  | false   | If true, this trait can be selected during character creation.                                                                                              |
+| `random_start_allowed`  | true   | If true, this trait can be randomly selected during character creation options that make random selections of traits.       
 | `valid`           | true    | Whether or not this trait can be obtained through mutation. Invalid traits are still obtainable while creating a character.                                 |
 | `purifiable`      | true    | Whether or not this trait can be removed. If false, the trait cannot be removed by any means.                                                               |
 | `player_display`  | true    | If false, this trait is invisible, and will not appear in messages or the character sheet. Also implies that this mutation is non-translatable, see [here](/doc/JSON/JSON_INFO.md#translatable-strings). |

@@ -291,7 +291,8 @@
         "==@@",
         "   D"
       ],
-      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -307,7 +308,8 @@
         "a @@",
         "   D"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -323,7 +325,8 @@
         "a @@",
         "   D"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -403,7 +406,8 @@
         "@@==",
         "D   "
       ],
-      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -419,7 +423,8 @@
         "@@ I",
         "D   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -435,7 +440,8 @@
         "@@ ɱ",
         "D   "
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -467,7 +473,8 @@
         " @@ ",
         "¤@@¤"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -483,7 +490,8 @@
         " @@ ",
         "D@@D"
       ],
-      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {
@@ -499,7 +507,8 @@
         " @@ ",
         "D@@D"
       ],
-      "palettes": [ "standard_domestic_palette" ]
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

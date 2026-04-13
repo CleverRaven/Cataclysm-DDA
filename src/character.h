@@ -48,6 +48,7 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "sleep.h"
@@ -78,7 +79,6 @@ class ma_technique;
 class map;
 class player_morale;
 class profession;
-class proficiency_set;
 class recipe;
 class recipe_subset;
 class spell;
@@ -96,14 +96,12 @@ struct pick_info;
 } // namespace Pickup
 
 enum action_id : int;
-enum class proficiency_bonus_type : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
-struct display_proficiency;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
@@ -121,6 +119,12 @@ struct w_point;
 template <typename E> struct enum_traits;
 
 using bionic_uid = unsigned int;
+
+const int CHARACTER_STAT_MIN = 4;
+const int CHARACTER_STAT_MAX = 20;
+
+const int CHARACTER_AGE_MIN = 16;
+const int CHARACTER_AGE_MAX = 55;
 
 extern int character_max_str;
 extern int character_max_dex;
@@ -531,18 +535,14 @@ class Character : public Creature, public visitable
         /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
-        /// @brief Character stats
-        /// @todo Make those protected
+    private:
+        /// @brief Character base stats
         int str_max;
         int dex_max;
         int int_max;
         int per_max;
 
-        int str_cur;
-        int dex_cur;
-        int int_cur;
-        int per_cur;
-
+    public:
         // Used to display pain penalties
         int ppen_str;
         int ppen_dex;
@@ -640,6 +640,11 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        void set_str_base( int nstr );
+        void set_dex_base( int ndex );
+        void set_per_base( int nper );
+        void set_int_base( int nint );
 
         /** Setters for stats shared with other creatures */
         using Creature::mod_speed_bonus;
@@ -979,6 +984,8 @@ class Character : public Creature, public visitable
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
+        units::mass bodyweight_with_bionic() const;
+
         // formats and prints encumbrance info to specified window
         void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
@@ -1050,6 +1057,7 @@ class Character : public Creature, public visitable
         void make_clatter_sound() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
+        int move_mode_switch_cost( const move_mode_id &old_mode, const move_mode_id &new_mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
@@ -1155,6 +1163,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
+        bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
@@ -1944,10 +1953,10 @@ class Character : public Creature, public visitable
         void disp_info( bool customize_character = false );
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Opens the medical window */
+        /** Opens the medical window. Returns true if window was closed */
         bool disp_medical();
         // return true if wound fix was successfully picked
-        bool pick_wound_fix( int pos );
+        bool pick_wound_fix( const bodypart_id &bp_id );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -2212,8 +2221,12 @@ class Character : public Creature, public visitable
          * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
+         * @param now if true, only match candidates that can actually be loaded into obj right now
+         *        (i.e. obj has capacity for them); if false, match any type-compatible candidate
+         *        regardless of current capacity.
          */
-        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1 ) const;
+        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1,
+                                              bool now = true ) const;
 
         /**
          * Searches for weapons and magazines that can be reloaded.
@@ -3101,6 +3114,8 @@ class Character : public Creature, public visitable
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
         bool has_activity( const std::vector<activity_id> &types ) const;
+        /** Check if character has a given sub_bodypart */
+        bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
         void cancel_activity();
         void cancel_stashed_activity();
@@ -3263,6 +3278,7 @@ class Character : public Creature, public visitable
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
          *  @param gun item to fire (which does not necessary have to be in the players possession)
+         *  @param ammo item_location of ammunition for RAS (reload after shot) weapon like arrows
          *  @return number of shots actually fired
          */
         int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
@@ -3403,6 +3419,7 @@ class Character : public Creature, public visitable
         std::string visible_mutations( int visibility_cap ) const;
 
         player_activity get_destination_activity() const;
+        const player_activity &peek_destination_activity() const;
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
 
@@ -3597,6 +3614,10 @@ class Character : public Creature, public visitable
                                              const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
+        // Efficiently query book proficiency bonuses from nearby items
+        // without rebuilding the full crafting inventory.
+        // Walks map tiles and vehicle cargo in range, plus character inventory.
+        book_proficiency_bonuses book_bonuses_nearby( int radius = PICKUP_RANGE ) const;
 
         /** Returns a value from 1.0 to 11.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
@@ -4298,6 +4319,12 @@ template<>
 struct enum_traits<character_stat> {
     static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
+
+namespace io
+{
+std::string enum_to_full_string( character_stat data );
+} // namespace io
+
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
 #endif // CATA_SRC_CHARACTER_H

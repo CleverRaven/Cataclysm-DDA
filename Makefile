@@ -922,7 +922,7 @@ endif
 
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+  LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -lWindowsApp -lmincore -lBcrypt
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
   endif
@@ -976,8 +976,8 @@ ifeq ($(MSYS2),1)
   DEFINES += -DMSYS2 -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
-CFLAGS += $(C_STD) $(WARNINGS)
-CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS)
+CFLAGS += $(C_STD) $(WARNINGS) -fvisibility=hidden
+CXXFLAGS += $(CXX_STD) $(CXX_WARNINGS) -fvisibility=hidden
 
 # Enumerations of all the source files and headers.
 ifeq ($(HEADERPOPULARITY), 1)
@@ -1111,7 +1111,7 @@ ifeq ($(RELEASE), 1)
   ifndef DEBUG_SYMBOLS
     ifneq ($(BACKTRACE),1)
       ifneq ($(NATIVE), emscripten)
-	$(STRIP) $(TARGET)
+	$(STRIP) -Sx $(TARGET)
       endif
     endif
   endif

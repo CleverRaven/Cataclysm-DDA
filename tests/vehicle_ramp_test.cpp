@@ -42,6 +42,10 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
 
     map &here = get_map();
     build_test_map( ter_id( "t_pavement" ) );
+    // build_test_map only clears items on z=0; clear the z-levels
+    // the ramp setup touches so stray items don't blow out tires.
+    clear_items( -1 );
+    clear_items( 1 );
     if( use_ramp ) {
         const int upper_zlevel = up ? 1 : 0;
         const int lower_zlevel = up - 1;

@@ -66,6 +66,8 @@ void aoe_effect::deserialize( const JsonObject &jo )
               intensity_min );
     optional( jo, was_loaded, "chance", chance, numeric_bound_reader<int> {0, 100}, 100 );
     optional( jo, was_loaded, "radius", radius, numeric_bound_reader<int> {0}, 1 );
+    optional( jo, was_loaded, "hits_amount", hits_amount, pair_reader<int> {} );
+    optional( jo, was_loaded, "all_bp", all_bp, false );
 }
 
 void on_hit_effect::deserialize( const JsonObject &jo )

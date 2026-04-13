@@ -36,6 +36,8 @@ struct aoe_effect {
     int intensity_max;
     int chance;
     int radius;
+    std::pair<int, int> hits_amount = {1, 1};
+    bool all_bp;
 
     void deserialize( const JsonObject &jo );
     bool was_loaded = false;

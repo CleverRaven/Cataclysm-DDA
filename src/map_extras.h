@@ -47,6 +47,7 @@ class map_extra
         std::string generator_id;
         map_extra_method generator_method = map_extra_method::null;
         bool autonote = false;
+        bool see_from_afar = false;
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
 

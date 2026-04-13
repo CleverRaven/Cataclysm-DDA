@@ -354,6 +354,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "//": "Remove after 0.J",
     "id": "magic_light",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
@@ -369,5 +370,24 @@
     "light": 8,
     "flags": [ "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
+  },
+  {
+    "//": "Remove after 0.J",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "druid_fertilizer",
+    "name": { "str_sp": "seed of growth" },
+    "weight": "27 g",
+    "color": "white",
+    "flags": [ "TRADER_AVOID", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "A magical powder that can be scattered on growing crops to make them grow faster.",
+    "material": [ "powder" ],
+    "volume": "33 ml",
+    "category": "chems",
+    "fun": -15
   }
 ]
