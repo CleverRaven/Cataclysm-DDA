@@ -625,6 +625,11 @@
     "//": "This monster always knows where the avatar is"
   },
   {
+    "id": "LOCKS_ON",
+    "type": "monster_flag",
+    "//": "Once this monster establishes initial line-of-sight to the avatar, it gains a temporary effect where it always knows the avatar's location for its duration"
+  },
+  {
     "id": "ALL_SEEING",
     "type": "monster_flag",
     "//": "This monster can see everything within its vision range regardless of light or obstacles"
