@@ -114,7 +114,6 @@ Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes
 Modularize Desert Eagle, add .50 AE
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants
-Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
 Add streams to map generation
 Added ASCII art for most containers
 Adds new jewelry such as cowrie necklaces and various types of hair beads.
