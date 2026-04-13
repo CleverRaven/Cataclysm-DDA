@@ -38,9 +38,10 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template <typename T, typename Output>
-void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
+void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested,
+                       bool now = true )
 {
-    src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
+    src.visit_items( [&src, &nested, &out, &obj, empty, now]( item * node, item * parent ) {
 
         // This stops containers and magazines counting *themselves* as ammo sources
         if( node == &obj ) {
@@ -80,7 +81,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // All speedloaders are accepted.
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
-            if( obj.can_reload_with( *node, true ) ) {
+            if( obj.can_reload_with( *node, now ) ) {
                 if( parent != nullptr ) {
                     out = item_location( item_location( src, parent ), node );
                 } else {
@@ -90,7 +91,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             return VisitResponse::SKIP;
         }
 
-        if( obj.can_reload_with( *node, true ) ) {
+        if( obj.can_reload_with( *node, now ) ) {
             if( parent != nullptr ) {
                 out = item_location( item_location( src, parent ), node );
             } else {
@@ -111,17 +112,18 @@ std::vector<item_location> Character::get_ammo( const ammotype &at ) const
     } );
 }
 
-std::vector<item_location> Character::find_ammo( const item &obj, bool empty, int radius ) const
+std::vector<item_location> Character::find_ammo( const item &obj, bool empty, int radius,
+        bool now ) const
 {
     map &here = get_map();
 
     std::vector<item_location> res = cache_get_items_with( "is_ammo",
-    &item::is_ammo, [&obj]( const item_location & it ) {
-        return obj.can_reload_with( *it, true );
+    &item::is_ammo, [&obj, now]( const item_location & it ) {
+        return obj.can_reload_with( *it, now );
     } );
 
     std::vector<item_location> mag_locs = cache_get_items_with( "is_magazine",
-    &item::is_magazine, [&obj, &empty]( const item_location & it ) {
+    &item::is_magazine, [&obj, &empty, now]( const item_location & it ) {
         if( &obj == &*it ) {
             return false;
         }
@@ -134,17 +136,17 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
         if( it->has_flag( flag_SPEEDLOADER ) && ( !it->ammo_remaining() || !obj.magazine_integral() ) ) {
             return false;
         }
-        return obj.can_reload_with( *it, true );
+        return obj.can_reload_with( *it, now );
     } );
 
     res.insert( res.end(), mag_locs.begin(), mag_locs.end() );
 
     if( radius >= 0 ) {
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {
-            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false, now );
         }
         for( vehicle_cursor &cursor : vehicle_selector( here, pos_bub( here ), radius ) ) {
-            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false, now );
         }
     }
 

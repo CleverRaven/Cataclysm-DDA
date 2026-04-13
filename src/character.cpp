@@ -23,6 +23,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_attire.h"

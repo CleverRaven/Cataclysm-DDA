@@ -1275,6 +1275,11 @@
     "//": "Prevents armor from protecting the character."
   },
   {
+    "id": "HANDS_CANNOT_USE_FIREARMS",
+    "type": "json_flag",
+    "//": "Due to mutation, your hands (or paws etc) are not suitable to use firearms."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."

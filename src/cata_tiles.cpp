@@ -611,57 +611,58 @@ void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool 
         throwErrorIf( SetSurfaceRLE( tile_atlas, 1 ), "SDL_SetSurfaceRLE failed" );
     }
 
-    SDL_RendererInfo info;
-    throwErrorIf( SDL_GetRendererInfo( renderer.get(), &info ) != 0, "SDL_GetRendererInfo failed" );
+    int max_tex_w = 0;
+    int max_tex_h = 0;
+    throwErrorIf( !GetRendererMaxTextureSize( renderer, &max_tex_w, &max_tex_h ),
+                  "GetRendererMaxTextureSize failed" );
     // Software rendering stores textures as surfaces with run-length encoding, which makes
     // extracting a part in the middle of the texture slow. Therefore this "simulates" that the
-    // renderer only supports one tile
-    // per texture. Each tile will go on its own texture object.
-    if( info.flags & SDL_RENDERER_SOFTWARE ) {
-        info.max_texture_width = sprite_width;
-        info.max_texture_height = sprite_height;
+    // renderer only supports one tile per texture.
+    if( IsRendererSoftware( renderer ) ) {
+        max_tex_w = sprite_width;
+        max_tex_h = sprite_height;
     }
     // for debugging only: force a very small maximal texture size, as to trigger
     // splitting the tile atlas.
 #if 0
     // +1 to check correct rounding
-    info.max_texture_width = sprite_width * 10 + 1;
-    info.max_texture_height = sprite_height * 20 + 1;
+    max_tex_w = sprite_width * 10 + 1;
+    max_tex_h = sprite_height * 20 + 1;
 #endif
 
     const int min_tile_xcount = 128;
     const int min_tile_ycount = min_tile_xcount * 2;
 
-    if( info.max_texture_width == 0 ) {
-        info.max_texture_width = sprite_width * min_tile_xcount;
-        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0. " <<
-                                   " Changing it to " << info.max_texture_width;
+    if( max_tex_w == 0 ) {
+        max_tex_w = sprite_width * min_tile_xcount;
+        DebugLog( D_INFO, DC_ALL ) << "Renderer max_texture_width was 0. "
+                                   << "Changed to " << max_tex_w;
     } else {
-        throwErrorIf( info.max_texture_width < sprite_width,
+        throwErrorIf( max_tex_w < sprite_width,
                       "Maximal texture width is smaller than tile width" );
     }
 
-    if( info.max_texture_height == 0 ) {
-        info.max_texture_height = sprite_height * min_tile_ycount;
-        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0. " <<
-                                   " Changing it to " << info.max_texture_height;
+    if( max_tex_h == 0 ) {
+        max_tex_h = sprite_height * min_tile_ycount;
+        DebugLog( D_INFO, DC_ALL ) << "Renderer max_texture_height was 0. "
+                                   << "Changed to " << max_tex_h;
     } else {
-        throwErrorIf( info.max_texture_height < sprite_height,
+        throwErrorIf( max_tex_h < sprite_height,
                       "Maximal texture height is smaller than tile height" );
     }
 
     // Number of tiles in each dimension that fits into a (maximal) SDL texture.
     // If the tile atlas contains more than that, we have to split it.
-    const int max_tile_xcount = info.max_texture_width / sprite_width;
-    const int max_tile_ycount = info.max_texture_height / sprite_height;
+    const int max_tile_xcount = max_tex_w / sprite_width;
+    const int max_tile_ycount = max_tex_h / sprite_height;
     // Range over the tile atlas, wherein each rectangle fits into the maximal
     // SDL texture size. In other words: a range over the parts into which the
     // tile atlas needs to be split.
     const rect_range<SDL_Rect> output_range(
         max_tile_xcount * sprite_width,
         max_tile_ycount * sprite_height,
-        point( divide_round_up( tile_atlas->w, info.max_texture_width ),
-               divide_round_up( tile_atlas->h, info.max_texture_height ) ) );
+        point( divide_round_up( tile_atlas->w, max_tex_w ),
+               divide_round_up( tile_atlas->h, max_tex_h ) ) );
 
     const int expected_tilecount = ( tile_atlas->w / sprite_width ) *
                                    ( tile_atlas->h / sprite_height );
@@ -5972,16 +5973,15 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         { "opengl", to_translation( "opengl" ) },
         { "opengles2", to_translation( "opengles2" ) },
     };
-    int numRenderDrivers = SDL_GetNumRenderDrivers();
+    const int numRenderDrivers = GetNumRenderDrivers();
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
-        SDL_RendererInfo ri;
-        SDL_GetRenderDriverInfo( ii, &ri );
+        const char *name = GetRenderDriverName( ii );
         // First default renderer name we will put first on the list. We can use it later as
         // default value.
-        if( ri.name == default_renderer_names.front().first ) {
+        if( name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
         } else {
-            renderer_names.emplace_back( ri.name, no_translation( ri.name ) );
+            renderer_names.emplace_back( name, no_translation( name ) );
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "SDL render devices: " << enumerate_as_string( renderer_names,
@@ -5999,11 +5999,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
         { "0", to_translation( "Display 0" ) }
     };
 
-    int numdisplays = SDL_GetNumVideoDisplays();
+    const int numdisplays = GetNumVideoDisplays();
     display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ),
-                                    no_translation( SDL_GetDisplayName( i ) ) );
+                                    no_translation( GetDisplayName( i ) ) );
     }
 
     return display_names.empty() ? default_display_names : display_names;

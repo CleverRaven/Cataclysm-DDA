@@ -3270,6 +3270,36 @@
     "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
+    "result": "target_spinner",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "3 h",
+    "activity_level": "MODERATE_EXERCISE",
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "DRILL", "level": 3 },
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [
+      [ [ "mil_plate", 1 ], [ "hard_plate", 1 ], [ "alloy_plate", 1 ] ],
+      [
+        [ "mil_plate", 1 ],
+        [ "hard_plate", 1 ],
+        [ "alloy_plate", 1 ],
+        [ "steel_plate", 1 ],
+        [ "steel_lump_any", 1, "LIST" ],
+        [ "sheet_metal", 1 ]
+      ],
+      [ [ "pipe", 8 ] ],
+      [ [ "nuts_bolts", 30 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "welding_kit",

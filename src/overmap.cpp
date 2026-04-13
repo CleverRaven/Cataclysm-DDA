@@ -686,12 +686,26 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
     }
 }
 
-void overmap::add_extra_note( const tripoint_om_omt &p )
+static void defer_auto_note( const tripoint_abs_omt &target )
+{
+    g->unvisited_map_extras.insert( target );
+}
+
+void overmap::add_deferred_extra_note( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_coord;
+    tripoint_om_omt omt_coord;
+    std::tie( overmap_coord, omt_coord ) = project_remain<coords::om>( p );
+    add_extra_note( omt_coord, true );
+}
+
+void overmap::add_extra_note( const tripoint_om_omt &p, bool force_add )
 {
     if( seen( p ) < om_vision_level::details ) {
         return;
     }
 
+    // WTF is this doing? We just figured out the map extra's ID in overmap::add_extra(), what's with this bizarre lookup?
     const std::vector<om_map_extra> &layer_extras = layer[p.z() + OVERMAP_DEPTH].extras;
     auto extrait = std::find_if( layer_extras.begin(),
     layer_extras.end(), [&p]( const om_map_extra & extra ) {
@@ -701,6 +715,13 @@ void overmap::add_extra_note( const tripoint_om_omt &p )
         return;
     }
     const map_extra_id &extra = extrait->id;
+
+    if( !force_add && !extra->see_from_afar ) {
+        tripoint_abs_omt target = project_combine( this->pos(), p );
+        defer_auto_note( target );
+        return;
+    }
+
 
     auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 

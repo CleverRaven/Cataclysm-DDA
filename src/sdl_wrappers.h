@@ -23,6 +23,7 @@
 // IWYU pragma: end_exports
 
 #include <memory>
+#include <string>
 
 struct point;
 
@@ -99,7 +100,7 @@ bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, 
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
-void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
+bool SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
@@ -137,10 +138,188 @@ SDL_Surface_Ptr RenderUTF8_Blended( const TTF_Font_Ptr &font, const char *text, 
 // In SDL3_ttf there is no direct TTF_GlyphIsProvided equivalent; this will be
 // emulated via glyph metrics or a render attempt.
 bool CanRenderGlyph( const TTF_Font_Ptr &font, Uint32 ch );
+
+// SDL3: index-based API replaced by SDL_DisplayID arrays. Wrappers
+// present the SDL2-style index interface, mapping internally on SDL3.
+int GetNumVideoDisplays();
+const char *GetDisplayName( int displayIndex );
+bool GetDesktopDisplayMode( int displayIndex, SDL_DisplayMode *mode );
+
+// SDL3: SDL_GetRenderDriverInfo removed; SDL_GetRenderDriver returns name directly.
+int GetNumRenderDrivers();
+const char *GetRenderDriverName( int index );
+
+// SDL3: SDL_RendererInfo struct removed. Name via SDL_GetRendererName,
+// capabilities via SDL_GetRendererProperties.
+const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
+bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
+bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
+
+// SDL3: various renames, signature changes, behavioral changes.
+void RenderPresent( const SDL_Renderer_Ptr &renderer );
+void RenderDrawRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+void RenderGetViewport( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
+// SDL3: replaced by SDL_SetRenderLogicalPresentation(r, w, h, mode).
+// Callers must also use ConvertEventCoordinates (SDL3 does not auto-scale events).
+void RenderSetLogicalSize( const SDL_Renderer_Ptr &renderer, int w, int h );
+void RenderSetScale( const SDL_Renderer_Ptr &renderer, float scaleX, float scaleY );
+// SDL3: returns SDL_Surface* instead of filling a buffer. Wrapper copies data out.
+bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
+                       Uint32 format, void *pixels, int pitch );
+// SDL3: renamed to SDL_GetCurrentRenderOutputSize.
+void GetRendererOutputSize( const SDL_Renderer_Ptr &renderer, int *w, int *h );
+
+// SDL3: SDL_GetTicks returns Uint64. Wrapper keeps uint32_t for source compat.
+uint32_t GetTicks();
+
+// SDL3: SDL_ShowCursor split into SDL_ShowCursor/SDL_HideCursor/SDL_CursorVisible.
+bool IsCursorVisible();
+void ShowCursor();
+void HideCursor();
+
+// Returns clipboard text as std::string. Handles SDL_free internally on both versions.
+std::string GetClipboardText();
+bool SetClipboardText( const std::string &text );
+
+// SDL3: returns float coordinates. Wrapper truncates to int.
+// Returns window-space coordinates (NOT render-logical); downstream pipeline
+// handles scaling separately.
+Uint32 GetMouseState( int *x, int *y );
+
+// SDL3: SDL_GetKeyboardState returns const bool*. Rather than exposing the raw
+// array (bool* to Uint8* cast is unsafe), provide a per-scancode query.
+bool IsScancodePressed( SDL_Scancode scancode );
+
+// Takes raw SDL_Window* for use with both smart-pointer and raw windows.
+void GetWindowSize( SDL_Window *window, int *w, int *h );
+// Falls back to GetWindowSize on SDL2 < 2.26.
+void GetWindowSizeInPixels( SDL_Window *window, int *w, int *h );
+
+// Replaces SDL_HINT_RENDER_SCALE_QUALITY with per-texture SDL_SetTextureScaleMode
+// (available in SDL2 2.0.12+ and SDL3). Accepts game option strings
+// ("none"/"nearest"/"linear") and SDL2 hint values ("0"/"1").
+void SetTextureScaleQuality( const SDL_Texture_Ptr &texture, const std::string &quality );
+// Store a default scale quality applied by CreateTexture/CreateTextureFromSurface.
+void SetDefaultTextureScaleQuality( const std::string &quality );
+
+// SDL3: all three take SDL_Window*. SDL2 versions ignore the parameter.
+void StartTextInput( SDL_Window *window );
+void StopTextInput( SDL_Window *window );
+bool IsTextInputActive( SDL_Window *window );
+
+// Use these instead of raw SDL flags at call sites. Raw macros like
+// SDL_WINDOW_ALLOW_HIGHDPI / SDL_WINDOW_FULLSCREEN_DESKTOP may not exist
+// in SDL3 headers.
+// SDL3: SDL_WINDOW_ALLOW_HIGHDPI -> SDL_WINDOW_HIGH_PIXEL_DENSITY
+// SDL3: SDL_WINDOW_FULLSCREEN_DESKTOP removed; SDL_WINDOW_FULLSCREEN is borderless
+#if SDL_MAJOR_VERSION >= 3
+inline constexpr Uint32 CATA_WINDOW_HIDDEN    = SDL_WINDOW_HIDDEN;
+inline constexpr Uint32 CATA_WINDOW_RESIZABLE = SDL_WINDOW_RESIZABLE;
+inline constexpr Uint32 CATA_WINDOW_MAXIMIZED = SDL_WINDOW_MAXIMIZED;
+inline constexpr Uint32 CATA_WINDOW_HIGH_DPI  = SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#else
+inline constexpr Uint32 CATA_WINDOW_HIDDEN    = SDL_WINDOW_HIDDEN;
+inline constexpr Uint32 CATA_WINDOW_RESIZABLE = SDL_WINDOW_RESIZABLE;
+inline constexpr Uint32 CATA_WINDOW_MAXIMIZED = SDL_WINDOW_MAXIMIZED;
+inline constexpr Uint32 CATA_WINDOW_HIGH_DPI  = SDL_WINDOW_ALLOW_HIGHDPI;
+#endif
+
+// Creates a window centered on the given display. Uses CATA_WINDOW_* flags.
+// No fullscreen flags -- call SetWindowFullscreen after creation for that.
+// SDL3: uses SDL_CreateWindowWithProperties to handle maximized+display placement.
+SDL_Window_Ptr CreateGameWindow( const char *title, int display, int w, int h, Uint32 flags );
+
+enum class FullscreenMode { windowed, fullscreen_desktop, fullscreen_exclusive };
+// SDL3: maps to SDL_SetWindowFullscreen(bool) + SDL_SetWindowFullscreenMode.
+// Calls SDL_SyncWindow on SDL3 to ensure state is settled before returning.
+bool SetWindowFullscreen( SDL_Window *window, FullscreenMode mode );
+
+// All call SDL_SyncWindow on SDL3 for async-safe behavior.
+void RestoreWindow( SDL_Window *window );
+void SetWindowSize( SDL_Window *window, int w, int h );
+void SetWindowMinimumSize( SDL_Window *window, int w, int h );
+void SetWindowTitle( SDL_Window *window, const char *title );
+
+// SDL3: takes name string instead of index, flags removed. Vsync via SDL_SetRenderVSync.
+// When software == true, SDL3 path passes "software" as driver name.
+SDL_Renderer_Ptr CreateRenderer( const SDL_Window_Ptr &window, const char *driver_name,
+                                 bool software, bool vsync );
+
+// SDL2: no-op (logical size auto-scales events).
+// SDL3: calls SDL_ConvertEventToRenderCoordinates on all event types.
+void ConvertEventCoordinates( const SDL_Renderer_Ptr &renderer, SDL_Event *event );
+
+// SDL2: finger coords are normalized [0,1]; multiply by window dimension.
+// SDL3: after ConvertEventCoordinates, coords are already absolute render-logical.
+float GetFingerX( const SDL_Event &ev, int windowWidth );
+float GetFingerY( const SDL_Event &ev, int windowHeight );
+
 /**@}*/
 
-void StartTextInput();
-void StopTextInput();
+// SDL2 nests window events under SDL_WINDOWEVENT with subtypes in ev.window.event.
+// SDL3 flattens them to top-level SDL_EVENT_WINDOW_* constants.
+
+// Returns true if the event is a window event.
+bool IsWindowEvent( const SDL_Event &ev );
+// Returns the window event subtype for use in switch statements.
+Uint32 GetWindowEventID( const SDL_Event &ev );
+
+// Normalized window event constants. Use with switch(GetWindowEventID(ev)).
+#if SDL_MAJOR_VERSION >= 3
+inline constexpr Uint32 CATA_WINDOWEVENT_SHOWN        = SDL_EVENT_WINDOW_SHOWN;
+inline constexpr Uint32 CATA_WINDOWEVENT_EXPOSED      = SDL_EVENT_WINDOW_EXPOSED;
+inline constexpr Uint32 CATA_WINDOWEVENT_MINIMIZED    = SDL_EVENT_WINDOW_MINIMIZED;
+inline constexpr Uint32 CATA_WINDOWEVENT_RESTORED     = SDL_EVENT_WINDOW_RESTORED;
+inline constexpr Uint32 CATA_WINDOWEVENT_RESIZED      = SDL_EVENT_WINDOW_RESIZED;
+// SIZE_CHANGED removed in SDL3; use RESIZED instead.
+inline constexpr Uint32 CATA_WINDOWEVENT_FOCUS_LOST   = SDL_EVENT_WINDOW_FOCUS_LOST;
+inline constexpr Uint32 CATA_WINDOWEVENT_FOCUS_GAINED = SDL_EVENT_WINDOW_FOCUS_GAINED;
+#else
+inline constexpr Uint32 CATA_WINDOWEVENT_SHOWN        = SDL_WINDOWEVENT_SHOWN;
+inline constexpr Uint32 CATA_WINDOWEVENT_EXPOSED      = SDL_WINDOWEVENT_EXPOSED;
+inline constexpr Uint32 CATA_WINDOWEVENT_MINIMIZED    = SDL_WINDOWEVENT_MINIMIZED;
+inline constexpr Uint32 CATA_WINDOWEVENT_RESTORED     = SDL_WINDOWEVENT_RESTORED;
+inline constexpr Uint32 CATA_WINDOWEVENT_RESIZED      = SDL_WINDOWEVENT_RESIZED;
+inline constexpr Uint32 CATA_WINDOWEVENT_FOCUS_LOST   = SDL_WINDOWEVENT_FOCUS_LOST;
+inline constexpr Uint32 CATA_WINDOWEVENT_FOCUS_GAINED = SDL_WINDOWEVENT_FOCUS_GAINED;
+#endif
+
+#if SDL_MAJOR_VERSION >= 3
+inline constexpr Uint32 CATA_RENDER_TARGETS_RESET = SDL_EVENT_RENDER_TARGETS_RESET;
+#else
+inline constexpr Uint32 CATA_RENDER_TARGETS_RESET = SDL_RENDER_TARGETS_RESET;
+#endif
+
+// Touch finger ID accessor. SDL3 renames fingerId -> fingerID.
+inline SDL_FingerID GetFingerID( const SDL_Event &ev )
+{
+#if SDL_MAJOR_VERSION >= 3
+    return ev.tfinger.fingerID;
+#else
+    return ev.tfinger.fingerId;
+#endif
+}
+
+// Touch event renames. SDL3: SDL_FINGER* -> SDL_EVENT_FINGER_*.
+#if SDL_MAJOR_VERSION >= 3
+inline constexpr Uint32 CATA_FINGERMOTION = SDL_EVENT_FINGER_MOTION;
+inline constexpr Uint32 CATA_FINGERDOWN   = SDL_EVENT_FINGER_DOWN;
+inline constexpr Uint32 CATA_FINGERUP     = SDL_EVENT_FINGER_UP;
+#else
+inline constexpr Uint32 CATA_FINGERMOTION = SDL_FINGERMOTION;
+inline constexpr Uint32 CATA_FINGERDOWN   = SDL_FINGERDOWN;
+inline constexpr Uint32 CATA_FINGERUP     = SDL_FINGERUP;
+#endif
+
+// SDL3 removes SDL_Keysym from key events: ev.key.keysym.sym -> ev.key.key,
+// ev.key.keysym.mod -> ev.key.mod, ev.key.keysym.scancode -> ev.key.scancode.
+// CataKeysym provides a version-independent accessor.
+struct CataKeysym {
+    SDL_Keycode sym;
+    Uint16 mod;
+    SDL_Scancode scancode;
+};
+CataKeysym GetKeysym( const SDL_Event &ev );
 
 /**
  * Comparison operators which SDL lacks being a C-ish lib.

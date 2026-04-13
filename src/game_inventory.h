@@ -176,6 +176,8 @@ drop_locations unload_container();
 item_location saw_barrel( Character &you, item &tool );
 /** Choosing a gun to saw down its barrel. */
 item_location saw_stock( Character &you, item &tool );
+/** Choosing a gun to use in target_practice activity. */
+item_location pick_target_practice_gun( Character &you );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
 /** Choosing an item to attach to a vehicle tool station. */

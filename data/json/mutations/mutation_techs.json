@@ -504,6 +504,68 @@
   },
   {
     "type": "technique",
+    "id": "TECH_BROAD_PAW_PUNCH",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You smash %s", "<npcname> smashes %s" ],
+    "description": "A basic ursine punch",
+    "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] } },
+    "attack_vectors": [ "vector_broad_paw_punch" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BROAD_PAW_PUNCH_WITH_CLAWS",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You claw %s", "<npcname> claws %s" ],
+    "description": "A basic ursine punch, with claws",
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "attack_vectors": [ "vector_broad_paw_punch" ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BROAD_PAW_CLAW",
+    "name": "Smash",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You viciously claw %s", "<npcname> viciously claws %s" ],
+    "description": "A vicious clawed attack.",
+    "weighting": -2,
+    "attack_vectors": [ "vector_broad_paw_punch" ],
+    "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.25 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "TECH_BROAD_PAW_SMASH_KNOCKBACK",
+    "name": "Smash",
+    "crit_tec": true,
+    "unarmed_allowed": true,
+    "messages": [ "You smash %s with your paw and send them reeling!", "<npcname> smashes %s and sends them reeling!" ],
+    "description": "A vicious smashing attack.",
+    "weighting": -2,
+    "attack_vectors": [ "vector_broad_paw_punch" ],
+    "condition": {
+      "or": [
+        { "math": [ "u_val('size') > n_val('size')" ] },
+        {
+          "and": [ { "math": [ "u_val('size') == n_val('size')" ] }, { "math": [ "u_volume() * 1.25 <= n_volume()" ] } ]
+        }
+      ]
+    },
+    "knockback_dist": 2,
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
     "id": "TECH_WING_SLAP",
     "name": "Wing Slap",
     "crit_ok": true,

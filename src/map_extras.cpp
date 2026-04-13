@@ -1309,6 +1309,7 @@ void map_extra::load( const JsonObject &jo, std::string_view )
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : was_loaded ?
             color : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
+    optional( jo, was_loaded, "see_from_afar", see_from_afar, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_, string_reader{} );
     if( was_loaded && jo.has_member( "extend" ) ) {

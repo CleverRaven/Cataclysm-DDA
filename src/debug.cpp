@@ -399,7 +399,7 @@ static void debug_error_prompt(
 #if defined(TILES)
             case 'c':
             case 'C':
-                SDL_SetClipboardText( formatted_report.c_str() );
+                SetClipboardText( formatted_report );
                 break;
 #endif // TILES
             case 'i':

@@ -21,6 +21,7 @@
   * [Troubleshooting](#mac-os-x-troubleshooting)
 * [Windows](#windows)
   * [Building with Visual Studio](#building-with-visual-studio)
+  * [Building with Visual Studio Code (MSBuild)](#building-with-visual-studio-code-msbuild)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
   * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
@@ -263,7 +264,7 @@ Installation
 sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git 
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
@@ -651,6 +652,22 @@ See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to se
 This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 For an alternative setup using [CMake](../../CMakeLists.txt), please read [COMPILING-CMAKE-VCPKG.md](COMPILING-CMAKE-VCPKG.md).
+
+## Building with Visual Studio Code (MSBuild)
+
+This method uses Visual Studio's MSBuild toolchain without needing to open Visual Studio itself.
+
+### Setup
+
+Follow the instructions in the [Building with Visual Studio](#building-with-visual-studio) section.
+
+### Running a build
+
+1. Open the repository using the `Cataclysm-DDA.code-workspace` file in VS Code. Opening the bare folder is not sufficient, as the workspace file configures the build tasks and settings.
+2. Press **Ctrl+Shift+B** (or go to **Terminal → Run Build Task**) to open the build task picker.
+3. Select the desired configuration.
+
+Build output and errors will appear in the **Terminal** panel.
 
 ## Building with MSYS2
 

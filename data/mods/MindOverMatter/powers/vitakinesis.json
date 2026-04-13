@@ -66,12 +66,12 @@
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)"
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_slow_bleeding') * 95)), 1250)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)"
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_slow_bleeding') * 6.5)), 50)"
       ]
     }
   },

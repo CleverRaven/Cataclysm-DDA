@@ -2215,8 +2215,12 @@ class Character : public Creature, public visitable
          * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
+         * @param now if true, only match candidates that can actually be loaded into obj right now
+         *        (i.e. obj has capacity for them); if false, match any type-compatible candidate
+         *        regardless of current capacity.
          */
-        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1 ) const;
+        std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1,
+                                              bool now = true ) const;
 
         /**
          * Searches for weapons and magazines that can be reloaded.

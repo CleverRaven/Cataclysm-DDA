@@ -1392,10 +1392,7 @@
         },
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      },
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
     "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
@@ -1430,7 +1427,6 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.2 },
-          { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "NIGHT_VIS", "add": 8 },
           { "value": "MELEE_DAMAGE", "multiply": 0.2 },
@@ -1444,10 +1440,7 @@
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      }
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] }
     ],
     "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" }

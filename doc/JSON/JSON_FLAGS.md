@@ -389,9 +389,10 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.
 - ```GLIDING``` You are in the process of gliding.
+- ```HANDS_CANNOT_USE_FIREARMS``` Your hands (or paws, tentacles, etc) are incapable of operating a firearm
 - ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice, and you get the better result.
 - ```HEATSINK``` You are resistant to extreme heat.
-- ```HEAT_IMMUNE``` Immune to very hot temperatures.
+- ```HEAT_IMMUNE``` Immune to very hot temperatures and fire damage.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
@@ -1414,7 +1415,7 @@ See [Character](#character)
 - ```NO_MANIP``` Manipulation score do not affect crafting this recipe
 - ```NO_BENCH``` Workbench bonus or penalty do not apply to this recipe
 - ```NO_ENCHANTMENT``` Enchantment (used in mutations, CBM, effects etc) bonus or penalty do not apply to this recipe
-
+- ```ALWAYS_START_ON_GROUND``` This recipe bypasses asking if you want to start crafting in your arms or on the ground, if you have an item in your hands, and starts crafting on the ground (also ignores picking the crafting table)
 
 ### Crafting recipes
 

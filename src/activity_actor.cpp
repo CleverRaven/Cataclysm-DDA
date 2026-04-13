@@ -66,6 +66,7 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -121,6 +122,7 @@
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "uilist.h"
 #include "uistate.h"
@@ -233,6 +235,7 @@ static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_TARGET_PRACTICE( "ACT_TARGET_PRACTICE" );
 static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
@@ -316,16 +319,22 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
+static const itype_id itype_attachable_ear_muffs( "attachable_ear_muffs" );
+static const itype_id itype_attached_ear_plugs_off( "attached_ear_plugs_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_efile_junk( "efile_junk" );
 static const itype_id itype_efile_photos( "efile_photos" );
+static const itype_id itype_flight_helmet( "flight_helmet" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_makeshift_ear_plugs_off( "makeshift_ear_plugs_off" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_powered_earmuffs( "powered_earmuffs" );
+static const itype_id itype_powered_earplugs( "powered_earplugs" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id
 itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
@@ -337,6 +346,7 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
+static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
@@ -402,6 +412,8 @@ static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const trap_str_id tr_target_spinner( "tr_target_spinner" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
@@ -488,7 +500,8 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
                                    it.tname() );
             it.remove_fault( fault_fail_to_feed );
             it.set_var( "u_know_round_in_chamber", true );
-        } else if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+        } else if( one_in( std::max( 7.0f,
+                                     ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
             who.add_msg_if_player( m_good,
                                    _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
                                    it.tname() );
@@ -4698,6 +4711,522 @@ std::unique_ptr<activity_actor> fish_activity_actor::deserialize( JsonValue &jsi
     data.read( "fishing_zone", actor.fishing_zone );
     data.read( "fishing_rod", actor.fishing_rod );
     data.read( "fishing_duration", actor.fishing_duration );
+
+    return actor.clone();
+}
+
+bool target_practice_activity_actor::check_character( Character &who )
+{
+    if( who.is_blind() ) {
+        who.add_msg_if_player( m_bad,
+                               _( "You need to be able to see for target practice." ) );
+        return false;
+    }
+
+    if( who.cant_do_underwater() ) {
+        who.add_msg_if_player( m_bad,
+                               _( "And how exactly are you planning on doing that underwater?" ) );
+        return false;
+    }
+
+    if( who.is_limb_broken( body_part_arm_l ) && who.is_limb_broken( body_part_arm_r ) ) {
+        who.add_msg_if_player( m_bad,
+                               _( "Both your arms are broken!  You can't do target practice." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_gun( Character &who )
+{
+    const item_location g = game_menus::inv::pick_target_practice_gun( who );
+
+    // check if location is valid
+    if( !g ) {
+        return false;
+    }
+
+    gun_loc = g;
+    return true;
+}
+
+bool target_practice_activity_actor::check_character_and_gun( Character &who )
+{
+
+    if( !who.can_use( *gun_loc ) ) {
+        return false;
+    }
+
+    // todo: move this to pick_target_practice_gun() maybe?
+    // todo2: limb scores boogalo
+    if( who.is_limb_broken( body_part_arm_l ) || who.is_limb_broken( body_part_arm_r ) ) {
+        const bool is_pistol = gun_loc->gun_type() == gun_type_type( "pistol" );
+
+        if( is_pistol ) {
+            who.add_msg_if_player( m_good,
+                                   _( "Even though your arm is broken, you can still get some useful practice with this pistol." ) );
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "Both your arms need to be intact to do target practice with this weapon." ) );
+            return false;
+        }
+    }
+
+    static const std::set<itype_id> transforms_into_hearing_protection = {
+        itype_attachable_ear_muffs,
+        itype_powered_earmuffs,
+        itype_powered_earplugs,
+        itype_flight_helmet,
+        itype_attached_ear_plugs_off,
+        itype_makeshift_ear_plugs_off
+    };
+
+    const bool has_hearing_protection =
+        who.cache_has_item_with( flag_DEAF ) || who.cache_has_item_with( flag_PARTIAL_DEAF ) ||
+    who.has_item_with( [&]( const item & held_item ) {
+        return transforms_into_hearing_protection.count( held_item.typeId() ) > 0;
+    } );
+
+    const bool immune = who.has_flag( json_flag_IMMUNE_HEARING_DAMAGE );
+    const bool gun_is_quiet = gun_loc->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ||
+                              gun_loc->gun_type() == gun_type_type( "bow" ) ||
+                              gun_loc->gun_type() == gun_type_type( "crossbow" );
+
+    if( !has_hearing_protection && !immune && !gun_is_quiet ) {
+        who.add_msg_if_player( m_bad,
+                               _( "You need hearing protection, basic earplugs would do." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_round_qty()
+{
+    number_input_popup<int> popup( 45, 0, _( "How many rounds to fire?" ) );
+    popup.set_description( _( "Enter the number of rounds (500 max):" ) );
+
+    rounds_planned = std::min( popup.query(), 500 );
+
+    if( popup.cancelled() ) {
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::get_trajectory( Character &who )
+{
+    const int range = gun_loc->gun_range();
+    target_handler::trajectory traj = target_handler::mode_select_only( *who.as_avatar(), range );
+
+    if( traj.empty() ) {
+        return false;
+    }
+
+    const tripoint_bub_ms target_local = traj.back();
+
+    target_position = get_map().get_abs( target_local );
+
+    map &here = get_map();
+
+    if( !who.sees( here, target_local ) ) {
+        who.add_msg_if_player( m_bad, _( "You cannot see the target!" ) );
+        return false;
+    }
+
+    if( rl_dist( who.pos_bub(), target_local ) < 5 ) {
+        who.add_msg_if_player( m_bad, _( "You cannot practice shooting if target is this close." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::check_target_valid( Character &who )
+{
+    const int range = gun_loc->gun_range();
+    const int distance = rl_dist( who.pos_abs(), target_position );
+
+    if( distance > range ) {
+        who.add_msg_if_player( m_bad, _( "The target is out of range!" ) );
+        return false;
+    }
+
+    map &here = get_map();
+    const tripoint_bub_ms target_local = here.get_bub( target_position );
+
+    if( !who.sees( here, target_local ) ) {
+        who.add_msg_if_player( m_bad, _( "You cannot see the target!" ) );
+        return false;
+    }
+
+    return true;
+}
+
+void target_practice_activity_actor::start( player_activity &act, Character &who )
+{
+    // if( gun_loc->ammo_remaining() == 0 ) {
+    //     who.add_msg_if_player( m_bad,
+    //                            _( "You need a loaded gun to start target practice." ) );
+    //     return act.set_to_null();
+    //     return;
+    // }
+
+    if( !check_character( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_gun( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !check_character_and_gun( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_round_qty() ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !get_trajectory( who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( !who.is_wielding( *gun_loc ) ) {
+        who.wield( gun_loc );
+        // who.wield() invalidates location, so locate it back
+        gun_loc = who.get_wielded_item();
+    }
+
+    map &here = get_map();
+    tripoint_bub_ms target_local = here.get_bub( target_position );
+    is_spinner_target = ( here.tr_at( target_local ).id == tr_target_spinner );
+
+    if( is_spinner_target ) {
+        who.add_msg_if_player( m_info,
+                               _( "You begin target practice with a spinner target." ) );
+    } else {
+        who.add_msg_if_player( m_info, _( "You begin practicing your marksmanship." ) );
+    }
+
+
+    // Try to employ a follower as a coach
+    const skill_id weapon_skill = gun_loc.get_item()->gun_skill();
+    npc *found_coach = find_coach( who, weapon_skill );
+    if( found_coach ) {
+        coach_id = found_coach->getID();
+        who.add_msg_if_player( m_good, _( "%s offers to coach you during your practice." ),
+                               found_coach->get_name() );
+    }
+
+}
+
+bool target_practice_activity_actor::check_weapon_valid( Character &who )
+{
+    item *gun = gun_loc.get_item();
+    if( !gun ) {
+        who.add_msg_if_player( m_bad, _( "Your weapon is no longer available." ) );
+        return false;
+    }
+
+    if( !who.is_wielding( *gun ) ) {
+        who.add_msg_if_player( m_bad, _( "You aren't holding your weapon anymore." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool target_practice_activity_actor::attempt_reload( Character &who )
+{
+    item *gun = gun_loc.get_item();
+
+    std::vector<item_location> ammo_locs;
+    item_location reload_target = gun_loc;
+
+    // Try to find compatible loaded magazines, or ammo for guns without detachable magazines
+    ammo_locs = who.find_ammo( *gun, false, 3 );
+
+    // Didn't find loaded magazines, try to find loose ammo for the magazine inside the gun
+    if( ammo_locs.empty() && gun->magazine_current() ) {
+        const item *mag = gun->magazine_current();
+        ammo_locs = who.find_ammo( *mag, false, 3 );
+        reload_target = item_location( gun_loc, const_cast<item *>( mag ) );
+    }
+
+    if( ammo_locs.empty() ) {
+        who.add_msg_if_player( m_bad, _( "You ran out of ammunition." ) );
+        return false;
+    }
+
+    item_location ammo_loc = ammo_locs.front();
+    item *ammo = ammo_loc.get_item();
+
+    int quantity_to_reload = reload_target->ammo_capacity( ammo->ammo_type() );
+
+    if( !reload_target->reload( who, ammo_loc, quantity_to_reload ) ) {
+        who.add_msg_if_player( m_bad, _( "Failed to reload." ) );
+        return false;
+    }
+
+    return true;
+}
+
+void target_practice_activity_actor::fire_shot( Character &who, player_activity &act )
+{
+    item *gun = gun_loc.get_item();
+    map &here = get_map();
+    tripoint_bub_ms target_local = here.get_bub( target_position );
+
+    // Simulate max aim
+    who.recoil = 0;
+
+    int shots_fired = who.fire_gun( here, target_local, 1, *gun );
+
+    if( shots_fired > 0 ) {
+        rounds_fired++;
+    } else {
+        // Firing failed, check if it requires player attention to fix
+        // otherwise it's a simple misfire that can be fixed by firing again
+        if( gun->has_fault_of_type( gun_mechanical_simple ) ) {
+            finish( act, who );
+        }
+    }
+}
+
+void target_practice_activity_actor::show_flavor_message( Character &who,
+        float effective_skill ) const
+{
+    if( one_in( 2 ) ) {
+        return;
+    }
+
+    if( effective_skill < 3.0f && one_in( 2 ) ) {
+        who.add_msg_if_player( m_warning,
+                               SNIPPET.random_from_category( "target_practice_novice" ).value_or( translation() ).translated() );
+    } else {
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( "target_practice_common" ).value_or( translation() ).translated() );
+    }
+
+    if( is_spinner_target && one_in( 5 ) ) {
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( "target_practice_spinner" ).value_or( translation() ).translated() );
+    }
+}
+
+npc *target_practice_activity_actor::find_coach( Character &who, const skill_id &weapon_skill )
+{
+    map &here = get_map();
+    const float trainee_marksmanship_skill = who.get_skill_level( skill_gun );
+    const float trainee_weapon_skill = who.get_skill_level( weapon_skill );
+
+    std::vector<npc *> potential_coaches = g->get_npcs_if( [&]( const npc & npc ) {
+        if( !npc.is_player_ally() || !npc.is_following() ) {
+            return false;
+        }
+
+        if( !who.sees( here, npc ) || !npc.sees( here, who ) ) {
+            return false;
+        }
+
+        const float npc_marksmanship_skill = npc.get_skill_level( skill_gun );
+        const float npc_weapon_skill = npc.get_skill_level( weapon_skill );
+
+        return npc_marksmanship_skill > trainee_marksmanship_skill ||
+               npc_weapon_skill > trainee_weapon_skill;
+    } );
+
+    npc *best_coach = nullptr;
+    float best_coach_skill = 0.0f;
+
+    // Find the best coach
+    for( npc *coach : potential_coaches ) {
+        const float coach_skill = coach->get_skill_level( skill_gun ) +
+                                  coach->get_skill_level( weapon_skill );
+        if( coach_skill > best_coach_skill ) {
+            best_coach = coach;
+            best_coach_skill = coach_skill;
+        }
+    }
+
+    return best_coach;
+}
+
+void target_practice_activity_actor::apply_coaching( Character &who,
+        const skill_id &weapon_skill )
+{
+    if( coach_id.is_valid() ) {
+        npc *coach_ptr = g->critter_by_id<npc>( coach_id );
+
+        if( !coach_ptr ) {
+            return;
+        }
+
+        const float coach_marksmanship_skill = coach_ptr->get_knowledge_level( skill_gun );
+        const float coach_weapon_skill = coach_ptr->get_knowledge_level( weapon_skill );
+        const float trainee_marksmanship_skill = who.get_skill_level( skill_gun );
+        const float trainee_weapon_skill = who.get_skill_level( weapon_skill );
+
+        // Scale the XP bonus based on the skill delta between the coach and trainee
+        // 1XP (+20%) for each point of skill difference
+        // For reference, the normal XP gain for 1 shot is 5XP, with a bonus 5XP for hitting a living target
+        const int marksmanship_bonus = std::max( 0,
+                                       static_cast<int>( coach_marksmanship_skill - trainee_marksmanship_skill ) );
+        const int weapon_bonus = std::max( 0,
+                                           static_cast<int>( coach_weapon_skill - trainee_weapon_skill ) );
+
+        if( marksmanship_bonus > 0 ) {
+            who.practice( skill_gun, marksmanship_bonus );
+        }
+        if( weapon_bonus > 0 ) {
+            who.practice( weapon_skill, weapon_bonus );
+        }
+
+        // Show coaching flavour messages every ~10th shot
+        if( !one_in( 10 ) ) {
+            return;
+        }
+
+        const std::string message_category = ( trainee_marksmanship_skill < 2.0f ||
+                                               trainee_weapon_skill < 2.0f )
+                                             ? "target_practice_coaching_beginner" : "target_practice_coaching_advanced";
+        who.add_msg_if_player( m_good,
+                               SNIPPET.random_from_category( message_category ).value_or( translation() ).translated(),
+                               coach_ptr->get_name() );
+    }
+}
+
+void target_practice_activity_actor::apply_skill_modifiers( Character &who,
+        const skill_id &weapon_skill, float effective_skill ) const
+{
+    // Boost XP gain from using spinner target by 2XP (+40%) when you're skilled, and by 0.5XP (+10%) when you're noob
+    // For reference, the normal XP gain for 1 shot is 5XP, with a bonus 5XP for hitting a living target
+    if( is_spinner_target ) {
+        if( effective_skill > 4 ) {
+            who.practice( weapon_skill, 2 );
+            who.practice( skill_gun, 2 );
+        } else if( one_in( 2 ) ) {
+            who.practice( weapon_skill, 1 );
+            who.practice( skill_gun, 1 );
+        }
+    }
+
+    // Give a hint every ~50 shots
+    if( !is_spinner_target && ( effective_skill > 4 ) && one_in( 50 ) ) {
+        who.add_msg_if_player( m_neutral,
+                               _( "At your level, you could benefit from a spinner target to better refine your skills." ) );
+    }
+}
+
+void target_practice_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !check_weapon_valid( who ) ) {
+        finish( act, who );
+        who.add_msg_if_player( m_bad, _( "Your weapon is gone!" ) );
+        return;
+    }
+
+    // Process artificial/flavor delay between shots
+    if( delay_between_shots > 0 ) {
+        const int moves_this_turn = std::min( delay_between_shots, who.get_moves() );
+        delay_between_shots -= moves_this_turn;
+        who.mod_moves( -moves_this_turn );
+        return;
+    }
+
+    // Fired the planned amount of rounds? C'est fini
+    if( rounds_fired >= rounds_planned ) {
+        finish( act, who );
+        return;
+    }
+
+    // Need a reload?
+    item *gun = gun_loc.get_item();
+    if( gun->ammo_remaining() == 0 ) {
+        if( !attempt_reload( who ) ) {
+            who.add_msg_if_player( m_info,
+                                   _( "You finish your target practice session because you've run out of ammo." ) );
+            finish( act, who );
+            return;
+        }
+    }
+
+    if( !check_target_valid( who ) ) {
+        finish( act, who );
+        return;
+    }
+
+    const skill_id &weapon_skill = gun->gun_skill();
+    const float effective_skill = who.get_skill_level( weapon_skill ) +
+                                  ( who.get_skill_level( skill_gun ) * 0.5f );
+    apply_coaching( who, weapon_skill );
+    apply_skill_modifiers( who, weapon_skill, effective_skill );
+    show_flavor_message( who, effective_skill );
+    fire_shot( who, act );
+
+    // Artificial delay between shots; 100 = 1 second
+    constexpr int base_delay = 2000;
+
+    delay_between_shots = base_delay;
+}
+
+void target_practice_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You finish your target practice session." ) );
+    who.add_msg_if_player( m_info, _( "Rounds fired: %d/%d" ), rounds_fired, rounds_planned );
+
+    act.set_to_null();
+}
+
+void target_practice_activity_actor::canceled( player_activity &act, Character &who )
+{
+    finish( act, who );
+}
+
+std::string target_practice_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( rounds_planned >= 0 ) {
+        return string_format( _( "%d / %d rounds" ), rounds_fired, rounds_planned );
+    }
+    return string_format( _( "%d rounds" ), rounds_fired );
+}
+
+void target_practice_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "gun_loc", gun_loc );
+    jsout.member( "target_position", target_position );
+    jsout.member( "rounds_planned", rounds_planned );
+    jsout.member( "rounds_fired", rounds_fired );
+    jsout.member( "delay_between_shots", delay_between_shots );
+    jsout.member( "coach_id", coach_id );
+    jsout.member( "is_spinner_target", is_spinner_target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> target_practice_activity_actor::deserialize( JsonValue &jsin )
+{
+    target_practice_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "gun_loc", actor.gun_loc );
+    data.read( "target_position", actor.target_position );
+    data.read( "rounds_planned", actor.rounds_planned );
+    data.read( "rounds_fired", actor.rounds_fired );
+    data.read( "delay_between_shots", actor.delay_between_shots );
+    data.read( "coach_id", actor.coach_id );
+    data.read( "is_spinner_target", actor.is_spinner_target );
 
     return actor.clone();
 }
@@ -12926,12 +13455,23 @@ void zone_sort_activity_actor::update_other_activity_items()
 void zone_sort_activity_actor::do_turn( player_activity &act, Character &you )
 {
     update_other_activity_items();
+    // Save viewport state before base call. For NPCs, revert_after_activity()
+    // replaces the activity and destroys this actor before returning.
+    const bool had_viewport = viewport_was_active;
+    const int saved_zoom = viewport_saved_zoom;
     zone_activity_actor::do_turn( act, you );
 
     // True completion: activity nulled AND no auto-move destination pending.
     // route_to_destination sets destination before nulling; true end does not.
-    if( act.is_null() && !you.has_destination() && viewport_was_active ) {
-        restore_viewport( you );
+    // Use saved locals since this may be destroyed.
+    if( act.is_null() && !you.has_destination() && had_viewport ) {
+        if( !test_mode ) {
+            g->set_zoom( saved_zoom );
+            g->mark_main_ui_adaptor_resize();
+        }
+        if( you.is_avatar() ) {
+            you.as_avatar()->zone_sort_viewport = {};
+        }
     }
 }
 
@@ -14238,6 +14778,7 @@ deserialize_functions = {
     { ACT_START_FIRE, &fire_start_activity_actor::deserialize },
     { ACT_STASH, &stash_activity_actor::deserialize },
     { ACT_STUDY_SPELL, &study_spell_activity_actor::deserialize },
+    { ACT_TARGET_PRACTICE, &target_practice_activity_actor::deserialize },
     { ACT_TENT_DECONSTRUCT, &tent_deconstruct_activity_actor::deserialize },
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TOOLMOD_ADD, &toolmod_add_activity_actor::deserialize },

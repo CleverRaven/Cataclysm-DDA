@@ -3,14 +3,14 @@
     "type": "attack_vector",
     "id": "vector_bear_bite",
     "limbs": [ "muzzle_bear" ],
-    "contact_area": [ "mouth_lips" ],
+    "contact_area": [ "muzzle_bear_lips" ],
     "encumbrance_limit": 1
   },
   {
     "type": "attack_vector",
     "id": "vector_lupine_bite",
     "limbs": [ "muzzle_lupine" ],
-    "contact_area": [ "mouth_lips" ],
+    "contact_area": [ "muzzle_lupine_lips" ],
     "encumbrance_limit": 1
   },
   {
@@ -60,6 +60,12 @@
     "id": "vector_crab_pincer",
     "limbs": [ "crustacean_pincer_r" ],
     "contact_area": [ "crustacean_pincer_claws_r" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_broad_paw_punch",
+    "limbs": [ "paw_broad_l", "paw_broad_r" ],
+    "contact_area": [ "paw_broad_fingers_l", "paw_broad_fingers_r" ]
   },
   {
     "type": "attack_vector",

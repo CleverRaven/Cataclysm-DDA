@@ -118,7 +118,7 @@
     "type": "mutation",
     "id": "PAWS_LARGE",
     "name": { "str": "Broad Paws" },
-    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
+    "description": "Your paws are much larger now.  Manual dexterity is difficult: you have a penalty to your grip and manipulation scores, serious problems crafting, and can't wear gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
     "category": [ "BEAST", "URSINE" ],
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
@@ -129,7 +129,7 @@
     "visibility": 4,
     "ugliness": 3,
     "flags": [ "QUADRUPED_CROUCH" ],
-    "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [
       [ "electronics", -4 ],
       [ "tailor", -4 ],
@@ -141,8 +141,12 @@
       [ "cooking", -2 ],
       [ "survival", -2 ]
     ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "enchantments": [ "ench_quadruped_movement_half" ],
+    "enchantments": [
+      "ench_quadruped_movement_half",
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_broad_l" }, { "gain": "paw_broad_r" } ]
+      }
+    ],
     "triggers": [
       [
         {

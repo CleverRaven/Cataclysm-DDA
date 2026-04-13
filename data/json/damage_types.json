@@ -150,7 +150,7 @@
     "magic_color": "red",
     "name": { "ctxt": "damage_type", "str": "fire" },
     "material_required": true,
-    "immune_flags": { "character": [ "HEAT_IMMUNE" ] }
+    "immune_flags": { "character": [ "HEAT_IMMUNE" ], "monster": [ "FIREPROOF" ] }
   },
   {
     "id": "heat",
