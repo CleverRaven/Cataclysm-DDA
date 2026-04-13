@@ -2799,7 +2799,7 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
                                     _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),
                                     c.pos_om.to_string(), c.pos.to_string() ),
                                 //~ "pop" refers to population count
-                                string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
+                                string_format( _( "(pop <color_white>%d</color>)" ), c.population ) );
             cities_menu.entries.emplace_back( entry );
         }
     }

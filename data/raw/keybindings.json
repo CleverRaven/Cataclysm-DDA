@@ -1819,6 +1819,30 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_NAME",
+    "name": "Change name",
+    "bindings": [ { "input_method": "keyboard_char", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_AGE",
+    "name": "Change age",
+    "bindings": [ { "input_method": "keyboard_char", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_BLOOD_TYPE",
+    "name": "Change blood type",
+    "bindings": [ { "input_method": "keyboard_char", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_HEIGHT",
+    "name": "Change height",
+    "bindings": [ { "input_method": "keyboard_char", "key": "h" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
@@ -1857,35 +1881,30 @@
   {
     "type": "keybinding",
     "id": "SAVE_TEMPLATE",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Save template",
     "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "REROLL_CHARACTER",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reroll random character",
     "bindings": [ { "input_method": "keyboard_char", "key": "%" }, { "input_method": "keyboard_code", "key": "5", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "REROLL_CHARACTER_WITH_SCENARIO",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reroll random character with scenario",
     "bindings": [ { "input_method": "keyboard_char", "key": "^" }, { "input_method": "keyboard_code", "key": "6", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE_CHAR_NAME",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Pick random character name",
-    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Pick random character description",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
@@ -1896,37 +1915,32 @@
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_CATACLYSM",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change Cataclysm start date",
     "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHANGE_START_OF_GAME",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Change game start date",
     "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "RESET_CALENDAR",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Reset scenario calendar",
     "bindings": [ { "input_method": "keyboard_char", "key": "~" }, { "input_method": "keyboard_code", "key": "`", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHOOSE_CITY",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character starting city",
     "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "CHOOSE_LOCATION",
-    "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character starting location",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": ":" } ]
   },
   {
     "type": "keybinding",

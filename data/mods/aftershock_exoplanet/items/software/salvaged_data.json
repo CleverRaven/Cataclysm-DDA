@@ -1,0 +1,99 @@
+[
+  {
+    "abstract": "afs_software_materialized",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "chems",
+    "name": { "str": "Software Materialized", "//~": "NO_I18N" },
+    "looks_like": "c4armed",
+    "description": { "str": "I'd be great if this was actually software, but NPCs cant trade that yet.", "//~": "NO_I18N" },
+    "weight": "10 g",
+    "volume": "5 ml",
+    "price": "2 USD",
+    "to_hit": -5,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red"
+  },
+  {
+    "id": "ruin_data_0",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "corrupted data" },
+    "description": "Entropy has created a jumbled mess nearly impossible to distinguish from noise.  This is useless useless.",
+    "price": "0 USD",
+    "price_postapoc": "0 USD"
+  },
+  {
+    "id": "ruin_data",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "ruin data archive" },
+    "description": "A compressed archive of data salvaged from non-particularly remarkable ruins.  Most of the files seem to be personal documents, media and a work related correspondence.  Nothing of great value, but perhaps useful to an historian or archivist.",
+    "price": "25 USD",
+    "price_postapoc": "25 USD"
+  },
+  {
+    "id": "ruin_data_encrypted",
+    "copy-from": "abstract_software",
+    "type": "ITEM",
+    "name": { "str_sp": "encrypted data archive" },
+    "description": "An encrypted archive copied from pre-Discontinuity ruins, its effectively impossible to access and thus worthless.  Eccentrics might claim an ability to gain useful knowledge from these files, but such methods are more related to augury than to computer science.",
+    "price": "2 USD",
+    "price_postapoc": "2 USD"
+  },
+  {
+    "id": "ruin_data_collapse",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "colony collapse data" },
+    "description": "Logs and reports that describe the gradual decline of Salus IV after the Discontinuity.  There was no hope of long-term survival here, and the colonist knew it.",
+    "price": "120 USD",
+    "price_postapoc": "120 USD"
+  },
+  {
+    "id": "ruin_data_decryption_keys",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "decryption keys" },
+    "description": "A large set of orphaned decryption keys from before the Discontinuity.  A data salvager might buy these in hopes of recovery something of value, but the odds of that are very low.",
+    "price": "50 USD",
+    "price_postapoc": "50 USD"
+  },
+  {
+    "id": "ruin_data_space_currents",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "astrocartographic data" },
+    "description": "Detailed measurements of gravitational distortion around the Salus system.  Although the data is outdated by several centuries, it remains an useful base for the extrapolation of current conditions.",
+    "price": "400 USD",
+    "price_postapoc": "400 USD"
+  },
+  {
+    "id": "ruin_data_holo",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "lost holo" },
+    "description": "The archive contains a preserved copy of a full-immersion holofilm thought to be lost.  It feels unremarkable, but a bounty exist for its recovery.",
+    "price": "100 USD",
+    "price_postapoc": "1000 USD"
+  },
+  {
+    "id": "ruin_data_geoengineering",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "geoengineering data" },
+    "description": "A collection of data related to the various geoengineering projects undertaken before the collapse of Salus's IV colony.",
+    "price": "2500 USD",
+    "price_postapoc": "2500 USD"
+  },
+  {
+    "id": "ruin_data_mercurial_id",
+    "copy-from": "afs_software_materialized",
+    "type": "ITEM",
+    "name": { "str_sp": "ancient Mercurial ID codes" },
+    "description": "A set of ancient identification codes used by Mercurial Genomics.  These belonged to a colonial administrator, and might allow access to the remnants of Salus IV's corporate systems.",
+    "price": "7500 USD",
+    "price_postapoc": "7500 USD"
+  }
+]

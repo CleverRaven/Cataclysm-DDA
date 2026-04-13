@@ -415,7 +415,7 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
     if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
         // Put value before label to ensure the screen reader reads the label when the value changes
         return string_format( "%s | %s %s, %s %s, %s %s, %s %s, %s %s",
-                              _( "Summary" ),
+                              _( "Rating:" ),
                               genetics, _( "Lifestyle" ),
                               expertise, _( "Knowledge" ),
                               combat, _( "Offense" ),
@@ -423,7 +423,7 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
                               socials, _( "Social" ) );
     } else {
         return string_format( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s",
-                              _( "Summary" ),
+                              _( "Rating:" ),
                               _( "Lifestyle" ), genetics,
                               _( "Knowledge" ), expertise,
                               _( "Offense" ), combat,
