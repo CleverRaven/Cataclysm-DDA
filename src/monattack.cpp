@@ -3858,6 +3858,10 @@ bool mattack::tindalos_teleport( monster *z )
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub( here );
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub( here ), 4 ) ) {
+            // Only teleports to same z-level
+            if( dest.z() != z->pos_bub( here ).z() ) {
+                continue;
+            }
             if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( here, dest );
