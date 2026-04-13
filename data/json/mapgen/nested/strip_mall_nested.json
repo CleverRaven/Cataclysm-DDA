@@ -3131,7 +3131,7 @@
         "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "b": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "g": "t_laminated_glass",
-        "G": "t_window_bars_alarm",
+        "G": "t_window_bars",
         "X": "t_door_metal_pickable",
         "x": "t_door_bar_locked",
         "s": "t_sidewalk",

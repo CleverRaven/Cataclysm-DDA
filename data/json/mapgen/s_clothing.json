@@ -582,7 +582,7 @@
         "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
-        "0": "t_window_alarm",
+        "0": "t_window",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
         "=": "t_wall_glass",

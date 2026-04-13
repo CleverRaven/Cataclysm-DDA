@@ -76,14 +76,14 @@
     "id": "domestic_alarm_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Makes all doors & windows have alarms",
     "terrain": {
-      "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
-      ":": "t_wall_glass_alarm",
+      "*": [ [ "t_door_locked", 2 ], [ "t_door_elockedm", 2 ] ],
+      ":": "t_wall_glass",
       "o": [
-        [ "t_window_domestic_alarm", 10 ],
-        "t_window_no_curtains_alarm",
-        "t_window_open_alarm",
-        "t_window_no_curtains_open_alarm",
-        [ "t_curtains_alarm", 5 ]
+        [ "t_window_domestic", 10 ],
+        "t_window_no_curtains",
+        "t_window_open",
+        "t_window_no_curtains_open",
+        [ "t_curtains", 5 ]
       ]
     }
   },
@@ -222,10 +222,8 @@
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "*": [
         [ "t_door_locked_peep", 2 ],
-        "t_door_locked_alarm",
         [ "t_door_locked", 10 ],
         [ "t_door_elocked_peep", 4 ],
-        "t_door_elocked_alarm",
         [ "t_door_elocked", 15 ],
         "t_door_c",
         [ "t_door_o", 2 ]

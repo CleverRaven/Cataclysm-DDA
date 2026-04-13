@@ -51,7 +51,7 @@
         "^": "t_chaingate_l",
         "_": "t_pavement",
         "~": "t_thconc_floor",
-        "h": "t_wall_glass_alarm",
+        "h": "t_wall_glass",
         "4": "t_gutter_downspout"
       },
       "furniture": {

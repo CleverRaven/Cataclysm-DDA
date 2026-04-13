@@ -3,9 +3,9 @@
     "type": "palette",
     "id": "fabric_store_pallete",
     "terrain": {
-      ";": [ "t_door_locked", "t_door_elocked_alarm" ],
+      ";": [ "t_door_locked", "t_door_elocked" ],
       "i": "t_door_locked_interior",
-      "0": "t_window_alarm",
+      "0": "t_window",
       "z": "t_region_shrub_decorative",
       "p": "t_region_groundcover_urban"
     },

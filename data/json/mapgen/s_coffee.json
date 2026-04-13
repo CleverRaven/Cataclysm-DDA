@@ -58,7 +58,7 @@
         "w": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "+": "t_door_c",
-        "3": [ "t_door_locked", "t_door_locked_alarm" ],
+        "3": [ "t_door_locked" ],
         "I": "t_door_locked_interior",
         "O": "t_window",
         "V": "t_wall_glass",

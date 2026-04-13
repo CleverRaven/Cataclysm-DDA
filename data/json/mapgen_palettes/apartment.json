@@ -184,7 +184,7 @@
       "-": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
       " ": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-      "D": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_boarded" ],
+      "D": [ [ "t_door_locked_peep", 2 ], [ "t_door_locked_interior", 10 ], "t_door_boarded" ],
       "%": "t_grate",
       "H": "t_ladder_up_down",
       "=": "t_door_metal_c",

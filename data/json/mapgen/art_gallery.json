@@ -34,7 +34,7 @@
       "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
-        "-": "t_wall_glass_alarm",
+        "-": "t_wall_glass",
         ".": "t_floor",
         "1": "t_region_tree",
         "4": "t_region_tree_evergreen",
@@ -108,7 +108,7 @@
       "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
-        "-": "t_wall_glass_alarm",
+        "-": "t_wall_glass",
         ".": "t_floor",
         "1": "t_region_tree",
         "4": "t_region_tree_evergreen",

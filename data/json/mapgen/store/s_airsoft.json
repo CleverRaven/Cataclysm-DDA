@@ -40,11 +40,11 @@
         "-": "t_sidewalk",
         ",": "t_thconc_floor",
         "+": [ [ "t_door_o", 1 ], [ "t_door_c", 2 ] ],
-        "*": [ [ "t_door_locked_alarm", 3 ], [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
+        "*": [ [ "t_door_locked", 3 ], [ "t_door_c", 2 ], [ "t_door_o", 1 ] ],
         "^": "t_gutter_downspout",
         "Ŧ": "t_chainfence",
         "ɤ": "t_chaingate_c",
-        "o": "t_window_alarm",
+        "o": "t_window",
         "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },

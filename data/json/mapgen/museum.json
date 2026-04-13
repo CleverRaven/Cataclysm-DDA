@@ -40,8 +40,8 @@
         "R": "t_column",
         "s": "t_concrete",
         ".": "t_region_groundcover_urban",
-        "5": "t_wall_glass_alarm",
-        "L": "t_door_locked_alarm",
+        "5": "t_wall_glass",
+        "L": "t_door_locked",
         "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },

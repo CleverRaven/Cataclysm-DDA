@@ -211,7 +211,7 @@
         "c": "t_chainfence",
         "d": "t_region_soil",
         "s": "t_sidewalk",
-        "w": "t_wall_glass_alarm",
+        "w": "t_wall_glass",
         "4": "t_gutter_downspout"
       }
     },

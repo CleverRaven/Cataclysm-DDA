@@ -71,7 +71,7 @@
     "required_str": -1,
     "move_cost_mod": -1,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
     "deconstruct": {
       "items": [
         { "item": "small_lcd_screen", "count": 1 },

@@ -60,9 +60,7 @@
       "!": [
         [ "t_door_locked_peep", 3 ],
         [ "t_door_elocked_peep", 5 ],
-        "t_door_locked_alarm",
         [ "t_door_elocked", 10 ],
-        "t_door_elocked_alarm",
         [ "t_door_locked", 10 ],
         "t_door_c"
       ],

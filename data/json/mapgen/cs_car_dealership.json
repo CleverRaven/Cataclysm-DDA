@@ -41,7 +41,7 @@
         "l": "t_door_locked_interior",
         "+": "t_door_c",
         "$": "t_chainfence",
-        "O": "t_window_alarm",
+        "O": "t_window",
         "=": "t_chaingate_l",
         "~": "t_chaingate_c",
         "D": "t_pavement",

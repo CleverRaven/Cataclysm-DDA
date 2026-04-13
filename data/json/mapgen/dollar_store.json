@@ -185,7 +185,7 @@
         "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "*": "t_door_c",
-        "-": "t_wall_glass_alarm",
+        "-": "t_wall_glass",
         ".": "t_floor",
         " ": "t_region_groundcover_urban",
         "p": "t_region_groundcover_urban",

@@ -9,7 +9,7 @@
       "S": "t_linoleum_gray",
       "T": "t_linoleum_gray",
       "'": "t_linoleum_gray",
-      "=": "t_door_locked_alarm",
+      "=": "t_door_locked",
       "-": "t_door_locked",
       "O": "t_column",
       "^": "t_region_shrub_decorative",

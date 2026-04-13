@@ -173,7 +173,7 @@
         "-": [ "t_strconc_wall" ],
         ",": [ "t_strconc_floor" ],
         "Q": [ "t_strconc_floor" ],
-        "=": [ "t_door_locked_alarm" ],
+        "=": [ "t_door_locked" ],
         "D": [ "t_reinforced_door_glass_c" ],
         "G": [ "t_chaingate_l" ],
         "L": [ "t_pavement_y" ],

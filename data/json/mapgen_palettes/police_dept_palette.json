@@ -5,7 +5,7 @@
     "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "+": "t_door_c",
-      "L": [ [ "t_door_locked_alarm", 5 ], [ "t_door_locked_interior", 20 ], [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
+      "L": [ [ "t_door_locked_interior", 20 ], [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
       "f": "t_chainfence",
       "g": [ [ "t_chaingate_c", 1 ], [ "t_chaingate_l", 5 ] ],
       "s": "t_concrete",

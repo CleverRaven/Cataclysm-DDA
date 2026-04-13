@@ -17,9 +17,6 @@
   {
     "type": "palette",
     "id": "mil_surplus",
-    "parameters": {
-      "window_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_window", 1 ], [ "t_window_alarm", 1 ] ] } }
-    },
     "terrain": {
       ".": "t_region_groundcover_urban",
       "[": "t_region_groundcover_urban",
@@ -29,7 +26,7 @@
       "_": "t_linoleum_white",
       "&": "t_linoleum_white",
       "%": "t_linoleum_white",
-      "'": { "param": "window_type", "fallback": "t_window" },
+      "'": "t_window",
       "+": "t_door_c",
       "!": "t_door_locked",
       "/": "t_door_curtain_c",

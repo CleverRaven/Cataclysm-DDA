@@ -40,7 +40,7 @@
         "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "*": "t_door_c",
-        "?": "t_door_locked_alarm",
+        "?": "t_door_locked",
         "+": "t_door_locked",
         "%": "t_door_metal_c",
         ",": "t_sidewalk",
@@ -63,7 +63,7 @@
         "R": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "v": "t_dirt",
-        "w": "t_window_alarm",
+        "w": "t_window",
         "W": "t_water_dispenser",
         "Й": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "Ф": "t_chaingate_l"
