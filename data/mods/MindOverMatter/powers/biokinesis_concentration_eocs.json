@@ -107,7 +107,7 @@
         "run_eocs": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
         "time_in_future": [
           { "math": [ "( (u_spell_level('biokin_physical_enhance') * 15) + 90) * psionic_power_modifiers()" ] },
-          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * (psionic_power_modifiers()" ] }
+          { "math": [ "( (u_spell_level('biokin_physical_enhance') * 90) + 450) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -338,7 +338,7 @@
         "run_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
         "time_in_future": [
           { "math": [ "( (u_spell_level('biokin_hammerhand') * 450) + 1800) * psionic_power_modifiers()" ] },
-          { "math": [ "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * (psionic_power_modifiers()" ] }
+          { "math": [ "( (u_spell_level('biokin_hammerhand') * 750) + 5400) * psionic_power_modifiers()" ] }
         ]
       }
     ],
