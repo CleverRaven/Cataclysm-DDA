@@ -61,8 +61,8 @@
     "variants": [
       {
         "id": "modular_h&k416a5",
-        "name": { "str": "H&K416 A5 rifle" },
-        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+        "name": { "str": "H&K HK416 A5 rifle" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416 A5 features most of the former's strengths, while being considerably more durable."
       },
       {
         "id": "modular_m27iar",
