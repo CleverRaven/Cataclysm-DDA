@@ -389,15 +389,15 @@
         "melee_damage_bonus": [
           {
             "type": "bash",
-            "multiply": { "math": [ "( ( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
           },
           {
             "type": "cut",
-            "multiply": { "math": [ "( ( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
           },
           {
             "type": "stab",
-            "multiply": { "math": [ "( ( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
           }
         ],
         "values": [
