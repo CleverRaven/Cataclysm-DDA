@@ -10,16 +10,8 @@
       {
         "run_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_slow_bleeding') * 18) + 290) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_slow_bleeding') * 18) + 290) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -65,16 +57,8 @@
       {
         "run_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_slow_bleeding') * 18) + 290) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_slow_bleeding') * 18) + 290) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_slow_bleeding') * 163) + 1174) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -93,12 +77,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 21) + 354) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 21) + 354) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 298) + 1550) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 298) + 1550) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -134,12 +118,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 21) + 354) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 21) + 354) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 298) + 1550) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_health_power') + u_spell_level('vita_health_power_knack') ) * 298) + 1550) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -162,12 +146,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 73) + 463) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 73) + 463) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 284) + 1034) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 284) + 1034) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -177,12 +161,12 @@
         "time_in_future": [
           {
             "math": [
-              "3600 - ( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+              "3600 - ( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 60) * psionic_power_modifiers())"
             ]
           },
           {
             "math": [
-              "3600 - ( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+              "3600 - ( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 60) * psionic_power_modifiers())"
             ]
           }
         ]
@@ -235,7 +219,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -259,7 +243,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -282,7 +266,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -305,7 +289,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -328,7 +312,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -351,7 +335,7 @@
         "duration": "PERMANENT",
         "intensity": {
           "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
       }
@@ -387,12 +371,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 73) + 463) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 73) + 463) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 284) + 1034) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 284) + 1034) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -413,12 +397,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 48) + 1148) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 48) + 1148) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 311) + 2834) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 311) + 2834) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -465,12 +449,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 48) + 1148) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 48) + 1148) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 311) + 2834) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( ( (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') ) * 311) + 2834) * psionic_power_modifiers()"
             ]
           }
         ]
@@ -489,15 +473,9 @@
       {
         "run_eocs": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_DRAIN",
         "time_in_future": [
+          { "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * psionic_power_modifiers()" ] },
           {
-            "math": [
-              "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
+            "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * psionic_power_modifiers()" ]
           }
         ]
       }
@@ -534,15 +512,9 @@
       {
         "run_eocs": "EOC_VITAKIN_NO_NEED_FOR_SLEEP_DRAIN",
         "time_in_future": [
+          { "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * psionic_power_modifiers()" ] },
           {
-            "math": [
-              "( ( u_spell_level('vita_no_need_for_sleep') * 210.00) + 1950.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
-            ]
+            "math": [ "( ( u_spell_level('vita_no_need_for_sleep') * 590.00) + 4180.00) * psionic_power_modifiers()" ]
           }
         ]
       }
@@ -560,31 +532,15 @@
       {
         "run_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
         "time_in_future": [
-          {
-            "math": [
-              "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 17) "
-            ]
-          },
-          {
-            "math": [
-              "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 28) "
-            ]
-          }
+          { "math": [ "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * psionic_power_modifiers()), 17) " ] },
+          { "math": [ "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * psionic_power_modifiers()), 28) " ] }
         ]
       },
       {
         "run_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_super_heal') * 29) + 146) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_super_heal') * 110) + 372) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_super_heal') * 29) + 146) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_super_heal') * 110) + 372) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -611,16 +567,8 @@
       {
         "run_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_super_heal') * 29) + 146) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_super_heal') * 110) + 372) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_super_heal') * 29) + 146) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_super_heal') * 110) + 372) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -638,16 +586,8 @@
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_return_from_death') * 962) + 3978) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_return_from_death') * 962) + 3978) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * psionic_power_modifiers()" ] }
         ]
       }
     ],
@@ -681,16 +621,8 @@
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
-          {
-            "math": [
-              "( (u_spell_level('vita_return_from_death') * 962) + 3978) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          },
-          {
-            "math": [
-              "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-            ]
-          }
+          { "math": [ "( (u_spell_level('vita_return_from_death') * 962) + 3978) * psionic_power_modifiers()" ] },
+          { "math": [ "( (u_spell_level('vita_return_from_death') * 2819) + 12360) * psionic_power_modifiers()" ] }
         ]
       }
     ],
