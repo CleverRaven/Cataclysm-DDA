@@ -408,7 +408,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "name": { "str": "sewing machine" },
-    "description": "An absolutely essential tool for any modern tailor.  It needs to be plugged into a grid but will greatly speed up any tailoring project as long as its powered.",
+    "description": "An absolutely essential tool for any modern tailor.  It works much faster than manual tailoring tools, but it must be plugged into a power grid to function.",
     "//": "Based on https://www.singer.com/products/singer-heavy-duty-4452-sewing-machine",
     "symbol": ">",
     "color": "red",
