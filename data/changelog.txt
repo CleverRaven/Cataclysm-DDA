@@ -6,10 +6,10 @@
 
 
 ## Features:
-Toggle to highlight OMTs revealed by maps
+Toggle to highlight areas revealed by using map items
 [Mods] Non NE region mods have different day/night times dependant on their setting
 add a profession condition for EOCs
-Introduces dormant zombies and associated mechanics. They spawn in mass graves in limited numbers for now
+Introduces dormant zombies and associated mechanics
 Adds treetops and makes trees climbable
 Allow bird wings to glide
 Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
@@ -107,7 +107,7 @@ Add a new appliance, the glassblower's crucible
 Adds whispering fungi to fungi zombie mongroup.
 Add persistent boomer bile effect that causes a stench and skin irritation
 Add new hairstyles from the Mod Mawranth's Hair Salon
-Implement basic saline infusion to help with blood loss
+Implement saline infusion kits to help combat hypovolemic shock
 Hub now offers armor set printing after HWP is unlocked
 Lockets can store photographs
 Add diet soda, because screw your free calories!
@@ -115,7 +115,6 @@ Addition of many new books, from religious texts to magazines, mainly for fluff 
 Modularize Desert Eagle, add .50 AE
 Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants
 Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
-JSONize Electrohack Tool
 Add streams to map generation
 Added ASCII art for most containers
 Adds new jewelry such as cowrie necklaces and various types of hair beads.
@@ -143,14 +142,15 @@ Adds a significant amount of extra dialogue and conditionals to Isherwood
 Add a new high danger Yrax construct
 Add poultry meat
 Adds ASCII Art to 619 items
-Created Map Extra that spawns monsters from the Group_Worm
+More variety for worm-like monsters spawning in the wild
 Adds a lot of mission-specific and chat/small-talk dialogue to Liam (Friends to the End scenario)
 Adds still more mission-specific dialogue for Liam (Friends to the End)
+Exoskeletons are now modular and have multiple types
 Add XL and XS versions for french maid clothes/aprons/hats
 Add a variety of new fridges and freezers, and update the stats of the old ones
 New portal monsters: unviable life forms
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
-Adds a new  globally unique special to spawn in the ocean: an Oil Platform !
+Adds a new  globally unique special to spawn in the ocean: an oil platform!
 Overhaul and flesh out Barry Isherwood's rescue mission
 Prepper Militia Community
 Add Snow Cones and Snow Machines
@@ -162,6 +162,7 @@ Add murky water, make regular water safer
 Adds a variety of marine plants.
 Adds bench vise
 Full auto 10/22s
+Random crater explosions have been removed from the game
 Adds a new item and recipe to produce fish emulsion from fish, sugars, and water aerobically
 Add Serum 48x-"Locutus" (Regeneration serum)
 Add Vitamin Cost to mutations
@@ -182,10 +183,9 @@ Added apiary overmap tile to farm generation
 Add Variable Snippets for Home Pictures
 More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
-Add game screenshots to data/screenshots
 Superglue Overhaul
-Added a way to fix cyborgs at rubic's castle
-Added mashed potatoes.
+Added a way to fix cyborgs at the Exodii base
+Added mashed potatoes
 Allow cephalopods to gain the ability to eat, sleep underwater
 Alpha Social trait
 A few new reptiles to populate the world
@@ -194,12 +194,12 @@ Make dermatik pregnancy and birth suck significantly more
 Add painkiller eyedrops
 Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
-Adds a new stationary fungal variant.
+Adds a new stationary fungal variant
 Adds a new fungus infested mapgen
-Adds new end screen for thresh types, and a unique one.
+Adds new end screen for mutation tresholds, and a unique one
 Fungal brute and hulk, more fungalized stages for other zombies
 Massive expansion of dialogues and messages for various categories
-Add a random NPC class that knows how to fly
+Add a random recruitable NPC class that knows how to pilot helicopters, they may be switched to if player doesn't know how to fly
 Adds in new .357, .44, and .22 LR lever-action rifles
 More carpet colors
 Beds are draggable
@@ -213,7 +213,6 @@ Walls now have a chance of having graffiti on them
 The walls of most buildings vary more
 New scenario: Moonlit Night
 Added chokeberries and spicebush
-Add dormant zombies to more locations
 Add tupelo and nannyberry,  hobblebush and autumn olive trees
 New exodii rifle
 Remade the 3x3 hospital
@@ -224,7 +223,7 @@ Add an new plasma gun for sale by the Exodii
 Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes
 Add the menorah and small candles to put in it
-Adds three new lore log snippets for the player to find in smartphones or laptops
+Adds more new lore log snippets for the player to find in smartphones or laptops
 Add an electric rechargeable lighter
 Adds marshmallow fluff and fluffernutters
 Add radishes and seeds
@@ -241,18 +240,16 @@ Added a new 2x1 house
 More types of monster spawn in basements
 Most toilets now have toilet supplies
 Add 2 new social practice recipes
-FEMA camps are now mutables
+Larger, more varied FEMA camps
 Added a new fast food restaurant with drive-through
 Improves/adds missions, rewards and interactions with the New England Community Church
 Military outposts have been revamped
 Adds a new nether monster: Eldritch Huntsman
-Snippetize Tshirt variants
-Exodii Ceramics
 Add Arab and Islamic clothes for women
 Adds a few other scavengeable options for anvils
 Add buildable sturdy wooden shutters for your windows
 Add a sunken helicopter location
-Nuclear Power Plant upgrade
+Nuclear power plant location now has an extensive basement
 Add 3 new guns (308 Model 700, .22 Savage Rascal, .32 LWS)
 
 
@@ -268,13 +265,13 @@ Show NEW! in List Items menu
 Adding spell name to the in-progress casting widget
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
-Display RAS weapon reload time in aim ui
+Display bow reload time in aim UI
 Warn on setting an auto feature when auto features are off
 Show actual real-world distance to mission objective
 Add selection menu for cosmetic traits in character creation
 Adds message for NPCs completing crafting so it doesn't reference the player incorrectly.
 Add the 12-bit rainbow as color palette option
-NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
+NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window
 Prevent automatically assigning keys to passive bionics
 Prevent automatically assigning keys to passive mutations
 Zone Manager: "Show All / Hide Distant" highlights selection
@@ -283,10 +280,9 @@ Addiction withdrawals are a toggleable distraction
 Select CC-Sounds as default soundpack if it's present on first run
 Migrate uilist implementation to use ImGui
 Allow ebooks in read command
-Make ImTui render text as text, so that the players can read our spiffy new menus
 Toggle to only draw overmap during autotravel
 Mouse input in uilists does not block keyboard navigation
-Add imgui version of the iteminfo window
+Iteminfo window migrated to ImGui
 Updated default keybindings for changing start dates in character creation menu
 Rewrite the loading screen to use ImGui
 Custom loading screen the game deserves
@@ -295,19 +291,14 @@ Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Only list non-zero damage types on melee weapons
 Misc. improvements to NPC goto-location options
 Repeat survey missions without leaving the interface
-Add daily health widget
+Add a daily health sidebar widget
 Add labels to structured sidebar tiny bodygraphs
 Use Freetype to render fonts for ImGui, and use multiple fonts in the ImGui interface
-Wrap the text in the menu for choosing your new faction camp type
 Missions track when they were completed/failed
 Option to set all of a companion's job priorities at once
-The mission UI can scroll to read longer description
 Added information to crafting menu about crafting speed modifier gained by mutations
-Improved text wrapping in spellbook and spellcasting menus
 Camp crafting uses the normal crafting GUI
 Display the power draw of battery chargers
-Increased available space for skills chapter in description tab of character creation menu
-ImGui inherits theme colors
 Sidebar widget to show faction territory
 Allow fine user customization of ImGui colors
 Migrate scores window to imgui
@@ -320,25 +311,20 @@ Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 Migrate compare item menu to imgui
 Better skill requirement UI for martial arts
-Scale spell window to spell list and terminal size
 Add recast last spell (Repeat last supernatural ability)
 Specify which parts you can connect to in extension cord prompt
 Make font-hinting user-configurable
 Set minimum sizes for missions menu UI
-Fix compact aim window
-Fix NPC rules window scaling for small terminal sizes
 Add history to Construction Search
 Load all of the user’s chosen font files as fallbacks for ImGui to use
 Extended description window (x->e) shows potential deconstruction and bash yields
 Focus the default selection in query popups
 Zone manager will expand to match a wider sidebar.
-Add numpad keybinds for panning uilists
 Add options to sort item list by item name
 Dont show liquids from held or worn container
 Move camp-specific recipes to their own category
 Add option to disable mouse
-Add "in use" info to item's name and info if item has "activity_var" var.
-Create a terminal-like default theme for Imgui
+Add "in use" info to item's name if the item has been reserved by an NPC for camp work
 Add NPC faction and NPC omt location to mission entries
 Describe stat level in new character window
 
@@ -687,7 +673,7 @@ Allow Motorbike Battery Appliances
 Allow using a heavy training dummy where a light one would suffice
 Make field stone a bit more common, which can now also be turned into rocks. Plus general small forest trash updates.
 Military locations can spawn EOD suits
-Remove the 'Shockstorm' attack from monsters that have it
+Electric zombies no longer have a long range AoE attack
 Clean water in open containers reverts to water after a while
 Add Vitamin Cost to mutations
 Rebalance the chance for armor to be damaged by attacks.
@@ -1144,7 +1130,7 @@ Warn on load if files have been modified
 Always Display Spell Tabs
 Allow monsters to have different climb/swim/dig speeds
 Mapgen: removed unused, obsoleted and pointless JSON fields
-Zstandard compressed save data for disk space savings.
+Implement compressed saves
 Adds a vertical stack of omt scope for mapgen parameters
 Monsters can be forced to flee through an EoC
 Improve mod migration
