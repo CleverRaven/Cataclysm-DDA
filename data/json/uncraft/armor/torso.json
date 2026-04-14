@@ -314,7 +314,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 20 ] ], [ [ "thread", 100 ] ] ]
+    "components": [ [ [ "sheet_cotton", 15 ] ], [ [ "thread", 80 ] ] ]
   },
   {
     "result": "hoodie_cropped",
@@ -324,6 +324,6 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 15 ] ], [ [ "thread", 100 ] ] ]
+    "components": [ [ [ "sheet_cotton", 14 ] ], [ [ "thread", 75 ] ] ]
   }
 ]
