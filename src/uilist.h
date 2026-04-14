@@ -224,6 +224,8 @@ class uilist_callback
         * After a new item is selected, call this once
         */
         virtual void select( uilist * ) {}
+        // after an item is confirmed
+        virtual void confirm( uilist * ) {}
         virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
                           uilist * ) {
             return false;
@@ -296,6 +298,9 @@ class uilist // NOLINT(cata-xy)
         // Calculate sizes, populate arrays
         void calc_data();
 
+        // register uilist inputs to the input_context `ctxt`
+        void register_uilist_inputs( input_context &ctxt ) const;
+
         // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
@@ -314,8 +319,15 @@ class uilist // NOLINT(cata-xy)
             };
         };
         bool scrollby( uilist::scroll_amount scrollby );
+        // preparation for query(), mostly ANDROID-specific
+        // @return true if query() can be run
+        bool query_setup();
+        // construct a uilist_impl and loop to query input
         shared_ptr_fast<uilist_impl> query( bool loop = true, int timeout = 50,
                                             bool allow_unfiltered_hotkeys = false );
+        // helper function for query(); can be used to externally maintain a uilist_impl
+        void query_once( input_context &ctxt, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
@@ -325,6 +337,10 @@ class uilist // NOLINT(cata-xy)
         * @param txt string that will be displayed on the entry first column
         */
         void addentry( const std::string &txt );
+        /**
+        * @param txt string that will be displayed on the entry first column
+        */
+        void addentry( const uilist_entry &entry );
         /**
         * @param retval return value of this option when selected during menu query
         * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
@@ -467,7 +483,6 @@ class uilist // NOLINT(cata-xy)
     private:
         report_color_error _color_error = report_color_error::yes;
         input_context create_main_input_context() const;
-        input_context create_filter_input_context() const;
 
     public:
         // Iternal states
@@ -502,6 +517,8 @@ class uilist // NOLINT(cata-xy)
         bool recalc_start = false;
         bool clicked = false;
         bool need_to_scroll = false;
+
+        //if provided, applies tabs to this list, panned with left/right
         std::vector<std::pair<std::string, std::string>> categories;
         std::function<bool( const uilist_entry &, const std::string & )> category_filter;
         size_t current_category = 0;

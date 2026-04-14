@@ -3437,6 +3437,21 @@ std::string enum_to_string<character_stat>( character_stat data )
     }
     cata_fatal( "Invalid character_stat" );
 }
+std::string enum_to_full_string( character_stat data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case character_stat::STRENGTH:     return "strength";
+    case character_stat::DEXTERITY:    return "dexterity";
+    case character_stat::INTELLIGENCE: return "intelligence";
+    case character_stat::PERCEPTION:   return "perception";
+
+        // *INDENT-ON*
+        case character_stat::DUMMY_STAT:
+            break;
+    }
+    cata_fatal( "Invalid character_stat" );
+}
 } // namespace io
 
 std::string Character::activity_level_str( float level ) const

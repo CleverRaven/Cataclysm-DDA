@@ -80,7 +80,7 @@
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
-    "qualities": [ [ "MANA_FOCUS", 1 ] ],
+    "qualities": [ { "id": "MANA_FOCUS", "level": 1 } ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {
@@ -100,7 +100,7 @@
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
-    "qualities": [ [ "MANA_FOCUS", 2 ] ],
+    "qualities": [ { "id": "MANA_FOCUS", "level": 2, "speed": 0.66 } ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {

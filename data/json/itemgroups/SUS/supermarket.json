@@ -1076,7 +1076,7 @@
     "id": "commercial_personal_care",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "makeup_kit", 1 ], [ "hair_dye_kit", 1 ] ]
+    "items": [ [ "makeup_kit", 1 ], { "group": "hair_dye_display" } ]
   },
   {
     "id": "SUS_shelf_commercial_personal_care",

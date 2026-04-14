@@ -7858,7 +7858,7 @@ talk_effect_fun_t::func f_pickup_items( const JsonObject &jo, std::string_view m
         extra_moves_per_item = jo.get_int( "extra_moves_per_item" );
     }
     if( jo.has_float( "max_volume" ) ) {
-        max_volume =  units::from_liter( jo.get_float( "max_volume" ) );
+        max_volume =  units::from_milliliter( jo.get_float( "max_volume" ) );
     }
     if( jo.has_float( "max_mass" ) ) {
         max_mass = units::from_gram( jo.has_float( "max_mass" ) );

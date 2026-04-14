@@ -515,6 +515,16 @@
   },
   {
     "type": "technique",
+    "id": "TECH_LITTLE_PAW_PUNCH",
+    "name": "Punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You punch %s", "<npcname> punch %s" ],
+    "description": "A basic lapine punch",
+    "attack_vectors": [ "vector_little_paw_punch" ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_BROAD_PAW_PUNCH_WITH_CLAWS",
     "name": "Punch",
     "crit_ok": true,

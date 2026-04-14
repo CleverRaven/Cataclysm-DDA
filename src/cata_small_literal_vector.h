@@ -18,7 +18,7 @@
  * default to uint8_t for minimal overhead over the inline storage.
  */
 template<typename T, size_t kInlineCount = 4, typename SizeT = uint8_t>
-struct alignas( T * ) small_literal_vector {
+struct alignas( T * ) alignas( T ) small_literal_vector {
     // To avoid having to invoke constructors and destructors when copying Elements
     // around or inserting new ones, we enforce it is a literal type.
     static_assert( std::is_trivially_destructible_v<T>, "T must be trivially destructible." );
@@ -216,9 +216,9 @@ private:
         return capacity_ > kInlineCount;
     }
 
-    // The whole small_literal_vector has alignas(T*) so that the alignment requirements of heap_
+    // The whole small_literal_vector has at least alignas(T*) so that the alignment requirements of heap_
     // are never violated, even if you allocate several of these in a row. However we use pragma pack
-    // So there are no padding bytes inserted into the union to bring it to a multiple of sizeof(T*)
+    // so there are no padding bytes inserted into the union to bring it to a multiple of sizeof(T*)
     // so that capacity_ and len_ can be tightly packed adjacent to it. Their alignments will still
     // be legal because the compiler will insert padding before capacity_ if necessary.
     // We put T *heap_ as the first entry in the union to avoid default initializing the whole inline storage.
