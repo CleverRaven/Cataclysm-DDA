@@ -607,7 +607,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                         // Reduces the projectile's damage based on the creature's size
                         // Numbers are roughly based on civil war journals, where a cannon shot would penetrate through about 3-4 people.
                         double size_mult =
-                            0.8 * ( 1 / ( static_cast<int>( attack.last_hit_critter->get_size() ) ) );
+                            0.8 * ( 1 / ( static_cast<double>( attack.last_hit_critter->get_size() ) ) );
                         proj.shot_impact.mult_damage( size_mult, true );
                     } else {
                         has_momentum = false;
