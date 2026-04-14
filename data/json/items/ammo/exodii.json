@@ -318,7 +318,7 @@
     "longest_side": "236 mm",
     "price": "22 USD",
     "price_postapoc": "25 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EXCESS_PEN" ],
     "material": [ "steel", "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "dark_gray",

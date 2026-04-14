@@ -10,6 +10,7 @@
     "volume": "1000 ml",
     "price": "11 USD",
     "price_postapoc": "12 USD",
+    "flags": ["EXCESS_PEN"],
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "white",
