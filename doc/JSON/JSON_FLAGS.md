@@ -1195,6 +1195,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch.  Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
+- ```LOCKS_ON``` Once this monster establishes initial line-of-sight to the avatar, it gains a temporary effect where it always knows the avatar's location for its duration.
 - ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
 - ```MAGIC_USER``` A monster that casts magical spells, used in mods for avatar detection abilities
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
