@@ -193,12 +193,12 @@
     "min_damage": 1,
     "min_duration": {
       "math": [
-        "min( ( ( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * psionic_power_modifiers() ), 1440000)"
+        "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 4500 ) + 60000) * psionic_power_modifiers() ), 1440000)"
       ]
     },
     "max_duration": {
       "math": [
-        "min( ( ( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * psionic_power_modifiers() ), 1440000)"
+        "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 9000 ) + 180000) * psionic_power_modifiers() ), 1440000)"
       ]
     },
     "base_energy_cost": {
