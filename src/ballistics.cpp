@@ -59,6 +59,7 @@ static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+static const ammo_effect_str_id ammo_effect_EXCESS_PEN( "EXCESS_PEN" );
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
@@ -597,7 +598,21 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                     if( here == &reality_bubble() ) {
                         sfx::do_projectile_hit( *attack.last_hit_critter );
                     }
-                    has_momentum = false;
+                    // If the projectile has excess penetration, and would one-shot the enemy, make it continue through the trajectory.
+                    // TODO: Add creature armor and armor penetration to condition.
+                    // TODO: Extend trajectory for targeted monster being first monster hit.
+                    // TODO: Take into account creature physicality, in a more realistic way.
+                    if (proj.proj_effects.count(ammo_effect_EXCESS_PEN) &&
+                        (attack.dealt_dam.total_damage() >= attack.last_hit_critter->get_hp_max())) {
+                        // Reduces the projectile's damage based on the creature's size
+                        // Numbers are roughly based on civil war journals, where a cannon shot would penetrate through about 3-4 people.
+                        double size_mult = 
+                            0.8 * (1 / (static_cast<int>(attack.last_hit_critter->get_size())));
+                        proj.shot_impact.mult_damage(size_mult, true);
+                    }
+                    else {
+                        has_momentum = false;
+                    }
                     // on-hit effects for inflicted damage types
                     for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
                         dt.first->onhit_effects( origin, attack.last_hit_critter );
