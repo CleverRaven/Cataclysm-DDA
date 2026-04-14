@@ -1023,7 +1023,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH",
-          "//": "Max research time before failure is 84 hours. Average result of 504 after 84 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "//": "Max research time before failure is 36 hours. Average result of 216 after 36 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
           "condition": { "math": [ "u_deciphered_spellbook_hedge_avodah_zarah != 1" ] },
           "effect": [
             { "set_string_var": "spellbook_hedge_avodah_zarah", "target_var": { "u_val": "latest_studied_occult_text_name" } },
@@ -1031,7 +1031,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_AVODAH_ZARAH_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 302400" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 129600" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_avodah_zarah" } ],
@@ -1039,8 +1039,8 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 500" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 600" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 270" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 300" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH_READ_VALUES",
