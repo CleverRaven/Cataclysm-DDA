@@ -45,7 +45,7 @@ static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HI
 static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
 static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
-static const ammo_effect_str_id ammo_effect_EXCESS_PEN("EXCESS_PEN");
+static const ammo_effect_str_id ammo_effect_EXCESS_PEN( "EXCESS_PEN" );
 static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
 static const ammo_effect_str_id ammo_effect_JET( "JET" );
 static const ammo_effect_str_id ammo_effect_MUZZLE_SMOKE( "MUZZLE_SMOKE" );
