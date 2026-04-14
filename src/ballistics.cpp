@@ -602,8 +602,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                     // TODO: Add creature armor and armor penetration to condition.
                     // TODO: Extend trajectory for targeted monster being first monster hit.
                     // TODO: Take into account creature physicality, in a more realistic way.
-                    if (proj.proj_effects.count(ammo_effect_EXCESS_PEN) &&
-                        (attack.dealt_dam.total_damage() >= attack.last_hit_critter->get_hp_max())) {
+                    if( proj.proj_effects.count( ammo_effect_EXCESS_PEN ) &&
+                        ( attack.dealt_dam.total_damage() >= attack.last_hit_critter->get_hp_max() ) ) {
                         // Reduces the projectile's damage based on the creature's size
                         // Numbers are roughly based on civil war journals, where a cannon shot would penetrate through about 3-4 people.
                         double size_mult = 
