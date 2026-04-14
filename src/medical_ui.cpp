@@ -546,7 +546,7 @@ void medical_ui::summary_tab() const
     if( last_weighting_time != nullptr ) {
         const std::string last_weighting_weight = string_format( "%.0f %s",
                 you->get_value( "last_weighting_weight_kg" ).dbl(), weight_units() );
-        const std::string last_weighted_time = string_format( _( "last weighted %s ago" ),
+        const std::string last_weighted_time = string_format( _( "last weighed %s ago." ),
                                                to_string_approx( calendar::turn - time_point( last_weighting_time->dbl() ) ) );
         const std::string weight_desc = string_format(
                                             "%s: %s (%s)",
@@ -555,7 +555,7 @@ void medical_ui::summary_tab() const
                                             colorize( last_weighted_time, c_dark_gray ) );
         cataimgui::draw_colored_text( weight_desc, col_width );
     } else {
-        cataimgui::draw_colored_text( _( "You do not remember when you weighted yourself the last time" ),
+        cataimgui::draw_colored_text( _( "You do not remember the last time you weighed yourself." ),
                                       c_dark_gray, col_width );
     }
 }
