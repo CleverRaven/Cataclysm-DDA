@@ -79,6 +79,11 @@
     "//": "This ammo may clog up the gun with blackpowder fouling, which will also cause rust. Hardcoded"
   },
   {
+    "id": "EXCESS_PEN",
+    "type": "ammo_effect",
+    "//": "Allows projectile to continue through when doing excess damage on hit. Hardcoded"
+  },
+  {
     "id": "HEAVY_HIT",
     "type": "ammo_effect",
     "//": "Automatically applied to any projectile, heavier than 500g, to increase it's noise (currently used only when projectile fall into water). Hardcoded"
@@ -184,11 +189,6 @@
     "id": "WIDE",
     "type": "ammo_effect",
     "//": "Prevent HARDTOSHOOT monster flag from having any effect; automatically applied to ammo with `SHOT` flag or which have liquid phase. Hardcoded"
-  },
-  {
-    "id": "EXCESS_PEN",
-    "type": "ammo_effect",
-    "//": "Allows projectile to continue through when doing excess damage on hit. Hardcoded"
   },
   {
     "id": "ACT_ON_RANGED_HIT",
