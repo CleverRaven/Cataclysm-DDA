@@ -620,6 +620,11 @@
     "//COMMENT": "This monster appears neutral but AI behaves as if not. (The effect is hardcoded)"
   },
   {
+    "id": "ATTACK_CONFIRM",
+    "type": "monster_flag",
+    "//": "This monster requires confirmation to attack regardless of safe mode settings"
+  },
+  {
     "id": "ALWAYS_SEES_YOU",
     "type": "monster_flag",
     "//": "This monster always knows where the avatar is"

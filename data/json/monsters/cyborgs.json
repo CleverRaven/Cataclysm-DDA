@@ -133,7 +133,8 @@
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PULP_PRYING",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "ATTACK_CONFIRM"
     ],
     "armor": { "bash": 12, "cut": 28, "acid": 12, "heat": 8, "bullet": 12 }
   },
@@ -201,7 +202,8 @@
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PULP_PRYING",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "ATTACK_CONFIRM"
     ],
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
   },

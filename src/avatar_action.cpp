@@ -89,6 +89,8 @@ static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
+static const mon_flag_str_id mon_flag_ATTACK_CONFIRM( "ATTACK_CONFIRM" );
+
 static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
@@ -395,21 +397,24 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                                           _( "You're too pacified to strike anything…" ) ) ) {
                 return false;
             }
+            const bool is_neutral = critter.attitude_to( you ) == Creature::Attitude::NEUTRAL;
             bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
             if( safe_mode ) {
                 // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    g->safe_mode != SAFE_MODE_OFF ) {
+                if( is_neutral && g->safe_mode != SAFE_MODE_OFF ) {
                     const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
                     add_msg( m_warning,
                              _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
                              msg_safe_mode );
                     return false;
+                } else if( critter.has_flag( mon_flag_ATTACK_CONFIRM ) && is_neutral ) {
+                    if( !query_yn( _( "This really feels like a bad idea. Proceed to attack?" ) ) ) {
+                        return false;
+                    }
                 }
             } else {
                 // If safe mode is disabled, ask for confirmation before attacking a neutral creature
-                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                if( is_neutral && !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                     return false;
                 }
             }

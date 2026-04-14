@@ -210,7 +210,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_NAPE_PROTECTOR``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
-- ```INTANGIBLE_ARMOR``` The armor provides no protection on any covered body part, as thought it had a coverage of 0%. 
+- ```INTANGIBLE_ARMOR``` The armor provides no protection on any covered body part, as thought it had a coverage of 0%.
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
 - ```MUTATED_ANATOMY_ONLY``` For gear designed only for players with non-standard bodyparts.  Prevents normal humans from wearing the item
 - ```MUTE``` Makes the player mute.
@@ -316,7 +316,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 - ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
-- ```BIONIC_LIMB``` This bodypart is mechanical and thus cannot bleed or cause pain when hit. 
+- ```BIONIC_LIMB``` This bodypart is mechanical and thus cannot bleed or cause pain when hit.
 - ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations.
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
@@ -465,7 +465,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```SUPPRESS_INVISIBILITY``` Any invisibility effects on the creature, including the `PERMANENT_INVISIBILITY` flag, are ignored for the duration of the effect with this flag
 - ```TELEPORT_LOCK``` You cannot teleport.  This has none of the protective effects of `DIMENSIONAL_ANCHOR`.
 - ```TEMPORARY_SHAPESHIFT``` You are in another shape due to some supernatural effect.
-- ```TEMPORARY_SHAPESHIFT_NO_HANDS``` You do not have hands in your new shapeshifted form, and so cannot pick up or manipulate objects. 
+- ```TEMPORARY_SHAPESHIFT_NO_HANDS``` You do not have hands in your new shapeshifted form, and so cannot pick up or manipulate objects.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```TINY``` Changes your size to `creature_size::tiny`.  Checked first of the size category flags.
 - ```TREE_COMMUNION_PLUS``` Gain greatly enhanced effects from the Mycorrhizal Communion mutation.
@@ -1135,6 +1135,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
 - ```ATTACKMON``` Attacks other monsters regardless of faction relations when pathing through their space.
+- ```ATTACK_CONFIRM``` This monster requires confirmation to attack regardless of safe mode settings.
 - ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
