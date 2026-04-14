@@ -1009,7 +1009,7 @@
     "id": "spellbook_hedge_avodah_zarah",
     "type": "ITEM",
     "name": { "str": "Excerpts of Avodah Zarah", "str_pl": "copies of Excerpts of Avodah Zarah" },
-    "description": "A partial english-translated copy of Avodah Zarah, sumarizing and explaining many passages of the Talmud.",
+    "description": "A partial english-translated copy of Avodah Zarah, summarizing and explaining many passages of the Talmud.",
     "weight": "450 g",
     "volume": "562 ml",
     "price": "25 USD",
