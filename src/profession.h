@@ -190,4 +190,12 @@ struct profession_blacklist {
     void check_consistency() const;
 };
 
+
+struct profession_sorter {
+    bool sort_by_points = true;
+    bool male = false;
+    /** @related player */
+    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) const;
+};
+
 #endif // CATA_SRC_PROFESSION_H

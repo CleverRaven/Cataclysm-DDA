@@ -120,6 +120,12 @@ template <typename E> struct enum_traits;
 
 using bionic_uid = unsigned int;
 
+const int CHARACTER_STAT_MIN = 4;
+const int CHARACTER_STAT_MAX = 20;
+
+const int CHARACTER_AGE_MIN = 16;
+const int CHARACTER_AGE_MAX = 55;
+
 extern int character_max_str;
 extern int character_max_dex;
 extern int character_max_per;
@@ -4313,6 +4319,12 @@ template<>
 struct enum_traits<character_stat> {
     static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
+
+namespace io
+{
+std::string enum_to_full_string( character_stat data );
+} // namespace io
+
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
 #endif // CATA_SRC_CHARACTER_H

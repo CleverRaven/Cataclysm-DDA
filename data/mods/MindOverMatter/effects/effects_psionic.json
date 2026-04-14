@@ -386,14 +386,24 @@
     "enchantments": [
       {
         "condition": { "u_has_effect": "effect_biokin_physical" },
+        "melee_damage_bonus": [
+          {
+            "type": "bash",
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+          },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+          },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "( u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
+          }
+        ],
         "values": [
           {
             "value": "MELEE_STAMINA_CONSUMPTION",
             "multiply": { "math": [ "max( ( -0.05 + ( u_spell_level('biokin_combat_dance') * -0.015) * psionic_power_modifiers() ), -0.7)" ] }
-          },
-          {
-            "value": "MELEE_DAMAGE",
-            "multiply": { "math": [ "(u_spell_level('biokin_combat_dance') * 0.02) * psionic_power_modifiers()" ] }
           }
         ]
       },
@@ -630,15 +640,22 @@
     "max_duration": "2 seconds",
     "enchantments": [
       {
-        "values": [
-          { "value": "ATTACK_SPEED", "multiply": -0.25 },
+        "melee_damage_bonus": [
           {
-            "value": "MELEE_DAMAGE",
-            "multiply": { "math": [ "( 0.1 + ( u_spell_level('biokin_hurricane_blows') * 0.015 ) ) * psionic_power_modifiers()" ] }
+            "type": "bash",
+            "multiply": { "math": [ "( ( u_spell_level('biokin_hurricane_blows') * 0.015 ) + 0.1 ) * psionic_power_modifiers()" ] }
           },
-          { "value": "RANGE", "multiply": -1.99 }
+          {
+            "type": "cut",
+            "multiply": { "math": [ "( ( u_spell_level('biokin_hurricane_blows') * 0.015 ) + 0.1 ) * psionic_power_modifiers()" ] }
+          },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "( ( u_spell_level('biokin_hurricane_blows') * 0.015 ) + 0.1 ) * psionic_power_modifiers()" ] }
+          }
         ]
-      }
+      },
+      { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "RANGE", "multiply": -1.99 } ] }
     ],
     "flags": [ "NO_PSIONICS" ]
   },
@@ -2312,6 +2329,28 @@
     "int_dur_factor": "10 s",
     "enchantments": [
       {
+        "melee_damage_bonus": [
+          {
+            "type": "bash",
+            "multiply": {
+              "math": [ "( ( ( u_spell_level('telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          },
+          {
+            "type": "cut",
+            "multiply": {
+              "math": [ "( ( ( u_spell_level('telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          },
+          {
+            "type": "stab",
+            "multiply": {
+              "math": [ "( ( ( u_spell_level('telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )" ]
+            }
+          }
+        ]
+      },
+      {
         "values": [
           {
             "value": "BONUS_DODGE",
@@ -2337,12 +2376,6 @@
           },
           {
             "value": "RANGED_DAMAGE",
-            "multiply": {
-              "math": [ "( ( ( u_spell_level('telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )" ]
-            }
-          },
-          {
-            "value": "MELEE_DAMAGE",
             "multiply": {
               "math": [ "( ( ( u_spell_level('telepathic_network') * 0.005) + 0.05) * (scaling_factor(u_val('intelligence') ) ) )" ]
             }
@@ -2479,14 +2512,24 @@
         "mutations": [ "GENERIC_UNCANNY_DODGE_TRAIT" ],
         "hit_you_effect": [ { "id": "teleport_warper_combat_warp_chance_attacker", "hit_self": false, "once_in": 3 } ],
         "hit_me_effect": [ { "id": "teleport_warper_combat_warp_chance_attacked", "hit_self": true, "once_in": 3 } ],
+        "melee_damage_bonus": [
+          {
+            "type": "bash",
+            "multiply": { "math": [ "( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * psionic_power_modifiers()" ] }
+          },
+          {
+            "type": "cut",
+            "multiply": { "math": [ "( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * psionic_power_modifiers()" ] }
+          },
+          {
+            "type": "stab",
+            "multiply": { "math": [ "( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * psionic_power_modifiers()" ] }
+          }
+        ],
         "values": [
           {
             "value": "MELEE_TO_HIT",
             "add": { "math": [ "min( ( ( u_spell_level('teleport_warper_combat') * 0.2) * psionic_power_modifiers() ), 4)" ] }
-          },
-          {
-            "value": "MELEE_DAMAGE",
-            "multiply": { "math": [ "( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * psionic_power_modifiers()" ] }
           },
           {
             "value": "RANGE_DODGE",
