@@ -3024,10 +3024,5 @@
     "id": "ROBOFAC_LENS_HELMET",
     "type": "json_flag",
     "info": "This item allows you to wear Hub 01 LENS accessories."
-  },
-  {
-    "id": "EXCESS_PEN",
-    "type": "json_flag",
-    "info": "This projectile will continue in the direction of travel after overkilling a target."
   }
 ]

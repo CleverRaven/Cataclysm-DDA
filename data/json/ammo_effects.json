@@ -186,6 +186,11 @@
     "//": "Prevent HARDTOSHOOT monster flag from having any effect; automatically applied to ammo with `SHOT` flag or which have liquid phase. Hardcoded"
   },
   {
+    "id": "EXCESS_PEN",
+    "type": "ammo_effect",
+    "//": "Allows projectile to continue through when doing excess damage on hit. Hardcoded"
+  },
+  {
     "id": "ACT_ON_RANGED_HIT",
     "type": "ammo_effect",
     "//": "Is applied on projectiles made out of items with ACT_ON_RANGED_HIT flag. Hardcoded"
