@@ -334,10 +334,10 @@
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
-            "math": [ "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers()), 14400)" ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers() ), 14400)" ]
           },
           {
-            "math": [ "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers()), 14400)" ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers() ), 14400)" ]
           }
         ]
       }
@@ -501,10 +501,10 @@
         "run_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
           {
-            "math": [ "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers()), 14400)" ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 45 ) + 600) * psionic_power_modifiers() ), 14400)" ]
           },
           {
-            "math": [ "min( (( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers()), 14400)" ]
+            "math": [ "min( ( ( (u_spell_level('electrokinetic_personal_battery') * 90 ) + 1800) * psionic_power_modifiers() ), 14400)" ]
           }
         ]
       }
