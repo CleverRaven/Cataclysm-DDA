@@ -609,7 +609,6 @@
     "types": [ "HEALING" ],
     "points": -4,
     "starting_trait": true,
-    "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 } ] } ]
   },
@@ -621,7 +620,6 @@
     "types": [ "HEALING" ],
     "points": -8,
     "starting_trait": true,
-    "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 }, { "value": "REGEN_HP", "multiply": -0.9 } ] } ]
   },
@@ -633,7 +631,6 @@
     "types": [ "HEALING" ],
     "points": -12,
     "starting_trait": true,
-    "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ] } ]
   },
