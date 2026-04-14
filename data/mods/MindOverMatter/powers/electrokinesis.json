@@ -154,7 +154,7 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 4500 ) + 60000) * psionic_power_modifiers()"
+        "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 4500 ) + 60000) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
