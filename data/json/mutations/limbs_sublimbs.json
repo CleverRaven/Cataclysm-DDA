@@ -532,6 +532,86 @@
     "name": "right fingers"
   },
   {
+    "id": "paw_wrist_l",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_l",
+    "side": "left",
+    "opposite": "paw_wrist_r",
+    "name_multiple": "wrists",
+    "name": "left wrist"
+  },
+  {
+    "id": "paw_palm_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_l",
+    "side": "left",
+    "opposite": "paw_palm_r",
+    "name_multiple": "palms",
+    "name": "left palm"
+  },
+  {
+    "id": "paw_back_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_l",
+    "side": "left",
+    "opposite": "paw_back_r",
+    "name_multiple": "back of paws",
+    "name": "left back of paw"
+  },
+  {
+    "id": "paw_fingers_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_l",
+    "side": "left",
+    "opposite": "paw_fingers_r",
+    "name_multiple": "fingers",
+    "name": "left fingers"
+  },
+  {
+    "id": "paw_wrist_r",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "paw_r",
+    "side": "right",
+    "opposite": "paw_wrist_l",
+    "name_multiple": "wrists",
+    "name": "right wrist"
+  },
+  {
+    "id": "paw_palm_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_r",
+    "side": "right",
+    "opposite": "paw_palm_l",
+    "name_multiple": "palms",
+    "name": "right palm"
+  },
+  {
+    "id": "paw_back_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_r",
+    "side": "right",
+    "opposite": "paw_back_l",
+    "name_multiple": "back of paws",
+    "name": "right back of paw"
+  },
+  {
+    "id": "paw_fingers_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "paw_r",
+    "side": "right",
+    "opposite": "paw_fingers_l",
+    "name_multiple": "fingers",
+    "name": "right fingers"
+  },
+  {
     "id": "paw_little_wrist_l",
     "type": "sub_body_part",
     "max_coverage": 10,

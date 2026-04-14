@@ -580,7 +580,7 @@
     "name": "Punch",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "messages": [ "You smash %s", "<npcname> smashes %s" ],
+    "messages": [ "You punch %s", "<npcname> punches %s" ],
     "description": "A basic pawed punch",
     "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] } },
     "attack_vectors": [ "vector_paw_punch" ]
