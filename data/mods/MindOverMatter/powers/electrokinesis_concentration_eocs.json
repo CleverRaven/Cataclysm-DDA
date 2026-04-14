@@ -165,12 +165,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * psionic_power_modifiers()"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 45 ) + 600) * psionic_power_modifiers()"
             ]
           },
           {
             "math": [
-              "( ( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * psionic_power_modifiers()"
+              "( ( (u_spell_level('electrokinetic_hacking_interface') + u_spell_level('electrokinetic_hacking_interface_knack') ) * 90 ) + 1800) * psionic_power_modifiers()"
             ]
           }
         ]
