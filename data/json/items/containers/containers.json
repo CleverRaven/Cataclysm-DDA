@@ -1552,7 +1552,7 @@
     "type": "ITEM",
     "category": "container",
     "//": "Roughly based on https://www.amazon.ca/Boxes-Fast-BF14442FOL-Corrugated-Cardboard/dp/B077BZHDYF",
-    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard cardboard boxes" },
+    "name": { "str": "longarm cardboard box", "str_pl": "longarm cardboard boxes" },
     "looks_like": "box_small",
     "description": "An elongated cardboard box, meant to contain a longarm such as a shotgun or rifle.",
     "ascii_picture": "box_oversize",
