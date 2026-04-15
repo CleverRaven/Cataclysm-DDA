@@ -393,7 +393,7 @@
       { "trait": "CEPH_EYES" },
       { "trait": "CEPH_VISION" }
     ]
-  }
+  },
   {
     "//": "This group picks out a fixed set of traits to assign based on a random mutation tree.",
     "type": "trait_group",
