@@ -8610,7 +8610,7 @@
     "npc_background": "BG_survival_story_LAB_MUTANT",
     "points": 3,
     "items": {
-      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] }
+      "both": { "items": [ { "item": "jumpsuit_pocketless", "variant": "orange" } ] },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
