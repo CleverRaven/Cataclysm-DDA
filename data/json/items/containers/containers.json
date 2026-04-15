@@ -2726,7 +2726,7 @@
     "category": "container",
     "name": { "str": "3 L glass jar" },
     "looks_like": "jar_glass_sealed",
-    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened.",
+    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves its contents from rot until opened (assuming it was sterile before sealing).",
     "ascii_picture": "jar_3l_glass_sealed",
     "weight": "953 g",
     "volume": "3530 ml",
