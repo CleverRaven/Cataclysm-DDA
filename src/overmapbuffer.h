@@ -247,6 +247,7 @@ class overmapbuffer
         bool has_extra( const tripoint_abs_omt &p );
         const map_extra_id &extra( const tripoint_abs_omt &p );
         void add_extra( const tripoint_abs_omt &p, const map_extra_id &id );
+        void add_extra_note( const tripoint_abs_omt &p, bool force_add = false );
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );

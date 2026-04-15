@@ -5882,7 +5882,7 @@ void cata_tiles::do_tile_loading_report()
     map_extra_ids.erase(
         std::remove_if( map_extra_ids.begin(), map_extra_ids.end(),
     []( const map_extra_id & id ) {
-        return !id->autonote;
+        return id->visibility == map_extra_visibility::none;
     } ), map_extra_ids.end() );
     tile_loading_report_seq_ids( map_extra_ids, TILE_CATEGORY::MAP_EXTRA );
 

@@ -11435,22 +11435,6 @@ bool game::can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype
     return true;
 }
 
-static void do_delayed_autonote( const tripoint_abs_omt &target )
-{
-    auto iter = g->unvisited_map_extras.find( target );
-    if( iter == g->unvisited_map_extras.end() ) {
-        return; // No unvisited map extras here!
-    }
-
-    overmap *om_target = overmap_buffer.get_existing( project_to<coords::om>( target.xy() ) );
-
-    if( om_target ) {
-        om_target->add_deferred_extra_note( target );
-    }
-
-    g->unvisited_map_extras.erase( iter );
-}
-
 namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m )
@@ -11472,7 +11456,7 @@ void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const ma
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
         const oter_id &past_ter = overmap_buffer.ter( old_abs_omt );
         get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
-        do_delayed_autonote( new_abs_omt );
+        overmap_buffer.add_extra_note( new_abs_omt );
         // if the player has moved omt then might trigger an EOC for that OMT
         if( !past_ter->get_exit_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );

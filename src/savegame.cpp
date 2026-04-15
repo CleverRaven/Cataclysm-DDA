@@ -159,7 +159,6 @@ void game::serialize_json( std::ostream &fout )
     global_variables_instance.serialize( json );
     Messages::serialize( json );
     json.member( "unique_npcs", unique_npcs );
-    json.member( "unvisited_map_extras", unvisited_map_extras );
     json.end_object();
 }
 
@@ -319,7 +318,6 @@ void game::unserialize_impl( const JsonObject &data )
     }
     global_variables_instance.unserialize( data );
     data.read( "unique_npcs", unique_npcs );
-    data.read( "unvisited_map_extras", unvisited_map_extras );
     inp_mngr.pump_events();
     data.read( "stats_tracker", *stats_tracker_ptr );
     data.read( "achievements_tracker", *achievements_tracker_ptr );
