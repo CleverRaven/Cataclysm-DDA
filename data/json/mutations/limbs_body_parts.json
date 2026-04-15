@@ -2,7 +2,6 @@
   {
     "type": "body_part",
     "id": "eyes_bulging",
-    "//": "Slightly larger, but still boring eyes",
     "name": "bulging eyes",
     "accusative": { "ctxt": "bodypart_accusative", "str": "bulging eyes" },
     "heading": "Eyes",
