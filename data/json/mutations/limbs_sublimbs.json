@@ -1,5 +1,27 @@
 [
   {
+    "id": "eyes_bulging_l",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bulging",
+    "side": "left",
+    "similar_bodypart": "eyes_left",
+    "opposite": "eyes_bulging_r",
+    "name_multiple": "bulging eyes",
+    "name": "left bulging eye"
+  },
+  {
+    "id": "eyes_bulging_r",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_bulging",
+    "side": "right",
+    "similar_bodypart": "eyes_right",
+    "opposite": "eyes_bulging_l",
+    "name_multiple": "bulging eyes",
+    "name": "right bulging eye"
+  },
+  {
     "id": "muzzle_lips",
     "type": "sub_body_part",
     "max_coverage": 25,
