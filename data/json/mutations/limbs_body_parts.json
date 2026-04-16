@@ -703,7 +703,7 @@
     "limb_type": "hand",
     "limb_scores": [ [ "grip", 0.5 ], [ "manip", 0.47, 0.95 ], [ "swim", 0.15 ] ],
     "side": "left",
-    "techniques": [ "TECH_RAT_PAW_PUNCH", "TECH_RAT_PAW_PUNCH_WITH_CLAWS", "TECH_RAT_PAW_CLAW" ],
+    "techniques": [ "TECH_PAW_PUNCH", "TECH_PAW_PUNCH_WITH_CLAWS", "TECH_PAW_CLAW" ],
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "fire_warmth_bonus": 1500,

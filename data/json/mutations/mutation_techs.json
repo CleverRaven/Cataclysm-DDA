@@ -583,7 +583,7 @@
     "messages": [ "You punch %s", "<npcname> punches %s" ],
     "description": "A basic pawed punch",
     "condition": { "not": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] } },
-    "attack_vectors": [ "vector_paw_punch" ]
+    "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ]
   },
   {
     "type": "technique",
@@ -594,7 +594,7 @@
     "messages": [ "You claw %s", "<npcname> claw %s" ],
     "description": "A basic clawed and pawed punch",
     "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
-    "attack_vectors": [ "vector_paw_punch" ]
+    "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ]
   },
   {
     "type": "technique",
@@ -605,7 +605,7 @@
     "messages": [ "You viciously claw %s", "<npcname> viciously claws %s" ],
     "description": "A vicious clawed attack.",
     "weighting": -2,
-    "attack_vectors": [ "vector_paw_punch" ],
+    "attack_vectors": [ "vector_paw_punch", "vector_paw_rat_punch" ],
     "condition": { "u_has_any_trait": [ "CLAWS", "CLAWS_RAT", "CLAWS_ST" ] },
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },

@@ -75,6 +75,12 @@
   },
   {
     "type": "attack_vector",
+    "id": "vector_paw_rat_punch",
+    "limbs": [ "paw_rat_l", "paw_rat_r" ],
+    "contact_area": [ "paw_rat_fingers_l", "paw_rat_fingers_r" ]
+  },
+  {
+    "type": "attack_vector",
     "id": "vector_little_paw_punch",
     "limbs": [ "paw_little_l", "paw_little_r" ],
     "contact_area": [ "paw_little_fingers_l", "paw_little_fingers_r" ]
