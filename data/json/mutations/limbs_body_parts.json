@@ -25,7 +25,7 @@
     "heading_multiple": "eyes",
     "encumbrance_text": "Your vision is impaired!",
     "opposite_part": "eyes_fey",
-    "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 2.5 ], [ "reaction", 0.7 ] ],
+    "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 2.5 ], [ "reaction", 0.75 ] ],
     "similar_bodypart": "eyes",
     "sub_parts": [ "eyes_fey_left", "eyes_fey_right" ]
   },
@@ -39,7 +39,7 @@
     "heading_multiple": "eyes",
     "encumbrance_text": "Your vision is impaired!",
     "opposite_part": "eyes_fey_full",
-    "limb_scores": [ [ "vision", 1.4 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
+    "limb_scores": [ [ "vision", 1.4 ], [ "night_vis", 4.5 ], [ "reaction", 0.85 ] ],
     "sub_parts": [ "eyes_fey_full_left", "eyes_fey_full_right" ]
   },
   {
