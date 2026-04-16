@@ -657,7 +657,7 @@
     "name": "Raw Cotton",
     "copy-from": "cotton",
     "repaired_with": "null",
-    "resist": { "bash": 0.1, "cut": 0.2, "acid": 0, "heat": 0, "bullet": 0.1}
+    "resist": { "bash": 0.2, "cut": 0.05, "acid": 0, "heat": 0, "bullet": 0.2 }
   },
   {
     "type": "material",
