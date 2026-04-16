@@ -5648,5 +5648,23 @@
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.9 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_claw_st_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stainless Claws",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]

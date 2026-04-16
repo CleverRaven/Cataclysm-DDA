@@ -501,6 +501,7 @@
     "visibility": 3,
     "ugliness": 2,
     "integrated_armor": [ "integrated_claws" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_manipulation_penalty", "intensity": 1 } ] } ],
     "//": "No Lupine, wolf claws aren't long or sharp enough."
   },
   {
@@ -516,7 +517,8 @@
     "vitamin_cost": 160,
     "visibility": 3,
     "ugliness": 4,
-    "integrated_armor": [ "integrated_claws_rat" ]
+    "integrated_armor": [ "integrated_claws_rat" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_st_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -526,14 +528,15 @@
     "category": [ "RAT", "URSINE" ],
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
-    "prereqs2": [ "PAWS" ],
+    "prereqs2": [ "PAWS", "PAWS_RAT" ],
     "threshreq": [ "THRESH_RAT", "THRESH_URSINE" ],
     "points": 6,
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 3,
     "ugliness": 5,
-    "integrated_armor": [ "integrated_claws_st" ]
+    "integrated_armor": [ "integrated_claws_st" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_st_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -560,7 +563,8 @@
     "cost": 0,
     "ugliness": 1,
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
-    "integrated_armor": [ "integrated_claws" ]
+    "integrated_armor": [ "integrated_claws" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
