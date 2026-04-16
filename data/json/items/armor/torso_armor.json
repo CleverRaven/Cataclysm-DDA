@@ -409,7 +409,7 @@
       {
         "material": [
           { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "raw_cotton", "covered_by_mat": 95, "thickness": 25 },
+          { "type": "cotton_raw", "covered_by_mat": 95, "thickness": 25 },
           { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
