@@ -568,6 +568,12 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
+    // Creatures with infrared vision check here after invisibility
+    if( this->has_flag( mon_flag_INFRARED_VISION ) && critter.is_warm() ) {
+        const monster *m = this->as_monster();
+        return target_range <= std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // This check is ridiculously expensive so defer it to after everything else.
     auto visible = []( const Character * ch ) {
         return ch == nullptr || !ch->is_invisible();

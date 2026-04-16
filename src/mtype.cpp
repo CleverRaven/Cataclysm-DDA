@@ -103,6 +103,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_HUMAN,
             mon_flag_ID_CARD_DESPAWN,
             mon_flag_IMMOBILE,
+            mon_flag_INFRARED_VISION,
             mon_flag_INSECTICIDEPROOF,
             mon_flag_INTERIOR_AMMO,
             mon_flag_KEENNOSE,
@@ -242,6 +243,7 @@ void set_mon_flag_ids()
     mon_flag_HUMAN = mon_flag_id( "HUMAN" );
     mon_flag_ID_CARD_DESPAWN = mon_flag_id( "ID_CARD_DESPAWN" );
     mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
+    mon_flag_INFRARED_VISION = mon_flag_id( "INFRARED_VISION" );
     mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
     mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
     mon_flag_KEENNOSE = mon_flag_id( "KEENNOSE" );

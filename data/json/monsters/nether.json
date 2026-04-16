@@ -1260,7 +1260,7 @@
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
+    "flags": [ "SEES", "INFRARED_VISION", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
     "armor": { "cut": 5, "bullet": 4 }
   },
   {
