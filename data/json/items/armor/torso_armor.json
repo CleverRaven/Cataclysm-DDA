@@ -403,7 +403,7 @@
     "material": [ "cotton" ],
     "warmth": 50,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "BLOCK_WHILE_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "RAINPROOF", "NO_REPAIR", "BLOCK_WHILE_WORN" ],
     "max_worn": 1,
     "armor": [
       {
@@ -414,7 +414,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 17
+        "encumbrance": 27
       }
     ]
   },
