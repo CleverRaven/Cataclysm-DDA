@@ -648,7 +648,7 @@
     "name": "Salt Hardened Quilted Cotton",
     "copy-from": "cotton",
     "repaired_with": "null",
-    "resist": { "bash": 2.5, "cut": 2.5, "acid": 5, "heat": 10, "bullet": 2 }
+    "resist": { "bash": 2, "cut": 2.5, "acid": 5, "heat": 10, "bullet": 1.5 }
   },
   {
     "type": "material",
