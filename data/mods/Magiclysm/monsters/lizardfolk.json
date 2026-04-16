@@ -35,6 +35,7 @@
     "special_attacks": [ [ "crush", 5 ], { "type": "bite", "cooldown": 5 } ],
     "flags": [
       "SEES",
+      "INFRARED_VISION",
       "HEARS",
       "SMELLS",
       "KEENNOSE",
@@ -179,6 +180,7 @@
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
+      "INFRARED_VISION",
       "HEARS",
       "GRABS",
       "SMELLS",
