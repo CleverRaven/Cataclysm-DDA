@@ -635,6 +635,11 @@
     "//": "This monster can see everything within 5 squares + its vision bonuses regardless of light or obstacles, unless that thing is undetectable to telepathy"
   },
   {
+    "id": "INFRARED_VISION",
+    "type": "monster_flag",
+    "//": "This monster can see in the infrared spectrum"
+  },
+  {
     "id": "NEVER_WANDER",
     "type": "monster_flag",
     "//": "This monster will never join wandering hordes"
