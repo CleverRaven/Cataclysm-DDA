@@ -2,6 +2,7 @@
 
 #include <imgui/imgui.h>
 
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
@@ -9,7 +10,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "point.h"
-#include "cata_utility.h"
 #include "string_formatter.h"
 #include "text.h"
 #include "translations.h"
