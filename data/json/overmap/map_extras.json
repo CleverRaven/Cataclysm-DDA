@@ -8,7 +8,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "o",
     "color": "red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -20,7 +20,7 @@
     "min_max_zlevel": [ -1, 0 ],
     "sym": "c",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -32,7 +32,7 @@
     "min_max_zlevel": [ -1, 0 ],
     "sym": "f",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -55,7 +55,7 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "d",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -67,7 +67,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -79,7 +79,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "M",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -91,7 +91,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "M",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -103,8 +103,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "blue",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -116,8 +115,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "red",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -130,7 +128,7 @@
     "sym": "X",
     "color": "red",
     "//": "Can't be true because it doesn't always place anything",
-    "autonote": false,
+    "autonote_visibility": "none",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -142,8 +140,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "C",
     "color": "yellow",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -155,7 +152,7 @@
     "min_max_zlevel": [ -4, 5 ],
     "sym": "m",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -167,7 +164,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "light_blue",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -179,7 +176,7 @@
     "min_max_zlevel": [ -5, 0 ],
     "sym": "s",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE" ]
   },
   {
@@ -191,7 +188,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "PORTAL" ]
   },
   {
@@ -203,7 +200,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "PORTAL" ]
   },
   {
@@ -215,8 +212,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "x",
     "color": "light_gray",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "EXODII" ]
   },
   {
@@ -228,8 +224,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "x",
     "color": "light_gray",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "EXODII" ]
   },
   {
@@ -241,7 +236,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "x",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "YRAX" ]
   },
   {
@@ -253,7 +248,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "F",
     "color": "light_gray",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE" ]
   },
   {
@@ -265,7 +260,7 @@
     "min_max_zlevel": [ -1, -1 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "SPIDER" ]
   },
   {
@@ -277,7 +272,7 @@
     "min_max_zlevel": [ 0, 10 ],
     "sym": "W",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "WASP" ]
   },
   {
@@ -289,7 +284,7 @@
     "min_max_zlevel": [ -1, 1 ],
     "sym": "c",
     "color": "light_red",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -301,7 +296,7 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_Trapdoor_spider_den",
@@ -320,7 +315,7 @@
     "min_max_zlevel": [ -2, 5 ],
     "sym": "J",
     "color": "red",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_grove",
@@ -331,7 +326,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "F",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -343,7 +338,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "s",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -355,8 +350,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -368,8 +362,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "p",
     "color": "blue",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "CLASSIC", "WATER" ]
   },
   {
@@ -414,7 +407,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blackberry_patch" },
     "sym": "o",
     "color": "light_green",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_strawberry_patch",
@@ -424,7 +417,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_strawberry_patch" },
     "sym": "o",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -435,7 +428,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_blueberry_patch" },
     "sym": "o",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -446,7 +439,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_raspberry_patch" },
     "sym": "o",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -457,7 +450,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_huckleberry_patch" },
     "sym": "o",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -468,7 +461,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_hobblebush_patch" },
     "sym": "o",
     "color": "brown",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_autumn_olive_patch",
@@ -478,7 +471,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_autumn_olive_patch" },
     "sym": "o",
     "color": "brown",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_knotweed_patch",
@@ -514,7 +507,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "^",
     "color": "dark_gray",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -526,7 +519,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "c",
     "color": "brown",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -538,7 +531,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -550,7 +543,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -562,7 +555,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -574,7 +567,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "light_gray",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -586,7 +579,7 @@
     "min_max_zlevel": [ 0, 5 ],
     "sym": ".",
     "color": "light_gray",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -598,7 +591,7 @@
     "min_max_zlevel": [ -9, -9 ],
     "sym": "~",
     "color": "green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -610,7 +603,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "F",
     "color": "dark_gray",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_casings",
@@ -621,7 +614,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "c",
     "color": "dark_gray",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -651,8 +644,7 @@
     "min_max_zlevel": [ 0, 9 ],
     "sym": "W",
     "color": "yellow",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "WASP" ]
   },
   {
@@ -664,8 +656,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "D",
     "color": "brown",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "WASP" ]
   },
   {
@@ -686,8 +677,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true,
-    "see_from_afar": true,
+    "autonote_visibility": "details",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -699,7 +689,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -719,7 +709,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_laststand" },
     "sym": "X",
     "color": "green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "min_max_zlevel": [ 0, 0 ],
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
@@ -731,7 +721,7 @@
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fungal_zone" },
     "sym": "F",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "min_max_zlevel": [ 0, 0 ],
     "flags": [ "FUNGAL" ]
   },
@@ -770,7 +760,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_toxic_waste" },
     "sym": "D",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
@@ -800,7 +790,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "o",
     "color": "red",
-    "autonote": true
+    "autonote_visibility": "same_tile"
   },
   {
     "id": "mx_sandy_beach",

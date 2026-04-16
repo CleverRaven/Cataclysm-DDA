@@ -32,6 +32,7 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
@@ -164,6 +165,30 @@ std::string enum_to_string<map_extra_method>( map_extra_method data )
         // *INDENT-ON*
     }
     cata_fatal( "Invalid map_extra_method" );
+}
+
+template<>
+std::string enum_to_string<map_extra_visibility>( map_extra_visibility data )
+{
+    switch( data ) {
+        case map_extra_visibility::none:
+            return "none";
+        case map_extra_visibility::always:
+            return "always";
+        case map_extra_visibility::vague:
+            return "vague";
+        case map_extra_visibility::outlines:
+            return "outlines";
+        case map_extra_visibility::details:
+            return "details";
+        case map_extra_visibility::full:
+            return "full";
+        case map_extra_visibility::same_tile:
+            return "same_tile";
+        case map_extra_visibility::LAST:
+            break;
+    }
+    cata_fatal( "Invalid map extra visibility" );
 }
 
 } // namespace io
@@ -1295,6 +1320,28 @@ bool map_extra::is_valid_for( const mapgendata &md ) const
     return true;
 }
 
+bool map_extra::potentially_visible_at( om_vision_level vis ) const
+{
+    switch( visibility ) {
+        case map_extra_visibility::none:
+            return false;
+        case map_extra_visibility::always:
+            return true;
+        case map_extra_visibility::vague:
+            return vis >= om_vision_level::vague;
+        case map_extra_visibility::outlines:
+            return vis >= om_vision_level::outlines;
+        case map_extra_visibility::details:
+            return vis >= om_vision_level::details;
+        case map_extra_visibility::full:
+            return vis >= om_vision_level::full;
+        case map_extra_visibility::same_tile: // this is a weird case and has it's own checks
+            return true;
+        case map_extra_visibility::LAST:
+            return false;
+    }
+}
+
 void map_extra::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
@@ -1308,8 +1355,7 @@ void map_extra::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
     color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : was_loaded ?
             color : c_white;
-    optional( jo, was_loaded, "autonote", autonote, false );
-    optional( jo, was_loaded, "see_from_afar", see_from_afar, false );
+    optional( jo, was_loaded, "autonote_visibility", visibility, map_extra_visibility::none );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_, string_reader{} );
     if( was_loaded && jo.has_member( "extend" ) ) {

@@ -906,6 +906,14 @@ shared_ptr_fast<uilist_impl> uilist::query( bool loop, int timeout, bool allow_u
 {
     input_context ctxt = create_main_input_context();
 
+#if defined(__ANDROID__)
+    for( const auto &entry : entries ) {
+        if( entry.enabled && entry.hotkey.has_value()
+            && entry.hotkey.value() != input_event() ) {
+            ctxt.register_manual_key( entry.hotkey.value().get_first_input(), entry.txt );
+        }
+    }
+#endif
     if( !query_setup() ) {
         return nullptr;
     }
@@ -984,7 +992,7 @@ bool uilist::query_setup()
         } else {
             ret = UILIST_ERROR;
         }
-        return nullptr;
+        return false;
     }
 #endif
     ret_evt = input_event();
@@ -994,14 +1002,6 @@ bool uilist::query_setup()
     }
     ret = UILIST_WAIT_INPUT;
 
-#if defined(__ANDROID__)
-    for( const auto &entry : entries ) {
-        if( entry.enabled && entry.hotkey.has_value()
-            && entry.hotkey.value() != input_event() ) {
-            ctxt.register_manual_key( entry.hotkey.value().get_first_input(), entry.txt );
-        }
-    }
-#endif
     return true;
 }
 

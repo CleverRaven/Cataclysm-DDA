@@ -126,6 +126,8 @@ const int CHARACTER_STAT_MAX = 20;
 const int CHARACTER_AGE_MIN = 16;
 const int CHARACTER_AGE_MAX = 55;
 
+const int NAME_CHARACTER_LIMIT = 50;
+
 extern int character_max_str;
 extern int character_max_dex;
 extern int character_max_per;

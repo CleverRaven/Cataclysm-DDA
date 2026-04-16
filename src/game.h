@@ -1172,8 +1172,6 @@ class game
         global_variables global_variables_instance;
         std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
-        // Map extras that have been generated, but not yet traveled to. Will trigger autonotes once visited.
-        std::unordered_set<tripoint_abs_omt> unvisited_map_extras;
         void update_unique_npc_location( const std::string &id, point_abs_om loc );
         point_abs_om get_unique_npc_location( const std::string &id );
         bool unique_npc_exists( const std::string &id );

@@ -1178,7 +1178,9 @@ void draw_character_proficiencies( const Character &who )
 void draw_character_traits( const Character &who )
 {
     cataimgui::draw_colored_text( _( "Traits:" ), COL_HEADER );
-    for( const trait_and_var &character_trait : who.get_mutations_variants( false ) ) {
+    trait_group::Trait_list traits_list = who.get_mutations_variants( false );
+    std::sort( traits_list.begin(), traits_list.end(), trait_var_display_sort );
+    for( const trait_and_var &character_trait : traits_list ) {
         const nc_color trait_color = character_trait.trait->get_display_color();
         cataimgui::draw_colored_text( character_trait.name(), trait_color );
     }
@@ -1983,8 +1985,8 @@ void draw_time_game_start()
 
 void draw_profession( const avatar &you )
 {
-    cataimgui::draw_colored_text( string_format( _( "Profession: %s" ),
-                                  colorize( you.prof->gender_appropriate_name( you.male ), c_light_gray ) ), c_white );
+    draw_colored_text_wrap( string_format( _( "Profession: %s" ),
+                                           colorize( you.prof->gender_appropriate_name( you.male ), c_light_gray ) ), c_white );
 }
 
 
@@ -2713,33 +2715,47 @@ void character_creator_ui_impl::draw_top_bar( const avatar &u ) const
         draw_colored_text_wrap( " | ", c_white );
         ImGui::SameLine();
     };
-    const avatar &you = get_avatar();
-    char_creation::draw_name( you, cc_uistate.no_name_entered );
-    draw_separator();
-    char_creation::draw_scenario( you );
-    draw_separator();
-    char_creation::draw_profession( you );
 
-    char_creation::draw_gender( you );
-    draw_separator();
-    char_creation::draw_outfit();
-    draw_separator();
-    cataimgui::draw_colored_text( "Randomize:", c_white );
-    ImGui::SameLine();
-    char_creation::draw_action_button( _( "Name" ), "RANDOMIZE_CHAR_NAME" );
-    ImGui::SameLine();
-    char_creation::draw_action_button( _( "Description" ), "RANDOMIZE_CHAR_DESCRIPTION" );
-    if( cc_uistate.generation_type == character_type::RANDOM ) {
+    if( ImGui::BeginTable( "TOPBAR", 2, ImGuiTableFlags_BordersInnerV ) ) {
+        ImGui::TableSetupColumn( "", ImGuiTableColumnFlags_WidthFixed );
+        ImGui::TableSetupColumn( "", ImGuiTableColumnFlags_WidthFixed );
+
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex( 0 );
+        const avatar &you = get_avatar();
+        char_creation::draw_name( you, cc_uistate.no_name_entered );
+
+        ImGui::TableSetColumnIndex( 1 );
+        char_creation::draw_scenario( you );
+        draw_separator();
+        char_creation::draw_profession( you );
+
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex( 0 );
+        char_creation::draw_gender( you );
+        draw_separator();
+        char_creation::draw_outfit();
+
+        ImGui::TableSetColumnIndex( 1 );
+        cataimgui::draw_colored_text( "Randomize:", c_white );
         ImGui::SameLine();
-        char_creation::draw_action_button( _( "All" ), "REROLL_CHARACTER" );
+        char_creation::draw_action_button( _( "Name" ), "RANDOMIZE_CHAR_NAME" );
         ImGui::SameLine();
-        char_creation::draw_action_button( _( "Keep Scenario" ), "REROLL_CHARACTER_WITH_SCENARIO" );
+        char_creation::draw_action_button( _( "Description" ), "RANDOMIZE_CHAR_DESCRIPTION" );
+        if( cc_uistate.generation_type == character_type::RANDOM ) {
+            ImGui::SameLine();
+            char_creation::draw_action_button( _( "All" ), "REROLL_CHARACTER" );
+            ImGui::SameLine();
+            char_creation::draw_action_button( _( "Keep Scenario" ), "REROLL_CHARACTER_WITH_SCENARIO" );
+        }
+
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex( 0 );
+        char_creation::draw_time_cataclysm_start();
+        ImGui::TableSetColumnIndex( 1 );
+        char_creation::draw_time_game_start();
+        ImGui::EndTable();
     }
-
-    char_creation::draw_time_cataclysm_start();
-    draw_separator();
-    char_creation::draw_time_game_start();
-
     if( cc_uistate.recalc_rating ) {
         cc_uistate.recalc_rating = false;
         cc_uistate.rating_string = player_difficulty::getInstance().difficulty_to_string( u );
@@ -3366,6 +3382,7 @@ bool character_creator_ui::handle_action( const std::string &action )
     } else if( action == "CHANGE_NAME" ) {
         string_input_popup_imgui popup( 60, you.name );
         popup.set_description( _( "Enter name.  Cancel to delete all." ) );
+        popup.set_max_input_length( NAME_CHARACTER_LIMIT );
         you.name = popup.query();
     } else if( action == "CHANGE_AGE" ) {
         const int age_current = you.base_age();

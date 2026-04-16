@@ -1655,21 +1655,19 @@ Map extras can be used to place environmental objects and structures that can he
   "min_max_zlevel": [ 0, 0 ],
   "sym": "M",
   "color": "red",
-  "autonote": true,
-  "see_from_afar": true,
+  "autonote_visibility": "details",
   "flags": [ "MAN_MADE" ]
 }
 ```
 
-| Field          | Description
-| ---            | ---
-| generator      | (_optional_) An object defining how and what this extra should spawn.
-| min_max_zlevel | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
-| sym            | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
-| color          | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
-| autonote       | (_optional_) Whether to automatically mark this extra on the overmap. Defaults to false.
-| see_from_afar  | (_optional_) Whether autonotes will be placed when the map extra is generated. Without this boolean autonotes will only be placed when the OMT is specifically visited. Defaults to false.
-| flags          | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
+| Field               | Description
+| ---                 | ---
+| generator           | (_optional_) An object defining how and what this extra should spawn.
+| min_max_zlevel      | (_optional_) A pair of integers defining the minimum and maximum zlevel in which this extra can spawn. Defaults to none (can spawn at any zlevel).
+| sym                 | (_optional_) The symbol to use when marking this extra on the overmap. Defaults to no symbol.
+| color               | (_optional_) The color of the symbol identifying this extra on the overmap. Defaults to white.
+| autonote_visibility | (_optional_) When to automatically mark this extra on the overmap. Defaults to "none", never marking it on the overmap. Other options listed below.
+| flags               | (_optional_) List of flags that identify this extra. These flags can be listed in `overmap_feature_flag_settings` to blacklist or whitelist map extras.
 
 The `generator` can use one of 3 methods:
 
@@ -1678,6 +1676,18 @@ The `generator` can use one of 3 methods:
 | `map_extra_function` | The `generator_id` points to a builtin function to generate the extra. See the `builtin_functions` function map in map_extras.cpp for the current list.
 | `mapgen`             | The `generator_id` points to a `om_terrain` string within a `mapgen` definition.
 | `update_mapgen`      | The `generator_id` points to a `update_mapgen_id` string within a `mapgen` definition.
+
+The `autonote_visibility` has 7 options:
+
+| Name          | Description
+| ------------- | ---
+| `"none"`      | Never shown.
+| `"always"`    | Shown as soon as it is generated.
+| `"vague"`     | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"outlines"`  | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"details"`   | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"full"`      | Shown once the player's vision of the tile meets the corresponding vision level.
+| `"same_tile"` | Shown once the player enters the same overmap.
 
 ### Example: mx_science
 

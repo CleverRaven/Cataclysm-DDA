@@ -322,6 +322,12 @@ void overmapbuffer::add_extra( const tripoint_abs_omt &p, const map_extra_id &id
     om_loc.om->add_extra( om_loc.local, id );
 }
 
+void overmapbuffer::add_extra_note( const tripoint_abs_omt &p, const bool force_add )
+{
+    overmap_with_local_coords om_loc = get_om_global( p );
+    om_loc.om->add_extra_note( om_loc.local, force_add );
+}
+
 void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 {
     if( has_extra( p ) ) {

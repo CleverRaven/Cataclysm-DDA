@@ -96,7 +96,12 @@
     "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "enchantments": [ "ench_quadruped_movement_half" ],
+    "enchantments": [
+      "ench_quadruped_movement_half",
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_l" }, { "gain": "paw_r" } ]
+      }
+    ],
     "triggers": [
       [
         {

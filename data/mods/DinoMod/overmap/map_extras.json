@@ -8,7 +8,7 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "details",
     "flags": [ "MAN_MADE" ]
   },
   {
@@ -19,7 +19,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pred_abandoned" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -30,7 +30,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_achelousaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -41,7 +41,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_acrocanthosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -52,7 +52,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_albertosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -63,7 +63,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_allosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -74,7 +74,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_anchisaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -85,7 +85,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ankylosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -96,7 +96,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_appalachiosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -107,7 +107,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_aquilops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -118,7 +118,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_camptosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -129,7 +129,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_centrosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -140,7 +140,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ceratosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -151,7 +151,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_chasmosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -162,7 +162,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_coelophysis" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -173,7 +173,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_corythosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -184,7 +184,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_daspletosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -195,7 +195,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_deinonychus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -206,7 +206,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dilophosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -217,7 +217,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dromaeosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -228,7 +228,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dryosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -239,7 +239,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dryptosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -250,7 +250,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dyoplosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -261,7 +261,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_edmontonia" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -272,7 +272,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_edmontosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -283,7 +283,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_einiosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -294,7 +294,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_eolambia" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -305,7 +305,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_euoplocephalus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -316,7 +316,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_falcarius" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -327,7 +327,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gallimimus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -338,7 +338,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gargoyleosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -349,7 +349,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gastonia" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -360,7 +360,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gorgosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -371,7 +371,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gryposaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -382,7 +382,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_hadrosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -393,7 +393,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_hesperosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -404,7 +404,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_hypacrosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -415,7 +415,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_issi" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -426,7 +426,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_kosmoceratops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -437,7 +437,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_lambeosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -448,7 +448,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_lokiceratops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -459,7 +459,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_maiasaura" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -470,7 +470,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -481,7 +481,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanotyrannus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -492,7 +492,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanuqsaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -503,7 +503,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nedcolbertia" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -514,7 +514,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nodosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -525,7 +525,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nothronychus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -536,7 +536,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ornithomimus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -547,7 +547,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pachycephalosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -558,7 +558,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pachyrhinosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -569,7 +569,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_panoplosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -580,7 +580,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_parasaurolophus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -591,7 +591,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pentaceratops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -602,7 +602,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_prosaurolophus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -613,7 +613,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_sarahsaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -624,7 +624,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_saurolophus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -635,7 +635,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_sauropelta" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -646,7 +646,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_saurornitholestes" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -657,7 +657,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_scolosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -668,7 +668,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_scutellosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -679,7 +679,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_siats" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -690,7 +690,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegoceras" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -701,7 +701,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -712,7 +712,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stenonychosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -723,7 +723,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_struthiomimus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -734,7 +734,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_styracosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -745,7 +745,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_tawa" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -756,7 +756,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_tenontosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -767,7 +767,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_thescelosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -778,7 +778,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_torosaurus" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -789,7 +789,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_torvosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -800,7 +800,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_triceratops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -811,7 +811,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_tyrannosaurus" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -822,7 +822,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_utahraptor" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -833,7 +833,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_velociraptor" },
     "sym": "D",
     "color": "yellow",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -844,7 +844,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_zuniceratops" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -855,7 +855,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_zuul" },
     "sym": "D",
     "color": "light_green",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -867,7 +867,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -879,7 +879,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -891,7 +891,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote": true,
+    "autonote_visibility": "same_tile",
     "flags": [ "CLASSIC" ]
   }
 ]
