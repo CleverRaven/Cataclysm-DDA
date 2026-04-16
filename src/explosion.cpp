@@ -635,15 +635,15 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
                            guy.is_wearing( itype_rm13_armor_on ) ) {
                     flash_mod = radius / 1.3f;
                 } else if( guy.has_flag( json_flag_HIGH_GLARE ) ) {
-                flash_mod /= 2;
-                dur_mod = 2;
+                    flash_mod /= 2;
+                    dur_mod = 2;
                 } else if( guy.worn_with_flag( json_flag_BLIND ) ||
                            guy.worn_with_flag( json_flag_FLASH_PROTECTION ) ) {
                     flash_mod = radius / 2.6f; // Not really proper flash protection, but better than nothing
                 }
                 guy.add_env_effect( effect_blind, bodypart_id( "eyes" ),
                                     ( radius * 1.5f - flash_mod - dist ) / 2,
-                                    time_duration::from_turns( 10 - dist ) );
+                                    time_duration::from_turns( 10 - dist ) * dur_mod );
             }
         }
     };
