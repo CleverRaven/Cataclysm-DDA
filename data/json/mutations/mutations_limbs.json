@@ -385,6 +385,7 @@
     "types": [ "HANDS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "TALONS" ],
+    "mixed_effect": true,
     "points": 0,
     "vitamin_cost": 160,
     "visibility": 2,
