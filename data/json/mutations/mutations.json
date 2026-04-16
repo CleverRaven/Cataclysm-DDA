@@ -3017,7 +3017,7 @@
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
-    "flags": [ "COLDBLOOD3" ],
+    "flags": [ "COLDBLOOD3", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3040,7 +3040,7 @@
     "mixed_effect": true,
     "purifiable": false,
     "vitamin_cost": 160,
-    "flags": [ "ECTOTHERM" ],
+    "flags": [ "ECTOTHERM", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
