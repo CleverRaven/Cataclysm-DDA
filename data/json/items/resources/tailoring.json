@@ -362,7 +362,7 @@
     "type": "ITEM",
     "name": { "str": "patchwork cotton sheet" },
     "description": "A 12-inch by 24-inch sheet of cotton sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
-    "//density": ".80 grams per mL, 203 GSM",
+    "//density": ".67 grams per mL, 203 GSM",
     "price": "2 USD",
     "price_postapoc": "20 cent"
   },
