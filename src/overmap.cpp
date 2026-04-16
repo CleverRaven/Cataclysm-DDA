@@ -3121,6 +3121,11 @@ bool overmap::place_special_attempt(
                 continue;
             }
             const overmap_special_placement_constraints &constraints = special.get_constraints();
+            // Deck-draw losers are kept in the batch for chain-spawned descendants
+            // but must not be placed on this overmap.
+            if( iter->instances_placed >= constraints.occurrences.max ) {
+                continue;
+            }
             // If we haven't finished placing minimum instances of all specials,
             // skip specials that are at their minimum count already.
             if( !place_optional && iter->instances_placed >= constraints.occurrences.min ) {
@@ -3267,14 +3272,21 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                 // Allow exactly one placement attempt on this overmap.
                 iter->instances_placed = constraints.occurrences.max - 1;
             } else {
-                iter = enabled_specials.erase( iter );
-                continue;
+                // Sentinel: max marks "deck said no for this overmap" while keeping
+                // the entry alive for chain-spawned descendants to draw fresh.
+                iter->instances_placed = constraints.occurrences.max;
             }
         }
         ++iter;
     }
-    // Bail out early if we have nothing to place.
-    if( enabled_specials.empty() ) {
+    // Bail out early if we have nothing to place.  Deck-draw losers stay in
+    // the batch (instances_placed == max) for chain-spawned descendants, so
+    // check for actual candidates rather than batch emptiness.
+    const bool any_candidates = std::any_of( enabled_specials.begin(), enabled_specials.end(),
+    []( const overmap_special_placement & p ) {
+        return p.instances_placed < p.special_details->get_constraints().occurrences.max;
+    } );
+    if( !any_candidates ) {
         return;
     }
     om_special_sectors sectors = get_sectors( OMSPEC_FREQ );

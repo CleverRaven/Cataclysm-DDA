@@ -1091,25 +1091,6 @@
     ]
   },
   {
-    "result": "broken_molebot",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": "3 h",
-    "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "medium_storage_battery", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "ch_steel_chunk", 20 ] ]
-    ]
-  },
-  {
     "result": "broken_secubot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

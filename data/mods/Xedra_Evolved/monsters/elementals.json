@@ -284,7 +284,7 @@
     "description": "You see nothing more than a mist in the air, with the vague impression of darker spots that feel like they're watching you.  When you look at it, your eyes itch and the edges of your vision dim.",
     "default_faction": "undine",
     "bodytype": "blob",
-    "species": [ "UNDINE" ],
+    "species": [ "UNDINE", "SHABRIRI" ],
     "volume": "83000 ml",
     "weight": "63 kg",
     "diff": 0,

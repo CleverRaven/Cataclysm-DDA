@@ -496,6 +496,8 @@ void pixel_minimap::render_cache( const tripoint_bub_ms &center )
 
 void pixel_minimap::render_critters( const tripoint_bub_ms &center )
 {
+    has_blinking_beacons_ = false;
+
     const map &m = get_map();
 
     //handles the enemy faction red highlights
@@ -546,6 +548,9 @@ void pixel_minimap::render_critters( const tripoint_bub_ms &center )
             const SDL_Rect critter_rect = SDL_Rect{ critter_pos.x, critter_pos.y, beacon_size.x, beacon_size.y };
             const SDL_Color critter_color = get_critter_color( critter, flicker, mixture );
 
+            if( indicator_length > 0 ) {
+                has_blinking_beacons_ = true;
+            }
             draw_beacon( critter_rect, critter_color );
         }
     }

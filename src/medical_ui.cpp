@@ -210,7 +210,7 @@ std::string medical_ui::get_limb_effects( const bodypart_id &part ) const
         const nc_color bleeding_color = colorize_bleeding_intensity( bleed_intensity );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( bleed_effect.get_speed_name(), bleeding_color ),
-                                      bleed_effect.disp_short_desc() );
+                                      string_format( bleed_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
     }
 
     // BITTEN block
@@ -218,7 +218,7 @@ std::string medical_ui::get_limb_effects( const bodypart_id &part ) const
         const effect bite_effect = you->get_effect( effect_bite, part );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( bite_effect.get_speed_name(), c_yellow ),
-                                      bite_effect.disp_short_desc() );
+                                      string_format( bite_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
     }
 
     // INFECTED block
@@ -226,7 +226,7 @@ std::string medical_ui::get_limb_effects( const bodypart_id &part ) const
         const effect infected_effect = you->get_effect( effect_infected, part );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( infected_effect.get_speed_name(), c_pink ),
-                                      infected_effect.disp_short_desc() );
+                                      string_format( infected_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
     }
 
     // rest of effects
@@ -235,7 +235,7 @@ std::string medical_ui::get_limb_effects( const bodypart_id &part ) const
             eff.get_id() != effect_bite &&
             eff.get_id() != effect_infected ) {
             description += string_format( "[ %s ] - %s\n", colorize( eff.get_speed_name(), c_bold ),
-                                          eff.disp_short_desc() );
+                                          string_format( eff.disp_short_desc(), body_part_name( bp.id() ) ) );
         }
     }
 
@@ -546,7 +546,7 @@ void medical_ui::summary_tab() const
     if( last_weighting_time != nullptr ) {
         const std::string last_weighting_weight = string_format( "%.0f %s",
                 you->get_value( "last_weighting_weight_kg" ).dbl(), weight_units() );
-        const std::string last_weighted_time = string_format( _( "last weighted %s ago" ),
+        const std::string last_weighted_time = string_format( _( "last weighed %s ago." ),
                                                to_string_approx( calendar::turn - time_point( last_weighting_time->dbl() ) ) );
         const std::string weight_desc = string_format(
                                             "%s: %s (%s)",
@@ -555,7 +555,7 @@ void medical_ui::summary_tab() const
                                             colorize( last_weighted_time, c_dark_gray ) );
         cataimgui::draw_colored_text( weight_desc, col_width );
     } else {
-        cataimgui::draw_colored_text( _( "You do not remember when you weighted yourself the last time" ),
+        cataimgui::draw_colored_text( _( "You do not remember the last time you weighed yourself." ),
                                       c_dark_gray, col_width );
     }
 }

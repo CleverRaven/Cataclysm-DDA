@@ -782,5 +782,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_SCARE_SHABRIRI",
+    "//": "Not meant to be used on anything but shabriri.",
+    "condition": { "u_has_species": "SHABRIRI" },
+    "effect": [ { "math": [ "u_val('morale') -= 200" ] }, { "math": [ "u_val('anger') -= 200" ] } ]
   }
 ]

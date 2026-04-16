@@ -331,6 +331,6 @@
     "damage": { "damage_type": "bullet", "amount": 589, "armor_penetration": 126 },
     "dispersion": 150,
     "recoil": 88917,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF", "EXCESS_PEN" ]
   }
 ]

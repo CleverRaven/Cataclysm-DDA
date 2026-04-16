@@ -5384,7 +5384,8 @@
     "mixed_effect": true,
     "vitamin_cost": 60,
     "visibility": 8,
-    "ugliness": 4
+    "ugliness": 4,
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_bulging" } ] } ]
   },
   {
     "type": "mutation",

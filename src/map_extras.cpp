@@ -1340,6 +1340,7 @@ bool map_extra::potentially_visible_at( om_vision_level vis ) const
         case map_extra_visibility::LAST:
             return false;
     }
+    return false;
 }
 
 void map_extra::load( const JsonObject &jo, std::string_view )

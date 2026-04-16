@@ -43,6 +43,11 @@ class pixel_minimap
 
         void draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center );
 
+        // True if the last draw() rendered any critters with blinking beacons.
+        bool has_blinking_beacons() const {
+            return has_blinking_beacons_;
+        }
+
     private:
         struct submap_cache;
 
@@ -90,6 +95,8 @@ class pixel_minimap
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         std::map<tripoint_abs_sm, submap_cache> cache;
+
+        bool has_blinking_beacons_ = false;
 };
 
 #endif // CATA_SRC_PIXEL_MINIMAP_H

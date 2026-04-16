@@ -2423,6 +2423,7 @@ void character_creator_ui::setup_new_uilist()
             new_uilist->desc_enabled = true;
             new_uilist->allow_disabled = true;
             new_uilist->hilight_disabled = true;
+            new_uilist->size_to_all_categories = true;
             new_uilist->callback = &cc_callback;
             //snap to left edge of screen, position and height updated later
             new_uilist->desired_bounds = { 0, -1.0f, -1.0f, -1.0f };

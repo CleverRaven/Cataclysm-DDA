@@ -1549,21 +1549,6 @@
   },
   {
     "type": "ITEM",
-    "id": "broken_molebot",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "broken miner bot" },
-    "category": "other",
-    "description": "A broken miner bot.  Much less threatening now that it's no longer capable of drilling anything.  Could be gutted for parts.",
-    "price": "200 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
-    "weight": "170200 g",
-    "volume": "62500 ml",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
-  },
-  {
-    "type": "ITEM",
     "id": "broken_mech_recon",
     "name": { "str": "broken recon mech" },
     "description": "A broken mech exoskeleton suit, it looks beyond repair.",
