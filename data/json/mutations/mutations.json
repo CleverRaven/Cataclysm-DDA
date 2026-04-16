@@ -859,7 +859,8 @@
     "starting_trait": true,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -873,7 +874,8 @@
     "points": 4,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 190
+    "vitamin_cost": 190,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -887,7 +889,8 @@
     "points": 6,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
