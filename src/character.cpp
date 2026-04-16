@@ -341,7 +341,6 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
-static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
@@ -2481,9 +2480,6 @@ void Character::recalc_sight_limits()
     if( has_active_mutation( trait_NIGHTVISION2 ) ) {
         vision_mode_cache.set( NIGHTVISION_2 );
     }
-    if( has_active_mutation( trait_FEL_NV ) ) {
-        vision_mode_cache.set( FELINE_VISION );
-    }
     if( has_active_mutation( trait_URSINE_EYE ) ) {
         vision_mode_cache.set( URSINE_VISION );
     }
@@ -2524,8 +2520,7 @@ float Character::get_vision_threshold( float light_level ) const
     float range = get_per() / 3.0f;
     if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
-    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
-               vision_mode_cache[URSINE_VISION] ) {
+    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[URSINE_VISION] ) {
         range += 4.5;
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
         range += 2;
