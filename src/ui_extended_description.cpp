@@ -9,7 +9,9 @@
 #include "map.h"
 #include "mapdata.h"
 #include "point.h"
+#include "cata_utility.h"
 #include "string_formatter.h"
+#include "text.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -78,7 +80,10 @@ void draw_extended_description( const std::vector<std::string> &description, cat
         if( s == "--" ) {
             ImGui::Separator();
         } else {
-            cataimgui::draw_colored_text( s, c_light_gray, ImGui::GetContentRegionAvail().x );
+            for( const std::string &line : string_split( s, '\n' ) ) {
+                cataimgui::TextColoredParagraph( c_light_gray, line );
+                ImGui::NewLine();
+            }
         }
     }
 }
