@@ -391,17 +391,17 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "ichcahuipilli" },
-    "description": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  It is extremely thick and offers superb protection, but is also heavy.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
-    "//": "Reasoning for weight and volume parts are within the recipe.",
-    "weight": "8150 g",
-    "volume": "16300 ml",
+    "description": "A Mesoamerican armor of Nahuatl origin, somewhat similar to a European gambeson.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  It is very thick and offers good protection from attacks and staves off the heat.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
+    "//": "Reasoning for weight and volume in recipe, but stats roughly equalized to wool gambeson.",
+    "weight": "7280 g",
+    "volume": "15300 ml",
     "symbol": "[",
     "color": "light_gray",
     "looks_like": "gambeson",
     "price": "200 USD",
     "price_postapoc": "25 USD",
     "material": [ "cotton" ],
-    "warmth": 80,
+    "warmth": 50,
     "environmental_protection": 4,
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "BLOCK_WHILE_WORN" ],
     "max_worn": 1,
@@ -409,12 +409,12 @@
       {
         "material": [
           { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 20 },
+          { "type": "raw_cotton", "covered_by_mat": 95, "thickness": 25 },
           { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 40
+        "encumbrance": 17
       }
     ]
   },
