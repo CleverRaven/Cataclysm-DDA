@@ -52,7 +52,7 @@
     "heading": "eyes",
     "heading_multiple": "eyes",
     "encumbrance_text": "Your vision is impaired!",
-    "opposite_part": "eyes_fey_full",
+    "opposite_part": "eyes_feline",
     "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 3.0 ], [ "reaction", 1.25 ] ],
     "sub_parts": [ "eyes_feline_left", "eyes_feline_right" ],
     "similar_bodypart": "eyes",
