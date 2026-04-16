@@ -22,6 +22,46 @@
     "name": "right bulging eye"
   },
   {
+    "id": "eyes_fey_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_fey",
+    "side": "left",
+    "opposite": "eyes_fey_right",
+    "name_multiple": "eyes",
+    "name": "left eye"
+  },
+  {
+    "id": "eyes_fey_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_fey",
+    "side": "right",
+    "opposite": "eyes_fey_left",
+    "name_multiple": "eyes",
+    "name": "right eye"
+  },
+  {
+    "id": "eyes_fey_full_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_fey_full",
+    "side": "left",
+    "opposite": "eyes_fey_full_right",
+    "name_multiple": "eyes",
+    "name": "left eye"
+  },
+  {
+    "id": "eyes_fey_full_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_fey_full",
+    "side": "right",
+    "opposite": "eyes_fey_full_left",
+    "name_multiple": "eyes",
+    "name": "right eye"
+  },
+  {
     "id": "muzzle_lips",
     "type": "sub_body_part",
     "max_coverage": 25,

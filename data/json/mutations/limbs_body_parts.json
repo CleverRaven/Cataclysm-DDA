@@ -27,7 +27,7 @@
     "opposite_part": "eyes_fey",
     "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 2.5 ], [ "reaction", 0.7 ] ],
     "similar_bodypart": "eyes",
-    "sub_parts": [ "eye_fey_left", "eye_fey_right" ]
+    "sub_parts": [ "eyes_fey_left", "eyes_fey_right" ]
   },
   {
     "type": "body_part",
@@ -40,7 +40,7 @@
     "encumbrance_text": "Your vision is impaired!",
     "opposite_part": "eyes_fey_full",
     "limb_scores": [ [ "vision", 1.4 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
-    "sub_parts": [ "eye_fey_left", "eye_fey_right" ]
+    "sub_parts": [ "eyes_fey_full_left", "eyes_fey_full_right" ]
   },
   {
     "id": "muzzle",
