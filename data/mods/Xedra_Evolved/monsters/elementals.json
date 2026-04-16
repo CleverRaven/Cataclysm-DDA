@@ -609,7 +609,17 @@
         "monster_message": "%1$s spits!"
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "CLIMBS" ],
+    "flags": [
+      "SEES",
+      "INFRARED_VISION",
+      "SMELLS",
+      "HEARS",
+      "HIT_AND_RUN",
+      "FAE_CREATURE",
+      "RANGED_ATTACKER",
+      "PATH_AVOID_DANGER",
+      "CLIMBS"
+    ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "vision_day": 20,
@@ -649,7 +659,17 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "NO_BREATHE", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
+    "flags": [
+      "SEES",
+      "INFRARED_VISION",
+      "SMELLS",
+      "HEARS",
+      "HIT_AND_RUN",
+      "FAE_CREATURE",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER",
+      "HARDTOSHOOT"
+    ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
@@ -696,7 +716,7 @@
       "message": "The %s bursts into flames!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "FLIES", "WARM", "FIREY", "SWARMS" ]
+    "flags": [ "SEES", "INFRARED_VISION", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "FLIES", "WARM", "FIREY", "SWARMS" ]
   },
   {
     "id": "mon_elemental_saraph",
@@ -744,6 +764,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "HOSTILE_SEEN" ],
     "flags": [
       "SEES",
+      "INFRARED_VISION",
       "HEARS",
       "SMELLS",
       "BADVENOM",
