@@ -6956,30 +6956,30 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
-    "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
+    "description": "The shadows don't seem as dark now.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 3,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey" } ] } ]
   },
   {
     "type": "mutation",
     "id": "ELFA_FNV",
     "name": { "str": "Fey Nightsight" },
-    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
+    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFA_NV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 5,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey_full" } ] } ]
   },
   {
     "type": "mutation",

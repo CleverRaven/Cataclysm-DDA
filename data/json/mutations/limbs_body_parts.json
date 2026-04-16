@@ -1,5 +1,32 @@
 [
   {
+    "type": "body_part",
+    "id": "eyes_fey",
+    "copy-from": "eyes",
+    "name": "iridescent eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "iridescent eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "encumbrance_text": "Your vision is impaired!",
+    "opposite_part": "eyes_fey",
+    "limb_scores": [ [ "vision", 1.1 ], [ "night_vis", 2.5 ], [ "reaction", 0.7 ] ],
+    "similar_bodypart": "eyes",
+    "sub_parts": [ "eye_fey_left", "eye_fey_right" ]
+  },
+  {
+    "type": "body_part",
+    "id": "eyes_fey_full",
+    "copy-from": "eyes",
+    "name": "iridescent eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "iridescent eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "encumbrance_text": "Your vision is impaired!",
+    "opposite_part": "eyes_fey_full",
+    "limb_scores": [ [ "vision", 1.4 ], [ "night_vis", 4.5 ], [ "reaction", 0.7 ] ],
+    "sub_parts": [ "eye_fey_left", "eye_fey_right" ]
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",
