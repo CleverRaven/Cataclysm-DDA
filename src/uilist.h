@@ -479,6 +479,8 @@ class uilist // NOLINT(cata-xy)
         // and unhandled by callback, default false.
         bool allow_additional = false;
         bool hilight_disabled = false;
+        // if true, calculates size to include all categories
+        bool size_to_all_categories = false;
 
     private:
         report_color_error _color_error = report_color_error::yes;

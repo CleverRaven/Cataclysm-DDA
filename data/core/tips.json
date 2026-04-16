@@ -4,7 +4,6 @@
     "category": "tip",
     "text": [
       "Fires can spread easily, especially with abundance of fuel.",
-      "Even without electricity, ovens can be useful fire containers.",
       "Light itself doesn't draw zombies, it's sight, noise, or smell.",
       "Moose may not be your friend.",
       "Turnout gear protects from fire but not from overheating.",
@@ -56,16 +55,13 @@
       "Some dry foods can be eaten frozen.  Some foods become mushy after defrosting.",
       "Thirsty on a long winter journey?  Take a thermos with you.",
       "'Tis but a scratch?'  Bandage and disinfect it anyway to speed up healing.",
-      "Broken limb?  Improvised splints are ok, but hospitals might have better tech for it.",
-      "Don't be afraid to make the game easier on yourself.  Worlds can be made to spawn with more resources.",
       "Terrain that slows you down will also slow down your enemies.",
       "When the whole town is one big supermarket, a shopping cart becomes your best friend.",
       "Different characters, professions, hobbies, and scenarios can spice up your game.  Roleplay!",
       "A survivor saved is a friend earned.  Most of the time…",
       "Learning how to play?  Visit the keybindings menu and learn your ropes.",
       "Expect the unexpected, even if it's the Spanish Inquisition.",
-      "You can throw things while peeking around corners.  Perfect for taking down gun turrets.",
-      "Nobody told the vending machines that the world ended.  Save those cash cards!",
+      "You can throw things while peeking around corners.  Perfect for taking down bandits.",
       "There's got to be some cool stuff in those top-secret underground labs, right?",
       "Put a funnel over a jug or barrel to collect rainwater over time.",
       "The number of zombies in a city is large but finite.  You can (eventually) kill them all.",
@@ -142,7 +138,6 @@
       "The higher up you are, the farther you can see on the overmap.",
       "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them.",
       "There's an ocean to the East from your starting location.  Might be worth checking it out!  But beware, the East is where the population centers were, it's infested with zombie hordes now.",
-      "The 'cities' slider in world creation isn't that important, you can experience both rural and urban environments in the same world if you go West or East!",
       "Want a less populated and urbanized map?  Go West or North!  The map gets more rural the further you go.",
       "Want a more populated and urbanized map?  Go South or East!  The map gets more urban the further you go."
     ]

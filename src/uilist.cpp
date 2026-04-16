@@ -725,7 +725,7 @@ void uilist::calc_data()
     calculated_menu_size.x += calculated_label_width + padding;
     calculated_menu_size.x += calculated_secondary_width + padding;
 
-    if( !categories.empty() ) {
+    if( !categories.empty() && size_to_all_categories ) {
         float category_total_width = s.ItemInnerSpacing.x * ( categories.size() - 1 );
         for( const std::pair<std::string, std::string> &category_text : categories ) {
             category_total_width += ImGui::TabItemCalcSize( category_text.second.c_str(), false ).x;

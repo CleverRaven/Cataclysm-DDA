@@ -1,5 +1,21 @@
 [
   {
+    "type": "body_part",
+    "id": "eyes_bulging",
+    "name": "bulging eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "bulging eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "copy-from": "eyes",
+    "opposite_part": "eyes_bulging",
+    "sub_parts": [ "eyes_bulging_l", "eyes_bulging_r" ],
+    "limb_type": "sensor",
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
+    "similar_bodypart": "eyes",
+    "hit_size": 0.9,
+    "hit_difficulty": 1.25
+  },
+  {
     "id": "muzzle",
     "//": "Used as a default for similar_bodypart to work for armor.",
     "type": "body_part",

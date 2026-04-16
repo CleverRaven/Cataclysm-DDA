@@ -15,7 +15,13 @@
     "type": "jmath_function",
     "id": "psionic_power_modifiers",
     "num_args": 0,
-    "return": "scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+    "return": "scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * weariness_power_scaling()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "weariness_power_scaling",
+    "num_args": 0,
+    "return": "(u_effect_intensity('weary_1') > -1 ? 0.9 : 1) * (u_effect_intensity('weary_2') > -1 ? 0.75 : 1) * (u_effect_intensity('weary_3') > -1 ? 0.6 : 1) * (u_effect_intensity('weary_4') > -1 ? 0.45 : 1) * (u_effect_intensity('weary_5') > -1 ? 0.25 : 1) * (u_effect_intensity('weary_6') > -1 ? 0.25 : 1)"
   },
   {
     "type": "jmath_function",

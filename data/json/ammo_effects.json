@@ -79,6 +79,11 @@
     "//": "This ammo may clog up the gun with blackpowder fouling, which will also cause rust. Hardcoded"
   },
   {
+    "id": "EXCESS_PEN",
+    "type": "ammo_effect",
+    "//": "Allows projectile to continue through when doing excess damage on hit. Hardcoded"
+  },
+  {
     "id": "HEAVY_HIT",
     "type": "ammo_effect",
     "//": "Automatically applied to any projectile, heavier than 500g, to increase it's noise (currently used only when projectile fall into water). Hardcoded"

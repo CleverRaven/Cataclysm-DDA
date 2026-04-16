@@ -2331,6 +2331,11 @@ void cata_tiles::draw_minimap( const point &dest, const tripoint_bub_ms &center,
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
+bool cata_tiles::has_blinking_minimap() const
+{
+    return minimap->has_blinking_beacons();
+}
+
 point cata_tiles::get_window_base_tile_counts(
     const point &size, const point &tile_size, const bool iso )
 {
