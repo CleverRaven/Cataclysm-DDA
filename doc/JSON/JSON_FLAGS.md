@@ -352,6 +352,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLEEDSLOW``` When bleeding, lose blood at 2/3 of the normal rate.
 - ```BLEEDSLOW2``` When bleeding, lose blood at 1/3 of the normal rate.
 - ```BLIND``` Makes you blind.
+- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```BLOCK_SUPERNATURAL_HEALING``` Blocks supernatural healing effects, like magical healing spells, from taking effect.  This flag does not block EoC-based healing like using the u_hp() effect.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
@@ -394,8 +395,8 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures and fire damage.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
+- ```HIGH_GLARE``` Glare lasts twice as long
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
-- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.

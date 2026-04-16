@@ -5724,7 +5724,8 @@
     "points": 3,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "flags": [ "HIGH_GLARE" ]
   },
   {
     "type": "mutation",
