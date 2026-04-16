@@ -40,7 +40,23 @@
     "encumbrance_text": "Your vision is impaired!",
     "opposite_part": "eyes_fey_full",
     "limb_scores": [ [ "vision", 1.4 ], [ "night_vis", 4.5 ], [ "reaction", 0.85 ] ],
+    "similar_bodypart": "eyes",
     "sub_parts": [ "eyes_fey_full_left", "eyes_fey_full_right" ]
+  },
+  {
+    "type": "body_part",
+    "id": "eyes_feline",
+    "copy-from": "eyes",
+    "name": "feline eyes",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "feline eyes" },
+    "heading": "eyes",
+    "heading_multiple": "eyes",
+    "encumbrance_text": "Your vision is impaired!",
+    "opposite_part": "eyes_fey_full",
+    "limb_scores": [ [ "vision", 0.8 ], [ "night_vis", 3.0 ], [ "reaction", 1.25 ] ],
+    "sub_parts": [ "eyes_feline_left", "eyes_feline_right" ],
+    "similar_bodypart": "eyes",
+    "flags": [ "HIGH_GLARE", "HYPEROPIC", "LIMB_UPPER" ]
   },
   {
     "id": "muzzle",

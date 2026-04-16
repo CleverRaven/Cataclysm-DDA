@@ -29,7 +29,8 @@
     "side": "left",
     "opposite": "eyes_fey_right",
     "name_multiple": "eyes",
-    "name": "left eye"
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
   },
   {
     "id": "eyes_fey_right",
@@ -39,7 +40,8 @@
     "side": "right",
     "opposite": "eyes_fey_left",
     "name_multiple": "eyes",
-    "name": "right eye"
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
   },
   {
     "id": "eyes_fey_full_left",
@@ -49,7 +51,8 @@
     "side": "left",
     "opposite": "eyes_fey_full_right",
     "name_multiple": "eyes",
-    "name": "left eye"
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
   },
   {
     "id": "eyes_fey_full_right",
@@ -59,7 +62,30 @@
     "side": "right",
     "opposite": "eyes_fey_full_left",
     "name_multiple": "eyes",
-    "name": "right eye"
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_feline_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_feline",
+    "side": "left",
+    "opposite": "eyes_feline_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_feline_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "eyes_feline",
+    "side": "right",
+    "opposite": "eyes_feline_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
   },
   {
     "id": "muzzle_lips",

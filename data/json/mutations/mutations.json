@@ -4414,9 +4414,8 @@
     "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "points": 4,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_feline" } ] } ]
   },
   {
     "type": "mutation",
