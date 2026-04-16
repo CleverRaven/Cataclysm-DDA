@@ -307,15 +307,16 @@
     "result": "armor_aztec",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "//1": "Average ichcahuipilli was around 1 inch (~2.5 cm) thick. As cotton padding constituted the majority of its protective qualities, I'll consider the quilted part 0.5 cm thick.",
-    "//2": "This leaves us with 20 layers of cotton sheets, taking the thickness of a cotton sheet as 0.25 mm.",
+    "//1": "Average ichcahuipilli was around 1.6 fingers (~3 cm) thick. As unspun cotton padding constituted the majority of its protective qualities, I'll consider the quilted part 0.5 cm thick.",
+    "//2": "This leaves us with 17 layers of cotton sheets, taking the thickness of a cotton sheet as 0.3mm.",
     "//3": "Average length of a human male is around 170 cm. Average weight of a human (in North America) is 80 kg. BSA calculation and rule of the nines gives us about 0,68 m^2 or 7,3 sq feet.",
     "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and Americans being exceptionally fat.",
     "//4": "Our cotton sheets are 1x2 feet. 20 layers x 7 sq ft / 2 sq ft of the sheets = 70 sheets. I know the outer layer of quilting would require more sheets because of the padding inbetween but I won't bother doing the maths for it",
-    "//5": "Cotton padding inbetween would make 0.065 ft (2 cm of cotton) x 7 sq ft of torso = 0,455 cube ft which is about 12,88 liters of cotton. Once again this calculation is off but again, I can't do the maths.",
-    "//5.5": "That's about… a lot of cotton, 1288 patches or 429 balls or 257 sheets to be precise. Byproducts I made up.",
-    "//6": "That's 70x0,04 + 1288x0,01 = 15,6 kgs and some more for leather and salt wtf",
-    "//7": "And 70x0,05 + 1288x0,01 = 16,3 L.",
+    "//5": "Cotton padding inbetween would make 0,082 ft (2.5 cm of cotton) x 7 sq ft of torso = 0,574 cube ft of cotton.",
+    "//6": "At the density of baled cotton, i.e. dried and packed, 0,448g/cm^3 = 12,7 kg/ft^3, the total weight of cotton padding = 7.28kg.",
+    "//7":  "This is 610 cotton balls, by weight, which is 15.25L of cotton balls. Quite a few, but they get packed down a lot in the quilting process.",
+    "//7.5":  "Equivalently; 8.5k scraps, 320 sheets, 1600 patchworks. It's quite a lot but not all of it is actually used",
+    "//8": "Use some adjusted gambeson values for the volume here, due to firsthand accounts of the armor being relatively light and mobile.",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
@@ -329,16 +330,16 @@
     "using": [ [ "tailoring_cotton_patchwork", 70 ], [ "filament", 100 ] ],
     "components": [
       [
-        [ "cotton_patchwork", 1288 ],
-        [ "scrap_cotton", 6000 ],
-        [ "cotton_ball", 429 ],
-        [ "sheet_cotton", 257 ],
-        [ "sheet_cotton_patchwork", 257 ]
+        [ "cotton_patchwork", 1600 ],
+        [ "scrap_cotton", 8500 ],
+        [ "cotton_ball", 610 ],
+        [ "sheet_cotton", 320 ],
+        [ "sheet_cotton_patchwork", 320 ]
       ],
       [ [ "salt_water", 80 ] ],
       [ [ "sheet_leather", 5 ], [ "sheet_leather_patchwork", 5 ] ]
     ],
-    "byproducts": [ [ "scrap_cotton", 250 ], [ "cotton_patchwork", 40 ] ]
+    "byproducts": [ [ "scrap_cotton", 300 ], [ "cotton_patchwork", 80 ] ]
   },
   {
     "result": "chestguard_metal_sheets",
