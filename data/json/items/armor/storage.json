@@ -1755,8 +1755,8 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "copy-from": "armrig",
-    "name": { "str": "small leg purse" },
-    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
+    "name": { "str": "small leg pouch", "str_pl": "small leg pouches" },
+    "description": "A small pouch that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1787,7 +1787,7 @@
     "id": "armrig",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "armband pouch", "str_pl": "armband pouches" },
+    "name": { "str": "small armband pouch", "str_pl": "small armband pouches" },
     "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favored item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
     "weight": "205 g",
     "volume": "550 ml",
