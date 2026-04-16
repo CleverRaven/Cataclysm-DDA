@@ -70,7 +70,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
-static const efftype_id effect_monster_locked_on( "effect_monster_locked_on" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );

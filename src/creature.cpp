@@ -111,7 +111,7 @@ static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_monster_locked_on( "effect_monster_locked_on" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_quadruped_full( "quadruped_full" );

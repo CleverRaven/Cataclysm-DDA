@@ -5669,7 +5669,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_monster_locked_on",
+    "id": "monster_locked_on",
     "//": "Applied to monsters after they first establish line-of-sight to the avatar.",
     "name": [ "" ],
     "desc": [ "" ],
