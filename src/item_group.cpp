@@ -735,7 +735,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
             }
             new_item.seal();
         }
-    }  
+    }
 
     for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
