@@ -55,7 +55,6 @@
   {
     "result": "quilt",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
