@@ -662,9 +662,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "18 h 30 m",
-    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "difficulty": 10,
+    "time": "17 h 30 m",
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
