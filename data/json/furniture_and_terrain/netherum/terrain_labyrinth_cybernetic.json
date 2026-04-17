@@ -276,11 +276,7 @@
     "oxytorch": {
       "result": "t_nl_metal_floor",
       "duration": "24 seconds",
-      "byproducts": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_plate" },
-        { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      "byproducts": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate" }, { "item": "hinge", "count": [ 1, 3 ] } ]
     },
     "bash": {
       "str_min": 30,
@@ -313,11 +309,7 @@
     "oxytorch": {
       "result": "t_nl_metal_floor",
       "duration": "24 seconds",
-      "byproducts": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_plate" },
-        { "item": "hinge", "count": [ 1, 3 ] }
-      ]
+      "byproducts": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate" }, { "item": "hinge", "count": [ 1, 3 ] } ]
     },
     "bash": {
       "str_min": 30,
