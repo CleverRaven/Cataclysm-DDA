@@ -1,21 +1,21 @@
-<color_light_cyan>                                      **                         **            </color>
-<color_light_cyan>          ***                          ***                        ***          </color>
-<color_light_cyan>          **                      *************            ****************    </color>
-<color_light_cyan>          **                     **          ****               **  **         </color>
-<color_light_cyan>    ****************            **    **                    **  **  ** **      </color>
-<color_light_cyan>          **                          **  ****             **   **  **  **     </color>
-<color_light_cyan>          ***                     *** ** **                    ********        </color>
-<color_light_cyan>         ** **                        ***                      **   **         </color>
-<color_light_cyan>        **    **                     **  **                      ***           </color>
-<color_light_cyan>      **       ****                **     ***                  ***  ***        </color>
-<color_light_cyan>   ***           *****         ****         *******        ****       *****    </color>
-<color_light_blue></color>
-<color_light_blue></color>
-<color_light_blue>      ##     ##         #############           ####            ##   ##         </color>
-<color_light_blue>  ########   ##        ##                    ###    ###        ##############   </color>
-<color_light_blue>      ##   #######     ################   ### ######## ###    ###    ##         </color>
-<color_light_blue>  #########  ## ##     ##                        ##          ##      ##         </color>
-<color_light_blue>     ##      ## ##     ##  ###########    ################     ##############   </color>
-<color_light_blue>    ##  ##  ##  ##     ##  ##       ##       ##  ##  ##              ##         </color>
-<color_light_blue>  ######### ##  ##    ###  ##       ##     ###   ##   ###            ##         </color>
-<color_light_blue> ##        ##  ###   ###   ###########    ##   ####     ##    ################  </color>
+<color_light_cyan>                                      **                         **            
+<color_light_cyan>          ***                          ***                        ***          
+<color_light_cyan>          **                      *************             ***************    
+<color_light_cyan>          **                     **          ****               **  **         
+<color_light_cyan>    ****************            **    **                    **  **  **  **     
+<color_light_cyan>          **                          **  ****             **   **  **   **    
+<color_light_cyan>          ***                     *** ** **                    ********        
+<color_light_cyan>         ** **                        ***                      **   **         
+<color_light_cyan>        **    **                     **  **                      ***           
+<color_light_cyan>      **       ****                **     ***                  ***  ***        
+<color_light_cyan>   ***           *****         ****         *******        ****       *****    
+
+
+<color_light_blue>      ##     ##         #############            ####            ##   ##        
+<color_light_blue>   #######   ##        ##                     ###    ###        ##############  
+<color_light_blue>      ##   #######     ################    ### ######## ###    ###    ##        
+<color_light_blue>  #########  ## ##     ##                         ##          ##      ##        
+<color_light_blue>     ##      ## ##     ##  ###########     ################     ##############  
+<color_light_blue>    ##  ##  ##  ##     ##  ##       ##        ##  ##  ##              ##        
+<color_light_blue>  ######### ##  ##    ###  ##       ##      ###   ##   ###            ##        
+<color_light_blue> ##        ##  ###   ###   ###########     ##   ####     ##    ################ 
