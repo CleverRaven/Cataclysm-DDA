@@ -508,6 +508,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     for( item *pocket : new_item.get_contents().get_added_pockets_mutable() ) {
         pocket->set_damage( rng( damage.first, damage.second ) );
         pocket->rand_degradation();
+        if( new_item.has_flag( flag_FILTHY ) ) {
+            pocket->set_flag( flag_FILTHY );
+        }
     }
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
@@ -710,6 +713,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 if( it.get_pocket_size() <= vacancies ) {
                     it.set_damage( rng( damage.first, damage.second ) );
                     it.rand_degradation();
+                    if( new_item.has_flag( flag_FILTHY ) ) {
+                        it.set_flag( flag_FILTHY );
+                    }
                     new_item.get_contents().add_pocket( it );
                 }
             } else {
