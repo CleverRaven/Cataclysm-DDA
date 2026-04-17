@@ -957,7 +957,7 @@
     "looks_like": "pike",
     "type": "ITEM",
     "name": { "str": "tempered steel pike" },
-    "description": "A very long wooden shaft tipped with a masterfully tempered steel pike head.  The blade is razor-sharp and perfectly tapered. The pinnacle of polearm craftsmanship.",
+    "description": "A very long wooden shaft tipped with a masterfully tempered steel pike head.  The blade is razor-sharp and perfectly tapered.  The pinnacle of polearm craftsmanship.",
     "proportional": { "price": 1.2, "price_postapoc": 1.2 },
     "replace_materials": { "mc_steel": "qt_steel" },
     "relative": { "melee_damage": { "stab": 5 } }
