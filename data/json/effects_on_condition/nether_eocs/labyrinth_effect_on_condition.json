@@ -16,7 +16,7 @@
         "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
         "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
         "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 100
+        "target_max_radius": 250
       },
       { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
       {
@@ -51,7 +51,7 @@
         "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
         "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
         "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 100
+        "target_max_radius": 250
       },
       { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
       { "alter_timed_events": "string_dimension_lights_on" },
@@ -89,7 +89,7 @@
         "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
         "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
         "furniture": "f_scrap_antenna",
-        "target_max_radius": 100,
+        "target_max_radius": 250,
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
