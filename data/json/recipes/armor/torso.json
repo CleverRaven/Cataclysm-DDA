@@ -993,19 +993,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "autolearn": true,
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ] ],
     "steps": [
       {
         "name": "Cut the fabric",
         "time": "1 h",
         "activity_level": "LIGHT_EXERCISE",
-        "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ] ],
         "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
       },
       {
         "name": "Sew the pieces",
         "time": "2 h",
         "activity_level": "LIGHT_EXERCISE",
-        "components": [ [ [ "filament", 200, "LIST" ] ] ],
         "using": [ [ "sewing_tool", 120 ] ]
       }
     ]
@@ -1015,13 +1014,13 @@
     "copy-from": "hoodie",
     "result": "hoodie",
     "variant": "shark",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
     "steps": [
       {
         "name": "Cut the fabric",
         "time": "1 h",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "faux_fur", 6 ] ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
       },
       {
@@ -1029,7 +1028,6 @@
         "time": "2 h",
         "activity_level": "LIGHT_EXERCISE",
         "using": [ [ "sewing_tool", 120 ] ],
-        "components": [ [ [ "filament", 200, "LIST" ] ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
       }
     ],
@@ -1038,42 +1036,50 @@
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "bear"
+    "variant": "bear",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "cat"
+    "variant": "cat",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "bunny"
+    "variant": "bunny",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "wolf"
+    "variant": "wolf",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "lizard"
+    "variant": "lizard",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "dog"
+    "variant": "dog",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "panda"
+    "variant": "panda",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_shark",
-    "variant": "frog"
+    "variant": "frog",
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1083,19 +1089,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "autolearn": true,
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ] ],
     "steps": [
       {
         "name": "Cut the fabric",
         "time": "1 h",
         "activity_level": "LIGHT_EXERCISE",
-        "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ] ],
         "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
       },
       {
         "name": "Sew the pieces",
         "time": "1 h 45 m",
         "activity_level": "LIGHT_EXERCISE",
-        "components": [ [ [ "filament", 150, "LIST" ] ] ],
         "using": [ [ "sewing_tool", 105 ] ]
       }
     ]
@@ -1119,13 +1124,13 @@
     "copy-from": "hoodie_cropped",
     "result": "hoodie_cropped",
     "variant": "shark",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
     "steps": [
       {
         "name": "Cut the fabric",
         "time": "1 h",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "faux_fur", 4 ] ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
       },
       {
@@ -1133,7 +1138,6 @@
         "time": "1 h 45 m",
         "activity_level": "LIGHT_EXERCISE",
         "using": [ [ "sewing_tool", 105 ] ],
-        "components": [ [ [ "filament", 150, "LIST" ] ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
       }
     ],
@@ -1142,42 +1146,50 @@
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "bear"
+    "variant": "bear",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "cat"
+    "variant": "cat",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "bunny"
+    "variant": "bunny",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "wolf"
+    "variant": "wolf",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "lizard"
+    "variant": "lizard",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "dog"
+    "variant": "dog",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "panda"
+    "variant": "panda",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
     "copy-from": "hoodie_cropped_shark",
-    "variant": "frog"
+    "variant": "frog",
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "result": "sweatshirt",
