@@ -740,12 +740,6 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
-    // Apply FILTHY to MOLLE pockets if needed
-    if( new_item.has_flag( flag_FILTHY ) ) {
-        for( item *pocket : new_item.get_contents().get_added_pockets_mutable() ) {
-            pocket->set_flag( flag_FILTHY );
-        }
-    }
 
     if( !snippets.empty() ) {
         new_item.snip_id = random_entry( snippets );

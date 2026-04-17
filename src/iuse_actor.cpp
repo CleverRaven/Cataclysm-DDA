@@ -4514,7 +4514,8 @@ std::optional<int> molle_detach_actor::use( Character *p, item &it,
     prompt.text = _( "Remove which accessory?" );
 
     for( size_t i = 0; i != items_attached.size(); ++i ) {
-        prompt.addentry( i, true, -1, items_attached[i]->tname() );
+        prompt.addentry( uilist_entry( i, true, -1, items_attached[i]->tname(),
+                                       c_white, items_attached[i]->color_in_inventory() ) );
     }
 
     prompt.query();
