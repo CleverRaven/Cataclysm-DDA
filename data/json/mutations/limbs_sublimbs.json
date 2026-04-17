@@ -1434,6 +1434,66 @@
     "name": "vine"
   },
   {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_basal_l",
+    "parent": "wing_butterfly_l",
+    "name": "left wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "left",
+    "opposite": "wing_butterfly_basal_r",
+    "max_coverage": 20
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_forewing_l",
+    "parent": "wing_butterfly_l",
+    "name": "left forewing",
+    "name_multiple": "forewings",
+    "side": "left",
+    "opposite": "wing_butterfly_forewing_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_hindwing_l",
+    "parent": "wing_butterfly_l",
+    "name": "left hindwing",
+    "name_multiple": "hindwings",
+    "side": "left",
+    "opposite": "wing_butterfly_hindwing_r",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_basal_r",
+    "parent": "wing_butterfly_r",
+    "name": "right wing shoulder",
+    "name_multiple": "wing shoulders",
+    "side": "right",
+    "opposite": "wing_butterfly_basal_l",
+    "max_coverage": 20
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_forewing_r",
+    "parent": "wing_butterfly_r",
+    "name": "right forewing",
+    "name_multiple": "forewings",
+    "side": "right",
+    "opposite": "wing_butterfly_forewing_l",
+    "max_coverage": 40
+  },
+  {
+    "type": "sub_body_part",
+    "id": "wing_butterfly_hindwing_r",
+    "parent": "wing_butterfly_r",
+    "name": "right hindwing",
+    "name_multiple": "hindwings",
+    "side": "right",
+    "opposite": "wing_butterfly_hindwing_l",
+    "max_coverage": 40
+  },
+  {
     "id": "leg_crab_basis_fl",
     "type": "sub_body_part",
     "max_coverage": 5,
