@@ -2850,7 +2850,7 @@
     },
     "charges_per_use": 1,
     "tool_ammo": "battery",
-    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ] } ]
+    "passive_effects": [ { "id": "resonance_suit_active" } ]
   },
   {
     "id": "xedra_artifact_cleansuit_on",
@@ -3470,7 +3470,7 @@
     },
     "tool_ammo": "battery",
     "flags": [ "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "NO_REPAIR", "NANOFAB_REPAIR" ],
-    "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -750 } ] } ]
+    "passive_effects": [ { "id": "resonance_suit_active" } ]
   },
   {
     "id": "robofac_resonance_suit_on",

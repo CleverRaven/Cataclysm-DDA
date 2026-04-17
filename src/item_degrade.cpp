@@ -376,6 +376,7 @@ bool item::set_fault( const fault_id &f_id, bool force, bool message )
     }
 
     faults.insert( f_id );
+    mod_damage( f_id->instant_damage() );
     return true;
 }
 

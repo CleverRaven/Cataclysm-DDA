@@ -1,0 +1,38 @@
+[
+  {
+    "type": "pp_generator",
+    "id": "riot_damage",
+    "//": "Applied to city buildings with PP_GENERATE_RIOT_DAMAGE flag.",
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 250, "chance": 10, "min_intensity": 6, "max_intensity": 60 },
+      { "type": "move_items", "attempts": 250, "chance": 10, "max_intensity": 3 },
+      { "type": "add_fire", "attempts": 2, "min_intensity": 1, "max_intensity": 3, "scaling_days_end": 14 },
+      {
+        "type": "pre_burn",
+        "attempts": 1,
+        "min_intensity": 6,
+        "max_intensity": 28,
+        "scaling_days_start": 3,
+        "scaling_days_end": 14
+      },
+      { "type": "place_blood", "attempts": 576, "chance": 15 }
+    ]
+  },
+  {
+    "type": "pp_generator",
+    "id": "riot_damage_road",
+    "//": "Applied to city roads. Same as riot_damage but without pre_burn.",
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 250, "chance": 10, "min_intensity": 6, "max_intensity": 60 },
+      { "type": "move_items", "attempts": 250, "chance": 10, "max_intensity": 3 },
+      { "type": "add_fire", "attempts": 2, "min_intensity": 1, "max_intensity": 3, "scaling_days_end": 14 },
+      { "type": "place_blood", "attempts": 576, "chance": 15 }
+    ]
+  },
+  {
+    "type": "pp_generator",
+    "id": "aftershock_ruin",
+    "//": "Applied to Aftershock ruined buildings with PP_GENERATE_RUINED flag. All sub-generator parameters are ignored; the C++ implementation runs directly.",
+    "sub_generators": [ { "type": "aftershock_ruin" } ]
+  }
+]

@@ -1012,6 +1012,17 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool saprophage = has_trait( trait_SAPROPHAGE );
     const auto &comest = food.get_comestible();
 
+    // To avoid hardcoding a check for mutant_toxin we instead iterate all vitamin types.
+    // Break this out into its own function?
+    for( const auto &v : vitamin::all() ) {
+        if( v.first->type() == vitamin_type::TOXIN ) {
+            if( food.has_vitamin( v.first ) ) {
+                // NOTE: Purely visual information. Nausea is not actually a symptom of consuming mutant toxin.
+                add_consequence( _( "This is disgusting!" ), NAUSEA );
+            }
+        }
+    }
+
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
         if( !saprophage && !saprovore ) {

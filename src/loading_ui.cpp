@@ -79,7 +79,7 @@ static void redraw()
 
         cataimgui::draw_colored_text( hint, width );
         if( gLUI->large_hint_size ) {
-            ImGui::PopFont();
+            cataimgui::PopGuiFont1_5x();
         }
 
         // loading msg

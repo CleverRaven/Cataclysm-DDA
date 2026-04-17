@@ -35,6 +35,7 @@
 #include "generic_factory.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -3245,6 +3246,11 @@ bool known_magic::is_favorite( const spell_id &sp )
     return favorites.count( sp ) > 0;
 }
 
+static std::string action_bound_to_key( const input_context &ctxt, char key )
+{
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
+}
+
 int known_magic::get_invlet( const spell_id &sp )
 {
     auto found = spells_to_invlets.find( sp );
@@ -3255,12 +3261,21 @@ int known_magic::get_invlet( const spell_id &sp )
     // Assignment is "sticky" (permanent), to avoid invlets getting scrambled
     // when spells are added or subtracted.
     // TODO: respect "Auto inventory letters" option?
+    input_context ctxt( "SPELL_MENU", keyboard_mode::keychar );
+    // Register standard uilist actions that might be bound to keys
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
+    ctxt.register_action( "UILIST.LEFT" );
+    ctxt.register_action( "UILIST.RIGHT" );
     for( char &ch : inv_chars.get_allowed_chars() ) {
         int invlet = static_cast<int>( static_cast<unsigned char>( ch ) );
         if( invlets_to_spells.count( invlet ) ) {
             continue;
         }
         if( spellcasting_callback::reserved_invlets.count( invlet ) ) {
+            continue;
+        }
+        if( action_bound_to_key( ctxt, ch ) != "ERROR" ) {
             continue;
         }
         if( !set_invlet( sp, invlet ) ) {

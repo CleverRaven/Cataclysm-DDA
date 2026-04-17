@@ -11,7 +11,8 @@
     "material": [ "copper" ],
     "volume": "1 ml",
     "price": "1 cent",
-    "price_postapoc": "1 cent"
+    "price_postapoc": "1 cent",
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "//": "table of contents: common response strings appearing in this list of topics",

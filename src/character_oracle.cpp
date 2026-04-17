@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 
+#include "basecamp.h"
 #include "behavior.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -17,6 +18,7 @@
 #include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -29,6 +31,22 @@ static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
+
+// Whether the NPC is on any tile belonging to their assigned camp,
+// including expansions.  Falls back to base-OMT match when the camp
+// object is gone (abandoned) but assigned_camp is still set.
+static bool npc_within_camp( const npc &n )
+{
+    if( !n.assigned_camp ) {
+        return false;
+    }
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( n.assigned_camp->xy() );
+    if( !bcp || !*bcp ) {
+        // Camp object gone -- fall back to base-OMT check.
+        return n.pos_abs_omt() == *n.assigned_camp;
+    }
+    return ( *bcp )->point_within_camp( n.pos_abs_omt() );
+}
 
 namespace behavior
 {
@@ -436,7 +454,7 @@ status_t character_oracle_t::has_camp_job( std::string_view ) const
     if( !n || !n->assigned_camp || n->mission != NPC_MISSION_CAMP_RESIDENT ) {
         return status_t::failure;
     }
-    if( n->pos_abs_omt() != *n->assigned_camp ) {
+    if( !npc_within_camp( *n ) ) {
         return status_t::failure;
     }
     if( !n->has_job() ) {
@@ -454,8 +472,7 @@ status_t character_oracle_t::is_away_from_camp( std::string_view ) const
     if( !n || !n->assigned_camp || n->mission != NPC_MISSION_CAMP_RESIDENT ) {
         return status_t::failure;
     }
-    return n->pos_abs_omt() != *n->assigned_camp
-           ? status_t::running : status_t::failure;
+    return npc_within_camp( *n ) ? status_t::failure : status_t::running;
 }
 
 status_t character_oracle_t::is_camp_idle( std::string_view ) const
@@ -467,7 +484,7 @@ status_t character_oracle_t::is_camp_idle( std::string_view ) const
     if( n->get_attitude() == NPCATT_ACTIVITY ) {
         return status_t::failure;
     }
-    if( n->pos_abs_omt() != *n->assigned_camp ) {
+    if( !npc_within_camp( *n ) ) {
         return status_t::failure;
     }
     return status_t::running;
@@ -477,7 +494,7 @@ float character_oracle_t::camp_work_urgency( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n || !n->assigned_camp || n->mission != NPC_MISSION_CAMP_RESIDENT
-        || n->pos_abs_omt() != *n->assigned_camp || !n->has_job() ) {
+        || !npc_within_camp( *n ) || !n->has_job() ) {
         return 0.0f;
     }
     return 0.4f;
@@ -487,7 +504,7 @@ float character_oracle_t::return_to_camp_urgency( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n || !n->assigned_camp || n->mission != NPC_MISSION_CAMP_RESIDENT
-        || n->pos_abs_omt() == *n->assigned_camp ) {
+        || npc_within_camp( *n ) ) {
         return 0.0f;
     }
     // Below follow max (0.6), above duty (0.45).
@@ -499,7 +516,7 @@ float character_oracle_t::free_time_urgency( std::string_view ) const
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n || !n->assigned_camp || n->mission != NPC_MISSION_CAMP_RESIDENT
         || n->get_attitude() == NPCATT_ACTIVITY
-        || n->pos_abs_omt() != *n->assigned_camp ) {
+        || !npc_within_camp( *n ) ) {
         return 0.0f;
     }
     return 0.35f;

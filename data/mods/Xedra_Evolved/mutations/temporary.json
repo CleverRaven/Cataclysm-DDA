@@ -167,7 +167,6 @@
         "values": [
           { "value": "MAX_HP", "multiply": 2 },
           { "value": "SPEED", "multiply": 0.2 },
-          { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "STRENGTH", "add": 10 },
           { "value": "NIGHT_VIS", "add": 5 },
@@ -184,10 +183,7 @@
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      }
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] }
     ],
     "flags": [
       "MUTE",
@@ -229,10 +225,7 @@
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      }
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] }
     ],
     "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ],
     "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
@@ -253,7 +246,6 @@
         "condition": "ALWAYS",
         "values": [
           { "value": "SPEED", "multiply": 0.2 },
-          { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 4 },
           { "value": "NIGHT_VIS", "add": 11 },
           { "value": "MELEE_DAMAGE", "multiply": 0.2 },
@@ -270,10 +262,7 @@
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      }
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] }
     ],
     "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "TEMPORARY_SHAPESHIFT_NO_HANDS" ],
     "override_look": { "id": "mon_cougar", "tile_category": "monster" }
@@ -313,10 +302,7 @@
         },
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      },
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] },
       {
         "condition": { "u_is_on_terrain": "t_open_air" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]
@@ -399,10 +385,7 @@
         },
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
       },
-      {
-        "condition": "u_has_weapon",
-        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
-      },
+      { "condition": "u_has_weapon", "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 } ] },
       {
         "condition": { "u_is_on_terrain": "t_open_air" },
         "values": [ { "value": "MOVE_COST", "multiply": -0.6 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ]

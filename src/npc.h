@@ -1014,6 +1014,7 @@ class npc : public Character
         // Return the NPC who should actually handle trade for this NPC.
         // Default: self. Intercom operators delegate to the supply clerk.
         npc &get_trade_delegate();
+        const npc &get_trade_delegate() const;
         // Reconcile shift-based schedule state. Wakes sleeping NPCs at
         // shift start, floors sleepiness off-shift for !needs_food() NPCs.
         // Called from npc_update_body() (in-bubble) and on_load() (off-bubble).

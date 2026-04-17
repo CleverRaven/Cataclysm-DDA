@@ -421,5 +421,29 @@
     "color": "yellow",
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "target_spinner",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "spinner target" },
+    "description": "Two steel plates mounted on a pipe in a double-sided oar design, installed in a sturdy frame with a rotating mechanism.  It spins when struck, eventually returning to vertical alignment due to one plate being heavier than the other.  You can use it for target practice when stationary targets become too easy.",
+    "weight": "20 kg",
+    "volume": "10 L",
+    "longest_side": "130 cm",
+    "price": "35 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": "%",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_target_spinner",
+      "moves": 500,
+      "practice": 0,
+      "done_message": "You set up the spinner target, time to shoot!"
+    },
+    "flags": [ "SINGLE_USE" ]
   }
 ]

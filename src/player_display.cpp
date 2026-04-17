@@ -1146,6 +1146,7 @@ static void on_customize_character( Character &you )
         popup
         .title( _( "New name ( leave empty to reset ):" ) )
         .width( 85 )
+        .max_length( NAME_CHARACTER_LIMIT )
         .edit( filterstring );
         if( popup.confirmed() ) {
             if( filterstring.empty() ) {

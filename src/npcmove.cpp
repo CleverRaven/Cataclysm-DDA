@@ -994,8 +994,8 @@ void npc::assess_danger()
     }
     if( is_friendly( player_character ) && sees_player ) {
         ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if( sees_player && is_enemy() && sees( here, player_character ) ) {
-        // Unlike allies, hostile npcs should not see invisible players
+    } else if( sees_player && guaranteed_hostile() && sees( here, player_character ) ) {
+        // Includes faction hostility, not just the attitude enum.
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
@@ -1209,10 +1209,12 @@ void npc::assess_danger()
         // NPC will try hard not to break and run while in formation.
         // This code should eventually remove the 'player' special case and be applied to
         // whoever the NPC perceives as their closest leader.
-        float player_diff = std::max( evaluate_character( player_character, npc_ranged, is_enemy() ),
+        const bool hostile_to_player = guaranteed_hostile();
+        float player_diff = std::max( evaluate_character( player_character, npc_ranged,
+                                      hostile_to_player ),
                                       NPC_DANGER_VERY_LOW );
         int dist = rl_dist( pos_bub(), player_character.pos_bub() );
-        if( is_enemy() ) {
+        if( hostile_to_player ) {
             add_msg_debug( debugmode::DF_NPC_COMBATAI,
                            "<color_light_gray>%s identified player as an</color> <color_red>enemy</color> <color_light_gray>of threat level %1.2f</color>",
                            name, player_diff );
@@ -1587,6 +1589,8 @@ void npc::move()
         } else {
             set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
+        // Rebuild cache so danger/target reflect the new attitude.
+        regen_ai_cache();
     }
 
     // Top-level decision BT: evaluate before side-effecting cascade for convergence

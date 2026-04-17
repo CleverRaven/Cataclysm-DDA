@@ -23,6 +23,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "mission.h"
 #include "mutation.h"
@@ -827,6 +828,33 @@ void profession::learn_spells( avatar &you ) const
 std::vector<effect_on_condition_id> profession::get_eocs() const
 {
     return effect_on_conditions;
+}
+
+bool profession_sorter::operator()( const string_id<profession> &a,
+                                    const string_id<profession> &b ) const
+{
+    // The generic ("Unemployed") profession should be listed first.
+    const profession *gen = profession::generic();
+    if( &b.obj() == gen ) {
+        return false;
+    } else if( &a.obj() == gen ) {
+        return true;
+    }
+
+    if( !a->can_pick().success() && b->can_pick().success() ) {
+        return false;
+    }
+
+    if( a->can_pick().success() && !b->can_pick().success() ) {
+        return true;
+    }
+
+    if( sort_by_points ) {
+        return a->point_cost() < b->point_cost();
+    } else {
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
+    }
 }
 
 // item_substitution stuff:

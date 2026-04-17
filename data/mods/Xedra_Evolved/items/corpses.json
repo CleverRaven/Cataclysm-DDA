@@ -126,5 +126,19 @@
     "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
     "looks_like": "corpse_generic_human",
     "material": [ "hflesh" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "broken_xe_golem",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken golem",
+    "category": "other",
+    "description": "A lifeless pile of clay of what once a golem.  Could be smashed for clay.",
+    "price": "0 USD",
+    "material": [ "clay" ],
+    "weight": "300 kg",
+    "volume": "200 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]

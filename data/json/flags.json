@@ -1030,6 +1030,11 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
   },
   {
+    "id": "HIGH_GLARE",
+    "type": "json_flag",
+    "//": "Glare lasts twice as long."
+  },
+  {
     "id": "ITEM_BROKEN",
     "type": "json_flag",
     "info": "This item was broken and <bad>won't activate anymore</bad>."
@@ -1273,6 +1278,11 @@
     "id": "INTANGIBLE_ARMOR",
     "type": "json_flag",
     "//": "Prevents armor from protecting the character."
+  },
+  {
+    "id": "HANDS_CANNOT_USE_FIREARMS",
+    "type": "json_flag",
+    "//": "Due to mutation, your hands (or paws etc) are not suitable to use firearms."
   },
   {
     "id": "NON_THRESH",

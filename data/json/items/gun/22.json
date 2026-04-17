@@ -662,7 +662,7 @@
       {
         "id": "mp_15_22",
         "name": { "str": "M&P 15-22" },
-        "description": "A .22 LR version of the M&P-15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
+        "description": "A .22 LR version of the M&P 15, this rifle resembles an AR-15 in form and function, but does not have the ability for compatible uppers or lowers."
       }
     ],
     "weight": "2540 g",

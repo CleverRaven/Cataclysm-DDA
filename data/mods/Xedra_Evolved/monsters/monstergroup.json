@@ -358,6 +358,7 @@
     "id": "GROUP_GENIUS_HOMULLUS",
     "monsters": [
       { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_xe_golem", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
     ]
   },

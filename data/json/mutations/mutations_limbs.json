@@ -82,7 +82,7 @@
     "id": "PAWS",
     "name": { "str": "Paws" },
     "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better and bear weight well, allowing you to move on all fours when crouching and unarmed.",
-    "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
+    "category": [ "LUPINE", "FELINE", "BEAST", "URSINE" ],
     "types": [ "HANDS" ],
     "prereqs": [ "NAILS", "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "changes_to": [ "PAWS_LARGE" ],
@@ -93,10 +93,14 @@
     "visibility": 3,
     "ugliness": 2,
     "flags": [ "QUADRUPED_CROUCH" ],
-    "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "enchantments": [ "ench_quadruped_movement_half" ],
+    "enchantments": [
+      "ench_quadruped_movement_half",
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_l" }, { "gain": "paw_r" } ]
+      }
+    ],
     "triggers": [
       [
         {
@@ -116,9 +120,32 @@
   },
   {
     "type": "mutation",
+    "id": "PAWS_RAT",
+    "name": { "str": "Dextrous Paws" },
+    "description": "Your hands have elongated and look a bit more like paws.  Fortunately you still have your thumbs, though fine manipulation might be a bit more difficult and you'll have a harder time with firearms.",
+    "category": [ "RAT" ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "NAILS", "CLAWS", "CLAWS_RAT" ],
+    "cancels": [ "TALONS" ],
+    "points": 0,
+    "mixed_effect": true,
+    "vitamin_cost": 160,
+    "visibility": 3,
+    "ugliness": 2,
+    "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "RECOIL_MODIFIER", "multiply": 0.5 }, { "value": "WEAPON_DISPERSION", "multiply": 0.1 } ],
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_rat_l" }, { "gain": "paw_rat_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "PAWS_LARGE",
     "name": { "str": "Broad Paws" },
-    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
+    "description": "Your paws are much larger now.  Manual dexterity is difficult: you have a penalty to your grip and manipulation scores, serious problems crafting, and can't wear gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
     "category": [ "BEAST", "URSINE" ],
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
@@ -129,7 +156,7 @@
     "visibility": 4,
     "ugliness": 3,
     "flags": [ "QUADRUPED_CROUCH" ],
-    "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [
       [ "electronics", -4 ],
       [ "tailor", -4 ],
@@ -141,8 +168,12 @@
       [ "cooking", -2 ],
       [ "survival", -2 ]
     ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "enchantments": [ "ench_quadruped_movement_half" ],
+    "enchantments": [
+      "ench_quadruped_movement_half",
+      {
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_broad_l" }, { "gain": "paw_broad_r" } ]
+      }
+    ],
     "triggers": [
       [
         {
@@ -349,19 +380,25 @@
     "type": "mutation",
     "id": "PAWS_LITTLE",
     "name": { "str": "Little Paws" },
-    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.  Plus, they allow you to move on all fours when crouching and unarmed.",
+    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, and you'll have a harder time with firearms, but you can still probably manage.  Plus, they allow you to move on all fours when crouching and unarmed.",
     "category": [ "RABBIT" ],
     "types": [ "HANDS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "TALONS" ],
+    "mixed_effect": true,
     "points": 0,
     "vitamin_cost": 160,
     "visibility": 2,
     "ugliness": 1,
     "flags": [ "QUADRUPED_CROUCH" ],
-    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
-    "enchantments": [ "ench_quadruped_movement_half" ],
+    "enchantments": [
+      "ench_quadruped_movement_half",
+      {
+        "values": [ { "value": "RECOIL_MODIFIER", "multiply": 0.5 }, { "value": "WEAPON_DISPERSION", "multiply": 0.1 } ],
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "hand_r" }, { "gain": "paw_little_l" }, { "gain": "paw_little_r" } ]
+      }
+    ],
     "triggers": [
       [
         {
@@ -465,6 +502,7 @@
     "visibility": 3,
     "ugliness": 2,
     "integrated_armor": [ "integrated_claws" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_manipulation_penalty", "intensity": 1 } ] } ],
     "//": "No Lupine, wolf claws aren't long or sharp enough."
   },
   {
@@ -480,7 +518,8 @@
     "vitamin_cost": 160,
     "visibility": 3,
     "ugliness": 4,
-    "integrated_armor": [ "integrated_claws_rat" ]
+    "integrated_armor": [ "integrated_claws_rat" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_st_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -490,14 +529,15 @@
     "category": [ "RAT", "URSINE" ],
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
-    "prereqs2": [ "PAWS" ],
+    "prereqs2": [ "PAWS", "PAWS_RAT" ],
     "threshreq": [ "THRESH_RAT", "THRESH_URSINE" ],
     "points": 6,
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 3,
     "ugliness": 5,
-    "integrated_armor": [ "integrated_claws_st" ]
+    "integrated_armor": [ "integrated_claws_st" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_st_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -524,7 +564,8 @@
     "cost": 0,
     "ugliness": 1,
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
-    "integrated_armor": [ "integrated_claws" ]
+    "integrated_armor": [ "integrated_claws" ],
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_claw_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
     "type": "mutation",

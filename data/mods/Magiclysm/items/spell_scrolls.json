@@ -1546,7 +1546,7 @@
     "id": "spell_scroll_seed_of_growth",
     "//": "Druid spell",
     "name": { "str": "Scroll of Seed of Growth", "str_pl": "Scrolls of Seed of Growth" },
-    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "description": "Offer some of your life in a ritual to increase the fertility of nearby crops.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   },
   {

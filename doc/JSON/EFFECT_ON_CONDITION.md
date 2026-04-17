@@ -2561,6 +2561,28 @@ Resets all of your vitamins.
 }
 ```
 
+#### `u_pickup_items`, `npc_pickup_items`
+Opens a menu that allow to pick items from any point directly into the inventory
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_pickup_items" / "npc_pickup_items" | **mandatory** | [variable object](#variable-object) | location variable of the center of pickup |
+| "max_mass" | optional | int or [variable object](#variable-object) | default -1 (unlimited), max weight of a single item you try to pick up, in grams |
+| "max_volume" | optional | int or [variable object](#variable-object) | default -1 (unlimited), max volume of a single item you try to pick up, in milliliters |
+| "extra_moves_per_item" | optional | int or [variable object](#variable-object) | additional time penalty for picking up items via this effect, in moves. Multiplied by the distance between the character that picks up and the item |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+Pick up items exactly from the positions you are standing on
+```jsonc
+{ "u_location_variable": { "u_val": "i_am_here" } }
+{ "u_pickup_items": { "u_val": "i_am_here" } }
+```
 
 #### `u_run_npc_eocs`, `npc_run_npc_eocs`
 NPC run EoCs, provided by this effect; can work outside of reality bubble

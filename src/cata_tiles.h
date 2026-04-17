@@ -944,6 +944,9 @@ class cata_tiles
             return has_animated_tiles_;
         }
 
+        // True if the minimap rendered critters with blinking beacons.
+        bool has_blinking_minimap() const;
+
         // Draw caches persist data between draws and are only recalculated when dirty
         void set_draw_cache_dirty();
 

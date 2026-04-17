@@ -1248,10 +1248,13 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
         for( const ammotype &at : ammo_types() ) {
-            // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
+            // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines.
+            // Pass now=false: we want "does the player possess compatible ammo/mags?",
+            // not "can this be reloaded right this second?".
             bool has_ammo = !player_character.get_ammo( at ).empty() ||
-                            !player_character.find_ammo( *this, false, -1 ).empty();
-            bool has_mag = magazine_integral() || !player_character.find_ammo( *this, true, -1 ).empty();
+                            !player_character.find_ammo( *this, false, -1, false ).empty();
+            bool has_mag = magazine_integral() ||
+                           !player_character.find_ammo( *this, true, -1, false ).empty();
             if( has_ammo && has_mag ) {
                 ret = c_green;
                 break;
@@ -1290,7 +1293,9 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         [this]( const item & it ) {
             return it.magazine_compatible().count( typeId() ) > 0;
         } );
-        bool has_ammo = !player_character.find_ammo( *this, false, -1 ).empty();
+        // Pass now=false so a full magazine still counts as "you have ammo for it"
+        // when the player is still carrying spare loose rounds of the same type.
+        bool has_ammo = !player_character.find_ammo( *this, false, -1, false ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {

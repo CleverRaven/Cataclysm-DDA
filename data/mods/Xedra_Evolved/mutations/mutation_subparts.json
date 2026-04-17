@@ -1,0 +1,134 @@
+[
+  {
+    "id": "eyes_arvore_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_arvore",
+    "side": "left",
+    "opposite": "eyes_arvore_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_arvore_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_arvore",
+    "side": "right",
+    "opposite": "eyes_arvore_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_homullus_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_homullus",
+    "side": "left",
+    "opposite": "eyes_homullus_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_homullus_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_homullus",
+    "side": "right",
+    "opposite": "eyes_homullus_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_ierde_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_ierde",
+    "side": "left",
+    "opposite": "eyes_ierde_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_ierde_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_ierde",
+    "side": "right",
+    "opposite": "eyes_ierde_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_salamander_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_salamander",
+    "side": "left",
+    "opposite": "eyes_salamander_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_salamander_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_salamander",
+    "side": "right",
+    "opposite": "eyes_salamander_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_sylph_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_sylph",
+    "side": "left",
+    "opposite": "eyes_sylph_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_sylph_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_sylph",
+    "side": "right",
+    "opposite": "eyes_sylph_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  },
+  {
+    "id": "eyes_undine_left",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_undine",
+    "side": "left",
+    "opposite": "eyes_undine_right",
+    "name_multiple": "eyes",
+    "name": "left eye",
+    "similar_bodypart": "eyes_left"
+  },
+  {
+    "id": "eyes_undine_right",
+    "type": "sub_body_part",
+    "max_coverage": 50,
+    "parent": "fae_eyes_undine",
+    "side": "right",
+    "opposite": "eyes_undine_left",
+    "name_multiple": "eyes",
+    "name": "right eye",
+    "similar_bodypart": "eyes_right"
+  }
+]

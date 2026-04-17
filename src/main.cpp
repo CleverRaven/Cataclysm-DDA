@@ -78,11 +78,7 @@
 class ui_adaptor;
 
 #if defined(TILES) || defined(SDL_SOUND)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_version.h>
-#   else
-#      include <SDL_version.h>
-#   endif
+#   include "sdl_version_wrappers.h"
 #endif
 
 #if defined(__ANDROID__)
@@ -744,19 +740,19 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
 #if defined(TILES) || defined(SDL_SOUND)
-    SDL_version compiled;
-    SDL_VERSION( &compiled );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
-                               << static_cast<int>( compiled.major ) << "."
-                               << static_cast<int>( compiled.minor ) << "."
-                               << static_cast<int>( compiled.patch );
+    {
+        const SDLVersionInfo compiled = GetCompiledSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
+                                   << compiled.major << "."
+                                   << compiled.minor << "."
+                                   << compiled.patch;
 
-    SDL_version linked;
-    SDL_GetVersion( &linked );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
-                               << static_cast<int>( linked.major ) << "."
-                               << static_cast<int>( linked.minor ) << "."
-                               << static_cast<int>( linked.patch );
+        const SDLVersionInfo linked = GetLinkedSDLVersion();
+        DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
+                                   << linked.major << "."
+                                   << linked.minor << "."
+                                   << linked.patch;
+    }
 #endif
 
 #if !defined(TILES)

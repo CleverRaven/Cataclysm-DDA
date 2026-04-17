@@ -65,7 +65,7 @@
         "                        ",
         "  -ó----------  ------- ",
         "  -.-E      E-  -h...^- ",
-        "  -.-E      E-  -Ddh.f- ",
+        "  -.-E      E-  -Ódh.f- ",
         "  -.-E      E-  -.....- ",
         "---ó--(((((((----:====- ",
         "hh.d^|..........-.....- ",
@@ -96,7 +96,6 @@
         "G": "f_utility_shelf",
         "%": "f_machinery_electronic",
         "f": "f_filing_cabinet",
-        "D": "f_desk",
         "n": "f_trashcan"
       },
       "items": {
@@ -111,7 +110,14 @@
           { "item": "afs_mealgrub_procesing", "chance": 60, "repeat": [ 1, 3 ] }
         ]
       },
-      "item": { "d": { "item": "afs_bugbrew_book" } }
+      "item": { "d": { "item": "afs_bugbrew_book" } },
+      "computers": {
+        "Ó": {
+          "name": "ColNet access point",
+          "eocs": [ "EOC_GENERIC_SALVAGE_COMPUTER" ],
+          "chat_topics": [ "COMPUTER_GENERIC_SALVAGE_LOCKED" ]
+        }
+      }
     }
   },
   {

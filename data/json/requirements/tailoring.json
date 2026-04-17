@@ -566,5 +566,21 @@
     "type": "requirement",
     "//": "Enough to make one tanned hide/pelt",
     "components": [ [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "meat_brain", 3, "LIST" ] ] ]
+  },
+  {
+    "id": "sewing_tool",
+    "type": "requirement",
+    "//": "1 unit of 'sewing_tool' is 1 minute of sewing.",
+    "//1": "Sewing maching is 84W, 1 charge is 1kj so that's 12s of use. I'm assuming the machine is only running 50% of the time so 24s. 60 / 24 = 2.5 rounded down to 2.",
+    "tools": [
+      [
+        [ "sewing_machine", 2 ],
+        [ "needle_bone", -1 ],
+        [ "needle_wood", -1 ],
+        [ "needle_steel", -1 ],
+        [ "sewing_kit", -1 ],
+        [ "tailors_kit", -1 ]
+      ]
+    ]
   }
 ]

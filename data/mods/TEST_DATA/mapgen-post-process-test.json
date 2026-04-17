@@ -1,0 +1,79 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "test_pp_riot_building",
+    "name": "PP test building",
+    "sym": ".",
+    "color": "white",
+    "see_cost": "none",
+    "flags": [ "SHOULD_NOT_SPAWN", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "test_pp_riot_building" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWW",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W..T...................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W............<.........W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W..T...................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "W......................W",
+        "WWWWWWWWWWWWWWWWWWWWWWWW"
+      ],
+      "terrain": { "W": "t_wall_wood", ".": "t_floor", "<": "t_wood_stairs_up" },
+      "furniture": { "T": "f_table" }
+    }
+  },
+  {
+    "type": "pp_generator",
+    "id": "test_pp_riot",
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 100, "chance": 5, "min_intensity": 3, "max_intensity": 30 },
+      { "type": "move_items", "attempts": 50, "chance": 8, "max_intensity": 2 },
+      { "type": "add_fire", "attempts": 1, "min_intensity": 1, "max_intensity": 2, "scaling_days_end": 7 },
+      {
+        "type": "pre_burn",
+        "attempts": 1,
+        "min_intensity": 10,
+        "max_intensity": 40,
+        "scaling_days_start": 2,
+        "scaling_days_end": 10
+      },
+      { "type": "place_blood", "attempts": 200, "chance": 20 }
+    ]
+  },
+  {
+    "type": "pp_generator",
+    "id": "test_pp_road",
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 100, "chance": 5, "min_intensity": 3, "max_intensity": 30 },
+      { "type": "move_items", "attempts": 50, "chance": 8, "max_intensity": 2 },
+      { "type": "add_fire", "attempts": 1, "min_intensity": 1, "max_intensity": 2, "scaling_days_end": 7 },
+      { "type": "place_blood", "attempts": 200, "chance": 20 }
+    ]
+  },
+  {
+    "type": "pp_generator",
+    "id": "test_pp_custom",
+    "sub_generators": [ { "type": "aftershock_ruin" } ]
+  }
+]

@@ -183,26 +183,41 @@
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_AURA" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
-    "changes_to": [ "INTERSTICE_RESONANCE_2" ],
+    "leads_to": [ "INTERSTICE_RESONANCE_2" ],
     "strict_threshreq": true,
     "points": -3,
     "purifiable": false,
     "vitamin_cost": 120,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 2000 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 750 } ] } ]
   },
   {
     "type": "mutation",
     "id": "INTERSTICE_RESONANCE_2",
     "name": { "str": "Outsider" },
-    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "description": "Your physiology plays by different rules.  The universe will notice you in your former homeworld.",
     "category": [ "INTERSTICE" ],
     "prereqs": [ "INTERSTICE_RESONANCE" ],
+    "changes_to": [ "INTERSTICE_RESONANCE_3" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "strict_threshreq": true,
-    "points": -6,
+    "points": -4,
     "purifiable": true,
+    "vitamin_cost": 240,
+    "enchantments": [ { "condition": { "current_dimension": "" }, "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_RESONANCE_3",
+    "name": { "str": "Deeply Incongruent" },
+    "description": "Your physiology plays by different rules, and it has caught the attention of something.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_RESONANCE_2" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "strict_threshreq": true,
+    "points": -5,
+    "purifiable": false,
     "vitamin_cost": 300,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 4500 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ] } ]
   },
   {
     "type": "mutation",
@@ -844,7 +859,8 @@
     "starting_trait": true,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -858,7 +874,8 @@
     "points": 4,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 190
+    "vitamin_cost": 190,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -872,7 +889,8 @@
     "points": 6,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "ELFA_NV", "ELFA_FNV" ]
   },
   {
     "type": "mutation",
@@ -931,9 +949,30 @@
     "prereqs": [ "INTERSTICEEYES" ],
     "threshreq": [ "THRESH_INTERSTICE" ],
     "points": 1,
-    "starting_trait": true,
     "vitamin_cost": 60,
     "enchantments": [ { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INTERSTICE_VISION2",
+    "name": { "str": "Ontological Sight" },
+    "description": "You've become attuned to the folds and gaps in the world and you now detect nearby creatures through them.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "INTERSTICE_VISION" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "points": 5,
+    "vitamin_cost": 210,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "distance": 10,
+            "descriptions": [ { "id": "interstice_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2127,6 +2166,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED2" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_RAT", "THRESH_CHIMERA" ],
+    "purifiable": false,
     "points": -4,
     "vitamin_cost": 160,
     "visibility": 10,
@@ -2546,7 +2586,7 @@
     "id": "UNSTABLE",
     "name": { "str": "Genetically Unstable" },
     "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
-    "category": [ "SLIME", "MEDICAL", "CHIMERA" ],
+    "category": [ "MEDICAL", "CHIMERA" ],
     "changes_to": [ "CHAOTIC" ],
     "points": -2,
     "mixed_effect": true,
@@ -2977,7 +3017,7 @@
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
-    "flags": [ "COLDBLOOD3" ],
+    "flags": [ "COLDBLOOD3", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3000,7 +3040,7 @@
     "mixed_effect": true,
     "purifiable": false,
     "vitamin_cost": 160,
-    "flags": [ "ECTOTHERM" ],
+    "flags": [ "ECTOTHERM", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3343,6 +3383,7 @@
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP_2" ],
     "changes_to": [ "DEX_UP_4" ],
+    "leads_to": [ "DEX_INTERSTICE" ],
     "threshreq": [
       "THRESH_BIRD",
       "THRESH_ELFA",
@@ -3382,6 +3423,21 @@
     "points": 6,
     "vitamin_cost": 400,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "alpha_stat_bonus(u_val('dexterity_base'))" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_INTERSTICE",
+    "name": { "str": "Liminal Stride" },
+    "description": "You are just passing through these places.  They present no distractions or resistance.  You move much easier, particularly over obstacles and through tight spaces.",
+    "category": [ "INTERSTICE" ],
+    "prereqs": [ "DEX_UP_3" ],
+    "threshreq": [ "THRESH_INTERSTICE" ],
+    "purifiable": false,
+    "points": 6,
+    "vitamin_cost": 400,
+    "enchantments": [
+      { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.75 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -3540,7 +3596,7 @@
     "type": "mutation",
     "id": "PER_INTERSTICE",
     "name": { "str": "Perceptual Overreach" },
-    "description": "You see all the colors of space.  It is maddening and confusing.  +9 Perception, -3 intelligence.",
+    "description": "You see all the colors of space.  It is maddening and confusing.  +12 Perception, -3 intelligence.",
     "category": [ "INTERSTICE" ],
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_4" ],
@@ -3549,7 +3605,7 @@
     "mixed_effect": true,
     "points": 4,
     "vitamin_cost": 300,
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 9 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 12 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
   },
   {
     "type": "mutation",
@@ -4358,9 +4414,8 @@
     "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "points": 4,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_feline" } ] } ]
   },
   {
     "type": "mutation",
@@ -5331,7 +5386,8 @@
     "mixed_effect": true,
     "vitamin_cost": 60,
     "visibility": 8,
-    "ugliness": 4
+    "ugliness": 4,
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_bulging" } ] } ]
   },
   {
     "type": "mutation",
@@ -5668,7 +5724,8 @@
     "points": 3,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "flags": [ "HIGH_GLARE" ]
   },
   {
     "type": "mutation",
@@ -5703,7 +5760,9 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "social_modifiers": { "lie": -5, "persuade": -5 },
-    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.5 }, { "value": "LEARNING_FOCUS", "multiply": -0.05 } ] }
+    ],
     "flags": [ "NUMB" ]
   },
   {
@@ -6901,30 +6960,30 @@
     "type": "mutation",
     "id": "ELFA_NV",
     "name": { "str": "Fey Vision" },
-    "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
+    "description": "The shadows don't seem as dark now.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 3,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey" } ] } ]
   },
   {
     "type": "mutation",
     "id": "ELFA_FNV",
     "name": { "str": "Fey Nightsight" },
-    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
+    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.",
     "category": [ "ELFA" ],
     "types": [ "VISION" ],
     "prereqs": [ "ELFA_NV" ],
     "threshreq": [ "THRESH_ELFA" ],
     "points": 5,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 210
+    "vitamin_cost": 210,
+    "cancels": [ "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_fey_full" } ] } ]
   },
   {
     "type": "mutation",

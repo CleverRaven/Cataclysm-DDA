@@ -34,5 +34,11 @@
     "//": "remove after 0.J",
     "id": "afs_jerky",
     "replace": "meat"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.J",
+    "id": "AID_AF_bio_trickle",
+    "replace": "AID_AF_bio_power_storage"
   }
 ]

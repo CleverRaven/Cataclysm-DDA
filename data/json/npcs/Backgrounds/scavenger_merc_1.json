@@ -29,7 +29,7 @@
       },
       {
         "text": "Is this enough whisky for you?",
-        "condition": { "and": [ { "u_has_item": "whiskey" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] },
+        "condition": { "and": [ { "u_has_item": "single_malt_whiskey" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY2"
       },
       { "text": "Fine.  Let's talk business, then.", "topic": "TALK_NONE" },

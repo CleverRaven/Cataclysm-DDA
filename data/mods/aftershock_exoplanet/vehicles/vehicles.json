@@ -492,5 +492,12 @@
       { "x": -3, "y": 2, "parts": [ "hdframe#horizontal", "hdboard#se" ] },
       { "x": -3, "y": 2, "parts": [ "wheel_mount_heavy", "wheel_armor", "plating_military" ] }
     ]
+  },
+  {
+    "id": "ship_reactor",
+    "type": "vehicle",
+    "name": "ship PDU",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "hdframe#horizontal", "dashboard", "ship_reactor_pdu", "storage_battery" ] } ]
   }
 ]

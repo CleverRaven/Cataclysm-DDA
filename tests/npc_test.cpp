@@ -1386,6 +1386,67 @@ TEST_CASE( "npc_nonally_sleeps_when_tired", "[npc][needs]" )
     }
 }
 
+// Thugs are guaranteed_hostile() by faction but start NPCATT_NULL.
+// assess_danger() must detect faction hostility so combat beats sleep.
+
+TEST_CASE( "faction_hostile_npc_detects_player_threat", "[npc][npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    npc &bandit = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), bandit.pos_bub() ) <= 1 );
+
+    // Thug is guaranteed_hostile by faction, but attitude has not flipped yet.
+    REQUIRE( bandit.guaranteed_hostile() );
+    REQUIRE_FALSE( bandit.is_enemy() );
+
+    bandit.regen_ai_cache();
+
+    // assess_danger() must count the player as a threat even before the
+    // attitude enum flips to NPCATT_KILL.
+    CHECK( bandit.get_ai_danger() > 0 );
+    CHECK( bandit.current_target() == static_cast<Creature *>( &player_character ) );
+}
+
+TEST_CASE( "faction_hostile_tired_npc_fights_not_sleeps", "[npc][npc_ai][needs]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+    clear_map_without_vision();
+    clear_avatar();
+    // 30+ minutes past turn_zero so can_sleep() cooldown does not interfere.
+    calendar::turn = calendar::turn_zero + 1_hours;
+
+    Character &player_character = get_player_character();
+    npc &bandit = spawn_npc( player_character.pos_bub().xy() + point( 0, 3 ), "thug" );
+    clear_character( bandit, true );
+    bandit.set_hunger( 0 );
+    bandit.set_thirst( 0 );
+    bandit.set_stored_kcal( bandit.get_healthy_kcal() );
+    bandit.set_all_parts_temp_conv( BODYTEMP_NORM );
+    bandit.set_all_parts_temp_cur( BODYTEMP_NORM );
+    // Exhausted -- would sleep if no danger present.
+    bandit.set_sleepiness( 800 );
+    bandit.set_moves( 100 );
+
+    // Thug is guaranteed_hostile by faction, but attitude starts neutral.
+    // The move() pipeline must detect the player as a threat and choose
+    // combat over sleep.
+    REQUIRE( bandit.guaranteed_hostile() );
+    REQUIRE_FALSE( bandit.is_enemy() );
+
+    bandit.move();
+
+    // Must NOT have fallen asleep.
+    CHECK_FALSE( bandit.has_effect( effect_sleep ) );
+    CHECK_FALSE( bandit.has_effect( effect_lying_down ) );
+    // The attitude must have flipped to hostile.
+    CHECK( bandit.is_enemy() );
+}
+
 // ---------------------------------------------------------------------------
 // Helper-level tests for local resource acquisition
 // ---------------------------------------------------------------------------
@@ -4840,11 +4901,11 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         here.ter_set( close, ter_t_tree_apple );
 
         // Far tree in the open (reachable).
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 0, -5, 0 );
-        here.ter_set( far, ter_t_tree_apple );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 0, -5, 0 );
+        here.ter_set( distant, ter_t_tree_apple );
         here.build_map_cache( 0 );
         REQUIRE( here.is_harvestable( close ) );
-        REQUIRE( here.is_harvestable( far ) );
+        REQUIRE( here.is_harvestable( distant ) );
 
         // The close tree must be the first candidate (closer = higher score).
         auto cands = guy.find_food_candidates();
@@ -4863,7 +4924,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "eat_food" );
         CHECK( guy.get_food_plan().active() );
-        CHECK( guy.get_food_plan().target == here.get_abs( far ) );
+        CHECK( guy.get_food_plan().target == here.get_abs( distant ) );
         CHECK( guy.get_food_plan().source_kind == need_source::harvestable );
         CHECK( result == npc::need_result::progressed );
     }
@@ -5496,8 +5557,8 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
     SECTION( "nearby clothing outranks distant shelter" ) {
         // Clothing at distance 1 (warmth ~30), shelter at distance 3 (score -3).
         here.add_item_or_charges( adj, item( itype_sweater ) );
-        tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
         auto cands = guy.find_warmth_candidates();
         REQUIRE( cands.size() >= 2 );
@@ -5582,8 +5643,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "distant ground clothing: move toward, progressed" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 4, 0, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 4, 0, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
@@ -5594,8 +5655,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "distant shelter: move toward at low danger, progressed" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 4, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 4, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
 
         guy.set_ai_danger( 0 );
@@ -5607,8 +5668,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
     }
 
     SECTION( "shelter movement blocked by danger, deferred" ) {
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.ter_set( far, ter_t_floor );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
 
         guy.set_ai_danger( NPC_DANGER_VERY_LOW + 1 );
@@ -5702,8 +5763,8 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         }
         here.add_item_or_charges( close, item( itype_sweater ) );
         // Second sweater in the open.
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 0, -4, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 0, -4, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         auto cands = guy.find_warmth_candidates();
@@ -5720,7 +5781,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "seek_warmth" );
         CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().target == here.get_abs( far ) );
+        CHECK( guy.get_warmth_plan().target == here.get_abs( distant ) );
         CHECK( result == npc::need_result::progressed );
     }
 
@@ -5762,8 +5823,8 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
 
     SECTION( "commitment clears when warmth resolves" ) {
         // Place distant clothing so seek_warmth activates.
-        const tripoint_bub_ms far = guy.pos_bub() + tripoint( 3, 0, 0 );
-        here.add_item_or_charges( far, item( itype_sweater ) );
+        const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
+        here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
         guy.set_committed_goal( "seek_warmth" );

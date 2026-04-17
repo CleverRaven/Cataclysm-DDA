@@ -109,6 +109,7 @@ static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_imm
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
@@ -516,8 +517,8 @@ bool Creature::sees( const map &here, const Creature &critter ) const
         return false;
     }
 
-    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( has_flag( mon_flag_ALWAYS_SEES_YOU ) &&
-            critter.is_avatar() ) ) {
+    if( critter.has_flag( mon_flag_ALWAYS_VISIBLE ) || ( ( has_flag( mon_flag_ALWAYS_SEES_YOU ) ||
+            has_effect( effect_monster_locked_on ) ) && critter.is_avatar() ) ) {
         return true;
     }
 
@@ -566,6 +567,12 @@ bool Creature::sees( const map &here, const Creature &critter ) const
           critter.has_flag( mon_flag_PERMANENT_INVISIBILITY ) ) &&
         !critter.has_effect_with_flag( json_flag_SUPPRESS_INVISIBILITY ) ) {
         return false;
+    }
+
+    // Creatures with infrared vision check here after invisibility
+    if( this->has_flag( mon_flag_INFRARED_VISION ) && critter.is_warm() ) {
+        const monster *m = this->as_monster();
+        return target_range <= std::max( m->type->vision_day, m->type->vision_night );
     }
 
     // This check is ridiculously expensive so defer it to after everything else.

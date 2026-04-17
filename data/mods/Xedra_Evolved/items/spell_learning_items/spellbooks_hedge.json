@@ -1004,5 +1004,100 @@
         "hedge_chicken_sacrifice_make_rain"
       ]
     }
+  },
+  {
+    "id": "spellbook_hedge_avodah_zarah",
+    "type": "ITEM",
+    "name": { "str": "Excerpts of Avodah Zarah", "str_pl": "copies of Excerpts of Avodah Zarah" },
+    "description": "A partial english-translated copy of Avodah Zarah, summarizing and explaining many passages of the Talmud.",
+    "weight": "450 g",
+    "volume": "562 ml",
+    "price": "25 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Study the occult text.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH",
+          "//": "Max research time before failure is 36 hours. Average result of 216 after 36 hours of study with Deduction 0.  Studying drains focus, but focus is not taken into account to determine progress or success at this time.",
+          "condition": { "math": [ "u_deciphered_spellbook_hedge_avodah_zarah != 1" ] },
+          "effect": [
+            { "set_string_var": "spellbook_hedge_avodah_zarah", "target_var": { "u_val": "latest_studied_occult_text_name" } },
+            {
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_AVODAH_ZARAH_COMPLETION",
+              "target_var": { "u_val": "latest_completion_eoc" }
+            },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 129600" ] },
+            {
+              "u_run_inv_eocs": "random",
+              "search_data": [ { "id": "spellbook_hedge_avodah_zarah" } ],
+              "true_eocs": [
+                {
+                  "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH_SET_DIFFICULTY",
+                  "condition": { "math": [ "n_already_failed_research == 1" ] },
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 270" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 300" ] } ]
+                },
+                {
+                  "id": "EOC_HEDGE_RESEARCH_AVODAH_ZARAH_READ_VALUES",
+                  "effect": [
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
+                  ]
+                }
+              ]
+            },
+            { "u_assign_activity": "ACT_XE_DECIPHERING_HEDGE_TOME", "duration": "8 hours" },
+            { "u_add_effect": "effect_xe_deciphering_hedge_tome", "duration": "8 hours" },
+            {
+              "run_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_AVODAH_ZARAH",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            },
+            {
+              "run_eocs": "EOC_HEDGE_RESEARCH_FOCUS_DRAIN",
+              "time_in_future": [
+                { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+              ]
+            }
+          ],
+          "false_effect": [
+            { "u_spawn_item": "spellbook_hedge_avodah_zarah_spell_stub", "suppress_message": true },
+            {
+              "run_eocs": [
+                {
+                  "id": "EOC_HEDGE_USING_AVODAH_ZARAH",
+                  "effect": [
+                    {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [ { "id": "spellbook_hedge_avodah_zarah_spell_stub" } ],
+                      "true_eocs": [ { "id": "EOC_HEDGE_USING_AVODAH_ZARAH_ACTIVATE", "effect": { "u_activate": "learn_spell" } } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "u_remove_item_with": "spellbook_hedge_avodah_zarah_spell_stub" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spellbook_hedge_avodah_zarah_spell_stub",
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "category": "manuals",
+    "copy-from": "magic_square_base",
+    "name": { "str_sp": "The Real Actual Excerpts of Avodah Zarah", "//~": "NO_I18N" },
+    "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_scare_shabriri" ] }
   }
 ]

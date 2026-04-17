@@ -25,6 +25,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -81,6 +89,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -135,6 +151,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -250,6 +274,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -304,6 +336,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -345,6 +385,14 @@
         "covers": [
           "hand_l",
           "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
           "foot_l",
           "foot_r",
           "avian_talon_l",
@@ -396,7 +444,25 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "paw_l",
+          "paw_r",
+          "paw_rat_l",
+          "paw_rat_r",
+          "paw_little_l",
+          "paw_little_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 1
       },
@@ -434,7 +500,19 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 9 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 6
       },
@@ -472,7 +550,19 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "avian_talon_l", "avian_talon_r", "animal_paw_l", "animal_paw_r", "head" ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "paw_broad_l",
+          "paw_broad_r",
+          "foot_l",
+          "foot_r",
+          "avian_talon_l",
+          "avian_talon_r",
+          "animal_paw_l",
+          "animal_paw_r",
+          "head"
+        ],
         "coverage": 100,
         "encumbrance": 4
       },
@@ -2342,17 +2432,7 @@
     "use_action": [
       { "type": "transform", "msg": "You activate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg_on" }
     ],
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ACTIVE",
-        "values": [
-          { "value": "MOVE_COST", "multiply": -0.15 },
-          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
-          { "value": "CARRY_WEIGHT", "add": 20000 }
-        ]
-      }
-    ],
+    "passive_effects": [ { "id": "robofac_XM_LEG_on" } ],
     "tool_ammo": [ "battery" ]
   },
   {
@@ -2428,18 +2508,7 @@
     "use_action": [
       { "type": "transform", "msg": "You activate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm_on" }
     ],
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ACTIVE",
-        "values": [
-          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
-          { "value": "WEAPON_DISPERSION", "multiply": -0.1 },
-          { "value": "THROW_STR", "multiply": 0.5 },
-          { "value": "THROW_DAMAGE", "multiply": 0.25 }
-        ]
-      }
-    ],
+    "passive_effects": [ { "id": "robofac_XM_ARM_on" } ],
     "tool_ammo": [ "battery" ]
   },
   {
@@ -2499,19 +2568,7 @@
     "use_action": [
       { "type": "transform", "msg": "You activate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback_on" }
     ],
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ACTIVE",
-        "values": [
-          { "value": "CARRY_WEIGHT", "multiply": 0.35 },
-          { "value": "RECOIL_MODIFIER", "multiply": -0.05 },
-          { "value": "WEAPON_DISPERSION", "multiply": -0.05 },
-          { "value": "THROW_STR", "multiply": 0.05 },
-          { "value": "THROW_DAMAGE", "multiply": 0.05 }
-        ]
-      }
-    ],
+    "passive_effects": [ { "id": "robofac_XM_BACK_on" } ],
     "tool_ammo": [ "battery" ]
   },
   {

@@ -108,5 +108,20 @@
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "lc_steel_lump", 4 ] ], [ [ "lc_steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "result": "target_spinner",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [ [ [ "hard_plate", 1 ] ], [ [ "sheet_metal_small", 3 ] ], [ [ "pipe", 6 ] ], [ [ "nuts_bolts", 25 ] ] ]
   }
 ]

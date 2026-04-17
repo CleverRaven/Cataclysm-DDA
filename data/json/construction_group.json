@@ -1577,6 +1577,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_camp_anvil",
+    "name": "Prepare any suitable anvil for camp"
+  },
+  {
+    "type": "construction_group",
     "id": "place_anvil_heavy",
     "name": "Place Heavy Anvil"
   },

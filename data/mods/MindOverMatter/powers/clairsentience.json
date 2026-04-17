@@ -18,12 +18,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 21500) + 59500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 21500) + 59500) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( ( u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 48200) + 126400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( ( u_spell_level('clair_better_senses') + u_spell_level('clair_better_senses_knack') ) * 48200) + 126400) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
@@ -54,16 +54,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_SPEED_READING_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_speed_reading') * 37200) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_speed_reading') * 81000) + 140000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_speed_reading') * 37200) + 72000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_speed_reading') * 81000) + 140000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_speed_reader') > -1 ? 0 : max((2500 - (u_spell_level('clair_speed_reading') * 125)), 1000)"
@@ -94,12 +86,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 30300) + 117400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 30300) + 117400) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 100200) + 223200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_danger_sense') + u_spell_level('clair_danger_sense_knack') ) * 100200) + 223200) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
@@ -130,16 +122,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_NIGHT_EYES_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_night_vision') * 15000) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_night_vision') * 27000) + 98000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_night_vision') * 15000) + 29000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_night_vision') * 27000) + 98000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((3500 - (u_spell_level('clair_night_vision') * 75)), 2000)"
@@ -166,22 +150,10 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('clair_spot_weakness') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 100)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('clair_spot_weakness') * 1.2) + 1) * psionic_power_modifiers()), 100)" ] },
     "max_range": 100,
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_spot_weakness') * 250) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_spot_weakness') * 150) + 1350) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_spot_weakness') * 250) + 3000) * psionic_power_modifiers()" ] },
     "base_energy_cost": 3000,
     "final_energy_cost": 1250,
     "energy_increment": -125,
@@ -207,16 +179,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_SEE_AURAS_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_see_auras') * 9000) + 65000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_see_auras') * 19000) + 113000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_see_auras') * 9000) + 65000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_see_auras') * 19000) + 113000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_see_auras') > -1 ? 0 : max((4000 - (u_spell_level('clair_see_auras') * 115)), 1750)"
@@ -273,16 +237,8 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_sense_rads_self",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    }
+    "min_duration": { "math": [ "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_sense_rads') * 48000) + 450000) * psionic_power_modifiers()" ] }
   },
   {
     "id": "clair_sense_rads_outside_spawn_item",
@@ -317,16 +273,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_RANGED_ENHANCE_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_ranged_enhance') * 800) + 21000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_ranged_enhance') * 2500) + 64000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_ranged_enhance') * 800) + 21000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_ranged_enhance') * 2500) + 64000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 0 : max((4500 - (u_spell_level('clair_ranged_enhance') * 135)), 2250)"
@@ -377,12 +325,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 4500) + 12000) * psionic_power_modifiers()"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 7500) + 49000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( ( (u_spell_level('clair_sense_hostile_creatures') + u_spell_level('clair_sense_hostile_creatures_knack') ) * 7500) + 49000) * psionic_power_modifiers()"
       ]
     },
     "base_energy_cost": {
@@ -412,28 +360,12 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-      ]
-    },
+    "min_range": { "math": [ "min( (( (u_spell_level('clair_voyance') * 1.2) + 2) * psionic_power_modifiers()), 80)" ] },
     "max_range": 80,
-    "min_aoe": {
-      "math": [
-        "min( (( (u_spell_level('clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
-      ]
-    },
+    "min_aoe": { "math": [ "min( (( (u_spell_level('clair_voyance') * 1.2) + 1.5) * psionic_power_modifiers()), 50)" ] },
     "max_aoe": 50,
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_voyance') * 110) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_voyance') * 50) + 250) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_voyance') * 110) + 1500) * psionic_power_modifiers()" ] },
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
@@ -462,16 +394,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_DODGE_POWER_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_dodge_power') * 900) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_dodge_power') * 1700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_dodge_power') * 900) + 12000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_dodge_power') * 1700) + 45000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [ "u_effect_intensity('effect_clair_dodge') > -1 ? 0 : max((5500 - (u_spell_level('clair_dodge_power') * 145)), 2750)" ]
     },
@@ -496,16 +420,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_CRAFT_BONUS_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_craft_bonus') * 25000) + 121500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_craft_bonus') * 60000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_craft_bonus') * 25000) + 121500) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_craft_bonus') * 60000) + 270000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 0 : max((6500 - (u_spell_level('clair_craft_bonus') * 145)), 3250)"
@@ -559,16 +475,8 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "map",
     "shape": "blast",
-    "min_aoe": {
-      "math": [
-        "( (u_spell_level('clair_see_map') * 0.5) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_aoe": {
-      "math": [
-        "( (u_spell_level('clair_see_map') * 1) + 11) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_aoe": { "math": [ "( (u_spell_level('clair_see_map') * 0.5) + 4) * psionic_power_modifiers()" ] },
+    "max_aoe": { "math": [ "( (u_spell_level('clair_see_map') * 1) + 11) * psionic_power_modifiers()" ] },
     "base_energy_cost": 9000,
     "base_casting_time": 6000
   },
@@ -589,16 +497,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_CLEAR_SIGHT_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_clear_sight') * 1200) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_clear_sight') * 2500) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_clear_sight') * 1200) + 15000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_clear_sight') * 2500) + 45000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_clear_sight') > -1 ? 0 : max((8000 - (u_spell_level('clair_clear_sight') * 150)), 4500)"
@@ -665,16 +565,8 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_GROUP_TACTICS_INITIATE",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_group_tactics') * 900) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_group_tactics') * 2300) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_group_tactics') * 900) + 6000) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_group_tactics') * 2300) + 18000) * psionic_power_modifiers()" ] },
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 0 : max((7500 - (u_spell_level('clair_group_tactics') * 125)), 4000)"
@@ -703,16 +595,8 @@
     "effect": "attack",
     "effect_str": "effect_clair_omniscence",
     "shape": "blast",
-    "min_duration": {
-      "math": [
-        "( (u_spell_level('clair_omniscience') * 75) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('clair_omniscience') * 150) + 1000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
+    "min_duration": { "math": [ "( (u_spell_level('clair_omniscience') * 75) + 200) * psionic_power_modifiers()" ] },
+    "max_duration": { "math": [ "( (u_spell_level('clair_omniscience') * 150) + 1000) * psionic_power_modifiers()" ] },
     "base_energy_cost": 10000,
     "final_energy_cost": 7500,
     "energy_increment": -115,

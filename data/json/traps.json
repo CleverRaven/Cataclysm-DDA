@@ -890,6 +890,19 @@
   },
   {
     "type": "trap",
+    "id": "tr_target_spinner",
+    "name": "spinner target",
+    "color": "light_gray",
+    "symbol": "%",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "drops": [ "target_spinner" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_unfinished_construction",
     "name": "unfinished construction",
     "color": "white",

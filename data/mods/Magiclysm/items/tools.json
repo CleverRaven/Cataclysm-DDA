@@ -250,7 +250,7 @@
     "color": "red",
     "weight": "0 g",
     "volume": "0 ml",
-    "qualities": [ [ "MANA_INFUSE", 2 ], [ "MANA_FOCUS", 2 ] ],
+    "qualities": [ [ "MANA_INFUSE", 2 ], { "id": "MANA_FOCUS", "level": 2, "speed": 0.66 } ],
     "flags": [ "ZERO_WEIGHT" ]
   }
 ]
