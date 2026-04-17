@@ -50,5 +50,15 @@
         { "overmap": "crossroads", "weight": 1 }
       ]
     ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinth_safehouse",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "labyrinth_safehouse" } ],
+    "city_distance": [ 0, -1 ],
+    "//": "spawned by EOC",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "netherum_labyrinth_sparkling_chasm" ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH_SAFEHOUSE", "GLOBALLY_UNIQUE" ]
   }
 ]

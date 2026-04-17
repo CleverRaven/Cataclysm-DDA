@@ -73,5 +73,31 @@
       "U": { "item": "LS_SUS_bunk_room", "chance": 25 },
       "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 35 }
     }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_safehouse_palette",
+    "terrain": {
+      "#": "t_nl_safehouse_metal_wall_wired",
+      "|": "t_nl_safehouse_metal_wall_wired_destructable",
+      ".": "t_nl_metal_floor",
+      "B": "t_nl_metal_floor",
+      "f": "t_nl_metal_floor",
+      "O": "t_nl_metal_floor",
+      "T": "t_nl_metal_floor",
+      "G": "t_nl_metal_floor",
+      "~": "t_nl_metal_floor",
+      "c": "t_nl_metal_floor",
+      "D": "t_nl_door_c",
+      "+": "t_nl_safehouse_door_metal_corrugated_c"
+    },
+    "furniture": {
+      "B": "f_bed",
+      "f": "f_foot_locker_aluminum",
+      "O": "f_exodii_floor_portal_enclosure",
+      "G": "f_compact_ASRG_containment",
+      "~": "f_shower",
+      "c": "f_counter"
+    }
   }
 ]
