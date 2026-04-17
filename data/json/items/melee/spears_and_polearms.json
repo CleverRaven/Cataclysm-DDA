@@ -339,7 +339,7 @@
   },
   {
     "type": "ITEM",
-    "id": "mc_spear_steel",
+    "id": "spear_steel",
     "name": { "str": "medium steel spear" },
     "description": "A stout wooden pole with a hand-forged medium steel spearhead.",
     "weight": "1500 g",
@@ -361,8 +361,8 @@
   },
   {
     "id": "lc_spear_steel",
-    "copy-from": "mc_spear_steel",
-    "looks_like": "mc_spear_steel",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
     "type": "ITEM",
     "name": { "str": "mild steel spear" },
     "description": "A stout wooden pole with a mild steel spearhead.  Although made of low quality steel, it is still reasonably effective, if not very durable.",
@@ -372,18 +372,9 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
-    "id": "spear_steel",
-    "copy-from": "mc_spear_steel",
-    "looks_like": "mc_spear_steel",
-    "type": "ITEM",
-    "name": { "str": "steel spear" },
-    "description": "A stout wooden pole with a hand-forged steel spearhead.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "hc_spear_steel",
-    "copy-from": "mc_spear_steel",
-    "looks_like": "mc_spear_steel",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
     "type": "ITEM",
     "name": { "str": "high steel spear" },
     "description": "A stout wooden pole with a hand-forged high steel spearhead.  The high steel offers superior sharpness and penetrating power.",
@@ -393,8 +384,8 @@
   },
   {
     "id": "ch_spear_steel",
-    "copy-from": "mc_spear_steel",
-    "looks_like": "mc_spear_steel",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
     "type": "ITEM",
     "name": { "str": "hardened steel spear" },
     "description": "A stout wooden pole tipped with a hand-forged hardened steel spearhead.  The case-hardened and carefully slack quenched tip offers superior killing power, making this a spear fit for a medieval lord.",
@@ -404,8 +395,8 @@
   },
   {
     "id": "qt_spear_steel",
-    "copy-from": "mc_spear_steel",
-    "looks_like": "mc_spear_steel",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
     "type": "ITEM",
     "name": { "str": "tempered steel spear" },
     "description": "A stout wooden pole tipped with a hand-forged tempered steel spearhead.  Masterfully tempered and quenched, the bluish steel coalesces in a needle-fine point.  The shaft has been lined with a spiraling leather riser, improving control during deadly thrusts.  The king of all weapons.",
@@ -904,9 +895,9 @@
     "melee_damage": { "bash": 9, "stab": 28 }
   },
   {
-    "id": "mc_pike",
+    "id": "pike",
     "type": "ITEM",
-    "name": { "ctxt": "weapon", "str": "pike" },
+    "name": { "ctxt": "weapon", "str": "medium steel pike" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with a steel spearhead.",
     "weight": "2500 g",
     "volume": "3500 ml",
@@ -928,8 +919,8 @@
   },
   {
     "id": "lc_pike",
-    "copy-from": "mc_pike",
-    "looks_like": "mc_pike",
+    "copy-from": "pike",
+    "looks_like": "pike",
     "type": "ITEM",
     "name": { "str": "mild steel pike" },
     "description": "A very long wooden shaft with a mild steel pike head.  Although made of low quality steel, it remains a formidable reach weapon, if somewhat less durable.",
@@ -939,18 +930,9 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
-    "id": "pike",
-    "copy-from": "mc_pike",
-    "looks_like": "mc_pike",
-    "type": "ITEM",
-    "name": { "str": "steel pike" },
-    "description": "A very long wooden shaft with a hand-forged steel pike head.",
-    "replace_materials": { "mc_steel": "steel" }
-  },
-  {
     "id": "hc_pike",
-    "copy-from": "mc_pike",
-    "looks_like": "mc_pike",
+    "copy-from": "pike",
+    "looks_like": "pike",
     "type": "ITEM",
     "name": { "str": "high steel pike" },
     "description": "A very long wooden shaft with a hand-forged high steel pike head.  The improved steel offers better sharpness and penetration.",
@@ -960,8 +942,8 @@
   },
   {
     "id": "ch_pike",
-    "copy-from": "mc_pike",
-    "looks_like": "mc_pike",
+    "copy-from": "pike",
+    "looks_like": "pike",
     "type": "ITEM",
     "name": { "str": "hardened steel pike" },
     "description": "A very long wooden shaft tipped with a case-hardened steel pike head.  Its refined edge and hardened tip make it deadly in combat.",
@@ -971,8 +953,8 @@
   },
   {
     "id": "qt_pike",
-    "copy-from": "mc_pike",
-    "looks_like": "mc_pike",
+    "copy-from": "pike",
+    "looks_like": "pike",
     "type": "ITEM",
     "name": { "str": "tempered steel pike" },
     "description": "A very long wooden shaft tipped with a masterfully tempered steel pike head.  The blade is razor-sharp and perfectly tapered. The pinnacle of polearm craftsmanship.",
