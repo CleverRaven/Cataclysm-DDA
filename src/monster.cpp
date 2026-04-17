@@ -41,6 +41,7 @@
 #include "harvest.h"
 #include "imgui/imgui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
