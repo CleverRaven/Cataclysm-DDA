@@ -673,7 +673,6 @@
     "visibility": 10,
     "ugliness": -2,
     "flags": [ "WINGS_1" ],
-    "encumbrance_always": [ [ "torso", 10 ] ],
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "enchantments": [
