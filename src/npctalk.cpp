@@ -3760,6 +3760,9 @@ void receive_item( const itype_id &item_id, int count, const itype_id &container
                    const tripoint_abs_ms &p = tripoint_abs_ms::zero, bool force_equip = false )
 {
     item new_item = item( item_id, calendar::turn );
+    if (new_item.is_map()) {
+        new_item.preserve_location(p);
+    }
     for( const std::string &flag : flags ) {
         new_item.set_flag( flag_id( flag ) );
     }
@@ -3821,6 +3824,9 @@ void receive_item_group( const item_group_id &group_id, const dialogue &d, bool 
     for( item &new_item : new_items ) {
         for( const std::string &flag : flags ) {
             new_item.set_flag( flag_id( flag ) );
+        }
+        if (new_item.is_map()) {
+            new_item.preserve_location(p);
         }
         if( add_talker ) {
             d.actor( false )->i_add_or_drop( new_item, force_equip );
