@@ -255,7 +255,7 @@
       "SUPPORTS_ROOF",
       "REDUCE_SCENT",
       "BARRICADABLE_DOOR",
-      "OPENCLOSE_INSIDE"
+      "OPENCLOSE_INSIDE",
       "TRANSPARENT",
       "FLAT",
       "ROAD"
