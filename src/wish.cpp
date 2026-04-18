@@ -1195,6 +1195,9 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
+                if (granted.is_map()) {
+                    granted.preserve_location(you->pos_abs());
+                }
                 did_amount_prompt = true;
                 if( you != nullptr ) {
                     if( amount > 0 ) {
