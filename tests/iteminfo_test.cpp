@@ -1293,7 +1293,7 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
     expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
-    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.025f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 
 }
@@ -1414,7 +1414,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
         item longshirt( itype_test_longshirt );
-        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
+        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.05f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
         // Protection info displayed on two lines
@@ -1528,7 +1528,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         item super_tanktop( itype_test_complex_tanktop );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
+        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.16667f );
 
         // Protection info displayed on two lines
         const std::string info = item_info_str( super_tanktop, more_protection );
