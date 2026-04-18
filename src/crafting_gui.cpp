@@ -1136,9 +1136,18 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 cataimgui::draw_colored_text( colored, c_light_gray );
             }
         }
+
+        if( avail.can_craft && crafter->lighting_craft_speed_multiplier( recp ) <= 0.0f ) {
+            const char *lighting_str = _( "Lighting conditions are too poor to craft this." );
+            float line_w = ImGui::CalcTextSize( lighting_str ).x;
+            if( line_w < region_w ) {
+                ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
+            }
+            cataimgui::draw_colored_text( lighting_str, c_red );
+        }
         ImGui::Separator();
 
-        // Warnings (right after stats)
+        // Warnings (right after stats)     
         if( avail.can_craft && avail.would_use_rotten ) {
             cataimgui::TextColoredParagraphNewline( c_red, _( "Will use rotten ingredients" ) );
         }
