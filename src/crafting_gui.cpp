@@ -1147,7 +1147,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
         }
         ImGui::Separator();
 
-        // Warnings (right after stats)     
+        // Warnings (right after stats)
         if( avail.can_craft && avail.would_use_rotten ) {
             cataimgui::TextColoredParagraphNewline( c_red, _( "Will use rotten ingredients" ) );
         }
