@@ -7,7 +7,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "name": "bows",
     "description": "Recipes related to constructing bows to launch arrows with.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "selfbow", "shortbow", "reflexbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ]
   },
   {
@@ -18,7 +17,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "name": "flintlock arms",
     "description": "Recipes related to constructing flintlock rifles, pistols and shotguns.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "rifle_flintlock",
       "longrifle_flintlock",
@@ -37,7 +35,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "name": "pipe rifles",
     "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44", "rifle_45_410" ]
   },
   {
@@ -48,7 +45,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "staffs",
     "description": "Recipes related to constructing different types of staffs.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "q_staff",
       "i_staff",
@@ -68,7 +64,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steelshod quarterstaves",
     "description": "Recipes related to constructing different qualities of steelshod quarterstaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_staff", "mc_steel_staff", "hc_steel_staff", "ch_steel_staff", "qt_steel_staff" ]
   },
   {
@@ -79,7 +74,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "graded steel maces",
     "description": "Recipes related to constructing different qualities of steel maces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_mace", "mc_mace", "hc_mace", "ch_mace", "qt_mace" ]
   },
   {
@@ -90,7 +84,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "maces",
     "description": "Recipes related to constructing different types of maces.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "mace",
       "mace_bronze",
@@ -111,7 +104,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "holsters",
     "description": "Recipes related to constructing holsters for small, regular and large firearms.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "XL_holster",
       "XL_nylon_holster",
@@ -143,7 +135,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "bandoliers",
     "description": "Recipes related to constructing different types of bandoliers.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "bandolier_pistol",
       "bandolier_rifle",
@@ -164,7 +155,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "vehicle batteries",
     "description": "Recipes related to constructing batteries used in vehicles.",
-    "skill_used": "electronics",
     "nested_category_data": [ "battery_car", "battery_motorbike" ]
   },
   {
@@ -175,7 +165,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "standard batteries",
     "description": "Recipes related to constructing standard rechargeable batteries.",
-    "skill_used": "electronics",
     "nested_category_data": [ "UPS_OFF", "medium_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ]
   },
   {
@@ -186,7 +175,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "storage batteries",
     "description": "Recipes related to constructing storage batteries used in vehicles or in buildings.",
-    "skill_used": "electronics",
     "nested_category_data": [ "storage_battery", "storage_battery_from_medium", "medium_storage_battery", "large_storage_battery" ]
   },
   {
@@ -197,7 +185,6 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "name": "batteries",
     "description": "Recipes related to constructing all kinds of batteries.",
-    "skill_used": "electronics",
     "nested_category_data": [
       "nested_atomic_battery",
       "nested_dry_battery",
@@ -214,7 +201,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "name": "crossbows",
     "description": "Recipes related to constructing crossbows to shoot bolts with.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "bullet_crossbow", "compositecrossbow", "huge_crossbow", "hand_crossbow", "rep_crossbow", "crossbow" ]
   },
   {
@@ -225,7 +211,6 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "name": "cocktails and mixed drinks",
     "description": "Recipes related to mixing alcohol with other beverages.",
-    "skill_used": "cooking",
     "nested_category_data": [
       "drink_pinitacolada",
       "drink_shirleytemple",
@@ -261,7 +246,6 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "name": "teas",
     "description": "Recipes related to steeping organic solids in boiling water.",
-    "skill_used": "cooking",
     "nested_category_data": [
       "tea_willowbark",
       "tea_wild_sarsaparilla",
@@ -294,7 +278,6 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "name": "refined cannabis",
     "description": "Recipes related to refining cannabis into more potent forms.",
-    "skill_used": "chemistry",
     "nested_category_data": [
       "hi_q_wax",
       "hi_q_wax_improvised_extraction",
@@ -314,7 +297,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "canvas dusters",
     "description": "Recipes related to tailoring long coats from cotton, known as dusters.",
-    "skill_used": "tailor",
     "nested_category_data": [ "duster", "xs_duster", "xl_duster", "sleeveless_duster", "sleeveless_duster_from_duster" ]
   },
   {
@@ -325,7 +307,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "fur dusters",
     "description": "Recipes related to tailoring long coats from fur, known as dusters.",
-    "skill_used": "tailor",
     "nested_category_data": [ "duster_fur", "xs_duster_fur", "xl_duster_fur", "sleeveless_duster_fur", "sleeveless_duster_fur_from_duster_fur" ]
   },
   {
@@ -336,7 +317,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leather dusters",
     "description": "Recipes related to tailoring sturdy long coats from leather, known as dusters.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "duster_leather",
       "xs_duster_leather",
@@ -353,7 +333,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "faux fur dusters",
     "description": "Recipes related to tailoring long coats from faux fur, known as dusters.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "duster_faux_fur",
       "xs_duster_faux_fur",
@@ -370,7 +349,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "dusters",
     "description": "Recipes related to tailoring long coats, known as dusters.",
-    "skill_used": "tailor",
     "nested_category_data": [ "nested_cotton_duster", "nested_fur_duster", "nested_leather_duster", "nested_faux_fur_duster" ]
   },
   {
@@ -381,7 +359,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "canvas trenchcoats",
     "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
-    "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ]
   },
   {
@@ -392,7 +369,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "fur trenchcoats",
     "description": "Recipes related to tailoring long coats from fur, known as trenchcoats.",
-    "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat_fur", "sleeveless_trenchcoat_fur", "sleeveless_trenchcoat_fur_from_trenchcoat_fur" ]
   },
   {
@@ -403,7 +379,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leather trenchcoats",
     "description": "Recipes related to tailoring long coats from leather, known as trenchcoats.",
-    "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat_leather", "sleeveless_trenchcoat_leather", "sleeveless_trenchcoat_leather_from_trenchcoat_leather" ]
   },
   {
@@ -414,7 +389,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "faux fur trenchcoats",
     "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
-    "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur_from_trenchcoat_faux_fur" ]
   },
   {
@@ -425,7 +399,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "trenchcoats",
     "description": "Recipes related to tailoring long coats, known as trenchcoats.",
-    "skill_used": "tailor",
     "nested_category_data": [ "nested_cotton_trenchcoat", "nested_fur_trenchcoat", "nested_leather_trenchcoat", "nested_faux_fur_trenchcoat" ]
   },
   {
@@ -436,7 +409,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "chitinous helmets",
     "description": "Recipes related to constructing durable helmets from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "helmet_acidchitin",
       "helmet_acidchitin_xs",
@@ -454,7 +426,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "chitinous armor",
     "description": "Recipes related to constructing durable armor from chitin that covers the body.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "armor_acidchitin",
       "armor_acidchitin_xs",
@@ -472,7 +443,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "chitinous arm guards",
     "description": "Recipes related to constructing durable armguards from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "armguard_chitin",
       "xs_armguard_chitin",
@@ -490,7 +460,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "chitinous leg guards",
     "description": "Recipes related to constructing durable leg guards from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "legguard_chitin",
       "xs_legguard_chitin",
@@ -508,7 +477,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "chitinous gauntlets",
     "description": "Recipes related to constructing durable gauntlets from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "gauntlets_chitin",
       "xs_gauntlets_chitin",
@@ -526,7 +494,6 @@
     "subcategory": "CSC_ARMOR_FEET",
     "name": "chitinous boots",
     "description": "Recipes related to constructing durable boots from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "boots_chitin",
       "xs_boots_chitin",
@@ -544,7 +511,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "chitinous vests",
     "description": "Recipes related to constructing durable vests from chitin.",
-    "skill_used": "tailor",
     "nested_category_data": [ "armor_chitin_vest", "xs_armor_chitin_vest", "xl_armor_chitin_vest" ]
   },
   {
@@ -555,7 +521,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light chestplates",
     "description": "Recipes related to constructing light chestplate from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_light_chestplate", "xl_armor_lc_light_chestplate" ]
   },
   {
@@ -566,7 +531,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light chestplates",
     "description": "Recipes related to constructing light chestplates from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_light_chestplate", "xl_armor_mc_light_chestplate" ]
   },
   {
@@ -577,7 +541,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light chestplates",
     "description": "Recipes related to constructing light chestplates from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_light_chestplate", "xl_armor_hc_light_chestplate" ]
   },
   {
@@ -588,7 +551,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light chestplates",
     "description": "Recipes related to constructing light chestplates from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_light_chestplate", "xl_armor_ch_light_chestplate" ]
   },
   {
@@ -599,7 +561,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light chestplates",
     "description": "Recipes related to constructing light chestplates from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_light_chestplate", "xl_armor_qt_light_chestplate" ]
   },
   {
@@ -610,7 +571,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "light chestplates",
     "description": "Recipes related to constructing light chestplates from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_light_chestplate",
       "nested_mc_light_chestplate",
@@ -627,7 +587,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chestplates",
     "description": "Recipes related to constructing steel chestplates from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_chestplate", "armor_lc_chestplate" ]
   },
   {
@@ -638,7 +597,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chestplates",
     "description": "Recipes related to constructing steel chestplates from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_chestplate", "armor_mc_chestplate" ]
   },
   {
@@ -649,7 +607,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chestplates",
     "description": "Recipes related to constructing steel chestplates from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_chestplate", "armor_hc_chestplate" ]
   },
   {
@@ -660,7 +617,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chestplates",
     "description": "Recipes related to constructing steel chestplates from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_chestplate", "armor_ch_chestplate" ]
   },
   {
@@ -671,7 +627,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chestplates",
     "description": "Recipes related to constructing steel chestplates from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_chestplate", "armor_qt_chestplate" ]
   },
   {
@@ -682,7 +637,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "standard chestplates",
     "description": "Recipes related to constructing steel chestplates from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_armor_lc_chestplate",
       "nested_armor_mc_chestplate",
@@ -699,7 +653,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_heavy_chestplate", "armor_lc_heavy_chestplate" ]
   },
   {
@@ -710,7 +663,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_heavy_chestplate", "armor_mc_heavy_chestplate" ]
   },
   {
@@ -721,7 +673,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_heavy_chestplate", "armor_hc_heavy_chestplate" ]
   },
   {
@@ -732,7 +683,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_heavy_chestplate", "armor_ch_heavy_chestplate" ]
   },
   {
@@ -743,7 +693,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_heavy_chestplate", "armor_qt_heavy_chestplate" ]
   },
   {
@@ -754,7 +703,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "heavy chestplates",
     "description": "Recipes related to constructing steel chestplates from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_armor_lc_heavy_chestplate",
       "nested_armor_mc_heavy_chestplate",
@@ -771,7 +719,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel chestplates",
     "description": "Recipes related to constructing different thicknesses of steel chestplates from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_all_light_chestplate", "nested_armor_all_chestplate", "nested_armor_all_heavy_chestplate" ]
   },
   {
@@ -782,7 +729,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light plate armor",
     "description": "Recipes related to constructing steel plate armor from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_lightplate", "armor_lc_lightplate", "xl_armor_lc_lightplate_assembly", "armor_lc_lightplate_assembly" ]
   },
   {
@@ -793,7 +739,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light plate armor",
     "description": "Recipes related to constructing steel plate armor from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_lightplate", "armor_mc_lightplate", "xl_armor_mc_lightplate_assembly", "armor_mc_lightplate_assembly" ]
   },
   {
@@ -804,7 +749,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light plate armor",
     "description": "Recipes related to constructing steel plate armor from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_lightplate", "armor_hc_lightplate", "xl_armor_hc_lightplate_assembly", "armor_hc_lightplate_assembly" ]
   },
   {
@@ -815,7 +759,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light plate armor",
     "description": "Recipes related to constructing steel plate armor from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_lightplate", "armor_ch_lightplate", "xl_armor_ch_lightplate_assembly", "armor_ch_lightplate_assembly" ]
   },
   {
@@ -826,7 +769,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light plate armor",
     "description": "Recipes related to constructing steel plate armor from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_lightplate", "armor_qt_lightplate", "xl_armor_qt_lightplate_assembly", "armor_qt_lightplate_assembly" ]
   },
   {
@@ -837,7 +779,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "light plate armors",
     "description": "Recipes related to constructing steel plate armor from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_armor_lc_lightplate",
       "nested_armor_mc_lightplate",
@@ -854,7 +795,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel plate armor",
     "description": "Recipes related to constructing steel plate armor from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_plate", "armor_lc_plate", "xl_armor_lc_plate_assembly", "armor_lc_plate_assembly" ]
   },
   {
@@ -865,7 +805,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel plate armor",
     "description": "Recipes related to constructing steel plate armor from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_plate", "armor_mc_plate", "xl_armor_mc_plate_assembly", "armor_mc_plate_assembly" ]
   },
   {
@@ -876,7 +815,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel plate armor",
     "description": "Recipes related to constructing steel plate armor from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_plate", "armor_hc_plate", "xl_armor_hc_plate_assembly", "armor_hc_plate_assembly" ]
   },
   {
@@ -887,7 +825,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel plate armor",
     "description": "Recipes related to constructing steel plate armor from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_plate", "armor_ch_plate", "xl_armor_ch_plate_assembly", "armor_ch_plate_assembly" ]
   },
   {
@@ -898,7 +835,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel plate armor",
     "description": "Recipes related to constructing steel plate armor from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_plate", "armor_qt_plate", "xl_armor_qt_plate_assembly", "armor_qt_plate_assembly" ]
   },
   {
@@ -909,7 +845,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "plate armors",
     "description": "Recipes related to constructing steel plate armor from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_armor_lc_plate",
       "nested_armor_mc_plate",
@@ -926,7 +861,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy plate armor",
     "description": "Recipes related to constructing steel plate armor from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_lc_heavyplate", "armor_lc_heavyplate", "xl_armor_lc_heavyplate_assembly", "armor_lc_heavyplate_assembly" ]
   },
   {
@@ -937,7 +871,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy plate armor",
     "description": "Recipes related to constructing steel plate armor from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_mc_heavyplate", "armor_mc_heavyplate", "xl_armor_mc_heavyplate_assembly", "armor_mc_heavyplate_assembly" ]
   },
   {
@@ -948,7 +881,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy plate armor",
     "description": "Recipes related to constructing steel plate armor from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_hc_heavyplate", "armor_hc_heavyplate", "xl_armor_hc_heavyplate_assembly", "armor_hc_heavyplate_assembly" ]
   },
   {
@@ -959,7 +891,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy plate armor",
     "description": "Recipes related to constructing steel plate armor from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_ch_heavyplate", "armor_ch_heavyplate", "xl_armor_ch_heavyplate_assembly", "armor_ch_heavyplate_assembly" ]
   },
   {
@@ -970,7 +901,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy plate armor",
     "description": "Recipes related to constructing steel plate armor from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_armor_qt_heavyplate", "armor_qt_heavyplate", "xl_armor_qt_heavyplate_assembly", "armor_qt_heavyplate_assembly" ]
   },
   {
@@ -981,7 +911,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "heavy plate armors",
     "description": "Recipes related to constructing steel plate armor from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_armor_lc_heavyplate",
       "nested_armor_mc_heavyplate",
@@ -998,7 +927,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel plate armors",
     "description": "Recipes related to constructing different thicknesses of steel plate armor from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_armor_all_heavyplate", "nested_armor_all_plate", "nested_armor_all_lightplate" ]
   },
   {
@@ -1009,7 +937,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_demi_gaunt", "lc_demi_gaunt" ]
   },
   {
@@ -1020,7 +947,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_demi_gaunt", "mc_demi_gaunt" ]
   },
   {
@@ -1031,7 +957,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_demi_gaunt", "hc_demi_gaunt" ]
   },
   {
@@ -1042,7 +967,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_demi_gaunt", "ch_demi_gaunt" ]
   },
   {
@@ -1053,7 +977,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_qt_demi_gaunt", "qt_demi_gaunt" ]
   },
   {
@@ -1064,7 +987,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from different types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_demi_gaunt",
       "nested_mc_demi_gaunt",
@@ -1081,7 +1003,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_mitten_gaunt", "lc_mitten_gaunt" ]
   },
   {
@@ -1092,7 +1013,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_mitten_gaunt", "mc_mitten_gaunt" ]
   },
   {
@@ -1103,7 +1023,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_mitten_gaunt", "hc_mitten_gaunt" ]
   },
   {
@@ -1114,7 +1033,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_mitten_gaunt", "ch_mitten_gaunt" ]
   },
   {
@@ -1125,7 +1043,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_qt_mitten_gaunt", "qt_mitten_gaunt" ]
   },
   {
@@ -1136,7 +1053,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from different types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_mitten_gaunt",
       "nested_mc_mitten_gaunt",
@@ -1153,7 +1069,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light arm guards",
     "description": "Recipes related to constructing light arm guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_lightarmguard", "xl_armor_lc_lightarmguard" ]
   },
   {
@@ -1164,7 +1079,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light arm guards",
     "description": "Recipes related to constructing light arm guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_lightarmguard", "xl_armor_mc_lightarmguard" ]
   },
   {
@@ -1175,7 +1089,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light arm guards",
     "description": "Recipes related to constructing light arm guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_lightarmguard", "xl_armor_hc_lightarmguard" ]
   },
   {
@@ -1186,7 +1099,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light arm guards",
     "description": "Recipes related to constructing light arm guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_lightarmguard", "xl_armor_ch_lightarmguard" ]
   },
   {
@@ -1197,7 +1109,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light arm guards",
     "description": "Recipes related to constructing light arm guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_lightarmguard", "xl_armor_qt_lightarmguard" ]
   },
   {
@@ -1208,7 +1119,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel light arm guards",
     "description": "Recipes related to constructing light arm guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_lightarmguards",
       "nested_mc_lightarmguards",
@@ -1225,7 +1135,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel arm guards",
     "description": "Recipes related to constructing arm guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_armguard", "xl_armor_lc_armguard" ]
   },
   {
@@ -1236,7 +1145,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel arm guards",
     "description": "Recipes related to constructing arm guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_armguard", "xl_armor_mc_armguard" ]
   },
   {
@@ -1247,7 +1155,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel arm guards",
     "description": "Recipes related to constructing arm guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_armguard", "xl_armor_hc_armguard" ]
   },
   {
@@ -1258,7 +1165,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel arm guards",
     "description": "Recipes related to constructing arm guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_armguard", "xl_armor_ch_armguard" ]
   },
   {
@@ -1269,7 +1175,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel arm guards",
     "description": "Recipes related to constructing arm guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_armguard", "xl_armor_qt_armguard" ]
   },
   {
@@ -1280,7 +1185,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel arm guards",
     "description": "Recipes related to constructing arm guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_lc_armguards", "nested_mc_armguards", "nested_hc_armguards", "nested_ch_armguards", "nested_qt_armguards" ]
   },
   {
@@ -1291,7 +1195,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_heavyarmguard", "xl_armor_lc_heavyarmguard" ]
   },
   {
@@ -1302,7 +1205,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_heavyarmguard", "xl_armor_mc_heavyarmguard" ]
   },
   {
@@ -1313,7 +1215,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_heavyarmguard", "xl_armor_hc_heavyarmguard" ]
   },
   {
@@ -1324,7 +1225,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_heavyarmguard", "xl_armor_ch_heavyarmguard" ]
   },
   {
@@ -1335,7 +1235,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_heavyarmguard", "xl_armor_qt_heavyarmguard" ]
   },
   {
@@ -1346,7 +1245,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel heavy arm guards",
     "description": "Recipes related to constructing heavy arm guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_heavyarmguards",
       "nested_mc_heavyarmguards",
@@ -1363,7 +1261,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "steel arm guards",
     "description": "Recipes related to constructing different thicknesses of arm guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_all_heavyarmguards", "nested_all_armguards", "nested_all_lightarmguards" ]
   },
   {
@@ -1374,7 +1271,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hauberk", "lc_chainmail_hauberk_xs", "xl_lc_chainmail_hauberk" ]
   },
   {
@@ -1385,7 +1281,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hauberk", "mc_chainmail_hauberk_xs", "xl_mc_chainmail_hauberk" ]
   },
   {
@@ -1396,7 +1291,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hauberk", "hc_chainmail_hauberk_xs", "xl_hc_chainmail_hauberk" ]
   },
   {
@@ -1407,7 +1301,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hauberk", "ch_chainmail_hauberk_xs", "xl_ch_chainmail_hauberk" ]
   },
   {
@@ -1418,7 +1311,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain hauberks",
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hauberk", "qt_chainmail_hauberk_xs", "xl_qt_chainmail_hauberk" ]
   },
   {
@@ -1429,7 +1321,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel chain hauberks",
     "description": "Recipes related to fitting together chainmail armor to make chainmail hauberks in various types and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_hauberk",
       "nested_mc_chainmail_hauberk",
@@ -1446,7 +1337,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_sjumpsuit", "lc_chainmail_sjumpsuit_xs", "xl_lc_chainmail_sjumpsuit" ]
   },
   {
@@ -1457,7 +1347,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_sjumpsuit", "mc_chainmail_sjumpsuit_xs", "xl_mc_chainmail_sjumpsuit" ]
   },
   {
@@ -1468,7 +1357,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_sjumpsuit", "hc_chainmail_sjumpsuit_xs", "xl_hc_chainmail_sjumpsuit" ]
   },
   {
@@ -1479,7 +1367,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_sjumpsuit", "ch_chainmail_sjumpsuit_xs", "xl_ch_chainmail_sjumpsuit" ]
   },
   {
@@ -1490,7 +1377,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain sleeveless jumpsuits",
     "description": "Recipes related to constructing chainmail sleeveless jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_sjumpsuit", "qt_chainmail_sjumpsuit_xs", "xl_qt_chainmail_sjumpsuit" ]
   },
   {
@@ -1501,7 +1387,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel chain sleeveless jumpsuits",
     "description": "Recipes related to fitting together chainmail armor to make chainmail sleeveless jumpsuits in various types and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_sjumpsuit",
       "nested_mc_chainmail_sjumpsuit",
@@ -1518,7 +1403,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "lc_chainmail_jumpsuit",
       "lc_chainmail_jumpsuit_xs",
@@ -1536,7 +1420,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "mc_chainmail_jumpsuit",
       "mc_chainmail_jumpsuit_xs",
@@ -1554,7 +1437,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "hc_chainmail_jumpsuit",
       "hc_chainmail_jumpsuit_xs",
@@ -1572,7 +1454,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "ch_chainmail_jumpsuit",
       "ch_chainmail_jumpsuit_xs",
@@ -1590,7 +1471,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "qt_chainmail_jumpsuit",
       "qt_chainmail_jumpsuit_xs",
@@ -1608,7 +1488,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel chain jumpsuits",
     "description": "Recipes related to constructing chainmail jumpsuits in various types and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_jumpsuit",
       "nested_mc_chainmail_jumpsuit",
@@ -1625,7 +1504,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_suit", "lc_chainmail_suit_xs", "xl_lc_chainmail_suit" ]
   },
   {
@@ -1636,7 +1514,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_suit", "mc_chainmail_suit_xs", "xl_mc_chainmail_suit" ]
   },
   {
@@ -1647,7 +1524,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_suit", "hc_chainmail_suit_xs", "xl_hc_chainmail_suit" ]
   },
   {
@@ -1658,7 +1534,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_suit", "ch_chainmail_suit_xs", "xl_ch_chainmail_suit" ]
   },
   {
@@ -1669,7 +1544,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_suit", "qt_chainmail_suit_xs", "xl_qt_chainmail_suit" ]
   },
   {
@@ -1680,7 +1554,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "faraday chain suits",
     "description": "Recipes related to constructing chainmail suits that resist electricity.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "chainmail_suit_faraday", "chainmail_suit_faraday_xs", "xl_chainmail_suit_faraday" ]
   },
   {
@@ -1691,7 +1564,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various types and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_suit",
       "nested_mc_chainmail_suit",
@@ -1709,7 +1581,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "scrap cuirasses",
     "description": "Recipes related to constructing scrap cuirasses in various shapes and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_scrap", "xs_cuirass_scrap", "xl_cuirass_scrap" ]
   },
   {
@@ -1720,7 +1591,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tire cuirasses",
     "description": "Recipes related to constructing tire cuirasses in various shapes and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_tire", "xs_cuirass_tire", "xl_cuirass_tire" ]
   },
   {
@@ -1731,7 +1601,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "bronze cuirasses",
     "description": "Recipes related to constructing bronze cuirasses in various shapes and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_bronze", "xs_cuirass_bronze", "xl_cuirass_bronze" ]
   },
   {
@@ -1742,7 +1611,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leather lamellar cuirasses",
     "description": "Recipes related to constructing leather lamellar cuirasses in various shapes and sizes.",
-    "skill_used": "tailor",
     "nested_category_data": [ "armor_lamellar", "xs_armor_lamellar", "xl_armor_lamellar" ]
   },
   {
@@ -1753,7 +1621,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel lamellar cuirasses",
     "description": "Recipes related to constructing steel lamellar cuirasses in various shapes and sizes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "armor_lamellar_lc",
       "armor_lamellar_ch",
@@ -1771,7 +1638,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel lamellar repair",
     "description": "Recipes related to repairing steel lamellar armor in various shapes and sizes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "armor_lamellar_lc_repair",
       "armor_lamellar_ch_repair",
@@ -1789,7 +1655,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "bell cuirasses",
     "description": "Recipes related to constructing Greek cuirasses in various shapes and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_cuirass", "xs_armor_cuirass", "xl_armor_cuirass" ]
   },
   {
@@ -1800,7 +1665,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "plate cuirasses",
     "description": "Recipes related to constructing plate cuirasses in various shapes and sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_lightplate", "xs_cuirass_lightplate", "xl_cuirass_lightplate" ]
   },
   {
@@ -1811,7 +1675,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "cuirasses",
     "description": "Recipes related to constructing different kinds of cuirasses.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_scrap_cuirass",
       "nested_cuirass_tire",
@@ -1829,7 +1692,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light leg guards",
     "description": "Recipes related to constructing light leg guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_light_leg_guard", "xl_armor_lc_light_leg_guard" ]
   },
   {
@@ -1840,7 +1702,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light leg guards",
     "description": "Recipes related to constructing light leg guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_light_leg_guard", "xl_armor_mc_light_leg_guard" ]
   },
   {
@@ -1851,7 +1712,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light leg guards",
     "description": "Recipes related to constructing light leg guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_light_leg_guard", "xl_armor_hc_light_leg_guard" ]
   },
   {
@@ -1862,7 +1722,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light leg guards",
     "description": "Recipes related to constructing light leg guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_light_leg_guard", "xl_armor_ch_light_leg_guard" ]
   },
   {
@@ -1873,7 +1732,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light leg guards",
     "description": "Recipes related to constructing light leg guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_light_leg_guard", "xl_armor_qt_light_leg_guard" ]
   },
   {
@@ -1884,7 +1742,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel light leg guards",
     "description": "Recipes related to constructing light leg guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_light_leg_guards",
       "nested_mc_light_leg_guards",
@@ -1901,7 +1758,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel leg guards",
     "description": "Recipes related to constructing leg guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_leg_guard", "xl_armor_lc_leg_guard" ]
   },
   {
@@ -1912,7 +1768,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel leg guards",
     "description": "Recipes related to constructing leg guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_leg_guard", "xl_armor_mc_leg_guard" ]
   },
   {
@@ -1923,7 +1778,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel leg guards",
     "description": "Recipes related to constructing leg guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_leg_guard", "xl_armor_hc_leg_guard" ]
   },
   {
@@ -1934,7 +1788,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel leg guards",
     "description": "Recipes related to constructing leg guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_leg_guard", "xl_armor_ch_leg_guard" ]
   },
   {
@@ -1945,7 +1798,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel leg guards",
     "description": "Recipes related to constructing leg guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_leg_guard", "xl_armor_qt_leg_guard" ]
   },
   {
@@ -1956,7 +1808,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel leg guards",
     "description": "Recipes related to constructing leg guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_leg_guards",
       "nested_mc_leg_guards",
@@ -1973,7 +1824,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_heavy_leg_guard", "xl_armor_lc_heavy_leg_guard" ]
   },
   {
@@ -1984,7 +1834,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_heavy_leg_guard", "xl_armor_mc_heavy_leg_guard" ]
   },
   {
@@ -1995,7 +1844,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_heavy_leg_guard", "xl_armor_hc_heavy_leg_guard" ]
   },
   {
@@ -2006,7 +1854,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_heavy_leg_guard", "xl_armor_ch_heavy_leg_guard" ]
   },
   {
@@ -2017,7 +1864,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_heavy_leg_guard", "xl_armor_qt_heavy_leg_guard" ]
   },
   {
@@ -2028,7 +1874,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel heavy leg guards",
     "description": "Recipes related to constructing heavy leg guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_heavy_leg_guards",
       "nested_mc_heavy_leg_guards",
@@ -2045,7 +1890,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "steel leg guards",
     "description": "Recipes related to constructing different thicknesses of leg guards from various types of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_all_heavy_leg_guards", "nested_all_leg_guards", "nested_all_light_leg_guards" ]
   },
   {
@@ -2056,7 +1900,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "arm splints",
     "description": "Recipes related to constructing various shapes and sizes of arm splints.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "arm_splint", "arm_xlsplint", "arm_xs_splint" ]
   },
   {
@@ -2067,7 +1910,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leg splints",
     "description": "Recipes related to constructing various shapes and sizes of leg splints.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "leg_splint", "leg_xlsplint", "leg_xs_splint" ]
   },
   {
@@ -2078,7 +1920,6 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "splints",
     "description": "Recipes related to constructing various shapes and sizes of splints.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "nested_arm_splint", "nested_leg_splint" ]
   },
   {
@@ -2089,7 +1930,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "bandages",
     "description": "Recipes related to crafting variations of bandages.",
-    "skill_used": "firstaid",
     "nested_category_data": [
       "bandages",
       "bandages_makeshift",
@@ -2107,7 +1947,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tourniquets",
     "description": "Recipes related to crafting different kinds of tourniquets.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "tourniquet_upper" ]
   },
   {
@@ -2118,7 +1957,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hemostatic compounds",
     "description": "Recipes related to creating different hemostatic compounds.",
-    "skill_used": "chemistry",
     "nested_category_data": [ "quikclot", "quikclot_from_alder" ]
   },
   {
@@ -2129,7 +1967,6 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "bleeding control",
     "description": "Recipes that create items used to stop or slow blood loss.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "nested_bandages", "nested_tourniquets", "nested_hemostatic" ]
   },
   {
@@ -2140,7 +1977,6 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "name": "antiseptics",
     "description": "Recipes related to crafting different kinds of antiseptics.",
-    "skill_used": "firstaid",
     "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball", "cattail_jelly" ]
   },
   {
@@ -2151,7 +1987,6 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "name": "deflated tires",
     "description": "Recipes related to taking the air out of tires.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "deflated_wheel",
       "deflated_wheel_slick",
@@ -2171,7 +2006,6 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "name": "inflated tires",
     "description": "Recipes related to inflating tires.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "wheel",
       "wheel_slick",
@@ -2191,7 +2025,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade combat suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
-    "skill_used": "tailor",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ]
   },
   {
@@ -2202,7 +2035,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade summer suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
-    "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ]
   },
   {
@@ -2213,7 +2045,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade hazard suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant for both harm and chemical hazards.",
-    "skill_used": "tailor",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ]
   },
   {
@@ -2224,7 +2055,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade winter suits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "wsurvivor_jumpsuit_nofur",
       "xs_wsurvivor_jumpsuit_nofur",
@@ -2242,7 +2072,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade reinforced jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from various types of harm.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "nested_survivor_jumpsuits",
       "nested_light_survivor_jumpsuits",
@@ -2259,7 +2088,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "quivers",
     "description": "Recipes related to constructing different kinds of quivers to hold arrows.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "quiver_takedown_bow",
       "quiver",
@@ -2280,7 +2108,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "steel wires",
     "description": "Recipes related to constructing different qualities of steel wires.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "lc_wire",
       "lc_wire_wire_draw_machine",
@@ -2302,7 +2129,6 @@
     "subcategory": "CSC_OTHER_PARTS",
     "name": "vehicle frames",
     "description": "Recipes related to constructing different kinds of vehicle frames.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "foldxlframe", "foldwoodframe", "xlframe", "foldframe", "hdframe", "frame", "frame_wood", "frame_wood_light" ]
   },
   {
@@ -2313,7 +2139,6 @@
     "subcategory": "CSC_FOOD_OTHER",
     "name": "flours",
     "description": "Recipes related to grinding down ingredients to make different kinds of flour.",
-    "skill_used": "cooking",
     "nested_category_data": [
       "flour",
       "flour_with_from_food_processor",
@@ -2333,7 +2158,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "lumps of steel",
     "description": "Recipes related to forging steel into different quality lumps.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "steel_lump",
       "steel_lump_from_other_steel",
@@ -2352,7 +2176,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "metal bars",
     "description": "Recipes related to processing bar stock into smaller sizes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "small_aluminum_bar_round", "small_lc_steel_bar_round", "small_mc_steel_bar_round", "small_hc_steel_bar_round" ]
   },
   {
@@ -2363,7 +2186,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel sabatons",
     "description": "Recipes related to constructing sabatons from mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_lc_sabaton", "lc_sabaton" ]
   },
   {
@@ -2374,7 +2196,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel sabatons",
     "description": "Recipes related to constructing sabatons from medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_mc_sabaton", "mc_sabaton" ]
   },
   {
@@ -2385,7 +2206,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel sabatons",
     "description": "Recipes related to constructing sabatons from high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_hc_sabaton", "hc_sabaton" ]
   },
   {
@@ -2396,7 +2216,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel sabatons",
     "description": "Recipes related to constructing sabatons from hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_ch_sabaton", "ch_sabaton" ]
   },
   {
@@ -2407,7 +2226,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel sabatons",
     "description": "Recipes related to constructing sabatons from tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "xl_qt_sabaton", "qt_sabaton" ]
   },
   {
@@ -2418,7 +2236,6 @@
     "subcategory": "CSC_ARMOR_FEET",
     "name": "steel sabatons",
     "description": "Recipes related to constructing sabatons from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_lc_sabatons", "nested_mc_sabatons", "nested_hc_sabatons", "nested_ch_sabatons", "nested_qt_sabatons" ]
   },
   {
@@ -2429,7 +2246,6 @@
     "subcategory": "CSC_OTHER_OTHER",
     "name": "bundled currency",
     "description": "Recipes related to creating fat stacks of currency.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "money_strap_one",
       "money_strap_two",
@@ -2457,7 +2273,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade winter hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer and keep them warm in freezing temperatures.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "hood_wsurvivor_nofur",
       "xs_hood_wsurvivor_nofur",
@@ -2475,7 +2290,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade traveler hoods",
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer.",
-    "skill_used": "tailor",
     "nested_category_data": [ "hood_survivor", "hood_xssurvivor", "hood_xlsurvivor" ]
   },
   {
@@ -2486,7 +2300,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "handmade reinforced hoods",
     "description": "Recipes related to constructing various types and sizes of specialized hoods designed to protect the wearer.",
-    "skill_used": "tailor",
     "nested_category_data": [ "nested_hood_survivor", "nested_hood_wsurvivor" ]
   },
   {
@@ -2497,7 +2310,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hood", "xl_lc_chainmail_hood", "xs_lc_chainmail_hood" ]
   },
   {
@@ -2508,7 +2320,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hood", "xl_mc_chainmail_hood", "xs_mc_chainmail_hood" ]
   },
   {
@@ -2519,7 +2330,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hood", "xl_hc_chainmail_hood", "xs_hc_chainmail_hood" ]
   },
   {
@@ -2530,7 +2340,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hood", "xl_ch_chainmail_hood", "xs_ch_chainmail_hood" ]
   },
   {
@@ -2541,7 +2350,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain coifs",
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hood", "xl_qt_chainmail_hood", "xs_qt_chainmail_hood" ]
   },
   {
@@ -2552,7 +2360,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel chain coifs",
     "description": "Recipes related to constructing various types and sizes of chainmail hoods designed to protect the wearer.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_hood",
       "nested_mc_chainmail_hood",
@@ -2569,7 +2376,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "gas masks",
     "description": "Recipes related to constructing various shapes and sizes of gas masks.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_gas", "mask_gas_xl", "mask_gas_xl_expand-existing", "mask_gas_xs", "mask_gas_xs_shrink-existing" ]
   },
   {
@@ -2580,7 +2386,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "rebreathers",
     "description": "Recipes related to constructing various shapes and sizes of rebreathers.",
-    "skill_used": "electronics",
     "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xl_mod_existing", "rebreather_xs", "rebreather_xs_mod_existing" ]
   },
   {
@@ -2591,7 +2396,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade basic gas masks",
     "description": "Recipes related to constructing various sizes of standard handmade gas masks.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_survivor", "mask_survivorxs", "mask_survivorxl" ]
   },
   {
@@ -2602,7 +2406,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade firemasks",
     "description": "Recipes related to constructing various sizes of handmade gas masks designed to withstand heavy smoke and fires.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_fsurvivor", "mask_fsurvivorxs", "mask_fsurvivorxl" ]
   },
   {
@@ -2613,7 +2416,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade divemasks",
     "description": "Recipes related to constructing various sizes of handmade divemasks designed to protect the wearer and allow them to breath underwater.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_h20survivor", "mask_h20survivorxs", "mask_h20survivorxl" ]
   },
   {
@@ -2624,7 +2426,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade reinforced gas masks",
     "description": "Recipes related to constructing various sizes of heavy handmade gas masks.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_hsurvivor", "mask_hsurvivorxl", "mask_hsurvivorxs" ]
   },
   {
@@ -2635,7 +2436,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade half gas masks",
     "description": "Recipes related to constructing various sizes of handmade half gas masks that do not cover the eyes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl", "mask_lsurvivorxs" ]
   },
   {
@@ -2646,7 +2446,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "handmade gas masks",
     "description": "Recipes related to constructing various kinds of handmade gas masks.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_mask_survivor",
       "nested_mask_fsurvivor",
@@ -2664,7 +2463,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain vest",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_vest", "xs_lc_chainmail_vest", "xl_lc_chainmail_vest" ]
   },
   {
@@ -2675,7 +2473,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain vest",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_vest", "xs_mc_chainmail_vest", "xl_mc_chainmail_vest" ]
   },
   {
@@ -2686,7 +2483,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain vest",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_vest", "xs_hc_chainmail_vest", "xl_hc_chainmail_vest" ]
   },
   {
@@ -2697,7 +2493,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain vest",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_vest", "xs_ch_chainmail_vest", "xl_ch_chainmail_vest" ]
   },
   {
@@ -2708,7 +2503,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain vest",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_vest", "xs_qt_chainmail_vest", "xl_qt_chainmail_vest" ]
   },
   {
@@ -2719,7 +2513,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel chain vests",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_vest",
       "nested_mc_chainmail_vest",
@@ -2736,7 +2529,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "full padded gambesons",
     "description": "Recipes related to constructing gambesons that cover the torso and arms.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gambeson", "gambeson_xs", "xl_gambeson" ]
   },
   {
@@ -2747,7 +2539,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "gambeson vests",
     "description": "Recipes related to constructing padded gambesons without sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gambeson_vest", "gambeson_vest_xs", "xl_gambeson_vest" ]
   },
   {
@@ -2758,7 +2549,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "padded gambesons",
     "description": "Recipes related to constructing padded gambesons.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_gambeson_full", "nested_gambeson_vest" ]
   },
   {
@@ -2769,7 +2559,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "padded arming pants",
     "description": "Recipes related to constructing padded arming pants.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "gambeson_pants_xs" ]
   },
   {
@@ -2780,7 +2569,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "padded gambeson hoods",
     "description": "Recipes related to constructing padded gambeson hoods.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gambeson_hood", "xl_gambeson_hood", "xs_gambeson_hood" ]
   },
   {
@@ -2791,7 +2579,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade winter gauntlets",
     "description": "Recipes related to constructing various sizes of handmade winter gauntlets.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "gloves_wsurvivor_nofur",
       "xs_gloves_wsurvivor_nofur",
@@ -2809,7 +2596,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade hazard gloves",
     "description": "Recipes related to constructing various sizes of handmade hazard gloves.",
-    "skill_used": "tailor",
     "nested_category_data": [ "gloves_survivor", "xs_gloves_survivor", "xl_gloves_survivor" ]
   },
   {
@@ -2820,7 +2606,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "handmade protective gloves",
     "description": "Recipes related to various sizes and types of durable gloves specialized for tasks like acid resistance or cold weather.",
-    "skill_used": "tailor",
     "nested_category_data": [ "nested_gloves_survivor", "nested_gloves_wsurvivor" ]
   },
   {
@@ -2831,7 +2616,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain gloves",
     "description": "Recipes related to constructing various sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hands", "xs_lc_chainmail_hands", "xl_lc_chainmail_hands" ]
   },
   {
@@ -2842,7 +2626,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain gloves",
     "description": "Recipes related to constructing various sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hands", "xs_mc_chainmail_hands", "xl_mc_chainmail_hands" ]
   },
   {
@@ -2853,7 +2636,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain gloves",
     "description": "Recipes related to constructing various sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hands", "xs_hc_chainmail_hands", "xl_hc_chainmail_hands" ]
   },
   {
@@ -2864,7 +2646,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain gloves",
     "description": "Recipes related to constructing various sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hands", "xs_ch_chainmail_hands", "xl_ch_chainmail_hands" ]
   },
   {
@@ -2875,7 +2656,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain gloves",
     "description": "Recipes related to constructing various sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hands", "xs_qt_chainmail_hands", "xl_qt_chainmail_hands" ]
   },
   {
@@ -2886,7 +2666,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "steel chain gloves",
     "description": "Recipes related to constructing various types and sizes of chain gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_hands",
       "nested_mc_chainmail_hands",
@@ -2903,7 +2682,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_arms", "xs_lc_chainmail_arms", "xl_lc_chainmail_arms" ]
   },
   {
@@ -2914,7 +2692,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_arms", "xs_mc_chainmail_arms", "xl_mc_chainmail_arms" ]
   },
   {
@@ -2925,7 +2702,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_arms", "xs_hc_chainmail_arms", "xl_hc_chainmail_arms" ]
   },
   {
@@ -2936,7 +2712,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_arms", "xs_ch_chainmail_arms", "xl_ch_chainmail_arms" ]
   },
   {
@@ -2947,7 +2722,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_arms", "xs_qt_chainmail_arms", "xl_qt_chainmail_arms" ]
   },
   {
@@ -2958,7 +2732,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_arms",
       "nested_mc_chainmail_arms",
@@ -2975,7 +2748,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain legs",
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_legs", "xs_lc_chainmail_legs", "xl_lc_chainmail_legs" ]
   },
   {
@@ -2986,7 +2758,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain legs",
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_legs", "xs_mc_chainmail_legs", "xl_mc_chainmail_legs" ]
   },
   {
@@ -2997,7 +2768,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain legs",
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_legs", "xs_hc_chainmail_legs", "xl_hc_chainmail_legs" ]
   },
   {
@@ -3008,7 +2778,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain legs",
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_legs", "xs_ch_chainmail_legs", "xl_ch_chainmail_legs" ]
   },
   {
@@ -3019,7 +2788,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain legs",
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_legs", "xs_qt_chainmail_legs", "xl_qt_chainmail_legs" ]
   },
   {
@@ -3030,7 +2798,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "steel chain legs",
     "description": "Recipes related to constructing various sizes and types of chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_legs",
       "nested_mc_chainmail_legs",
@@ -3047,7 +2814,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain half-legs",
     "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_half_legs", "xs_lc_chainmail_half_legs", "xl_lc_chainmail_half_legs" ]
   },
   {
@@ -3058,7 +2824,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain half-legs",
     "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_half_legs", "xs_mc_chainmail_half_legs", "xl_mc_chainmail_half_legs" ]
   },
   {
@@ -3069,7 +2834,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain half-legs",
     "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_half_legs", "xs_hc_chainmail_half_legs", "xl_hc_chainmail_half_legs" ]
   },
   {
@@ -3080,7 +2844,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain half-legs",
     "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_half_legs", "xs_ch_chainmail_half_legs", "xl_ch_chainmail_half_legs" ]
   },
   {
@@ -3091,7 +2854,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain half-legs",
     "description": "Recipes related to constructing various sizes of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_half_legs", "xs_qt_chainmail_half_legs", "xl_qt_chainmail_half_legs" ]
   },
   {
@@ -3102,7 +2864,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "steel chain half-legs",
     "description": "Recipes related to constructing various sizes and types of partial chainmail leggings.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_half_legs",
       "nested_mc_chainmail_half_legs",
@@ -3119,7 +2880,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade winter hazard boots",
     "description": "Recipes related to constructing various sizes of handmade winterized hazard boots.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "boots_wsurvivor_nofur",
       "xs_boots_wsurvivor_nofur",
@@ -3137,7 +2897,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "handmade standard hazard boots",
     "description": "Recipes related to constructing various sizes of non-winterized handmade hazard boots.",
-    "skill_used": "tailor",
     "nested_category_data": [ "boots_survivor", "boots_xssurvivor", "boots_xlsurvivor", "boots_survivor_hoof" ]
   },
   {
@@ -3148,7 +2907,6 @@
     "subcategory": "CSC_ARMOR_FEET",
     "name": "handmade hazard boots",
     "description": "Recipes related to constructing various sizes and variations of handmade hazard boots made with acid protection in mind.",
-    "skill_used": "tailor",
     "nested_category_data": [ "nested_boots_survivor", "nested_boots_wsurvivor" ]
   },
   {
@@ -3159,7 +2917,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain chausses",
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_feet", "xs_lc_chainmail_feet", "xl_lc_chainmail_feet" ]
   },
   {
@@ -3170,7 +2927,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain chausses",
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_feet", "xs_mc_chainmail_feet", "xl_mc_chainmail_feet" ]
   },
   {
@@ -3181,7 +2937,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain chausses",
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_feet", "xs_hc_chainmail_feet", "xl_hc_chainmail_feet" ]
   },
   {
@@ -3192,7 +2947,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain chausses",
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_feet", "xs_ch_chainmail_feet", "xl_ch_chainmail_feet" ]
   },
   {
@@ -3203,7 +2957,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain chausses",
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_feet", "xs_qt_chainmail_feet", "xl_qt_chainmail_feet" ]
   },
   {
@@ -3214,7 +2967,6 @@
     "subcategory": "CSC_ARMOR_FEET",
     "name": "steel chain chausses",
     "description": "Recipes related to constructing various types and sizes of chainmail chausses.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_feet",
       "nested_mc_chainmail_feet",
@@ -3231,7 +2983,6 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "name": "sling-ready explosives",
     "description": "Recipes related to modifying explosives to be usable in a staff sling.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "sling-ready_molotov",
       "sling-ready_grenade",
@@ -3249,7 +3000,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "bundle of items",
     "description": "Recipes related to tying items into compact bundles for transport or storage.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "bundle_rag",
       "bundle_cotton",
@@ -3275,7 +3025,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "cardboard boxes",
     "description": "Recipes related to constructing cardboard boxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "box_small_crafted",
       "box_medium_crafted",
@@ -3293,7 +3042,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "assembled cardboard boxes",
     "description": "Recipes related to assembling cardboard boxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "box_small_assembly", "box_medium_assembly", "box_large_assembly", "box_oversize_assembly" ]
   },
   {
@@ -3304,7 +3052,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "wooden boxes",
     "description": "Recipes related to constructing wooden boxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "box_small_wood", "box_medium_wood", "box_large_wood", "box_oversize_wood" ]
   },
   {
@@ -3315,7 +3062,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "metal boxes",
     "description": "Recipes related to constructing metal boxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "box_small_metal", "box_medium_metal", "box_large_metal", "box_oversize_metal" ]
   },
   {
@@ -3326,7 +3072,6 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "name": "boxes",
     "description": "Recipes related to constructing boxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_cardboard_boxes", "nested_cardboard_boxes_assembly", "nested_wooden_boxes", "nested_metal_boxes" ]
   },
   {
@@ -3337,7 +3082,6 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "name": "cans",
     "description": "Recipes related to creating tin cans for conserving food.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "can_medium", "can_food_big", "can_food" ]
   },
   {
@@ -3348,7 +3092,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "patchwork fabrics",
     "description": "Recipes related to sewing together patchwork fabrics.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "sheet_cotton_patchwork",
       "sheet_faux_fur_patchwork",
@@ -3371,7 +3114,6 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "name": "shelled nuts",
     "description": "Recipes related to shelling nuts.",
-    "skill_used": "cooking",
     "nested_category_data": [
       "peanut_shelled",
       "hickory_nut_shelled",
@@ -3392,7 +3134,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short strings",
     "description": "Recipes related to constructing short strings.",
-    "skill_used": "tailor",
     "nested_category_data": [ "string_6", "string_6_spinwheel", "string_6_electric_spinwheel" ]
   },
   {
@@ -3403,7 +3144,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short ropes",
     "description": "Recipes related to constructing short ropes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "rope_6_spinwheel_string",
       "rope_6_electric_spinwheel_string",
@@ -3424,7 +3164,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "long strings",
     "description": "Recipes related to constructing long strings.",
-    "skill_used": "tailor",
     "nested_category_data": [ "string_36", "string_36_spinwheel", "string_36_electric_spinwheel" ]
   },
   {
@@ -3435,7 +3174,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "long ropes",
     "description": "Recipes related to constructing long ropes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "rope_30",
       "rope_30_spinwheel_ropes",
@@ -3459,7 +3197,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short cordage pieces",
     "description": "Recipes related to constructing short cordage pieces.",
-    "skill_used": "tailor",
     "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant", "cordage_6_electric_spinwheel_plant" ]
   },
   {
@@ -3470,7 +3207,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "long cordage pieces",
     "description": "Recipes related to constructing long cordage pieces.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "cordage_36",
       "cordage_36_spinwheel_plant",
@@ -3488,7 +3224,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leather laces",
     "description": "Recipes related to constructing leather laces.",
-    "skill_used": "tailor",
     "nested_category_data": [ "cordage_6_leather", "cordage_36_leather" ]
   },
   {
@@ -3499,7 +3234,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short cordage ropes",
     "description": "Recipes related to constructing short cordage ropes.",
-    "skill_used": "tailor",
     "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages", "rope_makeshift_6_electric_spinwheel_cordages" ]
   },
   {
@@ -3510,7 +3244,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "long cordage ropes",
     "description": "Recipes related to constructing long cordage ropes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_electric_spinwheel_cordages",
@@ -3528,7 +3261,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "ropes and cordage",
     "description": "Recipes related to constructing ropes and cordage.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "nested_short_string",
       "nested_short_rope",
@@ -3549,7 +3281,6 @@
     "subcategory": "CSC_WEAPON_MODS",
     "name": "modified attachments",
     "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "grip_mod", "nested_modified_gunmods_weapons" ]
   },
   {
@@ -3560,7 +3291,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "m26_mass_mod", "knife_combat", "m203_mod", "m320_mod_mod", "masterkey_mod" ]
   },
   {
@@ -3571,7 +3301,6 @@
     "subcategory": "CSC_AMMO_OTHER",
     "name": "flamethrower fuels",
     "description": "Recipes related to creating flammable liquids suitable for loading into a flamethrower.",
-    "skill_used": "chemistry",
     "nested_category_data": [
       "napalm",
       "flamethrower_fuel",
@@ -3591,7 +3320,6 @@
     "subcategory": "CSC_AMMO_OTHER",
     "name": "sprayable chemicals",
     "description": "Recipes related to creating chemicals suitable for spraying in combat.",
-    "skill_used": "chemistry",
     "nested_category_data": [ "gas_chloramine", "gas_insecticidal", "gas_fungicidal" ]
   },
   {
@@ -3602,7 +3330,6 @@
     "subcategory": "CSC_AMMO_OTHER",
     "name": "slingshot ammunition",
     "description": "Recipes related to creating pebbles, pellets, and other small objects for use in slings and slingshots.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "marble", "bearing", "pebble_clay", "pebble" ]
   },
   {
@@ -3613,7 +3340,6 @@
     "subcategory": "CSC_AMMO_OTHER",
     "name": "homemade rockets",
     "description": "Recipes related to creating inaccurate, but powerful homemade rockets.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "spiked_rocket", "incendiary_hm_rocket", "explosive_hm_rocket" ]
   },
   {
@@ -3624,7 +3350,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "name": "adjustable wrenches",
     "description": "Recipes related to creating adjustable wrenches.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "wrench", "wrench_large", "wrench_small" ]
   },
   {
@@ -3635,7 +3360,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "name": "funnels",
     "description": "Recipes related to creating funnels for catching rainwater.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "birchbark_funnel", "makeshift_funnel", "leather_funnel", "funnel", "metal_funnel" ]
   },
   {
@@ -3646,7 +3370,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "name": "sewing tools",
     "description": "Recipes related to creating sewing tools.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "needle_bone",
       "needle_steel",
@@ -3667,7 +3390,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "belts",
     "description": "Recipes related to creating items that help keep your pants around your waist.",
-    "skill_used": "tailor",
     "nested_category_data": [ "survivor_belt_notools", "webbing_belt", "fireman_belt", "police_belt", "tool_belt", "santa_belt", "leather_belt" ]
   },
   {
@@ -3678,7 +3400,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel close helms",
     "description": "Recipes related to constructing different thicknesses of steel close helms from different qualities of steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_lighthelm_close", "nested_helm_close", "nested_heavyhelm_close" ]
   },
   {
@@ -3689,7 +3410,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "light close helms",
     "description": "Recipes related to creating light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_lighthelm_close",
       "nested_mc_lighthelm_close",
@@ -3706,7 +3426,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel light close helms",
     "description": "Recipes related to creating mild steel light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_lighthelm_close", "xl_lc_lighthelm_close" ]
   },
   {
@@ -3717,7 +3436,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel light close helms",
     "description": "Recipes related to creating light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_lighthelm_close", "xl_mc_lighthelm_close" ]
   },
   {
@@ -3728,7 +3446,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel light close helms",
     "description": "Recipes related to creating light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_lighthelm_close", "xl_hc_lighthelm_close" ]
   },
   {
@@ -3739,7 +3456,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light close helms",
     "description": "Recipes related to creating light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_lighthelm_close", "xl_ch_lighthelm_close" ]
   },
   {
@@ -3750,7 +3466,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel light close helms",
     "description": "Recipes related to creating light close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_lighthelm_close", "xl_qt_lighthelm_close" ]
   },
   {
@@ -3761,7 +3476,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helm_close",
       "nested_mc_helm_close",
@@ -3778,7 +3492,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel close helms",
     "description": "Recipes related to creating mild steel close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_helm_close", "xl_lc_helm_close" ]
   },
   {
@@ -3789,7 +3502,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_helm_close", "xl_mc_helm_close" ]
   },
   {
@@ -3800,7 +3512,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_helm_close", "xl_hc_helm_close" ]
   },
   {
@@ -3811,7 +3522,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_helm_close", "xl_ch_helm_close" ]
   },
   {
@@ -3822,7 +3532,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_helm_close", "xl_qt_helm_close" ]
   },
   {
@@ -3833,7 +3542,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "heavy close helms",
     "description": "Recipes related to creating heavy close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_heavyhelm_close",
       "nested_mc_heavyhelm_close",
@@ -3850,7 +3558,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel heavy close helms",
     "description": "Recipes related to creating mild steel close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_heavyhelm_close", "xl_lc_heavyhelm_close" ]
   },
   {
@@ -3861,7 +3568,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel heavy close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_heavyhelm_close", "xl_mc_heavyhelm_close" ]
   },
   {
@@ -3872,7 +3578,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel heavy close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_heavyhelm_close", "xl_hc_heavyhelm_close" ]
   },
   {
@@ -3883,7 +3588,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel heavy close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_heavyhelm_close", "xl_ch_heavyhelm_close" ]
   },
   {
@@ -3894,7 +3598,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel heavy close helms",
     "description": "Recipes related to creating close helms to protect the head.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_heavyhelm_close", "xl_qt_heavyhelm_close" ]
   },
   {
@@ -3905,7 +3608,6 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "name": "firearm primers",
     "description": "Recipes related to constructing primers, the impact explosives used to initiate the combustion of gunpowder to launch bullets from firearms.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lgpistol_primer", "lgrifle_primer", "shotgun_primer", "smpistol_primer", "smrifle_primer" ]
   },
   {
@@ -3916,7 +3618,6 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "name": "ammunition casings",
     "description": "Recipes related to constructing casings for ammunition.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "unprimed_123ln_casing",
       "unprimed_270win_casing",
@@ -3938,7 +3639,6 @@
     "subcategory": "CSC_WEAPON_MODS",
     "name": "attachment mounts",
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "rail_mount",
       "rail_bayonet_lug",
@@ -3957,7 +3657,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "bionic weaponry",
     "description": "Recipes for practice with bionic weaponry for combat.",
-    "skill_used": "cutting",
     "nested_category_data": [
       "prac_cutting_beg_bionics",
       "prac_cutting_int_bionics",
@@ -3973,7 +3672,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "axes",
     "description": "Recipes for combat practice with axes.",
-    "skill_used": "cutting",
     "nested_category_data": [ "prac_cutting_beg_great_axe", "prac_cutting_int_great_axe", "prac_cutting_beg_hand_axe", "prac_cutting_int_hand_axe" ]
   },
   {
@@ -3984,7 +3682,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "cutting swords",
     "description": "Recipes for combat practice of slashing swords of all sizes.",
-    "skill_used": "cutting",
     "nested_category_data": [
       "prac_cutting_beg_short_sword",
       "prac_cutting_int_short_sword",
@@ -4004,7 +3701,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "stabbing swords",
     "description": "Recipes for combat practice of thrusting swords, which require a different training from just slashing with your sword.",
-    "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_fencing", "prac_stabbing_int_fencing", "prac_stabbing_beg_thrust", "prac_stabbing_int_thrust" ]
   },
   {
@@ -4015,7 +3711,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "spears and polearms",
     "description": "Recipes for combat practice with long pointed objects, like spears and polearms.",
-    "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_spear", "prac_stabbing_int_spear", "prac_stabbing_beg_polearm", "prac_stabbing_int_polearm" ]
   },
   {
@@ -4026,7 +3721,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "knives and shivs",
     "description": "Recipes for combat practice with small pointed objects, like knives and shivs.",
-    "skill_used": "stabbing",
     "nested_category_data": [ "prac_stabbing_beg_knife", "prac_stabbing_int_knife", "prac_stabbing_beg_shiv", "prac_stabbing_int_shiv" ]
   },
   {
@@ -4037,7 +3731,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "batons and quarterstaves",
     "description": "Recipes for combat practice with thin, stick-like bludgeons like batons and quarterstaves.",
-    "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_baton", "prac_bashing_int_baton", "prac_bashing_beg_staff", "prac_bashing_int_staff" ]
   },
   {
@@ -4048,7 +3741,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "maces and great hammers",
     "description": "Recipes for combat practice with weighty, smashing bludgeons, like maces and great hammers.",
-    "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_mace", "prac_bashing_int_mace", "prac_bashing_beg_great_hammer", "prac_bashing_int_great_hammer" ]
   },
   {
@@ -4059,7 +3751,6 @@
     "subcategory": "CSC_PRACTICE_MELEE",
     "name": "firearms CQC",
     "description": "Recipes for CQC practice with firearms.",
-    "skill_used": "bashing",
     "nested_category_data": [ "prac_bashing_beg_rifle", "prac_bashing_int_rifle", "prac_bashing_beg_pistol", "prac_bashing_int_pistol" ]
   },
   {
@@ -4070,7 +3761,6 @@
     "subcategory": "CSC_PRACTICE_FABRICATION",
     "name": "lathe turning",
     "description": "Recipes for practicing with a manual lathe/mill.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "prac_machining_lathe_aluminum",
       "prac_machining_lathe_steel",
@@ -4086,7 +3776,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "arming swords",
     "description": "Recipes for making arming swords.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ]
   },
   {
@@ -4097,7 +3786,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "broadswords",
     "description": "Recipes for making broadswords.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
   },
   {
@@ -4108,7 +3796,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "cavalry sabers",
     "description": "Recipes for making cavalry sabers.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ]
   },
   {
@@ -4119,7 +3806,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "cutlasses",
     "description": "Recipes for making cutlasses.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "cutlass", "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ]
   },
   {
@@ -4130,7 +3816,6 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "estocs",
     "description": "Recipes for making estocs.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_estoc", "mc_estoc", "hc_estoc", "ch_estoc", "qt_estoc" ]
   },
   {
@@ -4141,7 +3826,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "falxes",
     "description": "Recipes for making falxes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ]
   },
   {
@@ -4152,7 +3836,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "jian",
     "description": "Recipes for making jian.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ]
   },
   {
@@ -4163,7 +3846,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "katana",
     "description": "Recipes for making katana.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ]
   },
   {
@@ -4174,7 +3856,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kriegsmessers",
     "description": "Recipes for making kriegsmessers.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ]
   },
   {
@@ -4185,7 +3866,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "longswords",
     "description": "Recipes for making longswords.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ]
   },
   {
@@ -4196,7 +3876,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "nodachi",
     "description": "Recipes for making nodachi.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ]
   },
   {
@@ -4207,7 +3886,6 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "rapiers",
     "description": "Recipes for making rapiers.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_rapier", "mc_rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
   },
   {
@@ -4218,7 +3896,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "shamshirs",
     "description": "Recipes for making shamshirs.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ]
   },
   {
@@ -4229,7 +3906,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "talwars",
     "description": "Recipes for making talwars.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_talwar", "mc_talwar", "hc_talwar", "ch_talwar", "qt_talwar" ]
   },
   {
@@ -4240,7 +3916,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kilijes",
     "description": "Recipes for making kilijes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_kilij", "mc_kilij", "hc_kilij", "ch_kilij", "qt_kilij" ]
   },
   {
@@ -4251,7 +3926,6 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "survival knives",
     "description": "Recipes for making survival knives.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_rambo", "mc_knife_rambo", "hc_knife_rambo", "ch_knife_rambo", "qt_knife_rambo" ]
   },
   {
@@ -4262,7 +3936,6 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "trench knives",
     "description": "Recipes for making trench knives.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_knife_trench", "mc_knife_trench", "hc_knife_trench", "ch_knife_trench", "qt_knife_trench" ]
   },
   {
@@ -4273,7 +3946,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "kukris",
     "description": "Recipes for making kukris.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "kukri", "lc_kukri", "mc_kukri", "hc_kukri", "ch_kukri", "qt_kukri" ]
   },
   {
@@ -4284,7 +3956,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "wakizashi",
     "description": "Recipes for making wakizashi.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ]
   },
   {
@@ -4295,7 +3966,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "zweihänders",
     "description": "Recipes for making zweihänders.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
   },
   {
@@ -4306,7 +3976,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "battle axes",
     "description": "Recipes for making battle axes.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "battleaxe", "lc_battleaxe", "mc_battleaxe", "hc_battleaxe", "ch_battleaxe", "qt_battleaxe", "ax_sheets_welded" ]
   },
   {
@@ -4317,7 +3986,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "macuahuitls",
     "description": "Recipes for making macuahuitls.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "glass_macuahuitl", "teeth_macuahuitl", "aztec_sword_scrap", "aztec_sword_stone", "nested_steel_aztec_sword" ]
   },
   {
@@ -4328,7 +3996,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel bladed macuahuitls",
     "description": "Recipes related to constructing different qualities of steel bladed macuahuitls.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_aztec_sword", "mc_aztec_sword", "hc_aztec_sword", "ch_aztec_sword", "qt_aztec_sword" ]
   },
   {
@@ -4339,7 +4006,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "tepoztopilis",
     "description": "Recipes for making tepoztopilis.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "aztec_spear_glass", "aztec_spear_scrap", "aztec_spear_stone", "nested_steel_aztec_spear" ]
   },
   {
@@ -4350,7 +4016,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel bladed tepoztopilis",
     "description": "Recipes related to constructing different qualities of steel bladed tepoztopilis.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_aztec_spear", "mc_aztec_spear", "hc_aztec_spear", "ch_aztec_spear", "qt_aztec_spear" ]
   },
   {
@@ -4361,7 +4026,6 @@
     "subcategory": "CSC_AMMO_OTHER",
     "name": "atlatl spears",
     "description": "Recipes for making atlatl spears.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "wood_atlatl_spear", "bronze_atlatl_spear", "steel_atlatl_spear" ]
   },
   {
@@ -4372,7 +4036,6 @@
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "name": "methanol fuel cartridges",
     "description": "Recipes related to refilling methanol fuel cartridges.",
-    "skill_used": "mechanics",
     "nested_category_data": [ "5l_methanol_tank", "10l_methanol_tank", "28l_methanol_tank", "60l_methanol_tank" ]
   },
   {
@@ -4383,7 +4046,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "scrap aluminum",
     "description": "Recipes related to creating scrap aluminum.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
   },
   {
@@ -4394,7 +4056,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "canvas aketons",
     "description": "Recipes related to canvas cloth armor meant to be worn under other armor.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_canvas",
       "xl_aketon_canvas",
@@ -4412,7 +4073,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "canvas gambesons",
     "description": "Recipes related to thicker canvas cloth armor meant to be worn standalone.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "gambeson_canvas",
       "xl_gambeson_canvas",
@@ -4433,7 +4093,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "canvas arming pants",
     "description": "Recipes related to armored cloth pants made of canvas.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_pants_canvas",
       "xl_aketon_pants_canvas",
@@ -4451,7 +4110,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "canvas arming gloves",
     "description": "Recipes related to armored cloth gloves made of canvas.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_gloves_canvas",
       "xl_aketon_gloves_canvas",
@@ -4469,7 +4127,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "canvas coifs",
     "description": "Recipes related to armored cloth hoods made of canvas.",
-    "skill_used": "tailor",
     "nested_category_data": [ "aketon_hood_canvas", "xl_aketon_hood_canvas", "xs_aketon_hood_canvas" ]
   },
   {
@@ -4480,7 +4137,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "nylon aketons",
     "description": "Recipes related to synthetic fabric armor meant to be worn under other armor.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_nylon",
       "xl_aketon_nylon",
@@ -4498,7 +4154,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "nylon gambesons",
     "description": "Recipes related to thicker synthetic fabric armor meant to be worn standalone.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "gambeson_nylon",
       "xl_gambeson_nylon",
@@ -4519,7 +4174,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "nylon arming pants",
     "description": "Recipes related to armored cloth pants made of synthetic fabric.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_pants_nylon",
       "xl_aketon_pants_nylon",
@@ -4537,7 +4191,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "nylon arming gloves",
     "description": "Recipes related to armored cloth gloves made of synthetic fabric.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_gloves_nylon",
       "xl_aketon_gloves_nylon",
@@ -4555,7 +4208,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "nylon coifs",
     "description": "Recipes related to armored cloth hoods made of synthetic fabric.",
-    "skill_used": "tailor",
     "nested_category_data": [ "aketon_hood_nylon", "xl_aketon_hood_nylon", "xs_aketon_hood_nylon" ]
   },
   {
@@ -4566,7 +4218,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "wool aketons",
     "description": "Recipes related to wool armor meant to be worn under other armor.",
-    "skill_used": "tailor",
     "nested_category_data": [ "aketon_wool", "xl_aketon_wool", "xs_aketon_wool", "aketon_wool_vest", "xl_aketon_wool_vest", "xs_aketon_wool_vest" ]
   },
   {
@@ -4577,7 +4228,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "wool gambesons",
     "description": "Recipes related to thicker wool armor meant to be worn standalone.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "gambeson_wool",
       "xl_gambeson_wool",
@@ -4598,7 +4248,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "wool arming pants",
     "description": "Recipes related to armored cloth pants made of wool.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_pants_wool",
       "xl_aketon_pants_wool",
@@ -4616,7 +4265,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "wool arming gloves",
     "description": "Recipes related to armored cloth gloves made of wool.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "aketon_gloves_wool",
       "xl_aketon_gloves_wool",
@@ -4634,7 +4282,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "wool coifs",
     "description": "Recipes related to armored cloth hoods made of wool.",
-    "skill_used": "tailor",
     "nested_category_data": [ "aketon_hood_wool", "xl_aketon_hood_wool", "xs_aketon_hood_wool" ]
   },
   {
@@ -4645,7 +4292,6 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "pemmican",
     "description": "Recipes related to making pemmican.",
-    "skill_used": "cooking",
     "nested_category_data": [ "pemmican", "pemmican_veggy", "pemmican_meat" ]
   },
   {
@@ -4656,7 +4302,6 @@
     "subcategory": "CSC_OTHER_OTHER",
     "name": "chairs",
     "description": "Recipes related to constructing chairs.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "deck_chair", "chair_wood", "chair_wood_black", "chair_wood_white" ]
   },
   {
@@ -4667,7 +4312,6 @@
     "subcategory": "CSC_OTHER_OTHER",
     "name": "stools",
     "description": "Recipes related to constructing stools.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "stool_wood", "stool_log" ]
   },
   {
@@ -4678,7 +4322,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "planks",
     "description": "Recipes related to constructing 4 ft planks.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
   {
@@ -4689,7 +4332,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short planks",
     "description": "Recipes related to constructing 2 ft planks.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "plank_short_from long planks by hand",
       "plank_short_from long planks with powertools",
@@ -4705,7 +4347,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "wooden posts",
     "description": "Recipes related to constructing 4 ft wooden posts.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from long posts with powertools" ]
   },
   {
@@ -4716,7 +4357,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "short wooden posts",
     "description": "Recipes related to constructing 2 ft wooden posts.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "wooden_post_short_from long posts by hand",
       "wooden_post_short_from long posts with powertools",
@@ -4732,7 +4372,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "wooden posts",
     "description": "Recipes related to constructing all wooden posts.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_posts_short", "nested_posts_normal", "wooden_post_long" ]
   },
   {
@@ -4743,7 +4382,6 @@
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "name": "inactive bots",
     "description": "Recipes related to constructing deployable robots.",
-    "skill_used": "electronics",
     "nested_category_data": [
       "bot_crows_m240",
       "bot_rifleturret",
@@ -4775,7 +4413,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "planks",
     "description": "Recipes related to constructing all planks.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_planks_short", "nested_planks_normal", "plank_long" ]
   },
   {
@@ -4786,7 +4423,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_lc_brigandine", "armguard_lc_brigandine_xs", "xl_armguard_lc_brigandine" ]
   },
   {
@@ -4797,7 +4433,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_mc_brigandine", "armguard_mc_brigandine_xs", "xl_armguard_mc_brigandine" ]
   },
   {
@@ -4808,7 +4443,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_hc_brigandine", "armguard_hc_brigandine_xs", "xl_armguard_hc_brigandine" ]
   },
   {
@@ -4819,7 +4453,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_ch_brigandine", "armguard_ch_brigandine_xs", "xl_armguard_ch_brigandine" ]
   },
   {
@@ -4830,7 +4463,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_qt_brigandine", "armguard_qt_brigandine_xs", "xl_armguard_qt_brigandine" ]
   },
   {
@@ -4841,7 +4473,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "steel splint arm guards",
     "description": "Recipes related to constructing various sizes of splint arm guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_arms",
       "nested_mc_brigandine_arms",
@@ -4858,7 +4489,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_elbow_guards", "lc_elbow_guards_xs", "xl_lc_elbow_guards" ]
   },
   {
@@ -4869,7 +4499,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_elbow_guards", "mc_elbow_guards_xs", "xl_mc_elbow_guards" ]
   },
   {
@@ -4880,7 +4509,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_elbow_guards", "hc_elbow_guards_xs", "xl_hc_elbow_guards" ]
   },
   {
@@ -4891,7 +4519,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_elbow_guards", "ch_elbow_guards_xs", "xl_ch_elbow_guards" ]
   },
   {
@@ -4902,7 +4529,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_elbow_guards", "qt_elbow_guards_xs", "xl_qt_elbow_guards" ]
   },
   {
@@ -4913,7 +4539,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "steel elbow guards",
     "description": "Recipes related to forging various sizes of elbow guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_elbow_guards",
       "nested_mc_elbow_guards",
@@ -4930,7 +4555,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel splint vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_vambrace_brigandine", "xl_lc_vambrace_brigandine", "xs_lc_vambrace_brigandine" ]
   },
   {
@@ -4941,7 +4565,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel splint mail vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_vambrace_brigandine", "xl_mc_vambrace_brigandine", "xs_mc_vambrace_brigandine" ]
   },
   {
@@ -4952,7 +4575,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel splint mail vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_vambrace_brigandine", "xl_hc_vambrace_brigandine", "xs_hc_vambrace_brigandine" ]
   },
   {
@@ -4963,7 +4585,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel splint mail vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_vambrace_brigandine", "xl_ch_vambrace_brigandine", "xs_ch_vambrace_brigandine" ]
   },
   {
@@ -4974,7 +4595,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel splint mail vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_vambrace_brigandine", "xl_qt_vambrace_brigandine", "xs_qt_vambrace_brigandine" ]
   },
   {
@@ -4985,7 +4605,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "splint mail vambraces",
     "description": "Recipes related to forging various sizes of splint mail vambraces.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_vambrace_brigandine",
       "nested_mc_vambrace_brigandine",
@@ -5002,7 +4621,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel splint greaves",
     "description": "Recipes related to constructing various sizes of splint greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_greaves_brigandine", "xl_lc_greaves_brigandine", "xs_lc_greaves_brigandine" ]
   },
   {
@@ -5013,7 +4631,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel splint greaves",
     "description": "Recipes related to constructing various sizes of splint greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_greaves_brigandine", "xl_mc_greaves_brigandine", "xs_mc_greaves_brigandine" ]
   },
   {
@@ -5024,7 +4641,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel splint greaves",
     "description": "Recipes related to constructing various sizes of splint greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_greaves_brigandine", "xl_hc_greaves_brigandine", "xs_hc_greaves_brigandine" ]
   },
   {
@@ -5035,7 +4651,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel splint greaves",
     "description": "Recipes related to constructing various sizes of splint greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_greaves_brigandine", "xl_ch_greaves_brigandine", "xs_ch_greaves_brigandine" ]
   },
   {
@@ -5046,7 +4661,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel splint greaves",
     "description": "Recipes related to constructing various sizes of splint greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_greaves_brigandine", "xl_qt_greaves_brigandine", "xs_qt_greaves_brigandine" ]
   },
   {
@@ -5057,7 +4671,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "splint mail greaves",
     "description": "Recipes related to forging various sizes of splint mail greaves.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_greaves_brigandine",
       "nested_mc_greaves_brigandine",
@@ -5074,7 +4687,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_lc_brigandine", "legguard_lc_brigandine_xs", "xl_legguard_lc_brigandine" ]
   },
   {
@@ -5085,7 +4697,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_mc_brigandine", "legguard_mc_brigandine_xs", "xl_legguard_mc_brigandine" ]
   },
   {
@@ -5096,7 +4707,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_hc_brigandine", "legguard_hc_brigandine_xs", "xl_legguard_hc_brigandine" ]
   },
   {
@@ -5107,7 +4717,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_ch_brigandine", "legguard_ch_brigandine_xs", "xl_legguard_ch_brigandine" ]
   },
   {
@@ -5118,7 +4727,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_qt_brigandine", "legguard_qt_brigandine_xs", "xl_legguard_qt_brigandine" ]
   },
   {
@@ -5129,7 +4737,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "steel splint leg guards",
     "description": "Recipes related to constructing various sizes of splint leg guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_legs",
       "nested_mc_brigandine_legs",
@@ -5146,7 +4753,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_knee_guards", "lc_knee_guards_xs", "xl_lc_knee_guards" ]
   },
   {
@@ -5157,7 +4763,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_knee_guards", "mc_knee_guards_xs", "xl_mc_knee_guards" ]
   },
   {
@@ -5168,7 +4773,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_knee_guards", "hc_knee_guards_xs", "xl_hc_knee_guards" ]
   },
   {
@@ -5179,7 +4783,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_knee_guards", "ch_knee_guards_xs", "xl_ch_knee_guards" ]
   },
   {
@@ -5190,7 +4793,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_knee_guards", "qt_knee_guards_xs", "xl_qt_knee_guards" ]
   },
   {
@@ -5201,7 +4803,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "steel knee guards",
     "description": "Recipes related to forging various sizes of knee guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_knee_guards",
       "nested_mc_knee_guards",
@@ -5218,7 +4819,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_brigandine", "armor_lc_brigandine_xs", "xl_armor_lc_brigandine" ]
   },
   {
@@ -5229,7 +4829,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_brigandine", "armor_mc_brigandine_xs", "xl_armor_mc_brigandine" ]
   },
   {
@@ -5240,7 +4839,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_brigandine", "armor_hc_brigandine_xs", "xl_armor_hc_brigandine" ]
   },
   {
@@ -5251,7 +4849,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_brigandine", "armor_ch_brigandine_xs", "xl_armor_ch_brigandine" ]
   },
   {
@@ -5262,7 +4859,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_brigandine", "armor_qt_brigandine_xs", "xl_armor_qt_brigandine" ]
   },
   {
@@ -5273,7 +4869,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "brigandines",
     "description": "Recipes related to constructing various sizes of brigandines.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_vest",
       "nested_mc_brigandine_vest",
@@ -5290,7 +4885,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_coat_brigandine", "armor_lc_coat_brigandine_xs", "xl_armor_lc_coat_brigandine" ]
   },
   {
@@ -5301,7 +4895,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_coat_brigandine", "armor_mc_coat_brigandine_xs", "xl_armor_mc_coat_brigandine" ]
   },
   {
@@ -5312,7 +4905,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_coat_brigandine", "armor_hc_coat_brigandine_xs", "xl_armor_hc_coat_brigandine" ]
   },
   {
@@ -5323,7 +4915,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_coat_brigandine", "armor_ch_coat_brigandine_xs", "xl_armor_ch_coat_brigandine" ]
   },
   {
@@ -5334,7 +4925,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_coat_brigandine", "armor_qt_coat_brigandine_xs", "xl_armor_qt_coat_brigandine" ]
   },
   {
@@ -5345,7 +4935,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "brigandine coats",
     "description": "Recipes related to constructing various sizes of brigandine coats.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_coat",
       "nested_mc_brigandine_coat",
@@ -5362,7 +4951,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_lc_brigandine_shoulders", "armor_lc_brigandine_shoulders_xs", "xl_armor_lc_brigandine_shoulders" ]
   },
   {
@@ -5373,7 +4961,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_mc_brigandine_shoulders", "armor_mc_brigandine_shoulders_xs", "xl_armor_mc_brigandine_shoulders" ]
   },
   {
@@ -5384,7 +4971,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_hc_brigandine_shoulders", "armor_hc_brigandine_shoulders_xs", "xl_armor_hc_brigandine_shoulders" ]
   },
   {
@@ -5395,7 +4981,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_ch_brigandine_shoulders", "armor_ch_brigandine_shoulders_xs", "xl_armor_ch_brigandine_shoulders" ]
   },
   {
@@ -5406,7 +4991,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_qt_brigandine_shoulders", "armor_qt_brigandine_shoulders_xs", "xl_armor_qt_brigandine_shoulders" ]
   },
   {
@@ -5417,7 +5001,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "brigandines with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandines with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_shoulders",
       "nested_mc_brigandine_shoulders",
@@ -5434,7 +5017,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_lc_coat_brigandine_shoulders",
       "armor_lc_coat_brigandine_shoulders_xs",
@@ -5449,7 +5031,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_mc_coat_brigandine_shoulders",
       "armor_mc_coat_brigandine_shoulders_xs",
@@ -5464,7 +5045,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_hc_coat_brigandine_shoulders",
       "armor_hc_coat_brigandine_shoulders_xs",
@@ -5479,7 +5059,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_ch_coat_brigandine_shoulders",
       "armor_ch_coat_brigandine_shoulders_xs",
@@ -5494,7 +5073,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_qt_coat_brigandine_shoulders",
       "armor_qt_coat_brigandine_shoulders_xs",
@@ -5509,7 +5087,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "brigandine coats with shoulder guards",
     "description": "Recipes related to constructing various sizes of brigandine coats with shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_coat_shoulders",
       "nested_mc_brigandine_coat_shoulders",
@@ -5526,7 +5103,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_shoulder_guards", "lc_shoulder_guards_xs", "xl_lc_shoulder_guards" ]
   },
   {
@@ -5537,7 +5113,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_shoulder_guards", "mc_shoulder_guards_xs", "xl_mc_shoulder_guards" ]
   },
   {
@@ -5548,7 +5123,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_shoulder_guards", "hc_shoulder_guards_xs", "xl_hc_shoulder_guards" ]
   },
   {
@@ -5559,7 +5133,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_shoulder_guards", "ch_shoulder_guards_xs", "xl_ch_shoulder_guards" ]
   },
   {
@@ -5570,7 +5143,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_shoulder_guards", "qt_shoulder_guards_xs", "xl_qt_shoulder_guards" ]
   },
   {
@@ -5581,7 +5153,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel shoulder guards",
     "description": "Recipes related to constructing various sizes of shoulder guards.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_shoulderguards",
       "nested_mc_brigandine_shoulderguards",
@@ -5598,7 +5169,6 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_brigandine_hands",
       "nested_mc_brigandine_hands",
@@ -5615,7 +5185,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_brigandine_hands", "lc_brigandine_hands_xs", "xl_lc_brigandine_hands" ]
   },
   {
@@ -5626,7 +5195,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_brigandine_hands", "mc_brigandine_hands_xs", "xl_mc_brigandine_hands" ]
   },
   {
@@ -5637,7 +5205,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_brigandine_hands", "hc_brigandine_hands_xs", "xl_hc_brigandine_hands" ]
   },
   {
@@ -5648,7 +5215,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_brigandine_hands", "ch_brigandine_hands_xs", "xl_ch_brigandine_hands" ]
   },
   {
@@ -5659,7 +5225,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_brigandine_hands", "qt_brigandine_hands_xs", "xl_qt_brigandine_hands" ]
   },
   {
@@ -5670,7 +5235,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_face", "xl_lc_chainmail_face", "xs_lc_chainmail_face" ]
   },
   {
@@ -5681,7 +5245,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_face", "xl_mc_chainmail_face", "xs_mc_chainmail_face" ]
   },
   {
@@ -5692,7 +5255,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_face", "xl_hc_chainmail_face", "xs_hc_chainmail_face" ]
   },
   {
@@ -5703,7 +5265,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_face", "xl_ch_chainmail_face", "xs_ch_chainmail_face" ]
   },
   {
@@ -5714,7 +5275,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain partial aventails",
     "description": "Recipes related to constructing various sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_face", "xl_qt_chainmail_face", "xs_qt_chainmail_face" ]
   },
   {
@@ -5725,7 +5285,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel chain partial aventails",
     "description": "Recipes related to constructing various types and sizes of chainmail partial aventails designed to attach to a metal cap and provide extra face and neck protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_face",
       "nested_mc_chainmail_face",
@@ -5742,7 +5301,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_aventail", "xl_lc_chainmail_aventail", "xs_lc_chainmail_aventail" ]
   },
   {
@@ -5753,7 +5311,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_aventail", "xl_mc_chainmail_aventail", "xs_mc_chainmail_aventail" ]
   },
   {
@@ -5764,7 +5321,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_aventail", "xl_hc_chainmail_aventail", "xs_hc_chainmail_aventail" ]
   },
   {
@@ -5775,7 +5331,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_aventail", "xl_ch_chainmail_aventail", "xs_ch_chainmail_aventail" ]
   },
   {
@@ -5786,7 +5341,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel chain aventails",
     "description": "Recipes related to constructing various sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_aventail", "xl_qt_chainmail_aventail", "xs_qt_chainmail_aventail" ]
   },
   {
@@ -5797,7 +5351,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel chain aventails",
     "description": "Recipes related to constructing various types and sizes of chainmail aventails designed to attach to a metal cap and provide extra face, neck and shoulder protection.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_chainmail_aventail",
       "nested_mc_chainmail_aventail",
@@ -5814,7 +5367,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_nasal", "xl_lc_helmet_nasal", "xs_lc_helmet_nasal" ]
   },
   {
@@ -5825,7 +5377,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_nasal", "xl_mc_helmet_nasal", "xs_mc_helmet_nasal" ]
   },
   {
@@ -5836,7 +5387,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_nasal", "xl_hc_helmet_nasal", "xs_hc_helmet_nasal" ]
   },
   {
@@ -5847,7 +5397,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_nasal", "xl_ch_helmet_nasal", "xs_ch_helmet_nasal" ]
   },
   {
@@ -5858,7 +5407,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets out of tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_nasal", "xl_qt_helmet_nasal", "xs_qt_helmet_nasal" ]
   },
   {
@@ -5869,7 +5417,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel nasal helmets",
     "description": "Recipes related to constructing various sizes of Viking style nasal helmets.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_nasal",
       "nested_mc_helmet_nasal",
@@ -5886,7 +5433,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_helmet_turban", "xl_lc_helmet_turban", "xs_lc_helmet_turban" ]
   },
   {
@@ -5897,7 +5443,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_helmet_turban", "xl_mc_helmet_turban", "xs_mc_helmet_turban" ]
   },
   {
@@ -5908,7 +5453,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_helmet_turban", "xl_hc_helmet_turban", "xs_hc_helmet_turban" ]
   },
   {
@@ -5919,7 +5463,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_helmet_turban", "xl_ch_helmet_turban", "xs_ch_helmet_turban" ]
   },
   {
@@ -5930,7 +5473,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets out of tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_helmet_turban", "xl_qt_helmet_turban", "xs_qt_helmet_turban" ]
   },
   {
@@ -5941,7 +5483,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel turban helmets",
     "description": "Recipes related to constructing various sizes of Arabic style turban helmets.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_helmet_turban",
       "nested_mc_helmet_turban",
@@ -5958,7 +5499,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_steel_facemask", "xl_lc_steel_facemask", "xs_lc_steel_facemask" ]
   },
   {
@@ -5969,7 +5509,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_steel_facemask", "xl_mc_steel_facemask", "xs_mc_steel_facemask" ]
   },
   {
@@ -5980,7 +5519,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_steel_facemask", "xl_hc_steel_facemask", "xs_hc_steel_facemask" ]
   },
   {
@@ -5991,7 +5529,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_steel_facemask", "xl_ch_steel_facemask", "xs_ch_steel_facemask" ]
   },
   {
@@ -6002,7 +5539,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel face masks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks out of tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_steel_facemask", "xl_qt_steel_facemask", "xs_qt_steel_facemask" ]
   },
   {
@@ -6013,7 +5549,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "steel facemasks",
     "description": "Recipes related to constructing various sizes of Arabic style steel facemasks.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_steel_facemask",
       "nested_mc_steel_facemask",
@@ -6030,7 +5565,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "mild steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of mild steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_mirror_armor", "xl_lc_mirror_armor", "xs_lc_mirror_armor" ]
   },
   {
@@ -6041,7 +5575,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "medium steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of medium steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "mc_mirror_armor", "xl_mc_mirror_armor", "xs_mc_mirror_armor" ]
   },
   {
@@ -6052,7 +5585,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "high steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of high steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hc_mirror_armor", "xl_hc_mirror_armor", "xs_hc_mirror_armor" ]
   },
   {
@@ -6063,7 +5595,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of hardened steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "ch_mirror_armor", "xl_ch_mirror_armor", "xs_ch_mirror_armor" ]
   },
   {
@@ -6074,7 +5605,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "tempered steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor out of tempered steel.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "qt_mirror_armor", "xl_qt_mirror_armor", "xs_qt_mirror_armor" ]
   },
   {
@@ -6085,7 +5615,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "steel mirror armor",
     "description": "Recipes related to constructing various sizes of Arabic style mirror armor.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_lc_mirror_armor",
       "nested_mc_mirror_armor",
@@ -6102,7 +5631,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "bronze greaves",
     "description": "Recipes related to constructing various sizes of greaves made out of bronze.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_bronze", "xl_legguard_bronze", "xs_legguard_bronze" ]
   },
   {
@@ -6113,7 +5641,6 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "bronze vambraces",
     "description": "Recipes related to constructing various sizes of vambraces made out of bronze.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armguard_bronze", "xl_armguard_bronze", "xs_armguard_bronze" ]
   },
   {
@@ -6124,7 +5651,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "bronze helmets",
     "description": "Recipes related to constructing various sizes of single piece helmets made out of bronze.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "helmet_bronze", "xl_helmet_bronze", "xs_helmet_bronze" ]
   },
   {
@@ -6135,7 +5661,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "Corinthian helms",
     "description": "Recipes related to constructing various sizes of helmets made out of bronze in the Ancient Greek Corinthian style.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "helmet_corinthian", "xl_helmet_corinthian", "helmet_corinthian_xs" ]
   },
   {
@@ -6146,7 +5671,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "bronze helmets",
     "description": "Recipes related to constructing various sizes and styles of helmets made out of bronze.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_helmet_bronze", "nested_helmet_corinthian" ]
   },
   {
@@ -6157,7 +5681,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "iron greaves",
     "description": "Recipes related to constructing various sizes of greaves made out of iron.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "legguard_metal", "xl_legguard_metal", "xs_legguard_metal" ]
   },
   {
@@ -6168,7 +5691,6 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "name": "loincloths",
     "description": "Recipes related to making loincloths out of varied materials.",
-    "skill_used": "tailor",
     "nested_category_data": [ "loincloth", "loincloth_fur", "loincloth_leather", "loincloth_wool" ]
   },
   {
@@ -6179,7 +5701,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "throat guards",
     "description": "Recipes related to making throat guards out of varied materials.",
-    "skill_used": "tailor",
     "nested_category_data": [ "throat_guard_nylon", "throat_guard_canvas", "throat_guard_mercenary" ]
   },
   {
@@ -6190,7 +5711,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "name": "pouches",
     "description": "Recipes related to making pouches for a variety of roles and purposes.",
-    "skill_used": "tailor",
     "nested_category_data": [
       "legrig",
       "dump_pouch",
@@ -6223,7 +5743,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "cloaks",
     "description": "Recipes related to making cloaks out of varied materials.",
-    "skill_used": "tailor",
     "nested_category_data": [ "cloak", "cloak_denim", "cloak_fur", "cloak_leather", "cloak_wool", "grass_cloak" ]
   },
   {
@@ -6234,7 +5753,6 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "name": "mutagen primers",
     "description": "Recipes related to synthesizing substances to aid in directing mutagenic change.",
-    "skill_used": "chemistry",
     "nested_category_data": [
       "iv_purifier",
       "iv_mutagen",
@@ -6274,7 +5792,6 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "name": "mutagens",
     "description": "Recipes related to synthesizing mutagenic substances.",
-    "skill_used": "chemistry",
     "nested_category_data": [
       "purifier",
       "mutagen",
@@ -6315,7 +5832,6 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "name": "acids",
     "description": "Recipes related to synthesizing various acidic substances.",
-    "skill_used": "chemistry",
     "nested_category_data": [
       "formic_acid",
       "formic_acid_from_oxalic_acid",
@@ -6348,7 +5864,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "name": "chainmail sheets",
     "description": "Recipes related to making sheets of chainmail of different steel qualities.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ]
   },
   {
@@ -6359,7 +5874,6 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "name": "spears",
     "description": "Recipes related to making spears from various materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "pointy_stick",
       "pointy_stick_long",
@@ -6392,7 +5906,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel spears",
     "description": "Recipes related to constructing steel spears from various materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "spear_steel", "lc_spear_steel", "hc_spear_steel", "ch_spear_steel", "qt_spear_steel" ]
   },
   {
@@ -6403,7 +5916,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_steel_pikes", "pike_bronze", "pike_copper", "pike_wood", "simple_pike_pipe", "pike_pipe" ]
   },
   {
@@ -6414,7 +5926,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "steel pikes",
     "description": "Recipes related to constructing steel pikes from various materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "pike", "lc_pike", "hc_pike", "ch_pike", "qt_pike" ]
   },
   {
@@ -6425,7 +5936,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "name": "throwing weapons",
     "description": "Recipes related to making all kind of weapons designed to be thrown at the enemy.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "lawn_dart", "weighted_dart", "throwing_knife", "throwing_axe", "throwing_stick", "nested_javelins" ]
   },
   {
@@ -6436,7 +5946,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "javelins",
     "description": "Recipes related to constructing all kinds of javelins in their various forms.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "javelin_fletched", "javelin_fletched_bronze", "javelin", "javelin_iron" ]
   },
   {
@@ -6447,7 +5956,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "makeshift ballistic plates",
     "description": "Recipes related to constructing makeshift ESAPI and ESBI plates.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "scrap_esapi_plate",
       "lc_esapi_plate",
@@ -6471,7 +5979,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "cardboard armor",
     "description": "Recipes related to the construction of cardboard 'armor'.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "helmet_cardboard", "armor_cardboard", "armor_cardboard_cuirass", "cardboard_shield", "cardboard_crown" ]
   },
   {
@@ -6482,7 +5989,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "casing necklaces",
     "description": "Recipes dealing with the manufacture of necklaces made with bullet casings, including ones made through simple techniques or more refined workmanship.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "simple_pistol_cartridge_necklace",
       "simple_rifle_cartridge_necklace",
@@ -6500,7 +6006,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "exoskeleton armors reinforcements",
     "description": "Recipes related to the reinforcement of standard exoskeleton armors.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "combat_exoskeleton_armor_head_heavy_reinforced",
       "combat_exoskeleton_armor_torso_heavy_reinforced",
@@ -6524,7 +6029,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "exoskeleton armors",
     "description": "Recipes related to the production of custom exoskeleton armors.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_combat_exoskeleton_armor_reinforcement" ]
   },
   {
@@ -6535,7 +6039,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "hoodies",
     "description": "Recipes related to the production of hoodies.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "hoodie", "hoodie_cropped", "hoodie_cropped_cutting", "nested_hoodies_animal", "nested_hoodies_cropped_animal" ]
   },
   {
@@ -6546,7 +6049,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "animal hoodies",
     "description": "Recipes related to the production of animal hoodies.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "hoodie_shark",
       "hoodie_bear",
@@ -6567,7 +6069,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "cropped animal hoodies",
     "description": "Recipes related to the production of cropped animal hoodies.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "hoodie_cropped_shark",
       "hoodie_cropped_bear",
@@ -6588,7 +6089,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "scrap armors",
     "description": "Recipes related to the production of suits of scrap armor.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_scrapsuit",
       "armor_scrapsuit_assembly",
@@ -6606,7 +6106,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "name": "aprons",
     "description": "Recipes related to the production of aprons.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_aprons_cotton", "nested_aprons_leather", "nested_aprons_synthetic" ]
   },
   {
@@ -6617,7 +6116,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "cotton aprons",
     "description": "Recipes related to the production of cotton aprons.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "apron_cotton",
       "apron_cotton_xl",
@@ -6636,7 +6134,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "waist cotton aprons",
     "description": "Recipes related to the production of cotton waist aprons.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "waist_apron_short",
       "waist_apron_short_xl",
@@ -6660,7 +6157,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "leather aprons",
     "description": "Recipes related to the production of leather aprons.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "apron_leather" ]
   },
   {
@@ -6671,7 +6167,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "synthetic fabric aprons",
     "description": "Recipes related to the production of synthetic fabric aprons.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "apron_plastic", "apron_cut_resistant" ]
   },
   {
@@ -6682,7 +6177,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "fur armors",
     "description": "Recipes related to the production of suits of fur armor.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_farmor",
       "armor_farmor_xs",
@@ -6700,7 +6194,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "leather armors",
     "description": "Recipes related to the production of suits of leather armor.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_larmor", "armor_larmor_xs", "xl_armor_larmor" ]
   },
   {
@@ -6711,7 +6204,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "sheet metal armors",
     "description": "Recipes related to the production of suits of metal sheet armor.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "armor_ch_metal_sheets",
       "armor_ch_metal_sheets_assembly",
@@ -6735,7 +6227,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "wetsuits",
     "description": "Recipes related to the production of wetsuits.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "wetsuit",
       "xs_wetsuit",
@@ -6755,7 +6246,6 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "jumpsuits",
     "description": "Recipes related to the production of jumpsuits.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_all_survivor_jumpsuits", "jumpsuit", "jumpsuit_xs", "jumpsuit_xl", "jumpsuit_xl_from_jumpsuit" ]
   },
   {
@@ -6766,7 +6256,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "nomad jumpsuits",
     "description": "Recipes related to the production of nomad jumpsuits.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "armor_nomad", "armor_nomad_upgrade light jumpsuit", "armor_nomad_light", "armor_nomad_advanced" ]
   },
   {
@@ -6777,7 +6266,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "pot helms",
     "description": "Recipes related to the production of helmets made out of pots.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "pot_helmet", "pot_helmet_xs", "pot_xlhelmet", "stockpot_helmet" ]
   },
   {
@@ -6788,7 +6276,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "scrap helmets",
     "description": "Recipes related to the production of helmets made out of scraps.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "helmet_scrap", "helmet_scrap_xs", "xl_helmet_scrap" ]
   },
   {
@@ -6799,7 +6286,6 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "name": "kabutos",
     "description": "Recipes related to the production of kabuto helmets.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "helmet_kabuto", "helmet_kabuto_xs", "xl_helmet_kabuto" ]
   },
   {
@@ -6810,7 +6296,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "jewelry",
     "description": "Recipes related to the production of jewelry.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "nested_bracelets", "nested_necklaces", "nested_rings" ]
   },
   {
@@ -6821,7 +6306,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "bracelets",
     "description": "Recipes related to the production of bracelets.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gold_bracelet", "copper_bracelet", "silver_bracelet", "bead_bracelet" ]
   },
   {
@@ -6832,7 +6316,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "necklaces",
     "description": "Recipes related to the production of necklaces.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "nested_bullet_necklaces",
       "nested_necklace_teeth",
@@ -6850,7 +6333,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "teeth necklaces",
     "description": "Recipes related to the production of necklaces made from teeth.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "necklace_teeth_necklace_teeth_monster" ]
   },
   {
@@ -6861,7 +6343,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "rings",
     "description": "Recipes related to the production of rings.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "gold_ring" ]
   },
   {
@@ -6872,7 +6353,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "blankets",
     "description": "Recipes related to the production of blankets.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "grass_blanket",
       "grass_blanket_from_sheet",
@@ -6891,7 +6371,6 @@
     "subcategory": "CSC_*_NESTED",
     "name": "quilts",
     "description": "Recipes related to the production of quilts.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "quilt", "quilt_patchwork" ]
   },
   {
@@ -6902,7 +6381,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "sleeping bags",
     "description": "Recipes related to the production of sleeping bags.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "sleeping_bag_roll", "sleeping_bag_fur_roll", "sleeping_bag_improvised" ]
   },
   {
@@ -6913,7 +6391,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "tails",
     "description": "Recipes related to the production of fake tails.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "fur_cat_tail", "faux_fur_cat_tail", "leather_cat_tail" ]
   },
   {
@@ -6924,7 +6401,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "ears",
     "description": "Recipes related to the production of fake ears.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "fur_cat_ears", "faux_fur_cat_ears", "leather_cat_ears" ]
   },
   {
@@ -6935,7 +6411,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "collars",
     "description": "Recipes related to the production of collars.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "fur_collar", "faux_fur_collar", "leather_collar" ]
   },
   {
@@ -6946,7 +6421,6 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "name": "belt loops",
     "description": "Recipes related to the production of belt loops.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "belt_loop_small", "belt_loop_medium", "belt_loop_large" ]
   },
   {
@@ -6957,7 +6431,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "9x19mm ammo",
     "description": "Recipes related to reloading 9x19mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_9mmfmj",
       "reloaded_9mm",
@@ -6977,7 +6450,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".40 S&W ammo",
     "description": "Recipes related to reloading .40 S&W ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_40sw", "reloaded_40fmj", "bp_40fmj", "bp_40sw", "matchhead_40fmj", "matchhead_40sw" ]
   },
   {
@@ -6988,7 +6460,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".32 ACP ammo",
     "description": "Recipes related to reloading .32 ACP ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_32_acp", "reloaded_32_acp_jhp", "bp_32_acp", "bp_32_acp_jhp", "matchhead_32_acp", "matchhead_32_acp_jhp" ]
   },
   {
@@ -6999,7 +6470,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".38 Special ammo",
     "description": "Recipes related to reloading .38 Special ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_38_fmj",
       "reloaded_38_special",
@@ -7018,7 +6488,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".38 Super ammo",
     "description": "Recipes related to reloading .38 Super ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_38super_fmj",
       "reloaded_38_super",
@@ -7036,7 +6505,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".44 Magnum ammo",
     "description": "Recipes related to reloading .44 Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_44fmj", "reloaded_44magnum", "bp_44fmj", "bp_44magnum" ]
   },
   {
@@ -7047,7 +6515,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".45 ACP ammo",
     "description": "Recipes related to reloading .45 ACP ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_45_acp",
       "reloaded_45_jhp",
@@ -7066,7 +6533,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".500 S&W Magnum ammo",
     "description": "Recipes related to reloading .500 S&W Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_500_Magnum", "bp_500_Magnum" ]
   },
   {
@@ -7077,7 +6543,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".50 AE ammo",
     "description": "Recipes related to reloading .50 AE ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_50ae_fmj", "reloaded_50ae_jhp", "bp_50ae_fmj", "bp_50ae_jhp", "matchhead_50ae_fmj", "matchhead_50ae_jhp" ]
   },
   {
@@ -7088,7 +6553,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "7.62x25mm ammo",
     "description": "Recipes related to reloading 7.62x25mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_762_25", "bp_762_25", "matchhead_762_25" ]
   },
   {
@@ -7099,7 +6563,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "9x18mm ammo",
     "description": "Recipes related to reloading 9x18mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_9x18mmfmj",
       "reloaded_9x18mm",
@@ -7118,7 +6581,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".380 ACP ammo",
     "description": "Recipes related to reloading .380 ACP ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_380_FMJ",
       "reloaded_380_JHP",
@@ -7137,7 +6599,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "5.7x28mm ammo",
     "description": "Recipes related to reloading 5.7x28mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_57mm", "bp_57mm" ]
   },
   {
@@ -7148,7 +6609,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".357 SIG ammo",
     "description": "Recipes related to reloading .357 SIG ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_357sig_fmj",
       "reloaded_357sig_jhp",
@@ -7166,7 +6626,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".357 Magnum ammo",
     "description": "Recipes related to reloading .357 Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_357mag_fmj",
       "reloaded_357mag_jhp",
@@ -7184,7 +6643,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": "10mm Auto ammo",
     "description": "Recipes related to reloading 10mm Auto ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_10mm_fmj",
       "reloaded_10mm_jhp",
@@ -7203,7 +6661,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".454 Casull ammo",
     "description": "Recipes related to reloading .454 Casull ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_454_Casull", "bp_454_Casull" ]
   },
   {
@@ -7214,7 +6671,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".45 Colt ammo",
     "description": "Recipes related to reloading .45 Colt ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_45colt_fmj",
       "reloaded_45colt_jhp",
@@ -7235,7 +6691,6 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".460 S&W Magnum ammo",
     "description": "Recipes related to reloading .460 S&W ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_460sw", "reloaded_460sw_jhp" ]
   },
   {
@@ -7246,7 +6701,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".22 LR ammo",
     "description": "Recipes related to reloading .22 LR ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_22_lr", "reloaded_22_fmj", "bp_22_lr", "bp_22_fmj", "matchhead_22_lr", "matchhead_22_fmj" ]
   },
   {
@@ -7257,7 +6711,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".223/5.56x45mm ammo",
     "description": "Recipes related to reloading .223/5.56x45mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_223", "bp_223", "reloaded_556", "reloaded_556_incendiary", "bp_556", "bp_556_incendiary" ]
   },
   {
@@ -7268,7 +6721,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".270 Winchester ammo",
     "description": "Recipes related to reloading .270 Winchester ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_270win_jsp", "reloaded_270win_fmj", "bp_270win_jsp", "bp_270win_fmj" ]
   },
   {
@@ -7279,7 +6731,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".300 Winchester Magnum ammo",
     "description": "Recipes related to reloading .300 Winchester Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_300_winmag", "bp_300_winmag" ]
   },
   {
@@ -7290,7 +6741,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".30-06 Springfield ammo",
     "description": "Recipes related to reloading .30-06 Springfield ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_3006",
       "reloaded_3006_jsp",
@@ -7310,7 +6760,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".308/7.62x51mm ammo",
     "description": "Recipes related to reloading .308/7.62x51mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_308",
       "reloaded_308_from_762x51",
@@ -7334,7 +6783,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".45-70 ammo",
     "description": "Recipes related to reloading .45-70 ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_4570_sp", "reloaded_4570_pen", "reloaded_4570_low", "reloaded_4570_bp" ]
   },
   {
@@ -7345,7 +6793,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".50 BMG ammo",
     "description": "Recipes related to reloading .50 BMG ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_50bmg", "reloaded_50_incendiary", "reloaded_50ss", "bp_50match", "bp_50_incendiary", "bp_50ss" ]
   },
   {
@@ -7356,7 +6803,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "5.45x45mm ammo",
     "description": "Recipes related to reloading 5.45x45mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_545", "reloaded_545_ap", "bp_545", "bp_545_ap" ]
   },
   {
@@ -7367,7 +6813,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".300 AAC Blackout ammo",
     "description": "Recipes related to reloading .300 AAC Blackout ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_300blk", "reloaded_300blk_ss", "bp_300blk", "bp_300blk_ss" ]
   },
   {
@@ -7378,7 +6823,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".458 Winchester Magnum ammo",
     "description": "Recipes related to reloading .458 Winchester Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_458wm", "bp_458wm" ]
   },
   {
@@ -7389,7 +6833,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.62x54mmR ammo",
     "description": "Recipes related to reloading 7.62x54mmR ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_762_54R", "bp_762_54R" ]
   },
   {
@@ -7400,7 +6843,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.62x39mm ammo",
     "description": "Recipes related to reloading 7.62x39mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_762_m87", "reloaded_762_jhp", "bp_762_m87", "bp_762_jhp" ]
   },
   {
@@ -7411,7 +6853,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".303 British ammo",
     "description": "Recipes related to reloading .303 British ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_303", "reloaded_303fmj", "reloaded_303sp", "bp_303", "bp_303fmj", "bp_303sp" ]
   },
   {
@@ -7422,7 +6863,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.7x58mm Arisaka ammo",
     "description": "Recipes related to reloading 7.7x58mm Arisaka ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_77mm_arisaka_jsp", "bp_77mm_arisaka_jsp", "reloaded_303sp", "bp_303", "bp_303fmj", "bp_303sp" ]
   },
   {
@@ -7433,7 +6873,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".30 Carbine ammo",
     "description": "Recipes related to reloading .30 Carbine ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_30carbine",
       "reloaded_30carbine_jsp",
@@ -7451,7 +6890,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "12.3ln ammo",
     "description": "Recipes related to reloading 12.3ln ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_123ln", "bp_123ln" ]
   },
   {
@@ -7462,7 +6900,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".50 Beowulf ammo",
     "description": "Recipes related to reloading .50 Beowulf ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_50beowulf_xtp", "reloaded_50beowulf_penetrator", "bp_50beowulf_xtp", "bp_50beowulf_penetrator" ]
   },
   {
@@ -7473,7 +6910,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".450 Bushmaster ammo",
     "description": "Recipes related to reloading .450 Bushmaster ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_450_ftx", "reloaded_450_penetrator", "bp_450_ftx", "bp_450_penetrator" ]
   },
   {
@@ -7484,7 +6920,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".338 Lapua Magnum ammo",
     "description": "Recipes related to reloading .338 Lapua Magnum ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_338lapua_hpbt",
       "reloaded_338lapua_fmjbt",
@@ -7502,7 +6937,6 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".30-30 Winchester ammo",
     "description": "Recipes related to reloading .30-30 Winchester ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "reloaded_3030", "reloaded_3030_fmj", "reloaded_3030_bp", "reloaded_3030_fmj_bp" ]
   },
   {
@@ -7513,7 +6947,6 @@
     "subcategory": "CSC_AMMO_SHOT",
     "name": "12 gauge ammo",
     "description": "Recipes related to reloading 12 gauge ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_shot_00",
       "reloaded_shot_bird",
@@ -7544,7 +6977,6 @@
     "subcategory": "CSC_AMMO_SHOT",
     "name": ".410 bore ammo",
     "description": "Recipes related to reloading .410 bore ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "reloaded_410shot_000",
       "reloaded_410shot_bird",
@@ -7568,7 +7000,6 @@
     "subcategory": "CSC_AMMO_SHOT",
     "name": "blunderbuss ammo",
     "description": "Recipes related to reloading blunderbuss ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "blun_lead_shot", "blun_shot", "blun_shot_using_big_scrap", "blun_slug_using_lead", "blun_flechette" ]
   },
   {
@@ -7579,7 +7010,6 @@
     "subcategory": "CSC_AMMO_SHOT",
     "name": "40x46mm ammo",
     "description": "Recipes related to reloading 40x46mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "40x46mm_hornets_nest_22lr",
       "40x46mm_hornets_nest_410_slug",
@@ -7596,7 +7026,6 @@
     "subcategory": "CSC_AMMO_SHOT",
     "name": "40x53mm ammo",
     "description": "Recipes related to reloading 40x53mm ammo.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "40x53mm_buckshot_m169",
       "40x53mm_slug_m169",
@@ -7614,7 +7043,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "wooden swords",
     "description": "Recipes for making wooden swords with various purposes and levels of refinement.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "sword_wood", "sword_wood_large", "sword_nail", "bokken" ]
   },
   {
@@ -7625,7 +7053,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "warhammers",
     "description": "Recipes for making hammers used as weapons instead of tools.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "warhammer", "lucern_hammer", "homemade_polehammer", "crowbar_warhammer" ]
   },
   {
@@ -7636,7 +7063,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "bats",
     "description": "Recipes for making baseball bats and improving them with various materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "bat", "bat_with_lathe", "nailbat", "bwirebat", "nutboltbat", "bat_metal_bolt", "goedendag_bat" ]
   },
   {
@@ -7647,7 +7073,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "batons",
     "description": "Recipes for making bashing sticks known variously as batons, tonfas or truncheons.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "tonfa", "tonfa_wood", "shocktonfa_off", "blackjack", "cudgel" ]
   },
   {
@@ -7658,7 +7083,6 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "clubs",
     "description": "Recipes for making wooden clubs of various levels of refinement.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "club_wooden",
       "club_wooden_nails",
@@ -7678,7 +7102,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "machetes",
     "description": "Recipes for making useful tools able to cut through both brush and zombie limbs.",
-    "skill_used": "fabrication",
     "nested_category_data": [ "machete", "makeshift_machete", "survivor_machete_qt" ]
   },
   {
@@ -7689,7 +7112,6 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "name": "improvised swords",
     "description": "Recipes for creating metal swords of dubious quality out of dubious materials.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "sword_metal",
       "sword_metal_large",
@@ -7707,7 +7129,6 @@
     "subcategory": "CSC_WEAPON_MODS",
     "name": "speedloader chutes",
     "description": "Recipes for creating tools useful to reload high capacity shotguns faster.",
-    "skill_used": "fabrication",
     "nested_category_data": [
       "arredondo_chute_remington_870",
       "arredondo_chute_remington_870_simple",
