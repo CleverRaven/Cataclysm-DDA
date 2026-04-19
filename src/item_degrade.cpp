@@ -555,7 +555,7 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
     const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
 
     // Cryogenic rot is much simpler, rot simply idicates how many turns the item might survive outside of cryogenic storage, so they rot as if temperature was 65F.
-    if( has_flag( flag_CRYOGENIC_ROT) && temp > units::from_fahrenheit( -320 )  ) {
+    if( has_flag( flag_CRYOGENIC_ROT ) && temp > units::from_fahrenheit( -320 ) ) {
         return 3600.f;
     }
     if( temp <= temperatures::freezing ) {
