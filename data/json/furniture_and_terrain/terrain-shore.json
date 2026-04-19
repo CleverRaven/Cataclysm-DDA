@@ -13,8 +13,8 @@
   {
     "id": "t_shore_boulder_oyster",
     "type": "terrain",
-    "name": "oyster-covered boulder",
-    "description": "An oyster-encrusted boulder.",
+    "name": "oyster-encrusted boulder",
+    "description": "An oyster-encrusted boulder, promising the potential for a tasty meal if you can get to it and pry the oysters off.",
     "symbol": "@",
     "color": "white",
     "move_cost": 6,
