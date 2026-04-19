@@ -393,6 +393,7 @@
   {
     "id": "tongs",
     "type": "ITEM",
+    "ascii_picture": "kitchen_tongs",
     "subtypes": [ "TOOL" ],
     "name": { "str_sp": "kitchen tongs" },
     "description": "A pair of long, metal tongs.  They are commonly used for cooking.",
