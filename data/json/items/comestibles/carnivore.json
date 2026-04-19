@@ -214,7 +214,7 @@
     "material": [ "flesh" ],
     "calories": 12,
     "spoils_in": "15 days",
-    "description": "A medium-sized oyster. Delicious served raw on the half-shell. You'll need to shuck it to eat it.",
+    "description": "A medium-sized oyster.  Delicious served raw on the half-shell.  You'll need to shuck it to eat it.",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "volume": "40 ml",
@@ -231,7 +231,7 @@
     "color": "white",
     "spoils_in": "1 hour",
     "fun": 5,
-    "description": "A live oyster floating in it's liquor.",
+    "description": "A live oyster floating in its liquor.",
     "flags": [ "EATEN_COLD" ]
   },
   {
