@@ -70,7 +70,7 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "vitamins": [ ],
+    "vitamins": [  ],
     "brew_time": "7 days",
     "brew_results": [ "wash_dragonfire", "yeast" ]
   },
