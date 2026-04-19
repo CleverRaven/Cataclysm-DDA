@@ -65,11 +65,7 @@
     "copy-from": "brew_vodka",
     "name": { "str_sp": "dragonfire wort" },
     "description": "Unfermented dragonfire.  Made from dragonail, this will make a truly sharp drink.  You need to put it in a fermenting vat to brew it.",
-    "material": [
-      { "type": "water", "portion": 757 },
-      { "type": "veggy", "portion": 180 },
-      { "type": "yeast", "portion": 1 }
-    ],
+    "material": [ { "type": "water", "portion": 757 }, { "type": "veggy", "portion": 180 }, { "type": "yeast", "portion": 1 } ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "charges": 1,
     "phase": "liquid",
