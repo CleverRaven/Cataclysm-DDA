@@ -88,6 +88,7 @@
   {
     "id": "lighter",
     "type": "ITEM",
+    "ascii_picture": "lighter",
     "subtypes": [ "TOOL" ],
     "name": { "str": "lighter" },
     "description": "A disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
@@ -404,6 +405,7 @@
   {
     "id": "small_lighter",
     "type": "ITEM",
+    "ascii_picture": "small_lighter",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mini lighter" },
     "description": "A miniature disposable plastic lighter, capable of creating a small flame with the flick of a finger.  Allows you to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
