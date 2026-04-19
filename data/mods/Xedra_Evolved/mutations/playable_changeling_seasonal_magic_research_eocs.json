@@ -942,6 +942,7 @@
           "changeling_winter_frozen_breath_spell",
           "changeling_winter_feign_death_spell",
           "changeling_winter_silence_spell",
+          "changeling_winter_stop_bleeding_spell",
           "changeling_winter_blinding_spell"
         ],
         "type": "spell",

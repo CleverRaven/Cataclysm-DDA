@@ -406,7 +406,7 @@
     "type": "SPELL",
     "id": "changeling_spring_fertilize_plant_aoe_spell",
     "name": "Blessing of Amaethon",
-    "description": "Call down a blessing on the fields around you, bringing fertility to any nearby crops.   The glamour has <color_yellow>reduced area of effect</color> if used in autumn.",
+    "description": "Call down a blessing on the fields around you, bringing fertility to any nearby crops.  The glamour has <color_yellow>reduced area of effect</color> if used in autumn.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",

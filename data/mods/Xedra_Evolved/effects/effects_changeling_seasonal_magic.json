@@ -565,6 +565,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_stop_bleeding",
+    "name": [ "Veins of Ice" ],
+    "desc": [ "You can fool them once, but you can't fool them twice." ],
+    "apply_message": "You feel a cold chill in your bones.",
+    "remove_message": "The chill in your bones fades away.",
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_silence",
     "name": [ "Frozen Tongue" ],
     "desc": [ "Your tongue feels like solid ice." ],
