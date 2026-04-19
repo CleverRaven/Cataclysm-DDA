@@ -2,6 +2,7 @@
   {
     "id": "candle",
     "type": "ITEM",
+    "ascii_picture": "candle",
     "subtypes": [ "TOOL" ],
     "name": { "str": "candle" },
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
@@ -21,6 +22,7 @@
   },
   {
     "id": "candle_lit",
+    "ascii_picture": "candle",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
     "copy-from": "candle",
