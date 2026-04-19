@@ -226,27 +226,5 @@
       }
     ],
     "false_effect": [ { "u_message": "You must be outside and the temperature must be above freezing to call the rains.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_SPRING_ENCHANTED_BUTTERFLY_WINGS",
-    "condition": { "not": { "u_has_effect": "effect_changeling_spring_enchanted_butterfly_wings" } },
-    "effect": [
-      {
-        "math": [
-          "u_spell_low_duration = ( ( 445.22 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 117.41) + (u_skill('gramarye') * 213.99) ) )"
-        ]
-      },
-      {
-        "math": [
-          "u_spell_high_duration = ( ( 1005.20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 164.38) + (u_skill('gramarye') * 549.92) ) )"
-        ]
-      },
-      {
-        "u_add_effect": "effect_changeling_spring_enchanted_butterfly_wings",
-        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
-      }
-    ],
-    "false_effect": [ { "u_lose_effect": "effect_changeling_spring_enchanted_butterfly_wings" } ]
   }
 ]
