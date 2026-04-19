@@ -68,6 +68,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_enchanted_butterfly_wings",
+    "name": [ "Wings of Gossamer" ],
+    "desc": [ "You have a pair of gossamer wings sprouting from your back." ],
+    "apply_message": "A pair of coruscating gossamer wings sprout from your back!",
+    "remove_message": "Your gossamer wings turn to flower petals and blow away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "mutations": [ "MUTATION_COSMETIC_BUTTERFLY_WINGS", "MUTATION_NO_RIGID_TORSO_ARMOR" ] },
+      { "modified_bodyparts": [ { "gain": "wing_gossamer_l" }, { "gain": "wing_gossamer_r" } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_healing_increase_while_outside",
     "name": [ "New Growth" ],
     "desc": [ "You are drawing on the energy of life to increase your healing rate." ],

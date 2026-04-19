@@ -13,7 +13,7 @@
     "main_part": "wing_ravenfolk_l",
     "connected_to": "torso",
     "opposite_part": "wing_ravenfolk_r",
-    "conditional_flags": [ "WING_ARMS" ],
+    "conditional_flags": [ "WING_ARMS", "LIMB_UPPER" ],
     "encumbrance_limit": 5,
     "hit_size": 20,
     "hit_difficulty": 1.2,
