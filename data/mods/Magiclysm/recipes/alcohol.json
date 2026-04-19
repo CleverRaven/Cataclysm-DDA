@@ -110,7 +110,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "copy-from": "wash_whiskey",
     "name": { "str_sp": "goldbrew wash" },
-    "description": "Fermented, but not distilled goldbrew.  Even undistilled, this is a nice, aromatic drink.",
+    "description": "Fermented, but not distilled goldbrew.  Even unrefined, this is a nice, aromatic drink.",
     "fun": 4
   },
   {
