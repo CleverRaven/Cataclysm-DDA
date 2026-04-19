@@ -10,7 +10,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "test_pp_riot_building" ],
+    "om_terrain": [ "test_pp_riot_building", "test_pp_field_building", "test_pp_field_and_flag_building", "test_pp_field_inherit_child" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -42,6 +42,42 @@
       "terrain": { "W": "t_wall_wood", ".": "t_floor", "<": "t_wood_stairs_up" },
       "furniture": { "T": "f_table" }
     }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "test_pp_field_building",
+    "name": "PP field test building",
+    "sym": ".",
+    "color": "white",
+    "see_cost": "none",
+    "flags": [ "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
+    "post_process_generators": [ "test_pp_riot" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "test_pp_field_and_flag_building",
+    "name": "PP field+flag test building",
+    "sym": ".",
+    "color": "white",
+    "see_cost": "none",
+    "flags": [ "SHOULD_NOT_SPAWN", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ],
+    "post_process_generators": [ "test_pp_road" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "test_pp_field_base",
+    "name": "PP field base",
+    "sym": ".",
+    "color": "white",
+    "see_cost": "none",
+    "flags": [ "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
+    "post_process_generators": [ "test_pp_riot", "test_pp_custom" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "test_pp_field_inherit_child",
+    "copy-from": "test_pp_field_base",
+    "delete": { "post_process_generators": [ "test_pp_custom" ] }
   },
   {
     "type": "pp_generator",

@@ -2,7 +2,7 @@
   {
     "type": "pp_generator",
     "id": "riot_damage",
-    "//": "Applied to city buildings with PP_GENERATE_RIOT_DAMAGE flag.",
+    "//": "Applied to city buildings via post_process_generators field on oter_type_t.",
     "sub_generators": [
       { "type": "bash_damage", "attempts": 250, "chance": 10, "min_intensity": 6, "max_intensity": 60 },
       { "type": "move_items", "attempts": 250, "chance": 10, "max_intensity": 3 },

@@ -841,5 +841,92 @@
         "STR_UP_4"
       ]
     }
+  },
+  {
+    "type": "scenario",
+    "id": "mutant",
+    "copy-from": "mutant",
+    "extend": {
+      "traits": [
+        "MUTAGEN_GLAND_BATRACHIAN",
+        "MUTAGEN_GLAND_BEAST",
+        "MUTAGEN_GLAND_BIRD",
+        "MUTAGEN_GLAND_CATTLE",
+        "MUTAGEN_GLAND_CEPHALOPOD",
+        "MUTAGEN_GLAND_CHIROPTERAN",
+        "MUTAGEN_GLAND_CRUSTACEAN",
+        "MUTAGEN_GLAND_FELINE",
+        "MUTAGEN_GLAND_FISH",
+        "MUTAGEN_GLAND_GASTROPOD",
+        "MUTAGEN_GLAND_INSECT",
+        "MUTAGEN_GLAND_LIZARD",
+        "MUTAGEN_GLAND_LUPINE",
+        "MUTAGEN_GLAND_MOUSE",
+        "MUTAGEN_GLAND_PLANT",
+        "MUTAGEN_GLAND_RAT",
+        "MUTAGEN_GLAND_SLIME",
+        "MUTAGEN_GLAND_SPIDER",
+        "MUTAGEN_GLAND_TROGLOBITE",
+        "MUTAGEN_GLAND_URSINE"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "lab_cargo_staff_1",
+    "copy-from": "lab_cargo_staff_1",
+    "extend": {
+      "traits": [
+        "MUTAGEN_GLAND_BATRACHIAN",
+        "MUTAGEN_GLAND_BEAST",
+        "MUTAGEN_GLAND_BIRD",
+        "MUTAGEN_GLAND_CATTLE",
+        "MUTAGEN_GLAND_CEPHALOPOD",
+        "MUTAGEN_GLAND_CHIROPTERAN",
+        "MUTAGEN_GLAND_CRUSTACEAN",
+        "MUTAGEN_GLAND_FELINE",
+        "MUTAGEN_GLAND_FISH",
+        "MUTAGEN_GLAND_GASTROPOD",
+        "MUTAGEN_GLAND_INSECT",
+        "MUTAGEN_GLAND_LIZARD",
+        "MUTAGEN_GLAND_LUPINE",
+        "MUTAGEN_GLAND_MOUSE",
+        "MUTAGEN_GLAND_PLANT",
+        "MUTAGEN_GLAND_RAT",
+        "MUTAGEN_GLAND_SLIME",
+        "MUTAGEN_GLAND_SPIDER",
+        "MUTAGEN_GLAND_TROGLOBITE",
+        "MUTAGEN_GLAND_URSINE"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "portal_dependent",
+    "copy-from": "portal_dependent",
+    "extend": {
+      "traits": [
+        "MUTAGEN_GLAND_BATRACHIAN",
+        "MUTAGEN_GLAND_BEAST",
+        "MUTAGEN_GLAND_BIRD",
+        "MUTAGEN_GLAND_CATTLE",
+        "MUTAGEN_GLAND_CEPHALOPOD",
+        "MUTAGEN_GLAND_CHIROPTERAN",
+        "MUTAGEN_GLAND_CRUSTACEAN",
+        "MUTAGEN_GLAND_FELINE",
+        "MUTAGEN_GLAND_FISH",
+        "MUTAGEN_GLAND_GASTROPOD",
+        "MUTAGEN_GLAND_INSECT",
+        "MUTAGEN_GLAND_LIZARD",
+        "MUTAGEN_GLAND_LUPINE",
+        "MUTAGEN_GLAND_MOUSE",
+        "MUTAGEN_GLAND_PLANT",
+        "MUTAGEN_GLAND_RAT",
+        "MUTAGEN_GLAND_SLIME",
+        "MUTAGEN_GLAND_SPIDER",
+        "MUTAGEN_GLAND_TROGLOBITE",
+        "MUTAGEN_GLAND_URSINE"
+      ]
+    }
   }
 ]

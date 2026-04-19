@@ -279,7 +279,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "13 h 30 m",
+    "time": "18 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ], [ "metal_punch", 1 ] ],

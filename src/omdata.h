@@ -446,6 +446,8 @@ struct oter_type_t {
 
         oter_vision_id vision_levels;
 
+        std::vector<pp_generator_id> post_process_generators;
+
         std::string get_symbol() const;
 
         uint32_t get_uint32_symbol() const {
@@ -579,6 +581,10 @@ struct oter_t {
 
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
+        }
+
+        const std::vector<pp_generator_id> &get_post_process_generators() const {
+            return type->post_process_generators;
         }
 
         overmap_land_use_code_id get_land_use_code() const {

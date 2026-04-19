@@ -12,6 +12,7 @@
 #include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "mapgen_post_process.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -29,7 +30,14 @@ static const itype_id itype_rock( "rock" );
 static const itype_id itype_seed_rose( "seed_rose" );
 
 static const oter_str_id oter_field( "field" );
+static const oter_str_id oter_s_gas_rural_north( "s_gas_rural_north" );
+static const oter_str_id oter_s_pharm_north( "s_pharm_north" );
+static const oter_str_id oter_test_pp_field_and_flag_building( "test_pp_field_and_flag_building" );
+static const oter_str_id oter_test_pp_field_building( "test_pp_field_building" );
 static const oter_str_id oter_test_pp_riot_building( "test_pp_riot_building" );
+
+static const oter_type_str_id oter_type_test_pp_field_inherit_child(
+    "test_pp_field_inherit_child" );
 
 static const pp_generator_id pp_generator_riot_damage( "riot_damage" );
 static const pp_generator_id pp_generator_riot_damage_road( "riot_damage_road" );
@@ -653,5 +661,196 @@ TEST_CASE( "post_process_json_load_roundtrip", "[mapgen][post_process]" )
         REQUIRE( custom.sub_generators().size() == 1 );
         CHECK( custom.sub_generators()[0].type == sub_generator_type::aftershock_ruin );
     }
+}
+
+// Tests for post_process_generators field on oter_type_t.
+
+TEST_CASE( "post_process_oter_field_dispatch", "[mapgen][post_process]" )
+{
+    // test_pp_field_building has post_process_generators: ["test_pp_riot"], no flag.
+    // Field-based dispatch should execute the generator.
+    clear_overmaps();
+    clear_map();
+    clear_avatar();
+    const tripoint_abs_omt pos( 50, 50, 0 );
+    overmap_buffer.ter_set( pos, oter_test_pp_field_building.id() );
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            overmap_buffer.ter_set( pos + tripoint( dx, dy, 0 ), oter_field.id() );
+        }
+    }
+
+    calendar::turn = calendar::start_of_cataclysm + 7_days;
+    rng_set_engine_seed( 42424242 );
+    MAPBUFFER.clear_outside_reality_bubble();
+
+    smallmap tm;
+    tm.generate( pos, calendar::turn, false, true );
+
+    pp_scan_result result = scan_omt( *tm.cast_to_map(), 0 );
+
+    // Blood proves PP dispatch ran via the field path (no flag on this OMT)
+    CHECK( result.blood_field_count > 0 );
+    CHECK( result.stairs_up_count == 1 );
+
+    tm.delete_unmerged_submaps();
+    clear_overmaps();
+}
+
+TEST_CASE( "post_process_field_over_flag", "[mapgen][post_process]" )
+{
+    // test_pp_field_and_flag_building has:
+    //   post_process_generators: ["test_pp_road"]  (no pre_burn)
+    //   flags: PP_GENERATE_RIOT_DAMAGE             (has pre_burn)
+    // Field should take precedence -- no pre_burn should fire.
+    //
+    // Both test OMTs share the same mapgen definition, so the RNG path
+    // through map::generate() is identical for the same seed.
+    clear_overmaps();
+    clear_map();
+    clear_avatar();
+
+    const tripoint_abs_omt pos( 50, 50, 0 );
+    calendar::turn = calendar::start_of_cataclysm + 14_days;
+
+    // Find a seed where pre_burn fires on test_pp_riot_building (flag-dispatched).
+    // Uses the full pipeline so RNG consumption matches the assertion below.
+    unsigned int burn_seed = 0;
+    bool found = false;
+    for( unsigned int seed = 100; seed < 200; seed++ ) {
+        overmap_buffer.ter_set( pos, oter_test_pp_riot_building.id() );
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                if( dx == 0 && dy == 0 ) {
+                    continue;
+                }
+                overmap_buffer.ter_set( pos + tripoint( dx, dy, 0 ), oter_field.id() );
+            }
+        }
+        rng_set_engine_seed( seed );
+        MAPBUFFER.clear_outside_reality_bubble();
+        smallmap probe;
+        probe.generate( pos, calendar::turn, false, true );
+        pp_scan_result r = scan_omt( *probe.cast_to_map(), 0 );
+        probe.delete_unmerged_submaps();
+        if( r.wall_burnt_count > 0 ) {
+            found = true;
+            burn_seed = seed;
+            break;
+        }
+    }
+    REQUIRE( found );
+
+    // Same seed, same mapgen, but field+flag OMT. If field dispatch wins,
+    // test_pp_road runs (no pre_burn). If flag wrongly wins, this seed burns.
+    overmap_buffer.ter_set( pos, oter_test_pp_field_and_flag_building.id() );
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            overmap_buffer.ter_set( pos + tripoint( dx, dy, 0 ), oter_field.id() );
+        }
+    }
+
+    rng_set_engine_seed( burn_seed );
+    MAPBUFFER.clear_outside_reality_bubble();
+
+    smallmap tm;
+    tm.generate( pos, calendar::turn, false, true );
+
+    pp_scan_result result = scan_omt( *tm.cast_to_map(), 0 );
+
+    CHECK( result.wall_burnt_count == 0 );
+    CHECK( result.floor_burnt_count == 0 );
+    CHECK( result.dirt_count == 0 );
+
+    tm.delete_unmerged_submaps();
+    clear_overmaps();
+}
+
+TEST_CASE( "post_process_oter_field_inherit_delete", "[mapgen][post_process]" )
+{
+    // test_pp_field_inherit_child copies from test_pp_field_base and deletes test_pp_custom.
+    // Base has: ["test_pp_riot", "test_pp_custom"]
+    // Child should have: ["test_pp_riot"]
+    const oter_type_t &child = oter_type_test_pp_field_inherit_child.obj();
+    REQUIRE( child.post_process_generators.size() == 1 );
+    CHECK( child.post_process_generators[0] == pp_generator_test_pp_riot );
+}
+
+// Real-core smoke tests verifying the JSON migration didn't break inheritance.
+
+TEST_CASE( "post_process_real_core_inherited_riot", "[mapgen][post_process]" )
+{
+    // s_pharm inherits riot_damage from generic_city_building -> generic_city_building_no_sidewalk.
+    // After migration, the abstract has post_process_generators: ["riot_damage"].
+    clear_overmaps();
+    clear_map();
+    clear_avatar();
+    const tripoint_abs_omt pos( 50, 50, 0 );
+    overmap_buffer.ter_set( pos, oter_s_pharm_north.id() );
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            overmap_buffer.ter_set( pos + tripoint( dx, dy, 0 ), oter_field.id() );
+        }
+    }
+
+    calendar::turn = calendar::start_of_cataclysm + 7_days;
+    rng_set_engine_seed( 42424242 );
+    MAPBUFFER.clear_outside_reality_bubble();
+
+    smallmap tm;
+    tm.generate( pos, calendar::turn, false, true );
+
+    pp_scan_result result = scan_omt( *tm.cast_to_map(), 0 );
+
+    // Riot damage ran: blood proves PP dispatch hit the field path
+    CHECK( result.blood_field_count > 0 );
+
+    tm.delete_unmerged_submaps();
+    clear_overmaps();
+}
+
+TEST_CASE( "post_process_real_core_exempt", "[mapgen][post_process]" )
+{
+    // s_gas_rural explicitly deletes riot_damage via post_process_generators.
+    // No PP should run on this OMT.
+    clear_overmaps();
+    clear_map();
+    clear_avatar();
+    const tripoint_abs_omt pos( 50, 50, 0 );
+    overmap_buffer.ter_set( pos, oter_s_gas_rural_north.id() );
+    for( int dx = -1; dx <= 1; dx++ ) {
+        for( int dy = -1; dy <= 1; dy++ ) {
+            if( dx == 0 && dy == 0 ) {
+                continue;
+            }
+            overmap_buffer.ter_set( pos + tripoint( dx, dy, 0 ), oter_field.id() );
+        }
+    }
+
+    calendar::turn = calendar::start_of_cataclysm + 14_days;
+    rng_set_engine_seed( 42424242 );
+    MAPBUFFER.clear_outside_reality_bubble();
+
+    smallmap tm;
+    tm.generate( pos, calendar::turn, false, true );
+
+    pp_scan_result result = scan_omt( *tm.cast_to_map(), 0 );
+
+    // No PP ran: no blood, no burn, no fire
+    CHECK( result.blood_field_count == 0 );
+    CHECK( result.wall_burnt_count == 0 );
+    CHECK( result.fire_field_count == 0 );
+
+    tm.delete_unmerged_submaps();
+    clear_overmaps();
 }
 

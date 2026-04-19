@@ -7,7 +7,7 @@
     "looks_like": "s_gas",
     "color": "light_blue",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] },
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ], "post_process_generators": [ "riot_damage" ] },
     "land_use_code": "commercial"
   },
   {
@@ -18,7 +18,7 @@
     "looks_like": "s_gas",
     "color": "light_blue",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
-    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES", "PP_GENERATE_RIOT_DAMAGE" ] }
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -28,7 +28,7 @@
     "looks_like": "s_gas",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] },
-    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "flags": [ "RISK_HIGH" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -49,7 +49,7 @@
     "copy-from": "generic_city_building",
     "name": "gas station roof",
     "color": "light_blue",
-    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "flags": [ "RISK_HIGH" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -197,7 +197,8 @@
     "color": "light_gray",
     "see_cost": "low",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -380,7 +381,7 @@
     "name": "gun store",
     "color": "red",
     "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] },
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -640,7 +641,8 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_LUXURY", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK", "SOURCE_LUXURY" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -804,7 +806,8 @@
     "color": "blue",
     "extras": "build",
     "see_cost": "full_high",
-    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [  ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -905,7 +908,7 @@
     "name": "hotel basement",
     "sym": "B",
     "color": "light_blue",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -980,7 +983,8 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": "full_high",
-    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SIDEWALK" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -1279,7 +1283,7 @@
     ],
     "copy-from": "s_shoppingplaza_a6",
     "name": "abandoned shopping plaza roof",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1928,7 +1932,7 @@
     "id": "s_games_roof",
     "name": "gaming store roof",
     "copy-from": "s_games",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

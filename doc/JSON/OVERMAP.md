@@ -334,6 +334,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](EFFECT_ON_CONDITION.md). |
 | `entry_eoc`       | An effect on condition ID that will run when you enter this location.                            |
 | `exit_eoc`        | An effect on condition ID that will run when you exit this location.                             |
+| `post_process_generators` | Array of `pp_generator` ids applied after mapgen completes.  See [Post-Process Generators](#post-process-generators).  Supports `copy-from` inheritance and `delete`. |
 
 ### `see_cost` values
 
@@ -385,6 +386,84 @@ an exhaustive example...
     "exity_eoc": "EOC_LEFT_SECRET_FIELD"
 }
 ```
+
+## Post-Process Generators
+
+Post-process generators (`pp_generator`) are effects that run after normal mapgen completes for
+a given overmap tile.  They simulate cataclysm damage -- bashed furniture, displaced items, blood,
+fire, and full-OMT burns.
+
+Generators are defined in `data/json/post_process_generators.json` and referenced by id from the
+`post_process_generators` field on `overmap_terrain`.  When an overmap terrain has this field set,
+the listed generators run in order after mapgen finishes for that z-level.
+
+### Attaching generators to overmap terrain
+
+Use the `post_process_generators` field on an `overmap_terrain` definition:
+
+```json
+{
+    "type": "overmap_terrain",
+    "id": "my_building",
+    "post_process_generators": [ "riot_damage" ]
+}
+```
+
+The field supports `copy-from` inheritance.  To remove a generator inherited from a parent, use
+`delete`:
+
+```json
+{
+    "type": "overmap_terrain",
+    "id": "my_exempt_building",
+    "copy-from": "generic_city_building",
+    "delete": { "post_process_generators": [ "riot_damage" ] }
+}
+```
+
+Road overmap terrains currently use hardcoded dispatch for city roads and should not have
+`post_process_generators` set.
+
+### `pp_generator` definition
+
+|    Field         |                                           Description                                 |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| `type`           | Must be `"pp_generator"`.                                                             |
+| `id`             | Unique id.                                                                            |
+| `sub_generators` | Array of sub-generator objects, executed in order.  See below.                         |
+
+### Sub-generator fields
+
+Each sub-generator object has the following fields:
+
+|    Field              |                                           Description                                 |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| `type`                | Required.  One of the types listed below.                                             |
+| `attempts`            | Number of times this effect is attempted.  Default 0.                                 |
+| `chance`              | Per-attempt probability.  Meaning varies by type (see below).  Default 0.             |
+| `min_intensity`       | Minimum intensity for the effect.  Default 0.                                         |
+| `max_intensity`       | Maximum intensity for the effect.  Default 0.                                         |
+| `scaling_days_start`  | For time-scaled effects, day offset when scaling begins.  Default 0.                  |
+| `scaling_days_end`    | For time-scaled effects, day offset when scaling reaches full strength.  Default 0.   |
+
+### Sub-generator types
+
+| Type              | Description |
+| ----------------- | ----------- |
+| `bash_damage`     | Randomly bashes furniture and terrain.  `chance` is percent [0-100] per attempt.  `min_intensity`/`max_intensity` control bash strength (damage range). |
+| `move_items`      | Displaces items on the ground by a random distance.  `chance` is percent [0-100] per attempt.  `max_intensity` is the maximum displacement in tiles.  Respects SEALED/PLANT containers. |
+| `add_fire`        | Places fire fields.  Chance is computed from `scaling_days_end` (fires stop spawning after that many days since the cataclysm).  `min_intensity`/`max_intensity` control fire strength.  `chance` must be 0 (it is derived internally). |
+| `pre_burn`        | Replaces an entire OMT with burnt terrain variants -- walls become `t_wall_burnt`, floors become `t_floor_burnt`, furniture and items are destroyed.  Chance is computed from `scaling_days_start`/`scaling_days_end` and intensity.  Stairs (GOES_UP/GOES_DOWN) are preserved.  `chance` must be 0 (it is derived internally). |
+| `place_blood`     | Places blood streaks, pools, and splatter.  `chance` is permille [0-1000] per attempt.  Outdoor blood fades over 30 days. |
+| `aftershock_ruin`  | Runs the Aftershock ruin generator.  All numeric fields are ignored. |
+
+### Built-in generators
+
+| Id                   | Description | Used by |
+| -------------------- | ----------- | ------- |
+| `riot_damage`        | Full riot damage: bash, item displacement, fire, pre-burn, and blood.  | Most city buildings (via `generic_city_building`). |
+| `riot_damage_road`   | Same as `riot_damage` but without `pre_burn`.  | City roads (hardcoded dispatch). |
+| `aftershock_ruin`    | Aftershock ruin effect.  | Aftershock mod buildings with `PP_GENERATE_RUINED` flag. |
 
 ## Overmap Vision
 

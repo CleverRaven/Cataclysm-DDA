@@ -6,7 +6,7 @@
     "sym": "v",
     "color": "light_red",
     "copy-from": "generic_city_building",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

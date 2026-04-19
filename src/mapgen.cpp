@@ -349,13 +349,21 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             if( any_missing || !save_results ) {
                 const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
                 oter_id omt = overmap_buffer.ter( omt_point );
-                if( omt->has_flag( oter_flags::pp_generate_riot_damage ) && !omt->has_flag( oter_flags::road ) ) {
-                    pp_generator_riot_damage.obj().execute( *this, omt_point );
-                } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
+                if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
+                    // Roads use a dedicated generator; not yet migrated to oter_type_t field
                     pp_generator_riot_damage_road.obj().execute( *this, omt_point );
-                }
-                if( omt->has_flag( oter_flags::pp_generate_ruined ) && !omt->has_flag( oter_flags::road ) ) {
-                    pp_generator_aftershock_ruin.obj().execute( *this, omt_point );
+                } else if( !omt->get_post_process_generators().empty() ) {
+                    for( const pp_generator_id &gen_id : omt->get_post_process_generators() ) {
+                        gen_id.obj().execute( *this, omt_point );
+                    }
+                } else {
+                    // Legacy flag-based dispatch for unmigrated content
+                    if( omt->has_flag( oter_flags::pp_generate_riot_damage ) ) {
+                        pp_generator_riot_damage.obj().execute( *this, omt_point );
+                    }
+                    if( omt->has_flag( oter_flags::pp_generate_ruined ) ) {
+                        pp_generator_aftershock_ruin.obj().execute( *this, omt_point );
+                    }
                 }
             }
         }
