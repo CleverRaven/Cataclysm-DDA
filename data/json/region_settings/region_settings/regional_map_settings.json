@@ -1002,7 +1002,7 @@
     "type": "map_extra_collection",
     "id": "ocean_shore",
     "chance": 1,
-    "extras": [ [ "mx_sandy_beach", 100 ] ]
+    "extras": [ [ "mx_sandy_beach", 100 ], [ "mx_tidal_flat", 5 ] ]
   },
   {
     "type": "map_extra_collection",
@@ -1119,7 +1119,7 @@
     "type": "map_extra_collection",
     "id": "lake_shore",
     "chance": 2,
-    "extras": [ [ "mx_reed", 100 ], [ "mx_tidal_flat", 5 ] ]
+    "extras": [ [ "mx_reed", 100 ] ]
   },
   {
     "type": "map_extra_collection",
