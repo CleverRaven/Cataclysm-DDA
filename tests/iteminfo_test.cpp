@@ -96,7 +96,7 @@ static const itype_id itype_test_hallu_nutmeg( "test_hallu_nutmeg" );
 static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
 static const itype_id itype_test_jack_small( "test_jack_small" );
 static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
-static const itype_id itype_test_longshirt_test( "test_longshirt_test" );
+static const itype_id itype_test_longshirt( "test_longshirt" );
 static const itype_id itype_test_matches( "test_matches" );
 static const itype_id itype_test_meower_armor( "test_meower_armor" );
 static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
@@ -121,7 +121,7 @@ static const itype_id itype_test_thumb( "test_thumb" );
 static const itype_id itype_test_tool_belt_pocket_mix( "test_tool_belt_pocket_mix" );
 static const itype_id itype_test_waterskin( "test_waterskin" );
 static const itype_id itype_test_wine( "test_wine" );
-static const itype_id itype_test_zentai_test_resist_stab_cut( "test_zentai_test_resist_stab_cut" );
+static const itype_id itype_test_zentai_resist_stab_cut( "test_zentai_resist_stab_cut" );
 static const itype_id itype_textbook_chemistry( "textbook_chemistry" );
 static const itype_id itype_tshirt_test( "tshirt_test" );
 static const itype_id itype_zentai_test( "zentai_test" );
@@ -827,7 +827,7 @@ TEST_CASE( "armor_coverage_warmth_and_encumbrance", "[iteminfo][armor][coverage]
 
     SECTION( "armor with coverage shows covered body parts, warmth, encumbrance, and protection values" ) {
         // Long-sleeved shirt covering torso and arms
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         verify_item_coverage(
         longshirt_test, {
             { bodypart_id( "torso" ), 90 },
@@ -1413,7 +1413,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         expected_armor_values( longshirt_test, 0.2f, 0.2f, 0.16f, 0.2f );
         REQUIRE( longshirt_test.get_covered_body_parts().any() );
 
@@ -1479,7 +1479,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
     SECTION( "check that material resistances are properly overriden" ) {
         // zentai_test suit, material:lycra_resist_override_stab, thickness:1
         // 2/2/2/50 bash/cut/bullet/stab x 1 thickness
-        item zentai_test( itype_test_zentai_test_resist_stab_cut );
+        item zentai_test( itype_test_zentai_resist_stab_cut );
         REQUIRE( zentai_test.get_covered_body_parts().any() );
         expected_armor_values( zentai_test, 2, 2, 50, 2, 9, 2, 10 );
 
@@ -3303,7 +3303,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "default human sees standard limb names" ) {
         clear_avatar();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_BODYPARTS } );
         CHECK( info.find( arms_frag ) != std::string::npos );
         CHECK( info.find( alt_arms_frag ) == std::string::npos );
@@ -3312,7 +3312,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "alt-arm character sees alt limb names" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_BODYPARTS } );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
         CHECK( info.find( arms_frag ) == std::string::npos );
@@ -3321,7 +3321,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "coverage section filtered by viewer anatomy" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_COVERAGE } );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
         CHECK( info.find( arms_frag ) == std::string::npos );
@@ -3329,7 +3329,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "warmth section filtered by viewer anatomy" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_WARMTH } );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
         CHECK( info.find( arms_frag ) == std::string::npos );
@@ -3337,7 +3337,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "encumbrance section filtered by viewer anatomy" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_ENCUMBRANCE } );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
         CHECK( info.find( arms_frag ) == std::string::npos );
@@ -3345,7 +3345,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "breathability section filtered by viewer anatomy" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_BREATHABILITY } );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
         CHECK( info.find( arms_frag ) == std::string::npos );
@@ -3373,7 +3373,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "coverage value correct for default human" ) {
         clear_avatar();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_COVERAGE } );
         CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
         CHECK( info.find( arms_frag ) != std::string::npos );
@@ -3382,7 +3382,7 @@ TEST_CASE( "armor_info_character_aware_body_parts", "[iteminfo][armor][limbs]" )
 
     SECTION( "coverage value correct for alt-arm character" ) {
         make_alt_arm_viewer();
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         std::string info = item_info_str( longshirt_test, { iteminfo_parts::ARMOR_COVERAGE } );
         CHECK( info.find( "<color_c_yellow>90</color>%" ) != std::string::npos );
         CHECK( info.find( alt_arms_frag ) != std::string::npos );
