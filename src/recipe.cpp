@@ -793,7 +793,9 @@ static void finalize_nested_recipes( recipe &r )
         }
     }
     if( easiest_recipe.is_valid() ) {
-        r.skill_used = easiest_recipe->skill_used;
+        if( easiest_recipe->skill_used.is_valid() ) {
+            r.skill_used = easiest_recipe->skill_used;
+        }
         if( !easiest_recipe->required_skills.empty() ) {
             r.required_skills = easiest_recipe->required_skills;
         }
