@@ -92,6 +92,7 @@ extern const flag_id flag_COOKED;
 extern const flag_id flag_CORROSIVE;
 extern const flag_id flag_CORPSE;
 extern const flag_id flag_CRUTCHES;
+extern const flag_id flag_CRYOGENIC_ROT;
 extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_HARVEST;
 extern const flag_id flag_CUT_IMMUNE;

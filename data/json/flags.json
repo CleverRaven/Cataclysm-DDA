@@ -197,6 +197,11 @@
     "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
   },
   {
+    "id": "CRYOGENIC_ROT",
+    "type": "json_flag",
+    "info": "This item <info>requires specialized cryogenic preservation</info> and will <bad>spoil rapidly</bad> even at subzero temperatures."
+  },
+  {
     "id": "CASELESS_ROUNDS",
     "type": "json_flag",
     "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
