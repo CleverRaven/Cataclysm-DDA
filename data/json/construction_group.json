@@ -1372,6 +1372,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_power_hammer",
+    "name": "Place Power Hammer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_tablesaw",
     "name": "Place Table Saw"
   },
