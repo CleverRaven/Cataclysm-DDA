@@ -70,6 +70,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
+static const efftype_id effect_monster_locked_on( "monster_locked_on" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
@@ -515,6 +516,11 @@ void monster::plan()
     std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( posz() );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
+    // If this monster locks on via LoS, refresh the locked-on tracking effect
+    if( has_flag( mon_flag_LOCKS_ON ) &&
+        sees( here, player_character.pos_bub( here ), true ) ) {
+        add_effect( effect_monster_locked_on, 2_minutes );
+    }
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && seen_levels.test( player_character.posz() + OVERMAP_DEPTH ) &&
         sees( here, player_character ) ) {

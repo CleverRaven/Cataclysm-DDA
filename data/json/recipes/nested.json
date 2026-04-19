@@ -6823,7 +6823,7 @@
       "spear_rebar",
       "spear_shaft_sharpened",
       "spear_spike",
-      "spear_steel",
+      "nested_steel_spears",
       "spear_steel_crude",
       "spear_stone",
       "spear_stone_simple",
@@ -6834,6 +6834,18 @@
     ]
   },
   {
+    "id": "nested_steel_spears",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "steel spears",
+    "description": "Recipes related to constructing steel spears from various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "spear_steel", "lc_spear_steel", "hc_spear_steel", "ch_spear_steel", "qt_spear_steel" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_pikes",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -6842,7 +6854,19 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood", "simple_pike_pipe", "pike_pipe" ],
+    "nested_category_data": [ "nested_steel_pikes", "pike_bronze", "pike_copper", "pike_wood", "simple_pike_pipe", "pike_pipe" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_steel_pikes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "steel pikes",
+    "description": "Recipes related to constructing steel pikes from various materials.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "pike", "lc_pike", "hc_pike", "ch_pike", "qt_pike" ],
     "difficulty": 1
   },
   {

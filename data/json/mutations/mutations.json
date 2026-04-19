@@ -3017,7 +3017,7 @@
     "points": 0,
     "mixed_effect": true,
     "vitamin_cost": 160,
-    "flags": [ "COLDBLOOD3" ],
+    "flags": [ "COLDBLOOD3", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -3040,7 +3040,7 @@
     "mixed_effect": true,
     "purifiable": false,
     "vitamin_cost": 160,
-    "flags": [ "ECTOTHERM" ],
+    "flags": [ "ECTOTHERM", "NO_BODY_HEAT" ],
     "enchantments": [
       {
         "values": [
@@ -4414,9 +4414,8 @@
     "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "points": 4,
-    "active": true,
-    "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_feline" } ] } ]
   },
   {
     "type": "mutation",
@@ -5725,7 +5724,8 @@
     "points": 3,
     "active": true,
     "starts_active": true,
-    "vitamin_cost": 160
+    "vitamin_cost": 160,
+    "flags": [ "HIGH_GLARE" ]
   },
   {
     "type": "mutation",

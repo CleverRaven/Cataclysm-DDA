@@ -41,7 +41,7 @@
       "field_office_20"
     ],
     "copy-from": "generic_large_office_tower",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -67,7 +67,7 @@
     "type": "overmap_terrain",
     "id": [ "safe_house" ],
     "copy-from": "generic_city_house",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +78,7 @@
     "type": "overmap_terrain",
     "id": [ "safe_house_basement" ],
     "copy-from": "generic_city_house_basement",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -101,8 +101,7 @@
     "color": "i_light_red",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ],
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -119,14 +118,14 @@
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
     "vision_levels": "isolated_tower",
-    "delete": { "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "flags": [ "SIDEWALK" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral basement",
-    "delete": { "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "flags": [ "SIDEWALK" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

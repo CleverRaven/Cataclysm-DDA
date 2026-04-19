@@ -305,16 +305,75 @@
         "U_ßß_U          U____U",
         "UUṪṪUU          UUU_UU"
       ],
-      "palettes": [
-        "labyrinthine_base_palette",
-        {
-          "distribution": [
-            "labyrinthine_item_palette_utility_tier0",
-            "labyrinthine_item_palette_dining_tier0",
-            "labyrinthine_item_palette_bunk_room_tier0"
-          ]
-        }
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
+    "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "c____L          L1111L",
+        "cUU___          c__cCc",
+        "c_____          ______",
+        "cUU___          cCc__c",
+        "c_____          ______",
+        "cUU___          c__cCc",
+        "||||F|          ______",
+        "UUUU_l          cCc__c",
+        "L____l          |||++|",
+        "U____l          L_____",
+        "UUUU_l          ßß__ßß",
+        "||||F|          ṪṪ__ṪṪ",
+        "cc___c          |||_ßß",
+        "ccC¢Cc          __|+||",
+        "Cc¢¢¢¢          _____ß",
+        "CCC¢¢¢          ßṪ___L",
+        "||||F|          ßṪ___ß",
+        "U____L          |||+||",
+        "U_((_U          LUU_UU",
+        "U_((_U          U____U",
+        "U_ßß_U          U____U",
+        "UUṪṪUU          UUU_UU"
       ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
+      "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
+    "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "c____L          L1111L",
+        "cUU___          c__cCc",
+        "c_____          ______",
+        "cUU___          cCc__c",
+        "c_____          ______",
+        "cUU___          c__cCc",
+        "||||F|          ______",
+        "UUUU_l          cCc__c",
+        "L____l          |||++|",
+        "U____l          L_____",
+        "UUUU_l          ßß__ßß",
+        "||||F|          ṪṪ__ṪṪ",
+        "cc___c          |||_ßß",
+        "ccC¢Cc          __|+||",
+        "Cc¢¢¢¢          _____ß",
+        "CCC¢¢¢          ßṪ___L",
+        "||||F|          ßṪ___ß",
+        "U____L          |||+||",
+        "U_((_U          LUU_UU",
+        "U_((_U          U____U",
+        "U_ßß_U          U____U",
+        "UUṪṪUU          UUU_UU"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },

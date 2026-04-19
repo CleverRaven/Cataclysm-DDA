@@ -590,18 +590,6 @@
   },
   {
     "type": "keybinding",
-    "id": "SWITCH_SAFEMODE_OPTION",
-    "category": "SAFEMODE",
-    "name": "Enable safemode option",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "s" },
-      { "input_method": "keyboard_char", "key": "S" },
-      { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "R_RADIAL_N" }
-    ]
-  },
-  {
-    "type": "keybinding",
     "id": "QUIT",
     "category": "SAFEMODE",
     "name": "Quit",
@@ -1839,7 +1827,7 @@
     "type": "keybinding",
     "id": "CHANGE_HEIGHT",
     "name": "Change height",
-    "bindings": [ { "input_method": "keyboard_char", "key": "h" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "e" } ]
   },
   {
     "type": "keybinding",
@@ -1904,6 +1892,26 @@
   },
   {
     "type": "keybinding",
+    "id": "INCREASE_VALUE",
+    "name": "Increase selected value",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "gamepad", "key": "L_RADIAL_E" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DECREASE_VALUE",
+    "name": "Decrease selected value",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "-" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" },
+      { "input_method": "gamepad", "key": "L_RADIAL_W" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "name": "Pick random character description",
     "bindings": [
@@ -1911,6 +1919,12 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TOP_BAR",
+    "name": "Toggle character creator general info",
+    "bindings": [ { "input_method": "keyboard_char", "key": ";" } ]
   },
   {
     "type": "keybinding",

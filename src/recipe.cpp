@@ -311,42 +311,23 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     }
 
     // --- Recipe steps detection and schema validation ---
-    // Capture whether inherited step state exists from copy-from base,
-    // then clear so copied state cannot leak on reload/override.
+    const bool child_has_steps = jo.has_array( "steps" );
     const bool had_inherited_steps = !steps_.empty();
-    steps_.clear();
+
+    if( child_has_steps ) {
+        // Child provides own steps -- discard any inherited ones
+        steps_.clear();
+    }
     aggregate_proficiencies_.clear();
 
-    const bool is_step_recipe = jo.has_array( "steps" );
+    const bool effectively_step_recipe = child_has_steps || had_inherited_steps;
 
-    // Clear legacy requirement state so a reload from stepless to step-based
-    // does not silently retain old root tools/components/proficiencies.
-    if( is_step_recipe ) {
-        requirements_ = requirement_data();
-        deduped_requirements_ = deduped_requirement_data();
-        reqs_external.clear();
-        reqs_internal.clear();
-        proficiencies.clear();
-        time = 0;
-        batch_info = batch_savings();
-        exertion = 0.0f;
-    }
-
-    if( had_inherited_steps && !is_step_recipe ) {
-        jo.throw_error( "non-step recipe cannot inherit from a step recipe base" );
-    }
-
-    if( is_step_recipe ) {
-        if( abstract ) {
-            jo.throw_error( "abstract recipes cannot have steps" );
-        }
-        if( jo.has_string( "copy-from" ) ) {
-            jo.throw_error( "step recipes cannot use copy-from" );
-        }
+    // Step recipes must not have stepless-only root fields
+    if( effectively_step_recipe ) {
         for( const char *field : {
                  "tools", "qualities", "proficiencies",
                  "batch_time_factors", "time",
-                 "activity_level", "using"
+                 "activity_level"
              } ) {
             if( jo.has_member( field ) ) {
                 jo.throw_error( string_format(
@@ -355,8 +336,24 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         }
     }
 
+    // Clear state for finalize rebuild.
+    // reqs_external NOT cleared: root "using" survives copy-from.
+    if( child_has_steps ) {
+        // Fresh step recipe or step override: full rebuild in finalize
+        requirements_ = requirement_data();
+        deduped_requirements_ = deduped_requirement_data();
+        reqs_internal.clear();
+        proficiencies.clear();
+        time = 0;
+        batch_info = batch_savings();
+        exertion = 0.0f;
+    } else if( had_inherited_steps ) {
+        // Inheriting steps from unfinalized copy-from base; just reset dedup.
+        deduped_requirements_ = deduped_requirement_data();
+    }
+
     // --- Fields that only apply to stepless recipes ---
-    if( !is_step_recipe ) {
+    if( !effectively_step_recipe ) {
         optional( jo, was_loaded, "time", time, time_duration_as_moves_reader{}, 0 );
     }
 
@@ -372,7 +369,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     optional( jo, false, "container_variant", container_variant );
     optional( jo, was_loaded, "sealed", sealed, true );
 
-    if( !is_step_recipe ) {
+    if( !effectively_step_recipe ) {
         optional( jo, was_loaded, "batch_time_factors", batch_info );
         if( batch_savings::linear *lin = std::get_if<batch_savings::linear>( &batch_info.data ) ) {
             if( lin->offset > time ) {
@@ -405,7 +402,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         }
     }
 
-    if( !is_step_recipe ) {
+    if( !effectively_step_recipe ) {
         jo.read( "proficiencies", proficiencies );
     }
 
@@ -423,7 +420,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "morale_modifier", morale_modifier, {0, 0_seconds} );
 
     // Mandatory for stepless recipes; step recipes compute exertion during finalize
-    if( !is_step_recipe ) {
+    if( !effectively_step_recipe ) {
         mandatory( jo, was_loaded, "activity_level", exertion, activity_level_reader{} );
     }
 
@@ -461,10 +458,8 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
-    if( !is_step_recipe ) {
-        optional( jo, was_loaded, "using", reqs_external,
-                  weighted_string_id_reader<requirement_id, int> { 1 } );
-    }
+    optional( jo, was_loaded, "using", reqs_external,
+              weighted_string_id_reader<requirement_id, int> { 1 } );
 
     bool inherited_tools = false;
     bool inherited_qualities = false;
@@ -608,11 +603,13 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
     }
 
     const requirement_id req_id( "inline_" + type + "_" + id.str() );
-    requirement_data::load_requirement( jo, req_id, false, abstract );
+    // Step recipes legitimately have root-level components; suppress abstract
+    // debugmsg for them (tools/qualities are already caught by field validation).
+    requirement_data::load_requirement( jo, req_id, false, abstract && !effectively_step_recipe );
     reqs_internal.emplace_back( req_id, 1 );
 
     // Parse recipe steps
-    if( is_step_recipe ) {
+    if( child_has_steps ) {
         int step_index = 0;
         for( JsonObject step_jo : jo.get_array( "steps" ) ) {
             recipe_step step;
@@ -624,7 +621,7 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
         }
     }
 
-    if( !is_step_recipe ) {
+    if( !effectively_step_recipe ) {
         if( inherited_tools && !jo.has_member( "tools" ) ) {
             debugmsg( "Recipe %s inherits from recipe that has tools, but does not have any of its own.  "
                       "This is probably an error.", id.str() );
@@ -634,11 +631,10 @@ void recipe::load( const JsonObject &jo, const std::string_view src )
             debugmsg( "Recipe %s inherits from recipe that has qualities, but does not have any of its own.  "
                       "This is probably an error.", id.str() );
         }
-
-        if( inherited_components  && !jo.has_member( "components" ) ) {
-            debugmsg( "Recipe %s inherits from recipe that has components, but does not have any of its own.  "
-                      "This is probably an error.", id.str() );
-        }
+    }
+    if( inherited_components && !jo.has_member( "components" ) ) {
+        debugmsg( "Recipe %s inherits from recipe that has components, but does not have any of its own.  "
+                  "This is probably an error.", id.str() );
     }
 }
 
@@ -660,6 +656,10 @@ void recipe_step::load( const JsonObject &jo, const std::string &recipe_name, in
         jo.throw_error( "step recipes must not have per-step components; "
                         "use root-level components" );
     }
+
+    // Load external requirements via "using" syntax
+    optional( jo, false, "using", reqs_external,
+              weighted_string_id_reader<requirement_id, int> { 1 } );
 
     // Load inline tools/qualities for this step
     const requirement_id step_req_id( "inline_recipe_" + recipe_name + "_step_"
@@ -786,17 +786,23 @@ void recipe::finalize()
     if( !blueprint.is_empty() ) {
         incorporate_build_reqs();
     } else if( has_steps() ) {
-        // Step recipes: merge root components + per-step tools/qualities
+        // Step recipes: merge root using + root components + per-step tools/qualities
+        add_requirements( reqs_external );  // root using
         add_requirements( reqs_internal );  // root components
+        reqs_external.clear();
         reqs_internal.clear();
 
         for( recipe_step &step : steps_ ) {
-            // Resolve each step's inline requirements
+            // Resolve each step's external (using) + inline requirements
+            step.requirements = std::accumulate(
+                                    step.reqs_external.begin(), step.reqs_external.end(),
+                                    step.requirements );
             step.requirements = std::accumulate(
                                     step.reqs_internal.begin(), step.reqs_internal.end(),
                                     step.requirements );
             // Merge step requirements into recipe-level for whole-recipe gating
             requirements_ = requirements_ + step.requirements;
+            step.reqs_external.clear();
             step.reqs_internal.clear();
         }
 
@@ -1732,7 +1738,16 @@ bool recipe::will_be_blacklisted() const
         return std::any_of( reqs.begin(), reqs.end(), req_is_blacklisted );
     };
 
-    return any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external );
+    if( any_is_blacklisted( reqs_internal ) || any_is_blacklisted( reqs_external ) ) {
+        return true;
+    }
+    for( const recipe_step &step : steps_ ) {
+        if( any_is_blacklisted( step.reqs_internal ) ||
+            any_is_blacklisted( step.reqs_external ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::function<bool( const item & )> recipe::get_component_filter(

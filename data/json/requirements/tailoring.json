@@ -572,6 +572,7 @@
     "type": "requirement",
     "//": "1 unit of 'sewing_tool' is 1 minute of sewing.",
     "//1": "Sewing maching is 84W, 1 charge is 1kj so that's 12s of use. I'm assuming the machine is only running 50% of the time so 24s. 60 / 24 = 2.5 rounded down to 2.",
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
       [
         [ "sewing_machine", 2 ],

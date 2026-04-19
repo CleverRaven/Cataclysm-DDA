@@ -206,6 +206,7 @@ parsers = {
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
     "playlist": dummy_parser,
+    "pp_generator": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
     "profession_blacklist": dummy_parser,

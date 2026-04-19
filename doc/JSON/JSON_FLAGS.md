@@ -352,6 +352,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLEEDSLOW``` When bleeding, lose blood at 2/3 of the normal rate.
 - ```BLEEDSLOW2``` When bleeding, lose blood at 1/3 of the normal rate.
 - ```BLIND``` Makes you blind.
+- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```BLOCK_SUPERNATURAL_HEALING``` Blocks supernatural healing effects, like magical healing spells, from taking effect.  This flag does not block EoC-based healing like using the u_hp() effect.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
@@ -394,8 +395,8 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```HEAT_IMMUNE``` Immune to very hot temperatures and fire damage.
 - ```HERITAGE``` Turns a mutation with this flag light cyan on the list.  Currently used in mods for mutations that indicate non-human ancestry.
+- ```HIGH_GLARE``` Glare lasts twice as long
 - ```HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
-- ```BLOCK_HUGE_ATTACKS``` Size limitations on blocking are ignored
 - ```HYPEROPIC``` You are far-sighted: close combat is hampered and reading is impossible without glasses.
 - ```INHALED_TOXIN_IMMUNE``` You are immune to any inhaled toxin that mouth environmental resistance would also protect against.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -1191,10 +1192,12 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```ID_CARD_DESPAWN``` Despawns when a science ID card is used on a nearby console.
 - ```IMMOBILE``` Doesn't move (e.g. turrets).
+- ```INFRARED_VISION``` The monster can see warm creatures out to the limit of its maximum day or night vision, which ever is higher
 - ```INSECTICIDEPROOF``` It's immune to insecticide even though it's made of bug flesh ("iflesh").
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch.  Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```KEEP_DISTANCE``` Monster will try to keep `tracking_distance` number of tiles between it and its current target.
+- ```LOCKS_ON``` Once this monster establishes initial line-of-sight to the avatar, it gains a temporary effect where it always knows the avatar's location for its duration.
 - ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
 - ```MAGIC_USER``` A monster that casts magical spells, used in mods for avatar detection abilities
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
@@ -1373,7 +1376,7 @@ See [Character](#character)
 - ```REQUIRES_PREDECESSOR``` Mapgen for this will not start from scratch; it will update the mapgen from the terrain it replaced.  This allows the corresponding json mapgen to use the `expects_predecessor` feature.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
-- ```PP_GENERATE_RIOT_DAMAGE``` Applies randomized riot damage to the local map as a last stage in generating it. Furniture and terrain will be bashed, items moved around, blood spatters are placed, and rarely spawns fires.
+- ```PP_GENERATE_RIOT_DAMAGE``` **Deprecated.**  Use `"post_process_generators": ["riot_damage"]` on the overmap terrain instead.  See [Post-Process Generators](OVERMAP.md#post-process-generators).  Applies randomized riot damage to the local map as a last stage in generating it.  Furniture and terrain will be bashed, items moved around, blood spatters are placed, and rarely spawns fires.
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
 - ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
 - ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.

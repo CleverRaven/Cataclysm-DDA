@@ -5,6 +5,7 @@
 #include <fstream>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -17,6 +18,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
@@ -114,7 +116,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     if( is_safemode_in ) {
-        ctxt.register_action( "SWITCH_SAFEMODE_OPTION" );
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
 
@@ -182,10 +183,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         mvwprintz( w_header, point( locx, 2 ), c_white, safe_mode_enabled_text );
         locx += utf8_width( safe_mode_enabled_text );
         locx += shortcut_print( w_header, point( locx + 1, 2 ),
-                                ( get_option<bool>( "SAFEMODE" ) ? c_light_green : c_light_red ), c_white,
-                                ( get_option<bool>( "SAFEMODE" ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, point( locx + 1, 2 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 2 ), c_white, c_light_green, _( "<S>witch" ) );
+                                ( g->safe_mode == SAFE_MODE_ON ? c_light_green : c_light_red ), c_white,
+                                ( g->safe_mode == SAFE_MODE_ON ? _( "True" ) : _( "False" ) ) );
 
         wattron( w_header, c_light_gray );
         for( auto &pos : column_pos ) {
@@ -471,9 +470,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "TEST_RULE" && !current_tab.empty() ) {
             test_pattern( tab, line );
-        } else if( action == "SWITCH_SAFEMODE_OPTION" ) {
-            get_options().get_option( "SAFEMODE" ).setNext();
-            get_options().save();
         }
     }
 
@@ -609,12 +605,6 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     character_rules.emplace_back( rule_in, true, ( state_in == rule_state::WHITELISTED ),
                                   attitude_in, proximity_in, Categories::HOSTILE_SPOTTED, MovementModes::BOTH );
     create_rules();
-
-    if( !get_option<bool>( "SAFEMODE" ) &&
-        query_yn( _( "Safe mode is not enabled in the options.  Enable it now?" ) ) ) {
-        get_options().get_option( "SAFEMODE" ).setNext();
-        get_options().save();
-    }
 }
 
 bool safemode::has_rule( std::string_view rule_in, const Creature::Attitude attitude_in )

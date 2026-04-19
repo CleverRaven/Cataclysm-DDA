@@ -58,6 +58,7 @@ class monster;
 class npc;
 class overmap_connection;
 struct horde_entity;
+struct pp_resolved_generator;
 struct map_data_summary;
 struct region_settings;
 template <typename T> struct enum_traits;
@@ -493,6 +494,9 @@ class overmap
         // ter_unsafe is UB when out of bounds.
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        // Persisted PP decisions for this OMT, or nullptr if this OMT is not part of
+        // a special with any overmap_special-scoped sub-generators.
+        std::vector<pp_resolved_generator> *pp_decisions( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, om_vision_level val, bool force = false );
@@ -687,6 +691,11 @@ class overmap
         std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
         // Records mapgen parameters required at the omt level, fixed at the same values vertically
         std::unordered_map<point_abs_omt, mapgen_arguments> omt_stack_arguments_map;
+
+        // Persisted post-process decisions at overmap_special scope.
+        // Colony provides stable pointers so all OMTs of a special share one allocation.
+        cata::colony<std::vector<pp_resolved_generator>> pp_decision_storage;
+        std::unordered_map<tripoint_om_omt, std::vector<pp_resolved_generator> *> pp_decisions_index;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen

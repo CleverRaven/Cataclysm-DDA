@@ -498,8 +498,8 @@ TEST_CASE( "step_recipe_schema_rejection", "[recipe][steps]" )
         })" );
     }
 
-    SECTION( "root-level using" ) {
-        check_step_recipe_throws( R"({
+    SECTION( "root-level using is allowed" ) {
+        const std::string json = R"({
             "type": "recipe", "result": "cudgel", "id_suffix": "test_using",
             "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
             "skill_used": "fabrication", "difficulty": 1,
@@ -508,21 +508,33 @@ TEST_CASE( "step_recipe_schema_rejection", "[recipe][steps]" )
             "steps": [
                 { "name": "Work", "time": "5 m", "activity_level": "NO_EXERCISE" }
             ]
-        })" );
+        })";
+        JsonObject jo = json_loader::from_string( json );
+        recipe r;
+        CHECK_NOTHROW( r.load( jo, "dda" ) );
     }
 
-    SECTION( "abstract step recipe" ) {
-        check_step_recipe_throws( R"({
+    SECTION( "abstract step recipe is allowed" ) {
+        const std::string json = R"({
             "abstract": "test_abstract_step",
             "type": "recipe",
+            "category": "CC_WEAPON",
+            "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication",
+            "difficulty": 1,
             "steps": [
                 { "name": "Work", "time": "5 m", "activity_level": "NO_EXERCISE" }
             ]
-        })" );
+        })";
+        JsonObject jo = json_loader::from_string( json );
+        recipe r;
+        CHECK_NOTHROW( r.load( jo, "dda" ) );
     }
 
-    SECTION( "copy-from on step recipe" ) {
-        check_step_recipe_throws( R"({
+    SECTION( "copy-from on step recipe is allowed" ) {
+        // copy-from is consumed by recipe_dictionary::load(), not recipe::load().
+        // allow_omitted_members() suppresses the unread-data error.
+        const std::string json = R"({
             "type": "recipe",
             "result": "cudgel",
             "id_suffix": "test_copyfrom",
@@ -535,8 +547,104 @@ TEST_CASE( "step_recipe_schema_rejection", "[recipe][steps]" )
             "steps": [
                 { "name": "Work", "time": "5 m", "activity_level": "NO_EXERCISE" }
             ]
-        })" );
+        })";
+        JsonObject jo = json_loader::from_string( json );
+        jo.allow_omitted_members();
+        recipe r;
+        CHECK_NOTHROW( r.load( jo, "dda" ) );
     }
+}
+
+// Helper: load + finalize an inline recipe
+static recipe load_and_finalize( const std::string &json )
+{
+    JsonObject jo = json_loader::from_string( json );
+    recipe r;
+    r.load( jo, "dda" );
+    r.finalize();
+    return r;
+}
+
+TEST_CASE( "step_recipe_root_using_merges_into_simple_requirements", "[recipe][steps]" )
+{
+    // sewing_standard has qualities SEW/1, CUT/2, FABRIC_CUT/1 and component filament
+    const recipe r = load_and_finalize( R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_root_using_merge",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "using": [ [ "sewing_standard", 1 ] ],
+        "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            { "name": "Work", "time": "5 m", "activity_level": "NO_EXERCISE" }
+        ]
+    })" );
+
+    const requirement_data &reqs = r.simple_requirements();
+
+    bool has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group : reqs.get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                has_sew = true;
+            }
+        }
+    }
+    CHECK( has_sew );
+
+    // filament is a LIST requirement that expands to thread, sinew, etc.
+    bool has_thread = false;
+    for( const std::vector<item_comp> &comp_group : reqs.get_components() ) {
+        for( const item_comp &comp : comp_group ) {
+            if( comp.type.str() == "thread" ) {
+                has_thread = true;
+            }
+        }
+    }
+    CHECK( has_thread );
+}
+
+TEST_CASE( "step_recipe_step_using_merges_into_step_requirements", "[recipe][steps]" )
+{
+    // sewing_standard has qualities SEW/1, CUT/2, FABRIC_CUT/1
+    const recipe r = load_and_finalize( R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_step_using_merge",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            {
+                "name": "Sew",
+                "time": "5 m",
+                "activity_level": "NO_EXERCISE",
+                "using": [ [ "sewing_standard", 1 ] ]
+            }
+        ]
+    })" );
+
+    REQUIRE( r.has_steps() );
+    const recipe_step &step = r.steps()[0];
+
+    bool step_has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group : step.requirements.get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                step_has_sew = true;
+            }
+        }
+    }
+    CHECK( step_has_sew );
+
+    // Recipe-level requirements should also include SEW (merged from step)
+    bool recipe_has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group :
+         r.simple_requirements().get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                recipe_has_sew = true;
+            }
+        }
+    }
+    CHECK( recipe_has_sew );
 }
 
 // ---- End-to-end craft ----
@@ -1232,49 +1340,323 @@ TEST_CASE( "stepless_recipe_step_state_unchanged", "[recipe][steps][crafting]" )
     CHECK( msg->find( "Finish" ) == std::string::npos );
 }
 
-// ---- Edge case: inherited steps on non-step child ----
-
-TEST_CASE( "step_recipe_inherited_steps_rejected", "[recipe][steps]" )
+// Simulate copy-from: load base, then child onto same object.
+// Matches recipe_dictionary::load() behavior.
+static recipe load_base_then_child( const std::string &base_json,
+                                    const std::string &child_json )
 {
-    // Load a step recipe to populate steps_, then load non-step JSON onto the
-    // same object. This simulates a non-step child that copy-from'd a step base.
     recipe r;
-    REQUIRE( r.steps().empty() );
     {
-        const std::string step_json = R"({
-            "type": "recipe",
-            "result": "cudgel",
-            "id_suffix": "test_inherit_base",
-            "category": "CC_WEAPON",
-            "subcategory": "CSC_WEAPON_BASHING",
-            "skill_used": "fabrication",
-            "difficulty": 1,
-            "components": [[ [ "2x4", 1 ] ]],
-            "steps": [
-                { "name": "Work", "time": "10 m", "activity_level": "MODERATE_EXERCISE" }
-            ]
-        })";
-        JsonObject jo = json_loader::from_string( step_json );
+        JsonObject jo = json_loader::from_string( base_json );
         jo.allow_omitted_members();
         r.load( jo, "dda" );
     }
-    REQUIRE( r.has_steps() );
+    // Mark as loaded so optional() preserves inherited values
+    r.was_loaded = true;
+    {
+        JsonObject jo = json_loader::from_string( child_json );
+        jo.allow_omitted_members();
+        r.load( jo, "dda" );
+    }
+    return r;
+}
 
-    const std::string child_json = R"({
+// Base fixture with steps + step-level using (reused across tests)
+static const std::string step_base_json = R"({
+    "type": "recipe",
+    "result": "cudgel",
+    "id_suffix": "test_copyfrom_base",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "using": [ [ "sewing_standard", 1 ] ],
+    "components": [[ [ "2x4", 1 ] ]],
+    "steps": [
+        {
+            "name": "Shape",
+            "time": "10 m",
+            "activity_level": "MODERATE_EXERCISE",
+            "using": [ [ "sewing_standard", 1 ] ]
+        },
+        { "name": "Finish", "time": "5 m", "activity_level": "NO_EXERCISE" }
+    ]
+})";
+
+TEST_CASE( "step_recipe_inherited_steps_with_root_fields_rejected", "[recipe][steps]" )
+{
+    // Child inherits steps but declares stepless-only root fields -> error
+    SECTION( "root time" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_time",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "time": "10 m", "activity_level": "MODERATE_EXERCISE",
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+
+    SECTION( "root tools" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_tools",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "tools": [[ [ "hammer", -1 ] ]],
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+
+    SECTION( "root qualities" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_qual",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "qualities": [ { "id": "CUT", "level": 1 } ],
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+
+    SECTION( "root proficiencies" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_prof",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "proficiencies": [ { "proficiency": "prof_test_step_a" } ],
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+
+    SECTION( "root batch_time_factors" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_batch",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "batch_time_factors": [ 50, 4 ],
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+
+    SECTION( "root activity_level" ) {
+        CHECK_THROWS_AS( load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_act",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1,
+            "activity_level": "MODERATE_EXERCISE",
+            "components": [[ [ "2x4", 1 ] ]]
+        })" ), JsonError );
+    }
+}
+
+TEST_CASE( "step_recipe_copy_from_inherits_steps", "[recipe][steps]" )
+{
+    // Child inherits steps from base (no "steps" in child JSON).
+    // Base has step-level using to verify reqs_external carriage.
+    recipe r = load_base_then_child( step_base_json, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_steps",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 2,
+        "components": [[ [ "2x4", 1 ] ]]
+    })" );
+
+    CHECK( r.has_steps() );
+    REQUIRE( r.steps().size() == 2 );
+    CHECK( r.steps()[0].name.translated() == "Shape" );
+    CHECK( r.steps()[1].name.translated() == "Finish" );
+    CHECK( r.difficulty == 2 );
+
+    // Finalize and verify step-level using resolved
+    r.finalize();
+    bool step_has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group :
+         r.steps()[0].requirements.get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                step_has_sew = true;
+            }
+        }
+    }
+    CHECK( step_has_sew );
+}
+
+TEST_CASE( "step_recipe_copy_from_overrides_steps", "[recipe][steps]" )
+{
+    recipe r = load_base_then_child( step_base_json, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_override_steps",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            { "name": "Cut", "time": "3 m", "activity_level": "LIGHT_EXERCISE" }
+        ]
+    })" );
+
+    CHECK( r.has_steps() );
+    REQUIRE( r.steps().size() == 1 );
+    CHECK( r.steps()[0].name.translated() == "Cut" );
+}
+
+TEST_CASE( "step_recipe_copy_from_inherits_root_using", "[recipe][steps]" )
+{
+    // Base has root using (sewing_standard). Child inherits steps, no own using.
+    recipe r = load_base_then_child( step_base_json, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_inherit_using",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "components": [[ [ "2x4", 1 ] ]]
+    })" );
+    r.finalize();
+
+    bool has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group :
+         r.simple_requirements().get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                has_sew = true;
+            }
+        }
+    }
+    CHECK( has_sew );
+}
+
+TEST_CASE( "step_recipe_copy_from_preserves_root_using_when_steps_overridden", "[recipe][steps]" )
+{
+    recipe r = load_base_then_child( step_base_json, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_override_keep_using",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            { "name": "Cut", "time": "3 m", "activity_level": "LIGHT_EXERCISE" }
+        ]
+    })" );
+    r.finalize();
+
+    bool has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group :
+         r.simple_requirements().get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "SEW" ) {
+                has_sew = true;
+            }
+        }
+    }
+    CHECK( has_sew );
+}
+
+TEST_CASE( "step_recipe_copy_from_child_using_replaces_base_using", "[recipe][steps]" )
+{
+    // Use a base with root sewing_standard but NO step-level using.
+    // This way, SEW only appears if root using survives.
+    // Child replaces root using with welding_standard (has GLARE, not SEW).
+    // If replacement works: GLARE present, SEW absent.
+    // If it regressed to merge: both GLARE and SEW present.
+    static const std::string root_only_using_base = R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_root_only_using_base",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "using": [ [ "sewing_standard", 1 ] ],
+        "components": [[ [ "2x4", 1 ] ]],
+        "steps": [
+            { "name": "Work", "time": "5 m", "activity_level": "NO_EXERCISE" }
+        ]
+    })";
+
+    recipe r = load_base_then_child( root_only_using_base, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_replace_using",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 1,
+        "using": [ [ "welding_standard", 1 ] ],
+        "components": [[ [ "2x4", 1 ] ]]
+    })" );
+    r.finalize();
+
+    const requirement_data &reqs = r.simple_requirements();
+    bool has_glare = false;
+    bool has_sew = false;
+    for( const std::vector<quality_requirement> &qual_group : reqs.get_qualities() ) {
+        for( const quality_requirement &qual : qual_group ) {
+            if( qual.type.str() == "GLARE" ) {
+                has_glare = true;
+            }
+            if( qual.type.str() == "SEW" ) {
+                has_sew = true;
+            }
+        }
+    }
+    CHECK( has_glare );
+    CHECK_FALSE( has_sew );
+}
+
+TEST_CASE( "step_recipe_copy_from_missing_components_absent", "[recipe][steps]" )
+{
+    // Base has root components (2x4). Child omits components.
+    // The debugmsg about missing components is expected.
+    recipe r;
+    capture_debugmsg_during( [&]() {
+        r = load_base_then_child( step_base_json, R"({
+            "type": "recipe", "result": "cudgel", "id_suffix": "test_no_comp",
+            "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+            "skill_used": "fabrication", "difficulty": 1
+        })" );
+    } );
+    r.finalize();
+
+    bool has_2x4 = false;
+    for( const std::vector<item_comp> &comp_group :
+         r.simple_requirements().get_components() ) {
+        for( const item_comp &comp : comp_group ) {
+            if( comp.type == itype_2x4 ) {
+                has_2x4 = true;
+            }
+        }
+    }
+    CHECK_FALSE( has_2x4 );
+}
+
+TEST_CASE( "step_recipe_abstract_base_to_concrete_child", "[recipe][steps]" )
+{
+    static const std::string abstract_base = R"({
+        "abstract": "test_abstract_step_base",
         "type": "recipe",
-        "result": "cudgel",
-        "id_suffix": "test_inherit_child",
         "category": "CC_WEAPON",
         "subcategory": "CSC_WEAPON_BASHING",
         "skill_used": "fabrication",
         "difficulty": 1,
-        "time": "10 m",
-        "activity_level": "MODERATE_EXERCISE",
-        "components": [[ [ "2x4", 1 ] ]]
+        "steps": [
+            { "name": "Shape", "time": "10 m", "activity_level": "MODERATE_EXERCISE" },
+            { "name": "Finish", "time": "5 m", "activity_level": "NO_EXERCISE" }
+        ]
     })";
-    JsonObject jo2 = json_loader::from_string( child_json );
-    jo2.allow_omitted_members();
-    CHECK_THROWS_AS( r.load( jo2, "dda" ), JsonError );
+
+    recipe r = load_base_then_child( abstract_base, R"({
+        "type": "recipe", "result": "cudgel", "id_suffix": "test_from_abstract",
+        "category": "CC_WEAPON", "subcategory": "CSC_WEAPON_BASHING",
+        "skill_used": "fabrication", "difficulty": 3,
+        "components": [[ [ "2x4", 1 ] ]]
+    })" );
+
+    CHECK( r.has_steps() );
+    REQUIRE( r.steps().size() == 2 );
+    CHECK( r.steps()[0].name.translated() == "Shape" );
+    CHECK( r.steps()[1].name.translated() == "Finish" );
+    CHECK( r.difficulty == 3 );
+
+    r.finalize();
+    bool has_2x4 = false;
+    for( const std::vector<item_comp> &comp_group :
+         r.simple_requirements().get_components() ) {
+        for( const item_comp &comp : comp_group ) {
+            if( comp.type == itype_2x4 ) {
+                has_2x4 = true;
+            }
+        }
+    }
+    CHECK( has_2x4 );
+
+    // Time should be sum of steps
+    CHECK( r.time_to_craft_moves( get_player_character(), {},
+                                  recipe_time_flag::ignore_proficiencies ) ==
+           to_moves<int64_t>( 15_minutes ) );
 }
 
 // ---- Edge case: required/optional proficiency conflict across steps ----

@@ -11,6 +11,7 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {

@@ -1030,6 +1030,11 @@
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
   },
   {
+    "id": "HIGH_GLARE",
+    "type": "json_flag",
+    "//": "Glare lasts twice as long."
+  },
+  {
     "id": "ITEM_BROKEN",
     "type": "json_flag",
     "info": "This item was broken and <bad>won't activate anymore</bad>."

@@ -1102,6 +1102,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     if( dp.z() != 0 && veh.is_rotorcraft( *this ) ) {
         can_move = true;
     }
+    if( vertical ) {
+        veh.check_falling_or_floating(); // fix for vehicle falling into floor
+    }
     units::angle coll_turn = 0_degrees;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );

@@ -36,32 +36,6 @@
 #include "sdl_wrappers.h"
 #endif
 
-class uilist_impl : cataimgui::window
-{
-        uilist &parent;
-    public:
-        explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
-                    ImGuiWindowFlags_NoNavInputs ),
-            parent( parent ) {
-        }
-
-        uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
-                    ImGuiWindowFlags_NoNavInputs ),
-            parent( parent ) {
-        }
-
-        cataimgui::bounds get_bounds() override {
-            if( !parent.started ) {
-                parent.setup();
-            }
-
-            return parent.desired_bounds.value_or( parent.calculated_bounds );
-        }
-        void draw_controls() override;
-};
-
 void uilist_impl::draw_controls()
 {
 #if defined(TILES)
@@ -776,6 +750,10 @@ void uilist::calc_data()
         calculated_menu_size.x = longest_line_width;
         calculated_label_width = calculated_menu_size.x - calculated_hotkey_width - padding -
                                  calculated_secondary_width - padding - padding;
+    }
+    if( force_desired_bounds && desired_bounds.has_value() ) {
+        calculated_menu_size.x = desired_bounds->w;
+        calculated_menu_size.y = desired_bounds->h;
     }
 }
 

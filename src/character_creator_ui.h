@@ -94,6 +94,7 @@ struct character_creator_uistate {
     bool scrolled_down = false;
     bool quit_to_main_menu = false;
     bool finished_character_creator = false;
+    bool top_bar_is_open = true;
 
     void set_initial_tab( character_creator_tab first_tab );
 
@@ -135,7 +136,8 @@ class character_creator_ui
         void update_uilist_entries();
         void upon_switching_tab();
         void update_uilist_position( ImVec2 new_position );
-        void setup_input_context( input_context &cc_ictxt );
+        // @param quick_value_change - if true, add inputs for changing a value (stat or skill)
+        void setup_input_context( input_context &cc_ictxt, bool quick_value_change );
         // @return action was handled
         bool handle_action( const std::string &action );
 
@@ -176,10 +178,9 @@ void draw_outfit();
 void draw_height( const Character &you );
 void draw_age( const Character &you );
 void draw_blood( const Character &you );
-void draw_scenario( const avatar &you );
+void draw_scenario_profession( const avatar &you );
 void draw_time_cataclysm_start();
 void draw_time_game_start();
-void draw_profession( const avatar &you );
 void draw_location( const avatar &you );
 void draw_starting_city( const avatar &you );
 std::string get_gender_string( bool male );

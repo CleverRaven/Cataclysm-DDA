@@ -28,7 +28,8 @@
         "      "
       ],
       "terrain": { "d": "t_dirt" },
-      "furniture": { "d": "f_clear" }
+      "furniture": { "d": "f_clear" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_FURNITURE" ]
     }
   },
   {

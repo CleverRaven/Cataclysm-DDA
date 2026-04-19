@@ -89,6 +89,7 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_HIGH_GLARE( "HIGH_GLARE" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -623,6 +624,7 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
             }
             if( here.sees( guy.pos_bub(), p, radius ) ) {
                 int flash_mod = 0;
+                int dur_mod = 1;
                 if( guy.has_trait( trait_PER_SLIME ) ) {
                     if( one_in( 2 ) ) {
                         flash_mod = radius / 2.6f; // Yay, you weren't looking!
@@ -632,13 +634,16 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
                 } else if( guy.has_flag( json_flag_GLARE_RESIST ) ||
                            guy.is_wearing( itype_rm13_armor_on ) ) {
                     flash_mod = radius / 1.3f;
+                } else if( guy.has_flag( json_flag_HIGH_GLARE ) ) {
+                    flash_mod /= 2;
+                    dur_mod = 2;
                 } else if( guy.worn_with_flag( json_flag_BLIND ) ||
                            guy.worn_with_flag( json_flag_FLASH_PROTECTION ) ) {
                     flash_mod = radius / 2.6f; // Not really proper flash protection, but better than nothing
                 }
                 guy.add_env_effect( effect_blind, bodypart_id( "eyes" ),
                                     ( radius * 1.5f - flash_mod - dist ) / 2,
-                                    time_duration::from_turns( 10 - dist ) );
+                                    time_duration::from_turns( 10 - dist ) * dur_mod );
             }
         }
     };

@@ -43,8 +43,7 @@
     "abstract": "speedway_track_abstract",
     "copy-from": "road_abstract",
     "vision_levels": "blends_till_outlines",
-    "name": "speedway",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "name": "speedway"
   },
   {
     "type": "overmap_terrain",
@@ -149,7 +148,7 @@
     "name": "bleachers",
     "sym": "^",
     "color": "light_blue",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -218,7 +217,7 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -228,7 +227,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

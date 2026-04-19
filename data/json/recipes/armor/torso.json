@@ -1005,20 +1005,15 @@
         "name": "Sew the pieces",
         "time": "2 h",
         "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ]
+        "using": [ [ "sewing_tool", 120 ] ]
       }
     ]
   },
   {
     "type": "recipe",
+    "copy-from": "hoodie",
     "result": "hoodie",
     "variant": "shark",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
     "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
     "steps": [
       {
@@ -1032,8 +1027,7 @@
         "name": "Sew the pieces",
         "time": "2 h",
         "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
+        "using": [ [ "sewing_tool", 120 ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
       }
     ],
@@ -1041,235 +1035,51 @@
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "bear",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "cat",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "bunny",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "wolf",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "lizard",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "dog",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "panda",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie",
+    "copy-from": "hoodie_shark",
     "variant": "frog",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "2 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 120, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 12 ] ]
+    "components": [ [ [ "sheet_cotton", 40 ], [ "sheet_cotton_patchwork", 40 ] ], [ [ "filament", 200, "LIST" ] ], [ [ "faux_fur", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1291,8 +1101,7 @@
         "name": "Sew the pieces",
         "time": "1 h 45 m",
         "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ]
+        "using": [ [ "sewing_tool", 105 ] ]
       }
     ]
   },
@@ -1312,13 +1121,9 @@
   },
   {
     "type": "recipe",
+    "copy-from": "hoodie_cropped",
     "result": "hoodie_cropped",
     "variant": "shark",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
     "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
     "steps": [
       {
@@ -1332,8 +1137,7 @@
         "name": "Sew the pieces",
         "time": "1 h 45 m",
         "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
+        "using": [ [ "sewing_tool", 105 ] ],
         "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
       }
     ],
@@ -1341,235 +1145,51 @@
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "bear",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "cat",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "bunny",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "wolf",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "lizard",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "dog",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "panda",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "hoodie_cropped",
+    "copy-from": "hoodie_cropped_shark",
     "variant": "frog",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "autolearn": true,
-    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ],
-    "steps": [
-      {
-        "name": "Cut the fabric",
-        "time": "1 h",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1 } ]
-      },
-      {
-        "name": "Sew the pieces",
-        "time": "1 h 45 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SEW", "level": 1 } ],
-        "tools": [ [ [ "sewing_tool", 105, "LIST" ] ] ],
-        "proficiencies": [ { "proficiency": "prof_furriery", "time_multiplier": 1.2 } ]
-      }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 8 ] ]
+    "components": [ [ [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ] ], [ [ "filament", 150, "LIST" ] ], [ [ "faux_fur", 4 ] ] ]
   },
   {
     "result": "sweatshirt",

@@ -57,7 +57,7 @@
     "looks_like": "office_cubical",
     "name": "office basement",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -67,7 +67,7 @@
     "looks_like": "office_cubical",
     "name": "office subbasement",
     "color": "light_gray",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -307,7 +307,7 @@
       "phavan_office_skyscraper_lab_upper_se"
     ],
     "copy-from": "generic_office_skyscraper",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
@@ -319,7 +319,7 @@
     ],
     "looks_like": "generic_hospital",
     "copy-from": "generic_hospital",
-    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

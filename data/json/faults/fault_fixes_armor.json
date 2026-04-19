@@ -277,5 +277,29 @@
       [ "rivet_replacement", 4 ],
       { "qualities": [ { "id": "FABRIC_CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ] }
     ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_cotton_tear_stitch",
+    "name": "Stitch the fabric back together",
+    "faults_removed": [ "fault_cotton_torn" ],
+    "success_msg": "You stitch the tear in %s back up.",
+    "mod_damage": -1000,
+    "mod_degradation": -25,
+    "time": "10 m",
+    "skills": { "tailor": 1 },
+    "requirements": [ [ "filament", 1 ], { "qualities": [ { "id": "SEW", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_armor_cotton_hole_close",
+    "name": "Patch the hole.",
+    "faults_removed": [ "fault_cotton_hole" ],
+    "success_msg": "You patch the hole in %s.",
+    "mod_damage": -1000,
+    "mod_degradation": -25,
+    "time": "20 m",
+    "skills": { "tailor": 1 },
+    "requirements": [ [ "filament", 3 ], [ "fabric_standard_small", 1 ], { "qualities": [ { "id": "SEW", "level": 1 } ] } ]
   }
 ]

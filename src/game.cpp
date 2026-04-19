@@ -766,7 +766,7 @@ bool game::start_game()
     new_game = true;
     start_calendar();
     weather.nextweather = calendar::turn;
-    safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
+    safe_mode = SAFE_MODE_ON;
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
 

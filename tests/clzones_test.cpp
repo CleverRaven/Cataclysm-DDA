@@ -2340,6 +2340,37 @@ TEST_CASE( "cancel_activity_clears_auto_resume_for_multi_type",
              !dummy.backlog.front().auto_resume ) );
 }
 
+// When a multi-zone activity spawns a sub with can_resume=false, cancelling
+// the sub doesn't push a guard entry.  cancel_activity() must still block
+// the parent multi-zone from auto-resuming.
+TEST_CASE( "cancel_non_resumable_sub_blocks_parent_auto_resume",
+           "[zones][activities][cancel]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+
+    // Parent multi-zone in backlog with auto_resume=true, as if it had
+    // pushed itself when assigning a sub-activity.
+    dummy.assign_activity( multi_chop_planks_activity_actor() );
+    REQUIRE( dummy.activity.is_multi_type() );
+    REQUIRE( dummy.activity.auto_resume );
+    player_activity parent = dummy.activity;
+    dummy.backlog.push_front( parent );
+
+    // Sub-activity with can_resume=false (ACT_CHOP_PLANKS).
+    dummy.activity = player_activity(
+                         chop_planks_activity_actor( 100 ) );
+    REQUIRE( !dummy.activity.can_resume() );
+    REQUIRE( dummy.backlog.front().auto_resume );
+
+    // cancel + resume -- mirrors cancel_activity_query().
+    dummy.cancel_activity();
+    dummy.resume_backlog_activity();
+
+    CHECK( !dummy.activity );
+}
+
 // #85853: selecting Vehicle Repair from zone activities freezes the game
 // when the VEHICLE_REPAIR zone is large and repair items are unavailable.
 // simulate_turn must bound per-frame work and prune checked sources.

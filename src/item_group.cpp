@@ -504,6 +504,11 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
     new_item.rand_degradation();
+    // Apply damage to any already-attached MOLLE pockets
+    for( item *pocket : new_item.get_contents().get_added_pockets_mutable() ) {
+        pocket->set_damage( rng( damage.first, damage.second ) );
+        pocket->rand_degradation();
+    }
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
@@ -691,7 +696,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems;
         contents->create( contentitems, new_item.birthday() );
-        for( const item &it : contentitems ) {
+        for( item &it : contentitems ) {
             // custom code for directly attaching pockets to MOLLE vests
             const use_function *action = new_item.get_use( "attach_molle" );
             if( action && it.can_attach_as_pocket() ) {
@@ -703,6 +708,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                 // if you roll 3, 3 size items in a 3 slot vest you shouldn't get an error
                 // but you should get a vest with at least the first one
                 if( it.get_pocket_size() <= vacancies ) {
+                    it.set_damage( rng( damage.first, damage.second ) );
+                    it.rand_degradation();
                     new_item.get_contents().add_pocket( it );
                 }
             } else {

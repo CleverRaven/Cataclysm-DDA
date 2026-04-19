@@ -3184,6 +3184,39 @@ you can pick one of four options from `Choose your destiny` list;
 
 ## Character effects
 
+#### `u_pick_bodypart`, `npc_pick_bodypart`
+
+Allow to select the bodypart and store it in variable
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_pick_bodypart`, `npc_pick_bodypart" | **mandatory** | [variable object](#variable-object) | variable where the bodypart will be stored |
+| "whitelist_flag" | optional | string or [variable object](#variable-object) | If used, only bodyparts that has this flag will be allowed |
+| "blacklist_flag" | optional | string or [variable object](#variable-object) | If used, bodyparts that has this flag are excluded |
+| "whitelist_type" | optional | array of strings or [variable objects](#variable-object) | If used, only bodyparts of this type will be allowed |
+| "blacklist_type" | optional | array of strings or [variable objects](#variable-object) | If used, bodyparts of this type are excluded |
+| "wounded" | optional | bool | default unset; if true, only bodyparts that have wounds are allowed; if false, such bodyparts are excluded |
+| "pick_random" | optional | bool | default false; if true, or if talker is not an avatar, no selector will appear, and a random bodypart out of the possible will be assigned; if false, the list will appear, allowing to pick the limb manually |
+| "allow_cancel" | optional | bool | allows the menu to be cancelled |
+| "title" | optional | string or [variable object](#variable-object) | title of the menu that appears if pick_random is false |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Allows to pick any bodypart and store it in context val `bp`
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "Test",
+    "effect": [ { "u_pick_bodypart": { "context_val": "bp" } } ]
+  },
+```
+
 #### `u_deal_damage`, `npc_deal_damage`
 
 Deal damage, the same way melee attack deals damage; it can't be dodged, but it can be mitigated by armor

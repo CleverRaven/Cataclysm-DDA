@@ -5666,5 +5666,13 @@
     "desc": [ "" ],
     "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.9 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_locked_on",
+    "//": "Applied to monsters after they first establish line-of-sight to the avatar.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_duration": "2 minutes"
   }
 ]
