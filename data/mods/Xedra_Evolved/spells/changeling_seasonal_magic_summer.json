@@ -278,6 +278,7 @@
         }
       ]
     },
+    "caster_condition_fail_message": "You must be outdoors during a storm to use Fist of Taranis",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "teachable": false,
     "skill": "deduction",
