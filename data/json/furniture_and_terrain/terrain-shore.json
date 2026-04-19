@@ -23,15 +23,5 @@
     "examine_action": "harvest_ter",
     "harvest_by_season": [ { "seasons": [ "spring", "autumn", "winter" ], "id": "oyster_harv" } ],
     "transforms_into": "t_shore_boulder"
-  },
-  {
-    "id": "t_shore_sand",
-    "type": "terrain",
-    "name": "sandy shore",
-    "description": "A stretch of sandy shore.",
-    "symbol": "~",
-    "color": "light_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "TINY" ]
   }
 ]
