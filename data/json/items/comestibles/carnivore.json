@@ -231,7 +231,7 @@
     "color": "white",
     "spoils_in": "1 hour",
     "fun": 5,
-    "description": "A live oyster floating in it's liquor.",
+    "description": "A live oyster floating in its liquor.",
     "flags": [ "EATEN_COLD" ]
   },
   {
