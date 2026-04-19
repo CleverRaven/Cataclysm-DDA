@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "tidal_flats_palette",
     "terrain": {
-      ".": [ [ "t_shore_sand", 2 ], [ "t_water_sh", 1 ], [ "t_null", 1 ] ],
-      "o": [ [ "t_shore_boulder", 2 ], [ "t_shore_boulder_oyster", 1 ], [ "t_shore_sand", 2 ], [ "t_null", 1 ] ]
+      ".": [ [ "t_sand", 2 ], [ "t_water_sh", 1 ], [ "t_null", 1 ] ],
+      "o": [ [ "t_shore_boulder", 2 ], [ "t_shore_boulder_oyster", 1 ], [ "t_sand", 2 ], [ "t_null", 1 ] ]
     }
   },
   {
