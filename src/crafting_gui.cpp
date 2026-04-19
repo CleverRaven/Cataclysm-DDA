@@ -1137,9 +1137,10 @@ void crafting_ui_impl::draw_recipe_info_panel()
             }
         }
 
-        if( avail.can_craft && crafter->lighting_craft_speed_multiplier( recp ) <= 0.0f ) {
-            const char *lighting_str = _( "Lighting conditions are too poor to craft this." );
-            float line_w = ImGui::CalcTextSize( lighting_str ).x;
+        // Line 4: lighting warning, if applicable
+        if( !recp.is_nested() && crafter->lighting_craft_speed_multiplier( recp ) <= 0.0f ) {
+            const std::string lighting_str = _( "Lighting conditions are too poor to craft this." );
+            float line_w = ImGui::CalcTextSize( lighting_str.c_str() ).x;
             if( line_w < region_w ) {
                 ImGui::SetCursorPosX( ImGui::GetCursorPosX() + ( region_w - line_w ) / 2.f );
             }
