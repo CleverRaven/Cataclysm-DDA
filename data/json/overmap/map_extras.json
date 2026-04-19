@@ -735,6 +735,14 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_tidal_flat",
+    "type": "map_extra",
+    "name": { "str": "Tidal Flat" },
+    "description": "A tidal flat with oysters.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_tidal_flat" },
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_riverside_boat",
     "type": "map_extra",
     "name": { "str": "Boat" },
