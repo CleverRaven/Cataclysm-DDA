@@ -29,7 +29,7 @@
     "//": "Less fun than vodka.",
     "fun": 10
   },
-    {
+  {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "goldbrew",
