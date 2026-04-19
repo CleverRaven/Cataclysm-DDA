@@ -309,6 +309,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "soap",
+    "ascii_picture": "soap",
     "category": "chems",
     "price": "3 USD",
     "price_postapoc": "1 USD",
