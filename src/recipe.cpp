@@ -778,6 +778,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
 static void finalize_nested_recipes( recipe &r )
 {
     int min_diff = MAX_SKILL;
+    recipe_id easiest_recipe;
     for( const recipe_id &res : r.nested_category_data ) {
         if( !res.is_valid() ) {
             debugmsg( "%s nested recipe %s is an invalid recipe id", r.ident().str(), res.str() );
@@ -788,6 +789,13 @@ static void finalize_nested_recipes( recipe &r )
         }
         if( res.obj().difficulty < min_diff ) {
             min_diff = res.obj().difficulty;
+            easiest_recipe = res;
+        }
+    }
+    if( easiest_recipe.is_valid() ) {
+        r.skill_used = easiest_recipe->skill_used;
+        if( !easiest_recipe->required_skills.empty() ) {
+            r.required_skills = easiest_recipe->required_skills;
         }
     }
     r.difficulty = min_diff;
