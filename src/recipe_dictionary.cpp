@@ -26,7 +26,6 @@
 #include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "game_constants.h"
 #include "init.h"
 #include "input.h"
 #include "inventory.h"
