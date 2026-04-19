@@ -56,6 +56,12 @@
     "entries": [ { "drop": "honeycomb", "base_num": [ 30, 180 ] }, { "drop": "wax", "base_num": [ 4, 5 ] } ]
   },
   {
+    "id": "oyster_harv",
+    "type": "harvest",
+    "message": "You knock a few oysters loose from the rocks and gather them up.",
+    "entries": [ { "drop": "oyster", "base_num": [ 1, 8 ] } ]
+  },
+  {
     "id": "jerusalem_artichoke_harv",
     "type": "harvest",
     "entries": [ { "drop": "jerusalem_artichoke", "base_num": [ 1, 3 ] } ]
