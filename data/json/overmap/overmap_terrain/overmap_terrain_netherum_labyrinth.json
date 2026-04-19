@@ -42,5 +42,14 @@
     "see_cost": "high",
     "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "central node",
+    "id": "labyrinth_nl_exit_boiler",
+    "sym": "O",
+    "color": "red",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
   }
 ]

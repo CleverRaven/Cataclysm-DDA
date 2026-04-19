@@ -242,5 +242,26 @@
     "id": "COMP_LS_Bridge_control_deadend_1_force",
     "dynamic_line": "&<color_light_green> @User > help --retract\n<color_light_green>Help?  @User help request logged.\n<color_light_green>Error: \"Help\" - implied payment|cost detected.\n<color_light_green>Error: Payment|cost not implemented.  Try again some day.\n\n<color_light_green> @User > _</color>",
     "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls",
+    "dynamic_line": "& ▄▄▄· ▄▄▌  ▄▄▄▄▄ ▄▄▄· ▄▄▄            .▄▄ · \n▐█ ▀█ ██•  •██  ▐█ ▀█ ▀▄ █·    ▪     ▐█ ▀. \n▄█▀▀█ ██▪   ▐█.▪▄█▀▀█ ▐▀▀▄      ▄█▀▄ ▄▀▀▀█▄\n▐█ ▪▐▌▐█▌▐▌ ▐█▌·▐█ ▪▐▌▐█•█▌    ▐█▌.▐▌▐█▄▪▐█\n ▀  ▀ .▀▀▀  ▀▀▀  ▀  ▀ .▀  ▀     ▀█▄▀▪ ▀▀▀▀\n\n @AltarOS > echo -anchor -cargo -nt AUTO\n\n ANCHOR:CARGO RESONANCE LOCK = true.\n\n Start exit protocol.       ᵖˡᵉᵃˢᵉ\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _</color>",
+    "responses": [
+      {
+        "text": "<color_light_green>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "topic": "COMP_LS_Boiler_Exit_Controls2"
+      },
+      { "text": "<color_red>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls2",
+    "dynamic_line": "&<color_light_green> @User > sudo skill -EXIT -@User -RESONANCE_ANCHOR\n<color_light_green>Exit with the coupled device?  You will never see this exact place again.",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_safehouse" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
   }
 ]
