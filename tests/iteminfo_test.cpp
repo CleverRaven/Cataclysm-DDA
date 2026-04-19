@@ -1413,7 +1413,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
         // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
-        item longshirt_test( itype_test_longshirt_test );
+        item longshirt_test( itype_test_longshirt );
         expected_armor_values( longshirt_test, 0.2f, 0.2f, 0.16f, 0.05f );
 
         // Protection info displayed on two lines
