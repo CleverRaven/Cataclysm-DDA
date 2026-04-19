@@ -556,6 +556,7 @@
   {
     "id": "mortar_pestle",
     "type": "ITEM",
+    "ascii_picture": "mortar_pestle",
     "subtypes": [ "TOOL" ],
     "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
     "description": "A simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
