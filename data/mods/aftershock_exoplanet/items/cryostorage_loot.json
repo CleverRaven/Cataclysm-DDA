@@ -42,8 +42,8 @@
     "id": "afs_cryo_egg",
     "copy-from": "cryo_storage_loot",
     "color": "red",
-    "name": { "str": "frozen eggs" },
-    "description": "A clump of frozen eggs.  They look like they could be from some sort of amphibious creature, going by their size and gelatinous appearance. ",
+    "name": { "str_sp": "frozen eggs" },
+    "description": "A clump of frozen eggs.  They look like they could be from some sort of amphibious creature, going by their size and gelatinous appearance.",
     "price": "500 USD"
   },
   {
@@ -79,7 +79,7 @@
     "copy-from": "cryo_storage_loot",
     "color": "red",
     "name": { "str": "interface organoid" },
-    "description": "You recognize this disgusting clump of flesh and tendrils as one of Mercurial's abortive attempts at creating biomechanical interfaces for human implantation. Although Mercurial would likely pay you for its recovery, as would any of its competitors.",
+    "description": "You recognize this disgusting clump of flesh and tendrils as one of Mercurial's abortive attempts at creating biomechanical interfaces for human implantation.  Although Mercurial would likely pay you for its recovery, as would any of its competitors.",
     "price": "15000 USD"
   }
 ]
