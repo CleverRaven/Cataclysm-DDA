@@ -317,9 +317,15 @@
       },
       {
         "u_location_variable": { "global_val": "labyrinth_nl_boiler_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure_boiler" }
+      },
+      { "mapgen_update": "labyrinth_nl_entry_boiler", "target_var": { "global_val": "labyrinth_nl_boiler_loc" } },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_boiler_loc" },
         "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure_boiler" },
-        "terrain": "t_nl_catwalk",
-        "target_max_radius": 24
+        "terrain": "t_nl_obelisk_mission_boiler",
+        "target_max_radius": 500,
+        "x_adjust": 1
       },
       { "u_teleport": { "global_val": "labyrinth_nl_boiler_loc" }, "fail_message": "Nope!", "force": true },
       { "u_message": "Zwoink.", "popup": true }

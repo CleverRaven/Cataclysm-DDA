@@ -29,5 +29,51 @@
       "success_lie": "…",
       "failure": "…"
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_nl_entry_boiler",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "rows": [
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "......vvv||++||vvv......",
+        "........(|L..(|(........",
+        ".........+..?.+.........",
+        ".........+.A..+.........",
+        "........(|(..L|(........",
+        "......vvv||++||vvv......",
+        "vvvvvvvvvv(..(vvvvvvvvvv",
+        "vvvvvv.Lvv....vvL.vvvvvv",
+        "vvvvvv..vv....vv..vvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      },
+      "terrain": {
+        "?": "t_nl_obelisk_mission_boiler",
+        "A": "t_nl_catwalk",
+        "L": "t_nl_catwalk",
+        "(": "t_nl_catwalk",
+        "v": "t_nl_chasm_no_trap"
+      }
+    }
   }
 ]

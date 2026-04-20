@@ -202,7 +202,7 @@
           "condition": { "not": { "u_has_mission": "MISSION_nl_boiler" } },
           "effect": [
             {
-              "u_message": "You see a tall, drab grey, metallic pillar covered in swirling patterns.  As you focus on it, the patterns take the shape of a face, its features clouded by fractal overlays.  It speaks to you, booming loudly as if from some distant place: \"Hear this: a source of power was found in this place.\nSeek it out.  Retrieve it.  Its power will be YOURS.\nA terminal marks its location.\nThe terminal will anchor the rhythm of the power source for you.\nActivate the terminal.\nAnd you, and that which will then be bound to you, will be carried home.\"",
+              "u_message": "You see a tall, drab grey, metallic pillar covered in swirling patterns.  As you focus on it, the patterns take the shape of a face, its features clouded by fractal overlays.  It speaks to you, booming loudly as if from some distant place:\n\n Hear this: a source of power was found in this place.\n Seek it out.  Retrieve it.\n Its power will be YOURS.\n A terminal marks its location.\n The terminal will anchor the rhythm of the object.\n Activate the terminal.\n And you,\n and that which will then be bound to you,\n will be carried home.",
               "popup": true
             },
             { "assign_mission": "MISSION_nl_boiler" }

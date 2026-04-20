@@ -46,7 +46,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Exit_Controls2_safehouse_missions_boiler",
-    "dynamic_line": "&<color_light_green> @User > update\n\n................%100\n\nUpdate to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+    "dynamic_line": "&<color_light_green> @User > update\n\n ................%100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
     "responses": [
       { "text": "Help.", "topic": "COMP_labyrinthine_safehouse_computer_missions_help" },
       { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_labyrinth" }, "topic": "TALK_DONE" },
