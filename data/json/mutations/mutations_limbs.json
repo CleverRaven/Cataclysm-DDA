@@ -83,12 +83,12 @@
     "name": { "str": "Stubby Fingers" },
     "description": "Your fingers have shrunk a bit relative to the rest of your hand.  It's not too bad, but it does make manipulating objects a bit more difficult.",
     "category": [ "LUPINE", "FELINE", "BEAST", "URSINE" ],
+    "types": [ "HANDS" ],
     "changes_to": [ "PAWS" ],
     "points": -1,
     "vitamin_cost": 90,
     "visibility": 1,
     "ugliness": 0,
-    "cancels": [ "LONGER_FINGERS" ],
     "enchantments": [ { "ench_effects": [ { "effect": "effect_shorter_fingers_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
@@ -98,11 +98,11 @@
     "description": "Your fingers have grown relative to the rest of your hand.  This has no in-game effect.",
     "category": [ "RABBIT", "CEPHALOPOD", "RAT" ],
     "changes_to": [ "PAWS_LITTLE", "PAWS_RAT", "ARM_TENTACLES" ],
+    "types": [ "HANDS" ],
     "points": 0,
     "vitamin_cost": 90,
     "visibility": 1,
-    "ugliness": 0,
-    "cancels": [ "SHORTER_FINGERS" ]
+    "ugliness": 0
   },
   {
     "type": "mutation",
