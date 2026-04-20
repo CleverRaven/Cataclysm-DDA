@@ -252,7 +252,7 @@
       ]
     },
     "effect": [
-      { "u_forget_recipe": "u_progress_dextrous_paws_usage" },
+      { "u_forget_recipe": "prac_dextrous_paws" },
       { "math": [ "u_progress_dextrous_paws_usage = 0" ] },
       { "u_message": "You've got your old fingers back.  They feel almost hypermobile compared to before." }
     ]
