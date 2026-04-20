@@ -286,7 +286,7 @@
     "color": "white",
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 2, 5 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 2, 2 ] }
     ],
     "pocket_data": [
