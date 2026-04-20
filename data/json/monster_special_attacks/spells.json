@@ -93,6 +93,21 @@
   },
   {
     "type": "SPELL",
+    "id": "mon_LS_sparkgenerator",
+    "name": { "str": "Summon Fixbots", "//~": "NO_I18N" },
+    "description": { "str": "spawns a fixbot.  Later should summon via an EOC to cap number spawned.", "//~": "NO_I18N" },
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_LS_fixbot"
+  },
+  {
+    "type": "SPELL",
     "id": "wretch_hurt_self",
     "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
     "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
