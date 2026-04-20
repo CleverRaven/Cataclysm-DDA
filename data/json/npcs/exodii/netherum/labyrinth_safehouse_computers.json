@@ -74,16 +74,16 @@
     "type": "talk_topic",
     "id": "COMP_LS_Exit_Controls2_safehouse_missions_none",
     "dynamic_line": [
-      "&<color_light_green> @User > update\n\n................%100\n\nNo updates available.",
-      "&<color_light_green> @User > update\n\n................%100\n\nNo updates available, ᴴᵁᴹᴬᴺ.",
-      "&<color_light_green> @User > update\n\n................%100\n\nNo updates available, hᵤmₐn.",
-      "&<color_light_green> @User > update\n\n................%100\n\nNo updates available, tᵢgₑᵣ.",
-      "&<color_light_green> @User > update\n\n................%100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ",
-      "&<color_light_green> @User > update\n\n............CONNECTION LOST\n\nPlease contact your system obelisk.",
-      "&<color_light_green> @User > update\n\n............CONNECTION LOST\n\nPlease contact your system obelisk, ᴴᵁᴹᴬᴺ.",
-      "&<color_light_green> @User > update\n\n............CONNECTION LOST\n\nPlease contact your system obelisk, hᵤmₐn.",
-      "&<color_light_green> @User > update\n\n............CONNECTION LOST\n\nPlease contact your system obelisk, tᵢgₑᵣ.",
-      "&<color_light_green> @User > update\n\n............CONNECTION LOST\n\nPlease contact your system obelisk.         ᵃˢˢʰᵒˡᵉ"
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, ᴴᵁᴹᴬᴺ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, hᵤmₐn.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, tᵢgₑᵣ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, ᴴᵁᴹᴬᴺ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, hᵤmₐn.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, tᵢgₑᵣ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.         ᵃˢˢʰᵒˡᵉ"
     ],
     "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
   }

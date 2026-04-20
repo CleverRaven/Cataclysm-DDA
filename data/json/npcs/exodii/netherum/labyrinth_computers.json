@@ -246,7 +246,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Boiler_Exit_Controls",
-    "dynamic_line": "& ▄▄▄· ▄▄▌  ▄▄▄▄▄ ▄▄▄· ▄▄▄            .▄▄ · \n▐█ ▀█ ██•  •██  ▐█ ▀█ ▀▄ █·    ▪     ▐█ ▀. \n▄█▀▀█ ██▪   ▐█.▪▄█▀▀█ ▐▀▀▄      ▄█▀▄ ▄▀▀▀█▄\n▐█ ▪▐▌▐█▌▐▌ ▐█▌·▐█ ▪▐▌▐█•█▌    ▐█▌.▐▌▐█▄▪▐█\n ▀  ▀ .▀▀▀  ▀▀▀  ▀  ▀ .▀  ▀     ▀█▄▀▪ ▀▀▀▀\n\n @AltarOS > echo -anchor -cargo -nt AUTO\n\n ANCHOR:CARGO RESONANCE LOCK = true.\n\n Start exit protocol.       ᵖˡᵉᵃˢᵉ\n\n @AltarOS > skill -ELEVATE -@User\n\n<color_light_green> @User > _</color>",
+    "dynamic_line": "& ▄▄▄· ▄▄▌  ▄▄▄▄▄ ▄▄▄· ▄▄▄            .▄▄ ·\n▐█ ▀█ ██•  •██  ▐█ ▀█ ▀▄ █·    ▪     ▐█ ▀.\n▄█▀▀█ ██▪   ▐█.▪▄█▀▀█ ▐▀▀▄      ▄█▀▄ ▄▀▀▀█▄\n▐█ ▪▐▌▐█▌▐▌ ▐█▌·▐█ ▪▐▌▐█•█▌    ▐█▌.▐▌▐█▄▪▐█\n ▀  ▀ .▀▀▀  ▀▀▀  ▀  ▀ .▀  ▀     ▀█▄▀▪ ▀▀▀▀\n\n @AltarOS > echo -anchor -cargo -nt AUTO\n\n ANCHOR:CARGO RESONANCE LOCK = true.\n\n Start exit protocol.       ᵖˡᵉᵃˢᵉ\n\n @AltarOS > skill -ELEVATE -@User\n\n<color_light_green> @User > _</color>",
     "responses": [
       {
         "text": "<color_light_green>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
