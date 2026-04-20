@@ -88,6 +88,7 @@
     "vitamin_cost": 90,
     "visibility": 1,
     "ugliness": 0,
+    "cancels": [ "LONGER_FINGERS" ],
     "enchantments": [ { "ench_effects": [ { "effect": "effect_shorter_fingers_manipulation_penalty", "intensity": 1 } ] } ]
   },
   {
@@ -100,7 +101,8 @@
     "points": 0,
     "vitamin_cost": 90,
     "visibility": 1,
-    "ugliness": 0
+    "ugliness": 0,
+    "cancels": [ "SHORTER_FINGERS" ]
   },
   {
     "type": "mutation",
