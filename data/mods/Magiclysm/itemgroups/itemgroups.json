@@ -406,7 +406,6 @@
       [ "mana_potion_lesser", 90 ],
       [ "mana_potion", 5 ],
       [ "mana_potion_greater", 1 ],
-      [ "manatouched_serum", 1 ],
       [ "flask_illumination", 10 ],
       [ "flask_rebreather", 10 ],
       { "group": "potions_uncommon", "prob": 1 }

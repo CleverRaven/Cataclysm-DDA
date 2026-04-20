@@ -143,7 +143,7 @@
       "menu_text": "Roll up",
       "type": "transform",
       "target": "sleeping_bag_fur_roll",
-      "msg": "You roll up the fur sleeping bag, preparing it for transport."
+      "msg": "You roll up the sleeping bag, preparing it for transport."
     },
     "armor": [
       {
@@ -162,7 +162,7 @@
     "description": "A large sleeping bag lined with fur, with a strap for carrying it on your back when not in use.  Who needs a tent?  Activate it to unroll it so you can use it for warmth.",
     "looks_like": "sleeping_bag_roll",
     "flags": [ "OVERSIZE", "BELTED" ],
-    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag_fur", "msg": "You unroll the fur sleeping bag." },
+    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag_fur", "msg": "You unroll the sleeping bag." },
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {

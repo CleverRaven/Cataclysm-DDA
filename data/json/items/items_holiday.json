@@ -26,7 +26,7 @@
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You flip the switch in the jack-o'-lantern.",
-      "menu_text": "Light",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "tool_ammo": [ "battery" ]
@@ -70,7 +70,7 @@
       "target": "jackolantern_lit",
       "msg": "You light the jack-o'-lantern.",
       "need_fire": 1,
-      "menu_text": "Light",
+      "menu_text": { "str": "Light", "ctxt": "verb" },
       "type": "transform"
     },
     "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]

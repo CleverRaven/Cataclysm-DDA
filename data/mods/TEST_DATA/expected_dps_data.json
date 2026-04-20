@@ -73,6 +73,8 @@
     "//": "polearms",
     "expected_dps": {
       "pike": 23.0,
+      "ch_pike": 25.67,
+      "qt_pike": 27.38,
       "makeshift_scythe_war": 24.5,
       "bill_hook": 32.4,
       "spear_dory": 28.0,
@@ -131,6 +133,10 @@
       "string_dimension_partigiana_ixwa": 28.71,
       "spear_bronze": 28.83,
       "spear_steel": 30.58,
+      "lc_spear_steel": 28.45,
+      "hc_spear_steel": 31.95,
+      "ch_spear_steel": 34.13,
+      "qt_spear_steel": 38.17,
       "art_spear": 30.7
     }
   },

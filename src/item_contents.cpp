@@ -2304,6 +2304,18 @@ std::vector<const item *> item_contents::get_added_pockets() const
     return items_added;
 }
 
+std::vector<item *> item_contents::get_added_pockets_mutable()
+{
+    std::vector<item *> items_added;
+
+    items_added.reserve( additional_pockets.size() );
+    for( item &it : additional_pockets ) {
+        items_added.push_back( &it );
+    }
+
+    return items_added;
+}
+
 void item_contents::add_pocket( const item &pocket_item )
 {
     units::volume total_nonrigid_volume = 0_ml;

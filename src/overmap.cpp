@@ -34,6 +34,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapgen_post_process.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -392,6 +393,15 @@ std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p 
 {
     auto it = mapgen_args_index.find( p );
     if( it == mapgen_args_index.end() ) {
+        return nullptr;
+    }
+    return it->second;
+}
+
+std::vector<pp_resolved_generator> *overmap::pp_decisions( const tripoint_om_omt &p )
+{
+    auto it = pp_decisions_index.find( p );
+    if( it == pp_decisions_index.end() ) {
         return nullptr;
     }
     return it->second;
@@ -3060,6 +3070,46 @@ std::vector<tripoint_om_omt> overmap::place_special(
             safe_at_worldgen.emplace( location );
         }
     }
+
+    // Collect unique pp_generators referenced by any OMT of this special.
+    std::set<pp_generator_id> special_pp_gens;
+    for( const tripoint_om_omt &location : result.omts_used ) {
+        for( const pp_generator_id &gen_id : ter( location )->get_post_process_generators() ) {
+            special_pp_gens.insert( gen_id );
+        }
+    }
+    if( !special_pp_gens.empty() ) {
+        std::vector<pp_resolved_generator> decisions;
+        for( const pp_generator_id &gen_id : special_pp_gens ) {
+            const pp_generator &gen = gen_id.obj();
+            pp_resolved_generator resolved;
+            resolved.generator = gen_id;
+            std::map<sub_generator_type, uint8_t> type_counts;
+            for( const pp_sub_generator &sg : gen.sub_generators() ) {
+                const uint8_t ord = type_counts[sg.type];
+                if( sg.scope == pp_sub_generator_scope::overmap_special ) {
+                    pp_sub_decision dec;
+                    dec.type = sg.type;
+                    dec.ordinal = ord;
+                    dec.st = pp_sub_decision::status::not_evaluated;
+                    dec.seed = rng_bits();
+                    resolved.sub_decisions.push_back( dec );
+                }
+                type_counts[sg.type]++;
+            }
+            if( !resolved.sub_decisions.empty() ) {
+                decisions.push_back( std::move( resolved ) );
+            }
+        }
+        if( !decisions.empty() ) {
+            std::vector<pp_resolved_generator> *decisions_p =
+                &*pp_decision_storage.emplace( std::move( decisions ) );
+            for( const tripoint_om_omt &location : result.omts_used ) {
+                pp_decisions_index[location] = decisions_p;
+            }
+        }
+    }
+
     // Place spawns.
     const overmap_special_spawns &spawns = special.get_monster_spawns();
     if( spawns.group ) {

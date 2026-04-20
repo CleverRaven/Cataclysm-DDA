@@ -54,7 +54,7 @@
       "target": "grenade_act",
       "msg": "You snap the retaining fuse on the grenade.",
       "target_timer": "5 seconds",
-      "menu_text": "Activate grenade",
+      "menu_text": "Activate",
       "type": "transform"
     },
     "flags": [ "BOMB", "GRENADE" ],

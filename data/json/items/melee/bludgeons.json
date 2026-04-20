@@ -1417,6 +1417,7 @@
     "volume": "1250 ml",
     "longest_side": "65 cm",
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "faults": [ { "fault_group": "steel_pipe_short" } ],
     "price": "75 USD",
     "price_postapoc": "4 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -1438,6 +1439,7 @@
     "volume": "1750 ml",
     "longest_side": "120 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "faults": [ { "fault_group": "steel_pipe_short" } ],
     "price": "75 USD",
     "price_postapoc": "4 USD",
     "melee_damage": { "bash": 28 }
@@ -1458,6 +1460,7 @@
     "volume": "2000 ml",
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "faults": [ { "fault_group": "steel_pipe_long" } ],
     "price": "75 USD",
     "price_postapoc": "4 USD",
     "melee_damage": { "bash": 21 }

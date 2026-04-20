@@ -279,6 +279,7 @@ class item_contents
         const item_pocket *get_added_pocket( int index ) const;
 
         std::vector<const item *> get_added_pockets() const;
+        std::vector<item *> get_added_pockets_mutable();
 
         bool has_additional_pockets() const;
 

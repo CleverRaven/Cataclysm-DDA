@@ -240,6 +240,8 @@ target_link_libraries(
         third-party
         INTERFACE
         snmalloc
+        Synchronization.lib
+        WindowsApp.lib
         )
 
 # Zstandard

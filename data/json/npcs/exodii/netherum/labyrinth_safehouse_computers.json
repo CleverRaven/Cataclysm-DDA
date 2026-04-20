@@ -1,0 +1,36 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_meeting",
+    "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nWelcome ᴴᵁᴹᴬᴺ, to your home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ.\n\nThis is a ˡᵒᵃᵈᴵⁿᵍ ᵖʳᴼᵍʳᵃᵐ.\n\nThis is the ᵐᵉᵈᴵᵘᵐ ᵖˡᵃᶜᵉ.\n\nᵖˡᵉᵃˢᵉ make yourself at home.\n\n @AltarOS > skill -ELEVATE -@User\n\n @User > _",
+    "responses": [
+      { "text": "[Step closer to the terminal and touch the keyboard]", "topic": "COMP_labyrinthine_safehouse_computer" },
+      { "text": "[Step away from the terminal]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer",
+    "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nᵖˡᵉᵃˢᵉ select a program\n\n @User > _",
+    "responses": [
+      {
+        "text": "<color_light_green>Activate entry protocol",
+        "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "<color_red>Activate exit protocol: Earth gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+        "effect": { "run_eocs": "EOC_LS_Exit_labyrinth" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "<color_red>Activate exit protocol: KÁ gate",
+        "condition": { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+        "effect": { "run_eocs": "EOC_LS_SD_Exit_labyrinth" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "<color_yellow>Log off", "topic": "TALK_DONE" }
+    ]
+  }
+]

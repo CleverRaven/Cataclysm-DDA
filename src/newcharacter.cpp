@@ -222,6 +222,30 @@ static void append_screen_reader_active( std::string &entry_text )
     }
 }
 
+static void set_stat_base( avatar &u, character_stat stat, int amt )
+{
+    // minimum stat specific to character creator UI
+    if( amt < CHARACTER_STAT_MIN ) {
+        return;
+    }
+    switch( stat ) {
+        case character_stat::STRENGTH:
+            u.set_str_base( amt );
+            break;
+        case character_stat::DEXTERITY:
+            u.set_dex_base( amt );
+            break;
+        case character_stat::INTELLIGENCE:
+            u.set_int_base( amt );
+            break;
+        case character_stat::PERCEPTION:
+            u.set_per_base( amt );
+            break;
+        default:
+            break;
+    }
+}
+
 static int stat_point_pool()
 {
     return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
@@ -1817,6 +1841,10 @@ void draw_scenario_details( const avatar &u )
     draw_colored_text_wrap( get_origin( current_scenario->src ), COL_NOTE_MINOR );
     draw_spacer();
 
+    char_creation::draw_time_cataclysm_start();
+    char_creation::draw_time_game_start();
+    draw_spacer();
+
     draw_colored_text_wrap( _( "Scenario Story:" ), COL_HEADER );
     draw_colored_text_wrap( current_scenario->description( u.male ), COL_NOTE_MINOR );
     draw_spacer();
@@ -1963,10 +1991,11 @@ void draw_blood( const Character &you )
                                   ( you.blood_rh_factor ? "+" : "-" ), c_light_gray );
 }
 
-void draw_scenario( const avatar &you )
+void draw_scenario_profession( const avatar &you )
 {
-    cataimgui::draw_colored_text( string_format( _( "Scenario: %s" ),
-                                  colorize( get_scenario()->gender_appropriate_name( you.male ), c_light_gray ) ), c_white );
+    draw_colored_text_wrap( string_format( _( "Scenario: %s  Profession: %s" ),
+                                           colorize( get_scenario()->gender_appropriate_name( you.male ), c_light_gray ),
+                                           colorize( you.prof->gender_appropriate_name( you.male ), c_light_gray ) ), c_white );
 }
 
 void draw_time_cataclysm_start()
@@ -1982,13 +2011,6 @@ void draw_time_game_start()
     ImGui::SameLine();
     cataimgui::draw_colored_text( to_string( get_scenario()->start_of_game() ), c_light_gray );
 }
-
-void draw_profession( const avatar &you )
-{
-    draw_colored_text_wrap( string_format( _( "Profession: %s" ),
-                                           colorize( you.prof->gender_appropriate_name( you.male ), c_light_gray ) ), c_white );
-}
-
 
 void draw_location( const avatar &you )
 {
@@ -2372,7 +2394,7 @@ void character_creator_ui::upon_switching_tab()
     update_uilist_entries();
 }
 
-void character_creator_ui::setup_input_context( input_context &cc_ictxt )
+void character_creator_ui::setup_input_context( input_context &cc_ictxt, bool quick_value_change )
 {
     const bool allow_reroll = cc_uistate.generation_type == character_type::RANDOM;
 
@@ -2399,10 +2421,20 @@ void character_creator_ui::setup_input_context( input_context &cc_ictxt )
     cc_ictxt.register_action( "RESET_CALENDAR" );
     cc_ictxt.register_action( "SCROLL_INFOBOX_UP" );
     cc_ictxt.register_action( "SCROLL_INFOBOX_DOWN" );
+    cc_ictxt.register_action( "TOGGLE_TOP_BAR" );
     if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
         cc_ictxt.register_action( "CHOOSE_CITY" );
     }
     cc_ictxt.register_action( "CHOOSE_LOCATION" );
+    if( quick_value_change ) {
+        cc_ictxt.register_action( "INCREASE_VALUE" );
+        cc_ictxt.register_action( "DECREASE_VALUE" );
+    }
+}
+
+static cataimgui::bounds uilist_reset_desired_bounds()
+{
+    return { 0, -1.0f, 0.33f * ImGui::GetMainViewport()->WorkSize.x, -1.0f };
 }
 
 void character_creator_ui::setup_new_uilist()
@@ -2413,7 +2445,8 @@ void character_creator_ui::setup_new_uilist()
         const avatar &u = get_avatar();
 
         input_context new_uilist_input;
-        setup_input_context( new_uilist_input );
+        setup_input_context( new_uilist_input,
+                             cc_uistate.selected_tab == CHARCREATOR_STATS || cc_uistate.selected_tab == CHARCREATOR_SKILLS );
 
         if( cc_uistate.selected_tab != CHARCREATOR_SUMMARY ) {
             set_current_tab_uilist( std::make_shared<uilist>() );
@@ -2426,7 +2459,8 @@ void character_creator_ui::setup_new_uilist()
             new_uilist->size_to_all_categories = true;
             new_uilist->callback = &cc_callback;
             //snap to left edge of screen, position and height updated later
-            new_uilist->desired_bounds = { 0, -1.0f, -1.0f, -1.0f };
+            new_uilist->desired_bounds = uilist_reset_desired_bounds();
+            new_uilist->force_desired_bounds = true;
         }
 
         switch( cc_uistate.selected_tab ) {
@@ -2602,7 +2636,7 @@ void character_creator_ui::update_uilist_entries()
             break;
     }
     if( menu ) {
-        menu->desired_bounds = { 0, -1.0f, -1.0f, -1.0f };
+        menu->desired_bounds = uilist_reset_desired_bounds();
         menu->filterlist();
         menu->setup();
     }
@@ -2630,10 +2664,12 @@ void character_creator_ui::setup_avatar()
 void character_creator_ui::update_uilist_position( ImVec2 new_position )
 {
     std::shared_ptr<uilist> current_uilist = get_current_tab_uilist();
-    if( current_uilist && current_uilist->desired_bounds->y != new_position.y ) {
-        current_uilist->desired_bounds->y = new_position.y;
-        current_uilist->desired_bounds->h = ImGui::GetContentRegionAvail().y;
-        current_uilist->reposition();
+    current_uilist->desired_bounds = uilist_reset_desired_bounds();
+    current_uilist->desired_bounds->y = new_position.y;
+    current_uilist->desired_bounds->h = ImGui::GetContentRegionAvail().y;
+    current_uilist->reposition();
+    if( cc_uilist_current ) {
+        cc_uilist_current->mark_resized();
     }
 }
 
@@ -2657,10 +2693,24 @@ void character_creator_ui_impl::draw_controls()
             cc_uistate.selected_tab = new_tab;
             ui_parent->upon_switching_tab();
         }
-        ui_parent->update_uilist_position( ImGui::GetCursorScreenPos() );
+        std::shared_ptr<uilist> current_uilist = ui_parent->get_current_tab_uilist();
+        if( current_uilist ) {
+            const ImVec2 cursor_pos = ImGui::GetCursorScreenPos();
+            if( current_uilist->desired_bounds->y != cursor_pos.y ||
+                current_uilist->desired_bounds->w != uilist_reset_desired_bounds().w ) {
+                ui_parent->update_uilist_position( cursor_pos );
+            }
+        }
     };
 
-    draw_top_bar( pc );
+    bool &top_bar_is_open = cc_uistate.top_bar_is_open;
+    ImGui::SetNextItemOpen( top_bar_is_open );
+    if( ( top_bar_is_open = ImGui::CollapsingHeader( string_format(
+                                _( "General Info (Click or %s to %s)" ),
+                                ui_parent->get_current_tab_input().get_desc( "TOGGLE_TOP_BAR" ),
+                                top_bar_is_open ? _( "collapse" ) : _( "open" ) ).c_str() ) ) ) {
+        draw_top_bar( pc );
+    }
 
     if( ImGui::BeginTabBar( "CHARACTER_CREATOR_TABS" ) ) {
         if( ImGui::BeginTabItem( "SCENARIO", nullptr,
@@ -2719,7 +2769,7 @@ void character_creator_ui_impl::draw_top_bar( const avatar &u ) const
 
     if( ImGui::BeginTable( "TOPBAR", 2, ImGuiTableFlags_BordersInnerV ) ) {
         ImGui::TableSetupColumn( "", ImGuiTableColumnFlags_WidthFixed );
-        ImGui::TableSetupColumn( "", ImGuiTableColumnFlags_WidthFixed );
+        ImGui::TableSetupColumn( "", ImGuiTableColumnFlags_WidthStretch );
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 0 );
@@ -2727,9 +2777,7 @@ void character_creator_ui_impl::draw_top_bar( const avatar &u ) const
         char_creation::draw_name( you, cc_uistate.no_name_entered );
 
         ImGui::TableSetColumnIndex( 1 );
-        char_creation::draw_scenario( you );
-        draw_separator();
-        char_creation::draw_profession( you );
+        char_creation::draw_scenario_profession( you );
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 0 );
@@ -2749,14 +2797,9 @@ void character_creator_ui_impl::draw_top_bar( const avatar &u ) const
             ImGui::SameLine();
             char_creation::draw_action_button( _( "Keep Scenario" ), "REROLL_CHARACTER_WITH_SCENARIO" );
         }
-
-        ImGui::TableNextRow();
-        ImGui::TableSetColumnIndex( 0 );
-        char_creation::draw_time_cataclysm_start();
-        ImGui::TableSetColumnIndex( 1 );
-        char_creation::draw_time_game_start();
         ImGui::EndTable();
     }
+
     if( cc_uistate.recalc_rating ) {
         cc_uistate.recalc_rating = false;
         cc_uistate.rating_string = player_difficulty::getInstance().difficulty_to_string( u );
@@ -3278,6 +3321,24 @@ bool character_creator_callback::key( const input_context &ctxt, const input_eve
 bool character_creator_ui::handle_action( const std::string &action )
 {
     avatar &you = get_avatar();
+
+    auto mod_stat_base = [&you]( int mod_value ) {
+        character_stat selected_stat = static_cast<character_stat>( cc_uistate.selected_stat_index );
+        cc_uistate.stats[cc_uistate.selected_stat_index] = std::clamp(
+                    cc_uistate.stats[cc_uistate.selected_stat_index] + mod_value,
+                    CHARACTER_STAT_MIN, CHARACTER_STAT_MAX );
+        set_stat_base( you, selected_stat, cc_uistate.stats[cc_uistate.selected_stat_index] );
+    };
+    auto mod_skill = [&you]( int mod_value ) {
+        const skill_id selected_skill = cc_uistate.get_selected_skill();
+        if( ( you.get_skill_level( selected_skill ) == MIN_SKILL && mod_value < 0 ) ||
+            ( you.get_skill_level( selected_skill ) == MAX_SKILL && mod_value > 0 ) ) {
+            return;
+        }
+        you.mod_skill_level( selected_skill, mod_value );
+        you.mod_knowledge_level( selected_skill, mod_value );
+    };
+
     if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
         cc_uistate.quit_to_main_menu = true;
     } else if( action == "PREV_TAB" ) {
@@ -3311,6 +3372,8 @@ bool character_creator_ui::handle_action( const std::string &action )
         cc_uistate.scrolled_up = true;
     } else if( action == "SCROLL_INFOBOX_DOWN" ) {
         cc_uistate.scrolled_down = true;
+    } else if( action == "TOGGLE_TOP_BAR" ) {
+        cc_uistate.top_bar_is_open = !cc_uistate.top_bar_is_open;
     } else if( action == "SAVE_TEMPLATE" ) {
         if( const auto name = query_for_template_name() ) {
             you.save_template( *name, pool_type::FREEFORM );
@@ -3419,6 +3482,20 @@ bool character_creator_ui::handle_action( const std::string &action )
                 you.blood_rh_factor = false;
             }
         }
+    } else if( action == "INCREASE_VALUE" ) {
+        if( cc_uistate.selected_tab == CHARCREATOR_SKILLS ) {
+            mod_skill( 1 );
+        } else if( cc_uistate.selected_tab == CHARCREATOR_STATS ) {
+            mod_stat_base( 1 );
+        }
+        update_uilist_entries();
+    } else if( action == "DECREASE_VALUE" ) {
+        if( cc_uistate.selected_tab == CHARCREATOR_SKILLS ) {
+            mod_skill( -1 );
+        } else if( cc_uistate.selected_tab == CHARCREATOR_STATS ) {
+            mod_stat_base( -1 );
+        }
+        update_uilist_entries();
     } else {
         return false;
     }
@@ -3461,7 +3538,6 @@ void character_creator_callback::confirm( uilist *menu )
             cc_uistate.recalc_professions = true;
             cc_uistate.recalc_hobbies = true;
             cc_uistate.recalc_traits = true;
-            ui_parent->update_uilist_entries();
             break;
         }
         case CHARCREATOR_PROFESSION: {
@@ -3501,7 +3577,6 @@ void character_creator_callback::confirm( uilist *menu )
 
             cc_uistate.recalc_hobbies = true;
             cc_uistate.recalc_traits = true;
-            ui_parent->update_uilist_entries();
             cc_uistate.cached_profession_inventory.clear();
             break;
         }
@@ -3547,32 +3622,11 @@ void character_creator_callback::confirm( uilist *menu )
             cc_uistate.recalc_traits = true;
             cc_uistate.recalc_hobbies_taken = true;
             cc_uistate.recalc_hobbies_taken_list( u );
-            ui_parent->update_uilist_entries();
-
             break;
         }
         case CHARCREATOR_STATS: {
             select( menu );
             const int selected_stat_index = cc_uistate.selected_stat_index;
-
-            auto set_stat_base = [&u]( character_stat stat, int amt ) {
-                switch( stat ) {
-                    case character_stat::STRENGTH:
-                        u.set_str_base( amt );
-                        break;
-                    case character_stat::DEXTERITY:
-                        u.set_dex_base( amt );
-                        break;
-                    case character_stat::INTELLIGENCE:
-                        u.set_int_base( amt );
-                        break;
-                    case character_stat::PERCEPTION:
-                        u.set_per_base( amt );
-                        break;
-                    default:
-                        break;
-                }
-            };
 
             character_stat selected_stat = static_cast<character_stat>( selected_stat_index );
             const int stat_queried = cc_uistate.stats[selected_stat_index];
@@ -3581,13 +3635,11 @@ void character_creator_callback::confirm( uilist *menu )
                                                         io::enum_to_full_string( selected_stat ),
                                                         CHARACTER_STAT_MIN, CHARACTER_STAT_MAX ) );
             int stat_queried_result = stat_query.query();
-            if( stat_queried_result != stat_queried ) {
-                const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
-                                                CHARACTER_STAT_MAX );
-                set_stat_base( selected_stat, stat_result_clamped );
+            const int stat_result_clamped = std::clamp( stat_queried_result, CHARACTER_STAT_MIN,
+                                            CHARACTER_STAT_MAX );
+            if( stat_result_clamped != stat_queried ) {
+                set_stat_base( u, selected_stat, stat_result_clamped );
                 cc_uistate.stats[selected_stat_index] = stat_result_clamped;
-                menu->entries[selected_stat_index].txt = char_creation::get_character_stat_header(
-                            selected_stat_index );
             }
 
             break;
@@ -3671,8 +3723,6 @@ void character_creator_callback::confirm( uilist *menu )
             if( inc_type != 0 ) {
                 u.toggle_trait_deps( cur_trait, variant );
             }
-
-            ui_parent->update_uilist_entries();
             break;
         }
         case CHARCREATOR_SKILLS: {
@@ -3688,14 +3738,13 @@ void character_creator_callback::confirm( uilist *menu )
                 u.set_skill_level( skill_queried, skill_result_clamped );
                 u.set_knowledge_level( skill_queried, skill_result_clamped );
             }
-
-            ui_parent->update_uilist_entries();
             break;
         }
         default:
             break;
     }
     cc_uistate.recalc_rating = true;
+    ui_parent->update_uilist_entries();
 }
 
 void character_creator_callback::select( uilist *menu )

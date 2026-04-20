@@ -481,6 +481,8 @@ class uilist // NOLINT(cata-xy)
         bool hilight_disabled = false;
         // if true, calculates size to include all categories
         bool size_to_all_categories = false;
+        // if true, forces `calculated_menu_size` to equal `desired_bounds`
+        bool force_desired_bounds = false;
 
     private:
         report_color_error _color_error = report_color_error::yes;
@@ -536,6 +538,33 @@ class uilist // NOLINT(cata-xy)
         int previewing = 0;
 
         void set_selected( int index );
+};
+
+
+class uilist_impl : public cataimgui::window
+{
+        uilist &parent;
+    public:
+        explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
+            parent( parent ) {
+        }
+
+        uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
+                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
+            parent( parent ) {
+        }
+
+        cataimgui::bounds get_bounds() override {
+            if( !parent.started ) {
+                parent.setup();
+            }
+
+            return parent.desired_bounds.value_or( parent.calculated_bounds );
+        }
+        void draw_controls() override;
 };
 
 /**

@@ -926,6 +926,12 @@ std::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_
     return om_loc.om->mapgen_args( om_loc.local );
 }
 
+std::vector<pp_resolved_generator> *overmapbuffer::pp_decisions( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->pp_decisions( om_loc.local );
+}
+
 std::string *overmapbuffer::join_used_at( const std::pair<tripoint_abs_omt, cube_direction> &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p.first );

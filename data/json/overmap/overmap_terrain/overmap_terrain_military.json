@@ -8,7 +8,8 @@
     "see_cost": "none",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
     "travel_cost_type": "road",
-    "flags": [ "LINEAR", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "LINEAR" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -19,7 +20,8 @@
     "color": "blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 6, 12 ], "chance": 100 },
-    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "SOURCE_FOOD", "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +32,8 @@
     "color": "red",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_MIL_BASE", "population": [ 8, 14 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -41,7 +44,8 @@
     "color": "light_blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 3, 8 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "GENERIC_LOOT", "SOURCE_COOKING", "SOURCE_FOOD" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -52,7 +56,8 @@
     "color": "light_blue",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_MIL_BASE", "population": [ 6, 16 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -63,7 +68,8 @@
     "color": "dark_gray",
     "see_cost": "medium",
     "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
-    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +228,8 @@
     "vision_levels": "isolated_building",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO", "PP_GENERATE_RIOT_DAMAGE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ],
+    "post_process_generators": [ "riot_damage" ]
   },
   {
     "type": "overmap_terrain",

@@ -125,7 +125,7 @@
         "target": "radio_on",
         "ammo_scale": 0,
         "menu_text": "Turn on",
-        "msg": "You turn the radio on.",
+        "msg": "You turn on the %s.",
         "need_charges": 1,
         "need_charges_msg": "The batteries are dead."
       }

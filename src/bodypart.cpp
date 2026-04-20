@@ -1106,6 +1106,11 @@ void bodypart::add_wound( const wound_type_id wd )
     wounds.emplace_back( wd );
 }
 
+bool bodypart::has_wounds() const
+{
+    return !wounds.empty();
+}
+
 bool bodypart::has_wound( const wound_type_id wd ) const
 {
     for( const wound &wound : wounds ) {

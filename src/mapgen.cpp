@@ -349,13 +349,32 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             if( any_missing || !save_results ) {
                 const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
                 oter_id omt = overmap_buffer.ter( omt_point );
-                if( omt->has_flag( oter_flags::pp_generate_riot_damage ) && !omt->has_flag( oter_flags::road ) ) {
-                    pp_generator_riot_damage.obj().execute( *this, omt_point );
-                } else if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
-                    pp_generator_riot_damage_road.obj().execute( *this, omt_point );
-                }
-                if( omt->has_flag( oter_flags::pp_generate_ruined ) && !omt->has_flag( oter_flags::road ) ) {
-                    pp_generator_aftershock_ruin.obj().execute( *this, omt_point );
+                std::vector<pp_resolved_generator> *stored_decisions =
+                    overmap_buffer.pp_decisions( omt_point );
+                if( omt->has_flag( oter_flags::road ) && overmap_buffer.is_in_city( omt_point ) ) {
+                    // Roads use a dedicated generator; not yet migrated to oter_type_t field
+                    pp_generator_riot_damage_road.obj().execute( *this, omt_point, nullptr );
+                } else if( !omt->get_post_process_generators().empty() ) {
+                    for( const pp_generator_id &gen_id : omt->get_post_process_generators() ) {
+                        std::vector<pp_sub_decision> *gen_decisions = nullptr;
+                        if( stored_decisions ) {
+                            for( pp_resolved_generator &rg : *stored_decisions ) {
+                                if( rg.generator == gen_id ) {
+                                    gen_decisions = &rg.sub_decisions;
+                                    break;
+                                }
+                            }
+                        }
+                        gen_id.obj().execute( *this, omt_point, gen_decisions );
+                    }
+                } else {
+                    // Legacy flag-based dispatch for unmigrated content
+                    if( omt->has_flag( oter_flags::pp_generate_riot_damage ) ) {
+                        pp_generator_riot_damage.obj().execute( *this, omt_point, nullptr );
+                    }
+                    if( omt->has_flag( oter_flags::pp_generate_ruined ) ) {
+                        pp_generator_aftershock_ruin.obj().execute( *this, omt_point, nullptr );
+                    }
                 }
             }
         }
@@ -5075,10 +5094,25 @@ static std::set<ter_str_id> get_terrain_ids( const jmapgen_piece *piece,
 // Check if a terrain piece is effectively a no-op at runtime.
 // This covers both truly-null IDs and "t_null" which is not defined in JSON data
 // and resolves to the null terrain -- the apply() method returns early for it.
+// Conservatively returns false for region terrains that can't be resolved statically.
 static bool is_terrain_effectively_nop( const jmapgen_piece *piece,
                                         const mapgen_parameters &params )
 {
-    return get_terrain_ids( piece, params ).empty();
+    if( piece->is_nop() ) {
+        return true;
+    }
+    const std::set<ter_str_id> ids = get_terrain_ids( piece, params );
+    if( !ids.empty() ) {
+        return false;
+    }
+    // Empty IDs but still a terrain piece (e.g. region terrain) -- not a nop.
+    const jmapgen_piece *unwrapped = piece;
+    if( const auto *constrained =
+            dynamic_cast<const jmapgen_constrained<palette_id> *>( piece ) ) {
+        unwrapped = constrained->underlying_piece.get();
+    }
+    const auto *as_ter = dynamic_cast<const jmapgen_terrain *>( unwrapped );
+    return as_ter == nullptr;
 }
 
 // Same as above but for furniture. f_null is not defined in JSON data and
@@ -5121,6 +5155,38 @@ static bool flags_clear_furniture( const enum_bitset<jmapgen_flags> &flags )
 bool mapgen_function_json_base::has_furniture_clearing_flags() const
 {
     return flags_clear_furniture( flags_ );
+}
+
+// Like flags_clear_furniture but returns false for "dismantle" -- unbashable
+// furniture (e.g. f_rubble) survives dismantling and still triggers errors.
+static bool flags_reliably_clear_furniture( const enum_bitset<jmapgen_flags> &flags )
+{
+    enum class furn_action { none, allow, dismantle, erase };
+    furn_action act = furn_action::none;
+
+    // Shorthand flags, then specific overrides (same precedence as runtime)
+    if( flags.test( jmapgen_flags::allow_terrain_under_other_data ) ) {
+        act = furn_action::allow;
+    } else if( flags.test( jmapgen_flags::dismantle_all_before_placing_terrain ) ) {
+        act = furn_action::dismantle;
+    } else if( flags.test( jmapgen_flags::erase_all_before_placing_terrain ) ) {
+        act = furn_action::erase;
+    }
+
+    if( flags.test( jmapgen_flags::allow_terrain_under_furniture ) ) {
+        act = furn_action::allow;
+    } else if( flags.test( jmapgen_flags::dismantle_furniture_before_placing_terrain ) ) {
+        act = furn_action::dismantle;
+    } else if( flags.test( jmapgen_flags::erase_furniture_before_placing_terrain ) ) {
+        act = furn_action::erase;
+    }
+
+    return act == furn_action::allow || act == furn_action::erase;
+}
+
+bool mapgen_function_json_base::reliably_clears_furniture() const
+{
+    return flags_reliably_clear_furniture( flags_ );
 }
 
 point_rel_ms mapgen_function_json_base::get_mapgensize() const
@@ -5410,6 +5476,142 @@ void jmapgen_objects::collect_terrain_data(
     }
 }
 
+// Check if piece is jmapgen_make_rubble (place_rubble), unwrapping constraints.
+static bool is_rubble_piece( const jmapgen_piece *piece )
+{
+    if( dynamic_cast<const jmapgen_make_rubble *>( piece ) ) {
+        return true;
+    }
+    if( const auto *constrained =
+            dynamic_cast<const jmapgen_constrained<palette_id> *>( piece ) ) {
+        return is_rubble_piece( constrained->underlying_piece.get() );
+    }
+    return false;
+}
+
+void mapgen_function_json_base::collect_furniture_coords(
+    std::set<point_rel_ms> &coords, int depth_limit ) const
+{
+    if( depth_limit <= 0 ) {
+        return;
+    }
+    objects.collect_furniture_coords( coords, parameters, depth_limit );
+}
+
+void jmapgen_objects::collect_furniture_coords(
+    std::set<point_rel_ms> &coords,
+    const mapgen_parameters &params, int depth_limit ) const
+{
+    static std::unordered_map<nested_mapgen_id, std::set<point_rel_ms>> furn_cache;
+
+    // Direct furniture and rubble placements at z=0
+    for( const jmapgen_obj &obj : objects ) {
+        const jmapgen_place &where = obj.first;
+        if( where.z.val > 0 || where.z.valmax < 0 ) {
+            continue;
+        }
+        bool produces_furn = false;
+        if( obj.second->phase() == mapgen_phase::furniture &&
+            !is_furniture_effectively_nop( obj.second.get(), params ) ) {
+            produces_furn = true;
+        }
+        // place_rubble also produces furniture
+        if( obj.second->phase() == mapgen_phase::default_ &&
+            is_rubble_piece( obj.second.get() ) ) {
+            produces_furn = true;
+        }
+        if( produces_furn ) {
+            for( int x = where.x.val; x <= where.x.valmax; ++x ) {
+                for( int y = where.y.val; y <= where.y.valmax; ++y ) {
+                    coords.emplace( x, y );
+                }
+            }
+        }
+    }
+
+    // Furniture from nested mapgens (recursively)
+    if( depth_limit <= 0 ) {
+        return;
+    }
+    for( const jmapgen_obj &obj : objects ) {
+        if( obj.second->phase() != mapgen_phase::nested_mapgen ) {
+            continue;
+        }
+        const jmapgen_nested *nested = try_get_nested( obj.second.get() );
+        if( nested == nullptr ) {
+            continue;
+        }
+        const jmapgen_place &where = obj.first;
+        if( where.z.val > 0 || where.z.valmax < 0 ) {
+            continue;
+        }
+
+        auto process_entries = [&](
+        const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &entry_list ) {
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &entry :
+                 entry_list ) {
+                for( const nested_mapgen_id &nest_id :
+                     entry.first.all_possible_results( params ) ) {
+                    if( nest_id.is_null() ) {
+                        continue;
+                    }
+                    auto cache_it = furn_cache.find( nest_id );
+                    if( cache_it == furn_cache.end() ) {
+                        const auto map_it = nested_mapgens.find( nest_id );
+                        if( map_it == nested_mapgens.end() ) {
+                            furn_cache.emplace( nest_id, std::set<point_rel_ms>() );
+                            continue;
+                        }
+                        std::set<point_rel_ms> sub_coords;
+                        for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int>
+                             &variant_pair : map_it->second.funcs() ) {
+                            variant_pair.first->collect_furniture_coords(
+                                sub_coords, depth_limit - 1 );
+                        }
+                        cache_it = furn_cache.emplace( nest_id, std::move( sub_coords ) ).first;
+                    }
+                    const std::set<point_rel_ms> &sub_coords = cache_it->second;
+                    for( const point_rel_ms &sc : sub_coords ) {
+                        for( int nx = where.x.val; nx <= where.x.valmax; ++nx ) {
+                            for( int ny = where.y.val; ny <= where.y.valmax; ++ny ) {
+                                coords.emplace( nx + sc.x(), ny + sc.y() );
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        process_entries( nested->entries );
+        process_entries( nested->else_entries );
+    }
+}
+
+void jmapgen_objects::collect_terrain_coords_for_sibling(
+    std::set<point_rel_ms> &coords,
+    const mapgen_parameters &/*params*/ ) const
+{
+    for( const jmapgen_obj &obj : objects ) {
+        if( obj.second->phase() != mapgen_phase::terrain ) {
+            continue;
+        }
+        // Uses is_nop() instead of is_terrain_effectively_nop to catch
+        // region terrains that can't be resolved statically.
+        if( obj.second->is_nop() ) {
+            continue;
+        }
+        const jmapgen_place &where = obj.first;
+        if( where.z.val > 0 || where.z.valmax < 0 ) {
+            continue;
+        }
+        for( int x = where.x.val; x <= where.x.valmax; ++x ) {
+            for( int y = where.y.val; y <= where.y.valmax; ++y ) {
+                coords.emplace( x, y );
+            }
+        }
+    }
+}
+
 void jmapgen_objects::check_nested_overlaps(
     const std::string &context,
     const mapgen_parameters &parameters,
@@ -5435,11 +5637,137 @@ void jmapgen_objects::check_nested_overlaps(
         }
     }
 
-    if( furn_positions.empty() ) {
-        return;
-    }
+    // Phase 1: parent furniture vs nested terrain (skip if no parent furniture)
+    if( !furn_positions.empty() ) {
 
-    // For each nested piece, check if its actual terrain positions overlap furniture
+        // For each nested piece, check if its actual terrain positions overlap furniture
+        for( const jmapgen_obj &obj : objects ) {
+            if( obj.second->phase() != mapgen_phase::nested_mapgen ) {
+                continue;
+            }
+            const jmapgen_nested *nested = try_get_nested( obj.second.get() );
+            if( nested == nullptr ) {
+                continue;
+            }
+            const jmapgen_place &where = obj.first;
+            // Only check nests placed at z=0 (same level as the furniture we collected)
+            if( where.z.val > 0 || where.z.valmax < 0 ) {
+                continue;
+            }
+
+            auto check_entries = [&]( const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>>
+            &entry_list ) -> bool {
+                for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &entry : entry_list )
+                {
+                    for( const nested_mapgen_id &nest_id :
+                         entry.first.all_possible_results( parameters ) ) {
+                        if( nest_id.is_null() ) {
+                            continue;
+                        }
+                        const auto it = nested_mapgens.find( nest_id );
+                        if( it == nested_mapgens.end() ) {
+                            continue;
+                        }
+                        for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int>
+                             &variant_pair : it->second.funcs() ) {
+                            const mapgen_function_json_nested &variant = *variant_pair.first;
+                            // Get terrain data (positions + IDs) from this nested mapgen
+                            terrain_coord_map nest_terrain;
+                            variant.collect_terrain_data( nest_terrain );
+                            if( nest_terrain.empty() ) {
+                                continue;
+                            }
+                            // Check each terrain coord offset by each possible nest position
+                            for( const auto &[tc, nest_ter_ids] : nest_terrain ) {
+                                for( int nx = where.x.val; nx <= where.x.valmax; ++nx ) {
+                                    for( int ny = where.y.val; ny <= where.y.valmax; ++ny ) {
+                                        const point_rel_ms abs_pos( nx + tc.x(), ny + tc.y() );
+                                        if( !furn_positions.count( abs_pos ) ) {
+                                            continue;
+                                        }
+
+                                        // Build effective parent terrain at this position
+                                        std::set<ter_str_id> parent_ter;
+                                        auto pit = parent_explicit_terrain.find( abs_pos );
+                                        if( pit != parent_explicit_terrain.end() ) {
+                                            parent_ter = pit->second;
+                                        } else if( fill_ter ) {
+                                            for( const ter_str_id &tid :
+                                                 fill_ter->all_possible_results( parameters ) ) {
+                                                parent_ter.insert( tid );
+                                            }
+                                        }
+
+                                        // Singleton-equality skip: if both parent and nest terrain
+                                        // resolve to exactly one ID and they match, the runtime
+                                        // chosen_id != terrain_here guard makes this a no-op
+                                        if( parent_ter.size() == 1 && nest_ter_ids.size() == 1 &&
+                                            *parent_ter.begin() == *nest_ter_ids.begin() ) {
+                                            continue;
+                                        }
+
+                                        // is_boring_wall skip: if all nest terrain IDs are walls
+                                        // without PLACE_ITEM, runtime auto-clears furniture
+                                        bool all_boring_walls = true;
+                                        for( const ter_str_id &tid : nest_ter_ids ) {
+                                            const ter_t &t = *tid.id();
+                                            if( !t.has_flag( ter_furn_flag::TFLAG_WALL ) ||
+                                                t.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM ) ) {
+                                                all_boring_walls = false;
+                                                break;
+                                            }
+                                        }
+                                        if( all_boring_walls ) {
+                                            continue;
+                                        }
+
+                                        const point_rel_ms nest_size = variant.get_mapgensize();
+                                        debugmsg(
+                                            "In %s, nested mapgen %s (size %dx%d) placed at "
+                                            "(%d-%d, %d-%d) sets terrain at (%d, %d) which "
+                                            "overlaps with furniture.  Add a clearing flag "
+                                            "(e.g. ERASE_FURNITURE_BEFORE_PLACING_TERRAIN) to "
+                                            "the nested mapgen, or move the furniture.",
+                                            context,
+                                            nest_id.str(),
+                                            nest_size.x(), nest_size.y(),
+                                            where.x.val, where.x.valmax,
+                                            where.y.val, where.y.valmax,
+                                            abs_pos.x(), abs_pos.y() );
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            };
+
+            if( check_entries( nested->entries ) ) {
+                return;
+            }
+            check_entries( nested->else_entries );
+        }
+    } // end Phase 1 furn_positions guard
+
+    // Phase 2: sibling nested mapgens whose furniture/terrain overlap.
+
+    struct sibling_info {
+        const jmapgen_place *where;
+        std::string nest_id_str;
+        point_rel_ms nest_size;
+        std::set<point_rel_ms> furniture;
+        std::set<point_rel_ms> terrain;
+        bool reliably_clears;
+        // Which place_nested entry this came from; alternatives within one
+        // entry are mutually exclusive at runtime, so same-index pairs skip.
+        size_t piece_index;
+    };
+
+    std::vector<sibling_info> siblings;
+    size_t current_piece_index = 0;
+
     for( const jmapgen_obj &obj : objects ) {
         if( obj.second->phase() != mapgen_phase::nested_mapgen ) {
             continue;
@@ -5449,15 +5777,16 @@ void jmapgen_objects::check_nested_overlaps(
             continue;
         }
         const jmapgen_place &where = obj.first;
-        // Only check nests placed at z=0 (same level as the furniture we collected)
         if( where.z.val > 0 || where.z.valmax < 0 ) {
             continue;
         }
 
-        auto check_entries = [&]( const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>>
-        &entry_list ) -> bool {
-            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &entry : entry_list )
-            {
+        const size_t this_piece_index = current_piece_index++;
+
+        auto process_nest = [&](
+        const weighted_dbl_or_var_list<mapgen_value<nested_mapgen_id>> &entry_list ) {
+            for( const std::pair<mapgen_value<nested_mapgen_id>, dbl_or_var> &entry :
+                 entry_list ) {
                 for( const nested_mapgen_id &nest_id :
                      entry.first.all_possible_results( parameters ) ) {
                     if( nest_id.is_null() ) {
@@ -5470,83 +5799,83 @@ void jmapgen_objects::check_nested_overlaps(
                     for( const std::pair<std::shared_ptr<mapgen_function_json_nested>, int>
                          &variant_pair : it->second.funcs() ) {
                         const mapgen_function_json_nested &variant = *variant_pair.first;
-                        // Get terrain data (positions + IDs) from this nested mapgen
-                        terrain_coord_map nest_terrain;
-                        variant.collect_terrain_data( nest_terrain );
-                        if( nest_terrain.empty() ) {
-                            continue;
+
+                        sibling_info info;
+                        info.where = &where;
+                        info.nest_id_str = nest_id.str();
+                        info.nest_size = variant.get_mapgensize();
+                        info.reliably_clears = variant.reliably_clears_furniture();
+
+                        // Collect terrain ignoring this nest's own clearing flags
+                        const mapgen_parameters &nest_params = variant.get_parameters();
+                        variant.jmapgen_objects_for_check().collect_terrain_coords_for_sibling(
+                            info.terrain, nest_params );
+                        variant.collect_furniture_coords( info.furniture, 3 );
+
+                        info.piece_index = this_piece_index;
+                        if( !info.terrain.empty() || !info.furniture.empty() ) {
+                            siblings.push_back( std::move( info ) );
                         }
-                        // Check each terrain coord offset by each possible nest position
-                        for( const auto &[tc, nest_ter_ids] : nest_terrain ) {
-                            for( int nx = where.x.val; nx <= where.x.valmax; ++nx ) {
-                                for( int ny = where.y.val; ny <= where.y.valmax; ++ny ) {
-                                    const point_rel_ms abs_pos( nx + tc.x(), ny + tc.y() );
-                                    if( !furn_positions.count( abs_pos ) ) {
-                                        continue;
-                                    }
+                    }
+                }
+            }
+        };
 
-                                    // Build effective parent terrain at this position
-                                    std::set<ter_str_id> parent_ter;
-                                    auto pit = parent_explicit_terrain.find( abs_pos );
-                                    if( pit != parent_explicit_terrain.end() ) {
-                                        parent_ter = pit->second;
-                                    } else if( fill_ter ) {
-                                        for( const ter_str_id &tid :
-                                             fill_ter->all_possible_results( parameters ) ) {
-                                            parent_ter.insert( tid );
+        process_nest( nested->entries );
+        process_nest( nested->else_entries );
+    }
+
+    // Check all sibling pairs for furniture/terrain overlap
+    for( size_t i = 0; i < siblings.size(); ++i ) {
+        for( size_t j = i + 1; j < siblings.size(); ++j ) {
+            // Same place_nested entry -- mutually exclusive at runtime
+            if( siblings[i].piece_index == siblings[j].piece_index ) {
+                continue;
+            }
+            auto check_pair = [&]( const sibling_info & furn_sib,
+            const sibling_info & ter_sib ) {
+                if( ter_sib.reliably_clears || ter_sib.terrain.empty() ||
+                    furn_sib.furniture.empty() ) {
+                    return;
+                }
+                const jmapgen_place &fw = *furn_sib.where;
+                const jmapgen_place &tw = *ter_sib.where;
+                for( const point_rel_ms &tc : ter_sib.terrain ) {
+                    for( int tnx = tw.x.val; tnx <= tw.x.valmax; ++tnx ) {
+                        for( int tny = tw.y.val; tny <= tw.y.valmax; ++tny ) {
+                            const point_rel_ms ter_abs( tnx + tc.x(), tny + tc.y() );
+                            for( const point_rel_ms &fc : furn_sib.furniture ) {
+                                for( int fnx = fw.x.val; fnx <= fw.x.valmax; ++fnx ) {
+                                    for( int fny = fw.y.val; fny <= fw.y.valmax; ++fny ) {
+                                        if( ter_abs == point_rel_ms( fnx + fc.x(),
+                                                                     fny + fc.y() ) ) {
+                                            debugmsg(
+                                                "In %s, sibling nested mapgens %s and %s "
+                                                "overlap at (%d, %d): %s places furniture "
+                                                "and %s places terrain without a reliable "
+                                                "clearing flag (ALLOW_TERRAIN_UNDER_FURNITURE "
+                                                "or ERASE_FURNITURE_BEFORE_PLACING_TERRAIN).  "
+                                                "Add a clearing flag to %s, or prevent the "
+                                                "overlap.",
+                                                context,
+                                                furn_sib.nest_id_str,
+                                                ter_sib.nest_id_str,
+                                                ter_abs.x(), ter_abs.y(),
+                                                furn_sib.nest_id_str,
+                                                ter_sib.nest_id_str,
+                                                ter_sib.nest_id_str );
+                                            return;
                                         }
                                     }
-
-                                    // Singleton-equality skip: if both parent and nest terrain
-                                    // resolve to exactly one ID and they match, the runtime
-                                    // chosen_id != terrain_here guard makes this a no-op
-                                    if( parent_ter.size() == 1 && nest_ter_ids.size() == 1 &&
-                                        *parent_ter.begin() == *nest_ter_ids.begin() ) {
-                                        continue;
-                                    }
-
-                                    // is_boring_wall skip: if all nest terrain IDs are walls
-                                    // without PLACE_ITEM, runtime auto-clears furniture
-                                    bool all_boring_walls = true;
-                                    for( const ter_str_id &tid : nest_ter_ids ) {
-                                        const ter_t &t = *tid.id();
-                                        if( !t.has_flag( ter_furn_flag::TFLAG_WALL ) ||
-                                            t.has_flag( ter_furn_flag::TFLAG_PLACE_ITEM ) ) {
-                                            all_boring_walls = false;
-                                            break;
-                                        }
-                                    }
-                                    if( all_boring_walls ) {
-                                        continue;
-                                    }
-
-                                    const point_rel_ms nest_size = variant.get_mapgensize();
-                                    debugmsg(
-                                        "In %s, nested mapgen %s (size %dx%d) placed at "
-                                        "(%d-%d, %d-%d) sets terrain at (%d, %d) which "
-                                        "overlaps with furniture.  Add a clearing flag "
-                                        "(e.g. ERASE_FURNITURE_BEFORE_PLACING_TERRAIN) to "
-                                        "the nested mapgen, or move the furniture.",
-                                        context,
-                                        nest_id.str(),
-                                        nest_size.x(), nest_size.y(),
-                                        where.x.val, where.x.valmax,
-                                        where.y.val, where.y.valmax,
-                                        abs_pos.x(), abs_pos.y() );
-                                    return true;
                                 }
                             }
                         }
                     }
                 }
-            }
-            return false;
-        };
-
-        if( check_entries( nested->entries ) ) {
-            return;
+            };
+            check_pair( siblings[i], siblings[j] );
+            check_pair( siblings[j], siblings[i] );
         }
-        check_entries( nested->else_entries );
     }
 }
 

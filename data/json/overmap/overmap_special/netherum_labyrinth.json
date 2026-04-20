@@ -4,9 +4,9 @@
     "id": "labyrinthine_structure",
     "subtype": "mutable",
     "locations": [ "netherum_labyrinth_sparkling_chasm" ],
-    "//": "spawned by EOC",
-    "occurrences": [ 0, 0 ],
-    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "GLOBALLY_UNIQUE" ],
+    "occurrences": [ 99, 100 ],
+    "priority": 3,
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "OVERMAP_UNIQUE" ],
     "check_for_locations_area": [ { "type": [ "netherum_labyrinth_sparkling_chasm" ], "from": [ 10, 10, 0 ], "to": [ -10, -10, 0 ] } ],
     "joins": [ "passage_to_passage" ],
     "overmaps": {
@@ -50,5 +50,15 @@
         { "overmap": "crossroads", "weight": 1 }
       ]
     ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinth_safehouse",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "labyrinth_safehouse" } ],
+    "city_distance": [ 0, -1 ],
+    "//": "spawned by EOC",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "netherum_labyrinth_sparkling_chasm" ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH_SAFEHOUSE", "GLOBALLY_UNIQUE" ]
   }
 ]
