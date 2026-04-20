@@ -6098,7 +6098,8 @@
   {
     "result": "deck_of_tarot_cards",
     "copy-from": "deck_of_cards",
-    "type": "uncraft"
+    "type": "uncraft",
+    "components": [ [ [ "cardboard", 5 ] ] ]
   },
   {
     "result": "kevlar_shears",
