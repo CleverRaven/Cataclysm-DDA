@@ -5680,8 +5680,8 @@
     "type": "effect_type",
     "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
     "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Clumsy Fingers" ],
+    "desc": [ "You're still getting used to these new paws. Maybe you need some practice." ],
     "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
