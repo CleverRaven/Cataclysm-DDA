@@ -3,12 +3,24 @@
     "type": "pp_generator",
     "id": "riot_damage",
     "//": "Applied to city buildings via post_process_generators field on oter_type_t.",
-    "sub_generators": [  ]
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 0 },
+      { "type": "move_items", "attempts": 0 },
+      { "type": "add_fire", "attempts": 0 },
+      { "type": "pre_burn", "attempts": 0 },
+      { "type": "place_blood", "attempts": 0 }
+    ]
   },
   {
     "type": "pp_generator",
     "id": "riot_damage_road",
     "//": "Applied to city roads. Same as riot_damage but without pre_burn.",
-    "sub_generators": [  ]
+    "sub_generators": [
+      { "type": "bash_damage", "attempts": 0 },
+      { "type": "move_items", "attempts": 0 },
+      { "type": "add_fire", "attempts": 0 },
+      { "type": "pre_burn", "attempts": 0 },
+      { "type": "place_blood", "attempts": 0 }
+    ]
   }
 ]
