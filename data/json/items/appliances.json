@@ -80,8 +80,8 @@
     "material": [ "steel" ],
     "//": "Based off Big Blu 65 MAX & Anyang ST 25 Power Hammer",
     "longest_side": "170 cm",
-    "volume": "1100 L",
-    "weight": "780 kg"
+    "volume": "1000 L",
+    "weight": "1100 kg"
   },
   {
     "type": "ITEM",

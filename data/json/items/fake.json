@@ -305,8 +305,8 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "power hammer" },
     "copy-from": "fake_appliance_tool",
-    "charges_per_use": 25,
-    "charged_qualities": [ [ { "id": "HAMMER", "level": 5, "speed": 0.4 } ] ],
+    "charges_per_use": 20,
+    "charged_qualities": [ { "id": "HAMMER", "level": 5, "speed": 0.4 }, { "id": "ANVIL", "level": 1, "speed": 1.0 } ],
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
   },
   {
