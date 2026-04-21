@@ -2228,7 +2228,6 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
 
 void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
 {
-    static const itype_id itype_water_faucet( "water_faucet" );
     static const quality_id qual_HOSE( "HOSE" );
 
     // Check for a vehicle and a hose or faucet
