@@ -214,11 +214,17 @@ void pp_sub_generator::check( const std::string &ctx ) const
                 debugmsg( "pp_generator '%s' %s: scaling_days_start ignored for this type",
                           ctx, tname );
             }
+            if( scaling_days_end <= 0 ) {
+                debugmsg( "pp_generator '%s' %s: scaling_days_end must be > 0", ctx, tname );
+            }
             break;
         case sub_generator_type::pre_burn:
             if( chance != 0 ) {
                 debugmsg( "pp_generator '%s' %s: chance is computed from scaling/intensity, "
                           "but is set to %d", ctx, tname, chance );
+            }
+            if( scaling_days_end <= 0 ) {
+                debugmsg( "pp_generator '%s' %s: scaling_days_end must be > 0", ctx, tname );
             }
             if( scaling_days_start > scaling_days_end ) {
                 debugmsg( "pp_generator '%s' %s: scaling_days_start > scaling_days_end",
