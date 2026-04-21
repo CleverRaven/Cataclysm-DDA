@@ -1348,7 +1348,7 @@
   {
     "type": "martial_art",
     "id": "style_tai_chi",
-    "name": { "str": "Tai Chi" },
+    "name": { "str": "Tai Chi Chuan" },
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
     "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
     "priority": 1,
