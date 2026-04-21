@@ -1301,7 +1301,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "bottleopener",
+    "id": "bottle_opener",
     "picture": [
       "                   ",
       "                   ",
@@ -1325,7 +1325,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "butterknife",
+    "id": "knife_butter",
     "picture": [
       "                                         ",
       "                                         ",
@@ -1360,7 +1360,7 @@
     ]
   },
   {
-    "type": "ascii_art",
+     "type": "ascii_art",
     "id": "candle",
     "picture": [
       "                                         ",
@@ -1370,9 +1370,8 @@
       "                     <color_brown>/</color>                   ",
       "               <color_white>_,__</color> <color_brown>|</color>  <color_white>_</color>                 ",
       "              <color_white>/</color>    <color_white>\"u~~</color> <color_white>o</color>                ",
-      "              <color_white>│</color> <color_white>",
-      "~*_</color> <color_white>*~</color> <color_white>)</color>               ",
-      "              <color_white>│</color>  <color_white>║</color>   <color_white>u\"/</color>  <color_white>│</color>               ",
+      "              <color_white>│</color> <color_white>\"\"~*_</color> <color_white>*~</color> <color_white>)</color>               ",
+      "              <color_white>│</color>  <color_white>║</color>   <color_white>u\"</color>  <color_white>│</color>               ",
       "              <color_white>│</color>  <color_white>o</color>    <color_white>║</color>  <color_white>│</color>               ",
       "              <color_white>│</color>       <color_white>║</color>  <color_white>│</color>               ",
       "              <color_white>│</color>       <color_white>u</color>  <color_white>│</color>               ",
@@ -1516,7 +1515,7 @@
   },
   {
     "type": "ascii_art",
-    "id": "cutting board",
+    "id": "cutting_board",
     "picture": [
       "                                         ",
       "                                         ",
@@ -2090,42 +2089,6 @@
       "                 <color_white><</color> <color_white>≈</color> <color_white>></color>                   ",
       "                 <color_white>│</color> <color_white>≈</color> <color_white>│</color>                   ",
       "                  <color_white>+─+</color>                    ",
-      "                                         ",
-      "                                         "
-    ]
-  },
-  {
-    "type": "ascii_art",
-    "id": "knife_vegetable_cleaver",
-    "picture": [
-      "                                         ",
-      "                                         ",
-      "                        <color_white>███▓</color>             ",
-      "                       <color_white>██▓███▓▓▓</color>         ",
-      "                      <color_white>███▓██▓▓███▓▓</color>      ",
-      "                     <color_white>████▓██▓███████▓▓</color>   ",
-      "                    <color_white>████▓██▓▓███████▓▓▓</color>  ",
-      "                   <color_white>███▓▓██▓▓███████▓▓▓▓</color>  ",
-      "                  <color_white>███▓▓███▓███████▓▓▓▓</color>   ",
-      "                 <color_white>███▓█████▓██████▓▓▓▓</color>    ",
-      "                <color_white>████▓████▓██████▓▓▓▓</color>     ",
-      "               <color_white>████▓▓████▓█████▓▓▓▓</color>      ",
-      "              <color_white>███▓▓█████▓████▓▓▓▓▓</color>       ",
-      "             <color_white>███▓████▓▓▓████▓▓▓▓▓</color>        ",
-      "            <color_white>███▓▓███▓██████▓▓▓▓▓</color>         ",
-      "           <color_white>██▓▓▓███▓██████▓▓▓▓▓</color>          ",
-      "          <color_white>██████</color>  <color_white>▓██████▓▓▓▓</color>            ",
-      "         <color_brown>██</color><color_white>████</color>      <color_white>███▓▓▓▓</color>             ",
-      "        <color_brown>█████</color><color_white>█</color>           <color_white>▓▓</color>              ",
-      "       <color_brown>█████▓</color>                            ",
-      "      <color_brown>█████▓</color>                             ",
-      "     <color_brown>█████▓</color>                              ",
-      "    <color_brown>█████▓</color>                               ",
-      "   <color_brown>█████▓</color>                                ",
-      "  <color_brown>█████▓</color>                                 ",
-      "   <color_brown>▓▓▓▓</color>                                  ",
-      "                                         ",
-      "                                         ",
       "                                         ",
       "                                         "
     ]
