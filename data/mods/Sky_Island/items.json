@@ -252,7 +252,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "id": "warphaulbag_tier2",
-    "name": { "str": "warped hauler's harness mk II" },
+    "name": { "str": "warped hauler's harness mk II", "str_pl": "warped hauler's harnesses mk II" },
     "copy-from": "warpbag_base",
     "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness.  They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel half as heavy.  Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items!  Just beware you don't break your back doing it.",
     "pocket_data": [
@@ -272,7 +272,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "id": "warphaulbag_tier3",
-    "name": { "str": "warped hauler's harness mk III" },
+    "name": { "str": "warped hauler's harness mk III", "str_pl": "warped hauler's harnesses mk III" },
     "copy-from": "warpbag_base",
     "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness.  They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel a quarter as heavy.  Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items!  Just beware you don't break your back doing it.",
     "pocket_data": [
