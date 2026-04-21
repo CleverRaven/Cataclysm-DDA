@@ -168,6 +168,11 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Default behavior.
         inv_s.add_character_items( u, add_ebooks );
         inv_s.add_nearby_items( radius, add_ebooks );
+        if( using_consume_menu ) {
+            for( const tripoint_bub_ms &pos : closest_points_first( u.pos_bub(), radius ) ) {
+                inv_s.add_vehicle_tank_items( pos );
+            }
+        }
     }
 
     //input from global consume menu UI state

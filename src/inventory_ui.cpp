@@ -60,6 +60,7 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "veh_type.h"
 #include "vpart_position.h"
 
 #if defined(__ANDROID__)
@@ -2223,6 +2224,39 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
     _add_map_items( target, vehicle_cat, items, [&cursor]( item & it ) {
         return item_location( cursor, &it );
     }, add_efiles );
+}
+
+void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
+{
+    static const itype_id itype_water_faucet( "water_faucet" );
+    static const quality_id qual_HOSE( "HOSE" );
+
+    // First check for a vehicle
+    map &here = get_map();
+    const optional_vpart_position ovp = here.veh_at( target );
+    if( !ovp ) {
+        return;
+    }
+
+    // Second check for a faucet or hose access
+    if( !ovp->part_with_tool( here, itype_water_faucet ) &&
+        !u.crafting_inventory().has_quality( qual_HOSE ) ) {
+        return;
+    }
+
+    // Third get all consumable tank liquids on the vehicle
+    vehicle &veh = ovp->vehicle();
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        if( !vpr.part().contains_liquid() ) {
+            continue;
+        }
+        if( !vpr.part().get_base().only_item().is_comestible() ) {
+            continue;
+        }
+        item_location base_loc = veh.part_base( vpr.part_index() );
+        add_entry( map_column, std::vector<item_location>( 1, item_location( base_loc,
+                   &base_loc->only_item() ) ) );
+    }
 }
 
 void inventory_selector::_add_map_items( tripoint_bub_ms const &target, item_category const &cat,
