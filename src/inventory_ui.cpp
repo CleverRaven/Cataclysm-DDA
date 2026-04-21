@@ -2230,7 +2230,7 @@ void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
 {
     static const quality_id qual_HOSE( "HOSE" );
 
-    // Check for a vehicle and a hose or faucet
+    // Check for a vehicle and a hose
     const optional_vpart_position ovp = get_map().veh_at( target );
     if( !ovp || !u.crafting_inventory().has_quality( qual_HOSE ) ) {
         return;
