@@ -224,7 +224,7 @@
     "subtypes": [ "BOOK" ],
     "name": { "str": "Becoming One with the Tao", "str_pl": "copies of Becoming One with the Tao" },
     "price_postapoc": "20 USD",
-    "description": "A complete guide to T'ai Chi Ch'uan.",
+    "description": "A complete guide to Tai Chi Chuan.",
     "martial_art": "style_tai_chi"
   },
   {
@@ -262,7 +262,7 @@
     "copy-from": "book_martial",
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
-    "name": { "str": "Beautiful Springtime", "str_pl": "copies of Beautiful Springtime" },
+    "name": { "str": "Wing Chun Compendium", "str_pl": "copies of Wing Chun Compendium" },
     "price_postapoc": "20 USD",
     "description": "A complete guide to Wing Chun Kung-fu.",
     "martial_art": "style_wingchun"
