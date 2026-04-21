@@ -17,6 +17,7 @@
 #include "cata_imgui.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -31,9 +32,11 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "output.h"
+#include "pimpl.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "skill.h"
@@ -545,7 +548,8 @@ void medical_ui::summary_tab() const
     const diag_value *last_weighting_time = you->maybe_get_value( "last_weighting_time" );
     if( last_weighting_time != nullptr ) {
         const std::string last_weighting_weight = string_format( "%.0f %s",
-                you->get_value( "last_weighting_weight_kg" ).dbl(), weight_units() );
+                convert_weight( units::from_kilogram( you->get_value( "last_weighting_weight_kg" ).dbl() ) ),
+                weight_units() );
         const std::string last_weighted_time = string_format( _( "last weighed %s ago." ),
                                                to_string_approx( calendar::turn - time_point( last_weighting_time->dbl() ) ) );
         const std::string weight_desc = string_format(
@@ -558,6 +562,26 @@ void medical_ui::summary_tab() const
         cataimgui::draw_colored_text( _( "You do not remember the last time you weighed yourself." ),
                                       c_dark_gray, col_width );
     }
+
+    if( debug_mode ) {
+        ImGui::NewLine();
+        ImGui::Separator();
+        cataimgui::draw_colored_text( "Debug:", c_red );
+        std::string txt;
+        txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
+        txt += string_format( "inventory: %.2f kg\n", units::to_kilogram( you->inv->weight() ) );
+        const units::mass wornWeight = you->worn.weight();
+        txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
+
+        const item_location &wield = you->get_wielded_item();
+        if( wield ) {
+            txt += string_format( "wielded: %.2f kg\n", units::to_kilogram( wield->weight() ) );
+        }
+        txt += string_format( "bionic: %.2f kg\n", units::to_kilogram( you->bionics_weight() ) );
+
+        cataimgui::draw_colored_text( txt, col_width );
+    }
+
 }
 
 void medical_ui::limb_tab( const std::vector<bodypart_id> &bodyparts )
