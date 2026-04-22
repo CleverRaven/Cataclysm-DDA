@@ -1530,7 +1530,8 @@ void vehicle::use_washing_machine( map &here, int p )
             player_character.consume_items( detergent, 1, is_crafting_component );
         }
 
-        add_msg( m_good, _( "You close the lid and turn the washing machine on. It is being filled from the water tanks." ) );
+        add_msg( m_good,
+                 _( "You close the lid and turn the washing machine on. It is being filled from the water tanks." ) );
     }
 }
 
