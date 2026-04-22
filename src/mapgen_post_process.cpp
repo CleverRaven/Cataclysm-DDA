@@ -146,9 +146,6 @@ void pp_sub_generator::load( const JsonObject &jo )
 
 void pp_generator::check() const
 {
-    if( sub_generators_.empty() ) {
-        debugmsg( "pp_generator '%s' has no sub_generators", id.str() );
-    }
     for( const pp_sub_generator &sg : sub_generators_ ) {
         sg.check( id.str() );
     }
