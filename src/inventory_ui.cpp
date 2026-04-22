@@ -60,8 +60,8 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -80,6 +80,8 @@
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const flag_id json_flag_SHREDDED( "SHREDDED" );
+
+static const quality_id qual_HOSE( "HOSE" );
 
 static const item_category_id item_category_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
 static const item_category_id item_category_INTEGRATED( "INTEGRATED" );
@@ -2228,8 +2230,6 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
 
 void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
 {
-    static const quality_id qual_HOSE( "HOSE" );
-
     // Check for a vehicle and a hose
     const optional_vpart_position ovp = get_map().veh_at( target );
     if( !ovp || !u.crafting_inventory().has_quality( qual_HOSE ) ) {
