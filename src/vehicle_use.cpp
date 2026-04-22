@@ -1472,8 +1472,10 @@ void vehicle::use_washing_machine( map &here, int p )
                  _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The washing machine is empty; there's no point in starting it." ) );
-    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 && fuel_left( here, itype_soapy_water ) < 24 ) {
-        add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
+    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 &&
+               fuel_left( here, itype_soapy_water ) < 24 ) {
+        add_msg( m_bad,
+                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
     } else if( detergents.empty() && fuel_left( here, itype_soapy_water ) < 24 ) {
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
