@@ -1,18 +1,18 @@
 #include <functional>
-#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "flag.h"
+#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
 
 static const itype_id itype_soap( "soap" );
