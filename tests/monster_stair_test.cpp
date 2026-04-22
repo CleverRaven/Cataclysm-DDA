@@ -66,7 +66,8 @@ static void build_tower( map &here, const point_bub_ms &origin,
     }
 }
 
-// Run a creature in a tower for some turns, tracking which z-levels it visits.
+// Monster spawns on the stair tile with a destination one z-level away.
+// Exercises the on-stair climb-check exemption only; not pathing or wandering.
 static std::set<int> run_creature_in_tower( map &here, const point_bub_ms &tower_origin,
         const mtype_id &mon_type, int start_z, int dest_z, int turns )
 {
@@ -83,13 +84,7 @@ static std::set<int> run_creature_in_tower( map &here, const point_bub_ms &tower
     std::set<int> visited_z;
     visited_z.insert( mon.posz() );
 
-    const tripoint_abs_ms abs_dest = here.get_abs( dest );
     for( int turn = 0; turn < turns; ++turn ) {
-        // Re-assert destination each turn -- the movement code can clear it
-        // on stumble or when the creature thinks it has arrived.
-        mon.anger = 100;
-        mon.morale = 100;
-        mon.set_dest( abs_dest );
         move_monster_turn( mon );
         visited_z.insert( mon.posz() );
     }
@@ -234,4 +229,68 @@ TEST_CASE( "climbing_creatures_use_ladders", "[monster][z-level]" )
         }
         ++idx;
     }
+}
+
+// Three-story tower, walls everywhere except two adjacent stair columns:
+//   column A (1,1): stairs_up on z=0, stairs_down on z=1
+//   column B (2,1): stairs_up on z=1, stairs_down on z=2
+static void build_two_stair_tower( map &here, const point_bub_ms &origin )
+{
+    for( int dx = 0; dx < 4; ++dx ) {
+        for( int dy = 0; dy < 3; ++dy ) {
+            const tripoint_bub_ms p0( origin.x() + dx, origin.y() + dy, 0 );
+            const tripoint_bub_ms p1( origin.x() + dx, origin.y() + dy, 1 );
+            const tripoint_bub_ms p2( origin.x() + dx, origin.y() + dy, 2 );
+            const bool is_col_a = dx == 1 && dy == 1;
+            const bool is_col_b = dx == 2 && dy == 1;
+            here.ter_set( p0, is_col_a ? ter_t_stairs_up.id() : ter_t_wall.id() );
+            if( is_col_a ) {
+                here.ter_set( p1, ter_t_stairs_down.id() );
+            } else if( is_col_b ) {
+                here.ter_set( p1, ter_t_stairs_up.id() );
+            } else {
+                here.ter_set( p1, ter_t_wall.id() );
+            }
+            here.ter_set( p2, is_col_b ? ter_t_stairs_down.id() : ter_t_wall.id() );
+        }
+    }
+    for( int z = 0; z <= 2; ++z ) {
+        here.invalidate_map_cache( z );
+        here.build_map_cache( z, true );
+    }
+}
+
+// Wandering neutral creature on the middle floor must visit all three floors
+// via voluntary stumble alone. Budget is generous enough that stumble's 1-in-10
+// gate dominates realistic seed variance.
+TEST_CASE( "wandering_creature_traverses_three_story_tower", "[monster][z-level][stumble]" )
+{
+    clear_map( -2, 2 );
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 60, 60, 0 ) );
+
+    const point_bub_ms tower_origin( 10, 10 );
+    build_two_stair_tower( here, tower_origin );
+
+    const tripoint_bub_ms spawn_pos( tower_origin.x() + 2, tower_origin.y() + 1, 1 );
+    monster &mon = spawn_test_monster( mon_dog.str(), spawn_pos, false );
+    mon.anger = 0;
+    mon.morale = 0;
+    REQUIRE( mon.is_wandering() );
+
+    std::set<int> visited_z;
+    visited_z.insert( mon.posz() );
+
+    constexpr int budget_turns = 1000;
+    for( int turn = 0; turn < budget_turns; ++turn ) {
+        move_monster_turn( mon );
+        visited_z.insert( mon.posz() );
+    }
+
+    g->remove_zombie( mon );
+
+    CAPTURE( visited_z );
+    CHECK( visited_z.count( 0 ) == 1 );
+    CHECK( visited_z.count( 1 ) == 1 );
+    CHECK( visited_z.count( 2 ) == 1 );
 }
