@@ -59,11 +59,13 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [ { "id": "LIFT", "level": 8 }, { "id": "JACK", "level": 4 } ],
     "components": [
-      [ [ "2x4", 4 ] ],
-      [ [ "hinge", 6 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
-      [ [ "material_soil", 40 ] ],
-      [ [ "sheet_metal", 3 ] ]
+      [ [ "frame", 10 ] ],
+      [ [ "cargo_rack", 4 ] ],
+      [ [ "v6_combustion", 1 ], [ "v6_diesel", 1 ], [ "v8_combustion", 1 ], [ "v8_diesel", 1 ] ],
+      [ [ "wheel_wide_or", 4 ], [ "wheel", 4 ], [ "wheel_wide", 4 ] ],
+      [ [ "alternator_car", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "battery_car", 1 ] ]
     ]
   },
   {
@@ -126,11 +128,13 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [ { "id": "LIFT", "level": 40 }, { "id": "JACK", "level": 16 } ],
     "components": [
-      [ [ "2x4", 4 ] ],
-      [ [ "hinge", 6 ] ],
-      [ [ "box_medium", 4 ], [ "box_large", 1 ], [ "box_oversize", 2 ] ],
-      [ [ "material_soil", 40 ] ],
-      [ [ "sheet_metal", 3 ] ]
+      [ [ "hdframe", 5 ] ],
+      [ [ "livestock_carrier", 2 ] ],
+      [ [ "v12_diesel", 2 ], [ "v12_combustion", 2 ] ],
+      [ [ "wheel_armor", 4 ] ],
+      [ [ "alternator_truck", 2 ] ],
+      [ [ "metal_tank", 2 ] ],
+      [ [ "battery_car", 4 ] ]
     ]
   }
 ]
