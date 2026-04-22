@@ -21,12 +21,14 @@
     "type": "talk_topic",
     "id": "COMP_LS_Entrance_Controls2_no",
     "dynamic_line": "&NO",
-    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_LS_Entrance_Controls2",
-    "dynamic_line": "&Truly? Yes/No",
+    "dynamic_line": "&Truly?  Yes/No",
     "responses": [
       {
         "text": "[Select \"Yes\"] (enter the Labyrinthine Structure alpha test 0.1, which is still low on content and lacking combat balance)",
