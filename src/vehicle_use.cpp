@@ -1487,7 +1487,6 @@ void vehicle::use_washing_machine( map &here, int p )
         int chosen_detergent = UILIST_CANCEL;
         std::vector<itype_id> det_types;
 
-        
         if( fuel_left( here, itype_soapy_water ) < 24 ) {
             for( const item *it : detergents ) {
                 itype_id det_type = it->typeId();
