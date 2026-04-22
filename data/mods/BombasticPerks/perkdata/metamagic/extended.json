@@ -25,9 +25,7 @@
     },
     "effect": [
       { "math": [ "u_spellcasting_adjustment('duration', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ] },
-      {
-        "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1.50" ]
-      }
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_blacklist': 'CONSUMES_RUNES' ) = 1" ) = +4" ] }
     ]
   }
 ]
