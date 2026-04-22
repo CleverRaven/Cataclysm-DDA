@@ -2236,11 +2236,10 @@ void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
         return;
     }
 
-    // Get all consumable tank liquids on the vehicle
+    // Get all tank liquids on the vehicle
     vehicle &veh = ovp->vehicle();
-    for( const vpart_reference &vpr : veh.get_all_parts() ) {       
-        if( !vpr.part().contains_liquid() ||
-            !vpr.part().get_base().only_item().is_comestible() ) {
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        if( !vpr.part().contains_liquid() ) {
             continue;
         }
         item_location base_loc = veh.part_base( vpr.part_index() );
