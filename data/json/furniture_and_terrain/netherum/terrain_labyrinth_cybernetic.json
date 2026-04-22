@@ -36,7 +36,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_0" },
@@ -80,7 +80,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_1" },
@@ -124,7 +124,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_2" },
@@ -168,7 +168,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_3" },
