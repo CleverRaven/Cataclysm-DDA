@@ -63,6 +63,7 @@
       [ [ "cargo_rack", 4 ] ],
       [ [ "v6_combustion", 1 ], [ "v6_diesel", 1 ], [ "v8_combustion", 1 ], [ "v8_diesel", 1 ] ],
       [ [ "wheel_wide_or", 4 ], [ "wheel", 4 ], [ "wheel_wide", 4 ] ],
+      [ [ "wheel_mount_medium", 4 ] ],
       [ [ "alternator_car", 1 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "battery_car", 1 ] ]
@@ -132,6 +133,7 @@
       [ [ "livestock_carrier", 2 ] ],
       [ [ "v12_diesel", 2 ], [ "v12_combustion", 2 ] ],
       [ [ "wheel_armor", 4 ] ],
+      [ [ "wheel_mount_heavy", 4 ] ],
       [ [ "alternator_truck", 2 ] ],
       [ [ "metal_tank", 2 ] ],
       [ [ "battery_car", 4 ] ]
