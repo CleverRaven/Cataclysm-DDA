@@ -2554,6 +2554,28 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_metamagic_extended" } },
+        "text": "Gain [<trait_name:perk_metamagic_extended>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_metamagic_extended>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_metamagic_extended>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_metamagic_extended", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires a spell known of level 12 or above and perk level 9",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "math": [ "u_spell_level('null') >= 12" ] }, { "math": [ "u_current_level >= 9" ] } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_metamagic_widen" } },
         "text": "Gain [<trait_name:perk_metamagic_widen>]",
         "effect": [
