@@ -246,9 +246,10 @@
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
     "difficulty": 6,
-    "time": "1800 m",
+    "time": "1000 m",
     "on_display": false,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "welding_standard", 10 ] ],
     "components": [
       [ [ "motor_small", 1 ] ],
       [ [ "mc_steel_chunk", 10 ] ],
