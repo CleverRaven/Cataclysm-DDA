@@ -1052,10 +1052,7 @@
         "time": "2 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "HAMMER", "level": 3 } ],
-        "proficiencies": [
-          { "proficiency": "prof_blacksmithing"},
-          { "proficiency": "prof_bladesmith" }
-        ]
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
         "name": "Forging bevels and tapering",
@@ -1071,19 +1068,13 @@
         "qualities": [ { "id": "GRIND", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
-      {
-        "name": "Normalizing steel",
-        "time": "45 m",
-        "activity_level": "NO_EXERCISE"
-      },
+      { "name": "Normalizing steel", "time": "45 m", "activity_level": "NO_EXERCISE" },
       {
         "name": "Filing, sharpening, and polishing",
         "time": "1 h 30 m",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ [ { "id": "FILE", "level": 2 } ] ],
-        "proficiencies": [
-          { "proficiency": "prof_blacksmithing"}
-        ]
+        "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       { "name": "Shaping and attaching handle", "time": "35 m", "activity_level": "LIGHT_EXERCISE" }
     ]
