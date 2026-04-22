@@ -1062,7 +1062,7 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Truing the profile. Flattening bevel.",
+        "name": "Truing the profile.  Flattening bevel.",
         "time": "2 h",
         "activity_level": "BRISK_EXERCISE",
         "qualities": [ { "id": "GRIND", "level": 2 } ],
