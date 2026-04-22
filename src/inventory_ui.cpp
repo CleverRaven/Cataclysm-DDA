@@ -2230,7 +2230,7 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
 }
 
 void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
-{   
+{
     map &here = get_map();
 
     // Check for a vehicle at the player's tile
@@ -2250,7 +2250,6 @@ void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
             }
         }
     }
-    
     if( !has_hose && !has_faucet ) {
         return;
     }
