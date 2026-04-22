@@ -71,7 +71,7 @@ TEST_CASE( "washing_machine_soapy_water_starts_without_detergent", "[vehicle][wa
     // Avatar has no detergent — soapy water must be sufficient
     avatar &player = get_avatar();
     REQUIRE( player.crafting_inventory().items_with(
-                 std::function<bool( const item & )>( []( const item & it ) {
+    std::function<bool( const item & )>( []( const item & it ) {
         return it.has_flag( flag_id( "DETERGENT" ) );
     } ) ).empty() );
 
