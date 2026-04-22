@@ -1468,7 +1468,8 @@ void vehicle::use_washing_machine( map &here, int p )
 
     if( vp.enabled ) {
         vp.enabled = false;
-        add_msg( m_bad, _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
+        add_msg( m_bad,
+                 _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The washing machine is empty; there's no point in starting it." ) );
     } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 && fuel_left( here, itype_soapy_water ) < 24 ) {
