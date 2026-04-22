@@ -1446,9 +1446,12 @@ void vehicle::use_autoclave( map &here, int p )
 // TODO: Organize magic number consumption.
 void vehicle::use_washing_machine( map &here, int p )
 {
+    static const itype_id itype_water( "water" );
+    static const itype_id itype_water_clean( "water_clean" );
+    static const itype_id itype_soapy_water( "soapy_water" );
+
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
-    // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
         return it.has_flag( json_flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
@@ -1465,47 +1468,45 @@ void vehicle::use_washing_machine( map &here, int p )
 
     if( vp.enabled ) {
         vp.enabled = false;
-        add_msg( m_bad,
-                 _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
+        add_msg( m_bad, _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The washing machine is empty; there's no point in starting it." ) );
-    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 ) {
-        add_msg( m_bad,
-                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
-    } else if( detergents.empty() ) {
+    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 && fuel_left( here, itype_soapy_water ) < 24 ) {
+        add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
+    } else if( detergents.empty() && fuel_left( here, itype_soapy_water ) < 24 ) {
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
     } else if( !filthy_items ) {
-        add_msg( m_bad,
-                 _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
+        add_msg( m_bad, _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
     } else if( cbms ) {
         add_msg( m_bad, _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
-        uilist detergent_selector;
-        detergent_selector.text = _( "Use what detergent?" );
-
+        int chosen_detergent = UILIST_CANCEL;
         std::vector<itype_id> det_types;
-        for( const item *it : detergents ) {
-            itype_id det_type = it->typeId();
-            // If the vector does not contain the detergent type, add it
-            if( std::find( det_types.begin(), det_types.end(), det_type ) == det_types.end() ) {
-                det_types.emplace_back( det_type );
+
+        
+        if( fuel_left( here, itype_soapy_water ) < 24 ) {
+            for( const item *it : detergents ) {
+                itype_id det_type = it->typeId();
+                if( std::find( det_types.begin(), det_types.end(), det_type ) == det_types.end() ) {
+                    det_types.emplace_back( det_type );
+                }
             }
 
-        }
-        int chosen_detergent = 0;
-        // If there's a choice to be made on what detergent to use, ask the player
-        if( det_types.size() > 1 ) {
-            for( size_t i = 0; i < det_types.size(); ++i ) {
-                detergent_selector.addentry( i, true, 0, item::nname( det_types[i] ) );
+            if( det_types.size() > 1 ) {
+                uilist detergent_selector;
+                detergent_selector.text = _( "Use what detergent?" );
+                for( size_t i = 0; i < det_types.size(); ++i ) {
+                    detergent_selector.addentry( i, true, 0, item::nname( det_types[i] ) );
+                }
+                detergent_selector.addentry( UILIST_CANCEL, true, 0, _( "Cancel" ) );
+                detergent_selector.query();
+                chosen_detergent = detergent_selector.ret;
+                if( chosen_detergent == UILIST_CANCEL ) {
+                    return;
+                }
+            } else if( !det_types.empty() ) {
+                chosen_detergent = 0;
             }
-            detergent_selector.addentry( UILIST_CANCEL, true, 0, _( "Cancel" ) );
-            detergent_selector.query();
-            chosen_detergent = detergent_selector.ret;
-        }
-
-        // If the player exits the menu, don't do anything else
-        if( chosen_detergent == UILIST_CANCEL ) {
-            return;
         }
 
         vp.enabled = true;
@@ -1513,24 +1514,29 @@ void vehicle::use_washing_machine( map &here, int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( here, itype_water ) >= 24 ) {
-            drain( here, itype_water, 24 );
+        if( fuel_left( here, itype_soapy_water ) >= 24 ) {
+            drain( here, itype_soapy_water, 24 );
         } else {
-            drain( here, itype_water_clean, 24 );
+            if( fuel_left( here, itype_water ) >= 24 ) {
+                drain( here, itype_water, 24 );
+            } else {
+                drain( here, itype_water_clean, 24 );
+            }
+            std::vector<item_comp> detergent;
+            detergent.emplace_back( det_types[chosen_detergent], 5 );
+            player_character.consume_items( detergent, 1, is_crafting_component );
         }
 
-        std::vector<item_comp> detergent;
-        detergent.emplace_back( det_types[chosen_detergent], 5 );
-        player_character.consume_items( detergent, 1, is_crafting_component );
-
-        add_msg( m_good,
-                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled from the water tanks." ) );
+        add_msg( m_good, _( "You close the lid and turn the washing machine on. It is being filled from the water tanks." ) );
     }
 }
 
 // TODO: Organize magic number consumption.
 void vehicle::use_dishwasher( map &here, int p )
 {
+    static const itype_id itype_water( "water" );
+    static const itype_id itype_water_clean( "water_clean" );
+
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
