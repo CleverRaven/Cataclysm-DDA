@@ -94,6 +94,6 @@
     "difficulty": 4,
     "time": "4 h",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "clay_lump", 600 ] ], [ [ "clay_kaolin", 60 ] ], [ [ "homullus_sample", 10 ] ] ]
+    "components": [ [ [ "clay_lump", 400 ] ], [ [ "clay_kaolin", 60 ] ], [ [ "homullus_sample", 10 ] ] ]
   }
 ]
