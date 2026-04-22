@@ -88,6 +88,17 @@
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
       },
       {
+        "text": "Actually, I was wondering were I might get more of these CBMs.  Anything I can do to help make or find them?",
+        "condition": {
+          "and": [
+            { "u_has_trait": "LS_Alphatest" },
+            { "u_has_trait": "CBM_Interface" },
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro"
+      },
+      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [

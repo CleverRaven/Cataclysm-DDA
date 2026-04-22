@@ -982,5 +982,31 @@
       "success_lie": ".",
       "failure": "."
     }
+  },
+  {
+    "id": "MISSION_EXODII_LABYRINTHS_INTRO",
+    "type": "mission_definition",
+    "name": { "str": "Exodii Labyrinths" },
+    "description": "Rubik told me about a place described as interdimensional \"labyrinths\", where I might find all manner of things, including bionics.  He said I can go scout them out if I'm interested in trying to bring back valuable salvage.  I should go downstairs in the castle, and find a terminal next to a metal ring.  Somehow, using that will send me there.",
+    "goal": "MGOAL_NULL",
+    "destination": "exodii_base_x0y0z0",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y0z0", "om_special": "exodii_base", "reveal_radius": 2, "random": false }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]
