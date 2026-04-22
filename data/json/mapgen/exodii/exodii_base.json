@@ -168,9 +168,7 @@
         "o": "f_exodii_floor_portal_enclosure"
       },
       "monster": { "T": { "monster": "mon_exodii_turret" }, "t": { "monster": "mon_exodii_turret" } },
-      "computers": {
-        "O": { "name": "Strange Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Entrance_Controls" ] }
-      }
+      "computers": { "O": { "name": "Strange Terminal", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Entrance_Controls" ] } }
     }
   },
   {
