@@ -7,14 +7,8 @@
       "str": "Ahh, now that be a weighty ask.  Not a thing ol' Rubik shares wi' every soul as wanders in, mind.  But aye, I know it, clear as day - that ye've the interface set in ye proper.  Ye carry the work in ye own flesh, so mayhaps ye've the right o' it, fair an square."
     },
     "responses": [
-      {
-        "text": "I'm glad you trust me.  Tell me more.",
-        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro2"
-      },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "I'm glad you trust me.  Tell me more.", "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -33,10 +27,7 @@
         "text": "How would I get to these \"labyrinths?\"",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -51,10 +42,7 @@
         "text": "So, they seem like someone made them?  But also, not really?  What kinds of things do you find there?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_what2"
       },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -73,10 +61,7 @@
         "text": "So, how would I get to these \"labyrinths?\"",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -87,18 +72,12 @@
       "str": "No, not The Enemy, but might be their trouble n' strife.  If ye' go, just wait n' see.  It'll ask.  It knows what shape to wear, or it just takes it, anyhow.  For me, an ol' friend, in the Temple of ale this'n scarce remembers.  For others, other things.  But, if it starts answerin' ye in a way just for you?  If it offers ye' a safety you think this broken world don't have?  Best be on yer way, quick and quiet.  It's a lie.  Just death by another name."
     },
     "responses": [
-      {
-        "text": "Trouble and strife?",
-        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_trouble_strife"
-      },
+      { "text": "Trouble and strife?", "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_trouble_strife" },
       {
         "text": "So, how would I get to these \"labyrinths?\"",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -113,10 +92,7 @@
         "text": "Okay, so whatever lives there is some sort of interdimensional horror.  Or maybe not.  Great.  How would I get to these \"labyrinths?\"",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how"
       },
-      {
-        "text": "Let's talk about something else.",
-        "topic": "TALK_EXODII_MERCHANT_Jobs"
-      }
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
     ]
   },
   {
@@ -149,10 +125,7 @@
         "text": "It's clear you've been there, Rubik.  What was it like, really?",
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how3"
       },
-      {
-        "text": "Thanks Rubik, I'll be careful.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Thanks Rubik, I'll be careful.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,11 +135,6 @@
       "//~": "For me?  Well, twisted halls of steel.  But there's another place.  It's a little like a pub I barely remember, if it ever existed.  Warm.  Wood.  Fire.  Like a Temple (this should be capitalized, as it's what it calls itself for Rubik) for the soul, if I still have one.  But I don't stay there or trust it.  These days, I don't even visit.  I have other things to do, like run this shop.",
       "str": "Fer me?  Well, twisting halls of steel, like this place, or that.  But there's another place.  A mite like a rub-a-dub house ol' Rubik scarce remembers, if it ever were.  Warm.  Wood.  Fire.  The ol' Temple for the soul, if there's any yet left.  Yet I tarry not there, trust it not a hair.  In fact, these days, I jus' don't go.  Got other things to do, like run this skip n' hop."
     },
-    "responses": [
-      {
-        "text": "I'm not sure that clears it up, but thanks Rubik, I'll be careful.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "I'm not sure that clears it up, but thanks Rubik, I'll be careful.", "topic": "TALK_DONE" } ]
   }
 ]
