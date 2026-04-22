@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door2",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using TempleOS.\n\n<color_light_green> @User > _"
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _"
   },
   {
     "type": "talk_topic",
@@ -128,7 +128,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door5",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using TempleOS.\n<color_light_green> @User > _",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using AltarOS.\n<color_light_green> @User > _",
     "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
   },
   {
