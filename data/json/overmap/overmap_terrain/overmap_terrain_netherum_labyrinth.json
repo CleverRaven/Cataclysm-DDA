@@ -51,5 +51,23 @@
     "color": "red",
     "see_cost": "high",
     "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "flattened landscape",
+    "id": [
+      "labyrinth_string_dimension_tunnel_start",
+      "labyrinth_string_dimension_tunnel_end",
+      "labyrinth_string_dimension_tunnel_left",
+      "labyrinth_string_dimension_tunnel_right",
+      "labyrinth_string_dimension_tunnel_over",
+      "labyrinth_string_dimension_tunnel_under",
+      "labyrinth_string_dimension_tunnel_portal"
+    ],
+    "sym": "-",
+    "color": "light_blue",
+    "see_cost": "high",
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

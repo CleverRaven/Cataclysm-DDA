@@ -157,5 +157,40 @@
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "PRIORITIZE_TARGETS" ],
     "armor": { "bash": 32, "cut": 28, "acid": 0, "heat": 0, "bullet": 35 }
+  },
+  {
+    "id": "mon_fleshborg_2_3_string_dimension",
+    "type": "MONSTER",
+    "name": { "str": "planar fleshborg" },
+    "description": "A flattened mockery of a cyborg, its form split into two overlapping, paper-thin silhouettes fused at their core.  Smooth metal plates ripple like ripped foil.  Its face is locked in an eternal scream, but it is unnaturally silent, as if it cannot throw its voice into this world.",
+    "copy-from": "mon_fleshborg_1_1",
+    "melee_skill": 6,
+    "dodge": 8,
+    "melee_dice": 3,
+    "starting_ammo": { "bone_dart": 20 },
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "PUSH_MON", "HARDTOSHOOT", "FLIES" ],
+    "emit_fields": [ { "emit_id": "emit_twisting_mass_dust", "delay": "1 s" } ],
+    "death_drops": "mon_fleshborg_2_3_string_dimension_drops",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 100,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "bone_dart",
+        "fake_skills": [ [ "throw", 4 ] ],
+        "fake_str": 16,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 4, 7, "DEFAULT" ] ],
+        "description": "The fleshborg launches a glowing dart at you!"
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "flatlander_attack", "min_level": 1 },
+        "cooldown": 10,
+        "monster_message": "Standing close to the %s, your body is violently dragged down to the second dimension.  You're there for only an instant but the experience is enough to send you reeling."
+      }
+    ]
   }
 ]

@@ -93,6 +93,7 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] },
       { "u_message": "Zwoink.", "popup": true }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -375,6 +376,79 @@
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
       { "mapgen_update": "labyrinth_safehouse_living_space_1", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "EOC instead of mapgen because this should happen as many times as it takes for the player to find it, but then never again",
+    "id": "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER",
+    "condition": {
+      "and": [
+        { "one_in_chance": 5 },
+        { "not": { "compare_string": [ "yes", { "u_val": "ls_used_holographic_shard" } ] } }
+      ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" },
+        "target_params": {
+          "om_terrain": "labyrinth_hall",
+          "om_special": "labyrinthine_structure",
+          "min_distance": 5,
+          "search_range": 20,
+          "random": true
+        }
+      },
+      { "mapgen_update": "labyrinth_nl_string_dimension_encounter", "target_var": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SD_tunnel_portal",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_add_var": "traveled_string_dimension_to_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "string_dimension",
+        "npc_travel_radius": 0,
+        "region_type": "string_dimension",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into the recesses of another world."
+      },
+      {
+        "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
+        "target_params": { "om_terrain": "string_dimension_dome_x1y1z-2", "om_special": "string_dimension_dome" },
+        "furniture": "f_exodii_floor_portal_enclosure",
+        "target_max_radius": 100
+      },
+      { "u_teleport": { "context_val": "string_dimension_floor_portal_enclosure" } },
+      { "u_message": "Zworunk.", "popup": true },
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "clear_dimension": "netherum_labyrinth" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SD_enter_tunnel",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Zwoink."
+      },
+      {
+        "u_location_variable": { "context_val": "string_dimension_tunnel" },
+        "target_params": { "om_terrain": "labyrinth_string_dimension_tunnel_start", "om_special": "labyrinth_string_dimension_tunnel" },
+        "furniture": "f_exodii_lamp_string_warped",
+        "target_max_radius": 24
+      },
+      { "u_teleport": { "context_val": "string_dimension_tunnel" } },
+      { "u_message": "You smell something acrid, then your mind reels - you suddenly find yourself standing upon a landscape, yourself and it completely flat.  You try to find your footing.", "popup": true }
     ]
   }
 ]
