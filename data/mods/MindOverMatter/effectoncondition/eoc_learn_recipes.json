@@ -1352,6 +1352,10 @@
         "then": { "u_learn_recipe": "practice_telepathic_blast_radius_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('vita_health_power_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_health_power_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('vita_banish_illness_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_vita_banish_illness_knack" }
       }

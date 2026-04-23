@@ -199,7 +199,31 @@
     "effect": [
       {
         "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_1" },
-        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_1" } ]
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_1" }, { "math": [ "u_knack_wild_talent_iterations = 1" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_2" },
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_2" }, { "math": [ "u_knack_wild_talent_iterations = 2" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_3" },
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_3" }, { "math": [ "u_knack_wild_talent_iterations = 3" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_4" },
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_4" }, { "math": [ "u_knack_wild_talent_iterations = 4" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_5" },
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_5" }, { "math": [ "u_knack_wild_talent_iterations = 5" ] } ]
+      },
+      {
+        "if": { "u_has_trait": "PSYCHIC_KNACK_WILD_TALENT_6" },
+        "then": [ { "u_lose_trait": "PSYCHIC_KNACK_WILD_TALENT_6" }, { "math": [ "u_knack_wild_talent_iterations = 6" ] } ]
+      },
+      {
+        "run_eocs": [ "EOC_MOM_WILD_TALENT_ROLL_RANDOM_TALENTS" ],
+        "iterations": { "math": [ "u_knack_wild_talent_iterations" ] }
       },
       { "run_eocs": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES" }
     ]
@@ -231,8 +255,19 @@
           "telekinetic_push_knack",
           "telekinetic_slam_down_knack",
           "telekinetic_wave_knack",
+          "telepathic_shield_knack",
+          "telepathic_mind_sense_knack",
+          "telepathic_morale_knack",
           "telepathic_blast_knack",
-          "telepathic_blast_radius_knack"
+          "telepathic_mesmerize_knack",
+          "telepathic_animal_mind_control_knack",
+          "telepathic_invisibility_knack",
+          "telepathic_blast_radius_knack",
+          "vita_health_power_knack",
+          "vita_concentrated_healing_knack",
+          "vita_remove_poison_knack",
+          "vita_cure_disease_knack",
+          "vita_banish_illness_knack"
         ],
         "type": "spell"
       }
