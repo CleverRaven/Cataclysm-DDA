@@ -1356,6 +1356,18 @@
         "then": { "u_learn_recipe": "practice_vita_health_power_knack" }
       },
       {
+        "if": { "math": [ "u_spell_level('vita_concentrated_healing_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_concentrated_healing_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_remove_poison_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_remove_poison_knack" }
+      },
+      {
+        "if": { "math": [ "u_spell_level('vita_cure_disease_knack') >= 1" ] },
+        "then": { "u_learn_recipe": "practice_vita_cure_disease_knack" }
+      },
+      {
         "if": { "math": [ "u_spell_level('vita_banish_illness_knack') >= 1" ] },
         "then": { "u_learn_recipe": "practice_vita_banish_illness_knack" }
       }

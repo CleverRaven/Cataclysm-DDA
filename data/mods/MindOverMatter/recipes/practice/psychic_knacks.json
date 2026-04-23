@@ -42,6 +42,9 @@
       "practice_telepathic_invisibility_knack",
       "practice_telepathic_blast_radius_knack",
       "practice_vita_health_power_knack",
+      "practice_vita_concentrated_healing_knack",
+      "practice_vita_remove_poison_knack",
+      "practice_vita_cure_disease_knack",
       "practice_vita_banish_illness_knack"
     ],
     "difficulty": 10
@@ -949,6 +952,87 @@
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
           { "set_string_var": "vita_health_power_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: leukocyte accumulation",
+    "id": "practice_vita_concentrated_healing_knack",
+    "description": "Contemplate your powers and improve your ability to direct your body's healing ability to where it is most needed.\n\nCurrent Power Level: <u_spell_level:vita_concentrated_healing_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_concentrated_healing_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: detoxification",
+    "id": "practice_vita_remove_poison_knack",
+    "description": "Contemplate your powers and improve your ability to sweat out any dangerous toxins.\n\nCurrent Power Level: <u_spell_level:vita_remove_poison_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_remove_poison_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: immunostimulus",
+    "id": "practice_vita_cure_disease_knack",
+    "description": "Contemplate your powers and develop your ability to cure mundane illnesses in yourself.\n\nCurrent Power Level: <u_spell_level:vita_cure_disease_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_cure_disease_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }
