@@ -146,6 +146,7 @@
     },
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ],
+    "power_draw": "600 mW",
     "passive_effects": [
       { "id": "afs_motion_sensor_wield" },
       {

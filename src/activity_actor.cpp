@@ -12621,6 +12621,12 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
             p.i_add_or_drop( copy );
         } else {
             filthy_item->unset_flag( flag_FILTHY );
+            // Also clean attached pockets
+            for( item *pocket : filthy_item->get_contents().get_added_pockets_mutable() ) {
+                if( pocket->has_flag( flag_FILTHY ) ) {
+                    pocket->unset_flag( flag_FILTHY );
+                }
+            }
             p.on_worn_item_washed( *filthy_item );
         }
     }

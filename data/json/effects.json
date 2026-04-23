@@ -5669,6 +5669,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_shorter_fingers_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Stubby Fingers",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_dextrous_paws_no_practice_manipulation_penalty",
+    "//": "Hidden effect, provides the limb score penalty from Little or Dextrous Paws when you haven't practiced",
+    "name": [ "Clumsy Fingers" ],
+    "desc": [ "You're still getting used to these new paws.  Maybe you need some practice." ],
+    "limb_score_mods": [ { "limb_score": "manip", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "monster_locked_on",
     "//": "Applied to monsters after they first establish line-of-sight to the avatar.",
     "name": [ "" ],

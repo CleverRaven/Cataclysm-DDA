@@ -264,7 +264,7 @@ void SetTextureAlphaMod( const std::shared_ptr<SDL_Texture> &texture, const Uint
 void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
                    const SDL_Rect *const srcrect, const SDL_Rect *const dstrect,
                    const double angle, const SDL_Point *const center,
-                   const SDL_RendererFlip flip )
+                   const CataFlipMode flip )
 {
     if( !renderer ) {
         dbg( D_ERROR ) << "Tried to render to a null renderer";
@@ -304,7 +304,7 @@ bool RenderIsClipEnabled( const SDL_Renderer_Ptr &renderer )
         dbg( D_ERROR ) << "Tried to use a null renderer";
         return false;
     }
-    return SDL_RenderIsClipEnabled( renderer.get() ) == SDL_TRUE;
+    return SDL_RenderIsClipEnabled( renderer.get() );
 }
 
 int BlitSurface( const SDL_Surface_Ptr &src, const SDL_Rect *const srcrect,
@@ -421,7 +421,7 @@ TTF_Font_Ptr OpenFontIndex( const char *const file, const int ptsize, const int6
 {
     // NOLINTNEXTLINE(cata-no-long)
     TTF_Font_Ptr result( TTF_OpenFontIndex( file, ptsize, static_cast<long>( index ) ) );
-    // Callers check the result and may call TTF_GetError themselves.
+    // Callers check the result and may call SDL_GetError themselves.
     return result;
 }
 
@@ -769,7 +769,7 @@ void StopTextInput( SDL_Window */*window*/ )
 bool IsTextInputActive( SDL_Window */*window*/ )
 {
     // SDL3: SDL_TextInputActive(window). SDL2: no window param.
-    return SDL_IsTextInputActive() == SDL_TRUE;
+    return SDL_IsTextInputActive();
 }
 
 

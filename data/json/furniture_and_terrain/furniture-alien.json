@@ -563,6 +563,39 @@
   },
   {
     "type": "furniture",
+    "id": "f_nl_boiler",
+    "name": "clouded cylinder",
+    "description": "A massive cylindrical device.  Perhaps the exterior was once translucent, but it's now deeply clouded and yellowed, with filth grasping where the plastic-like material meets the floor and ceiling.  It's bolted down with extremely thick and heavy-looking hardware.",
+    "symbol": "G",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 400,
+      "explosive": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 30 ] },
+        { "item": "scrap_copper", "count": [ 25, 50 ] },
+        { "item": "e_scrap", "count": [ 20, 40 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "exodii_module", "count": [ 0, 5 ] },
+        { "item": "exodii_motor", "count": [ 0, 6 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_exodii_charger",
     "name": "personal charging station",
     "description": "The cyborg equivalent of a bed, this is a custom-shaped near-vertical booth designed to mount a heavy metal frame and connect it to a central power supply and nutrient source.",

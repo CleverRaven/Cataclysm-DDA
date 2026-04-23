@@ -213,6 +213,52 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTE_DEXTEROUS_PAWS_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": {
+      "or": [
+        { "compare_string": [ "PAWS_LITTLE", { "context_val": "trait" } ] },
+        { "compare_string": [ "PAWS_RAT", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_dextrous_paws" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEXTROUS_PAWS_RESULTS",
+    "condition": { "math": [ "u_progress_dextrous_paws_usage >= 10" ] },
+    "effect": [
+      { "u_message": "You tie the last knot and look at it with satisfaction.  You've got it all figured out now." },
+      { "u_forget_recipe": "prac_dextrous_paws" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_dextrous_paws_usage++" ] },
+      {
+        "u_message": "The thumb goes *there* and your fingers go like *this*.  You won't do any delicate work but you're getting there."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEXTROUS_PAWS_LOSE",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "If we lose either trait check if we end up in a mute state via the queued EoC",
+    "condition": {
+      "or": [
+        { "compare_string": [ "PAWS_LITTLE", { "context_val": "trait" } ] },
+        { "compare_string": [ "PAWS_RAT", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [
+      { "u_forget_recipe": "prac_dextrous_paws" },
+      { "math": [ "u_progress_dextrous_paws_usage = 0" ] },
+      { "u_message": "You've got your old fingers back.  They feel almost hypermobile compared to before." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {

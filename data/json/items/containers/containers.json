@@ -3842,7 +3842,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "use_action": { "menu_text": "Open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
     "flags": [ "BANK_NOTE_SHAPED" ]
   },
   {

@@ -1,0 +1,85 @@
+[
+  {
+    "type": "ITEM",
+    "abstract": "cryo_storage_loot",
+    "subtypes": [ "COMESTIBLE" ],
+    "symbol": "q",
+    "comestible_type": "FOOD",
+    "color": "red",
+    "name": { "str": "frozen thing", "//~": "NO_I18N" },
+    "description": { "str": "Oh my god, don't let it thaw!", "//~": "NO_I18N" },
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "freezing_point": -9999,
+    "material": [ "flesh" ],
+    "quench": 2,
+    "spoils_in": "30 seconds",
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "CRYOGENIC_ROT" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "chems"
+  },
+  {
+    "type": "ITEM",
+    "id": "moxie_biopsy",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str": "biopsy", "str_pl": "biopsies" },
+    "description": "A sample of diseased looking flesh.  Why it was worth freezing could be anyone's guess.  Maybe a pathologist would care, if you find one of those.",
+    "price": "50 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_goop",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str": "luminous fluid" },
+    "description": "Strange, glowing goop?  Someone will pay for this, probably.",
+    "price": "200 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_egg",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "frozen eggs" },
+    "description": "A clump of frozen eggs.  They look like they could be from some sort of amphibious creature, going by their size and gelatinous appearance.",
+    "price": "500 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_seedlings",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "experimental seedlings" },
+    "description": "Violet seedlings frozen mid germination.  Serial numbers have been engraved on their small leaves, but they don't look like any agricultural product you can recognize",
+    "price": "1500 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_migo_brain",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "alien tissues" },
+    "description": "Strings of pale tissue frozen in a small container.  They are covered in small folds and ridges, not unlike a human brain, but they don't look like they came from any creature you're familiar with.",
+    "price": "1000 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_terraforming_moss",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str_sp": "Mercurial Mt/2204 samples" },
+    "description": "Neatly cut mats of genetically engineered moss, stored in bright plastic wrappers.  The label indicates they are Mt/2204 samples, a strain designed for nitrogen fixation in snowhouse environments.  Having been stored since the Discontinuity, they retain the original genotype of the product line, and could be of great value to any party with an interest in bioengineering.",
+    "price": "1000 USD"
+  },
+  {
+    "type": "ITEM",
+    "id": "afs_cryo_chip",
+    "copy-from": "cryo_storage_loot",
+    "color": "red",
+    "name": { "str": "interface organoid" },
+    "description": "You recognize this disgusting clump of flesh and tendrils as one of Mercurial's abortive attempts at creating biomechanical interfaces for human implantation.  Although Mercurial would likely pay you for its recovery, as would any of its competitors.",
+    "price": "15000 USD"
+  }
+]

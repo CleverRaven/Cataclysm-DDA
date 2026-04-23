@@ -4179,16 +4179,14 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
         return;
     }
 
-    if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
-        ascii_art_id art = type->picture_id;
-        if( has_itype_variant() && itype_variant().art.is_valid() ) {
-            art = itype_variant().art;
-        }
-        if( art.is_valid() ) {
-            insert_separation_line( info );
-            for( const std::string &line : art->picture ) {
-                info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
-            }
+    ascii_art_id art = type->picture_id;
+    if( has_itype_variant() && itype_variant().art.is_valid() ) {
+        art = itype_variant().art;
+    }
+    if( art.is_valid() ) {
+        insert_separation_line( info );
+        for( const std::string &line : art->picture ) {
+            info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
         }
     }
 }
@@ -4315,8 +4313,11 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
         } else if( blockname == "footer" ) {
 
             final_info( info, parts, batch, debug );
-            ascii_art_info( info, parts, batch, debug );
 
+            if( parts->test( iteminfo_parts::DESCRIPTION_ASCII_ART ) &&
+                get_option<bool>( "ENABLE_ASCII_ART" ) ) {
+                ascii_art_info( info, parts, batch, debug );
+            }
         } else {
 
             debugmsg( "Trying to show info block named %s which is not valid.", blockname );

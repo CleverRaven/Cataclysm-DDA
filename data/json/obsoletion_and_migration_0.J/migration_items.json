@@ -770,6 +770,16 @@
   },
   {
     "type": "MIGRATION",
+    "id": "tallow_tainted",
+    "replace": "tallow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "dry_meat_tainted",
+    "replace": "meat_tainted"
+  },
+  {
+    "type": "MIGRATION",
     "id": "button_steel",
     "replace": "button_plastic",
     "variant": "steel"
@@ -791,5 +801,10 @@
     "id": "button_wood",
     "replace": "button_plastic",
     "variant": "wood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_bag",
+    "replace": "plastic_shopping_bag"
   }
 ]

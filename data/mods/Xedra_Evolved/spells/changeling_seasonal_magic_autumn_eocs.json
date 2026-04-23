@@ -139,5 +139,38 @@
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_changeling_autumn_freeze_in_place_self", { "context_val": "effect" } ] },
     "effect": [ { "u_cast_spell": { "id": "changeling_autumn_freeze_in_place_remover" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_TIME_FELLS_MIGHTY_WARRIOR",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 25.19 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2.84) + (u_skill('gramarye') * 4.25) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 50.69 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 6.18) + (u_skill('gramarye') * 11.14) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+        ]
+      },
+      {
+        "if": "u_is_character",
+        "then": [
+          { "u_lose_effect": "effect_changeling_autumn_wither_with_time_character" },
+          {
+            "u_add_effect": "effect_changeling_autumn_wither_with_time_character",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          }
+        ],
+        "else": [
+          { "u_lose_effect": "effect_changeling_autumn_wither_with_time_monster" },
+          {
+            "u_add_effect": "effect_changeling_autumn_wither_with_time_monster",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          }
+        ]
+      }
+    ]
   }
 ]

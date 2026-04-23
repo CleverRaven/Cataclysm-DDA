@@ -166,7 +166,7 @@ class texture
         /// the stored source rectangle. Other parameters are simply passed through.
         int render_copy_ex( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const dstrect,
                             const double angle,
-                            const SDL_Point *const center, const SDL_RendererFlip flip ) const {
+                            const SDL_Point *const center, const CataFlipMode flip ) const {
             RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
             return 0;
         }

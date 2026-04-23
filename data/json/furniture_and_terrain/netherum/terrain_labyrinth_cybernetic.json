@@ -36,7 +36,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a tall, olive green, metallic pillar covered in swirling patterns.  As you focus on it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of your own face, smirking; it's the 'Thief's Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_0" },
@@ -80,7 +80,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_1" },
@@ -124,7 +124,7 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a thick, powerful, gold-burnished pillar covered in what look like deep fingernail scratches.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a hand clawing down a sheet of metal; it's the 'Hard Nails Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_2" },
@@ -168,11 +168,44 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_3" },
             { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_obelisk_mission_boiler",
+    "name": "Obelisk",
+    "description": "A tall, drab grey, metallic pillar covered in swirling patterns.  You could Examine it closer to try and discern the shapes.",
+    "looks_like": "f_machinery_old",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_mission_boiler_have",
+          "condition": { "u_has_mission": "MISSION_nl_boiler" },
+          "effect": [ { "u_message": "The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_mission_boiler_grant",
+          "condition": { "not": { "u_has_mission": "MISSION_nl_boiler" } },
+          "effect": [
+            {
+              "u_message": "You see a tall, drab grey, metallic pillar covered in swirling patterns.  As you focus on it, the patterns take the shape of a face, its features clouded by fractal overlays.  It speaks to you, booming loudly as if from some distant place:\n\n Hear this: a source of power was found in this place.\n Seek it out.  Retrieve it.\n Its power will be YOURS.\n A terminal marks its location.\n The terminal will anchor the rhythm of the object.\n Activate the terminal.\n And you,\n and that which will then be bound to you,\n will be carried home.",
+              "popup": true
+            },
+            { "assign_mission": "MISSION_nl_boiler" }
           ]
         }
       ]

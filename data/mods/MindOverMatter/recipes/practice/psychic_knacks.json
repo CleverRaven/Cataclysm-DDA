@@ -34,8 +34,18 @@
       "practice_telekinetic_slam_down_knack",
       "practice_telekinetic_wave_knack",
       "practice_telekinetic_shield_knack",
+      "practice_telepathic_shield_knack",
+      "practice_telepathic_mind_sense_knack",
+      "practice_telepathic_morale_knack",
       "practice_telepathic_blast_knack",
+      "practice_telepathic_mesmerize_knack",
+      "practice_telepathic_animal_mind_control_knack",
+      "practice_telepathic_invisibility_knack",
       "practice_telepathic_blast_radius_knack",
+      "practice_vita_health_power_knack",
+      "practice_vita_concentrated_healing_knack",
+      "practice_vita_remove_poison_knack",
+      "practice_vita_cure_disease_knack",
       "practice_vita_banish_illness_knack"
     ],
     "difficulty": 10
@@ -710,6 +720,87 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: telepathic shield",
+    "id": "practice_telepathic_shield_knack",
+    "description": "Contemplate your powers and improve the resilience of your mind.\n\nCurrent Power Level: <u_spell_level:telepathic_shield_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_SHIELD_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_shield_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mind sense",
+    "id": "practice_telepathic_mind_sense_knack",
+    "description": "Contemplate your powers and improve your ability to detect other minds.\n\nCurrent Power Level: <u_spell_level:telepathic_mind_sense_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_MIND_SENSE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_mind_sense_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mood stabilization",
+    "id": "practice_telepathic_morale_knack",
+    "description": "Contemplate your powers and improve your ability to detect other minds.\n\nCurrent Power Level: <u_spell_level:telepathic_morale_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_MORALE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_morale_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: synaptic overload",
     "id": "practice_telepathic_blast_knack",
     "description": "Contemplate your powers and improve your mental strength to telepathically assault your enemies.\n\nCurrent Power Level: <u_spell_level:telepathic_blast_knack>",
@@ -727,6 +818,87 @@
         "condition": { "u_has_trait": "PSYCHIC_KNACK" },
         "effect": [
           { "set_string_var": "telepathic_blast_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mesmerize",
+    "id": "practice_telepathic_mesmerize_knack",
+    "description": "Contemplate your powers and improve your ability to place your opponents into a trance.\n\nCurrent Power Level: <u_spell_level:telepathic_mesmerize_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_MESMERIZE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_mesmerize_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: beastmaster",
+    "id": "practice_telepathic_animal_mind_control_knack",
+    "description": "Contemplate your powers and improve your ability to overpower the minds of animals.\n\nCurrent Power Level: <u_spell_level:telepathic_animal_mind_control_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_animal_mind_control_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: obscurity",
+    "id": "practice_telepathic_invisibility_knack",
+    "description": "Contemplate your powers and improve your ability to make your enemies ignore you.\n\nCurrent Power Level: <u_spell_level:telepathic_invisibility_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPATHIC_INVISIBILITY_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "telepathic_invisibility_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }
@@ -756,6 +928,114 @@
           { "set_string_var": "telepathic_blast_radius_knack", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "run_eocs": [ "EOC_PSI_STUDYING_TELEPATH_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: healthy glow",
+    "id": "practice_vita_health_power_knack",
+    "description": "Contemplate your powers and improve your ability to enhance your overall health.\n\nCurrent Power Level: <u_spell_level:vita_health_power_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_HEALTH_POWER_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_health_power_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: leukocyte accumulation",
+    "id": "practice_vita_concentrated_healing_knack",
+    "description": "Contemplate your powers and improve your ability to direct your body's healing ability to where it is most needed.\n\nCurrent Power Level: <u_spell_level:vita_concentrated_healing_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_CONCENTRATED_HEALING_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_concentrated_healing_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: detoxification",
+    "id": "practice_vita_remove_poison_knack",
+    "description": "Contemplate your powers and improve your ability to sweat out any dangerous toxins.\n\nCurrent Power Level: <u_spell_level:vita_remove_poison_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_remove_poison_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: immunostimulus",
+    "id": "practice_vita_cure_disease_knack",
+    "description": "Contemplate your powers and develop your ability to cure mundane illnesses in yourself.\n\nCurrent Power Level: <u_spell_level:vita_cure_disease_knack>",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE_KNACK",
+        "condition": { "u_has_trait": "PSYCHIC_KNACK" },
+        "effect": [
+          { "set_string_var": "vita_cure_disease_knack", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "run_eocs": [ "EOC_PSI_STUDYING_VITAKIN_POWER_SETUP", "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]
           }
         ]
       }

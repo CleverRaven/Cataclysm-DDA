@@ -890,5 +890,59 @@
     "points": 5,
     "traits": [ "PSYCHIC_KNACK" ],
     "spells": [ { "id": "vita_banish_illness_knack", "level": 6 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_01",
+    "name": "Wild Talent (Kappa)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have one random psychic knack.",
+    "points": 3,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_1" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_02",
+    "name": "Wild Talent (Theta)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have two random psychic knacks.",
+    "points": 4,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_03",
+    "name": "Wild Talent (Epsilon)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have three random psychic knacks.",
+    "points": 6,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_3" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_04",
+    "name": "Wild Talent (Gamma)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have four random psychic knacks.",
+    "points": 8,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_4" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_05",
+    "name": "Wild Talent (Beta)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have five random psychic knacks.",
+    "points": 10,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_5" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knack_random_06",
+    "name": "Wild Talent (Alpha)",
+    "description": "Perhaps the Cataclysm triggered some hidden power that you previously had no idea you possessed, and now you can do things you never previously dreamed possible, or perhaps your powers manifested earlier in your life and you have kept them hidden until now.  You have six random psychic knacks.",
+    "points": 15,
+    "traits": [ "PSYCHIC_KNACK", "PSYCHIC_KNACK_WILD_TALENT_6" ]
   }
 ]

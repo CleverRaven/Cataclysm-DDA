@@ -1166,5 +1166,20 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_ls_sd_tunnel_portal",
+    "name": " ",
+    "symbol": "#",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_LS_SD_tunnel_portal" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

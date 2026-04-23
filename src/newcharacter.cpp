@@ -755,6 +755,9 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     switch( type ) {
         case character_type::CUSTOM:
+            if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
+                name = get_option<std::string>( "DEF_CHAR_NAME" );
+            }
             randomize_cosmetics();
             break;
         case character_type::RANDOM:

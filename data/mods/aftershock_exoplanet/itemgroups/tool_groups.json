@@ -327,13 +327,6 @@
     "items": [
       { "item": "electrohack", "prob": 100 },
       {
-        "collection": [
-          { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": [ 16, 40 ], "prob": 100, "count": [ 1, 2 ] },
-          { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
-        ],
-        "prob": 20
-      },
-      {
         "collection": [ { "item": "afs_jetpack", "prob": 50 }, { "item": "ammonia_liquid", "prob": 100, "count": [ 1, 2 ] } ],
         "prob": 10
       },
@@ -384,6 +377,55 @@
       [ "shovel_snow", 40 ],
       [ "shovel_snow_plastic", 50 ],
       [ "hose_garden", 60 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_biolab",
+    "//": "Stuff you can find in the worktables of biology and chemistry labs.",
+    "items": [
+      {
+        "collection": [
+          { "item": "microscope" },
+          { "item": "microscope_dissecting", "prob": 30 },
+          { "item": "microscope_slide", "count": [ 5, 20 ] },
+          { "item": "petri_dish", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "microcentrifuge" },
+          { "item": "test_tube_micro", "count": [ 5, 20 ] },
+          { "item": "rack_test_tube_micro", "count": [ 0, 1 ] },
+          { "item": "petri_dish", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "stand_ring" },
+          { "item": "funnel_separation", "prob": 30 },
+          { "item": "gradcylinder", "prob": 30 },
+          { "item": "still_lab", "prob": 30 },
+          { "item": "test_tube", "count": [ 5, 20 ] },
+          { "item": "flask_glass", "count": [ 0, 3 ] },
+          { "item": "beaker", "count": [ 0, 3 ] },
+          { "item": "stand_ring_clamps", "count": [ 0, 3 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "pouch_autoclave", "count": [ 5, 20 ] }, { "item": "autoclave", "prob": 20 } ],
+        "prob": 20
+      },
+      { "item": "vac_oven_small", "prob": 30 },
+      { "item": "filter_paper_quantitative", "prob": 3, "charges": [ 10, -1 ] },
+      { "item": "afs_sample_container", "prob": 30 },
+      { "item": "ph_meter", "prob": 30 },
+      { "item": "analytical_set_basic", "prob": 30 },
+      { "item": "vac_pump", "prob": 30 },
+      { "item": "autoclave", "prob": 20 }
     ]
   }
 ]

@@ -895,8 +895,8 @@
   {
     "type": "sub_body_part",
     "id": "arm_feathers_lower_l",
-    "name": "lower left feathered arms",
-    "name_multiple": "lower feathered arms",
+    "name": "left feathered lower arm",
+    "name_multiple": "feathered lower arms",
     "parent": "arm_feathers_l",
     "side": "left",
     "similar_bodypart": "arm_lower_l",
@@ -939,8 +939,8 @@
   {
     "type": "sub_body_part",
     "id": "arm_feathers_lower_r",
-    "name": "lower right feathered arms",
-    "name_multiple": "lower feathered arms",
+    "name": "right feathered lower arm",
+    "name_multiple": "feathered lower arms",
     "parent": "arm_feathers_r",
     "side": "right",
     "similar_bodypart": "arm_lower_r",

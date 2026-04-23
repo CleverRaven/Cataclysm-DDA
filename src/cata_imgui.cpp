@@ -616,10 +616,10 @@ void cataimgui::client::process_input( void *input )
         bool no_mouse = ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_NoMouse;
         if( no_mouse ) {
             switch( evt->type ) {
-                case SDL_MOUSEMOTION:
-                case SDL_MOUSEWHEEL:
-                case SDL_MOUSEBUTTONDOWN:
-                case SDL_MOUSEBUTTONUP:
+                case CATA_MOUSEMOTION:
+                case CATA_MOUSEWHEEL:
+                case CATA_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONUP:
                     return;
             }
         }

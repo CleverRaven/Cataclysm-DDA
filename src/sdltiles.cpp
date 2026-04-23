@@ -3182,7 +3182,7 @@ static void CheckMessages()
                 case CATA_RENDER_TARGETS_RESET:
                     render_target_reset = true;
                     break;
-                case SDL_KEYDOWN: {
+                case CATA_KEYDOWN: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
                     if( GetKeysym( ev ).sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
@@ -3238,7 +3238,7 @@ static void CheckMessages()
                     }
                 }
                 break;
-                case SDL_KEYUP: {
+                case CATA_KEYUP: {
 #if defined(__ANDROID__)
                     // Toggle virtual keyboard with Android back button
                     if( GetKeysym( ev ).sym == SDLK_AC_BACK ) {
@@ -3273,7 +3273,7 @@ static void CheckMessages()
                     }
                 }
                 break;
-                case SDL_TEXTINPUT:
+                case CATA_TEXTINPUT:
                     if( !add_alt_code( *ev.text.text ) ) {
                         if( strlen( ev.text.text ) > 0 ) {
                             const unsigned lc = UTF8_getch( ev.text.text );
@@ -3307,7 +3307,7 @@ static void CheckMessages()
                         text_refresh = true;
                     }
                     break;
-                case SDL_TEXTEDITING: {
+                case CATA_TEXTEDITING: {
                     if( strlen( ev.edit.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.edit.text );
                         last_input = input_event( lc, input_event_t::keyboard_char );
@@ -3345,7 +3345,7 @@ static void CheckMessages()
                     break;
                 }
 #endif
-                case SDL_MOUSEMOTION:
+                case CATA_MOUSEMOTION:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3360,7 +3360,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEBUTTONDOWN:
+                case CATA_MOUSEBUTTONDOWN:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3380,7 +3380,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEBUTTONUP:
+                case CATA_MOUSEBUTTONUP:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3400,7 +3400,7 @@ static void CheckMessages()
                     }
                     break;
 
-                case SDL_MOUSEWHEEL:
+                case CATA_MOUSEWHEEL:
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -3661,7 +3661,7 @@ static void CheckMessages()
                     break;
 #endif
 
-                case SDL_QUIT:
+                case CATA_QUIT:
                     quit = true;
                     break;
                 default:

@@ -105,7 +105,8 @@
       "farm_9"
     ],
     "copy-from": "generic_rural_field",
-    "name": "farm field"
+    "name": "farm field",
+    "travel_cost_type": "crop_field"
   },
   {
     "type": "overmap_terrain",
@@ -152,6 +153,7 @@
     ],
     "copy-from": "generic_rural_field",
     "name": "farm field",
+    "travel_cost_type": "crop_field",
     "extras": "agricultural",
     "looks_like": "farm_5",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }

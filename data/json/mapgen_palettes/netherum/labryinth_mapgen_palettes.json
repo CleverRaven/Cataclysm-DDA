@@ -99,5 +99,24 @@
       "~": "f_shower",
       "c": "f_counter"
     }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinth_string_dimension_tunnel_palette",
+    "terrain": {
+      "L": "t_nl_sd_2d_sky_walkable",
+      " ": "t_nl_sd_2d_sky_walkable",
+      "%": "t_nl_sd_2d_ground",
+      "#": "t_string_xyz",
+      ".": [
+        [ "t_nl_sd_2d_sky", 194 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_big", 1 ],
+        [ "t_string_point_small_gray", 2 ],
+        [ "t_string_point_small_gray", 2 ]
+      ]
+    },
+    "furniture": { "L": "f_exodii_lamp_string_warped" },
+    "traps": { "#": "tr_ls_sd_tunnel_portal" }
   }
 ]

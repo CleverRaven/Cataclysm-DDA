@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door2",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using TempleOS.\n\n<color_light_green> @User > _"
+    "dynamic_line": "&<color_light_green> @User > doorstatus --update=unlock\n<color_light_green>Command accepted.\n<color_light_green>Nearby doors unlocked.\n<color_light_green>Thank you for using AltarOS.\n\n<color_light_green> @User > _"
   },
   {
     "type": "talk_topic",
@@ -128,7 +128,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Passcode_Door5",
-    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using TempleOS.\n<color_light_green> @User > _",
+    "dynamic_line": "&<color_light_green> @User > doorstatus --list\n<color_light_green>12 drwxr-xr-x 1 @User\n<color_light_green>File lost or deleted.\n<color_light_green>A new, stronger reality has supplanted the previous.  Thank you for using AltarOS.\n<color_light_green> @User > _",
     "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
   },
   {
@@ -242,5 +242,26 @@
     "id": "COMP_LS_Bridge_control_deadend_1_force",
     "dynamic_line": "&<color_light_green> @User > help --retract\n<color_light_green>Help?  @User help request logged.\n<color_light_green>Error: \"Help\" - implied payment|cost detected.\n<color_light_green>Error: Payment|cost not implemented.  Try again some day.\n\n<color_light_green> @User > _</color>",
     "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls",
+    "dynamic_line": "& ▄▄▄· ▄▄▌  ▄▄▄▄▄ ▄▄▄· ▄▄▄            .▄▄ ·\n▐█ ▀█ ██•  •██  ▐█ ▀█ ▀▄ █·    ▪     ▐█ ▀.\n▄█▀▀█ ██▪   ▐█.▪▄█▀▀█ ▐▀▀▄      ▄█▀▄ ▄▀▀▀█▄\n▐█ ▪▐▌▐█▌▐▌ ▐█▌·▐█ ▪▐▌▐█•█▌    ▐█▌.▐▌▐█▄▪▐█\n ▀  ▀ .▀▀▀  ▀▀▀  ▀  ▀ .▀  ▀     ▀█▄▀▪ ▀▀▀▀\n\n @AltarOS > echo -anchor -cargo -nt AUTO\n\n ANCHOR:CARGO RESONANCE LOCK = true.\n\n Start exit protocol.       ᵖˡᵉᵃˢᵉ\n\n @AltarOS > skill -ELEVATE -@User\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "<color_light_green>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
+        "topic": "COMP_LS_Boiler_Exit_Controls2"
+      },
+      { "text": "<color_red>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Boiler_Exit_Controls2",
+    "dynamic_line": "&<color_light_green> @User > sudo skill -EXIT -@User -RESONANCE_ANCHOR</color>\n\n Exit with the coupled device?  You will <color_red>never</color> see this exact place again.",
+    "responses": [
+      { "text": "Yes.", "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_safehouse" }, "topic": "TALK_DONE" },
+      { "text": "No.", "topic": "TALK_DONE" }
+    ]
   }
 ]

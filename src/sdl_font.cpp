@@ -297,7 +297,7 @@ CachedTTFFont::CachedTTFFont(
     }
     font = OpenFontIndex( typeface.c_str(), fontsize, faceIndex );
     if( !font ) {
-        throw std::runtime_error( TTF_GetError() );
+        throw std::runtime_error( SDL_GetError() );
     }
     SetFontStyle( font, TTF_STYLE_NORMAL );
 }
@@ -311,7 +311,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
                              ? RenderUTF8_Blended( font, ch.c_str(), windowsPalette[color] )
                              : RenderUTF8_Solid( font, ch.c_str(), windowsPalette[color] );
     if( !sglyph ) {
-        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
+        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << SDL_GetError();
         return nullptr;
     }
     const int wf = utf8_width( ch );
@@ -402,7 +402,7 @@ BitmapFont::BitmapFont(
         throw std::runtime_error( "bitmap for font is to small" );
     }
     Uint32 key = MapRGB( asciiload, 0xFF, 0, 0xFF );
-    SetColorKey( asciiload, SDL_TRUE, key );
+    SetColorKey( asciiload, 1, key );
     std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
     ascii_surf[0] = ConvertSurfaceFormat( asciiload, pixel_format );
     SetSurfaceRLE( ascii_surf[0], 1 );

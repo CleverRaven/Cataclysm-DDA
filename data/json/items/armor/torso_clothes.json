@@ -147,6 +147,7 @@
     "price": "25 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -282,6 +283,7 @@
     "price": "10 USD",
     "material": [ "cotton" ],
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 1.5,
     "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "variant_type": "generic",
@@ -481,6 +483,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 8, 9 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 4, 4 ] },
@@ -584,6 +587,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
@@ -606,6 +610,7 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": 2 } ],
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
@@ -669,6 +674,7 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -987,6 +993,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
@@ -1067,6 +1074,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 16,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1127,6 +1135,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE" ],
@@ -1175,6 +1184,7 @@
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "pink",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1194,6 +1204,7 @@
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
@@ -1562,6 +1573,7 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1581,6 +1593,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
@@ -1639,6 +1652,7 @@
     "symbol": "[",
     "looks_like": "maid_dress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 4 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 20 },
@@ -1702,6 +1716,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 90 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85 },
@@ -1727,6 +1742,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1757,6 +1773,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1790,6 +1807,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1817,6 +1835,7 @@
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_blue",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1879,6 +1898,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 20,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
@@ -1908,6 +1928,7 @@
     "symbol": "[",
     "looks_like": "santa_dress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 25,
     "material_thickness": 0.8,
     "flags": [ "VARSIZE" ],
@@ -1934,6 +1955,7 @@
     "symbol": "[",
     "looks_like": "sundress",
     "color": "red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
@@ -1989,6 +2011,7 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
@@ -2034,6 +2057,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 30,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
@@ -2101,6 +2125,7 @@
     "symbol": "[",
     "looks_like": "camisole",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.1,
     "variant_type": "generic",
@@ -2469,6 +2494,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -2496,6 +2522,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "brown",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 400 } ],
     "warmth": 5,
     "material_thickness": 0.4,
@@ -2626,6 +2653,7 @@
     "symbol": "Y",
     "looks_like": "dress",
     "color": "light_red",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80 },

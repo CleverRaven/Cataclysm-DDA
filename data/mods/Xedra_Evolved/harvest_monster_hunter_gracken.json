@@ -4,7 +4,6 @@
     "//": "zombie with long gangly arms",
     "type": "harvest",
     "copy-from": "zombie_grabber",
-    "delete": { "entries": [ { "drop": "sinew", "mass_ratio": 0.00035 } ] },
     "extend": { "entries": [ { "drop": "grappler_sinew", "mass_ratio": 0.00035 } ] }
   },
   {
@@ -180,7 +179,6 @@
     "type": "harvest",
     "copy-from": "zombie_humanoid",
     "message": "<zombie_humanoid_generic_harvest>",
-    "delete": { "entries": [ { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 } ] },
     "extend": {
       "entries": [
         { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
@@ -198,7 +196,6 @@
     "type": "harvest",
     "copy-from": "zombie_humanoid",
     "message": "<zombie_humanoid_generic_harvest>",
-    "delete": { "entries": [ { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 } ] },
     "extend": {
       "entries": [
         { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },

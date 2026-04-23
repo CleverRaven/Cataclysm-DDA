@@ -263,7 +263,15 @@ int talker_npc_const::parse_mod( const std::string &attribute, const int factor 
         modifier = me_npc->assigned_missions_value() / OWED_VAL;
     } else if( attribute == "NPC_INTIMIDATE" ) {
         modifier = me_npc->intimidation();
+    } else if( attribute.find( "npc_has_trait" ) != std::string::npos ) {
+        // shim/hack, reusing the syntax from EOCs
+
+        // Nasty string handling.
+        const std::string after = "npc_has_trait: ";
+        trait_id checked_trait = trait_id( attribute.substr( after.size() ) );
+        modifier = me_npc->has_trait( checked_trait ) ? 1 : 0;
     }
+
     modifier *= factor;
     return modifier;
 }

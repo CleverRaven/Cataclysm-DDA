@@ -1069,6 +1069,7 @@
     "capacity": "100 kJ",
     "dupes_allowed": true,
     "description": "Upgrades your bionic power capacity by 100 kJ.  It can be recharged via other CBMs that function as power supplies.",
+    "occupied_bodyparts": [ [ "torso", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1078,6 +1079,7 @@
     "capacity": "250 kJ",
     "dupes_allowed": true,
     "description": "Upgrades your bionic power capacity by 250 kJ.  It can be recharged via other CBMs that function as power supplies.",
+    "occupied_bodyparts": [ [ "torso", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {

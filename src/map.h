@@ -345,7 +345,7 @@ struct tint_sprite_record {
         int x, y, w, h;
     } destination;         // screen-space destination rect at time of draw
     double angle;          // rotation angle (0, -90, 90)
-    int flip;              // SDL_RendererFlip cast to int (avoids SDL include)
+    int flip;              // CataFlipMode cast to int (avoids SDL include)
 };
 
 struct tile_render_info {
