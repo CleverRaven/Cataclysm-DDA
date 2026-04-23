@@ -15,8 +15,7 @@
     "responses": [
       {
         "text": "<color_light_green>Activate entry protocol",
-        "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" },
-        "topic": "TALK_DONE"
+        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax"
       },
       {
         "text": "<color_light_green>Check for updates",
@@ -41,6 +40,31 @@
         "topic": "TALK_DONE"
       },
       { "text": "<color_yellow>Log off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_blood_tax",
+    "dynamic_line": "&<color_light_green> @User > skill -ENTER -@User\n\n<color_light_green> Blood required for reality stabilization.\n\nA drawer on the side of the terminal slides open, revealing a small, thin needle.\n\n<color_light_green> @User > _",
+    "responses": [
+      {
+        "text": "[Prick yourself with the needle]",
+        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax_yes",
+        "effect": [ { "math": [ "u_vitamin('blood') -= 500" ] } ]
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_blood_tax_yes",
+    "dynamic_line": "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
+    "responses": [
+      {
+        "text": "…",
+        "topic": "TALK_DONE",
+        "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" }
+      }
     ]
   },
   {
