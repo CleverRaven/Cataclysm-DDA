@@ -152,7 +152,7 @@ static void move_selection( T &data, const int amount )
     } else if( amount < 0 && it == data.filtered_list.begin() ) {
         data.selected_entry = *data.filtered_list.rbegin();
     // Clamp to either end if we would exceed our bounds
-    } else if (amount > 0 && amount > std::distance(it, data.filtered_list.end() - 1)) {
+    } else if( amount > 0 && amount > std::distance( it, data.filtered_list.end() - 1 ) ) {
         data.selected_entry = *data.filtered_list.rbegin();
     } else if( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) {
         data.selected_entry = *data.filtered_list.begin();
