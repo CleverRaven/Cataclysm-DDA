@@ -2422,11 +2422,25 @@ void monster::stumble_base( const bool is_voluntary )
         }
     }
 
-    // When forced to stumble, monsters can't stumble-walk downstairs
+    // The same-z radius scan above cannot produce straight-up or straight-down
+    // candidates; add them here, gated by stair / climb / swim / fly rules.
     if( is_voluntary ) {
         const tripoint_bub_ms below( pos_bub() + tripoint::below );
         if( here.valid_move( pos_bub(), below, false, true ) ) {
             valid_stumbles.push_back( below );
+        }
+        const tripoint_bub_ms above( pos_bub() + tripoint::above );
+        const bool stair_up = here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) &&
+                              !here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() );
+        const bool ladder_up = here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, pos_bub() ) &&
+                               can_climb() &&
+                               here.has_floor_or_support( above );
+        const bool swim_up = swims() &&
+                             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, above );
+        if( ( flies() || stair_up || ladder_up || swim_up ) &&
+            here.valid_move( pos_bub(), above, false, flies() ) ) {
+            valid_stumbles.push_back( above );
         }
     }
 

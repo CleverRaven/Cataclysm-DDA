@@ -6092,14 +6092,14 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "2 s",
-    "components": [ [ [ "cardboard", 20 ] ] ],
+    "components": [ [ [ "cardboard", 5 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "deck_of_tarot_cards",
     "copy-from": "deck_of_cards",
     "type": "uncraft",
-    "components": [ [ [ "cardboard", 20 ] ] ]
+    "components": [ [ [ "cardboard", 5 ] ] ]
   },
   {
     "result": "kevlar_shears",

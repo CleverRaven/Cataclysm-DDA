@@ -77,6 +77,7 @@
       { "text": "Make the island more hospitable.", "topic": "SKYISLAND_UPGRADES_TERRAFORM" },
       { "text": "Upgrade expeditions.", "topic": "SKYISLAND_UPGRADES_FEATURES" },
       { "text": "Construction options.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" },
+      { "text": "Crafting options.", "topic": "SKYISLAND_UPGRADES_ITEM_CRAFTING" },
       { "text": "I need your services.", "topic": "SKYISLAND_SERVICES" },
       { "text": "I have some questions.", "topic": "SKYISLAND_QUESTIONS" },
       { "text": "Another time.  Goodbye.", "topic": "TALK_DONE" }
@@ -1397,6 +1398,38 @@
         ],
         "topic": "SKYISLAND_UPGRADE"
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADES_ITEM_CRAFTING",
+    "dynamic_line": "There is much to learn from the Heart of the Island.",
+    "responses": [
+      {
+        "text": "Learn: warped hauler's harness mk II",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_2" } },
+            { "math": [ "skyisland_warped_harness_upgrade == 0" ] },
+            { "math": [ "islandrank >= 2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_2" } ],
+        "topic": "SKYISLAND_UPGRADES_ITEM_CRAFTING"
+      },
+      {
+        "text": "Learn: warped hauler's harness mk III",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_3" } },
+            { "math": [ "skyisland_warped_harness_upgrade == 1" ] },
+            { "math": [ "islandrank >= 4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_3" } ],
+        "topic": "SKYISLAND_UPGRADES_ITEM_CRAFTING"
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]
   }
 ]

@@ -11,7 +11,7 @@
     "faults": [ { "fault_group": "electronic_general" } ],
     "material": [ "plastic" ],
     "charges_per_use": 1,
-    "turns_per_charge": 5,
+    "turns_per_charge": 20,
     "weight": "670 g",
     "volume": "500 ml",
     "price": "60 USD",
@@ -55,8 +55,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "tool_ammo": [ "battery" ]
@@ -68,7 +68,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
     "description": "A remote-controlled toy car.  It is turned on and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
-    "turns_per_charge": 5,
+    "turns_per_charge": 12,
     "revert_to": "radio_car",
     "use_action": { "type": "transform", "target": "radio_car", "msg": "You turned off your RC car.", "menu_text": "Turn off" },
     "tick_action": [

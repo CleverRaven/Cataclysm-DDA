@@ -68,6 +68,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_enchanted_butterfly_wings",
+    "name": [ "Wings of Gossamer" ],
+    "desc": [ "You have a pair of gossamer wings sprouting from your back." ],
+    "apply_message": "A pair of coruscating gossamer wings sprout from your back!",
+    "remove_message": "Your gossamer wings turn to flower petals and blow away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "mutations": [ "MUTATION_COSMETIC_BUTTERFLY_WINGS", "MUTATION_NO_RIGID_TORSO_ARMOR" ] },
+      { "modified_bodyparts": [ { "gain": "wing_gossamer_l" }, { "gain": "wing_gossamer_r" } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_healing_increase_while_outside",
     "name": [ "New Growth" ],
     "desc": [ "You are drawing on the energy of life to increase your healing rate." ],
@@ -436,6 +449,40 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_character",
+    "name": [ "Time Fells the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "skills": [
+          { "value": "melee", "multiply": -1 },
+          { "value": "stabbing", "multiply": -1 },
+          { "value": "bashing", "multiply": -1 },
+          { "value": "cutting", "multiply": -1 },
+          { "value": "dodge", "multiply": -1 },
+          { "value": "gun", "multiply": -1 },
+          { "value": "archery", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_wither_with_time_monster",
+    "name": [ "Time Fells the Mightiest Warrior" ],
+    "desc": [ "A glamour has reduced your martial skill to almost nothing." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "base_mods": { "hit_mod": [ -10 ], "dodge_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
@@ -468,6 +515,16 @@
       { "condition": { "not": { "is_season": "winter" } }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.9 } ] },
       { "condition": { "is_season": "winter" }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_walk_in_silence",
+    "name": [ "Snow-Fox's Stride" ],
+    "desc": [ "With a light step, you can walk across even new-fallen snow at full speed." ],
+    "apply_message": "",
+    "remove_message": "You sink into the snow with a soft crunch.",
+    "max_duration": "12 hours",
+    "flags": [ "SNOWWALKING" ]
   },
   {
     "type": "effect_type",
@@ -505,6 +562,15 @@
     "desc": [ "You can fool them once, but you can't fool them twice." ],
     "max_duration": "1 minutes",
     "blocks_effects": [ "effect_changeling_winter_feign_death" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_stop_bleeding",
+    "name": [ "Veins of Ice" ],
+    "desc": [ "You can fool them once, but you can't fool them twice." ],
+    "apply_message": "You feel a cold chill in your bones.",
+    "remove_message": "The chill in your bones fades away.",
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "effect_type",

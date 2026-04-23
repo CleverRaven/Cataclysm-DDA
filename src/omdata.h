@@ -341,6 +341,7 @@ enum class oter_travel_cost_type : int {
     highway,
     road,
     field,
+    crop_field,
     dirt_road,
     trail,
     forest,

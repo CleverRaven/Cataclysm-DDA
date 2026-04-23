@@ -302,10 +302,63 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LS_mission_boiler_teleport_to_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "player_location_safehouse_before_labyrinth" } },
+      { "u_add_var": "traveled_safehouse_to_labyrinth", "value": "yes" },
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth",
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Zwoink."
+      },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_boiler_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure_boiler" }
+      },
+      { "mapgen_update": "labyrinth_nl_entry_boiler", "target_var": { "global_val": "labyrinth_nl_boiler_loc" } },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_boiler_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure_boiler" },
+        "terrain": "t_nl_obelisk_mission_boiler",
+        "target_max_radius": 500,
+        "x_adjust": 1
+      },
+      { "u_teleport": { "global_val": "labyrinth_nl_boiler_loc" }, "fail_message": "Nope!", "force": true },
+      { "u_message": "Zwoink.", "popup": true }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_mission_boiler_teleport_to_safehouse",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+        "npc_travel_radius": 0,
+        "region_type": "netherum_labyrinth_safehouse",
+        "npc_travel_filter": "none",
+        "fail_message": "You feel a prickle at the edge of your senses.",
+        "success_message": "Your surroundings warp and fold into a familiar place."
+      },
+      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+      { "u_message": "Zworunk.  The ground shakes for a moment.", "popup": true },
+      { "clear_dimension": "netherum_labyrinth" },
+      { "run_eocs": [ "EOC_LS_SAFEHOUSE_UPDATE_BOILER" ] }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LS_SAFEHOUSE_UPDATE_BOILER",
     "effect": [
       { "u_location_variable": { "global_val": "LS_SAFEHOUSE_1" }, "target_params": { "om_terrain": "labyrinth_safehouse" } },
-      { "mapgen_update": "labyrinth_safehouse_boiler", "target_var": { "global_val": "LS_SAFEHOUSE_1" } }
+      { "mapgen_update": "labyrinth_safehouse_boiler", "target_var": { "global_val": "LS_SAFEHOUSE_1" } },
+      { "math": [ "nl_boiler_placed = 1" ] }
     ]
   },
   {

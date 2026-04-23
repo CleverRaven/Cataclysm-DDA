@@ -1,0 +1,49 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls",
+    "dynamic_line": "&You see a black computer screen with a flickering cursor and some text.  The cursor looks to be controlled by an old mouse that has been hard-wired to the side of terminal.  Only one option appears:\n\n<color_light_green> Labyrinth AB02123.3-4a</color>",
+    "responses": [
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a\"] ",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } },
+        "topic": "COMP_LS_Entrance_Controls2_no"
+      },
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a\"] ",
+        "condition": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+        "topic": "COMP_LS_Entrance_Controls2"
+      },
+      { "text": "[Step away]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2_no",
+    "dynamic_line": "&NO",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2",
+    "dynamic_line": "&Truly?  Yes/No",
+    "responses": [
+      {
+        "text": "[Select \"Yes\"] (enter the Labyrinthine Structure alpha test 0.1, which is still low on content and lacking combat balance)",
+        "condition": { "u_has_trait": "LS_Alphatest" },
+        "effect": [
+          { "finish_mission": "MISSION_EXODII_LABYRINTHS_INTRO", "success": true },
+          { "run_eocs": "EOC_LS_Teleport_to_labyrinth" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[Select \"Yes\"]",
+        "condition": { "not": { "u_has_trait": "LS_Alphatest" } },
+        "effect": { "u_message": "The screen glitches and the terminal reboots.", "popup": true },
+        "topic": "COMP_LS_Entrance_Controls"
+      },
+      { "text": "[Select \"No\"]", "topic": "COMP_LS_Entrance_Controls" }
+    ]
+  }
+]

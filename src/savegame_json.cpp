@@ -4181,7 +4181,7 @@ void mm_submap::deserialize( int version, const JsonArray &ja )
                             // legacy vehicle rotation needs to be converted from 0-360 degrees
                             // to 0-3 tileset rotation
                             const units::angle legacy_angle = units::from_degrees( legacy_rotation );
-                            tile.set_dec_rotation( angle_to_dir4( 270_degrees - legacy_angle ) );
+                            tile.set_dec_rotation( angle_to_dir4( legacy_angle - 270_degrees ) );
                         } else {
                             tile.set_dec_rotation( legacy_rotation );
                         }

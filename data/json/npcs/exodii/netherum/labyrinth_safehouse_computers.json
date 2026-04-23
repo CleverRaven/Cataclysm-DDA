@@ -11,12 +11,22 @@
   {
     "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_computer",
-    "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nᵖˡᵉᵃˢᵉ select a program\n\n @User > _",
+    "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nᵖˡᵉᵃˢᵉ select a program\n\n<color_light_green> @User > _</color>",
     "responses": [
       {
         "text": "<color_light_green>Activate entry protocol",
         "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "<color_light_green>Check for updates",
+        "condition": { "math": [ "nl_boiler_placed != 1" ] },
+        "topic": "COMP_LS_Exit_Controls2_safehouse_missions_boiler"
+      },
+      {
+        "text": "<color_light_green>Check for updates",
+        "condition": { "math": [ "nl_boiler_placed == 1" ] },
+        "topic": "COMP_LS_Exit_Controls2_safehouse_missions_none"
       },
       {
         "text": "<color_red>Activate exit protocol: Earth gate",
@@ -32,5 +42,49 @@
       },
       { "text": "<color_yellow>Log off", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_safehouse_missions_boiler",
+    "dynamic_line": "&<color_light_green> @User > update\n\n .  .  .  .  .  .  %100\n\n Update to ELECTRIC POWER available from AltarOS remote.  Route a path to cache?  Y/N",
+    "responses": [
+      { "text": "Help.", "topic": "COMP_labyrinthine_safehouse_computer_missions_help" },
+      {
+        "text": "Yes.",
+        "effect": { "run_eocs": "EOC_LS_mission_boiler_teleport_to_labyrinth" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "No.", "topic": "COMP_labyrinthine_safehouse_computer" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_labyrinthine_safehouse_computer_missions_help",
+    "dynamic_line": [
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for hᵤmₐn to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵃˢˢʰᵒˡᵉ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  Go get them tᵢgₑᵣ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵗʳᵉᵃᵈ ᶜᵃʳᵉᶠᵘˡˡʸ",
+      "&<color_light_green> @User > update -help\n</color> update: update\n   Search for and prepare updates for the ʰᵒᵐᵉ.\n   If a useful update is available, AltarOS can make a route to the cache, making it possible for ᴴᵁᴹᴬᴺ to access the update package.\n   Fully recovering the package is required to update.\n   Your system obelisk will provide instructions on site.  ᵖˡᵉᵃˢᵉ ᵍᵒ"
+    ],
+    "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2_safehouse_missions_none",
+    "dynamic_line": [
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, ᴴᵁᴹᴬᴺ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, hᵤmₐn.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available, tᵢgₑᵣ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  .  %100\n\nNo updates available.          ᵃˢˢʰᵒˡᵉ",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, ᴴᵁᴹᴬᴺ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, hᵤmₐn.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk, tᵢgₑᵣ.",
+      "&<color_light_green> @User > update\n\n.  .  .  .  .  %CONNECTION LOST\n\nPlease contact your system obelisk.         ᵃˢˢʰᵒˡᵉ"
+    ],
+    "responses": [ { "text": "Return.", "topic": "COMP_labyrinthine_safehouse_computer" } ]
   }
 ]

@@ -975,7 +975,7 @@
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",
-    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ] ] ]
   },
   {
     "id": "edible_fat",
@@ -1001,7 +1001,7 @@
     "id": "any_tallow",
     "type": "requirement",
     "//": "Any type of tallow.",
-    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_tallow", 1, "LIST" ] ] ]
   },
   {
     "id": "edible_blood",

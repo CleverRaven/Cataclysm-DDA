@@ -1,0 +1,142 @@
+[
+  {
+    "id": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_2",
+    "type": "mission_definition",
+    "name": "Craft: Warped Hauler's Harness Mk II",
+    "description": "Completing this mission unlocks a new item crafting recipe.\n\nCraft the Ideal of Exercise from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Unlock ability to craft an upgraded warped hauler's harness mk II.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_warped_harness1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_warped_harness1" },
+        {
+          "u_message": "You find that your harness is lacking and desire to carry heavier things in it.\nA new recipe has been learned.  Craft this artifact to permanently unlock a new item recipe.\n\nEFFECT: Unlock ability to craft an upgraded warped hauler's harness mk II.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_warped_harness_upgrade = 1" ] },
+        { "u_forget_recipe": "upgradekey_warped_harness1" },
+        { "u_learn_recipe": "warphaulbag_tier2" },
+        { "u_message": "You have demonstrated your ability and desire to pick up heavy things.", "type": "mixed" },
+        {
+          "u_message": "Your mind expands.  You have learned to craft:\nwarped hauler's harness mk II",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_warped_harness1",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Ideal of Exercise", "str_pl": "Ideals of Exercise" },
+    "description": "This strange metaphysical artifact will empower you and unlock a new crafting recipe.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Warped Hauler's Harness Mk II",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_warped_harness1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "LIFT", "level": 8 }, { "id": "JACK", "level": 4 } ],
+    "components": [
+      [ [ "frame", 10 ] ],
+      [ [ "cargo_rack", 4 ] ],
+      [ [ "v6_combustion", 1 ], [ "v6_diesel", 1 ], [ "v8_combustion", 1 ], [ "v8_diesel", 1 ] ],
+      [ [ "wheel_wide_or", 4 ], [ "wheel", 4 ], [ "wheel_wide", 4 ] ],
+      [ [ "wheel_mount_medium", 4 ] ],
+      [ [ "alternator_car", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "battery_car", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_WARPED_HARNESS_TIER_3",
+    "type": "mission_definition",
+    "name": "Craft: Warped Hauler's Harness Mk III",
+    "description": "Completing this mission unlocks a new item crafting recipe.\n\nCraft the Testament of Hoisting from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Unlock ability to craft an upgraded warped hauler's harness mk III.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_warped_harness2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_warped_harness2" },
+        {
+          "u_message": "You find that your harness is lacking and desire to carry heavier things in it.\nA new recipe has been learned.  Craft this artifact to permanently unlock a new item recipe.\n\nEFFECT: Unlock ability to craft an upgraded warped hauler's harness mk III.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_warped_harness_upgrade = 2" ] },
+        { "u_forget_recipe": "upgradekey_warped_harness2" },
+        { "u_learn_recipe": "warphaulbag_tier3" },
+        { "u_message": "You have demonstrated your ability and desire to pick up heavy things.", "type": "mixed" },
+        {
+          "u_message": "Your mind expands.  You have learned to craft:\nwarped hauler's harness mk III",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_warped_harness2",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str": "Testament of Hoisting", "str_pl": "Testaments of Hoisting" },
+    "description": "This strange metaphysical artifact will empower you and unlock a new crafting recipe.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Warped Hauler's Harness Mk III",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_warped_harness2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "LIFT", "level": 40 }, { "id": "JACK", "level": 16 } ],
+    "components": [
+      [ [ "hdframe", 5 ] ],
+      [ [ "livestock_carrier", 2 ] ],
+      [ [ "v12_diesel", 2 ], [ "v12_combustion", 2 ] ],
+      [ [ "wheel_armor", 4 ] ],
+      [ [ "wheel_mount_heavy", 4 ] ],
+      [ [ "alternator_truck", 2 ] ],
+      [ [ "metal_tank", 2 ] ],
+      [ [ "battery_car", 4 ] ]
+    ]
+  }
+]

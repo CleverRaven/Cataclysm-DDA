@@ -180,6 +180,39 @@
   },
   {
     "type": "terrain",
+    "id": "t_nl_obelisk_mission_boiler",
+    "name": "Obelisk",
+    "description": "A tall, drab grey, metallic pillar covered in swirling patterns.  You could Examine it closer to try and discern the shapes.",
+    "looks_like": "f_machinery_old",
+    "symbol": "A",
+    "color": "green",
+    "coverage": 70,
+    "move_cost": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_mission_boiler_have",
+          "condition": { "u_has_mission": "MISSION_nl_boiler" },
+          "effect": [ { "u_message": "The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_mission_boiler_grant",
+          "condition": { "not": { "u_has_mission": "MISSION_nl_boiler" } },
+          "effect": [
+            {
+              "u_message": "You see a tall, drab grey, metallic pillar covered in swirling patterns.  As you focus on it, the patterns take the shape of a face, its features clouded by fractal overlays.  It speaks to you, booming loudly as if from some distant place:\n\n Hear this: a source of power was found in this place.\n Seek it out.  Retrieve it.\n Its power will be YOURS.\n A terminal marks its location.\n The terminal will anchor the rhythm of the object.\n Activate the terminal.\n And you,\n and that which will then be bound to you,\n will be carried home.",
+              "popup": true
+            },
+            { "assign_mission": "MISSION_nl_boiler" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_nl_door_l",
     "name": "mysterious closed door",
     "looks_like": "t_nl_door_c",
