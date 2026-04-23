@@ -383,10 +383,7 @@
     "//": "EOC instead of mapgen because this should happen as many times as it takes for the player to find it, but then never again",
     "id": "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER",
     "condition": {
-      "and": [
-        { "one_in_chance": 5 },
-        { "not": { "compare_string": [ "yes", { "u_val": "ls_used_holographic_shard" } ] } }
-      ]
+      "and": [ { "one_in_chance": 5 }, { "not": { "compare_string": [ "yes", { "u_val": "ls_used_holographic_shard" } ] } } ]
     },
     "effect": [
       {
@@ -399,7 +396,10 @@
           "random": true
         }
       },
-      { "mapgen_update": "labyrinth_nl_string_dimension_encounter", "target_var": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" } }
+      {
+        "mapgen_update": "labyrinth_nl_string_dimension_encounter",
+        "target_var": { "global_val": "LS_STRING_DIMENSION_ENCOUNTER_LOC" }
+      }
     ]
   },
   {
@@ -448,7 +448,10 @@
         "target_max_radius": 24
       },
       { "u_teleport": { "context_val": "string_dimension_tunnel" } },
-      { "u_message": "You smell something acrid, then your mind reels - you suddenly find yourself standing upon a landscape, yourself and it completely flat.  You try to find your footing.", "popup": true }
+      {
+        "u_message": "You smell something acrid, then your mind reels - you suddenly find yourself standing upon a landscape, yourself and it completely flat.  You try to find your footing.",
+        "popup": true
+      }
     ]
   }
 ]

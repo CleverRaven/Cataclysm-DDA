@@ -31,10 +31,7 @@
             { "transform_item": "ls_sd_passcode_used" }
           ],
           "false_effect": [
-            {
-              "u_message": "You glance into the depths of the shard.  You don't see anything.",
-              "popup": true
-            },
+            { "u_message": "You glance into the depths of the shard.  You don't see anything.", "popup": true },
             { "transform_item": "ls_sd_passcode_used" }
           ]
         }

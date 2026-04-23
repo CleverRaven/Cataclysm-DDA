@@ -126,7 +126,7 @@
       { "point": [ 7, -1, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
       { "point": [ 8, -1, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
       { "point": [ 9, -1, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
-      { "point": [ 10,-1, 0 ], "overmap": "labyrinth_string_dimension_tunnel_portal" },
+      { "point": [ 10, -1, 0 ], "overmap": "labyrinth_string_dimension_tunnel_portal" },
       { "point": [ 0, 0, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
       { "point": [ 1, 0, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
       { "point": [ 2, 0, 0 ], "overmap": "labyrinth_string_dimension_tunnel_over" },
