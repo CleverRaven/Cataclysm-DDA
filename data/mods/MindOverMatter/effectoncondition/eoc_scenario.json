@@ -225,6 +225,7 @@
         "run_eocs": [ "EOC_MOM_WILD_TALENT_ROLL_RANDOM_TALENTS" ],
         "iterations": { "math": [ "u_knack_wild_talent_iterations" ] }
       },
+      { "u_level_spell_class": "PSYCHIC_KNACK", "levels": 4 },
       { "run_eocs": "EOC_TEACH_KNACK_CONTEMPLATION_RECIPES" }
     ]
   },
