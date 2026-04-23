@@ -13,12 +13,15 @@
         "npc_travel_filter": "none"
       },
       {
-        "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
-        "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-        "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 250
+        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+        "then": {
+          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+          "furniture": "f_exodii_floor_portal_enclosure",
+          "target_max_radius": 250
+        }
       },
-      { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
+      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
         "then": { "u_message": "Zwoink.", "popup": true },
@@ -48,12 +51,15 @@
         "npc_travel_filter": "none"
       },
       {
-        "u_location_variable": { "context_val": "safehouse_floor_portal_enclosure" },
-        "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-        "furniture": "f_exodii_floor_portal_enclosure",
-        "target_max_radius": 250
+        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+        "then": {
+          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+          "furniture": "f_exodii_floor_portal_enclosure",
+          "target_max_radius": 250
+        }
       },
-      { "u_teleport": { "context_val": "safehouse_floor_portal_enclosure" } },
+      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
       { "alter_timed_events": "string_dimension_lights_on" },
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
