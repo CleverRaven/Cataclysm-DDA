@@ -41,7 +41,7 @@
   {
     "type": "ITEM",
     "id": "ls_sd_passcode_used",
-    "name": { "str": "holographic shard (used)", "str_pl": "holographic shard (used)" },
+    "name": { "str": "holographic shard (used)", "str_pl": "holographic shards (used)" },
     "category": "artifact",
     "symbol": ",",
     "color": "blue",
