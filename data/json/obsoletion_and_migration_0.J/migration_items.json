@@ -791,5 +791,10 @@
     "id": "button_wood",
     "replace": "button_plastic",
     "variant": "wood"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "gloves_bag",
+    "replace": "plastic_shopping_bag"
   }
 ]
