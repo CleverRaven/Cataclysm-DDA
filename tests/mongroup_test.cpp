@@ -429,3 +429,27 @@ TEST_CASE( "mongroup_multi_spawn_restrictions", "[mongroup]" )
         CHECK( counts.count( mon_test_zombie_cop ) > 0 );
     }
 }
+TEST_CASE( "mongroup_upgrade_mult_scales_starts_and_ends", "[mongroup]" )
+{
+    const std::set<mtype_id> all_types { mon_test_shearable, mon_test_CBM, mon_test_zombie_cop };
+
+    SECTION( "starts scaled down by EVOLUTION_INVERSE_MULTIPLIER" ) {
+        // multiplier 0.5: starts "28 days" becomes 14 days
+        override_option evo_mult( "EVOLUTION_INVERSE_MULTIPLIER", "0.5" );
+        std::map<mtype_id, int> counts;
+        // at day 20: scaled starts=14 days already passed, shearable should spawn
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 20_days,
+                          all_types, counts );
+        CHECK( counts.count( mon_test_shearable ) > 0 );
+    }
+
+    SECTION( "starts not yet reached after scaling" ) {
+        // multiplier 0.5: starts "28 days" becomes 14 days
+        override_option evo_mult( "EVOLUTION_INVERSE_MULTIPLIER", "0.5" );
+        std::map<mtype_id, int> counts;
+        // at day 10: scaled starts=14 days not yet reached, shearable should NOT spawn
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 10_days,
+                          all_types, counts );
+        CHECK( counts.count( mon_test_shearable ) == 0 );
+    }
+}

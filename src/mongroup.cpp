@@ -513,7 +513,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
-            const int upgrade_mult = mon_upgrade_factor > 0 ? mon_upgrade_factor : 1;
+            const float upgrade_mult = mon_upgrade_factor > 0.0f ? mon_upgrade_factor : 1.0f;
             const time_duration starts = mon.has_member( "starts" )
                                          ? read_from_json_string<time_duration>( mon.get_member( "starts" ),
                                                  time_duration::units ) * upgrade_mult
