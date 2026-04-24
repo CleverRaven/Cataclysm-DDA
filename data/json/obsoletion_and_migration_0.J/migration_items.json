@@ -806,5 +806,20 @@
     "type": "MIGRATION",
     "id": "gloves_bag",
     "replace": "plastic_shopping_bag"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "integrated_bio_robofac_xmleg_on",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "integrated_bio_robofac_xmarm_on",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "integrated_bio_robofac_xmback_on",
+    "replace": "qt_steel_chunk"
   }
 ]

@@ -2397,7 +2397,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-LEG (off)" },
+    "name": { "str": "Hub 01 XM-LEG" },
     "description": "The Hub 01 Lower Extremity Gaitframe, or LEG, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your legs, with anchoring pins implanted deep into the sides of your hips, femurs, and knees, twisting at the lower leg into a metal plate with pins anchored to your shin bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame covering the knee and lower leg has clips custom-fit for Hub 01 greaves, and there is a hip-mounted battery compartment.  When powered, you can move 15% faster, traverse obstacles with 50% higher efficiency, and carry 20kg of extra weight.  Unpowered, they are a significant burden.  Activate them to toggle power.",
     "weight": "1600 g",
     "volume": "5000 ml",
@@ -2447,24 +2447,28 @@
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You activate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg_on" }
-    ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Toggle power",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_activate_robofac_xmleg",
+          "condition": { "math": [ "u_robofac_xmleg_is_on != 1" ] },
+          "effect": [
+            { "transform_item": "integrated_bio_robofac_xmleg", "active": true },
+            { "math": [ "u_robofac_xmleg_is_on = 1" ] },
+            { "u_message": "You activate your XM-LEG." }
+          ],
+          "false_effect": [
+            { "transform_item": "integrated_bio_robofac_xmleg", "active": false },
+            { "math": [ "u_robofac_xmleg_is_on = 0" ] },
+            { "u_message": "You deactivate your XM-LEG." }
+          ]
+        }
+      ]
+    },
     "passive_effects": [ { "id": "robofac_XM_LEG_on" } ],
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "integrated_bio_robofac_xmleg_on",
-    "copy-from": "integrated_bio_robofac_xmleg",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
-    "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-LEG (on)" },
-    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
-    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You deactivate your Hub 01 XM-LEG system.", "target": "integrated_bio_robofac_xmleg" }
-    ],
+    "tool_ammo": [ "battery" ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmleg"
   },
@@ -2473,7 +2477,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-ARM (off)" },
+    "name": { "str": "Hub 01 XM-ARM" },
     "description": "The Hub 01 Arm Reinforcement Motionframe, or ARM, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along each of your arms and hands, with anchoring pins implanted deep into your joints and bones, twisting at the wrist into a thin, glove-like matrix of implanted steel.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment and the elbows and lower arms have clips custom-fit for Hub 01 vambraces.  When powered, your arms are exceptionally stable, reducing firearm recoil by 30% and shot dispersion by 10%.  Moreover, you have better control over thrown objects, allowing you to throw objects 50% further and 25% harder.  Unpowered, they are a significant burden.  Activate them to toggle power.",
     "weight": "1600 g",
     "volume": "5000 ml",
@@ -2523,25 +2527,29 @@
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You activate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm_on" }
-    ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Toggle power",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_activate_robofac_xmarm",
+          "condition": { "math": [ "u_robofac_xmarm_is_on != 1" ] },
+          "effect": [
+            { "transform_item": "integrated_bio_robofac_xmarm", "active": true },
+            { "math": [ "u_robofac_xmarm_is_on = 1" ] },
+            { "u_message": "You activate your XM-ARM" }
+          ],
+          "false_effect": [
+            { "transform_item": "integrated_bio_robofac_xmarm", "active": false },
+            { "math": [ "u_robofac_xmarm_is_on = 0" ] },
+            { "u_message": "You deactivate your XM-ARM." }
+          ]
+        }
+      ]
+    },
     "passive_effects": [ { "id": "robofac_XM_ARM_on" } ],
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "integrated_bio_robofac_xmarm_on",
-    "copy-from": "integrated_bio_robofac_xmarm",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
-    "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-ARM (on)" },
-    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
-    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You deactivate your Hub 01 XM-ARM system.", "target": "integrated_bio_robofac_xmarm" }
-    ],
     "power_draw": "37 W",
+    "tool_ammo": [ "battery" ],
     "revert_to": "integrated_bio_robofac_xmarm"
   },
   {
@@ -2549,7 +2557,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
     "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-BACK (off)" },
+    "name": { "str": "Hub 01 XM-BACK" },
     "description": "The Hub 01 Biomechanical Assisted Carrying Kinetoframe, or BACK, a powered exoskeleton for the true frontier cyborg.  A metal frame runs along the back of your shoulders, your spine, and upper waist, with anchoring pins implanted deep into your joints and bones.  Inside are various anchors and electronic interfaces for your muscles, connective tissues, and neurobionic interface.  The frame has a battery compartment at the lower back.  When powered, your frame adapts to effectively distribute force, increasing carrying capacity by 35%, and modestly improving your ability to throw and absorb recoil.  Unpowered, it is a significant burden.  Activate it to toggle power.",
     "weight": "1600 g",
     "volume": "5000 ml",
@@ -2583,24 +2591,28 @@
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "torso" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You activate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback_on" }
-    ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Toggle power",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_activate_robofac_xmback",
+          "condition": { "math": [ "u_robofac_xmback_is_on != 1" ] },
+          "effect": [
+            { "transform_item": "integrated_bio_robofac_xmback", "active": true },
+            { "math": [ "u_robofac_xmback_is_on = 1" ] },
+            { "u_message": "You activate your XM-BACK." }
+          ],
+          "false_effect": [
+            { "transform_item": "integrated_bio_robofac_xmback", "active": false },
+            { "math": [ "u_robofac_xmback_is_on = 0" ] },
+            { "u_message": "You deactivate your XM-BACK." }
+          ]
+        }
+      ]
+    },
     "passive_effects": [ { "id": "robofac_XM_BACK_on" } ],
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "integrated_bio_robofac_xmback_on",
-    "copy-from": "integrated_bio_robofac_xmback",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR", "TOOL", "ARTIFACT" ],
-    "category": "armor",
-    "name": { "str_sp": "Hub 01 XM-BACK (on)" },
-    "extend": { "flags": [ "SPAWN_ACTIVE" ] },
-    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "torso" ] } ],
-    "use_action": [
-      { "type": "transform", "msg": "You deactivate your Hub 01 XM-BACK system.", "target": "integrated_bio_robofac_xmback" }
-    ],
+    "tool_ammo": [ "battery" ],
     "power_draw": "37 W",
     "revert_to": "integrated_bio_robofac_xmback"
   },
