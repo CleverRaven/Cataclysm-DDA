@@ -214,9 +214,9 @@
   {
     "type": "terrain",
     "id": "t_nl_door_l",
-    "name": "mysterious closed door",
-    "looks_like": "t_nl_door_c",
-    "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.",
+    "name": "mysterious locked door",
+    "looks_like": "t_door_metal_locked",
+    "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.  It appears to be locked.",
     "symbol": "$",
     "color": "blue",
     "move_cost": -1,
