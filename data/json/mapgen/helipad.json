@@ -86,7 +86,7 @@
           { "item": "c4_box_part", "chance": 10 },
           { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
         ],
-        "q": { "item": "milspec_arsenal_group_only_ammo", "chance": 100 ,"repeat": [ 1, 2 ] },
+        "q": { "item": "milspec_arsenal_group_only_ammo", "chance": 100, "repeat": [ 1, 2 ] },
         "l": {
           "item": {
             "subtype": "distribution",
