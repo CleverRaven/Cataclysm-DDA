@@ -52,9 +52,9 @@ static ui_state *gLUI = nullptr;
 static void redraw()
 {
 #ifdef TILES
-    // make window slightly larger as it is shifted
-    ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size + ImVec2{ 2, 2 } );
-    ImGui::SetNextWindowPos( {-1, -1}, ImGuiCond_Always );
+    ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size );
+    ImGui::SetNextWindowPos( {0, 0}, ImGuiCond_Always );
+    ImGui::PushStyleVar( ImGuiStyleVar_WindowBorderSize, 0.0f );
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
@@ -93,6 +93,7 @@ static void redraw()
         cataimgui::draw_colored_text( loading_msg, ImGui::GetContentRegionAvail().x );
     }
     ImGui::End();
+    ImGui::PopStyleVar();
 
 #else
     int x = ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2;
