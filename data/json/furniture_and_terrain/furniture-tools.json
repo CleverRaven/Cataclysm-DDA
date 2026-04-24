@@ -869,7 +869,7 @@
     "id": "f_power_hammer",
     "name": "power hammer",
     "looks_like": "f_drophammer",
-    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal. ",
+    "description": "A self-contained pneumatic power hammer using compressed air from an integrated compressor to strike repeatedly with great force.  Used for efficiently shaping and working metal.",
     "symbol": "7",
     "color": "light_blue",
     "move_cost_mod": -1,

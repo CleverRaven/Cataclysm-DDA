@@ -340,8 +340,8 @@
   },
   {
     "type": "furniture",
-    "id": "f_drop_hammer",
-    "name": "blacksmith tire hammer",
+    "id": "f_drophammer",
+    "name": "blacksmith drop hammer",
     "symbol": "#",
     "description": "An anvil with a large metal hammer suspended above it in a metal framework.  It would be useful for shaping softened metal plates, or you could use the anvil by itself.",
     "color": "white",
