@@ -2002,7 +2002,7 @@
         "values": [
           {
             "value": "ATTACK_SPEED",
-            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers(), -0.3)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers() ), -0.3)" ] }
           }
         ]
       },
