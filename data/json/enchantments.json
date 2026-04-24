@@ -441,7 +441,12 @@
       { "value": "THROW_STR", "multiply": 0.5 },
       { "value": "THROW_DAMAGE", "multiply": 0.25 }
     ],
-    "encumbrance_modifier": [ { "part": "arm_l", "add": -40 }, { "part": "arm_r", "add": -40 }, { "part": "hand_l", "add": -40 }, { "part": "hand_r", "add": -40 } ]
+    "encumbrance_modifier": [
+      { "part": "arm_l", "add": -40 },
+      { "part": "arm_r", "add": -40 },
+      { "part": "hand_l", "add": -40 },
+      { "part": "hand_r", "add": -40 }
+    ]
   },
   {
     "id": "robofac_XM_BACK_on",
