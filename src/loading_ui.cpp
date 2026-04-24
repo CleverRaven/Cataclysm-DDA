@@ -52,7 +52,8 @@ static ui_state *gLUI = nullptr;
 static void redraw()
 {
 #ifdef TILES
-    ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size );
+    // make window slightly larger as it is shifted
+    ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size + ImVec2{ 2, 2 } );
     ImGui::SetNextWindowPos( {-1, -1}, ImGuiCond_Always );
     if( ImGui::Begin( "Loading…", nullptr,
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
