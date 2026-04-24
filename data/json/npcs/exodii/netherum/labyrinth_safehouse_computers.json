@@ -13,10 +13,7 @@
     "id": "COMP_labyrinthine_safehouse_computer",
     "dynamic_line": "& █████╗ ██╗  ████████╗ █████╗ ██████╗      ██████╗ ███████╗\n██╔══██╗██║  ╚══██╔══╝██╔══██╗██╔══██╗    ██╔═══██╗██╔════╝\n███████║██║     ██║   ███████║██████╔╝    ██║   ██║███████╗\n██╔══██║██║     ██║   ██╔══██║██╔══██╗    ██║   ██║╚════██║\n██║  ██║███████╗██║   ██║  ██║██║  ██║    ╚██████╔╝███████║\n╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚══════╝\n\nᵖˡᵉᵃˢᵉ select a program\n\n<color_light_green> @User > _</color>",
     "responses": [
-      {
-        "text": "<color_light_green>Activate entry protocol",
-        "topic": "COMP_labyrinthine_safehouse_computer_blood_tax"
-      },
+      { "text": "<color_light_green>Activate entry protocol", "topic": "COMP_labyrinthine_safehouse_computer_blood_tax" },
       {
         "text": "<color_light_green>Check for updates",
         "condition": { "math": [ "nl_boiler_placed != 1" ] },
@@ -59,13 +56,7 @@
     "type": "talk_topic",
     "id": "COMP_labyrinthine_safehouse_computer_blood_tax_yes",
     "dynamic_line": "&You place your hand on the terminal.  There is a pinch, then a wet, mechanical hiss, as the needle draws a bit of blood.  Your vision blurs.",
-    "responses": [
-      {
-        "text": "…",
-        "topic": "TALK_DONE",
-        "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" }
-      }
-    ]
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": { "run_eocs": "EOC_LS_SAFEHOUSE_Teleport_to_labyrinth" } } ]
   },
   {
     "type": "talk_topic",
