@@ -148,14 +148,14 @@ static void move_selection( T &data, const int amount )
 
     // Wrap the selection if we are at either end and scroll further
     if( amount > 0 && it == data.filtered_list.end() - 1 ) {
-        data.selected_entry = *data.filtered_list.begin();
+        data.selected_entry = *data.filtered_list.begin(); // NOLINT(bugprone-branch-clone)
     } else if( amount < 0 && it == data.filtered_list.begin() ) {
-        data.selected_entry = *data.filtered_list.rbegin();
+        data.selected_entry = *data.filtered_list.rbegin(); // NOLINT(bugprone-branch-clone)
     // Clamp to either end if we would exceed our bounds
     } else if( amount > 0 && amount > std::distance( it, data.filtered_list.end() - 1 ) ) {
-        data.selected_entry = *data.filtered_list.rbegin();
+        data.selected_entry = *data.filtered_list.rbegin(); // NOLINT(bugprone-branch-clone)
     } else if( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) {
-        data.selected_entry = *data.filtered_list.begin();
+        data.selected_entry = *data.filtered_list.begin(); // NOLINT(bugprone-branch-clone)
     // Advance the specified amount otherwise
     } else {
         std::advance( it, amount );
