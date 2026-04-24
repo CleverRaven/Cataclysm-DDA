@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie",
     "description": "A human body, skin a sickly grayish color, moving with a slow shuffling motion.",
-    "delete": { "flags": [ "UNBREAKABLE_MORALE" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MORALE", "WARM" ] },
     "extend": {
       "flags": [ "CLUMSY_ATTACKS" ],
       "special_attacks": [
