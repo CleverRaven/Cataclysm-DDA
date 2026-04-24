@@ -1984,25 +1984,25 @@
         "incoming_damage_mod": [
           {
             "type": "bash",
-            "multiply": { "math": [ "max( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers() ), -0.3)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers() ), -0.3)" ] }
           },
           {
             "type": "stab",
-            "multiply": { "math": [ "max( ( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers() ), -0.15)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers() ), -0.15)" ] }
           },
           {
             "type": "cut",
-            "multiply": { "math": [ "max( ( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers() ), -0.15)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.005 ) * psionic_power_modifiers() ), -0.15)" ] }
           },
           {
             "type": "bullet",
-            "multiply": { "math": [ "max( ( u_spell_level('telekinetic_momentum') * -0.02 ) * psionic_power_modifiers() ), -0.6)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.02 ) * psionic_power_modifiers() ), -0.6)" ] }
           }
         ],
         "values": [
           {
             "value": "ATTACK_SPEED",
-            "multiply": { "math": [ "max( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers(), -0.3)" ] }
+            "multiply": { "math": [ "max( ( ( u_spell_level('telekinetic_momentum') * -0.01 ) * psionic_power_modifiers(), -0.3)" ] }
           }
         ]
       },
