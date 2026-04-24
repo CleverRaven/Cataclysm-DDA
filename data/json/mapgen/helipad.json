@@ -80,8 +80,7 @@
           },
           "chance": 50
         },
-        "r": 
-          [
+        "r": [
           { "item": "milspec_arsenal_group_only_guns", "chance": 100 },
           { "item": "arsenal_mics_group", "chance": 70 },
           { "item": "c4_box_part", "chance": 10 },
