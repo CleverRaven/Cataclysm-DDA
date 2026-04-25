@@ -67,6 +67,9 @@ const SDL_Renderer_Ptr &get_sdl_renderer();
 // Returns the main game window. Needed by text input wrappers and other
 // SDL3 APIs that require an explicit window parameter.
 SDL_Window *get_sdl_window();
+// Clears the SDL renderer to black. Call this when closing an ImGui UI to
+// avoid leaving stale render artifacts visible before the next game frame.
+void clear_sdl_screen();
 
 #endif // TILES
 

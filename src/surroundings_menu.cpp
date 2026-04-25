@@ -50,8 +50,7 @@
 #include "ui_manager.h"
 
 #if defined(TILES)
-#include "sdltiles.h"
-#include "sdl_wrappers.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #endif
 
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -1277,9 +1276,7 @@ void surroundings_menu::execute()
     }
 
 #if defined(TILES)
-    // Clear the screen before returning to avoid leaving artifacts of the UI behind
-    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
-    RenderClear( get_sdl_renderer() );
+    clear_sdl_screen();
 #endif
 
     uistate.vmenu_tab = selected_tab;

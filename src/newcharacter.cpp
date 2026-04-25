@@ -825,9 +825,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         ccui.display();
         if( cc_uistate.quit_to_main_menu ) {
 #if defined(TILES)
-            // Clear the screen before returning to avoid leaving artifacts of the UI behind
-            SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
-            RenderClear( get_sdl_renderer() );
+            clear_sdl_screen();
 #endif
             return false;
         }
@@ -837,9 +835,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     initialize( type );
 
 #if defined(TILES)
-    // Clear the screen before returning to avoid leaving artifacts of the UI behind
-    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
-    RenderClear( get_sdl_renderer() );
+    clear_sdl_screen();
 #endif
     return true;
 }

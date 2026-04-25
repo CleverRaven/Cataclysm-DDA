@@ -1169,9 +1169,7 @@ action_id input_context::display_menu( bool permit_execute_action )
     }
 
 #if defined(TILES)
-    // Clear the screen before returning to avoid leaving artifacts of the UI behind
-    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
-    RenderClear( get_sdl_renderer() );
+    clear_sdl_screen();
 #endif
 
     return action_to_execute;

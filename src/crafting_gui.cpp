@@ -2842,9 +2842,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     }
 
 #if defined(TILES)
-    // Clear the screen before returning to avoid leaving artifacts of the UI behind
-    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
-    RenderClear( get_sdl_renderer() );
+    clear_sdl_screen();
 #endif
 
     batch_size_out = impl.get_batch_size();
