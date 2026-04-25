@@ -613,8 +613,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     male = one_in( 2 );
     pick_name();
     randomize_height();
-    // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
-    set_base_age( rng( 18, 55 ) );
+    set_base_age( rng( NPC_RAND_AGE_MIN, NPC_RAND_AGE_MAX ) );
     int str_base = dice( 4, 3 );
     int dex_base = dice( 4, 3 );
     int int_base = dice( 4, 3 );

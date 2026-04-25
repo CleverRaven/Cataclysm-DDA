@@ -65,6 +65,10 @@ struct faction_price_rule;
 
 constexpr int NPC_PERSONALITY_MIN = -10;
 constexpr int NPC_PERSONALITY_MAX = 10;
+// Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults
+// Note: npcs with ages defined in json files are not limited to these values.
+constexpr int NPC_RAND_AGE_MIN = 18;
+constexpr int NPC_RAND_AGE_MAX = 55;
 constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
 constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
