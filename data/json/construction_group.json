@@ -2182,7 +2182,7 @@
     "name": "Place Refrigerator to move it to vehicle cargo"
   },
   {
-	"//": "When appliances can be moved into the cargo this can be deleted",
+    "//": "When appliances can be moved into the cargo this can be deleted",
     "type": "construction_group",
     "id": "build_chest_freezer",
     "name": "Place Chest Freezer to move it to vehicle cargo"
