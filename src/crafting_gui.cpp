@@ -54,6 +54,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "text.h"
@@ -2839,6 +2840,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         }
         impl.process_action( action, ctxt );
     }
+
+#if defined(TILES)
+    // Clear the screen before returning to avoid leaving artifacts of the UI behind
+    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+    RenderClear( get_sdl_renderer() );
+#endif
 
     batch_size_out = impl.get_batch_size();
     return { impl.get_crafter(), impl.get_chosen() };
