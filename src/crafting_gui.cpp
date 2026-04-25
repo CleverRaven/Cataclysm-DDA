@@ -66,6 +66,11 @@
 #include "uilist.h"
 #include "uistate.h"
 
+#include "uistate.h"
+#if defined(TILES)
+#include "sdltiles.h" // IWYU pragma: keep
+#endif
+
 static const efftype_id effect_contacts( "contacts" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const skill_id skill_electronics( "electronics" );
