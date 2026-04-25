@@ -461,5 +461,29 @@
     "weight": "140 kg",
     "price": "1 kUSD",
     "price_postapoc": "10 USD"
+  },
+  {
+     "//": "When appliances can be moved into the cargo this can be deleted",
+    "type": "construction",
+    "id": "constr_refrigerator",
+    "group": "build_refrigerator",
+    "category": "FURN",
+    "time": "1 m",
+    "difficulty": 0,
+	 "components": [ [ [ "fridge", 1 ] ], [ [ "apartment_freezer", 1 ] ] ],
+    "pre_special": [ "check_empty" ],
+    "post_terrain": "f_fridge"
+  },
+  {
+    "//": "When appliances can be moved into the cargo this can be deleted",
+    "type": "construction",
+    "id": "constr_chest_freezer",
+    "group": "build_chest_freezer",
+    "category": "FURN",
+    "time": "1 m",
+    "difficulty": 0,
+    "components": [ [ [ "chest_freezer", 1 ] ] ],
+    "pre_special": [ "check_empty" ],
+    "post_terrain": "f_freezer"
   }
 ]
