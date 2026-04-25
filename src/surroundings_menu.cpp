@@ -162,7 +162,25 @@ static void move_selection( T &data, const int amount )
     } else {
         std::advance( it, amount );
         data.selected_entry = *it;
+    // NOLINTBEGIN (bugprone-branch-clone)
+    // The order of conditions is important, so we need to ignore the error
+    // Wrap the selection if we are at either end and scroll further
+    if( amount > 0 && it == data.filtered_list.end() - 1 ) {
+        data.selected_entry = *data.filtered_list.begin();
+    } else if( amount < 0 && it == data.filtered_list.begin() ) {
+        data.selected_entry = *data.filtered_list.rbegin();
+    } else if( amount > 0 && amount > std::distance( it, data.filtered_list.end() - 1 ) ) {
+        // Clamp to bottom if we would exceed our bounds
+        data.selected_entry = *data.filtered_list.rbegin();
+    } else if( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) {
+        // Clamp to top if we would exceed our bounds
+        data.selected_entry = *data.filtered_list.begin();
+    } else {
+        // Advance the specified amount otherwise
+        std::advance( it, amount );
+        data.selected_entry = *it;
     }
+    // NOLINTEND (bugprone-branch-clone)
 }
 
 tab_data::tab_data( const std::string &title ) : title( title )
