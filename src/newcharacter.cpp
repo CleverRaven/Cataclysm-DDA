@@ -83,6 +83,10 @@
 #include "veh_type.h"
 #include "worldfactory.h"
 
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
+
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
@@ -820,6 +824,11 @@ bool avatar::create( character_type type, const std::string &tempname )
         cc_uistate.generation_type = type;
         ccui.display();
         if( cc_uistate.quit_to_main_menu ) {
+#if defined(TILES)
+            // Clear the screen before returning to avoid leaving artifacts of the UI behind
+            SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+            RenderClear( get_sdl_renderer() );
+#endif
             return false;
         }
     }
@@ -827,6 +836,11 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     initialize( type );
 
+#if defined(TILES)
+    // Clear the screen before returning to avoid leaving artifacts of the UI behind
+    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+    RenderClear( get_sdl_renderer() );
+#endif
     return true;
 }
 
