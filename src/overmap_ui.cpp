@@ -2910,4 +2910,10 @@ void ui::omap::force_quit()
     overmap_ui::generated_omts.clear();
     g->overmap_data.ui.reset();
     g->overmap_data.fast_traveling = false;
+
+#if defined(TILES)
+    // Clear the screen before returning to avoid leaving artifacts of the UI behind
+    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+    RenderClear( get_sdl_renderer() );
+#endif
 }
