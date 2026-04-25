@@ -66,7 +66,6 @@
 #include "uilist.h"
 #include "uistate.h"
 
-#include "uistate.h"
 #if defined(TILES)
 #include "sdltiles.h" // IWYU pragma: keep
 #endif
