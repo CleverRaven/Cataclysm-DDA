@@ -470,7 +470,7 @@
     "category": "FURN",
     "time": "1 m",
     "difficulty": 0,
-	 "components": [ [ [ "fridge", 1 ] ], [ [ "apartment_freezer", 1 ] ] ],
+    "components": [ [ [ "fridge", 1 ] ], [ [ "apartment_freezer", 1 ] ] ],
     "pre_special": [ "check_empty" ],
     "post_terrain": "f_fridge"
   },
