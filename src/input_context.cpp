@@ -1168,6 +1168,12 @@ action_id input_context::display_menu( bool permit_execute_action )
         inp_mngr.action_contexts.swap( old_action_contexts );
     }
 
+#if defined(TILES)
+    // Clear the screen before returning to avoid leaving artifacts of the UI behind
+    SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+    RenderClear( get_sdl_renderer() );
+#endif
+
     return action_to_execute;
 }
 
