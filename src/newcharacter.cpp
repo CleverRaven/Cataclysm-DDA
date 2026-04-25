@@ -464,7 +464,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     // random NPCs have a special minimum age
-    if ( init_age < NPC_RAND_AGE_MIN ) {
+    if( init_age < NPC_RAND_AGE_MIN ) {
         init_age = NPC_RAND_AGE_MIN ;
     }
 
