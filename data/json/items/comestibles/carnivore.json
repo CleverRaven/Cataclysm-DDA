@@ -207,7 +207,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "category": "food",
     "name": { "str": "oyster in shell", "str_pl": "oysters in shell" },
-    "weight": "75 g",
+    "weight": "48 g",
     "color": "light_gray",
     "comestible_type": "FOOD",
     "symbol": "o",
