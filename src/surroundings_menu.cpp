@@ -177,6 +177,7 @@ static void move_selection( T &data, const int amount )
         data.selected_entry = *data.filtered_list.begin();
     } else {
         // Advance the specified amount otherwise
+    } else {
         std::advance( it, amount );
         data.selected_entry = *it;
         // NOLINTBEGIN (bugprone-branch-clone)
