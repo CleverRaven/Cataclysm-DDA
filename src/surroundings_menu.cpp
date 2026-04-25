@@ -179,6 +179,100 @@ static void move_selection( T &data, const int amount )
         // Advance the specified amount otherwise
         std::advance( it, amount );
         data.selected_entry = *it;
+        // NOLINTBEGIN (bugprone-branch-clone)
+        // The order of conditions is important, so we need to ignore the error
+        // Wrap the selection if we are at either end and scroll further
+        if( amount > 0 && it == data.filtered_list.end() - 1 ) {
+            data.selected_entry = *data.filtered_list.begin();
+        } else if( amount < 0 && it == data.filtered_list.begin() ) {
+            data.selected_entry = *data.filtered_list.rbegin();
+        } else if( amount > 0 && amount > std::distance( it, data.filtered_list.end() - 1 ) ) {
+            // Clamp to bottom if we would exceed our bounds
+            data.selected_entry = *data.filtered_list.rbegin();
+        } else if( amount < 0 && amount < std::distance( it, data.filtered_list.begin() ) ) {
+            // Clamp to top if we would exceed our bounds
+            data.selected_entry = *data.filtered_list.begin();
+        } else {
+            // Advance the specified amount otherwise
+            std::advance( it, amount );
+            data.selected_entry = *it;
+        }
+        // NOLINTEND (bugprone-branch-clone)
+    }
+
+    tab_data::tab_data( const std::string & title ) : title( title ) {
+        ctxt = input_context( "LIST_SURROUNDINGS" );
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+        ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+        ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+        ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+        ctxt.register_action( "look" );
+        ctxt.register_action( "zoom_in" );
+        ctxt.register_action( "zoom_out" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+        ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+        ctxt.register_action( "RESET_FILTER" );
+        ctxt.register_action( "SORT" );
+        ctxt.register_action( "TRAVEL_TO" );
+
+        // arbitrary timeout to fix imgui input weirdness
+        ctxt.set_timeout( 10 );
+    }
+
+    void tab_data::filter_popup() {
+        string_input_popup_imgui popup( 70, filter, filter_title );
+        popup.set_description( filter_description, c_white, true );
+        popup.set_label( filter_label );
+        popup.set_identifier( filter_identifier );
+
+        filter = popup.query();
+        set_filter_active( !filter.empty() );
+    }
+
+    bool tab_data::has_filter() const {
+        return !filter.empty();
+    }
+
+    item_tab_data::item_tab_data( const std::string & title ) : tab_data( title ) {
+        ctxt.register_action( "EXAMINE" );
+        ctxt.register_action( "COMPARE" );
+        ctxt.register_action( "PRIORITY_INCREASE" );
+        ctxt.register_action( "PRIORITY_DECREASE" );
+        ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
+        ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
+        ctxt.register_action( "FILTER" );
+
+        filter_title = _( "Filter items" );
+        filter_description = item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" +
+                             list_items_filter_history_help();
+        filter_identifier = "item_filter";
+
+        hotkey_groups = {
+            { "EXAMINE", "COMPARE", "TRAVEL_TO" },
+            { "FILTER", "RESET_FILTER", "PRIORITY_INCREASE", "PRIORITY_DECREASE" }
+        };
+    }
+
+    void item_tab_data::init( const Character & you, map & m ) {
+        find_nearby_items( you, m );
+        if( uistate.list_item_filter_active ) {
+            filter = uistate.list_item_filter;
+        }
+        if( uistate.list_item_priority_active ) {
+            filter_priority_plus = uistate.list_item_priority;
+        }
+        if( uistate.list_item_downvote_active ) {
+            filter_priority_minus = uistate.list_item_downvote;
+        }
+        sort_flags = static_cast<surroundings_menu_sort_flags>( uistate.vmenu_item_sort );
+        apply_filter();
+        if( !filtered_list.empty() ) {
+            selected_entry = filtered_list.front();
+        }
     }
 
 tab_data::tab_data( const std::string &title ) : title( title )
