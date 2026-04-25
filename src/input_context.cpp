@@ -1168,10 +1168,6 @@ action_id input_context::display_menu( bool permit_execute_action )
         inp_mngr.action_contexts.swap( old_action_contexts );
     }
 
-#if defined(TILES)
-    clear_sdl_screen();
-#endif
-
     return action_to_execute;
 }
 

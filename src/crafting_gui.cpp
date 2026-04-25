@@ -66,10 +66,6 @@
 #include "uilist.h"
 #include "uistate.h"
 
-#if defined(TILES)
-#include "sdltiles.h" // IWYU pragma: keep
-#endif
-
 static const efftype_id effect_contacts( "contacts" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const skill_id skill_electronics( "electronics" );
@@ -2843,10 +2839,6 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         }
         impl.process_action( action, ctxt );
     }
-
-#if defined(TILES)
-    clear_sdl_screen();
-#endif
 
     batch_size_out = impl.get_batch_size();
     return { impl.get_crafter(), impl.get_chosen() };

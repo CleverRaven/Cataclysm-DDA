@@ -900,6 +900,9 @@ cataimgui::window::~window()
         if( !ui_adaptor::has_imgui() ) {
             ImGui::GetIO().ClearInputKeys();
             GImGui->InputEventsQueue.resize( 0 );
+#if defined(TILES)
+            clear_sdl_screen();
+#endif
         }
     }
 }

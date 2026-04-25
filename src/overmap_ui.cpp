@@ -2910,8 +2910,4 @@ void ui::omap::force_quit()
     overmap_ui::generated_omts.clear();
     g->overmap_data.ui.reset();
     g->overmap_data.fast_traveling = false;
-
-#if defined(TILES)
-    clear_sdl_screen();
-#endif
 }

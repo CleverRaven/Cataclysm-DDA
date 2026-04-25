@@ -49,10 +49,6 @@
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
 
-#if defined(TILES)
-#include "sdltiles.h" // IWYU pragma: keep
-#endif
-
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static surroundings_menu_tab_enum &operator++( surroundings_menu_tab_enum &c )
@@ -1274,10 +1270,6 @@ void surroundings_menu::execute()
             handle_list_input( action );
         }
     }
-
-#if defined(TILES)
-    clear_sdl_screen();
-#endif
 
     uistate.vmenu_tab = selected_tab;
 }
