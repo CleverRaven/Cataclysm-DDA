@@ -200,7 +200,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote_visibility": "same_tile",
+    "autonote_visibility": "details",
     "flags": [ "PORTAL" ]
   },
   {
@@ -212,7 +212,7 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
-    "autonote_visibility": "same_tile",
+    "autonote_visibility": "details",
     "flags": [ "PORTAL" ]
   },
   {
