@@ -796,6 +796,36 @@
   },
   {
     "type": "trap",
+    "id": "tr_dermatik",
+    "name": "burrowed dermatik",
+    "color": "green",
+    "symbol": "#",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 4,
+    "action": "eocs",
+    "always_invisible": true,
+    "eocs": [ "EOC_DERMATIK_VICTIM_TRAP_ACTIVATE_MSG" ],
+    "trigger_message_u": "Something burrows out of the ground at your feet!",
+    "trigger_message_npc": "Something burrows out of the ground at the feet of <npcname>! "
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_VICTIM_TRAP_ACTIVATE_MSG",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "u_make_sound": "chitin flexing and earth moving*", "volume": 2, "type": "movement" },
+      { "u_message": "The ground shifts and writhes below your feet as something burrows out of the earth!" },
+      { "u_spawn_monster": "mon_dermatik_juvenile_flightless", "real_count": 1, "min_radius": 1, "max_radius": 1 },
+      {
+        "if": { "and": [ { "not": "u_is_avatar" }, "player_see_u" ] },
+        "then": { "message": "The ground shifts and writhes below <u_name>'s feet as something burrows out of the earth!" }
+      }
+    ]
+  },
+  {
+    "type": "trap",
     "id": "tr_glass_pit",
     "name": "glass pit",
     "color": "cyan",

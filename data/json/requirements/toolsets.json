@@ -610,7 +610,7 @@
   {
     "id": "metal_file_any",
     "type": "requirement",
-    "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
+    "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ], [ "belt_grinder", 25 ] ] ]
   },
   {
     "id": "nm_teeth_removal",

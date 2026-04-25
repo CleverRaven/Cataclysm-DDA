@@ -16,7 +16,8 @@
       [ "hotcut", 90 ],
       [ "metalworking_tongs", 90 ],
       [ "hammer", 90 ],
-      [ "sandpaper", 90 ]
+      [ "sandpaper", 90 ],
+      [ "belt_grinder", 50 ]
     ]
   },
   {
@@ -204,6 +205,7 @@
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
+      [ "belt_grinder", 20 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
       { "item": "dehydrator", "prob": 5 },
       [ "tourist_table", 1 ],
@@ -952,7 +954,8 @@
       { "item": "grinder_metal_grinding_disc", "prob": 10 },
       { "item": "masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
       { "item": "heavy_masonrysaw_off", "prob": 50, "charges": [ 0, 450 ] },
-      { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] }
+      { "item": "electric_masonrysaw_off", "prob": 50, "charges": [ 0, 495 ] },
+      { "item": "belt_grinder", "prob": 20 }
     ]
   },
   {

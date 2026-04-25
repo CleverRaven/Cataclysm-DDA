@@ -529,7 +529,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     if( !faults.empty() ) {
         for( const std::pair<fault_id, int> &f : faults ) {
             if( x_in_y( f.second, 100 ) ) {
-                new_item.set_fault( f.first, false, false );
+                new_item.set_fault( f.first, false, nullptr );
             }
         }
     }

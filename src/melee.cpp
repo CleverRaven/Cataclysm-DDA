@@ -293,6 +293,9 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
 
     std::string str = shield->tname(); // save name before we apply damage
 
+    // Pass nullptr (default): the bespoke "Your %s is damaged" message below already
+    // notifies the player; threading holder would double-report alongside the
+    // per-fault "%s was dented!" message.
     if( !shield->inc_damage() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the force of the blow!" ),
                                _( "<npcname>'s %s is damaged by the force of the blow!" ),
@@ -2155,7 +2158,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             if( source != nullptr && !source->is_hallucination() ) {
                 for( damage_unit &du : dam.damage_units ) {
                     shield->damage_armor_durability( du, du, bp_hit, calculate_by_enchantment( 1,
-                                                     enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+                                                     enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ),
+                                                     this );
                 }
             }
 

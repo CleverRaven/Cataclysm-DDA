@@ -268,6 +268,28 @@
     "tool_ammo": [ "battery" ]
   },
   {
+    "id": "belt_grinder",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "belt grinder" },
+    "looks_like": "pedal_grindstone",
+    "description": "A power tool used for grinding and shaping metal or even wood.  It consists of a motorized abrasive belt that spins at high speeds, allowing you to quickly polish, flatten, or overall remove material from surfaces.",
+    "weight": "55 kg",
+    "volume": "70 L",
+    "longest_side": "80 cm",
+    "price": "1500 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "B",
+    "color": "light_gray",
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "charged_qualities": [ { "id": "GRIND", "level": 2, "speed": 0.4 }, { "id": "FILE", "level": 3, "speed": 0.3 } ],
+    "charges_per_use": 25,
+    "use_action": [ { "type": "link_up", "cable_length": 10, "charge_rate": "1600 W" } ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
     "id": "link_sheet",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

@@ -233,6 +233,9 @@ void loading_ui::done()
     if( gLUI != nullptr ) {
 #ifdef TILES
         gLUI->chosen_load_img = cata_path();
+        // Clear the message that was drawn on top of the loading image
+        SetRenderDrawColor( get_sdl_renderer(), 0, 0, 0, 255 );
+        RenderClear( get_sdl_renderer() );
 #endif
         delete gLUI->ui;
         delete gLUI->bg;

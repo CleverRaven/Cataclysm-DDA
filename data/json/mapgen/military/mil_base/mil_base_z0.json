@@ -776,7 +776,7 @@
         { "group": "ammo_can_223_any_full", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
         { "group": "modular_m4a1", "x": 16, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 36 },
         { "item": "stanag30", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
-        { "group": "ammo_can_223_any_full", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
+        { "group": "ammo_can_223_any_full", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 20 },
         { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
         { "item": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },

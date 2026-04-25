@@ -10443,7 +10443,7 @@ void mend_item_activity_actor::finish( player_activity &act, Character &who )
         }
     }
     for( const ::fault_id &id : fix.faults_added ) {
-        target.set_fault( id, true, false );
+        target.set_fault( id, true, nullptr );
     }
     for( const auto& [var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
