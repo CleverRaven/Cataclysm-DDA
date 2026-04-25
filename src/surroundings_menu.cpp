@@ -180,8 +180,6 @@ static void move_selection( T &data, const int amount )
         std::advance( it, amount );
         data.selected_entry = *it;
     }
-    // NOLINTEND (bugprone-branch-clone)
-}
 
 tab_data::tab_data( const std::string &title ) : title( title )
 {
