@@ -2175,8 +2175,8 @@
     "id": "build_flagpole_indoor_wooden",
     "name": "Build a wooden indoor flagpole"
   },
-    {
-	"//": "When appliances can be moved into the cargo this can be deleted",
+  {
+    "//": "When appliances can be moved into the cargo this can be deleted",
     "type": "construction_group",
     "id": "build_refrigerator",
     "name": "Place Refrigerator to move it to vehicle cargo"
