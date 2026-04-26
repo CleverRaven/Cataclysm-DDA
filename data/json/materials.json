@@ -629,7 +629,7 @@
       { "fuel": 0.1, "smoke": 1, "burn": 0.04 },
       { "fuel": 0.2, "smoke": 1, "burn": 0.06 }
     ],
-    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 0.25 },
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 },
     "repair_difficulty": 1
   },
   {
@@ -640,7 +640,7 @@
     "copy-from": "cotton",
     "repaired_with": "null",
     "wind_resist": 75,
-    "resist": { "bash": 1.25, "cut": 1.5, "acid": 3, "heat": 0, "bullet": 0.5 }
+    "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 0, "bullet": 1.5 }
   },
   {
     "type": "material",
@@ -649,7 +649,7 @@
     "//": "Biggest change is reducing heat resistance from ten to 2.  Aramids have 3 heat resistance and sources say that salt hardened cotton has lower than aramid fire resistance.",
     "copy-from": "cotton",
     "repaired_with": "null",
-    "resist": { "bash": 1.75, "cut": 2, "acid": 5, "heat": 2, "bullet": 0.6 }
+    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 2, "bullet": 1.5 }
   },
   {
     "type": "material",
