@@ -48,11 +48,7 @@ New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Character randomization sometimes produces 'crossdressing' characters
 Dialogue: JSON fields for displaying hidden responses
-Added check for stealing prior to inserting items into container
-Added check for stealing prior to wearing
-Added check for stealing prior to obtaining book to read
-Added check for stealing prior to reloading items
-Added check for stealing prior to activating items
+Added checks for stealing in many different ways 
 Adds throwing practice tools
 EOCs modifying calories track spent calories
 Mutations can have a custom activation message
