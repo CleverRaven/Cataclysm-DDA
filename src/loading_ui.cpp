@@ -232,7 +232,8 @@ void loading_ui::done()
 {
     if( gLUI != nullptr ) {
 #ifdef TILES
-        gLUI->chosen_load_img = cata_path();
+        // Need to manually clear the screen due to using direct ImGui calls
+        clear_sdl_window();
 #endif
         delete gLUI->ui;
         delete gLUI->bg;
